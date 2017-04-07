@@ -1,0 +1,53 @@
+---
+title: "Student Products"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Here are some papers and presentation topics from students who took the class in prior years.
+
+# Publications
+
+Siple, M. C. and Francis, T. B. 2016. Population diversity in Pacific herring of Puget Sound, USA. Oecologia 180: 111-125.[Link to article](https://doi.org/10.1007/s00442-015-3439-7)
+
+# Presentation topics
+
+Here are some of the topics of the students' final projects from years past.
+
+### 2017
+
+* "Trends and shortcomings in midwinter waterfowl surveys along the Pacific Flyway: a multivariate state-space modeling approach"
+* "Cyclic dominance of alternative male phenotypes in an introduced sockeye salmon population"
+* "An application of arima model to study the association between particulate matters and hospital admission for respiratory disease"
+* "Time resolved exposures of mice to cadmium: hair as a biomarker of exposure"
+* "Characterizing temporal variability in pelagic communities for biological monitoring at marine renewable energy sites"
+* "Lake size and watershed characteristics mediate the effect of climate on lake water levels in the Puget Sound Lowlands"
+* "Determining multi-scale controls on river temperature: a time series approach"
+
+### 2015
+
+* "Modeling domoic acid in Pacific razor clams (_Siliqua patula_) at Long Beach, WA, USA using autoregressive integrated moving average and generalized linear models"
+* "Synthesis of Bristol Bay sockeye salmon genetic data improves understanding of migration patterns to inform commercial fisheries management"
+* "Behavior of depth selection in lake trout (_Salvelinus namaycush_) morphotypes in northern Lake Superior"
+* "Extracting time-varying climate-driven growth index for use in stock assessment models"
+* "A comparison of statistical models applicable for environmental assessments of marine renewable energy sites"
+* "A method of reconstructing the daily growth of large wildfires with state space models"
+* "Modeling and forecasting multispecies catches in the Uruguayan longline fishery"
+* "Chinook salmon jack rate in the Columbia River basin: are jacks trending?"
+* "Spatial asynchrony in juvenile sockeye salmon growth driven by competition in a changing climate"
+
+### 2013
+
+* "Can distinct sub-populations within the Prince William Sound be classified by differing responses in male fecundity and do oceanographic conditions affect surveys of male fecundity?"
+* "Scales of variability in forage fish stocks"
+* "Extreme weather incidents and prey availability affect Magellanic penguin (Spheniscus magellanicus) reproductive success"
+* "Environment drives changes in recruitment for most marine fisheries"
+* "Initial exploration of modeling options for an environmental driver of sardine abundance"
+* "Demographic structure of Puget Sound Pacific herring stocks"
+* "Common trends in spawning stock biomass of northeast pacific marine stocks"
+* "Describing variability of fish and macrozooplankton density at marine hydrokinetic energy sites"
+* "Lake specific variation in juvenile sockeye salmon growth driven by competition in a changing climate"
+* "Environmental and phenological variability: match-mismatch effects of lake conditions and entry timing on sockeye salmon survival and growth"
