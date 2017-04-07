@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Applied Time Series Analysis (FISH 507)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="syllabus.html">Syllabus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Applied Time Series Analysis (FISH 507)</h1>
+
+</div>
+
+
+<p>This is the website for <em>Applied Time Series Analysis</em> (FISH 507) offered at the University of Washington during winter quarter of odd years.</p>
+<div id="instructors" class="section level1">
+<h1>Instructors</h1>
+<p><a href="https://faculty.washington.edu/eeholmes/"><strong>Eli Holmes</strong></a><br />
+<a href="mailto:eli.holmes@noaa.gov">eli.holmes@noaa.gov</a></p>
+<p><a href="https://faculty.washington.edu/scheuerl/"><strong>Mark Scheuerell</strong></a><br />
+<a href="mailto:mark.scheuerell@noaa.gov">mark.scheuerell@noaa.gov</a></p>
+<p><a href="https://faculty.washington.edu/warde/"><strong>Eric Ward</strong></a><br />
+<a href="mailto:eric.ward@noaa.gov">eric.ward@noaa.gov</a></p>
+</div>
+<div id="lectures" class="section level1">
+<h1>Lectures</h1>
+<p>Tuesday &amp; Thursday from 1:30-2:50 in FSH 203</p>
+</div>
+<div id="computer-lab" class="section level1">
+<h1>Computer Lab</h1>
+<p>Thursday from 3:00-3:50 in FSH 207</p>
+</div>
+<div id="grading" class="section level1">
+<h1>Grading</h1>
+<p>Your grade for the course will come from 4 elements:</p>
+<ul>
+<li>Homework (30%)</li>
+<li>Final paper/project (40%)</li>
+<li>Peer reviews (20%)</li>
+<li>Class participation (10%)</li>
+</ul>
+<p>Homework will be assigned each Thursday and is due by 5:00 PM PST on the following Thursday It will consist of some short answers and R code based on topics in lab. There will be 6 assignments worth 5% each.</p>
+<p>Each student will have to write a complete, publishable (&lt;20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, these papers can be done alone, or in pairs (expectations will be higher for joint work). Students may also use data from the instructors, or datasets included in R libraries. The paper is due by 11:59 PM PST on March 10.</p>
+<p>Each student will also have to provide 2 anonymous peer-reviews of their colleagues’ papers (10% each), which are due by 11:59 PM PST on March 16. This is a graduate-level course and we expect a certain amount of engagement from each student, which includes attending lectures and computer labs.</p>
+</div>
+<div id="conduct" class="section level1">
+<h1>Conduct</h1>
+<p>We expect everyone to abide by the <a href="https://www.washington.edu/admin/rules/policies/WAC/478-120TOC.html">UW Student Code of Conduct</a>. If you believe you have been a victim of an alleged violation of the Student Conduct Code or you are aware of an alleged violation of the Student Conduct Code, you have the right to report that to the University (contact info <a href="https://www.washington.edu/cssc/for-students-2/">here</a>).</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

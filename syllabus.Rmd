@@ -1,0 +1,90 @@
+---
+title: "Syllabus"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Syllabus for Fish 507
+
+### 1. 
+Course overview  
+Properties of time series  
+Data transformations  
+Time series decomposition  
+
+### 2. 
+Covariance & correlation  
+Autocorrelation & Partial autocorrelation  
+Cross correlation  
+White noise  
+
+### 3. 
+Random walks  
+Autoregressive (AR) models  
+Moving average (MA) models  
+
+### 4. 
+Model estimation  
+Maximum likelihood  
+Bayesian estimation for this course  
+
+### 5. 
+Univariate state-space models  
+Diagnostics for state-space models  
+
+### 6.  
+Introduction to multivariate state-space models  
+
+### 7.  
+Including covariates (predictors) in models  
+Seasonal effects  
+Missing covariates  
+Colinearity  
+ 
+### 8.  
+Multi-model inference and selection  
+model selection metrics besides AIC  
+Cross-validation  
+Forecast performance metrics  
+
+### 9.  
+Univariate & multivariate dynamic linear models (DLMs)  
+
+### 10.  
+Applications of dynamic linear models (DLMs)  
+
+### 11.  
+Forecasting with exponential smoothing models  
+More forecast assessment  
+
+### 12.  
+Overview of dynamic factor analysis (DFA)  
+
+### 13.  
+Overview of Bayesian estimation  
+DLMs, DFA, MARSS, SS models  
+
+### 14.  
+Time series models with non-Gaussian errors  
+Non-normal response variables  
+
+### 15.  
+Time series models with spatial autocorrelation  
+
+### 16.  
+Intro to Gompertz models, aka AR(1) and ARX(1)  
+Estimating species/population interactions from time series data  
+
+### 17.  
+Studying community dynamics and stability using MAR(1) models  
+
+### 18.  
+Perturbation analysis  
+
+### 19.  
+Student presentations  
+Celebration!  

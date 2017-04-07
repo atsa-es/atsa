@@ -1,0 +1,13 @@
+name: "docs"
+navbar:
+  title: ""
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Syllabus"
+      href: syllabus.html
+output_dir: "docs"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
