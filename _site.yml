@@ -3,7 +3,7 @@ navbar:
   title: ""
   left:
     - text: ""
-      icon: fa-home
+      icon: fa-home fa-lg
       href: index.html
     - text: "Syllabus"
       href: syllabus.html
