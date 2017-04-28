@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Some classic textbooks
+## Some classic textbooks
 
 Box GEP, Jenkins GM, Reinsel GC. 2008. Time Series Analysis: Forecasting and Control. John Wiley & Sons, Hoboken, New Jersey.
 
@@ -22,7 +22,7 @@ Pole A, West M, Harrison J. 1994. Applied Bayesian Forecasting and Time Series A
 Shumway DH, Stoffer DS. 2006. Time Series Analysis and Its Applications: With R Examples. Springer, New York. R scripts and data here
 West M, Harrison J. 1997. Bayesian Forecasting and Dynamic Models. Springer, New York.
 
-# Textbooks & vignettes with specific `R` examples
+## Textbooks & vignettes with specific `R` examples
 
 Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. R scripts and data here
 
@@ -30,7 +30,7 @@ Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Us
 
 Petris G, Petrone S, Campaginoli P. 2009. Dynamic Linear Models with R. Springer, New York. R scripts and data available here
 
-# Papers/vignettes
+## Papers/vignettes
 
 Andrews, K.S., G.D. Williams, J.F. Samhouri, K.N. Marshall, V. Gertseva, and P.S. Levin. In press. The legacy of a crowded ocean: indicators, status, and trends of anthropogenic pressures in the California Current ecosystem. Environmental Conservation.
 

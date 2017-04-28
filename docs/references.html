@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -22,6 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -176,16 +177,29 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    
+  </a>
 </li>
 <li>
   <a href="syllabus.html">Syllabus</a>
 </li>
-<li>
-  <a href="lectures.html">Lectures</a>
-</li>
-<li>
-  <a href="lecture_video.html">Lecture videos</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lectures.html">Presentations</a>
+    </li>
+    <li>
+      <a href="lecture_video.html">Videos</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="comp_labs.html">Computer Labs</a>
@@ -193,14 +207,23 @@ $(document).ready(function () {
 <li>
   <a href="homework.html">Homework</a>
 </li>
-<li>
-  <a href="final_proj.html">Final Project</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Final Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="final_proj.html">Project details</a>
+    </li>
+    <li>
+      <a href="student_pubs.html">Former projects</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="references.html">References</a>
-</li>
-<li>
-  <a href="student_pubs.html">Student Products</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -219,8 +242,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="some-classic-textbooks" class="section level1">
-<h1>Some classic textbooks</h1>
+<div id="some-classic-textbooks" class="section level2">
+<h2>Some classic textbooks</h2>
 <p>Box GEP, Jenkins GM, Reinsel GC. 2008. Time Series Analysis: Forecasting and Control. John Wiley &amp; Sons, Hoboken, New Jersey.</p>
 <p>Brockwell PJ, Davis RA. 2010. Introduction to Time Series and Forecasting. Springer, New York.</p>
 <p>Durbin J, Koopman SJ. 2012. Time Series Analysis by State Space Methods. Oxford University Press, Oxford.</p>
@@ -228,14 +251,14 @@ $(document).ready(function () {
 <p>Pole A, West M, Harrison J. 1994. Applied Bayesian Forecasting and Time Series Analysis. Chapman &amp; Hall/CRC, Boca Raton, Florida.</p>
 <p>Shumway DH, Stoffer DS. 2006. Time Series Analysis and Its Applications: With R Examples. Springer, New York. R scripts and data here West M, Harrison J. 1997. Bayesian Forecasting and Dynamic Models. Springer, New York.</p>
 </div>
-<div id="textbooks-vignettes-with-specific-r-examples" class="section level1">
-<h1>Textbooks &amp; vignettes with specific <code>R</code> examples</h1>
+<div id="textbooks-vignettes-with-specific-r-examples" class="section level2">
+<h2>Textbooks &amp; vignettes with specific <code>R</code> examples</h2>
 <p>Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. R scripts and data here</p>
 <p>Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package, Version 3.9. <a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">Available here</a></p>
 <p>Petris G, Petrone S, Campaginoli P. 2009. Dynamic Linear Models with R. Springer, New York. R scripts and data available here</p>
 </div>
-<div id="papersvignettes" class="section level1">
-<h1>Papers/vignettes</h1>
+<div id="papersvignettes" class="section level2">
+<h2>Papers/vignettes</h2>
 <p>Andrews, K.S., G.D. Williams, J.F. Samhouri, K.N. Marshall, V. Gertseva, and P.S. Levin. In press. The legacy of a crowded ocean: indicators, status, and trends of anthropogenic pressures in the California Current ecosystem. Environmental Conservation.</p>
 <p>Baudron, A.R., C.L. Needle, A.D. Rijnsdorp, and C.T. Marshall. 2014. Warming temperatures and smaller body sizes: synchronous changes in growth of North Sea fishes. Global Change Biology, 20(4):1023-1031.</p>
 <p>Britten, G.L., M. Dowd, C. Minto, F. Ferretti, F. Boero, and H.K. Lotze. 2014. Predator decline leads to decreased stability in a coastal fish community. Ecology Letters, 17: 1518–1525.</p>

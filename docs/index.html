@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -22,6 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -176,16 +177,29 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    
+  </a>
 </li>
 <li>
   <a href="syllabus.html">Syllabus</a>
 </li>
-<li>
-  <a href="lectures.html">Lectures</a>
-</li>
-<li>
-  <a href="lecture_video.html">Lecture videos</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lectures.html">Presentations</a>
+    </li>
+    <li>
+      <a href="lecture_video.html">Videos</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="comp_labs.html">Computer Labs</a>
@@ -193,14 +207,23 @@ $(document).ready(function () {
 <li>
   <a href="homework.html">Homework</a>
 </li>
-<li>
-  <a href="final_proj.html">Final Project</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Final Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="final_proj.html">Project details</a>
+    </li>
+    <li>
+      <a href="student_pubs.html">Former projects</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="references.html">References</a>
-</li>
-<li>
-  <a href="student_pubs.html">Student Products</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -224,10 +247,10 @@ $(document).ready(function () {
 <h1>Instructors</h1>
 <p><a href="https://faculty.washington.edu/eeholmes/"><strong>Eli Holmes</strong></a><br />
 <a href="mailto:eli.holmes@noaa.gov">eli.holmes@noaa.gov</a></p>
-<p><a href="https://faculty.washington.edu/scheuerl/"><strong>Mark Scheuerell</strong></a><br />
-<a href="mailto:mark.scheuerell@noaa.gov">mark.scheuerell@noaa.gov</a></p>
 <p><a href="https://faculty.washington.edu/warde/"><strong>Eric Ward</strong></a><br />
 <a href="mailto:eric.ward@noaa.gov">eric.ward@noaa.gov</a></p>
+<p><a href="https://faculty.washington.edu/scheuerl/"><strong>Mark Scheuerell</strong></a><br />
+<a href="mailto:mark.scheuerell@noaa.gov">mark.scheuerell@noaa.gov</a></p>
 </div>
 <div id="lectures" class="section level1">
 <h1>Lectures</h1>

@@ -2,24 +2,29 @@ name: "docs"
 navbar:
   title: ""
   left:
-    - text: "Home"
+    - text: ""
+      icon: fa-home
       href: index.html
     - text: "Syllabus"
       href: syllabus.html
     - text: "Lectures"
-      href: lectures.html
-    - text: "Lecture videos"
-      href: lecture_video.html
+      menu:
+      - text: "Presentations"
+        href: lectures.html
+      - text: "Videos"
+        href: lecture_video.html
     - text: "Computer Labs"
       href: comp_labs.html
     - text: "Homework"
       href: homework.html
     - text: "Final Project"
-      href: final_proj.html
+      menu:
+      - text: "Project details"
+        href: final_proj.html
+      - text: "Former projects"
+        href: student_pubs.html
     - text: "References"
       href: references.html
-    - text: "Student Products"
-      href: student_pubs.html
 output_dir: "docs"
 output:
   html_document:

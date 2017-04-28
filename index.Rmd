@@ -14,21 +14,21 @@ This is the website for _Applied Time Series Analysis_ (FISH 507) offered at the
 [__Eli Holmes__](https://faculty.washington.edu/eeholmes/)  
 eli.holmes@noaa.gov
 
-[__Mark Scheuerell__](https://faculty.washington.edu/scheuerl/)  
-mark.scheuerell@noaa.gov
-
 [__Eric Ward__](https://faculty.washington.edu/warde/)  
 eric.ward@noaa.gov
+
+[__Mark Scheuerell__](https://faculty.washington.edu/scheuerl/)  
+mark.scheuerell@noaa.gov
 
 # Lectures
 
 Tuesday & Thursday from 1:30-2:50 in FSH 203
 
-#Computer Lab
+# Computer Lab
 
 Thursday from 3:00-3:50 in FSH 207
 
-#Grading
+# Grading
 
 Your grade for the course will come from 4 elements:
 

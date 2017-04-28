@@ -1,5 +1,5 @@
 ---
-title: "Lecture Videos"
+title: "Lecture videos"
 output: html_document
 ---
 

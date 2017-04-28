@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -176,16 +176,29 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    
+  </a>
 </li>
 <li>
   <a href="syllabus.html">Syllabus</a>
 </li>
-<li>
-  <a href="lectures.html">Lectures</a>
-</li>
-<li>
-  <a href="lecture_video.html">Lecture videos</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lectures.html">Presentations</a>
+    </li>
+    <li>
+      <a href="lecture_video.html">Videos</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="comp_labs.html">Computer Labs</a>
@@ -193,14 +206,23 @@ $(document).ready(function () {
 <li>
   <a href="homework.html">Homework</a>
 </li>
-<li>
-  <a href="final_proj.html">Final Project</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Final Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="final_proj.html">Project details</a>
+    </li>
+    <li>
+      <a href="student_pubs.html">Former projects</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="references.html">References</a>
-</li>
-<li>
-  <a href="student_pubs.html">Student Products</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
