@@ -30,18 +30,20 @@ Thursday from 3:00-3:50 in FSH 207
 
 # Grading
 
-Your grade for the course will come from 4 elements:
+Your grade for the course will come from 4 elements.
 
-* Homework (30%)
-* Final paper/project (40%)
-* Peer reviews (20%)
-* Class participation (10%)
+### Homework (30%)  
+Homework will be assigned each Thursday and is due by 5:00 PM PST on the following Thursday. It will consist of some short answers and __R__ code based on topics covered in lab. There will be 6 assignments worth 5% each.
 
-Homework will be assigned each Thursday and is due by 5:00 PM PST on the following Thursday It will consist of some short answers and R code based on topics in lab. There will be 6 assignments worth 5% each.
+Homework will be submitted via...
 
-Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, these papers can be done alone, or in pairs (expectations will be higher for joint work). Students may also use data from the instructors, or datasets included in R libraries. The paper is due by 11:59 PM PST on March 10.
+### Individual project (40%)  
+Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, these papers can be done alone, or in pairs (expectations will be higher for joint work). Students may also use data from the instructors, or datasets included in __R__ libraries. The paper is due by 11:59 PM PST on March 15.
 
-Each student will also have to provide 2 anonymous peer-reviews of their colleagues’ papers (10% each), which are due by 11:59 PM PST on March 16.
+### Peer reviews (20%)  
+Each student will have to provide 2 anonymous peer-reviews of their colleagues’ papers (10% each), which are due by 11:59 PM PST on March 21.
+
+### Participation (10%)  
 This is a graduate-level course and we expect a certain amount of engagement from each student, which includes attending lectures and computer labs.
 
 # Conduct
