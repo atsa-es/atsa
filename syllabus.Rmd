@@ -1,90 +1,80 @@
 ---
-title: "Syllabus"
+title: "2019 Syllabus"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(kableExtra)
 ```
 
+```{r generate_dates, include=FALSE}
+## first day of class
+start_date <- as.Date("2018-01-08")
+## all tues
+tues <- seq.Date(from = start_date, by = 7, length.out = 10)
+## all thur
+thur <- tues + 2
+## all qtr
+qtr <- sort(c(tues, thur))
+qtr <- sub("0(\\d)", "\\1", format(qtr, "%d %B"))
+```
 
-## Syllabus for Fish 507
+```{r course_topics, include = FALSE}
+topics <- list(d1 = c("Course overview",
+                      "Properties of time series",
+                      "Data transformations",
+                      "Time series decomposition"),
+               d2 = c("Covariance & correlation",
+                      "Autocorrelation & Partial autocorrelation",
+                      "Cross correlation",
+                      "White noise"),
+               d3 = c("Random walks",
+                      "Autoregressive (AR) models",
+                      "Moving average (MA) models"),
+               d4 = c("Model estimation",
+                      "Maximum likelihood",
+                      "Bayesian estimation for this course"),
+               d5 = c("Univariate state-space models",
+                      "Diagnostics for state-space models"),
+               d6 = c("Introduction to multivariate state-space models"),
+               d7 = c("Including covariates (predictors) in models",
+                      "Seasonal effects",
+                      "Missing covariates",
+                      "Colinearity"),
+               d8 = c("Multi-model inference and selection",
+                      "model selection metrics besides AIC",
+                      "Cross-validation",
+                      "Forecast performance metrics"),
+               d9 = c("Univariate & multivariate dynamic linear models (DLMs)"),
+               d10 = c("Applications of dynamic linear models (DLMs)"),
+               d11 = c("Forecasting with exponential smoothing models",
+                       "More forecast assessment"),
+               d12 = c("Overview of dynamic factor analysis (DFA)"),
+               d13 = c("Overview of Bayesian estimation"),
+               d14 = c("Time series models with non-Gaussian errors",
+                       "Non-normal response variables"),
+               d15 = c("Time series models with spatial autocorrelation"),
+               d16 = c("Intro to Gompertz models as AR(1) & ARX(1)",
+                       "Estimating species/population interactions from time series data"),
+               d17 = c("Studying community dynamics and stability using MAR(1) models"),
+               d18 = c("Perturbation analysis"),
+               d19 = c("Student presentations"),
+               d20 = c("Student presentations")
+)
+topics_html <- sapply(lapply(topics, paste, "<br>  ", collapse=""), c)
+names(topics_html) <- NULL
+```
 
-### 1. 
-Course overview  
-Properties of time series  
-Data transformations  
-Time series decomposition  
+```{r syllabus, echo=FALSE}
+syl_txt <- data.frame(
+  Date = qtr,
+  Topics = topics_html
+)
+kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
+  kable_styling(bootstrap_options = "striped",
+                full_width = F,
+                position = "left") %>%
+  column_spec(1, width = "10em")
+```
 
-### 2. 
-Covariance & correlation  
-Autocorrelation & Partial autocorrelation  
-Cross correlation  
-White noise  
-
-### 3. 
-Random walks  
-Autoregressive (AR) models  
-Moving average (MA) models  
-
-### 4. 
-Model estimation  
-Maximum likelihood  
-Bayesian estimation for this course  
-
-### 5. 
-Univariate state-space models  
-Diagnostics for state-space models  
-
-### 6.  
-Introduction to multivariate state-space models  
-
-### 7.  
-Including covariates (predictors) in models  
-Seasonal effects  
-Missing covariates  
-Colinearity  
- 
-### 8.  
-Multi-model inference and selection  
-model selection metrics besides AIC  
-Cross-validation  
-Forecast performance metrics  
-
-### 9.  
-Univariate & multivariate dynamic linear models (DLMs)  
-
-### 10.  
-Applications of dynamic linear models (DLMs)  
-
-### 11.  
-Forecasting with exponential smoothing models  
-More forecast assessment  
-
-### 12.  
-Overview of dynamic factor analysis (DFA)  
-
-### 13.  
-Overview of Bayesian estimation  
-DLMs, DFA, MARSS, SS models  
-
-### 14.  
-Time series models with non-Gaussian errors  
-Non-normal response variables  
-
-### 15.  
-Time series models with spatial autocorrelation  
-
-### 16.  
-Intro to Gompertz models, aka AR(1) and ARX(1)  
-Estimating species/population interactions from time series data  
-
-### 17.  
-Studying community dynamics and stability using MAR(1) models  
-
-### 18.  
-Perturbation analysis  
-
-### 19.  
-Student presentations  
-Celebration!  
