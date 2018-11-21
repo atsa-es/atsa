@@ -20,8 +20,8 @@ qtr <- sort(c(tues, thur))
 qtr <- sub("0(\\d)", "\\1", format(qtr, "%d %B"))
 ```
 
-```{r course_topics, include = FALSE}
-topics <- list(d1 = c("Course overview",
+```{r lecture_topics, include = FALSE}
+lec_topics <- list(d1 = c("Course overview",
                       "Properties of time series",
                       "Data transformations",
                       "Time series decomposition"),
@@ -56,21 +56,59 @@ topics <- list(d1 = c("Course overview",
                        "Non-normal response variables"),
                d15 = c("Time series models with spatial autocorrelation"),
                d16 = c("Intro to Gompertz models as AR(1) & ARX(1)",
-                       "Estimating species/population interactions from time series data"),
-               d17 = c("Studying community dynamics and stability using MAR(1) models"),
+                       "Estimating species interactions"),
+               d17 = c("Community dynamics & stability with MAR(1) models"),
                d18 = c("Perturbation analysis"),
                d19 = c("Student presentations"),
                d20 = c("Student presentations")
 )
-topics_html <- sapply(lapply(topics, paste, "<br>  ", collapse=""), c)
-names(topics_html) <- NULL
+## topics formatted for html
+lec_topics_html <- sapply(lapply(lec_topics, paste, "<br>", collapse=""), c)
+names(lec_topics_html) <- NULL
 ```
 
-```{r syllabus, echo=FALSE}
-syl_txt <- data.frame(
-  Date = qtr,
-  Topics = topics_html
+```{r lab_topics, include = FALSE}
+lab_topics <- list(d1 = "",
+               d2 = c("Matrices & matrix algebra",
+                      "Linear regression in matrix form",
+                      "Basic time series functions",
+                      "Autocorrelation"),
+               d3 = "",
+               d4 = c("Simulating & fitting ARMA(p,q) models",
+                      "Bayesian estimation"),
+               d5 = "",
+               d6 = c("Fitting state-space models"),
+               d7 = "",
+               d8 = c("Model diagnostics",
+                      "Model selection"),
+               d9 = "",
+               d10 = c("Fitting DLM models"),
+               d11 = "",
+               d12 = c("Fitting DFA models)"),
+               d13 = "",
+               d14 = c("Fitting models with non-Gaussian errors",
+                       "Fitting zero-inflated models"),
+               d15 = "",
+               d16 = c("Fitting MARSS models for species interactions"),
+               d17 = "",
+               d18 = c("Fitting hierarchical models"),
+               d19 = "",
+               d20 = c("Celebration!")
 )
+## topics formatted for html
+lab_topics_html <- sapply(lapply(lab_topics, paste, "<br>", collapse=""), c)
+names(lab_topics_html) <- NULL
+```
+
+```{r generate_syllabus, echo=FALSE}
+## data frame with dates & topics
+syl_txt <- data.frame(
+  date = qtr,
+  lec_topics = lec_topics_html,
+  lab_topics = lab_topics_html
+)
+colnames(syl_txt) <- c("Date", "Lecture topics", "Lab topics")
+## generate table
 kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
