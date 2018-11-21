@@ -11,7 +11,7 @@
 
 
 
-<title>Syllabus</title>
+<title>2019 Syllabus</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,9 +20,11 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -31,10 +33,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -88,6 +92,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -237,112 +244,187 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Syllabus</h1>
+<h1 class="title toc-ignore">2019 Syllabus</h1>
 
 </div>
 
 
-<div id="syllabus-for-fish-507" class="section level2">
-<h2>Syllabus for Fish 507</h2>
-<div id="section" class="section level3">
-<h3>1.</h3>
-<p>Course overview<br />
-Properties of time series<br />
-Data transformations<br />
-Time series decomposition</p>
-</div>
-<div id="section-1" class="section level3">
-<h3>2.</h3>
-<p>Covariance &amp; correlation<br />
-Autocorrelation &amp; Partial autocorrelation<br />
-Cross correlation<br />
-White noise</p>
-</div>
-<div id="section-2" class="section level3">
-<h3>3.</h3>
-<p>Random walks<br />
-Autoregressive (AR) models<br />
-Moving average (MA) models</p>
-</div>
-<div id="section-3" class="section level3">
-<h3>4.</h3>
-<p>Model estimation<br />
-Maximum likelihood<br />
-Bayesian estimation for this course</p>
-</div>
-<div id="section-4" class="section level3">
-<h3>5.</h3>
-<p>Univariate state-space models<br />
-Diagnostics for state-space models</p>
-</div>
-<div id="section-5" class="section level3">
-<h3>6.</h3>
-<p>Introduction to multivariate state-space models</p>
-</div>
-<div id="section-6" class="section level3">
-<h3>7.</h3>
-<p>Including covariates (predictors) in models<br />
-Seasonal effects<br />
-Missing covariates<br />
-Colinearity</p>
-</div>
-<div id="section-7" class="section level3">
-<h3>8.</h3>
-<p>Multi-model inference and selection<br />
-model selection metrics besides AIC<br />
-Cross-validation<br />
-Forecast performance metrics</p>
-</div>
-<div id="section-8" class="section level3">
-<h3>9.</h3>
-<p>Univariate &amp; multivariate dynamic linear models (DLMs)</p>
-</div>
-<div id="section-9" class="section level3">
-<h3>10.</h3>
-<p>Applications of dynamic linear models (DLMs)</p>
-</div>
-<div id="section-10" class="section level3">
-<h3>11.</h3>
-<p>Forecasting with exponential smoothing models<br />
-More forecast assessment</p>
-</div>
-<div id="section-11" class="section level3">
-<h3>12.</h3>
-<p>Overview of dynamic factor analysis (DFA)</p>
-</div>
-<div id="section-12" class="section level3">
-<h3>13.</h3>
-<p>Overview of Bayesian estimation<br />
-DLMs, DFA, MARSS, SS models</p>
-</div>
-<div id="section-13" class="section level3">
-<h3>14.</h3>
-<p>Time series models with non-Gaussian errors<br />
-Non-normal response variables</p>
-</div>
-<div id="section-14" class="section level3">
-<h3>15.</h3>
-<p>Time series models with spatial autocorrelation</p>
-</div>
-<div id="section-15" class="section level3">
-<h3>16.</h3>
-<p>Intro to Gompertz models, aka AR(1) and ARX(1)<br />
-Estimating species/population interactions from time series data</p>
-</div>
-<div id="section-16" class="section level3">
-<h3>17.</h3>
-<p>Studying community dynamics and stability using MAR(1) models</p>
-</div>
-<div id="section-17" class="section level3">
-<h3>18.</h3>
-<p>Perturbation analysis</p>
-</div>
-<div id="section-18" class="section level3">
-<h3>19.</h3>
-<p>Student presentations<br />
-Celebration!</p>
-</div>
-</div>
+<table class="table table-striped" style="width: auto !important; ">
+<caption>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Topics
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 10em; ">
+8 January
+</td>
+<td style="text-align:left;">
+Course overview <br> Properties of time series <br> Data transformations <br> Time series decomposition <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+10 January
+</td>
+<td style="text-align:left;">
+Covariance &amp; correlation <br> Autocorrelation &amp; Partial autocorrelation <br> Cross correlation <br> White noise <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+15 January
+</td>
+<td style="text-align:left;">
+Random walks <br> Autoregressive (AR) models <br> Moving average (MA) models <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+17 January
+</td>
+<td style="text-align:left;">
+Model estimation <br> Maximum likelihood <br> Bayesian estimation for this course <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+22 January
+</td>
+<td style="text-align:left;">
+Univariate state-space models <br> Diagnostics for state-space models <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+24 January
+</td>
+<td style="text-align:left;">
+Introduction to multivariate state-space models <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+29 January
+</td>
+<td style="text-align:left;">
+Including covariates (predictors) in models <br> Seasonal effects <br> Missing covariates <br> Colinearity <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+31 January
+</td>
+<td style="text-align:left;">
+Multi-model inference and selection <br> model selection metrics besides AIC <br> Cross-validation <br> Forecast performance metrics <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+5 February
+</td>
+<td style="text-align:left;">
+Univariate &amp; multivariate dynamic linear models (DLMs) <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+7 February
+</td>
+<td style="text-align:left;">
+Applications of dynamic linear models (DLMs) <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+12 February
+</td>
+<td style="text-align:left;">
+Forecasting with exponential smoothing models <br> More forecast assessment <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+14 February
+</td>
+<td style="text-align:left;">
+Overview of dynamic factor analysis (DFA) <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+19 February
+</td>
+<td style="text-align:left;">
+Overview of Bayesian estimation <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+21 February
+</td>
+<td style="text-align:left;">
+Time series models with non-Gaussian errors <br> Non-normal response variables <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+26 February
+</td>
+<td style="text-align:left;">
+Time series models with spatial autocorrelation <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+28 February
+</td>
+<td style="text-align:left;">
+Intro to Gompertz models as AR(1) &amp; ARX(1) <br> Estimating species/population interactions from time series data <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+5 March
+</td>
+<td style="text-align:left;">
+Studying community dynamics and stability using MAR(1) models <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+7 March
+</td>
+<td style="text-align:left;">
+Perturbation analysis <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+12 March
+</td>
+<td style="text-align:left;">
+Student presentations <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 10em; ">
+14 March
+</td>
+<td style="text-align:left;">
+Student presentations <br>
+</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -367,7 +449,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
