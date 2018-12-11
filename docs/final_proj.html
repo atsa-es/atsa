@@ -22,9 +22,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -99,6 +98,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -113,7 +115,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -133,6 +134,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -154,18 +192,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -249,7 +346,40 @@ $(document).ready(function () {
 </div>
 
 
-
+<div id="advice-on-reviewing-scientific-papers" class="section level1">
+<h1>Advice on reviewing scientific papers</h1>
+<p>If you are looking for some guidance on writing reviews of scientific papers, here are some links to various columns, blogs, etc, about reviewing scientific papers:</p>
+<p><a href="http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/">Arthropod Ecology</a> <a href="http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/">Violent metaphors</a> (don’t let the name scare you) <a href="http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf">Duke Writing Lab</a> <a href="http://www.peerageofscience.org/review/review-examples/">Examples of good reviews from Peerage</a></p>
+</div>
+<div id="review-guidelines" class="section level1">
+<h1>Review Guidelines</h1>
+<p>Final papers will be peer-reviewed and reviewed by instructors based on the following criteria. Please read before you submit your final paper.</p>
+<p><a href="Files/MANUSCRIPT%20REVIEW%20FOR%20FISH%20507.docx">MANUSCRIPT REVIEW FOR FISH 507.docx</a></p>
+<p><a href="Files/Review%20Template.docx">Review Template.docx</a></p>
+</div>
+<div id="preparation-of-final-papers" class="section level1">
+<h1>Preparation of final papers</h1>
+<div id="length" class="section level2">
+<h2>Length</h2>
+<p>Final papers should be no more than 20 pages total, including all figures, tables and references. Please submit the PDF or Word version of your paper via email (no later than 11:59pm Friday March 10 2017).</p>
+</div>
+<div id="components" class="section level2">
+<h2>Components</h2>
+<p>Each paper needs to have the following:</p>
+<p><strong>Title page</strong>: include the title, your name, and a “tweetable abstract” summarizing everything you’ve done in 140 characters or less. These won’t be launched into the twitterverse, but as a concise (and exciting!) summary.</p>
+<p><strong>Abstract page</strong>: Summarize briefly (ideally &lt; 250 words) the novelty of your analysis, key results, and implications for future work</p>
+<p><strong>Body / main text</strong>: Please include an Introduction / Methods / Results / Discussion section. You’re free to use any of the equations from the MARSS manual, or class material to provide equations, variables, descriptions, etc.</p>
+<p><strong>References</strong>: Please use some kind of bibliography manager (like Endnote) to format all references consistently.</p>
+<p><strong>Figures / Tables</strong>: Include figures and tables formatted for the journal of your choice. Examples you might want to include are: plots of your raw data, plots of underlying state estimates, plots of future projections, tables of parameter estimates, model selection (AICc) etc.</p>
+</div>
+<div id="style" class="section level2">
+<h2>Style</h2>
+<p>As long as you include page numbers and line numbers, you are free to use the general formatting guidelines for whichever journal you plan to eventually submit your paper to. For some examples, see</p>
+<p>CJFAS: <a href="http://www.nrcresearchpress.com/" class="uri">http://www.nrcresearchpress.com/</a></p>
+<p>Ecology: <a href="http://esapubs.org/esapubs/preparation.htm" class="uri">http://esapubs.org/esapubs/preparation.htm</a></p>
+<p>Journal of Applied Ecology: <a href="http://www.journalofappliedecology.org/view/0/authorGuideline.html" class="uri">http://www.journalofappliedecology.org/view/0/authorGuideline.html</a></p>
+</div>
+</div>
 
 
 

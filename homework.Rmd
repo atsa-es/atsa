@@ -8,3 +8,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+# Homework format
+
+Please submit your homework as an Rmarkdown document (.Rmd), which will allow you to combine text, equations, and R code into a pdf or html file. The easiest way to do so is to use the built-in capabilities of RStudio. For those unfamiliar with Rmarkdown, there is a nice introduction [here](http://rmarkdown.rstudio.com/lesson-1.html). There is also help available in RStudio. Please use the template below when submitting your homework.  Email your file(s) to the instructor indicated for each week.
+
+# Homework templates
+
+[rmarkdown homework template](Labs/Homework Templates/rmarkdown_example.Rmd)
+
+[screenshot of Rmd and resulting html](Labs/Homework Templates/Rmarkdown screenshot.jpg)

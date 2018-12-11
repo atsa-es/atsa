@@ -7,5 +7,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+| Week | Topic  |  Lab  |  Homework |  Key  |
+|--|----------|:-------------:|:------:|:------:|
+| 0 | Review of basic matrix math in R |  [Matrix Math in R](Labs/Week 0 basic matrix/basic-matrix-math.pdf) |  Questions are at the end of the lab | [Key](Labs/Week 0 basic matrix/basic-matrix-math-key.pdf) |
+|  |  |  |  |  |
 
 
