@@ -10,7 +10,7 @@ library(kableExtra)
 
 ```{r generate_dates, include=FALSE}
 ## first day of class
-start_date <- as.Date("2018-01-08")
+start_date <- as.Date("2019-01-08")
 ## all tues
 tues <- seq.Date(from = start_date, by = 7, length.out = 10)
 ## all thur
