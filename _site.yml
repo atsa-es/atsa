@@ -6,13 +6,9 @@ navbar:
       icon: fa-home fa-lg
       href: index.html
     - text: "Syllabus"
-      href: syllabus.html
+      href: asyllabus2.html
     - text: "Lectures"
-      menu:
-      - text: "Presentations"
-        href: lectures.html
-      - text: "Videos"
-        href: lecture_video.html
+      href: lectures.html
     - text: "Computer Labs"
       href: comp_labs.html
     - text: "Homework"

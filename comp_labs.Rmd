@@ -7,9 +7,72 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-| Week | Topic  |  Lab  |  Homework |  Key  |
-|--|----------|:-------------:|:------:|:------:|
-| 0 | Review of basic matrix math in R |  [Matrix Math in R](Labs/Week 0 basic matrix/basic-matrix-math.pdf) |  Questions are at the end of the lab | [Key](Labs/Week 0 basic matrix/basic-matrix-math-key.pdf) |
-|  |  |  |  |  |
+```{r include=FALSE}
+library(kableExtra)
+load("syllabus.RData")
+```
 
+```{r topics, include = FALSE}
+lab_topics <- lapply(week_labs, function(x){if(is.list(x)){x$topics}else{""}})
+## topics formatted for html
+lab_topics_html <- sapply(lapply(lab_topics, paste, "<br>", collapse=""), c)
+names(lab_topics_html) <- NULL
+```
+
+<!-- first is PDF, 2nd PPT, 3rd Rmd -->
+```{r lec_links, include = FALSE}
+lab_links <- lapply(week_labs, function(x){if(is.list(x)){c(x$pdf, x$rmd)}else{""}})
+## topics formatted for html
+lab_links_html <- sapply(lapply(lab_links, function(x){ tmp1<-c("[PDF](","[Rmd]("); tmp2 <- c(")",")"); tmp1[x==""]=""; tmp2[x==""]=""; tmp <- paste(tmp1,x,tmp2); tmp=paste(tmp,collapse="<br>"); tmp}), c)
+names(lab_links_html) <- NULL
+```
+
+```{r video_links, include = FALSE}
+vid_links <- lapply(week_labs, function(x){if(is.list(x)){x$video}else{""}})
+## topics formatted for html
+vid_links_html <- sapply(lapply(vid_links, function(x){ tmp <- paste("[Video](",x,")<br>", collapse=""); tmp[x==""]=""}), c)
+names(vid_links_html) <- NULL
+```
+
+```{r data_links, include = FALSE}
+data_links <- lapply(week_labs, function(x){if(is.list(x)){x$data}else{""}})
+## topics formatted for html
+data_links_html <- sapply(lapply(data_links, function(x){ tmp <- paste("[",x,"](",x,")<br>", collapse=""); tmp[x==""]=""}), c)
+names(data_links_html) <- NULL
+```
+
+```{r homework, include = FALSE}
+hw_links <- lapply(week_labs, function(x){if(is.list(x)){x$homework}else{""}})
+## topics formatted for html
+hw_links_html <- sapply(lapply(hw_links, paste, "<br>", collapse=""), c)
+names(hw_links_html) <- NULL
+```
+
+```{r key_links, include = FALSE}
+key_links <- lapply(week_labs, function(x){if(is.list(x)){x$key}else{""}})
+## topics formatted for html
+key_links_html <- sapply(lapply(key_links, function(x){ tmp <- paste("[Key](",x,")<br>", collapse=""); tmp[x==""]=""}), c)
+names(key_links_html) <- NULL
+```
+
+
+```{r generate_table, echo=FALSE}
+## data frame with dates & topics
+syl_txt <- data.frame(
+  date = qtr,
+  lab_topics = lab_topics_html,
+  lab_links = lab_links_html,
+  data_links = data_links_html,
+  vid_links = vid_links_html,
+  hw_links = hw_links_html,
+  key_links = key_links_html
+)
+colnames(syl_txt) <- c("Date", "Topics", "Lab Write-up", "Data", "Video", "Homework", "Key")
+## generate table
+kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
+  kable_styling(bootstrap_options = "striped",
+                full_width = F,
+                position = "left") %>%
+  column_spec(1, width = "8em") 
+```
 

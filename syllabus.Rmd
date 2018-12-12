@@ -116,4 +116,3 @@ kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
   column_spec(1, width = "8em") %>%
   column_spec(2, width = "27em")
 ```
-

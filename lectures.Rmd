@@ -5,6 +5,54 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(kableExtra)
+load("syllabus.RData")
 ```
 
+```{r lecture_topics, include = FALSE}
+lec_topics <- lapply(week_lecs, function(x){if(is.list(x)){x$topics}else{""}})
+## topics formatted for html
+lec_topics_html <- sapply(lapply(lec_topics, paste, "<br>", collapse=""), c)
+names(lec_topics_html) <- NULL
+```
+
+<!-- first is PDF, 2nd PPT, 3rd Rmd -->
+```{r lec_links, include = FALSE}
+lec_links <- lapply(week_lecs, function(x){if(is.list(x)){c(x$pdf,x$ppt,x$rmd)}else{""}})
+## topics formatted for html
+lec_links_html <- sapply(lapply(lec_links, function(x){ tmp <- paste(c("[PDF](","[PPT](","[Rmd]("),x,")<br>", collapse=""); tmp[x==""]=""}), c)
+names(lec_links_html) <- NULL
+```
+
+```{r video_links, include = FALSE}
+vid_links <- lapply(week_lecs, function(x){if(is.list(x)){x$video}else{""}})
+## topics formatted for html
+vid_links_html <- sapply(lapply(lec_links, function(x){ tmp <- paste("[Video](",x,")<br>", collapse=""); tmp[x==""]=""}), c)
+names(vid_links_html) <- NULL
+```
+
+```{r reading_links, include = FALSE}
+reading_links <- lapply(week_lecs, function(x){if(is.list(x)){x$reading}else{""}})
+## topics formatted for html
+reading_links_html <- sapply(lapply(reading_links, paste, "<br>", collapse=""), c)
+names(reading_links_html) <- NULL
+```
+
+```{r generate_table, echo=FALSE}
+## data frame with dates & topics
+syl_txt <- data.frame(
+  date = qtr,
+  lec_topics = lec_topics_html,
+  lec_links = lec_links_html,
+  vid_links = vid_links_html,
+  reading_links = reading_links_html
+)
+colnames(syl_txt) <- c("Date", "Lecture topics", "Presentation", "Video", "Reading")
+## generate table
+kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
+  kable_styling(bootstrap_options = "striped",
+                full_width = F,
+                position = "left") %>%
+  column_spec(1, width = "8em") 
+```
 

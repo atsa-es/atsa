@@ -1,0 +1,158 @@
+---
+title: "2019 List of Lectures"
+output: html_document
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+# you can vector c() of things; pdf, rmd, video, data, key should be links
+tmplist <-  list(
+  title = "",
+  topics = "",
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+matrixlab <- list(
+  title = "Matrix math in R",
+  topics = c("Matrices & matrix algebra"),
+  pdf = "Labs/Week 0 basic matrix/basic-matrix-math.pdf",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "Listed at end of lab",
+  key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf"
+)
+```
+
+```{r}
+lmlab <- list(
+  title = "Linear regression in matrix form",
+  topics = c("Linear regression in matrix form",
+               "Basic time series functions",
+               "Autocorrelation"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+arma <- list(
+  title = "Fitting ARMA models",
+  topics = c("Simulating & fitting ARMA(p,q) models",
+             "Bayesian estimation"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+ss <- list(
+  title = "State-space models",
+  topics = c("Fitting state-space models"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+model_sel <- list(
+  title = "Model selection",
+  topics = c("Model diagnostics",
+             "Model selection"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+dlmlab <- list(
+  title = "Dynamic Linear Models",
+  topics = c("Fitting DLMs"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+dfalab <- list(
+  title = "DFA models",
+  topics = c("Fitting DFA models"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+glmlab <- list(
+  title = "Generalized models",
+  topics = c("Fitting models with non-Gaussian errors",
+              "Fitting zero-inflated models"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+intlab <- list(
+  title = "Species interactions",
+  topics = c("Fitting MARSS models for species interactions"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+
+```{r}
+hier <- list(
+  title = "Hierarchical models",
+  topics = c("Fitting hierarchical models"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = ""
+)
+```
+

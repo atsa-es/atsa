@@ -1,0 +1,267 @@
+---
+title: "2019 List of Lectures"
+output: html_document
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+intro <- list(
+  title = "Intro to Time Series",
+  topics = c("Course overview",
+                "Properties of time series",
+                 "Data transformations",
+                  "Time series decomposition"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+ts_basics <- list(
+  title = "Intro to Time Series 2",
+  topics = c("Covariance & correlation",
+                          "Autocorrelation & Partial autocorrelation",
+                          "Cross correlation",
+                          "White noise"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+arma_basics <- list(
+  title = "Intro to ARMA models",
+  topics = c("Random walks",
+              "Autoregressive (AR) models",
+               "Moving average (MA) models"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+model_estimation <- list(
+  title = "Model Estimation",
+  topics = c("Model estimation",
+              "Maximum likelihood",
+              "Bayesian estimation"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+uni_ss <- list(
+  title = "Univariate state-space models",
+  topics = c("Univariate state-space models",
+             "Diagnostics for state-space models"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+marss <- list(
+  title = "Multivariate state-space models",
+  topics = c("Introduction to multivariate state-space models"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+covariates <- list(
+  title = "Multivariate state-space models",
+  topics = c("Including covariates (predictors) in models",
+              "Seasonal effects",
+               "Missing covariates",
+               "Colinearity"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+model_inf <- list(
+  title = "Multi-model inference",
+  topics = c("Multi-model inference and selection",
+             "model selection metrics besides AIC",
+              "Cross-validation",
+              "Forecast performance metrics"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+dlm <- list(
+  title = "Dynamic Linear Models",
+  topics = c("Univariate & multivariate dynamic linear models (DLMs)"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+dlm2 <- list(
+  title = "DLM applications",
+  topics = c("Applications of dynamic linear models (DLMs)"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+ets <- list(
+  title = "Exponential Smoothing Models",
+  topics = c("Forecasting with exponential smoothing models", "More forecast assessment"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+dfa <- list(
+  title = "Dynamic Factor Analysis",
+  topics = c("Overview of dynamic factor analysis (DFA)"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+bayes <- list(
+  title = "Bayesian estimation",
+  topics = c("Bayesian estimation of time-series and state-space models"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+glm <- list(
+  title = "Generalized TS models",
+  topics = c("Time series models with non-Gaussian errors",
+             "Non-normal response variables"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+spat_cor <- list(
+  title = "Spatial correlation",
+  topics = c("Time series models with spatial autocorrelation"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+interactions1 <- list(
+  title = "Species interactions I",
+  topics = c("Intro to Gompertz models as AR(1) & ARX(1)",
+              "Estimating species interactions"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+interactions2 <- list(
+  title = "Species interactions II",
+  topics = c("Community dynamics & stability with MAR(1) models"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+perturb <- list(
+  title = "Perturbation analysis",
+  topics = c("Perturbation analysis"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+present1 <- list(
+  title = "Student presentations",
+  topics = c("Student presentations"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
+
+```{r}
+present2 <- list(
+  title = "Student presentations",
+  topics = c("Student presentations"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("")
+)
+```
