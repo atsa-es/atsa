@@ -6,7 +6,7 @@ navbar:
       icon: fa-home fa-lg
       href: index.html
     - text: "Syllabus"
-      href: asyllabus2.html
+      href: asyllabus.html
     - text: "Lectures"
       href: lectures.html
     - text: "Computer Labs"
