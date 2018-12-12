@@ -38,16 +38,25 @@ reading_links_html <- sapply(lapply(reading_links, paste, "<br>", collapse=""), 
 names(reading_links_html) <- NULL
 ```
 
+```{r instructors, include = FALSE}
+instructors <- lapply(week_lecs, function(x){if(is.list(x)){x$instructor}else{""}})
+## topics formatted for html
+instructor_html <- sapply(lapply(instructors, paste, "<br>", collapse=""), c)
+names(instructor_html) <- NULL
+```
+
+
 ```{r generate_table, echo=FALSE}
 ## data frame with dates & topics
 syl_txt <- data.frame(
   date = qtr,
+  instructor = instructor_html,
   lec_topics = lec_topics_html,
   lec_links = lec_links_html,
   vid_links = vid_links_html,
   reading_links = reading_links_html
 )
-colnames(syl_txt) <- c("Date", "Lecture topics", "Presentation", "Video", "Reading")
+colnames(syl_txt) <- c("Date", "Instructor", "Lecture topics", "Presentation", "Video", "Reading")
 ## generate table
 kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",

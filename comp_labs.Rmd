@@ -37,7 +37,7 @@ names(vid_links_html) <- NULL
 ```{r data_links, include = FALSE}
 data_links <- lapply(week_labs, function(x){if(is.list(x)){x$data}else{""}})
 ## topics formatted for html
-data_links_html <- sapply(lapply(data_links, function(x){ tmp <- paste("[",x,"](",x,")<br>", collapse=""); tmp[x==""]=""}), c)
+data_links_html <- sapply(lapply(data_links, function(x){ tmp1<-paste("[",x,"]("); tmp2 <- rep(")",length(x)); tmp1[x==""]=""; tmp2[x==""]=""; tmp <- paste(tmp1,x,tmp2); tmp=paste(tmp,collapse="<br>"); tmp}), c)
 names(data_links_html) <- NULL
 ```
 
@@ -51,8 +51,15 @@ names(hw_links_html) <- NULL
 ```{r key_links, include = FALSE}
 key_links <- lapply(week_labs, function(x){if(is.list(x)){x$key}else{""}})
 ## topics formatted for html
-key_links_html <- sapply(lapply(key_links, function(x){ tmp <- paste("[Key](",x,")<br>", collapse=""); tmp[x==""]=""}), c)
+key_links_html <- sapply(lapply(key_links, function(x){ if(identical(x, "")){""}else{ paste("[Key](",x,")", collapse="<br>")}}), c)
 names(key_links_html) <- NULL
+```
+
+```{r instructors, include = FALSE}
+instructors <- lapply(week_labs, function(x){if(is.list(x)){x$instructor}else{""}})
+## topics formatted for html
+instructor_html <- sapply(lapply(instructors, paste, "<br>", collapse=""), c)
+names(instructor_html) <- NULL
 ```
 
 
@@ -60,6 +67,7 @@ names(key_links_html) <- NULL
 ## data frame with dates & topics
 syl_txt <- data.frame(
   date = qtr,
+  instructor = instructor_html,
   lab_topics = lab_topics_html,
   lab_links = lab_links_html,
   data_links = data_links_html,
@@ -67,7 +75,7 @@ syl_txt <- data.frame(
   hw_links = hw_links_html,
   key_links = key_links_html
 )
-colnames(syl_txt) <- c("Date", "Topics", "Lab Write-up", "Data", "Video", "Homework", "Key")
+colnames(syl_txt) <- c("Date", "Instructor", "Topics", "Lab", "Data", "Video", "Homework", "Key")
 ## generate table
 kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",

@@ -9,16 +9,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r}
 # you can vector c() of things; pdf, rmd, video, data, key should be links
-tmplist <-  list(
-  title = "",
-  topics = "",
-  pdf = "",
-  rmd = "",
-  video = "",
-  data = "",
-  homework = "",
-  key = ""
-)
 ```
 
 ```{r}
@@ -30,14 +20,15 @@ matrixlab <- list(
   video = "",
   data = "",
   homework = "Listed at end of lab",
-  key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf"
+  key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf",
+  instructor = ""
 )
 ```
 
 ```{r}
 lmlab <- list(
-  title = "Linear regression in matrix form",
-  topics = c("Linear regression in matrix form",
+  title = "Writing models in matrix form",
+  topics = c("Writing models in matrix form",
                "Basic time series functions",
                "Autocorrelation"),
   pdf = "",
@@ -45,26 +36,27 @@ lmlab <- list(
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = c("Mark")
 )
 ```
 
 ```{r}
-arma <- list(
+armalab <- list(
   title = "Fitting ARMA models",
-  topics = c("Simulating & fitting ARMA(p,q) models",
-             "Bayesian estimation"),
+  topics = c("Catch forecasting with ARMA models"),
   pdf = "",
   rmd = "",
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Eli"
 )
 ```
 
 ```{r}
-ss <- list(
+sslab <- list(
   title = "State-space models",
   topics = c("Fitting state-space models"),
   pdf = "",
@@ -72,21 +64,24 @@ ss <- list(
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Eli"
 )
 ```
 
 ```{r}
 model_sel <- list(
-  title = "Model selection",
-  topics = c("Model diagnostics",
+  title = "Covariates",
+  topics = c("MARSS with covariates",
+             "ARMAX, seasonality",
              "Model selection"),
   pdf = "",
   rmd = "",
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Eli"
 )
 ```
 
@@ -99,7 +94,8 @@ dlmlab <- list(
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Mark"
 )
 ```
 
@@ -112,9 +108,40 @@ dfalab <- list(
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Mark"
 )
 ```
+
+```{r}
+etsedmlab <- list(
+  title = "Forecasting with EDM and ETS models",
+  topics = c("Forecasting with EDM and ETS models"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = "",
+  instructor = c("Eric","Eli")
+)
+```
+
+```{r}
+bayeslab <- list(
+  title = "Fitting models with STAN",
+  topics = c("Bayesian estimation",
+              "STAN"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = "",
+  instructor = "Eric"
+)
+```
+
 
 ```{r}
 glmlab <- list(
@@ -126,7 +153,8 @@ glmlab <- list(
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Eric"
 )
 ```
 
@@ -139,7 +167,22 @@ intlab <- list(
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Eli"
+)
+```
+
+```{r}
+perturblab <- list(
+  title = "Perturbation detection",
+  topics = c("Perturbation detection"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = "",
+  instructor = "Eric"
 )
 ```
 
@@ -152,7 +195,23 @@ hier <- list(
   video = "",
   data = "",
   homework = "",
-  key = ""
+  key = "",
+  instructor = "Eric"
+)
+```
+
+
+```{r}
+presentlab <- list(
+  title = "Student presentations",
+  topics = c("Student presentations"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = "",
+  instructor = ""
 )
 ```
 

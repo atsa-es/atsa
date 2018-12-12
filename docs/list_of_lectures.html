@@ -344,7 +344,8 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>ts_basics &lt;- list(
   title = &quot;Intro to Time Series 2&quot;,
@@ -356,7 +357,8 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>arma_basics &lt;- list(
   title = &quot;Intro to ARMA models&quot;,
@@ -367,18 +369,20 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Mark&quot;
 )</code></pre>
-<pre class="r"><code>model_estimation &lt;- list(
-  title = &quot;Model Estimation&quot;,
-  topics = c(&quot;Model estimation&quot;,
-              &quot;Maximum likelihood&quot;,
-              &quot;Bayesian estimation&quot;),
+<pre class="r"><code>freqdomain &lt;- list(
+  title = &quot;Frequency domain methods&quot;,
+  topics = c(&quot;Frequency domain methods&quot;,
+              &quot;Wavelet analysis&quot;,
+              &quot;Fourier transforms&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>uni_ss &lt;- list(
   title = &quot;Univariate state-space models&quot;,
@@ -388,7 +392,8 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>marss &lt;- list(
   title = &quot;Multivariate state-space models&quot;,
@@ -397,76 +402,83 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>covariates &lt;- list(
-  title = &quot;Multivariate state-space models&quot;,
+  title = &quot;Covariates in time-series models&quot;,
   topics = c(&quot;Including covariates (predictors) in models&quot;,
               &quot;Seasonal effects&quot;,
                &quot;Missing covariates&quot;,
-               &quot;Colinearity&quot;),
+               &quot;Colinearity&quot;, &quot;MARSSX and ARMAX&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>model_inf &lt;- list(
   title = &quot;Multi-model inference&quot;,
   topics = c(&quot;Multi-model inference and selection&quot;,
-             &quot;model selection metrics besides AIC&quot;,
-              &quot;Cross-validation&quot;,
-              &quot;Forecast performance metrics&quot;),
+             &quot;Information criteria&quot;,
+             &quot;Cross-validation &amp; LOOIC&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>dlm &lt;- list(
-  title = &quot;Dynamic Linear Models&quot;,
-  topics = c(&quot;Univariate &amp; multivariate dynamic linear models (DLMs)&quot;),
+  title = &quot;Univariate dynamic Linear Models&quot;,
+  topics = c(&quot;Univariate dynamic linear models (DLMs)&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>dlm2 &lt;- list(
-  title = &quot;DLM applications&quot;,
-  topics = c(&quot;Applications of dynamic linear models (DLMs)&quot;),
+  title = &quot;Multivariate dynamic linear models&quot;,
+  topics = c(&quot;Multivariate dynamic linear models (DLMs)&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Mark&quot;
 )</code></pre>
-<pre class="r"><code>ets &lt;- list(
-  title = &quot;Exponential Smoothing Models&quot;,
-  topics = c(&quot;Forecasting with exponential smoothing models&quot;, &quot;More forecast assessment&quot;),
+<pre class="r"><code>forecast &lt;- list(
+  title = &quot;Forecasting with ARMA models&quot;,
+  topics = c(&quot;Forecasting with ARMA models&quot;, &quot;Box-Jenkins method&quot;, &quot;Forecast performance metrics&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>dfa &lt;- list(
   title = &quot;Dynamic Factor Analysis&quot;,
-  topics = c(&quot;Overview of dynamic factor analysis (DFA)&quot;),
+  topics = c(&quot;Dynamic factor analysis (DFA)&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>bayes &lt;- list(
   title = &quot;Bayesian estimation&quot;,
-  topics = c(&quot;Bayesian estimation of time-series and state-space models&quot;),
+  topics = c(&quot;Bayesian estimation of time-series and state-space models&quot;,&quot;STAN&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>glm &lt;- list(
   title = &quot;Generalized TS models&quot;,
@@ -476,7 +488,8 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>spat_cor &lt;- list(
   title = &quot;Spatial correlation&quot;,
@@ -485,17 +498,29 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
 )</code></pre>
-<pre class="r"><code>interactions1 &lt;- list(
-  title = &quot;Species interactions I&quot;,
-  topics = c(&quot;Intro to Gompertz models as AR(1) &amp; ARX(1)&quot;,
-              &quot;Estimating species interactions&quot;),
+<pre class="r"><code>ets &lt;- list(
+  title = &quot;Exponential smoothing models&quot;,
+  topics = c(&quot;Exponential smoothing models&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>interactions1 &lt;- list(
+  title = &quot;Species interactions I&quot;,
+  topics = c(&quot;Estimating interaction strengths&quot;,
+             &quot;Gompertz models&quot;, &quot;Stability metrics&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>interactions2 &lt;- list(
   title = &quot;Species interactions II&quot;,
@@ -504,7 +529,8 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>perturb &lt;- list(
   title = &quot;Perturbation analysis&quot;,
@@ -513,7 +539,18 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>HMMs &lt;- list(
+  title = &quot;Hidden Markov models&quot;,
+  topics = c(&quot;Hidden Markov models&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>present1 &lt;- list(
   title = &quot;Student presentations&quot;,
@@ -522,7 +559,8 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;&quot;
 )</code></pre>
 <pre class="r"><code>present2 &lt;- list(
   title = &quot;Student presentations&quot;,
@@ -531,7 +569,28 @@ $(document).ready(function () {
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;)
+  reading = c(&quot;&quot;),
+  instructor = &quot;&quot;
+)</code></pre>
+<pre class="r"><code>EDM &lt;- list(
+  title = &quot;Empirical dynamic modeling&quot;,
+  topics = c(&quot;Empirical dynamic modeling&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;https://rdcu.be/bdfWL&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>open &lt;- list(
+  title = &quot;Open&quot;,
+  topics = c(&quot;&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
 )</code></pre>
 
 

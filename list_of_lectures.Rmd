@@ -18,7 +18,8 @@ intro <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Mark"
 )
 ```
 
@@ -33,7 +34,8 @@ ts_basics <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Mark"
 )
 ```
 
@@ -47,21 +49,23 @@ arma_basics <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Mark"
 )
 ```
 
 ```{r}
-model_estimation <- list(
-  title = "Model Estimation",
-  topics = c("Model estimation",
-              "Maximum likelihood",
-              "Bayesian estimation"),
+freqdomain <- list(
+  title = "Frequency domain methods",
+  topics = c("Frequency domain methods",
+              "Wavelet analysis",
+              "Fourier transforms"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Mark"
 )
 ```
 
@@ -74,7 +78,8 @@ uni_ss <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eli"
 )
 ```
 
@@ -86,22 +91,24 @@ marss <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eli"
 )
 ```
 
 ```{r}
 covariates <- list(
-  title = "Multivariate state-space models",
+  title = "Covariates in time-series models",
   topics = c("Including covariates (predictors) in models",
               "Seasonal effects",
                "Missing covariates",
-               "Colinearity"),
+               "Colinearity", "MARSSX and ARMAX"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eli"
 )
 ```
 
@@ -109,74 +116,79 @@ covariates <- list(
 model_inf <- list(
   title = "Multi-model inference",
   topics = c("Multi-model inference and selection",
-             "model selection metrics besides AIC",
-              "Cross-validation",
-              "Forecast performance metrics"),
+             "Information criteria",
+             "Cross-validation & LOOIC"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eric"
 )
 ```
 
 ```{r}
 dlm <- list(
-  title = "Dynamic Linear Models",
-  topics = c("Univariate & multivariate dynamic linear models (DLMs)"),
+  title = "Univariate dynamic Linear Models",
+  topics = c("Univariate dynamic linear models (DLMs)"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Mark"
 )
 ```
 
 ```{r}
 dlm2 <- list(
-  title = "DLM applications",
-  topics = c("Applications of dynamic linear models (DLMs)"),
+  title = "Multivariate dynamic linear models",
+  topics = c("Multivariate dynamic linear models (DLMs)"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Mark"
 )
 ```
 
 ```{r}
-ets <- list(
-  title = "Exponential Smoothing Models",
-  topics = c("Forecasting with exponential smoothing models", "More forecast assessment"),
+forecast <- list(
+  title = "Forecasting with ARMA models",
+  topics = c("Forecasting with ARMA models", "Box-Jenkins method", "Forecast performance metrics"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eli"
 )
 ```
 
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Overview of dynamic factor analysis (DFA)"),
+  topics = c("Dynamic factor analysis (DFA)"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Mark"
 )
 ```
 
 ```{r}
 bayes <- list(
   title = "Bayesian estimation",
-  topics = c("Bayesian estimation of time-series and state-space models"),
+  topics = c("Bayesian estimation of time-series and state-space models","STAN"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eric"
 )
 ```
 
@@ -189,7 +201,8 @@ glm <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eric"
 )
 ```
 
@@ -201,20 +214,35 @@ spat_cor <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eric"
+)
+```
+
+```{r}
+ets <- list(
+  title = "Exponential smoothing models",
+  topics = c("Exponential smoothing models"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c(""),
+  instructor = "Eli"
 )
 ```
 
 ```{r}
 interactions1 <- list(
   title = "Species interactions I",
-  topics = c("Intro to Gompertz models as AR(1) & ARX(1)",
-              "Estimating species interactions"),
+  topics = c("Estimating interaction strengths",
+             "Gompertz models", "Stability metrics"),
   pdf = "",
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eli"
 )
 ```
 
@@ -226,7 +254,8 @@ interactions2 <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eli"
 )
 ```
 
@@ -238,7 +267,21 @@ perturb <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = "Eric"
+)
+```
+
+```{r}
+HMMs <- list(
+  title = "Hidden Markov models",
+  topics = c("Hidden Markov models"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c(""),
+  instructor = "Eric"
 )
 ```
 
@@ -250,7 +293,8 @@ present1 <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = ""
 )
 ```
 
@@ -262,6 +306,33 @@ present2 <- list(
   ppt = "",
   rmd = "",
   video = "",
-  reading = c("")
+  reading = c(""),
+  instructor = ""
+)
+```
+
+```{r}
+EDM <- list(
+  title = "Empirical dynamic modeling",
+  topics = c("Empirical dynamic modeling"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c("https://rdcu.be/bdfWL"),
+  instructor = "Eric"
+)
+```
+
+```{r}
+open <- list(
+  title = "Open",
+  topics = c(""),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  video = "",
+  reading = c(""),
+  instructor = "Eric"
 )
 ```
