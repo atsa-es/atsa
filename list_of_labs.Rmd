@@ -42,9 +42,9 @@ lmlab <- list(
 ```
 
 ```{r}
-armalab <- list(
+forecastlab <- list(
   title = "Fitting ARMA models",
-  topics = c("Catch forecasting with ARMA models"),
+  topics = c("Forecasting with ARMA models", "Forecasting with ETS models"),
   pdf = "",
   rmd = "",
   video = "",
@@ -56,9 +56,9 @@ armalab <- list(
 ```
 
 ```{r}
-sslab <- list(
-  title = "State-space models",
-  topics = c("Fitting state-space models"),
+sslab1 <- list(
+  title = "Univariate state-space models",
+  topics = c("Simulating ARMA models", "Fitting arima models", "Fitting univariate state-space models"),
   pdf = "",
   rmd = "",
   video = "",
@@ -70,9 +70,10 @@ sslab <- list(
 ```
 
 ```{r}
-model_sel <- list(
-  title = "Covariates",
-  topics = c("MARSS with covariates",
+sslab2 <- list(
+  title = "Multivariate state-space models",
+  topics = c("Fitting MARSS models",
+             "MARSS with covariates",
              "ARMAX, seasonality",
              "Model selection"),
   pdf = "",
@@ -187,7 +188,7 @@ perturblab <- list(
 ```
 
 ```{r}
-hier <- list(
+hierlab <- list(
   title = "Hierarchical models",
   topics = c("Fitting hierarchical models"),
   pdf = "",
@@ -197,6 +198,21 @@ hier <- list(
   homework = "",
   key = "",
   instructor = "Eric"
+)
+```
+
+
+```{r}
+freqdomainlab <- list(
+  title = "Frequency Domain",
+  topics = c("Frequency domain methods", "wavelet analysis", "Stochastic volatility"),
+  pdf = "",
+  rmd = "",
+  video = "",
+  data = "",
+  homework = "",
+  key = "",
+  instructor = "Mark"
 )
 ```
 
