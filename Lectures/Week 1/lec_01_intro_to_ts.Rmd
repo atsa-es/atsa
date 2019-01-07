@@ -140,16 +140,16 @@ xx <- matrix(rnorm(nn*tt), tt, nn)
 matplot(xx, type="l", lty="solid",  las = 1,
         ylab = expression(italic(X[t])), xlab = "Time",
         col = gray(0.5, 0.4))
-lines(xx[,1], col = "black", lwd = 2)
+lines(xx[,1], col = "blue", lwd = 2)
 ```
 
 
 ## What is a time series model?
 
-A _time series model_ for $\{x_t\}$ is a specification of the joint distributions of a sequence of random variables $\{X_t\}$ of which $\{x_t\}$ is thought to be a realization
-
 For example,
-“white” noise:	xt = wt and wt ~ N(0,1)
-autoregressive:	xt = xt-1 + wt and wt ~ N(0,1)
+
+* "white noise": $x_t \sim N(0,1)$
+
+* "autoregressive":	$x_t = x_{t-1} + w_t~\text{and}~w_t \sim N(0,1)$
 
 
