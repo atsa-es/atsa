@@ -36,12 +36,12 @@ $$
 \{ x_1,x_2,x_3,\dots,x_n \} 
 $$
 
-### For example
+### For example,
 $$
 \{ 10,31,27,42,53,15 \}
 $$
 
 
+## {.flexbox .vcenter}
 
-
-
+![](https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/co2_data_mlo.png)
