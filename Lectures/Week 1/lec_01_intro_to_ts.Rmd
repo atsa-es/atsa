@@ -1,9 +1,11 @@
 ---
-title: "Introduction to time series analysis"
+title: "Intro to time series analysis"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
 date: "8 Jan 2019"
-output: ioslides_presentation
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
 ---
 
 ```{r setup, include=FALSE}
@@ -19,3 +21,27 @@ knitr::opts_chunk$set(echo = FALSE)
 * Seasonality (periodicity)
     
 ### Classical decomposition
+
+
+## What is a time series?
+
+### A set of observations taken sequentially in time
+
+
+##  
+
+### A ts can be represented as a set
+
+$$
+\{ x_1,x_2,x_3,\dots,x_n \} 
+$$
+
+### For example
+$$
+\{ 10,31,27,42,53,15 \}
+$$
+
+
+
+
+
