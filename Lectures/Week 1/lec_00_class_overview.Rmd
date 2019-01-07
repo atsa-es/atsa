@@ -1,0 +1,48 @@
+---
+title: "Applied Time Series Analysis"
+subtitle: "FISH 507"
+author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
+date: "8 Jan 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introductions
+
+* Who are we?  
+* Who & why you’re here?  
+* What are you looking to get from this class?  
+
+
+## Days & times
+
+* __Lectures__
+    + When: Tues & Thurs from 1:30-2:50  
+    + Where: FSH 203  
+
+* __Computer lab__  
+    + When: Thurs from 3:00-3:50  
+    + Where: FSH 207  
+
+
+## Grading {.smaller}
+
+* __Weekly homework__ (30% of total)
+    - Assigned Thurs at the end of computer lab
+    - Due by 5:00 PM the following Tues
+    - Based on material from lecture & computer lab
+
+* __Research project & paper__ (40% of total)
+    - Must involve some form of time series model(s)
+    - Due by 11:59 PM PST on March 15
+
+* __Two anonymous peer-reviews__ (20% of total)
+    - One review each for 2 colleague’s papers
+    - Due by 11:59 PM PST on March 21
+
+* __Participation__ (10%)
+    - We expect to show up and interact
+    
