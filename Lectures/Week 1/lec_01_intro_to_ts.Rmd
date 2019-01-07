@@ -77,3 +77,14 @@ Univariate/scalar (eg, total # of fish caught)
 Multivariate/vector (eg, # of each spp of fish caught)
 
 
+## Classification of time series | By the _type of values recorded_    
+
+Integer (eg, # of fish in 5 min trawl = 2413)
+
+Rational (eg, fraction of unclipped fish = 47/951)
+
+Real (eg, fish mass = 10.2 g)
+
+Complex (eg, $cos(2\pi*2.43) + i~sin(2\pi*2.43)$)
+
+
