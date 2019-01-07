@@ -1,6 +1,6 @@
 ---
-title: "Applied Time Series Analysis"
-subtitle: "FISH 507"
+title: "Course overview"
+subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
 date: "8 Jan 2019"
 output: ioslides_presentation
@@ -73,4 +73,11 @@ knitr::opts_chunk$set(echo = FALSE)
 * SAFS
     - Alaska Salmon Program
     - Lake Washington plankton
+
+
+## {.flexbox .vcenter .bigger}
+
+<font size="10">
+[__Course topics__](https://nwfsc-timeseries.github.io/atsa/asyllabus.html) 
+</font>
 
