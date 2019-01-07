@@ -12,9 +12,14 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Introductions
 
-* Who are we?  
-* Who & why you’re here?  
-* What are you looking to get from this class?  
+### Who are we?
+
+
+## Introductions
+
+### Who & why you’re here?  
+
+### What are you looking to get from this class?  
 
 
 ## Days & times
@@ -25,7 +30,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 * __Computer lab__  
     + When: Thurs from 3:00-3:50  
-    + Where: FSH 207  
+    + Where: FSH 203  
 
 
 ## Grading {.smaller}
