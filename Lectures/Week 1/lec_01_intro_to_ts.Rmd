@@ -169,8 +169,6 @@ matplot(ww, type="l", lty="solid",  las = 1,
 White noise: $x_t \sim N(0,1)$
 
 
-
-
 ## Some simple time series models
 
 ```{r ex_RW}
@@ -182,5 +180,57 @@ matplot(apply(ww, 2, cumsum), type="l", lty="solid",  las = 1,
 ```
 
 Random walk: $x_t = x_{t-1} + w_t,~\text{with}~w_t \sim N(0,1)$
+
+
+## Classical decomposition
+
+### Model time series $\{x_t\}$ as a combination of
+
+1. trend ($m_t$)  
+2. seasonal component ($s_t$)  
+3. remainder ($e_t$)
+
+$x_t = m_t + s_t + e_t$
+
+
+## Classical decomposition | 1. The trend ($m_t$)
+
+We need a way to extract the so-called _signal_
+
+One common method is via "linear filters"
+
+$$
+m_t = \sum_{i=-\infty}^{\infty} \lambda_i x_{t+1}
+$$
+
+For example, a moving average
+
+$$
+m_t = \sum_{i=-a}^{a} \frac{1}{2a + 1} x_{t+i}
+$$
+
+
+## Example of linear filtering
+
+```{r plot_nile, fig.cap = "Flow of the River Nile"}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot.ts(Nile, las = 1, ylab = "")
+```
+
+
+## Example of linear filtering
+
+```{r plot_nile_fltr1, fig.cap = "Flow of the River Nile"}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot.ts(Nile, las = 1, ylab = "")
+## weights for moving avg
+fltr <- c(1,1,1)/3
+trend <- filter(Nile, filter=fltr, method="convo", sides=2)
+lines(trend, col = "red")
+```
+
+
 
 
