@@ -45,3 +45,25 @@ $$
 ## {.flexbox .vcenter}
 
 ![](https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/co2_data_mlo.png)
+
+
+## Classification of time series
+
+### By some _index set_
+
+* Interval across real time; $x(t)$  
+    - begin/end: $t \in [1.1,2.5]$  
+
+
+## Classification of time series
+
+### By some _index set_
+
+* Interval across real time; $x(t)$  
+    - begin/end: $t \in [1.1,2.5]$  
+
+* Discrete time; $x_t$
+    - Equally spaced: $t = \{1,2,3,4,5\}$
+    - Equally spaced w/ missing value: $t = \{1,2,4,5,6\}$
+    - Unequally spaced: $t = \{2,3,4,6,9\}$
+
