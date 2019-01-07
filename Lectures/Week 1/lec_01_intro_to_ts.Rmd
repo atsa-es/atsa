@@ -70,3 +70,10 @@ Discrete (eg, total # of fish caught per trawl)
 Continuous (eg, salinity, temperature)
 
 
+## Classification of time series | By the _number of values recorded_    
+
+Univariate/scalar (eg, total # of fish caught)    
+
+Multivariate/vector (eg, # of each spp of fish caught)
+
+
