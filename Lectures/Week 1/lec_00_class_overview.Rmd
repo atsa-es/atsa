@@ -46,3 +46,17 @@ knitr::opts_chunk$set(echo = FALSE)
 * __Participation__ (10%)
     - We expect to show up and interact
     
+
+## Expectations for final project {.smaller}
+
+* Research paper or thesis chapter that you can turn into a peer-reviewed publication
+
+* Ideally a solo effort, but you can work in pairs
+
+* Focus on applied time series analysis (univariate or multivariate)  
+    
+* Short format similar to “Report” in _Ecology_ or “Rapid Communication” in _CJFAS_
+    - Max of 20 pages, inclusive of refs, tables, figs, etc
+    - 12-pt font, double-spaced throughout
+
+
