@@ -1,0 +1,21 @@
+---
+title: "Introduction to time series analysis"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "8 Jan 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Topics for today
+
+### Characteristics of time series (ts)
+* What is a ts?
+* Classifying ts
+* Trends
+* Seasonality (periodicity)
+    
+### Classical decomposition
