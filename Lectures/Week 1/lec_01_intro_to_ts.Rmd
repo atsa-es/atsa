@@ -47,23 +47,26 @@ $$
 ![](https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/co2_data_mlo.png)
 
 
-## Classification of time series
+## Classification of time series | By some _index set_
 
-### By some _index set_
+Interval across real time; $x(t)$    
 
-* Interval across real time; $x(t)$  
-    - begin/end: $t \in [1.1,2.5]$  
+* begin/end: $t \in [1.1,2.5]$    
 
 
-## Classification of time series
+## Classification of time series | By some _index set_
 
-### By some _index set_
+Discrete time; $x_t$    
 
-* Interval across real time; $x(t)$  
-    - begin/end: $t \in [1.1,2.5]$  
+* Equally spaced: $t = \{1,2,3,4,5\}$  
+* Equally spaced w/ missing value: $t = \{1,2,4,5,6\}$  
+* Unequally spaced: $t = \{2,3,4,6,9\}$  
 
-* Discrete time; $x_t$
-    - Equally spaced: $t = \{1,2,3,4,5\}$
-    - Equally spaced w/ missing value: $t = \{1,2,4,5,6\}$
-    - Unequally spaced: $t = \{2,3,4,6,9\}$
+
+## Classification of time series | By the _underlying process_    
+
+Discrete (eg, total # of fish caught per trawl)
+
+Continuous (eg, salinity, temperature)
+
 
