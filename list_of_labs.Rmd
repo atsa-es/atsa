@@ -14,14 +14,16 @@ knitr::opts_chunk$set(echo = FALSE)
 ```{r}
 matrixlab <- list(
   title = "Matrix math in R",
-  topics = c("Matrices & matrix algebra"),
+  topics = c("Matrices & matrix algebra","(review on your own)"),
   pdf = "Labs/Week 0 basic matrix/basic-matrix-math.pdf",
   rmd = "",
   video = "",
   data = "",
   homework = "Listed at end of lab",
   key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf",
-  instructor = ""
+  instructor = "",
+  hw_topics = "Review of matrix math",
+  hw_duedate = "Optional"
 )
 ```
 
@@ -35,9 +37,11 @@ lmlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "At end of lab",
   key = "",
-  instructor = c("Mark")
+  instructor = c("Mark"),
+  hw_topics = c("linear regression in matrix form","ts functions"),
+  hw_duedate = "Due 5pm next Tues"
 )
 ```
 
@@ -49,9 +53,11 @@ forecastlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "At end of lab",
   key = "",
-  instructor = "Eli"
+  instructor = "Eli",
+  hw_topics = c("Building forecastng models"),
+  hw_duedate = "Due 5pm next Tues"
 )
 ```
 
@@ -63,9 +69,11 @@ sslab1 <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "At end of lab",
   key = "",
-  instructor = "Eli"
+  instructor = "Eli",
+  hw_topics = c("Univariate state-space models"),
+  hw_duedate = "Due 5pm next Tues"
 )
 ```
 
@@ -80,9 +88,11 @@ sslab2 <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "At end of lab",
   key = "",
-  instructor = "Eli"
+  instructor = "Eli",
+  hw_topics = c("MARSS and ARMAX models"),
+  hw_duedate = "Due 5pm next Tues"
 )
 ```
 
@@ -94,9 +104,11 @@ dlmlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "At end of lab",
   key = "",
-  instructor = "Mark"
+  instructor = "Mark",
+  hw_topics = c("Dynamic Linear Models"),
+  hw_duedate = "Due 5pm next Tues"
 )
 ```
 
@@ -108,9 +120,11 @@ dfalab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "At end of lab",
   key = "",
-  instructor = "Mark"
+  instructor = "Mark",
+  hw_topics = c("Dynamic Factor Analysis"),
+  hw_duedate = "Due 5pm next Tues"
 )
 ```
 
@@ -122,9 +136,11 @@ etsedmlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "At end of lab",
   key = "",
-  instructor = c("Eric","Eli")
+  instructor = c("Eric","Eli"),
+  hw_topics = c("Forecasting with EDM and ETS in R"),
+  hw_duedate = "Due 5pm next Tues"
 )
 ```
 
@@ -137,9 +153,11 @@ bayeslab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "No homework",
   key = "",
-  instructor = "Eric"
+  instructor = "Eric",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
 )
 ```
 
@@ -153,9 +171,11 @@ glmlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "No homework",
   key = "",
-  instructor = "Eric"
+  instructor = "Eric",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
 )
 ```
 
@@ -167,9 +187,11 @@ intlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "No homework",
   key = "",
-  instructor = "Eli"
+  instructor = "Eli",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
 )
 ```
 
@@ -181,9 +203,11 @@ perturblab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "No homework",
   key = "",
-  instructor = "Eric"
+  instructor = "Eric",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
 )
 ```
 
@@ -195,9 +219,11 @@ hierlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "No homework",
   key = "",
-  instructor = "Eric"
+  instructor = "Eric",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
 )
 ```
 
@@ -210,9 +236,11 @@ freqdomainlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "No homework",
   key = "",
-  instructor = "Mark"
+  instructor = "Mark",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
 )
 ```
 
@@ -225,9 +253,11 @@ presentlab <- list(
   rmd = "",
   video = "",
   data = "",
-  homework = "",
+  homework = "No homework",
   key = "",
-  instructor = ""
+  instructor = "",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
 )
 ```
 
