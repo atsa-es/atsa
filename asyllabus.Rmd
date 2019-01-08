@@ -1,5 +1,5 @@
 ---
-title: "2019 Syllabus (tentative)"
+title: "2019 Syllabus"
 output: html_document
 ---
 
@@ -88,14 +88,22 @@ lab_topics_html <- sapply(lapply(lab_topics, paste, "<br>", collapse=""), c)
 names(lab_topics_html) <- NULL
 ```
 
+```{r hw_topics, include = FALSE}
+hw_topics <- lapply(week_labs, function(x){if(is.list(x)){c(x$hw_topics,x$hw_duedate)}else{""}})
+## topics formatted for html
+hw_topics_html <- sapply(lapply(hw_topics, paste, "<br>", collapse=""), c)
+names(hw_topics_html) <- NULL
+```
+
 ```{r generate_syllabus, echo=FALSE}
 ## data frame with dates & topics
 syl_txt <- data.frame(
   date = qtr,
   lec_topics = lec_topics_html,
-  lab_topics = lab_topics_html
+  lab_topics = lab_topics_html,
+  hw_topics = hw_topics_html
 )
-colnames(syl_txt) <- c("Date", "Lecture topics", "Lab topics")
+colnames(syl_txt) <- c("Date", "Lecture topics", "Lab topics", "Homework")
 ## generate table
 kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",
