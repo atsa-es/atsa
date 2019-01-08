@@ -14,9 +14,9 @@ intro <- list(
              "Properties of time series",
              "Data transformations",
              "Time series decomposition"),
-  pdf = "Lectures/Week 1/lec_01_intro-to_ts.pdf",
+  pdf = "Lectures/Week 1/lec_01_intro_to_ts.pdf",
   ppt = "",
-  rmd = "Lectures/Week 1/lec_01_intro-to_ts.Rmd",
+  rmd = "Lectures/Week 1/lec_01_intro_to_ts.Rmd",
   video = "",
   reading = c(""),
   instructor = "Mark"
