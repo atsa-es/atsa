@@ -75,7 +75,7 @@ $$
 
 ## Graphical example of covariance
 
-```{r}
+```{r, fig.align="center"}
 # create dummy x set
 xx <- runif(25, 0, 10)
 yy <- 1 + 0.3*xx + rnorm(25,0,1.5)
@@ -92,7 +92,7 @@ plot(xx, yy, pch=16, asp=1, las = 1,
 
 ## Graphical example of covariance
 
-```{r}
+```{r, fig.align="center"}
 par(mai=c(1,1,0,0), omi=c(0,0,0.5,1))
 plot(xx, yy, pch=16, asp=1, las = 1,
      cex=1.2, cex.lab=1.2, col="black",
@@ -117,7 +117,7 @@ mtext(side=4, line=0.5, at=(mean(yy)+par()$usr[4])/2, expression((italic(y[i])-i
 
 ## Graphical example of covariance
 
-```{r}
+```{r, fig.align="center"}
 par(mai=c(1,1,0,0), omi=c(0,0,0.5,1))
 plot(xx, yy, pch=16, asp=1, las = 1,
      cex=1.2, cex.lab=1.2, col="gray",
@@ -227,8 +227,24 @@ _Stationarity_ is a convenient assumption that allows us to describe the statist
 
 In general, a time series is said to be stationary if there is
 
-1. no systematic change in the mean or variance,  
-2. no systematic trend, and  
+1. no systematic change in the mean or variance  
+2. no systematic trend  
 3. no periodic variations or seasonality
+
+
+## Identifying stationarity
+
+```{r, fig.align="center"}
+par(mfrow = c(2,2), mai = c(0.7,0.4,0.1,0.1))
+
+plot.ts(arima.sim(model = list(ar = 0.3, sd = 0.1), n = 100),
+        las = 1, ylab = "")
+plot.ts(arima.sim(model = list(ar = 0.9, sd = 0.1), n = 100),
+        las = 1, ylab = "")
+plot.ts(arima.sim(model = list(ar = -0.9, sd = 0.1), n = 100),
+        las = 1, ylab = "")
+plot.ts(arima.sim(model = list(ma = 0.1, sd = 0.1), n = 100),
+        las = 1, ylab = "")
+```
 
 
