@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ### A set of observations taken sequentially in time
 
 
-##  
+## What is a time series?  
 
 ### A ts can be represented as a set
 
