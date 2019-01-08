@@ -18,9 +18,9 @@ names(lec_topics_html) <- NULL
 
 <!-- first is PDF, 2nd PPT, 3rd Rmd -->
 ```{r lec_links, include = FALSE}
-lec_links <- lapply(week_lecs, function(x){if(is.list(x)){c(x$pdf,x$ppt,x$rmd)}else{""}})
+lec_links <- lapply(week_lecs, function(x){if(is.list(x)){c(x$rmd,x$pdf,x$ppt)}else{""}})
 ## topics formatted for html
-lec_links_html <- sapply(lapply(lec_links, function(x){ tmp <- paste(c("[PDF](","[PPT](","[Rmd]("),x,")<br>", collapse=""); tmp[x==""]=""}), c)
+lec_links_html <- sapply(lapply(lec_links, function(x){ tmp1<-c("[Rmd](","[PDF](","[PPT]("); tmp2 <- c(")",")",")"); tmp1[x==""]=""; tmp2[x==""]=""; tmp <- paste(tmp1,x,tmp2); tmp=paste(tmp,collapse="<br>"); tmp}), c)
 names(lec_links_html) <- NULL
 ```
 
