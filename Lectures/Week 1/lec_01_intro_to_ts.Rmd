@@ -144,7 +144,6 @@ nn <- 50
 tt <- 40
 ww <- matrix(rnorm(nn*tt), tt, nn)
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 matplot(ww, type="l", lty="solid",  las = 1,
         ylab = expression(italic(X[t])), xlab = "Time",
         col = gray(0.5, 0.4))
@@ -166,7 +165,6 @@ lines(ww[,1], col = "blue", lwd = 2)
 
 ```{r ex_WN}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 matplot(ww, type="l", lty="solid",  las = 1,
         ylab = expression(italic(x[t])), xlab = "Time",
         col = gray(0.5, 0.4))
@@ -179,7 +177,6 @@ White noise: $x_t \sim N(0,1)$
 
 ```{r ex_RW}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 matplot(apply(ww, 2, cumsum), type="l", lty="solid",  las = 1,
         ylab = expression(italic(x[t])), xlab = "Time",
         col = gray(0.5, 0.4))
@@ -229,9 +226,7 @@ $$
 
 ```{r plot_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
 xx <- AirPassengers
-
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(xx, las = 1, ylab = "")
 ```
 
@@ -240,7 +235,6 @@ plot.ts(xx, las = 1, ylab = "")
 
 ```{r plot_airpass_fltr1, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(xx, las = 1, ylab = "")
 ## weights for moving avg
 fltr <- c(1,1,1)/3
@@ -256,7 +250,6 @@ text(x = 1949, y = max(trend, na.rm = TRUE),
 
 ```{r plot_airpass_fltr2, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(xx, las = 1, ylab = "")
 ## weights for moving avg
 fltr2 <- rep(1,9)/9
@@ -276,7 +269,6 @@ text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
 
 ```{r plot_airpass_fltr3, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(xx, las = 1, ylab = "")
 ## weights for moving avg
 fltr3 <- rep(1,27)/27
@@ -311,7 +303,6 @@ $$
 seas <- trend2 - xx
   
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(seas, las = 1, ylab = "")
 # text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
 #      labels = expression(paste(lambda, " = 1/9")),
@@ -327,7 +318,6 @@ Seasonal effect ($s_t$), assuming $\lambda = 1/9$
 seas <- trend2 - xx
   
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(seas, las = 1, ylab = "")
 # text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
 #      labels = expression(paste(lambda, " = 1/9")),
@@ -341,9 +331,7 @@ But, $s_t$ includes the remainder $e_t$ as well
 
 ```{r mean_seasonal_effects}
 seas_2 <- decompose(xx)$seasonal
-
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(seas_2, las = 1, ylab = "")
 ```
 
@@ -361,9 +349,7 @@ $$
 
 ```{r errors}
 ee <- decompose(xx)$random
-
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(ee, las = 1, ylab = "")
 ```
 
@@ -379,9 +365,7 @@ plot.ts(ee, las = 1, ylab = "")
 
 ```{r plot_ln_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
 lx <- log(AirPassengers)
-
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(lx, las = 1, ylab = "")
 ```
 
@@ -394,7 +378,6 @@ cc <- coef(lm(lx ~ tt))
 pp <- cc[1] + cc[2] * tt
   
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot(tt, lx, type="l", las = 1,
      xlab = "Time", ylab = "")
 lines(tt, pp, col = "blue", lwd = 2)
@@ -405,7 +388,6 @@ lines(tt, pp, col = "blue", lwd = 2)
 
 ```{r seas_ln_dat}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(lx-pp)
 ```
 
@@ -431,9 +413,7 @@ mm <- mm - mean(mm)
 seas_2 <- ts(rep(mm, periods+1)[seq(ll)],
                start=start(lx), 
                frequency=ff)
-
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(seas_2, las = 1, ylab = "")
 ```
 
@@ -442,9 +422,7 @@ plot.ts(seas_2, las = 1, ylab = "")
 
 ```{r ln_errors}
 le <- lx - pp - seas_2
-
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 plot.ts(le, las = 1, ylab = "")
 ```
 

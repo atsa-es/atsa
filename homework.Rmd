@@ -7,6 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+The homework for each week is listed with the [Computer Labs](comp_labs.html).
 
 # Homework format
 

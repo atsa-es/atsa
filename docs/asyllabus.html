@@ -11,7 +11,7 @@
 
 
 
-<title>2019 Syllabus (tentative)</title>
+<title>2019 Syllabus</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,7 +22,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -91,8 +93,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +116,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -128,6 +135,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,18 +193,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -227,7 +330,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">2019 Syllabus (tentative)</h1>
+<h1 class="title toc-ignore">2019 Syllabus</h1>
 
 </div>
 
@@ -246,6 +349,9 @@ Lecture topics
 <th style="text-align:left;">
 Lab topics
 </th>
+<th style="text-align:left;">
+Homework
+</th>
 </tr>
 </thead>
 <tbody>
@@ -257,7 +363,10 @@ Lab topics
 Course overview <br>Properties of time series <br>Data transformations <br>Time series decomposition <br>
 </td>
 <td style="text-align:left;">
-Matrices &amp; matrix algebra <br>
+Matrices &amp; matrix algebra <br>(review on your own) <br>
+</td>
+<td style="text-align:left;">
+Review of matrix math <br>Optional <br>
 </td>
 </tr>
 <tr>
@@ -270,6 +379,9 @@ Covariance &amp; correlation <br>Autocorrelation &amp; Partial autocorrelation <
 <td style="text-align:left;">
 Writing models in matrix form <br>Basic time series functions <br>Autocorrelation <br>
 </td>
+<td style="text-align:left;">
+linear regression in matrix form <br>ts functions <br>Due 5pm next Tues <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -277,6 +389,9 @@ Writing models in matrix form <br>Basic time series functions <br>Autocorrelatio
 </td>
 <td style="text-align:left;width: 27em; ">
 Random walks <br>Autoregressive (AR) models <br>Moving average (MA) models <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -292,6 +407,9 @@ Univariate state-space models <br>Diagnostics for state-space models <br>
 <td style="text-align:left;">
 Simulating ARMA models <br>Fitting arima models <br>Fitting univariate state-space models <br>
 </td>
+<td style="text-align:left;">
+Univariate state-space models <br>Due 5pm next Tues <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -299,6 +417,9 @@ Simulating ARMA models <br>Fitting arima models <br>Fitting univariate state-spa
 </td>
 <td style="text-align:left;width: 27em; ">
 Introduction to multivariate state-space models <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -314,6 +435,9 @@ Including covariates (predictors) in models <br>Seasonal effects <br>Missing cov
 <td style="text-align:left;">
 Fitting MARSS models <br>MARSS with covariates <br>ARMAX, seasonality <br>Model selection <br>
 </td>
+<td style="text-align:left;">
+MARSS and ARMAX models <br>Due 5pm next Tues <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -321,6 +445,9 @@ Fitting MARSS models <br>MARSS with covariates <br>ARMAX, seasonality <br>Model 
 </td>
 <td style="text-align:left;width: 27em; ">
 Multi-model inference and selection <br>Information criteria <br>Cross-validation &amp; LOOIC <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -336,6 +463,9 @@ Dynamic factor analysis (DFA) <br>
 <td style="text-align:left;">
 Fitting DFA models <br>
 </td>
+<td style="text-align:left;">
+Dynamic Factor Analysis <br>Due 5pm next Tues <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -343,6 +473,9 @@ Fitting DFA models <br>
 </td>
 <td style="text-align:left;width: 27em; ">
 Univariate dynamic linear models (DLMs) <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -358,6 +491,9 @@ Multivariate dynamic linear models (DLMs) <br>
 <td style="text-align:left;">
 Fitting DLMs <br>
 </td>
+<td style="text-align:left;">
+Dynamic Linear Models <br>Due 5pm next Tues <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -365,6 +501,9 @@ Fitting DLMs <br>
 </td>
 <td style="text-align:left;width: 27em; ">
 Bayesian estimation of time-series and state-space models <br>STAN <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -380,6 +519,9 @@ Hidden Markov models <br>
 <td style="text-align:left;">
 Bayesian estimation <br>STAN <br>
 </td>
+<td style="text-align:left;">
+No homework <br>work on projects <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -387,6 +529,9 @@ Bayesian estimation <br>STAN <br>
 </td>
 <td style="text-align:left;width: 27em; ">
 Forecasting with ARMA models <br>Box-Jenkins method <br>Forecast performance metrics <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -402,6 +547,9 @@ Exponential smoothing models <br>
 <td style="text-align:left;">
 Forecasting with ARMA models <br>Forecasting with ETS models <br>
 </td>
+<td style="text-align:left;">
+Building forecastng models <br>Due 5pm next Tues <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -409,6 +557,9 @@ Forecasting with ARMA models <br>Forecasting with ETS models <br>
 </td>
 <td style="text-align:left;width: 27em; ">
 Empirical dynamic modeling <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -424,6 +575,9 @@ Frequency domain methods <br>Wavelet analysis <br>Fourier transforms <br>
 <td style="text-align:left;">
 Frequency domain methods <br>wavelet analysis <br>Stochastic volatility <br>
 </td>
+<td style="text-align:left;">
+No homework <br>work on projects <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
@@ -431,6 +585,9 @@ Frequency domain methods <br>wavelet analysis <br>Stochastic volatility <br>
 </td>
 <td style="text-align:left;width: 27em; ">
 Estimating interaction strengths <br>Gompertz models <br>Stability metrics <br>
+</td>
+<td style="text-align:left;">
+<br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -446,12 +603,18 @@ Perturbation analysis <br>
 <td style="text-align:left;">
 Perturbation detection <br>
 </td>
+<td style="text-align:left;">
+No homework <br>work on projects <br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
 12 March
 </td>
 <td style="text-align:left;width: 27em; ">
+<br>
+</td>
+<td style="text-align:left;">
 <br>
 </td>
 <td style="text-align:left;">
@@ -467,6 +630,9 @@ Student presentations <br>
 </td>
 <td style="text-align:left;">
 Student presentations <br>
+</td>
+<td style="text-align:left;">
+No homework <br>work on projects <br>
 </td>
 </tr>
 </tbody>
