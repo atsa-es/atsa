@@ -9,14 +9,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 intro <- list(
-  title = "Intro to Time Series",
+  title = "Intro to time series analysis",
   topics = c("Course overview",
-                "Properties of time series",
-                 "Data transformations",
-                  "Time series decomposition"),
-  pdf = "",
+             "Properties of time series",
+             "Data transformations",
+             "Time series decomposition"),
+  pdf = "Lectures/Week 1/lec_01_intro_to_ts.pdf",
   ppt = "",
-  rmd = "",
+  rmd = "Lectures/Week 1/lec_01_intro_to_ts.Rmd",
   video = "",
   reading = c(""),
   instructor = "Mark"
@@ -25,11 +25,11 @@ intro <- list(
 
 ```{r}
 ts_basics <- list(
-  title = "Intro to Time Series 2",
+  title = "Stationarity & introductory functions",
   topics = c("Covariance & correlation",
-                          "Autocorrelation & Partial autocorrelation",
-                          "Cross correlation",
-                          "White noise"),
+             "Autocorrelation & Partial autocorrelation",
+             "Cross correlation",
+             "White noise"),
   pdf = "",
   ppt = "",
   rmd = "",
