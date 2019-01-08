@@ -1,0 +1,40 @@
+---
+title: "Stationarity & simple models"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "10 Jan 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Topics for today
+
+### Characteristics of time series (ts)
+* Expectation, mean & variance
+* Covariance & correlation
+* Stationarity
+* Autocovariance & autocorrelation
+* Correlograms
+* White noise
+* Random walks
+* Backshift & difference operators
+
+
+## Expectation, mean & variance
+
+The expectation (E) of a variable is its mean value in the population
+
+$\text{E}(x) \equiv~\text{mean of }x = \mu$
+
+$\text{E}([x - \mu]^2) \equiv~\text{mean deviations of x about } \mu$
+
+$\text{E}([x - \mu]^2) \equiv \text{variance of } x~(\sigma^2)$
+
+Can estimate s2 from sample as
+
+
