@@ -443,3 +443,14 @@ plot.ts(le, las = 1, ylab = "")
 ```
 
 
+## Summary | Today's topics
+
+### Characteristics of time series (ts)
+* What is a ts?
+* Classifying ts
+* Trends
+* Seasonality (periodicity)
+    
+### Classical decomposition
+
+
