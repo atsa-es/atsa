@@ -221,48 +221,84 @@ $$
 
 ## Example of linear filtering
 
-```{r plot_nile, fig.cap = "Flow of the River Nile"}
+```{r plot_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
 
-plot.ts(Nile, las = 1, ylab = "")
+plot.ts(AirPassengers, las = 1, ylab = "")
 ```
 
 
 ## Example of linear filtering
 
-```{r plot_nile_fltr1, fig.cap = "Flow of the River Nile"}
+```{r plot_airpass_fltr1, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
 
-plot.ts(Nile, las = 1, ylab = "")
+plot.ts(AirPassengers, las = 1, ylab = "")
 ## weights for moving avg
 fltr <- c(1,1,1)/3
-trend <- filter(Nile, filter=fltr, method="convo", sides=2)
+trend <- filter(AirPassengers, filter=fltr, method="convo", sides=2)
 lines(trend, col = "blue", lwd = 2)
-text(x = 1960, y = max(trend, na.rm = TRUE),
+text(x = 1950, y = max(trend, na.rm = TRUE),
      labels = expression(paste(lambda, " = 1/3")),
-     adj = c(0.5,0.5), col = "blue")
+     adj = c(0,0), col = "blue")
 ```
 
 
 ## Example of linear filtering
 
-```{r plot_nile_fltr2, fig.cap = "Flow of the River Nile"}
+```{r plot_airpass_fltr2, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
 
-plot.ts(Nile, las = 1, ylab = "")
+plot.ts(AirPassengers, las = 1, ylab = "")
 ## weights for moving avg
 fltr2 <- rep(1,9)/9
-trend2 <- filter(Nile, filter=fltr2, method="convo", sides=2)
+trend2 <- filter(AirPassengers, filter=fltr2, method="convo", sides=2)
 lines(trend, col = "blue", lwd = 2)
 lines(trend2, col = "darkorange", lwd = 2)
-text(x = 1960, y = max(trend, na.rm = TRUE),
+text(x = 1950, y = max(trend, na.rm = TRUE),
      labels = expression(paste(lambda, " = 1/3")),
-     adj = c(0.5,0.5), col = "blue")
-text(x = 1960, y = max(trend, na.rm = TRUE)*1.05,
+     adj = c(0,0), col = "blue")
+text(x = 1950, y = max(trend, na.rm = TRUE)*0.9,
      labels = expression(paste(lambda, " = 1/9")),
-     adj = c(0.5,0.5), col = "darkorange")
+     adj = c(0,0), col = "darkorange")
 ```
 
+
+## Example of linear filtering
+
+```{r plot_airpass_fltr3, fig.cap = "Monthly airline passengers from 1949-1960"}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot.ts(AirPassengers, las = 1, ylab = "")
+## weights for moving avg
+fltr3 <- rep(1,27)/27
+trend3 <- filter(AirPassengers, filter=fltr3, method="convo", sides=2)
+lines(trend, col = "blue", lwd = 2)
+lines(trend2, col = "darkorange", lwd = 2)
+lines(trend3, col = "darkred", lwd = 2)
+text(x = 1950, y = max(trend, na.rm = TRUE),
+     labels = expression(paste(lambda, " = 1/3")),
+     adj = c(0,0), col = "blue")
+text(x = 1950, y = max(trend, na.rm = TRUE)*0.9,
+     labels = expression(paste(lambda, " = 1/9")),
+     adj = c(0,0), col = "darkorange")
+text(x = 1950, y = max(trend, na.rm = TRUE)*0.8,
+     labels = expression(paste(lambda, " = 1/27")),
+     adj = c(0,0), col = "darkred")
+```
+
+
+## Classical decomposition | 2. Seasonal effect ($m_t$)
+
+Once we have an estimate of of the trend $\hat{m}_t$, we can estimate $s_t$ simply by subtraction:
+
+$$
+\hat{s}_t = x_t = \hat{m}_t
+$$
+
+```{r decomp_seas}
+
+```
 
 
 
