@@ -15,7 +15,7 @@ This is the website for _Applied Time Series Analysis_ (FISH 507) offered at the
 eeholmes@uw.edu
 
 [__Eric Ward__](https://faculty.washington.edu/warde/)  
-eric.ward@noaa.gov
+warde@uw.edu
 
 [__Mark Scheuerell__](https://faculty.washington.edu/scheuerl/)  
 scheuerl@uw.edu
