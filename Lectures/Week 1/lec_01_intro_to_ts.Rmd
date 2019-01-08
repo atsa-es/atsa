@@ -306,7 +306,7 @@ seas <- trend2 - xx
   
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
 
-plot.ts(seas, las = 1, ylab = expression(italic(s[t])))
+plot.ts(seas, las = 1, ylab = "")
 # text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
 #      labels = expression(paste(lambda, " = 1/9")),
 #      adj = c(0,0), col = "darkorange")
@@ -322,7 +322,7 @@ seas <- trend2 - xx
   
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
 
-plot.ts(seas, las = 1, ylab = expression(italic(s[t])))
+plot.ts(seas, las = 1, ylab = "")
 # text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
 #      labels = expression(paste(lambda, " = 1/9")),
 #      adj = c(0,0), col = "darkorange")
@@ -331,14 +331,14 @@ plot.ts(seas, las = 1, ylab = expression(italic(s[t])))
 But, $s_t$ includes the remainder $e_t$ as well
 
 
-## Mean seasonal effect
+## Mean seasonal effect ($s_t$)
 
 ```{r mean_seasonal_effects}
 seas_2 <- decompose(xx)$seasonal
 
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
 
-plot.ts(seas_2, las = 1, ylab = expression(italic(s[t])))
+plot.ts(seas_2, las = 1, ylab = "")
 ```
 
 
@@ -351,12 +351,95 @@ e_t = x_t - m_t - s_t
 $$
 
 
-## Remainder $e_t$
+## Remainder ($e_t$)
 
 ```{r errors}
 ee <- decompose(xx)$random
 
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
 
-plot.ts(ee, las = 1, ylab = expression(italic(e[t])))
+plot.ts(ee, las = 1, ylab = "")
 ```
+
+
+## Let's try a different model | With some other assumptions
+
+1. Log-transform data
+
+2. Linear trend
+
+
+## Log-transformed data
+
+```{r plot_ln_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
+lx <- log(AirPassengers)
+
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot.ts(lx, las = 1, ylab = "")
+```
+
+
+## The trend ($m_t$)
+
+```{r plot_lin_trend}
+tt <- as.vector(time(xx))
+cc <- coef(lm(lx ~ tt))
+pp <- cc[1] + cc[2] * tt
+  
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot(tt, lx, type="l", las = 1,
+     xlab = "Time", ylab = "")
+lines(tt, pp, col = "blue", lwd = 2)
+```
+
+
+## Seasonal effect ($s_t$) with error ($e_t$)
+
+```{r seas_ln_dat}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot.ts(lx-pp)
+```
+
+
+## Mean seasonal effect ($s_t$)
+
+```{r mean_seas_effects}
+## length of ts
+ll <- length(lx)
+## frequency (ie, 12)
+ff <- frequency(lx)
+## number of periods (years); %/% is integer division
+periods <- ll %/% ff
+## index of cumulative month
+index <- seq(1,ll,by=ff) - 1
+## get mean by month
+mm <- numeric(ff)
+for(i in 1:ff) {
+  mm[i] <- mean(lx[index+i], na.rm=TRUE)
+}
+## subtract mean to make overall mean=0
+mm <- mm - mean(mm)
+seas_2 <- ts(rep(mm, periods+1)[seq(ll)],
+               start=start(lx), 
+               frequency=ff)
+
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot.ts(seas_2, las = 1, ylab = "")
+```
+
+
+## Remainder ($e_t$)
+
+```{r ln_errors}
+le <- lx - pp - seas_2
+
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot.ts(le, las = 1, ylab = "")
+```
+
+
