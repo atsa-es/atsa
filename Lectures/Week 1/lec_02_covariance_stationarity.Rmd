@@ -1,5 +1,5 @@
 ---
-title: "Stationarity & simple models"
+title: "Stationarity & introductory functions"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
 date: "10 Jan 2019"
@@ -28,27 +28,27 @@ set.seed(123)
 
 ## Expectation & the mean
 
-The expectation (E) of a variable is its mean value in the population
+The expectation ($E$) of a variable is its mean value in the population
 
 $\text{E}(x) \equiv$ mean of $x = \mu$
 
 Can estimate $\mu$ from a sample as
 
 $$
-\text{E}(x) = m = \frac{\sum_{i=1}^N{x_i}}{N}
+m = \frac{\sum_{i=1}^N{x_i}}{N}
 $$
 
 
 ## Variance
 
-$\text{E}([x - \mu]^2) \equiv$ mean deviations of $x$ about $\mu$
+$\text{E}([x - \mu]^2) \equiv$ expected deviations of $x$ about $\mu$
 
 $\text{E}([x - \mu]^2) \equiv$ variance of $x = \sigma^2$
 
 Can estimate $\sigma^2$ from a sample as
 
 $$
-\text{Var}(x) = s^2 = \frac{1}{N-1}\sum_{i=1}^N{(x_i - m)^2}
+s^2 = \frac{1}{N-1}\sum_{i=1}^N{(x_i - m)^2}
 $$
 
 
@@ -57,7 +57,22 @@ $$
 If we have two variables, $x$ and $y$, we can generalize variance
 
 $$
-\sigma^2 = \text{E}([x_i - \mu]^2) = \text{E}([x_i - \mu][x_i - \mu])
+\sigma^2 = \text{E}([x_i - \mu][x_i - \mu])
+$$
+
+into _covariance_
+ 
+$$
+\gamma_{x,y} = \text{E}([x_i - \mu_x][y_i - \mu_y])
+$$
+
+
+## Covariance
+
+If we have two variables, $x$ and $y$, we can generalize variance
+
+$$
+\sigma^2 = \text{E}([x_i - \mu][x_i - \mu])
 $$
 
 into _covariance_
@@ -149,7 +164,7 @@ points(xx[!negC], yy[!negC], pch="+", cex=1.5, col="blue")
 
 ## Correlation
 
-_Correlation_ is a dimensionless measure of the linear association between 2 variables $x$ & $y$
+_Correlation_ is a dimensionless measure of the linear association between 2 variables, $x$ & $y$
 
 It is simply the covariance standardized by the standard deviations
 
@@ -181,13 +196,19 @@ $$
 
 ## Stationarity & the mean
 
+Consider a single value, $x_t$
+
+
+## Stationarity & the mean
+
+Consider a single value, $x_t$
+
 $\text{E}(x_t)$ is taken across an ensemble of _all_ possible time series
 
 
 ## Stationarity & the mean
 
-
-```{r station_in_mean, fig.cap="The expectation is constant across time"}
+```{r station_in_mean}
 nn <- 200
 tt <- 40
 ww <- matrix(rnorm(nn*tt), tt, nn)
@@ -218,7 +239,7 @@ lines(ww[,1], col = "blue", lwd = 2)
 
 ## Stationarity & the mean
 
-If $\text{E}(x_t)$ is constant across time, we say the time serie is _stationary_ in the mean
+If $\text{E}(x_t)$ is constant across time, we say the time series is _stationary_ in the mean
 
 
 ## Stationarity of time series
@@ -246,6 +267,11 @@ plot.ts(arima.sim(model = list(ar = -0.9, sd = 0.1), n = 100),
 plot.ts(arima.sim(model = list(ma = 0.1, sd = 0.1), n = 100),
         las = 1, ylab = "")
 ```
+
+
+## Identifying stationarity
+
+Our eyes are really bad at identifying stationarity, so we will learn some tools to help us
 
 
 ## Autocovariance function (ACVF)
@@ -301,6 +327,17 @@ $$
 
 The ACF measures the correlation of a time series against a time-shifted version of itself
 
+
+## Autocorrelation function (ACF)
+
+The _autocorrelation function_ (ACF) is simply the ACVF normalized by the variance
+
+$$
+\rho_k = \frac{\gamma_k}{\sigma^2} = \frac{\gamma_k}{\gamma_0}
+$$
+
+The ACF measures the correlation of a time series against a time-shifted version of itself
+
 Can estimate ACF from a sample as
 
 $$
@@ -318,7 +355,7 @@ The ACF has several important properties:
 
 > - $r_k$ of periodic function is itself periodic  
 
-> - $r_k$ for sum of 2 indep vars is sum of $r_k$ for each  
+> - $r_k$ for the sum of 2 independent variables is the sum of $r_k$ for each of them 
 
 
 
