@@ -248,3 +248,32 @@ plot.ts(arima.sim(model = list(ma = 0.1, sd = 0.1), n = 100),
 ```
 
 
+## Autocovariance function (ACVF)
+
+For stationary ts, we define the _autocovariance function_ ($\gamma_k$) as
+
+$$
+\gamma_k = \text{E}([x_t - \mu][x_{t-k} - \mu])
+$$
+
+"Smooth" series have large ACVF for large $k$
+
+"Choppy" series have ACVF near 0 for small $k$
+
+
+## Autocovariance function (ACVF)
+
+For stationary ts, we define the _autocovariance function_ ($\gamma_k$) as
+
+$$
+\gamma_k = \text{E}([x_t - \mu][x_{t+k} - \mu])
+$$
+
+We can estimate $\gamma_k$ from a sample as
+
+$$
+c_k = \frac{1}{N}\sum_{t=1}^{N-k}{(x_t - m)(x_{t+k} - m)}
+$$
+
+
+
