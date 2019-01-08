@@ -56,16 +56,16 @@ $$
 If we have two variables, $x$ and $y$, we can generalize variance
 
 $$
-\text{Var}(x) = \text{E}([x_i - m]^2) = \text{E}([x_i - m][x_i - m])
+\sigma^2 = \text{E}([x_i - \mu]^2) = \text{E}([x_i - \mu][x_i - \mu])
 $$
 
 into _covariance_
  
 $$
-\text{Cov}(x,x) = \gamma(x,y) = \text{E}([x_i - m_x][y_i - m_y])
+\gamma_{x,y} = \text{E}([x_i - \mu_x][y_i - \mu_y])
 $$
 
-Can estimate $\gamma(x,y)$ from a sample as
+Can estimate $\gamma_{x,y}$ from a sample as
 
 $$
 \text{Cov}(x,y) = \frac{1}{N-1}\sum_{i=1}^N{(x_i - m_x)(y_i - m_y)}
@@ -146,7 +146,39 @@ points(xx[!negC], yy[!negC], pch="+", cex=1.5, col="blue")
 ```
 
 
+## Correlation
 
+_Correlation_ is a dimensionless measure of the linear association between 2 variables $x$ & $y$
+
+It is simply the covariance standardized by the standard deviations
+
+$$
+\rho_{x,y} = \frac{\gamma_{x,y}}{\sigma_x \sigma_y}
+$$
+
+$$
+-1 < \rho_{x,y} < 1
+$$
+
+
+## Correlation
+
+_Correlation_ is a dimensionless measure of the linear association between 2 variables $x$ & $y$
+
+It is simply the covariance standardized by the standard deviations
+
+$$
+\rho_{x,y} = \frac{\gamma_{x,y}}{\sigma_x \sigma_y}
+$$
+
+We can estimate $\rho_{x,y}$ from a sample as
+
+$$
+\text{Cor}(x,y) = \frac{\text{Cov}(x,y)}{s_x s_y}
+$$
+
+
+## Stationarity of time series
 
 
 
