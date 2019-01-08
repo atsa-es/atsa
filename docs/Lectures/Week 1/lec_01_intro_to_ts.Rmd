@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ### A set of observations taken sequentially in time
 
 
-##  
+## What is a time series?  
 
 ### A ts can be represented as a set
 
@@ -95,6 +95,12 @@ Most statistical analyses are concerned with estimating properties of a populati
 For example, we use fish caught in a seine to infer the mean size of fish in a lake
 
 
+## Statistical analyses of time series
+
+Time series analysis, however, presents a different situation:
+
+* Although we could vary the _length_ of an observed time series, it is often impossible to make multiple observations at a _given_ point in time
+
 
 ## Statistical analyses of time series
 
@@ -138,7 +144,6 @@ nn <- 50
 tt <- 40
 ww <- matrix(rnorm(nn*tt), tt, nn)
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 matplot(ww, type="l", lty="solid",  las = 1,
         ylab = expression(italic(X[t])), xlab = "Time",
         col = gray(0.5, 0.4))
@@ -160,7 +165,6 @@ lines(ww[,1], col = "blue", lwd = 2)
 
 ```{r ex_WN}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 matplot(ww, type="l", lty="solid",  las = 1,
         ylab = expression(italic(x[t])), xlab = "Time",
         col = gray(0.5, 0.4))
@@ -173,7 +177,6 @@ White noise: $x_t \sim N(0,1)$
 
 ```{r ex_RW}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
 matplot(apply(ww, 2, cumsum), type="l", lty="solid",  las = 1,
         ylab = expression(italic(x[t])), xlab = "Time",
         col = gray(0.5, 0.4))
@@ -222,9 +225,9 @@ $$
 ## Example of linear filtering
 
 ```{r plot_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
+xx <- AirPassengers
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
-plot.ts(AirPassengers, las = 1, ylab = "")
+plot.ts(xx, las = 1, ylab = "")
 ```
 
 
@@ -232,13 +235,12 @@ plot.ts(AirPassengers, las = 1, ylab = "")
 
 ```{r plot_airpass_fltr1, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
-plot.ts(AirPassengers, las = 1, ylab = "")
+plot.ts(xx, las = 1, ylab = "")
 ## weights for moving avg
 fltr <- c(1,1,1)/3
-trend <- filter(AirPassengers, filter=fltr, method="convo", sides=2)
+trend <- filter(xx, filter=fltr, method="convo", sides=2)
 lines(trend, col = "blue", lwd = 2)
-text(x = 1950, y = max(trend, na.rm = TRUE),
+text(x = 1949, y = max(trend, na.rm = TRUE),
      labels = expression(paste(lambda, " = 1/3")),
      adj = c(0,0), col = "blue")
 ```
@@ -248,17 +250,16 @@ text(x = 1950, y = max(trend, na.rm = TRUE),
 
 ```{r plot_airpass_fltr2, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
-plot.ts(AirPassengers, las = 1, ylab = "")
+plot.ts(xx, las = 1, ylab = "")
 ## weights for moving avg
 fltr2 <- rep(1,9)/9
-trend2 <- filter(AirPassengers, filter=fltr2, method="convo", sides=2)
+trend2 <- filter(xx, filter=fltr2, method="convo", sides=2)
 lines(trend, col = "blue", lwd = 2)
 lines(trend2, col = "darkorange", lwd = 2)
-text(x = 1950, y = max(trend, na.rm = TRUE),
+text(x = 1949, y = max(trend, na.rm = TRUE),
      labels = expression(paste(lambda, " = 1/3")),
      adj = c(0,0), col = "blue")
-text(x = 1950, y = max(trend, na.rm = TRUE)*0.9,
+text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
      labels = expression(paste(lambda, " = 1/9")),
      adj = c(0,0), col = "darkorange")
 ```
@@ -268,37 +269,172 @@ text(x = 1950, y = max(trend, na.rm = TRUE)*0.9,
 
 ```{r plot_airpass_fltr3, fig.cap = "Monthly airline passengers from 1949-1960"}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-
-plot.ts(AirPassengers, las = 1, ylab = "")
+plot.ts(xx, las = 1, ylab = "")
 ## weights for moving avg
 fltr3 <- rep(1,27)/27
-trend3 <- filter(AirPassengers, filter=fltr3, method="convo", sides=2)
+trend3 <- filter(xx, filter=fltr3, method="convo", sides=2)
 lines(trend, col = "blue", lwd = 2)
 lines(trend2, col = "darkorange", lwd = 2)
 lines(trend3, col = "darkred", lwd = 2)
-text(x = 1950, y = max(trend, na.rm = TRUE),
+text(x = 1949, y = max(trend, na.rm = TRUE),
      labels = expression(paste(lambda, " = 1/3")),
      adj = c(0,0), col = "blue")
-text(x = 1950, y = max(trend, na.rm = TRUE)*0.9,
+text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
      labels = expression(paste(lambda, " = 1/9")),
      adj = c(0,0), col = "darkorange")
-text(x = 1950, y = max(trend, na.rm = TRUE)*0.8,
+text(x = 1949, y = max(trend, na.rm = TRUE)*0.8,
      labels = expression(paste(lambda, " = 1/27")),
      adj = c(0,0), col = "darkred")
 ```
 
 
-## Classical decomposition | 2. Seasonal effect ($m_t$)
+## Classical decomposition | 2. Seasonal effect ($s_t$)
 
-Once we have an estimate of of the trend $\hat{m}_t$, we can estimate $s_t$ simply by subtraction:
+Once we have an estimate of the trend $m_t$, we can estimate $s_t$ simply by subtraction:
 
 $$
-\hat{s}_t = x_t = \hat{m}_t
+s_t = x_t - m_t
 $$
 
-```{r decomp_seas}
 
+## Classical decomposition
+
+```{r plot_airpass_decomp_seas, fig.cap = ""}
+seas <- trend2 - xx
+  
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(seas, las = 1, ylab = "")
+# text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
+#      labels = expression(paste(lambda, " = 1/9")),
+#      adj = c(0,0), col = "darkorange")
 ```
 
+Seasonal effect ($s_t$), assuming $\lambda = 1/9$
+
+
+## Classical decomposition
+
+```{r plot_airpass_decomp_seas_2, fig.cap = ""}
+seas <- trend2 - xx
+  
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(seas, las = 1, ylab = "")
+# text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
+#      labels = expression(paste(lambda, " = 1/9")),
+#      adj = c(0,0), col = "darkorange")
+```
+
+But, $s_t$ includes the remainder $e_t$ as well
+
+
+## Mean seasonal effect ($s_t$)
+
+```{r mean_seasonal_effects}
+seas_2 <- decompose(xx)$seasonal
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(seas_2, las = 1, ylab = "")
+```
+
+
+## Classical decomposition | 3. Remainder ($e_t$)
+
+Now we can estimate $e_t$ via subtraction:
+
+$$
+e_t = x_t - m_t - s_t
+$$
+
+
+## Remainder ($e_t$)
+
+```{r errors}
+ee <- decompose(xx)$random
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(ee, las = 1, ylab = "")
+```
+
+
+## Let's try a different model | With some other assumptions
+
+1. Log-transform data
+
+2. Linear trend
+
+
+## Log-transformed data
+
+```{r plot_ln_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
+lx <- log(AirPassengers)
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(lx, las = 1, ylab = "")
+```
+
+
+## The trend ($m_t$)
+
+```{r plot_lin_trend}
+tt <- as.vector(time(xx))
+cc <- coef(lm(lx ~ tt))
+pp <- cc[1] + cc[2] * tt
+  
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot(tt, lx, type="l", las = 1,
+     xlab = "Time", ylab = "")
+lines(tt, pp, col = "blue", lwd = 2)
+```
+
+
+## Seasonal effect ($s_t$) with error ($e_t$)
+
+```{r seas_ln_dat}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(lx-pp)
+```
+
+
+## Mean seasonal effect ($s_t$)
+
+```{r mean_seas_effects}
+## length of ts
+ll <- length(lx)
+## frequency (ie, 12)
+ff <- frequency(lx)
+## number of periods (years); %/% is integer division
+periods <- ll %/% ff
+## index of cumulative month
+index <- seq(1,ll,by=ff) - 1
+## get mean by month
+mm <- numeric(ff)
+for(i in 1:ff) {
+  mm[i] <- mean(lx[index+i], na.rm=TRUE)
+}
+## subtract mean to make overall mean=0
+mm <- mm - mean(mm)
+seas_2 <- ts(rep(mm, periods+1)[seq(ll)],
+               start=start(lx), 
+               frequency=ff)
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(seas_2, las = 1, ylab = "")
+```
+
+
+## Remainder ($e_t$)
+
+```{r ln_errors}
+le <- lx - pp - seas_2
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(le, las = 1, ylab = "")
+```
+
+
+## Summary | Today's topics
+
+### Characteristics of time series (ts)
+* What is a ts?
+* Classifying ts
+* Trends
+* Seasonality (periodicity)
+    
+### Classical decomposition
 
 
