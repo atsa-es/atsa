@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+set.seed(123)
 ```
 
 ## Topics for today
@@ -178,10 +179,56 @@ $$
 $$
 
 
+## Stationarity & the mean
+
+$\text{E}(x_t)$ is taken across an ensemble of _all_ possible time series
+
+
+## Stationarity & the mean
+
+
+```{r station_in_mean, fig.cap="The expectation is constant across time"}
+nn <- 200
+tt <- 40
+ww <- matrix(rnorm(nn*tt), tt, nn)
+
+mm <- apply(ww, 1, mean)
+
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+matplot(ww, type="l", lty="solid",  las = 1,
+        ylab = expression(italic(x[t])), xlab = "Time",
+        col = gray(0.5, 0.2))
+points(rep(0,tt), pch = "-", col = "blue", cex=1.5)
+```
+
+
+## Stationarity & the mean
+
+```{r ex_ts_plot_joint_dist, fig.cap="Our single realization is our estimate!"}
+
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+matplot(ww, type="l", lty="solid",  las = 1,
+        ylab = expression(italic(x[t])), xlab = "Time",
+        col = gray(0.5, 0.2))
+lines(ww[,1], col = "blue", lwd = 2)
+```
+
+
+## Stationarity & the mean
+
+If $\text{E}(x_t)$ is constant across time, we say the time serie is _stationary_ in the mean
+
+
 ## Stationarity of time series
 
+_Stationarity_ is a convenient assumption that allows us to describe the statistical properties of a time series.
 
+In general, a time series is said to be stationary if there is
 
-
+1. no systematic change in the mean or variance,  
+2. no systematic trend, and  
+3. no periodic variations or seasonality
 
 
