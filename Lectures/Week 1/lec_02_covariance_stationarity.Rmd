@@ -253,7 +253,22 @@ plot.ts(arima.sim(model = list(ma = 0.1, sd = 0.1), n = 100),
 For stationary ts, we define the _autocovariance function_ ($\gamma_k$) as
 
 $$
-\gamma_k = \text{E}([x_t - \mu][x_{t-k} - \mu])
+\gamma_k = \text{E}([x_t - \mu][x_{t+k} - \mu])
+$$
+
+which means that
+
+$$
+\gamma_0 = \text{E}([x_t - \mu][x_{t} - \mu]) = \sigma^2
+$$
+
+
+## Autocovariance function (ACVF)
+
+For stationary ts, we define the _autocovariance function_ ($\gamma_k$) as
+
+$$
+\gamma_k = \text{E}([x_t - \mu][x_{t+k} - \mu])
 $$
 
 "Smooth" series have large ACVF for large $k$
@@ -274,6 +289,36 @@ We can estimate $\gamma_k$ from a sample as
 $$
 c_k = \frac{1}{N}\sum_{t=1}^{N-k}{(x_t - m)(x_{t+k} - m)}
 $$
+
+
+## Autocorrelation function (ACF)
+
+The _autocorrelation function_ (ACF) is simply the ACVF normalized by the variance
+
+$$
+\rho_k = \frac{\gamma_k}{\sigma^2} = \frac{\gamma_k}{\gamma_0}
+$$
+
+The ACF measures the correlation of a time series against a time-shifted version of itself
+
+Can estimate ACF from a sample as
+
+$$
+r_k = \frac{c_k}{c_0}
+$$
+
+
+## Properties of the ACF
+
+The ACF has several important properties:
+
+- $-1 \leq r_k \leq 1$  
+
+> - $r_k = r_{-k}$ (it’s an “even function”)  
+
+> - $r_k$ of periodic function is itself periodic  
+
+> - $r_k$ for sum of 2 indep vars is sum of $r_k$ for each  
 
 
 
