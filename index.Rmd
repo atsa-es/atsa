@@ -12,7 +12,7 @@ This is the website for _Applied Time Series Analysis_ (FISH 507) offered at the
 # Instructors
 
 [__Eli Holmes__](https://faculty.washington.edu/eeholmes/)  
-eli.holmes@noaa.gov
+eeholmes@uw.edu
 
 [__Eric Ward__](https://faculty.washington.edu/warde/)  
 eric.ward@noaa.gov
