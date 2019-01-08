@@ -49,3 +49,34 @@ Can estimate $\sigma^2$ from a sample as
 $$
 \text{Var}(x) = s^2 = \frac{1}{N-1}\sum_{i=1}^N{(x_i - m)^2}
 $$
+
+
+## Covariance
+
+If we have two variables, $x$ and $y$, we can generalize variance
+
+$$
+\text{Var}(x) = \text{E}([x_i - m]^2) = \text{E}([x_i - m][x_i - m])
+$$
+
+into _covariance_
+ 
+$$
+\text{Cov}(x,x) = \gamma(x,y) = \text{E}([x_i - m_x][y_i - m_y])
+$$
+
+Can estimate $\gamma(x,y)$ from a sample as
+
+$$
+\text{Cov}(x,y) = \frac{1}{N-1}\sum_{i=1}^N{(x_i - m_x)(y_i - m_y)}
+$$
+
+
+
+
+
+
+
+
+
+
