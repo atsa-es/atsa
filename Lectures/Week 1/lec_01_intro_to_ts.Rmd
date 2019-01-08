@@ -95,6 +95,12 @@ Most statistical analyses are concerned with estimating properties of a populati
 For example, we use fish caught in a seine to infer the mean size of fish in a lake
 
 
+## Statistical analyses of time series
+
+Time series analysis, however, presents a different situation:
+
+* Although we could vary the _length_ of an observed time series, it is often impossible to make multiple observations at a _given_ point in time
+
 
 ## Statistical analyses of time series
 
