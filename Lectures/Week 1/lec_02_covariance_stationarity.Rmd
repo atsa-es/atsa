@@ -462,10 +462,71 @@ par(mfrow=c(1,2), mai=c(1,1,0,0), omi=c(0.1,0.1,0.6,0.1))
 tt <- rep(floor(runif(nn/10,1,101)), times=10)
 plot.ts(tt, ylab=expression(italic(x[t])))
 acf(tt)
-mtext("Random sequence of 10 numbers repeated 10 times", outer=TRUE, line=1, cex=1.5)
+mtext("Sequence of 10 random numbers repeated 10 times", outer=TRUE, line=1, cex=1.5)
 ```
 
 
+## Temporally induced autocorrelation
+
+Recall the transitive property
+
+If $A = B$ and $B = C$, then $A = C$
+
+
+## Temporally induced autocorrelation
+
+Recall the transitive property
+
+If $A = B$ and $B = C$, then $A = C$
+
+which suggests that
+
+If $x \propto y$ and $y \propto z$, then $x \propto z$
+
+
+## Temporally induced autocorrelation
+
+Recall the transitive property
+
+If $A = B$ and $B = C$, then $A = C$
+
+which suggests that
+
+If $x \propto y$ and $y \propto z$, then $x \propto z$
+
+and thus
+
+If $x_t \propto x_{t+1}$ and $x_{t+1} \propto x_{t+2}$, then $x_t \propto x_{t+2}$
+
+
+## Partial autocorrelation funcion (PACF)
+
+The _partial autocorrelation function_ ($\phi_k$) measures the correlation between a series $x_t$ and $x_{t+k}$ with the linear dependence of $\{x_{t-1},x_{t-2},\dots,x_{t-k-1}\}$ removed
+
+
+## Partial autocorrelation funcion (PACF)
+
+The _partial autocorrelation function_ ($\phi_k$) measures the correlation between a series $x_t$ and $x_{t+k}$ with the linear dependence of $\{x_{t-1},x_{t-2},\dots,x_{t-k-1}\}$ removed
+
+
+We can estimate $\phi_k$ from a sample as
+
+$$
+\phi_k =
+    \begin{cases}
+      \text{Cor}(x_1,x_0) = \rho_1, & \text{if } k = 1 \\
+      \text{Cor}(x_k-x_k^{k-1}, x_0-x_0^{k-1}), & \text{if } k \geq 2
+    \end{cases}
+$$
+
+
+$$
+x_k^{k-1} = \beta_1 x_{k-1} + \beta_2 x_{k-2} + \dots + \beta_{k-1} x_1
+$$
+
+$$
+x_0^{k-1} = \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_{k-1} x_{k-1}
+$$
 
 
 
