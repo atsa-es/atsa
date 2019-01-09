@@ -558,6 +558,25 @@ pacf(lwa[,"Cryptomonas"], na.action = na.pass)
 ```
 
 
+## Cross-covariance function
+
+Often we want to look for relationships between 2 different time series
+
+We can extend the notion of covariance to _cross-covariance_
+
+
+## Cross-covariance function (CCVF)
+
+Often we want to look for relationships between 2 different time series
+
+We can extend the notion of covariance to _cross-covariance_
+
+We can estimate $g^{x,y}_k$ from a sample as
+
+$$
+g^{x,y}_k = \frac{1}{N}\sum_{t=1}^{N-k}{(x_t - m_x)(y_{t+k} - m_y)}
+$$
+
 
 
 
