@@ -351,11 +351,67 @@ The ACF has several important properties:
 
 - $-1 \leq r_k \leq 1$  
 
-> - $r_k = r_{-k}$ (it’s an “even function”)  
+> - $r_k = r_{-k}$  
 
 > - $r_k$ of periodic function is itself periodic  
 
 > - $r_k$ for the sum of 2 independent variables is the sum of $r_k$ for each of them 
 
+
+## The correlogram 
+
+```{r, fig.cap="Graphical output for the ACF"}
+par(mai=c(1,1,0,0), omi=c(0.1,0.1,0.1,0.1))
+plot(NA, NA, type="n", xlim=c(0,15), ylim=c(-1,1),
+     xlab="", xaxt="n", ylab="", las = 1)
+abline(h=0)
+axis(side=1, at=seq(15), labels=FALSE)
+axis(side=1, at=seq(0,15,5))
+mtext(expression(paste("Lag ", (italic(k)))), side=1, line=3, cex=1.2)
+mtext(expression(paste("ACF ", (italic(r[k])))), side=2, line=3, cex=1.2)
+```
+
+
+## The correlogram 
+
+```{r, fig.cap="The ACF at lag = 0 is always 1"}
+par(mai=c(1,1,0,0), omi=c(0.1,0.1,0.1,0.1))
+plot(NA, NA, type="n", xlim=c(0,15), ylim=c(-1,1),
+     xlab="", xaxt="n", ylab="", las = 1)
+abline(h=0)
+axis(side=1, at=seq(15), labels=FALSE)
+axis(side=1, at=seq(0,15,5))
+mtext(expression(paste("Lag ", (italic(k)))), side=1, line=3, cex=1.2)
+mtext(expression(paste("ACF ", (italic(r[k])))), side=2, line=3, cex=1.2)
+
+lines(c(0,0), c(0,1), lwd=2, col="darkred")
+text(x=1, y =1, expression(italic(r)[0] == 1), col="darkred")
+```
+
+
+## The correlogram 
+
+```{r, fig.cap="Approximate confidence intervals"}
+par(mai=c(1,1,0,0), omi=c(0.1,0.1,0.1,0.1))
+plot(NA, NA, type="n", xlim=c(0,15), ylim=c(-1,1),
+     xlab="", xaxt="n", ylab="", las = 1)
+abline(h=0)
+axis(side=1, at=seq(15), labels=FALSE)
+axis(side=1, at=seq(0,15,5))
+mtext(expression(paste("Lag ", (italic(k)))), side=1, line=3, cex=1.2)
+mtext(expression(paste("ACF ", (italic(r[k])))), side=2, line=3, cex=1.2)
+
+lines(c(0,0), c(0,1), lwd=2, col="darkred")
+text(x=1, y =1, expression(italic(r)[0] == 1), col="darkred")
+
+# add 95% CI's
+nn <- 30
+alpha <- 0.05
+ts.SD <- qnorm(1-alpha/2, 0, 1)/sqrt(nn)
+abline(h=-ts.SD, lty="dashed", col="blue")
+text(x=14, y=-0.55, expression(-frac(italic(z)[1-frac(alpha,2)], sqrt(italic(n)))), col="blue")
+abline(h=ts.SD, lty="dashed", col="blue")
+text(x=14, y=0.55, expression(+frac(italic(z)[1-frac(alpha,2)], sqrt(italic(n)))), col="blue")
+```
 
 
