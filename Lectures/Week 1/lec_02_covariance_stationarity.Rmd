@@ -415,3 +415,59 @@ text(x=14, y=0.55, expression(+frac(italic(z)[1-frac(alpha,2)], sqrt(italic(n)))
 ```
 
 
+## ACF for deterministic forms
+
+```{r}
+## length of ts
+nn <- 100
+
+## trend only
+par(mfrow=c(1,2), mai=c(1,1,0,0), omi=c(0.1,0.1,0.6,0.1))
+tt <- seq(nn)
+plot.ts(tt, ylab=expression(italic(x[t])))
+acf(tt)
+mtext("Linear trend {1,2,3,...,100}", outer=TRUE, line=1, cex=1.5)
+```
+
+
+## ACF for deterministic forms
+
+```{r}
+par(mfrow=c(1,2), mai=c(1,1,0,0), omi=c(0.1,0.1,0.6,0.1))
+## compute the 2 predictor variables
+tt <- sin(2*pi*seq(nn)/12)
+plot.ts(tt, ylab=expression(italic(x[t])))
+acf(tt)
+mtext("Discrete (monthly) sine wave", outer=TRUE, line=1, cex=1.5)
+```
+
+
+## ACF for deterministic forms
+
+```{r}
+par(mfrow=c(1,2), mai=c(1,1,0,0), omi=c(0.1,0.1,0.6,0.1))
+## compute the 2 predictor variables
+tt <- sin(2*pi*seq(nn)/12) - seq(nn)/50
+plot.ts(tt, ylab=expression(italic(x[t])))
+acf(tt, lag.max=30)
+mtext("Linear trend + seasonal effect", outer=TRUE, line=1, cex=1.5)
+```
+
+
+## ACF for deterministic forms
+
+```{r}
+par(mfrow=c(1,2), mai=c(1,1,0,0), omi=c(0.1,0.1,0.6,0.1))
+# compute the 2 predictor variables
+tt <- rep(floor(runif(nn/10,1,101)), times=10)
+plot.ts(tt, ylab=expression(italic(x[t])))
+acf(tt)
+mtext("Random sequence of 10 numbers repeated 10 times", outer=TRUE, line=1, cex=1.5)
+```
+
+
+
+
+
+
+
