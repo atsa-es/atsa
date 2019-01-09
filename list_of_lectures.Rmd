@@ -14,11 +14,12 @@ intro <- list(
              "Properties of time series",
              "Data transformations",
              "Time series decomposition"),
-  pdf = "Lectures/Week 1/lec_01_intro_to_ts.pdf",
+  pdf = c("Lectures/Week 1/lec_00_class_overview.pdf", "Lectures/Week 1/lec_01_intro_to_ts.pdf"),
   ppt = "",
-  rmd = "Lectures/Week 1/lec_01_intro_to_ts.Rmd",
-  video = "",
-  reading = c(""),
+  rmd = c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
+  html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
+  video = c("https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bf227aa2-7185-4cc3-8c11-a9cf0163693f","https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1f328019-716a-4a80-bab7-a9cf0169d570"),
+  reading = c("[CM09: Chap 1](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_1.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)" ),
   instructor = "Mark"
 )
 ```
@@ -33,8 +34,9 @@ ts_basics <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
-  reading = c(""),
+  reading = c("[CM09: Chap 2](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_2.pdf)","[CM09: Chap 4](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_4.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)"),
   instructor = "Mark"
 )
 ```
@@ -48,8 +50,9 @@ arma_basics <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
-  reading = c(""),
+  reading = c("[CM09: Chap 6](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_6.pdf)","[CM09: Chap 7](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_7.pdf)","[HA18: Chap 8](https://otexts.org/fpp2/arima.html)"),
   instructor = "Mark"
 )
 ```
@@ -63,6 +66,7 @@ freqdomain <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Mark"
@@ -77,8 +81,9 @@ uni_ss <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
-  reading = c(""),
+  reading = c("HWS14: Chap 7"),
   instructor = "Eli"
 )
 ```
@@ -90,8 +95,9 @@ marss <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
-  reading = c(""),
+  reading = c("HWS14: Chap 8"),
   instructor = "Eli"
 )
 ```
@@ -106,6 +112,7 @@ covariates <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eli"
@@ -121,6 +128,7 @@ model_inf <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eric"
@@ -134,6 +142,7 @@ dlm <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Mark"
@@ -147,6 +156,7 @@ dlm2 <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Mark"
@@ -160,6 +170,7 @@ forecast <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eli"
@@ -173,6 +184,7 @@ dfa <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Mark"
@@ -186,6 +198,7 @@ bayes <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eric"
@@ -200,6 +213,7 @@ glm <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eric"
@@ -213,6 +227,7 @@ spat_cor <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eric"
@@ -226,6 +241,7 @@ ets <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eli"
@@ -240,6 +256,7 @@ interactions1 <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eli"
@@ -253,6 +270,7 @@ interactions2 <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eli"
@@ -266,6 +284,7 @@ perturb <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eric"
@@ -279,6 +298,7 @@ HMMs <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eric"
@@ -292,6 +312,7 @@ present1 <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = ""
@@ -305,6 +326,7 @@ present2 <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = ""
@@ -318,6 +340,7 @@ EDM <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c("https://rdcu.be/bdfWL"),
   instructor = "Eric"
@@ -331,6 +354,7 @@ open <- list(
   pdf = "",
   ppt = "",
   rmd = "",
+  html = "",
   video = "",
   reading = c(""),
   instructor = "Eric"
