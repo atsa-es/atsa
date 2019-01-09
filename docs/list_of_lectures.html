@@ -340,11 +340,12 @@ $(document).ready(function () {
              &quot;Properties of time series&quot;,
              &quot;Data transformations&quot;,
              &quot;Time series decomposition&quot;),
-  pdf = &quot;Lectures/Week 1/lec_01_intro_to_ts.pdf&quot;,
+  pdf = c(&quot;Lectures/Week 1/lec_00_class_overview.pdf&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.pdf&quot;),
   ppt = &quot;&quot;,
-  rmd = &quot;Lectures/Week 1/lec_01_intro_to_ts.Rmd&quot;,
-  video = &quot;&quot;,
-  reading = c(&quot;&quot;),
+  rmd = c(&quot;Lectures/Week 1/lec_00_class_overview.Rmd&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.Rmd&quot;),
+  html = c(&quot;Lectures/Week 1/lec_00_class_overview.html&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.html&quot;),
+  video = c(&quot;https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bf227aa2-7185-4cc3-8c11-a9cf0163693f&quot;,&quot;https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1f328019-716a-4a80-bab7-a9cf0169d570&quot;),
+  reading = c(&quot;[CM09: Chap 1](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_1.pdf)&quot;, &quot;[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)&quot; ),
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>ts_basics &lt;- list(
@@ -356,8 +357,9 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;),
+  reading = c(&quot;[CM09: Chap 2](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_2.pdf)&quot;,&quot;[CM09: Chap 4](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_4.pdf)&quot;,&quot;[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)&quot;),
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>arma_basics &lt;- list(
@@ -368,8 +370,9 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;),
+  reading = c(&quot;[CM09: Chap 6](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_6.pdf)&quot;,&quot;[CM09: Chap 7](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_7.pdf)&quot;,&quot;[HA18: Chap 8](https://otexts.org/fpp2/arima.html)&quot;),
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>freqdomain &lt;- list(
@@ -380,6 +383,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Mark&quot;
@@ -391,8 +395,9 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;),
+  reading = c(&quot;HWS14: Chap 7&quot;),
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>marss &lt;- list(
@@ -401,8 +406,9 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
-  reading = c(&quot;&quot;),
+  reading = c(&quot;HWS14: Chap 8&quot;),
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>covariates &lt;- list(
@@ -414,6 +420,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eli&quot;
@@ -426,6 +433,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eric&quot;
@@ -436,6 +444,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Mark&quot;
@@ -446,6 +455,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Mark&quot;
@@ -456,6 +466,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eli&quot;
@@ -466,6 +477,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Mark&quot;
@@ -476,6 +488,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eric&quot;
@@ -487,6 +500,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eric&quot;
@@ -497,6 +511,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eric&quot;
@@ -507,6 +522,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eli&quot;
@@ -518,6 +534,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eli&quot;
@@ -528,6 +545,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eli&quot;
@@ -538,6 +556,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eric&quot;
@@ -548,6 +567,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eric&quot;
@@ -558,6 +578,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;&quot;
@@ -568,6 +589,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;&quot;
@@ -578,6 +600,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;https://rdcu.be/bdfWL&quot;),
   instructor = &quot;Eric&quot;
@@ -588,6 +611,7 @@ $(document).ready(function () {
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
+  html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   instructor = &quot;Eric&quot;
