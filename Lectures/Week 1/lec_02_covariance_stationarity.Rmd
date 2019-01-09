@@ -32,7 +32,7 @@ The expectation ($E$) of a variable is its mean value in the population
 
 $\text{E}(x) \equiv$ mean of $x = \mu$
 
-Can estimate $\mu$ from a sample as
+We can estimate $\mu$ from a sample as
 
 $$
 m = \frac{\sum_{i=1}^N{x_i}}{N}
@@ -45,7 +45,7 @@ $\text{E}([x - \mu]^2) \equiv$ expected deviations of $x$ about $\mu$
 
 $\text{E}([x - \mu]^2) \equiv$ variance of $x = \sigma^2$
 
-Can estimate $\sigma^2$ from a sample as
+We can estimate $\sigma^2$ from a sample as
 
 $$
 s^2 = \frac{1}{N-1}\sum_{i=1}^N{(x_i - m)^2}
@@ -81,7 +81,7 @@ $$
 \gamma_{x,y} = \text{E}([x_i - \mu_x][y_i - \mu_y])
 $$
 
-Can estimate $\gamma_{x,y}$ from a sample as
+We can estimate $\gamma_{x,y}$ from a sample as
 
 $$
 \text{Cov}(x,y) = \frac{1}{N-1}\sum_{i=1}^N{(x_i - m_x)(y_i - m_y)}
@@ -338,7 +338,7 @@ $$
 
 The ACF measures the correlation of a time series against a time-shifted version of itself
 
-Can estimate ACF from a sample as
+We can estimate ACF from a sample as
 
 $$
 r_k = \frac{c_k}{c_0}
@@ -466,16 +466,16 @@ mtext("Sequence of 10 random numbers repeated 10 times", outer=TRUE, line=1, cex
 ```
 
 
-## Temporally induced autocorrelation
+## Induced autocorrelation
 
-Recall the transitive property
+Recall the transitive property, whereby
 
 If $A = B$ and $B = C$, then $A = C$
 
 
-## Temporally induced autocorrelation
+## Induced autocorrelation
 
-Recall the transitive property
+Recall the transitive property, whereby
 
 If $A = B$ and $B = C$, then $A = C$
 
@@ -484,9 +484,9 @@ which suggests that
 If $x \propto y$ and $y \propto z$, then $x \propto z$
 
 
-## Temporally induced autocorrelation
+## Induced autocorrelation
 
-Recall the transitive property
+Recall the transitive property, whereby
 
 If $A = B$ and $B = C$, then $A = C$
 
@@ -514,8 +514,8 @@ We can estimate $\phi_k$ from a sample as
 $$
 \phi_k =
     \begin{cases}
-      \text{Cor}(x_1,x_0) = \rho_1, & \text{if } k = 1 \\
-      \text{Cor}(x_k-x_k^{k-1}, x_0-x_0^{k-1}), & \text{if } k \geq 2
+      \text{Cor}(x_1,x_0) = \rho_1 & \text{if } k = 1 \\
+      \text{Cor}(x_k-x_k^{k-1}, x_0-x_0^{k-1}) & \text{if } k \geq 2
     \end{cases}
 $$
 
