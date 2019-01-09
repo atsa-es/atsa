@@ -24,11 +24,17 @@ West M, Harrison J. 1997. Bayesian Forecasting and Dynamic Models. Springer, New
 
 ## Textbooks & vignettes with specific `R` examples
 
-Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. R scripts and data here
+We will use these as references for the class.
 
-Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package, Version 3.9. [Available here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
+CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. [Available here](https://link.springer.com/book/10.1007%2F978-0-387-88698-5).
 
-Petris G, Petrone S, Campaginoli P. 2009. Dynamic Linear Models with R. Springer, New York. R scripts and data available here
+EWS14: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package, Version 3.9. [Available here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
+
+PPC09" Petris G, Petrone S, Campaginoli P. 2009. Dynamic Linear Models with R. Springer, New York.
+
+HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook https://otexts.org/fpp2/
+
+
 
 ## Papers/vignettes
 
