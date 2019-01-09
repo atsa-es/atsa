@@ -558,6 +558,12 @@ pacf(lwa[,"Cryptomonas"], na.action = na.pass)
 ```
 
 
+## ACF & PACF in model selection
+
+The ACF & PACF will be _very_ useful for identifying the orders of ARMA models
+
+
+
 ## Cross-covariance function
 
 Often we want to look for relationships between 2 different time series
@@ -613,4 +619,86 @@ plot.ts(lynx, ylab="Number of trapped lynx")
 # par(mai=c(0.6,0.5,0,0.1))
 ccf(log(suns), log(lynx), ylab="Cross-correlation", main="")
 ```
+
+
+## {.flexbox .vcenter}
+
+<font size="10">SOME SIMPLE MODELS</font>
+
+
+## White noise (WN)
+
+A time series $\{w_t\}$ is discrete white noise if its values are
+
+1. independent  
+
+2. identically distributed with a mean of zero
+
+
+## White noise (WN)
+
+A time series $\{w_t\}$ is discrete white noise if its values are
+
+1. independent  
+
+2. identically distributed with a mean of zero
+
+The distributional form of the $w_t$ does not matter, but often we assume so-called _Gaussian white noise_, whereby
+
+$$
+w_t \sim \text{N}(0,\sigma^2)
+$$
+
+
+## Gaussian white noise
+
+If $\{w_t\}$ is Gaussian white noise, then
+
+$$
+\mu_w = 0
+$$
+
+
+## Gaussian white noise
+
+If $\{w_t\}$ is Gaussian white noise, then
+
+$$
+\mu_w = 0
+$$
+
+$$
+\gamma_k =
+    \begin{cases}
+      \sigma^2 & \text{if } k = 0 \\
+      0 & \text{if } k \geq 1
+    \end{cases}
+$$
+
+
+## Gaussian white noise
+
+If $\{w_t\}$ is Gaussian white noise, then
+
+$$
+\mu_w = 0
+$$
+
+$$
+\gamma_k =
+    \begin{cases}
+      \sigma^2 & \text{if } k = 0 \\
+      0 & \text{if } k \geq 1
+    \end{cases}
+$$
+
+$$
+\rho_k =
+    \begin{cases}
+      1 & \text{if } k = 0 \\
+      0 & \text{if } k \geq 1
+    \end{cases}
+$$
+
+
 
