@@ -698,3 +698,24 @@ acf(tt)
 ```
 
 
+## Random walk (RW)
+
+A time series $\{x_t\}$ is discrete white noise if
+
+1. $x_t = x_{t-1} + w_t$  
+
+2. $w_t$ is white noise
+
+
+## Random walk (RW)
+
+A time series $\{x_t\}$ is discrete white noise if
+
+1. $x_t = x_{t-1} + w_t$  
+
+2. $w_t$ is white noise
+
+_Note_: Random walks are not stationary
+
+
+
