@@ -762,13 +762,13 @@ $$
 
 ## The backshift shift operator
 
-For example, consider a random walk with
+For example, a random walk with
 
 $$
 x_t = x_{t-1} + w_t
 $$
 
-which we can write as
+can be written as
 
 $$
 \begin{align}
@@ -778,4 +778,66 @@ $$
   x_t &= (1 - \mathbf{B})^{-1} w_t
 \end{align}
 $$
+
+
+## The difference operator
+
+The _difference operator_ ($\nabla$) is another important function in time series analysis, which we define as
+
+$$
+\nabla x_t = x_t - x_{t-1}
+$$
+
+
+## The difference operator
+
+The _difference operator_ ($\nabla$) is another important function in time series analysis, which we define as
+
+$$
+\nabla x_t = x_t - x_{t-1}
+$$
+
+For example, first-differencing a random walk yields white noise
+
+$$
+\begin{align}
+  \nabla x_t &= x_{t-1} + w_t \\
+  x_t - x_{t-1} &= x_{t-1} + w_t - x_{t-1}\\
+  x_t - x_{t-1} &= w_t\\
+\end{align}
+$$
+
+
+## The difference operator
+
+The difference operator and the backshift operator are related
+
+$$
+\nabla^k = (1 - \mathbf{B})^k
+$$
+
+
+## The difference operator
+
+The difference operator and the backshift operator are related
+
+$$
+\nabla^k = (1 - \mathbf{B})^k
+$$
+
+For example
+
+$$
+\begin{align}
+  \nabla x_t &= (1 - \mathbf{B})x_t \\
+  x_t - x_{t-1} &= x_t - \mathbf{B} x_t \\
+  x_t - x_{t-1} &= x_t - x_{t-1}
+\end{align}
+$$
+
+
+
+
+
+
 
