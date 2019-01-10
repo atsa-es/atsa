@@ -621,7 +621,7 @@ plot.ts(suns, main="", ylab="Sunspot activity",
 plot.ts(lynx, ylab="Number of trapped lynx")
 
 # par(mai=c(0.6,0.5,0,0.1))
-ccf(log(suns), log(lynx), ylab="Cross-correlation", main="")
+ccf(log(lynx), log(suns), ylab="Cross-correlation", main="")
 ```
 
 
