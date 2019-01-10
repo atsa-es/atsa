@@ -42,7 +42,7 @@ lmlab <- list(
   homework = "Linear Reg: Prob 1, 2, 3, 4a, 4b, 5a, 6a",
   key = "",
   instructor = c("Eli/Mark"),
-  hw_topics = c("linear regression in matrix form","ts functions"),
+  hw_topics = c("linear regression in matrix form"),
   hw_duedate = "Due 5pm next Tues"
 )
 ```

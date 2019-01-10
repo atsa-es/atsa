@@ -35,7 +35,7 @@ ts_basics <- list(
              "Differencing"),
   pdf = "Lectures/Week 1/lec_02_covariance_stationarity.pdf",
   ppt = "",
-  rmd = "Lectures/Week 1/lec_02_covariance_stationarity.rmd",
+  rmd = "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
   html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
   video = "",
   reading = c("[CM09: Chap 2](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_2.pdf)","[CM09: Chap 4](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_4.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)"),
