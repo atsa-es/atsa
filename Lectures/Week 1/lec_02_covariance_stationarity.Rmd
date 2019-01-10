@@ -741,3 +741,41 @@ acf(tt)
 ```
 
 
+## {.flexbox .vcenter}
+
+<font size="10">SOME IMPORTANT OPERATORS</font>
+
+
+## The backshift shift operator
+
+The _backshift shift operator_ ($\mathbf{B}$) is an important function in time series analysis, which we define as
+
+$$
+\mathbf{B} x_t = x_{t-1}
+$$
+
+or more generally as
+
+$$
+\mathbf{B}^k x_t = x_{t-k}
+$$
+
+## The backshift shift operator
+
+For example, consider a random walk with
+
+$$
+x_t = x_{t-1} + w_t
+$$
+
+which we can write as
+
+$$
+\begin{align}
+  x_t &= \mathbf{B} x_t + w_t \\
+  x_t - \mathbf{B} x_t &= w_t \\
+  (1 - \mathbf{B}) x_t &= w_t \\
+  x_t &= (1 - \mathbf{B})^{-1} w_t
+\end{align}
+$$
+
