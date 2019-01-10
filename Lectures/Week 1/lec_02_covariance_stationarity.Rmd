@@ -709,13 +709,35 @@ A time series $\{x_t\}$ is discrete white noise if
 
 ## Random walk (RW)
 
-A time series $\{x_t\}$ is discrete white noise if
+The following apply to random walks
 
-1. $x_t = x_{t-1} + w_t$  
+&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
 
-2. $w_t$ is white noise
+&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
+
+&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
+
+
+## Random walk (RW)
+
+The following apply to random walks
+
+&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
+
+&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
+
+&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
 
 _Note_: Random walks are not stationary
 
+
+## Random walk (RW)
+
+```{r ex_rw, fig.cap="$x_t = x_{t-1} + w_t; w_t \\sim \\text{N}(0,1)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+tt <- cumsum(rnorm(100))
+plot.ts(tt, ylab = expression(italic(x[t])))
+acf(tt)
+```
 
 
