@@ -700,7 +700,7 @@ acf(tt)
 
 ## Random walk (RW)
 
-A time series $\{x_t\}$ is discrete white noise if
+A time series $\{x_t\}$ is a random walk if
 
 1. $x_t = x_{t-1} + w_t$  
 
@@ -836,7 +836,52 @@ $$
 $$
 
 
+## Differencing to remove a trend
 
+Differencing is a simple means for removing a trend
+
+The 1st-difference removes a linear trend; a 2nd-difference would remove a quadratic trend, etc.
+
+
+## Differencing to remove a trend
+
+```{r diff_linear, fig.align="center"}
+## create biased RW
+rr <- ww <- rnorm(50)
+for(t in 2:50) {
+  rr[t] <- 0.3 + rr[t-1] + ww[t]
+}
+
+par(mfrow = c(2,1), mai = c(0.5,0.8,0.1,0), omi=c(0,0,0,0))
+
+## raw data
+plot.ts(rr, las = 1,
+        ylab = expression(italic(x[t])))
+## first difference
+plot.ts(diff(rr), las = 1,
+        ylab = expression(nabla~italic(x[t])))
+```
+
+
+## Differencing to remove seasonality
+
+Differencing is a simple means for removing a seasonal effect
+
+Using a 1st-difference with $k = period$ removes both trend & seasonal effects
+
+
+## Differencing to remove seasonality
+
+```{r diff_season, fig.align="center"}
+par(mfrow = c(2,1), mai = c(0.5,0.8,0.1,0), omi=c(0,0,0,0))
+
+## raw data
+plot.ts(lwa[,"Temp"], las = 1,
+        ylab = "Temperature")
+## first difference
+plot.ts(diff(lwa[,"Temp"], 12), las = 1,
+        ylab = expression(nabla~Temperature))
+```
 
 
 
