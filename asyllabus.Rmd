@@ -8,6 +8,24 @@ knitr::opts_chunk$set(echo = TRUE)
 library(kableExtra)
 ```
 
+---
+
+### Connect live to lecture or lab via Goto Meeting
+
+[Click here](https://global.gotomeeting.com/join/555515045)
+
+Dial-in: (872) 240-3212
+
+Access Code: 555-515-045
+
+Join from a video-conferencing room or system
+
+Dial: 67.217.95.2##555515045
+
+Cisco devices: 555515045@67.217.95.2
+
+---
+
 ```{r child="list_of_labs.Rmd", include=FALSE}
 ```
 
