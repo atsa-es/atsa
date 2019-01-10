@@ -643,7 +643,22 @@ A time series $\{w_t\}$ is discrete white noise if its values are
 
 2. identically distributed with a mean of zero
 
-The distributional form of the $w_t$ does not matter, but often we assume so-called _Gaussian white noise_, whereby
+Note that distributional form for $\{w_t\}$ is flexible
+
+
+## White noise (WN)
+
+```{r, fig.cap="$w_t = 2e_t - 1; e_t \\sim \\text{Bernoulli}(0.5)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+tt <- rbinom(100, 1, 0.5) * 2 - 1
+plot.ts(tt, ylab = expression(italic(w[t])))
+acf(tt)
+```
+
+
+## Gaussian white noise
+
+We often assume so-called _Gaussian white noise_, whereby
 
 $$
 w_t \sim \text{N}(0,\sigma^2)
@@ -652,53 +667,34 @@ $$
 
 ## Gaussian white noise
 
-If $\{w_t\}$ is Gaussian white noise, then
+We often assume so-called _Gaussian white noise_, whereby
 
 $$
-\mu_w = 0
+w_t \sim \text{N}(0,\sigma^2)
 $$
 
+and the following apply as well
 
-## Gaussian white noise
-
-If $\{w_t\}$ is Gaussian white noise, then
-
-$$
-\mu_w = 0
-$$
-
-$$
-\gamma_k =
+&nbsp; &nbsp; autocovariance:&nbsp; $\gamma_k =
     \begin{cases}
       \sigma^2 & \text{if } k = 0 \\
       0 & \text{if } k \geq 1
-    \end{cases}
-$$
+    \end{cases}$
 
-
-## Gaussian white noise
-
-If $\{w_t\}$ is Gaussian white noise, then
-
-$$
-\mu_w = 0
-$$
-
-$$
-\gamma_k =
-    \begin{cases}
-      \sigma^2 & \text{if } k = 0 \\
-      0 & \text{if } k \geq 1
-    \end{cases}
-$$
-
-$$
-\rho_k =
+&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k =
     \begin{cases}
       1 & \text{if } k = 0 \\
       0 & \text{if } k \geq 1
-    \end{cases}
-$$
+    \end{cases}$
 
+
+## Gaussian white noise
+
+```{r ex_gaussian_wn, fig.cap="$w_t \\sim \\text{N}(0,1)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+tt <- rnorm(100)
+plot.ts(tt, ylab = expression(italic(w[t])))
+acf(tt)
+```
 
 
