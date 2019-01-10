@@ -39,7 +39,7 @@ lmlab <- list(
   html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html","https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html"),
   video = "",
   data = "",
-  homework = "Linear Reg: Prob 1, 2, 3, 4a, 4b, 5a, 6a.<br>ts funcs: Problems at end of chapter.",
+  homework = "Linear Reg: Prob 1, 2, 3, 4a, 4b, 5a, 6a",
   key = "",
   instructor = c("Eli/Mark"),
   hw_topics = c("linear regression in matrix form","ts functions"),

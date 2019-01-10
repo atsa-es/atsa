@@ -1,0 +1,242 @@
+load("/Users/mark/Documents/GitHub/atsa/Labs/Week 1/NHemiTemp_data.RData")
+knitr::prul("lab_01b_intro_ts_functions.Rmd")
+knitr::purl("lab_01b_intro_ts_functions.Rmd")
+load("CO2_data.RData")#
+load("NHemiTemp_data.RData")#
+load("hourly_phyto.RData")#
+#
+## ----ts-loadpackages, warning=FALSE, message=FALSE, results='hide'-------#
+library(stats)#
+library(MARSS)#
+library(forecast)#
+library(datasets)#
+#
+## ----ts-CO2data, eval=FALSE----------------------------------------------#
+## library(RCurl)#
+## ## get CO2 data from Mauna Loa observatory#
+## ww1 <- "ftp://aftp.cmdl.noaa.gov/products/"#
+## ww2 <- "trends/co2/co2_mm_mlo.txt"#
+## CO2fulltext <- getURL(paste0(ww1,ww2))#
+## CO2 <- read.table(text=CO2fulltext)[,c(1,2,5)]#
+## ## assign better column names#
+## colnames(CO2) <- c("year","month","ppm")#
+## save(CO2, CO2fulltext, file="CO2_data.RData")#
+#
+## ----ts-temp-data, eval=FALSE--------------------------------------------#
+## library(RCurl)#
+## ww1 <- "https://www.ncdc.noaa.gov/cag/time-series/"#
+## ww2 <- "global/nhem/land_ocean/p12/12/1880-2014.csv"#
+## Temp <- read.csv(text=getURL(paste0(ww1,ww2)), skip=4)#
+## save(Temp, file="NHemiTemp_data.RData")#
+#
+## ----ts-CO2ts, echo=TRUE, eval=TRUE--------------------------------------#
+## create a time series (ts) object from the CO2 data#
+co2 <- ts(data=CO2$ppm, frequency=12,#
+          start=c(CO2[1,"year"],CO2[1,"month"]))
+plot.ts(co2, ylab=expression(paste("CO"[2]," (ppm)")))
+## temperature time serires#
+temp.ts <- ts(data=Temp$Value, frequency=12, start=c(1880,1))
+## intersection (only overlapping times)#
+datI <- ts.intersect(co2,temp.ts)#
+## dimensions of common-time data#
+dim(datI)
+## union (all times)#
+datU <- ts.union(co2,temp.ts)#
+## dimensions of all-time data#
+dim(datU)
+## plot both ts#
+plot(datI, main="", yax.flip=TRUE)
+## weights for moving avg#
+fltr <- c(1/2,rep(1,times=11),1/2)/12#
+## estimate of trend#
+co2.trend <- filter(co2, filter=fltr, method="convo", sides=2)
+## plot the ts#
+plot.ts(co2.trend, ylab="Trend", cex=1)
+## seasonal effect over time#
+co2.1T <- co2 - co2.trend#
+#
+## plot seasonal effect#
+plot.ts(co2.1T, ylab="Seasonal effect plus errors", xlab="Month", cex=1)
+## get mean seasonal effect across months#
+## length of ts#
+ll <- length(co2.1T)#
+## frequency (ie, 12)#
+ff <- frequency(co2.1T)#
+## number of periods (years); %/% is integer division#
+periods <- ll %/% ff#
+## index of cumulative month#
+index <- seq(1,ll,by=ff) - 1#
+## get mean by month#
+mm <- numeric(ff)#
+for(i in 1:ff) {#
+  mm[i] <- mean(co2.1T[index+i], na.rm=TRUE)#
+}#
+## subtract mean to make overall mean=0#
+mm <- mm - mean(mm)#
+#
+## plot the ts#
+plot.ts(mm, ylab="Seasonal effect", xlab="Month", cex=1)
+## create ts object for season#
+co2.seas <- ts(rep(mm, periods+1)[seq(ll)],#
+               start=start(co2.1T), #
+               frequency=ff)#
+#
+## random errors over time#
+co2.err <- co2 - co2.trend - co2.seas
+## plot the ts#
+plot(cbind(co2,co2.trend,co2.seas,co2.err), main="", yax.flip=TRUE)
+## decomposition of CO2 data#
+co2.decomp <- decompose(co2)
+## decomposition of CO2 data#
+co2.decomp <- decompose(co2)
+## plot decomposed elements#
+plot(co2.decomp, yax.flip=TRUE)
+## twice-difference the CO2 data#
+co2.D2 <- diff(co2, differences=2)#
+#
+## plot the differenced data#
+plot(co2.D2, ylab=expression(paste(nabla^2,"CO"[2])))
+## difference the differenced CO2 data#
+co2.D2D12 <- diff(co2.D2, lag=12)#
+#
+## ----ts-plotCO2diff12, eval=TRUE, echo=FALSE, fig=TRUE, fig.height=3, fig.cap='(ref:ts-plotCO2diff12)'----#
+## set the margins & text size#
+par(mar=c(4,4.5,1,1), oma=c(0,0,0,0), cex=1)#
+## plot the newly differenced data#
+plot(co2.D2D12, ylab=expression(paste(nabla,"(",nabla^2,"CO"[2],")")))
+## better ACF plot#
+plot.acf <- function(ACFobj) {#
+  rr <- ACFobj$acf[-1]#
+  kk <- length(rr)#
+  nn <- ACFobj$n.used#
+  plot(seq(kk),rr,type="h",lwd=2,yaxs="i",xaxs="i",#
+       ylim=c(floor(min(rr)),1),xlim=c(0,kk+1),#
+       xlab="Lag",ylab="Correlation",las=1)#
+  abline(h=-1/nn+c(-2,2)/sqrt(nn),lty="dashed",col="blue")#
+  abline(h=0)#
+}
+## acf of the CO2 data#
+co2.acf <- acf(co2, lag.max=36)
+## set the margins & text size#
+par(mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## correlogram of the CO2 data#
+plot.acf(co2.acf)
+## length of ts#
+nn <- 100#
+## create straight line#
+tt <- seq(nn)#
+## get ACF#
+line.acf <- acf(tt)
+## set the margins & text size#
+par(mfrow=c(1,2), mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## plot line#
+plot.ts(tt, ylab=expression(italic(x[t])))#
+## plot ACF#
+plot.acf(line.acf)
+tt <- sin(2*pi*seq(nn)/12)#
+## get ACF#
+sine.acf <- acf(tt, plot=FALSE)#
+#
+## set the margins & text size#
+par(mfrow=c(1,2), mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## plot line#
+plot.ts(tt, ylab=expression(italic(x[t])))#
+## plot ACF#
+plot.acf(sine.acf)
+tt <- sin(2*pi*seq(nn)/12) - seq(nn)/50#
+## get ACF#
+sili.acf <- acf(tt, plot=FALSE)#
+#
+## set the margins & text size#
+par(mfrow=c(1,2), mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## plot line#
+plot.ts(tt, ylab=expression(italic(x[t])))#
+## plot ACF#
+plot.acf(sili.acf)
+## better PACF plot#
+plot.pacf <- function(PACFobj) {#
+  rr <- PACFobj$acf#
+  kk <- length(rr)#
+  nn <- PACFobj$n.used#
+  plot(seq(kk),rr,type="h",lwd=2,yaxs="i",xaxs="i",#
+       ylim=c(floor(min(rr)),1),xlim=c(0,kk+1),#
+       xlab="Lag",ylab="PACF",las=1)#
+  abline(h=-1/nn+c(-2,2)/sqrt(nn),lty="dashed",col="blue")#
+  abline(h=0)#
+}
+## set the margins & text size#
+par(mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## correlogram of the CO2 data#
+pacf(co2, lag.max=36)
+## set the margins & text size#
+par(mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## correlogram of the CO2 data#
+pacf(co2, lag.max=36)
+## PACF of the CO2 data#
+co2.pacf <- pacf(co2)#
+## correlogram of the CO2 data#
+plot.acf(co2.pacf)
+plot.pacf(co2.pacf)
+## set the margins & text size#
+par(mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## correlogram of the CO2 data#
+pacf(co2, lag.max=36)
+co2.pacf <- pacf(co2)
+pacf(co2, lag.max=36)
+plot.pacf(co2.pacf)
+?pacf
+co2.pacf <- pacf(co2, plot = FALSE)#
+## correlogram of the CO2 data#
+plot.pacf(co2.pacf)
+suns <- ts.intersect(lynx,sunspot.year)[,"sunspot.year"]#
+## get the matching lynx data#
+lynx <- ts.intersect(lynx,sunspot.year)[,"lynx"]#
+#
+## plot both ts#
+plot(cbind(suns,lynx), main="", yax.flip=TRUE)
+## CCF of sunspots and lynx#
+ccf(lynx, suns, ylab="Cross-correlation")
+set.seed(123)#
+## random normal variates#
+GWN <- rnorm(n=100, mean=5, sd=0.2)#
+## random Poisson variates#
+PWN <- rpois(n=50, lambda=20)
+## set the margins & text size#
+par(mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1, mfrow=c(1,2))#
+## plot normal variates with mean#
+plot.ts(GWN)#
+abline(h=5, col="blue", lty="dashed")#
+## plot Poisson variates with mean#
+plot.ts(PWN)#
+abline(h=20, col="blue", lty="dashed")
+## set the margins & text size#
+par(mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1, mfrow=c(1,2))#
+## plot normal variates with mean#
+acf(GWN, main="", lag.max=20)#
+## plot Poisson variates with mean#
+acf(PWN, main="", lag.max=20)
+## set random number seed#
+set.seed(123)#
+## length of time series#
+TT <- 100#
+## initialize {x_t} and {w_t}#
+xx <- ww <- rnorm(n=TT, mean=0, sd=1)#
+## compute values 2 thru TT#
+for(t in 2:TT) { xx[t] <- xx[t-1] + ww[t] }
+## ACF of RW#
+xx.acf <- acf(xx, plot=FALSE)#
+#
+## setup plot area#
+par(mfrow=c(1,2), mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## plot line#
+plot.ts(xx, ylab=expression(italic(x[t])))#
+## plot ACF#
+plot.acf(xx.acf)
+x2 <- cumsum(ww)#
+#
+## setup plot area#
+par(mfrow=c(1,2), mar=c(4,4,1,1), oma=c(0,0,0,0), cex=1)#
+## plot 1st RW#
+plot.ts(xx, ylab=expression(italic(x[t])))#
+## plot 2nd RW#
+plot.ts(x2, ylab=expression(italic(x[t])))
