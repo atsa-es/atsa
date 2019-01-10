@@ -15,15 +15,19 @@ set.seed(123)
 
 ## Topics for today
 
-### Characteristics of time series (ts)
+Characteristics of time series
+
 * Expectation, mean & variance
 * Covariance & correlation
 * Stationarity
 * Autocovariance & autocorrelation
 * Correlograms
-* White noise
-* Random walks
-* Backshift & difference operators
+
+White noise
+
+Random walks
+
+Backshift & difference operators
 
 
 ## Expectation & the mean
@@ -884,5 +888,19 @@ plot.ts(diff(lwa[,"Temp"], 12), las = 1,
 ```
 
 
+## Topics for today
 
+Characteristics of time series
+
+* Expectation, mean & variance
+* Covariance & correlation
+* Stationarity
+* Autocovariance & autocorrelation
+* Correlograms
+
+White noise
+
+Random walks
+
+Backshift & difference operators
 
