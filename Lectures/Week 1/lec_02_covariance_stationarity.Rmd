@@ -568,7 +568,7 @@ The ACF & PACF will be _very_ useful for identifying the orders of ARMA models
 
 
 
-## Cross-covariance function
+## Cross-covariance function (CCVF)
 
 Often we want to look for relationships between 2 different time series
 
@@ -588,9 +588,9 @@ g^{x,y}_k = \frac{1}{N}\sum_{t=1}^{N-k}{(x_t - m_x)(y_{t+k} - m_y)}
 $$
 
 
-## Cross-correlation (CCF)
+## Cross-correlation function (CCF)
 
-The cross-correlation function is the CCVF normalized by standard deviations of x & y
+The cross-correlation function is the CCVF normalized by the standard deviations of x & y
 
 $$
 r^{x,y}_k = \frac{g^{x,y}_k}{s_x s_y}
