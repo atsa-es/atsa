@@ -43,7 +43,7 @@ lmlab <- list(
   key = "",
   instructor = c("Eli/Mark"),
   hw_topics = c("linear regression in matrix form"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -77,7 +77,7 @@ sslab1 <- list(
   key = "",
   instructor = "Eli",
   hw_topics = c("Univariate state-space models"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -97,7 +97,7 @@ sslab2 <- list(
   key = "",
   instructor = "Eli",
   hw_topics = c("MARSS and ARMAX models"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -114,7 +114,7 @@ dlmlab <- list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -131,7 +131,7 @@ dfalab <- list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -148,7 +148,7 @@ etsedmlab <- list(
   key = "",
   instructor = c("Eric","Eli"),
   hw_topics = c("Forecasting with EDM and ETS in R"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
