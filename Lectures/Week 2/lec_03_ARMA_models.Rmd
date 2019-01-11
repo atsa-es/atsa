@@ -272,17 +272,30 @@ In order to be stationary, _all roots of the characteristic equation must exceed
 
 ## Stationary AR(_p_) models
 
-For example, consider the AR(1) model from earlier
+For example, consider this AR(1) model from earlier
 
 $$
 \begin{align}
   x_t &= 0.5 x_{t-1} + w_t \\
-  x_t - 0.5 x_{t-1} &= + w_t \\
-  (1 - 0.5 \mathbf{B})x_t &= + w_t \\
+  x_t - 0.5 x_{t-1} &= w_t \\
+  (1 - 0.5 \mathbf{B})x_t &= w_t \\
+\end{align}
+$$
+
+
+## Stationary AR(_p_) models
+
+For example, consider this AR(1) model from earlier
+
+$$
+\begin{align}
+  x_t &= 0.5 x_{t-1} + w_t \\
+  x_t - 0.5 x_{t-1} &= w_t \\
+  (1 - 0.5 \mathbf{B})x_t &= w_t \\
   \Downarrow \\
   1 - 0.5 \mathbf{B} &= 0 \\
   -0.5 \mathbf{B} &= -1 \\
-  \mathbf{B} &= 2 > 1\\
+  \mathbf{B} &= 2 \\
 \end{align}
 $$
 
