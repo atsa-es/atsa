@@ -341,7 +341,32 @@ Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
 
 ## Stationary AR(1) models
 
+We can define a space over which all AR(1) model are stationary
 
+For $x_t = \phi x_{t-1} + w_t$, we have
+
+$$
+\begin{align}
+  1 - \phi \mathbf{B} &= 0 \\
+  -\phi \mathbf{B} &= -1 \\
+  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
+\end{align}
+$$
+
+
+## Stationary AR(1) models
+
+And for $x_t = -\phi x_{t-1} + w_t$, we have
+
+$$
+\begin{align}
+  1 + \phi \mathbf{B} &= 0 \\
+  \phi \mathbf{B} &= -1 \\
+  \mathbf{B} &= \frac{-1}{\phi} > 1 \Rightarrow -1 < \phi < 0\\
+\end{align}
+$$
+<br>
+Thus, all AR(1) models where $|\phi| < 1$ are stationary  
 
 
 ## Topics for today
