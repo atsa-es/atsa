@@ -594,6 +594,14 @@ for(p in 1:4) {
 
 Do you see the link between the order _p_ and lag _k_?
 
+
+## Using ACF & PACF for model ID
+
+|         | ACF               | PACF                    |
+|:-------:|:-----------------:|:-----------------------:|
+| AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
+
+
 ## Topics for today
 
 Review
