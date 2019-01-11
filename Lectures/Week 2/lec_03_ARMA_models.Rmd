@@ -602,6 +602,35 @@ Do you see the link between the order _p_ and lag _k_?
 | AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
 
 
+## Moving average (MA) models
+
+A moving average model of order _q_, or MA(_q_), is defined as
+
+$$
+x_t = w_t + \theta_1 w_{t-1} + \theta_2 w_{t-2} + \dots + \theta_q w_{t-q}
+$$
+
+where $w_t$ is white noise
+
+Each of the $x_t$ is a sum of the most recent error terms
+
+
+## Moving average (MA) models
+
+A moving average model of order _q_, or MA(_q_), is defined as
+
+$$
+x_t = w_t + \theta_1 w_{t-1} + \theta_2 w_{t-2} + \dots + \theta_q w_{t-q}
+$$
+
+where $w_t$ is white noise
+
+Each of the $x_t$ is a sum of the most recent error terms
+
+Thus, _all_ MA processes are stationary because they are finite sums of stationary WN processes
+
+
+
 ## Topics for today
 
 Review
