@@ -302,6 +302,38 @@ $$
 This model is indeed stationary because $\mathbf{B} > 1$
 
 
+## What about random walks?
+
+Are random walk models stationary?
+
+$$
+\begin{align}
+  x_t &= x_{t-1} + w_t \\
+  x_t - x_{t-1} &= w_t \\
+  (1 - 1 \mathbf{B})x_t &= w_t \\
+\end{align}
+$$
+
+
+## What about random walks?
+
+Are random walk models stationary?
+
+$$
+\begin{align}
+  x_t &= x_{t-1} + w_t \\
+  x_t - x_{t-1} &= w_t \\
+  (1 - 1 \mathbf{B})x_t &= w_t \\
+  \Downarrow \\
+  1 - 1 \mathbf{B} &= 0 \\
+  -1 \mathbf{B} &= -1 \\
+  \mathbf{B} &= 1 \\
+\end{align}
+$$
+
+Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
+
+
 ## Topics for today
 
 Review
