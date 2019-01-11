@@ -489,6 +489,11 @@ mtext(side = 3, expression(paste(phi[1]," = 0.1")),
 Both positive, but different magnitude
 
 
+## Autocorrelation function (ACF)
+
+Recall that the _autocorrelation function_ ($\rho_k$) measures the correlation between $\{x_t\}$ and a shifted version of itself $\{x_{t+k}\}$ 
+
+
 ## ACF for AR(1) models
 
 ```{r}
@@ -532,6 +537,11 @@ acf(AR1_sm, lag.max = 20, las = 1)
 ```
 
 For model with large $\phi$, ACF has longer tail
+
+## Partial autocorrelation funcion (PACF)
+
+Recall that the _partial autocorrelation function_ ($\phi_k$) measures the correlation between $\{x_t\}$ and a shifted version of itself $\{x_{t+k}\}$, with the linear dependence of $\{x_{t-1},x_{t-2},\dots,x_{t-k-1}\}$ removed
+
 
 ## Topics for today
 
