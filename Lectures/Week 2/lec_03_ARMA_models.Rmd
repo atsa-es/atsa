@@ -226,9 +226,14 @@ AR(1)
 $x_t = 0.5 x_{t-1} + w_t$
 
 <br>
-Random walk ($\phi = 1$)
+AR(1) with $\phi_1 = 1$ (random walk)
 
 $x_t = x_{t-1} + w_t$
+
+<br>
+AR(2)
+
+$x_t = -0.2 x_{t-1} + 0.4 x_{t-2} + w_t$
 
 
 ## Stationary AR(_p_) models
@@ -239,12 +244,12 @@ Recall that _stationary_ processes have the following properties
 2. no systematic trend  
 3. no periodic variations or seasonality
 
-We seek a means for identifying whether our models are also stationary
+We seek a means for identifying whether our AR(_p_) models are also stationary
 
 
 ## Stationary AR(_p_) models
 
-We can write out an AR(_p_) model using the backshift operator ($\mathbf{B}$), such that
+We can write out an AR(_p_) model using the backshift operator $(\mathbf{B})$, such that
 
 
 $$
@@ -259,7 +264,7 @@ $$
 
 ## Stationary AR(_p_) models
 
-If we treat $\mathbf{B}$ as a number, we can out write the _characteristic equation_ as
+If we treat $\mathbf{B}$ as a number (or numbers), we can out write the _characteristic equation_ as
 
 $$
 \phi_p (\mathbf{B}) x_t = w_t \\
@@ -304,7 +309,7 @@ This model is indeed stationary because $\mathbf{B} > 1$
 
 ## What about random walks?
 
-Are random walk models stationary?
+Consider our random walk model
 
 $$
 \begin{align}
@@ -317,7 +322,7 @@ $$
 
 ## What about random walks?
 
-Are random walk models stationary?
+Consider our random walk model
 
 $$
 \begin{align}
@@ -332,6 +337,11 @@ $$
 $$
 
 Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
+
+
+## Stationary AR(1) models
+
+
 
 
 ## Topics for today
