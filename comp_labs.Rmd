@@ -3,6 +3,8 @@ title: "Computer Labs"
 output: html_document
 ---
 
+[Link to Lab Book](https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
