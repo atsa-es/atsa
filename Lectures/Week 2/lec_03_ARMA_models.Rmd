@@ -439,14 +439,18 @@ AR1_neg <- arima.sim(n=50, model=AR_neg)
 ylm <- c(min(AR1_pos,AR1_neg), max(AR1_pos,AR1_neg))
 
 ## set the margins & text size
-par(mfrow=c(1,2), mai=c(0.8,0.8,0.2,0.2), oma=c(0,0,0,0))
+par(mfrow=c(1,2), mai=c(0.8,0.8,0.3,0.2), oma=c(0,0,0,0))
 ## plot the ts
 plot.ts(AR1_pos, ylim=ylm,
         ylab=expression(italic(x)[italic(t)]),
-        main=expression(paste(phi[1]," = 0.7")))
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.7")),
+      line = 0.4, adj = 0)
 plot.ts(AR1_neg, ylim=ylm,
         ylab=expression(italic(x)[italic(t)]),
-        main=expression(paste(phi[1]," = -0.7")))
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = -0.7")),
+      line = 0.4, adj = 0)
 ```
 
 Same value, but different sign
@@ -468,14 +472,18 @@ AR1_sm <- arima.sim(n=50, model=AR_sm)
 ylm <- c(min(AR1_bg,AR1_sm), max(AR1_bg,AR1_sm))
 
 ## set the margins & text size
-par(mfrow=c(1,2), mai=c(0.8,0.8,0.2,0.2), oma=c(0,0,0,0))
+par(mfrow = c(1,2), mai = c(0.8,0.8,0.3,0.2), oma = c(0,0,0,0))
 ## plot the ts
-plot.ts(AR1_bg, ylim=ylm,
-        ylab=expression(italic(x)[italic(t)]),
-        main=expression(paste(phi[1]," = 0.9")))
-plot.ts(AR1_sm, ylim=ylm,
-        ylab=expression(italic(x)[italic(t)]),
-        main=expression(paste(phi[1]," = 0.1")))
+plot.ts(AR1_bg, ylim = ylm,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.9")),
+      line = 0.4, adj = 0)
+plot.ts(AR1_sm, ylim = ylm,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.1")),
+      line = 0.4, adj = 0)
 ```
 
 Both positive, but different magnitude
