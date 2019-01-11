@@ -547,7 +547,7 @@ Recall that the _partial autocorrelation function_ ($\phi_k$) measures the corre
 
 ```{r}
 ## set 3 AR coefficients
-ARp <- list(c(0.7, 0.2, -0.1), c(-0.7, 0.2, 0.1))
+ARp3 <- list(c(0.7, 0.2, -0.1), c(-0.7, 0.2, 0.1))
 
 expr <- list(expression(paste("AR(3) with ", phi[1], " = 0.7, ",
                               phi[2], " = 0.2, ", phi[3], " = -0.1")),
@@ -555,22 +555,44 @@ expr <- list(expression(paste("AR(3) with ", phi[1], " = 0.7, ",
                               phi[2], " = 0.2, ", phi[3], " = 0.1")))
 
 ## empty list for storing models
-AR_mods <- vector("list", 4L)
+AR3_mods <- vector("list", 2L)
 
 par(mfrow = c(2,3), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
 ## loop over orders of p
 for(p in 1:2) {
   ## assume SD=1, so not specified
-  AR_mods[[p]] <- arima.sim(n=5000, list(ar=ARp[[p]]))
-  plot.ts(AR_mods[[p]][1:50], las = 1,
+  AR3_mods[[p]] <- arima.sim(n=5000, list(ar=ARp3[[p]]))
+  plot.ts(AR3_mods[[p]][1:50], las = 1,
           ylab = expression(italic(x[t])))
-  acf(AR_mods[[p]], las = 1, main = "")
+  acf(AR3_mods[[p]], lag.max = 20,
+      las = 1, main = "")
   mtext(side = 3, expr[[p]],
         line = 0.5, adj = 0.5)
-  pacf(AR_mods[[p]], las = 1, main = "")
+  pacf(AR3_mods[[p]], lag.max = 20,
+       las = 1, main = "")
 }
 ```
 
+
+## PACF for AR(_p_) models
+
+```{r}
+## empty list for storing models
+pacf_mods <- vector("list", 4L)
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(p in 1:4) {
+  pacf_mods[[p]] <- arima.sim(n=5000, list(ar=ARp[1:p]))
+  pacf(pacf_mods[[p]], lag.max = 15,
+       las = 1, main = "")
+  mtext(side = 3, paste0("AR(",p,")"),
+        line = 0.5, adj = 0)
+}
+
+```
+
+Do you see the link between the order _p_ and lag _k_?
 
 ## Topics for today
 
