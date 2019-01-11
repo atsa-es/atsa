@@ -307,6 +307,38 @@ $$
 This model is indeed stationary because $\mathbf{B} > 1$
 
 
+## Stationary AR(_p_) models
+
+What about this AR(2) model from earlier?
+
+$$
+\begin{align}
+  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+  x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
+  (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
+\end{align}
+$$
+
+
+## Stationary AR(_p_) models
+
+What about this AR(2) model from earlier?
+
+$$
+\begin{align}
+  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+  x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
+  (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
+  \Downarrow \\
+  1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2 &= 0 \\
+  \Downarrow \\
+  \mathbf{B} \approx -1.35 ~ \text{and}& ~ \mathbf{B} \approx 1.85
+\end{align}
+$$
+
+This model is _not_ stationary because only one $\mathbf{B} > 1$
+
+
 ## What about random walks?
 
 Consider our random walk model
