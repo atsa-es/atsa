@@ -420,7 +420,7 @@ $$
 \end{align}
 $$
 <br>
-Thus, all AR(1) models where $|\phi| < 1$ are stationary  
+Thus, AR(1) models are stationary only if $\lvert \phi \rvert  < 1$  
 
 
 ## Coefficients of AR(1) models
@@ -432,21 +432,21 @@ AR_pos <- list(order=c(1,0,0), ar=0.7, sd=0.1)
 ## list description for AR(1) model with large coef
 AR_neg <- list(order=c(1,0,0), ar=-0.7, sd=0.1)
 ## simulate AR(1)
-AR1_pos <- arima.sim(n=50, model=AR_pos)
-AR1_neg <- arima.sim(n=50, model=AR_neg)
+AR1_pos <- arima.sim(n=500, model=AR_pos)
+AR1_neg <- arima.sim(n=500, model=AR_neg)
 
 ## get y-limits for common plots
-ylm <- c(min(AR1_pos,AR1_neg), max(AR1_pos,AR1_neg))
+ylm1 <- c(min(AR1_pos[1:50],AR1_neg[1:50]), max(AR1_pos[1:50],AR1_neg[1:50]))
 
 ## set the margins & text size
 par(mfrow=c(1,2), mai=c(0.8,0.8,0.3,0.2), oma=c(0,0,0,0))
 ## plot the ts
-plot.ts(AR1_pos, ylim=ylm,
+plot.ts(AR1_pos[1:50], ylim=ylm1, las = 1,
         ylab=expression(italic(x)[italic(t)]),
         main = "")
 mtext(side = 3, expression(paste(phi[1]," = 0.7")),
       line = 0.4, adj = 0)
-plot.ts(AR1_neg, ylim=ylm,
+plot.ts(AR1_neg[1:50], ylim=ylm1, las = 1,
         ylab=expression(italic(x)[italic(t)]),
         main = "")
 mtext(side = 3, expression(paste(phi[1]," = -0.7")),
@@ -465,21 +465,21 @@ AR_bg <- list(order=c(1,0,0), ar=0.9, sd=0.1)
 ## list description for AR(1) model with large coef
 AR_sm <- list(order=c(1,0,0), ar=0.1, sd=0.1)
 ## simulate AR(1)
-AR1_bg <- arima.sim(n=50, model=AR_bg)
-AR1_sm <- arima.sim(n=50, model=AR_sm)
+AR1_bg <- arima.sim(n=500, model=AR_bg)
+AR1_sm <- arima.sim(n=500, model=AR_sm)
 
 ## get y-limits for common plots
-ylm <- c(min(AR1_bg,AR1_sm), max(AR1_bg,AR1_sm))
+ylm2 <- c(min(AR1_bg[1:50],AR1_sm[1:50]), max(AR1_bg[1:50],AR1_sm[1:50]))
 
 ## set the margins & text size
 par(mfrow = c(1,2), mai = c(0.8,0.8,0.3,0.2), oma = c(0,0,0,0))
 ## plot the ts
-plot.ts(AR1_bg, ylim = ylm,
+plot.ts(AR1_bg[1:50], ylim = ylm2, las = 1,
         ylab = expression(italic(x)[italic(t)]),
         main = "")
 mtext(side = 3, expression(paste(phi[1]," = 0.9")),
       line = 0.4, adj = 0)
-plot.ts(AR1_sm, ylim = ylm,
+plot.ts(AR1_sm[1:50], ylim = ylm2, las = 1,
         ylab = expression(italic(x)[italic(t)]),
         main = "")
 mtext(side = 3, expression(paste(phi[1]," = 0.1")),
@@ -488,6 +488,50 @@ mtext(side = 3, expression(paste(phi[1]," = 0.1")),
 
 Both positive, but different magnitude
 
+
+## ACF for AR(1) models
+
+```{r}
+## set the margins & text size
+par(mfrow=c(2,2), mai=c(0.8,0.8,0.3,0.2), oma=c(0,0,0,0))
+## plot the ts
+plot.ts(AR1_pos[1:50], ylim=ylm1, las = 1,
+        ylab=expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.7")),
+      line = 0.4, adj = 0)
+acf(AR1_pos, lag.max = 20, las = 1)
+plot.ts(AR1_neg[1:50], ylim=ylm1, las = 1,
+        ylab=expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = -0.7")),
+      line = 0.4, adj = 0)
+acf(AR1_neg, lag.max = 20, las = 1)
+```
+
+ACF oscillates for model with $-\phi$
+
+## ACF for AR(1) models
+
+```{r}
+## set the margins & text size
+par(mfrow = c(2,2), mai = c(0.8,0.8,0.3,0.2), oma = c(0,0,0,0))
+## plot the ts
+plot.ts(AR1_bg[1:50], ylim = ylm2, las = 1,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.9")),
+      line = 0.4, adj = 0)
+acf(AR1_bg, lag.max = 20, las = 1)
+plot.ts(AR1_sm[1:50], ylim = ylm2, las = 1,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.1")),
+      line = 0.4, adj = 0)
+acf(AR1_sm, lag.max = 20, las = 1)
+```
+
+For model with large $\phi$, ACF has longer tail
 
 ## Topics for today
 
