@@ -39,11 +39,11 @@ lmlab <- list(
   html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html","https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html"),
   video = "",
   data = "",
-  homework = "Linear Reg: Prob 1, 2, 3, 4a, 4b, 5a, 6a",
+  homework = "Linear Reg: Prob 1, 2, 3, 4a, 4b, 5a, 6a, 7",
   key = "",
   instructor = c("Eli/Mark"),
-  hw_topics = c("linear regression in matrix form","ts functions"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_topics = c("linear regression in matrix form"),
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -70,14 +70,14 @@ sslab1 <- list(
   topics = c("Simulating ARMA models", "Fitting arima models", "Fitting univariate state-space models"),
   pdf = "",
   rmd = "",
-  html = "",
+  html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html", "https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html"),
   video = "",
   data = "",
-  homework = "At end of lab",
+  homework = "Intro to ts: problems at end of lab<br>Intro to uniSS: problems at end of chapter",
   key = "",
   instructor = "Eli",
   hw_topics = c("Univariate state-space models"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -97,7 +97,7 @@ sslab2 <- list(
   key = "",
   instructor = "Eli",
   hw_topics = c("MARSS and ARMAX models"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -114,7 +114,7 @@ dlmlab <- list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -131,7 +131,7 @@ dfalab <- list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
@@ -148,7 +148,7 @@ etsedmlab <- list(
   key = "",
   instructor = c("Eric","Eli"),
   hw_topics = c("Forecasting with EDM and ETS in R"),
-  hw_duedate = "Due 5pm next Tues"
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 

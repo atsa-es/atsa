@@ -1,0 +1,188 @@
+---
+title: "Intro to ARMA models"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "15 Jan 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+set.seed(123)
+```
+
+## Topics for today
+
+Review
+* White noise  
+* Random walks  
+
+Autoregressive (AR) models
+
+Moving average (MA) models
+
+Autoregressive moving average (ARMA) models
+
+Using ACF & PACF for model ID
+
+
+## White noise (WN)
+
+A time series $\{w_t\}$ is discrete white noise if its values are
+
+1. independent  
+
+2. identically distributed with a mean of zero
+
+
+## White noise (WN)
+
+A time series $\{w_t\}$ is discrete white noise if its values are
+
+1. independent  
+
+2. identically distributed with a mean of zero
+
+Note that distributional form for $\{w_t\}$ is flexible
+
+
+## White noise (WN)
+
+```{r, fig.cap="$w_t = 2e_t - 1; e_t \\sim \\text{Bernoulli}(0.5)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+tt <- rbinom(100, 1, 0.5) * 2 - 1
+plot.ts(tt, ylab = expression(italic(w[t])))
+acf(tt)
+```
+
+
+## Gaussian white noise
+
+We often assume so-called _Gaussian white noise_, whereby
+
+$$
+w_t \sim \text{N}(0,\sigma^2)
+$$
+
+
+## Gaussian white noise
+
+We often assume so-called _Gaussian white noise_, whereby
+
+$$
+w_t \sim \text{N}(0,\sigma^2)
+$$
+
+and the following apply as well
+
+&nbsp; &nbsp; autocovariance:&nbsp; $\gamma_k =
+    \begin{cases}
+      \sigma^2 & \text{if } k = 0 \\
+      0 & \text{if } k \geq 1
+    \end{cases}$
+
+&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k =
+    \begin{cases}
+      1 & \text{if } k = 0 \\
+      0 & \text{if } k \geq 1
+    \end{cases}$
+
+
+## Gaussian white noise
+
+```{r ex_gaussian_wn, fig.cap="$w_t \\sim \\text{N}(0,1)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+tt <- rnorm(100)
+plot.ts(tt, ylab = expression(italic(w[t])))
+acf(tt)
+```
+
+
+## Random walk (RW)
+
+A time series $\{x_t\}$ is a random walk if
+
+1. $x_t = x_{t-1} + w_t$  
+
+2. $w_t$ is white noise
+
+
+## Random walk (RW)
+
+The following apply to random walks
+
+&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
+
+&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
+
+&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
+
+
+## Random walk (RW)
+
+The following apply to random walks
+
+&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
+
+&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
+
+&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
+
+_Note_: Random walks are not stationary
+
+
+## Random walk (RW)
+
+```{r ex_rw, fig.cap="$x_t = x_{t-1} + w_t; w_t \\sim \\text{N}(0,1)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+tt <- cumsum(rnorm(100))
+plot.ts(tt, ylab = expression(italic(x[t])))
+acf(tt)
+```
+
+
+## Biased random walk
+
+A _biased random walk_ (or _random walk with drift_) is written as
+
+1. $x_t = x_{t-1} + u + w_t$  
+
+2. $u$ is the bias (drift) per time step
+
+3. $w_t$ is white noise
+
+
+## Biased random walk
+
+```{r ex_biased_rw, fig.cap="$x_t = x_{t-1} + 0.1 + w_t; w_t \\sim \\text{N}(0,1)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+xx <- ww <- rnorm(100)
+uu <- 0.1
+for(t in 2:100) {
+  xx[t] <- xx[t-1] + uu + ww[t]
+}
+plot.ts(xx, ylab = expression(italic(x[t])))
+acf(tt)
+```
+
+
+## {.flexbox .vcenter}
+
+<font size="10">LINEAR STATIONARY MODELS</font>
+
+
+## Topics for today
+
+Review
+* White noise  
+* Random walks  
+
+Autoregressive (AR) models
+
+Moving average (MA) models
+
+Autoregressive moving average (ARMA) models
+
+Using ACF & PACF for model ID
