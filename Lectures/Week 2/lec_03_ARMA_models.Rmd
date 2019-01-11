@@ -192,10 +192,43 @@ acf(tt)
 ```
 
 
-
 ## {.flexbox .vcenter}
 
 <font size="10">LINEAR STATIONARY MODELS</font>
+
+
+## Linear stationary models
+
+We saw last week that linear filters are a useful way of modeling time series
+
+Here we extend those ideas to a general class of models call _autoregressive moving average_ (ARMA) models
+
+
+## Autoregressive (AR) models
+
+An _autoregressive_ model of order _p_, or AR(_p_), is defined as
+
+$$
+x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + w_t
+$$
+
+where we assume
+
+1. $w_t$ is white noise
+
+2. $\phi_p \neq 0$ for an order-_p_ process
+
+
+## Examples of AR(_p_) models
+
+AR(1)
+
+$x_t = 0.5 x_{t-1} + w_t$
+
+<br>
+Random walk ($\phi = 1$)
+
+$x_t = x_{t-1} + w_t$
 
 
 ## Topics for today
