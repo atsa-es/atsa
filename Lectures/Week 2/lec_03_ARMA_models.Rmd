@@ -231,6 +231,64 @@ Random walk ($\phi = 1$)
 $x_t = x_{t-1} + w_t$
 
 
+## Stationary AR(_p_) models
+
+Recall that _stationary_ processes have the following properties
+
+1. no systematic change in the mean or variance  
+2. no systematic trend  
+3. no periodic variations or seasonality
+
+We seek a means for identifying whether our models are also stationary
+
+
+## Stationary AR(_p_) models
+
+We can write out an AR(_p_) model using the backshift operator ($\mathbf{B}$), such that
+
+
+$$
+  x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + w_t \\
+  \Downarrow \\
+\begin{align}
+  x_t - \phi_1 x_{t-1} - \phi_2 x_{t-2} - \dots - \phi_p x_{t-p} &= w_t \\
+  (1 - \phi_1 \mathbf{B} - \phi_2 \mathbf{B}^2 - \dots - \phi_p \mathbf{B}^p) x_t &= w_t \\
+  \phi_p (\mathbf{B}) x_t &= w_t \\
+\end{align}
+$$
+
+## Stationary AR(_p_) models
+
+If we treat $\mathbf{B}$ as a number, we can out write the _characteristic equation_ as
+
+$$
+\phi_p (\mathbf{B}) x_t = w_t \\
+\Downarrow \\
+\phi_p (\mathbf{B}) = 0
+$$
+
+In order to be stationary, _all roots of the characteristic equation must exceed 1 in absolute value_
+
+
+## Stationary AR(_p_) models
+
+For example, consider the AR(1) model from earlier
+
+$$
+\begin{align}
+  x_t &= 0.5 x_{t-1} + w_t \\
+  x_t - 0.5 x_{t-1} &= + w_t \\
+  (1 - 0.5 \mathbf{B})x_t &= + w_t \\
+  \Downarrow \\
+  1 - 0.5 \mathbf{B} &= 0 \\
+  -0.5 \mathbf{B} &= -1 \\
+  \mathbf{B} &= 2 > 1\\
+\end{align}
+$$
+
+This model is indeed stationary because $\mathbf{B} > 1$
+
+
 ## Topics for today
 
 Review
