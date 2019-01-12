@@ -624,6 +624,55 @@ Each of the $x_t$ is a sum of the most recent error terms
 Thus, _all_ MA processes are stationary because they are finite sums of stationary WN processes
 
 
+## Examples of MA(_q_) models
+
+```{r}
+## the 4 MA coefficients
+MAq <- c(0.7, 0.2, -0.1, -0.3)
+## empty list for storing models
+MA_mods <- vector("list", 4L)
+## loop over orders of q
+for(q in 1:4) {
+  ## assume SD=1, so not specified
+  MA_mods[[q]] <- arima.sim(n=500, list(ma=MAq[1:q]))
+}
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(q in 1:4) {
+  ## assume SD=1, so not specified
+  plot.ts(MA_mods[[q]][1:50], las = 1,
+          ylab = expression(italic(x[t])))
+  mtext(side = 3, paste0("MA(",q,")"),
+        line = 0.5, adj = 0)
+}
+
+```
+
+
+## Examples of MA(_q_) models
+
+```{r}
+## compare MA(1) & MA(2) with similar structure
+MA1 <- arima.sim(n=50, list(ma=c(0.7)))
+MA2 <- arima.sim(n=50, list(ma=c(-1, 0.7)))
+
+par(mfrow = c(1,2), mai = c(1,1,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+plot.ts(MA1, las = 1,
+        ylab = expression(italic(x[t])))
+mtext(side = 3,
+      expression(MA(1):~italic(x[t])==~italic(w[t])+0.7~italic(w[t-1])),
+      line = 0.5, adj = 0)
+plot.ts(MA2, las = 1,
+        ylab = expression(italic(x[t])))
+mtext(side = 3,
+      expression(MA(2):~italic(x[t])==~italic(w[t])-~italic(w[t-1])+0.7~italic(w[t-2])),
+      line = 0.5, adj = 0)
+
+```
+
+
 
 ## Topics for today
 
