@@ -68,15 +68,6 @@ $$
 w_t \sim \text{N}(0,\sigma^2)
 $$
 
-
-## Gaussian white noise
-
-We often assume so-called _Gaussian white noise_, whereby
-
-$$
-w_t \sim \text{N}(0,\sigma^2)
-$$
-
 and the following apply as well
 
 &nbsp; &nbsp; autocovariance:&nbsp; $\gamma_k =
@@ -120,19 +111,6 @@ The following apply to random walks
 &nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
 
 &nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
-
-
-## Random walk (RW)
-
-The following apply to random walks
-
-&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
-
-&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
-
-&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
-
-_Note_: Random walks are not stationary
 
 
 ## Random walk (RW)
@@ -397,6 +375,9 @@ Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
 
 We can define a space over which all AR(1) model are stationary
 
+
+## Stationary AR(1) models
+
 For $x_t = \phi x_{t-1} + w_t$, we have
 
 $$
@@ -410,7 +391,17 @@ $$
 
 ## Stationary AR(1) models
 
-And for $x_t = -\phi x_{t-1} + w_t$, we have
+For $x_t = \phi x_{t-1} + w_t$, we have
+
+$$
+\begin{align}
+  1 - \phi \mathbf{B} &= 0 \\
+  -\phi \mathbf{B} &= -1 \\
+  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
+\end{align}
+$$
+
+For $x_t = -\phi x_{t-1} + w_t$, we have
 
 $$
 \begin{align}
@@ -419,8 +410,11 @@ $$
   \mathbf{B} &= \frac{-1}{\phi} > 1 \Rightarrow -1 < \phi < 0\\
 \end{align}
 $$
-<br>
-Thus, AR(1) models are stationary only if $\lvert \phi \rvert  < 1$  
+
+
+## Stationary AR(1) models
+
+Thus, AR(1) models are stationary if and only if $\lvert \phi \rvert < 1$  
 
 
 ## Coefficients of AR(1) models
@@ -597,7 +591,7 @@ Do you see the link between the order _p_ and lag _k_?
 
 ## Using ACF & PACF for model ID
 
-|         | ACF               | PACF                    |
+| Model   | ACF               | PACF                    |
 |:-------:|:-----------------:|:-----------------------:|
 | AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
 
