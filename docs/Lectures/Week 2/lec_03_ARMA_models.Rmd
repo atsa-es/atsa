@@ -16,7 +16,9 @@ set.seed(123)
 ## Topics for today
 
 Review
+
 * White noise  
+
 * Random walks  
 
 Autoregressive (AR) models
@@ -147,23 +149,45 @@ acf(tt)
 
 A _biased random walk_ (or _random walk with drift_) is written as
 
-1. $x_t = x_{t-1} + u + w_t$  
+$$
+x_t = x_{t-1} + u + w_t
+$$  
 
-2. $u$ is the bias (drift) per time step
-
-3. $w_t$ is white noise
+where $u$ is the bias (drift) per time step and $w_t$ is white noise
 
 
 ## Biased random walk
 
-```{r ex_biased_rw, fig.cap="$x_t = x_{t-1} + 0.1 + w_t; w_t \\sim \\text{N}(0,1)$"}
+```{r ex_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
 xx <- ww <- rnorm(100)
-uu <- 0.1
+uu <- 1
 for(t in 2:100) {
   xx[t] <- xx[t-1] + uu + ww[t]
 }
 plot.ts(xx, ylab = expression(italic(x[t])))
+acf(tt)
+```
+
+
+## Differencing a biased random walk
+
+First-differencing a biased random walk yields white noise with a non-zero mean $u$
+
+$$
+\begin{align}
+  \nabla x_t &= x_{t-1} + u + w_t \\
+  x_t - x_{t-1} &= x_{t-1} + u + w_t - x_{t-1} \\
+  x_t - x_{t-1} &= u + w_t
+\end{align}
+$$
+
+
+## Differencing a biased random walk
+
+```{r ex_diff_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
+par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(diff(xx), ylab = expression(nabla~italic(x[t])))
 acf(tt)
 ```
 
@@ -173,10 +197,446 @@ acf(tt)
 <font size="10">LINEAR STATIONARY MODELS</font>
 
 
+## Linear stationary models
+
+We saw last week that linear filters are a useful way of modeling time series
+
+Here we extend those ideas to a general class of models call _autoregressive moving average_ (ARMA) models
+
+
+## Autoregressive (AR) models
+
+An _autoregressive_ model of order _p_, or AR(_p_), is defined as
+
+$$
+x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + w_t
+$$
+
+where we assume
+
+1. $w_t$ is white noise
+
+2. $\phi_p \neq 0$ for an order-_p_ process
+
+
+## Examples of AR(_p_) models
+
+AR(1)
+
+$x_t = 0.5 x_{t-1} + w_t$
+
+<br>
+AR(1) with $\phi_1 = 1$ (random walk)
+
+$x_t = x_{t-1} + w_t$
+
+<br>
+AR(2)
+
+$x_t = -0.2 x_{t-1} + 0.4 x_{t-2} + w_t$
+
+
+## Examples of AR(_p_) models
+
+```{r}
+set.seed(123)
+## the 4 AR coefficients
+ARp <- c(0.7, 0.2, -0.1, -0.3)
+## empty list for storing models
+AR_mods <- vector("list", 4L)
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(p in 1:4) {
+  ## assume SD=1, so not specified
+  AR_mods[[p]] <- arima.sim(n=50, list(ar=ARp[1:p]))
+  plot.ts(AR_mods[[p]], las = 1,
+          ylab = expression(italic(x[t])))
+  mtext(side = 3, paste0("AR(",p,")"),
+        line = 0.5, adj = 0)
+}
+```
+
+
+## Stationary AR(_p_) models
+
+Recall that _stationary_ processes have the following properties
+
+1. no systematic change in the mean or variance  
+2. no systematic trend  
+3. no periodic variations or seasonality
+
+We seek a means for identifying whether our AR(_p_) models are also stationary
+
+
+## Stationary AR(_p_) models
+
+We can write out an AR(_p_) model using the backshift operator $(\mathbf{B})$, such that
+
+
+$$
+  x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + w_t \\
+  \Downarrow \\
+\begin{align}
+  x_t - \phi_1 x_{t-1} - \phi_2 x_{t-2} - \dots - \phi_p x_{t-p} &= w_t \\
+  (1 - \phi_1 \mathbf{B} - \phi_2 \mathbf{B}^2 - \dots - \phi_p \mathbf{B}^p) x_t &= w_t \\
+  \phi_p (\mathbf{B}) x_t &= w_t \\
+\end{align}
+$$
+
+## Stationary AR(_p_) models
+
+If we treat $\mathbf{B}$ as a number (or numbers), we can out write the _characteristic equation_ as
+
+$$
+\phi_p (\mathbf{B}) x_t = w_t \\
+\Downarrow \\
+\phi_p (\mathbf{B}) = 0
+$$
+
+To be stationary, __all roots__ of the characteristic equation __must exceed 1 in absolute value__
+
+
+## Stationary AR(_p_) models
+
+For example, consider this AR(1) model from earlier
+
+$$
+\begin{align}
+  x_t &= 0.5 x_{t-1} + w_t \\
+  x_t - 0.5 x_{t-1} &= w_t \\
+  (1 - 0.5 \mathbf{B})x_t &= w_t \\
+\end{align}
+$$
+
+
+## Stationary AR(_p_) models
+
+For example, consider this AR(1) model from earlier
+
+$$
+\begin{align}
+  x_t &= 0.5 x_{t-1} + w_t \\
+  x_t - 0.5 x_{t-1} &= w_t \\
+  (1 - 0.5 \mathbf{B})x_t &= w_t \\
+  \Downarrow \\
+  1 - 0.5 \mathbf{B} &= 0 \\
+  -0.5 \mathbf{B} &= -1 \\
+  \mathbf{B} &= 2 \\
+\end{align}
+$$
+
+This model is indeed stationary because $\mathbf{B} > 1$
+
+
+## Stationary AR(_p_) models
+
+What about this AR(2) model from earlier?
+
+$$
+\begin{align}
+  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+  x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
+  (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
+\end{align}
+$$
+
+
+## Stationary AR(_p_) models
+
+What about this AR(2) model from earlier?
+
+$$
+\begin{align}
+  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+  x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
+  (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
+  \Downarrow \\
+  1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2 &= 0 \\
+  \Downarrow \\
+  \mathbf{B} \approx -1.35 ~ \text{and}& ~ \mathbf{B} \approx 1.85
+\end{align}
+$$
+
+This model is _not_ stationary because only one $\mathbf{B} > 1$
+
+
+## What about random walks?
+
+Consider our random walk model
+
+$$
+\begin{align}
+  x_t &= x_{t-1} + w_t \\
+  x_t - x_{t-1} &= w_t \\
+  (1 - 1 \mathbf{B})x_t &= w_t \\
+\end{align}
+$$
+
+
+## What about random walks?
+
+Consider our random walk model
+
+$$
+\begin{align}
+  x_t &= x_{t-1} + w_t \\
+  x_t - x_{t-1} &= w_t \\
+  (1 - 1 \mathbf{B})x_t &= w_t \\
+  \Downarrow \\
+  1 - 1 \mathbf{B} &= 0 \\
+  -1 \mathbf{B} &= -1 \\
+  \mathbf{B} &= 1 \\
+\end{align}
+$$
+
+Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
+
+
+## Stationary AR(1) models
+
+We can define a space over which all AR(1) model are stationary
+
+For $x_t = \phi x_{t-1} + w_t$, we have
+
+$$
+\begin{align}
+  1 - \phi \mathbf{B} &= 0 \\
+  -\phi \mathbf{B} &= -1 \\
+  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
+\end{align}
+$$
+
+
+## Stationary AR(1) models
+
+And for $x_t = -\phi x_{t-1} + w_t$, we have
+
+$$
+\begin{align}
+  1 + \phi \mathbf{B} &= 0 \\
+  \phi \mathbf{B} &= -1 \\
+  \mathbf{B} &= \frac{-1}{\phi} > 1 \Rightarrow -1 < \phi < 0\\
+\end{align}
+$$
+<br>
+Thus, AR(1) models are stationary only if $\lvert \phi \rvert  < 1$  
+
+
+## Coefficients of AR(1) models
+
+```{r ar_comp_pos_neg, fig.height=4}
+set.seed(123)
+## list description for AR(1) model with small coef
+AR_pos <- list(order=c(1,0,0), ar=0.7, sd=0.1)
+## list description for AR(1) model with large coef
+AR_neg <- list(order=c(1,0,0), ar=-0.7, sd=0.1)
+## simulate AR(1)
+AR1_pos <- arima.sim(n=500, model=AR_pos)
+AR1_neg <- arima.sim(n=500, model=AR_neg)
+
+## get y-limits for common plots
+ylm1 <- c(min(AR1_pos[1:50],AR1_neg[1:50]), max(AR1_pos[1:50],AR1_neg[1:50]))
+
+## set the margins & text size
+par(mfrow=c(1,2), mai=c(0.8,0.8,0.3,0.2), oma=c(0,0,0,0))
+## plot the ts
+plot.ts(AR1_pos[1:50], ylim=ylm1, las = 1,
+        ylab=expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.7")),
+      line = 0.4, adj = 0)
+plot.ts(AR1_neg[1:50], ylim=ylm1, las = 1,
+        ylab=expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = -0.7")),
+      line = 0.4, adj = 0)
+```
+
+Same value, but different sign
+
+
+## Coefficients of AR(1) models
+
+```{r ar_comp_sm_big, fig.height=4}
+set.seed(123)
+## list description for AR(1) model with small coef
+AR_bg <- list(order=c(1,0,0), ar=0.9, sd=0.1)
+## list description for AR(1) model with large coef
+AR_sm <- list(order=c(1,0,0), ar=0.1, sd=0.1)
+## simulate AR(1)
+AR1_bg <- arima.sim(n=500, model=AR_bg)
+AR1_sm <- arima.sim(n=500, model=AR_sm)
+
+## get y-limits for common plots
+ylm2 <- c(min(AR1_bg[1:50],AR1_sm[1:50]), max(AR1_bg[1:50],AR1_sm[1:50]))
+
+## set the margins & text size
+par(mfrow = c(1,2), mai = c(0.8,0.8,0.3,0.2), oma = c(0,0,0,0))
+## plot the ts
+plot.ts(AR1_bg[1:50], ylim = ylm2, las = 1,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.9")),
+      line = 0.4, adj = 0)
+plot.ts(AR1_sm[1:50], ylim = ylm2, las = 1,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.1")),
+      line = 0.4, adj = 0)
+```
+
+Both positive, but different magnitude
+
+
+## Autocorrelation function (ACF)
+
+Recall that the _autocorrelation function_ ($\rho_k$) measures the correlation between $\{x_t\}$ and a shifted version of itself $\{x_{t+k}\}$ 
+
+
+## ACF for AR(1) models
+
+```{r}
+## set the margins & text size
+par(mfrow=c(2,2), mai=c(0.8,0.8,0.3,0.2), oma=c(0,0,0,0))
+## plot the ts
+plot.ts(AR1_pos[1:50], ylim=ylm1, las = 1,
+        ylab=expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.7")),
+      line = 0.4, adj = 0)
+acf(AR1_pos, lag.max = 20, las = 1)
+plot.ts(AR1_neg[1:50], ylim=ylm1, las = 1,
+        ylab=expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = -0.7")),
+      line = 0.4, adj = 0)
+acf(AR1_neg, lag.max = 20, las = 1)
+```
+
+ACF oscillates for model with $-\phi$
+
+## ACF for AR(1) models
+
+```{r}
+## set the margins & text size
+par(mfrow = c(2,2), mai = c(0.8,0.8,0.3,0.2), oma = c(0,0,0,0))
+## plot the ts
+plot.ts(AR1_bg[1:50], ylim = ylm2, las = 1,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.9")),
+      line = 0.4, adj = 0)
+acf(AR1_bg, lag.max = 20, las = 1)
+plot.ts(AR1_sm[1:50], ylim = ylm2, las = 1,
+        ylab = expression(italic(x)[italic(t)]),
+        main = "")
+mtext(side = 3, expression(paste(phi[1]," = 0.1")),
+      line = 0.4, adj = 0)
+acf(AR1_sm, lag.max = 20, las = 1)
+```
+
+For model with large $\phi$, ACF has longer tail
+
+## Partial autocorrelation funcion (PACF)
+
+Recall that the _partial autocorrelation function_ ($\phi_k$) measures the correlation between $\{x_t\}$ and a shifted version of itself $\{x_{t+k}\}$, with the linear dependence of $\{x_{t-1},x_{t-2},\dots,x_{t-k-1}\}$ removed
+
+
+## ACF & PACF for AR(_p_) models
+
+```{r}
+## set 3 AR coefficients
+ARp3 <- list(c(0.7, 0.2, -0.1), c(-0.7, 0.2, 0.1))
+
+expr <- list(expression(paste("AR(3) with ", phi[1], " = 0.7, ",
+                              phi[2], " = 0.2, ", phi[3], " = -0.1")),
+             expression(paste("AR(3) with ", phi[1], " = -0.7, ",
+                              phi[2], " = 0.2, ", phi[3], " = 0.1")))
+
+## empty list for storing models
+AR3_mods <- vector("list", 2L)
+
+par(mfrow = c(2,3), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(p in 1:2) {
+  ## assume SD=1, so not specified
+  AR3_mods[[p]] <- arima.sim(n=5000, list(ar=ARp3[[p]]))
+  plot.ts(AR3_mods[[p]][1:50], las = 1,
+          ylab = expression(italic(x[t])))
+  acf(AR3_mods[[p]], lag.max = 20,
+      las = 1, main = "")
+  mtext(side = 3, expr[[p]],
+        line = 0.5, adj = 0.5)
+  pacf(AR3_mods[[p]], lag.max = 20,
+       las = 1, main = "")
+}
+```
+
+
+## PACF for AR(_p_) models
+
+```{r}
+## empty list for storing models
+pacf_mods <- vector("list", 4L)
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(p in 1:4) {
+  pacf_mods[[p]] <- arima.sim(n=5000, list(ar=ARp[1:p]))
+  pacf(pacf_mods[[p]], lag.max = 15,
+       las = 1, main = "")
+  mtext(side = 3, paste0("AR(",p,")"),
+        line = 0.5, adj = 0)
+}
+
+```
+
+Do you see the link between the order _p_ and lag _k_?
+
+
+## Using ACF & PACF for model ID
+
+|         | ACF               | PACF                    |
+|:-------:|:-----------------:|:-----------------------:|
+| AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
+
+
+## Moving average (MA) models
+
+A moving average model of order _q_, or MA(_q_), is defined as
+
+$$
+x_t = w_t + \theta_1 w_{t-1} + \theta_2 w_{t-2} + \dots + \theta_q w_{t-q}
+$$
+
+where $w_t$ is white noise
+
+Each of the $x_t$ is a sum of the most recent error terms
+
+
+## Moving average (MA) models
+
+A moving average model of order _q_, or MA(_q_), is defined as
+
+$$
+x_t = w_t + \theta_1 w_{t-1} + \theta_2 w_{t-2} + \dots + \theta_q w_{t-q}
+$$
+
+where $w_t$ is white noise
+
+Each of the $x_t$ is a sum of the most recent error terms
+
+Thus, _all_ MA processes are stationary because they are finite sums of stationary WN processes
+
+
+
 ## Topics for today
 
 Review
+
 * White noise  
+
 * Random walks  
 
 Autoregressive (AR) models
