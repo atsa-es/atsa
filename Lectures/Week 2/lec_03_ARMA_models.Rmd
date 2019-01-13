@@ -673,6 +673,53 @@ mtext(side = 3,
 ```
 
 
+## AR(_p_) model as an MA($\infty$) model
+
+It is possible to write an AR(_p_) model as an MA($\infty$) model
+
+
+## AR(1) model as an MA($\infty$) model
+
+For example, consider an AR(1) model
+
+$$
+\begin{align}
+x_t &= \phi x_{t-1} + w_t \\
+x_t &= \phi (\phi x_{t-2} + w_{t-1}) + w_t \\
+x_t &= \phi^2 x_{t-2} + \phi w_{t-1} + w_t \\
+x_t &= \phi^3 x_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1}
+\end{align}
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+If our AR(1) model is stationary, then
+
+$$
+\lvert \phi \rvert < 1 ~ \Rightarrow ~ \lim_{k \to \infty} \phi^{k+1} = 0
+$$
+
+so
+
+$$
+\begin{align}
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1} \\
+  & \Downarrow \\
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k}
+\end{align}
+$$
+$$
+$$
+
+
+
+## Invertible MA(_q_) models
+
+
+
 
 ## Topics for today
 
