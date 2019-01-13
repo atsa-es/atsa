@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. [Available here](https://link.springer.com/book/10.1007%2F978-0-387-88698-5).
 
-EWS14: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package, Version 3.9. [Available here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
+HWS14: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package. [Available here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
 
 HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook https://otexts.org/fpp2/
 
