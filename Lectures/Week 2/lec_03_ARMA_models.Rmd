@@ -38,16 +38,7 @@ A time series $\{w_t\}$ is discrete white noise if its values are
 
 2. identically distributed with a mean of zero
 
-
-## White noise (WN)
-
-A time series $\{w_t\}$ is discrete white noise if its values are
-
-1. independent  
-
-2. identically distributed with a mean of zero
-
-Note that distributional form for $\{w_t\}$ is flexible
+The distributional form for $\{w_t\}$ is flexible
 
 
 ## White noise (WN)
@@ -104,17 +95,6 @@ A time series $\{x_t\}$ is a random walk if
 
 ## Random walk (RW)
 
-The following apply to random walks
-
-&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
-
-&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
-
-&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
-
-
-## Random walk (RW)
-
 ```{r ex_rw, fig.cap="$x_t = x_{t-1} + w_t; w_t \\sim \\text{N}(0,1)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
 tt <- cumsum(rnorm(100))
@@ -150,7 +130,7 @@ acf(tt)
 
 ## Differencing a biased random walk
 
-First-differencing a biased random walk yields white noise with a non-zero mean $u$
+First-differencing a biased random walk yields a constant mean (level) $u$ plus white noise
 
 $$
 \begin{align}
@@ -718,6 +698,69 @@ $$
 
 ## Invertible MA(_q_) models
 
+An MA(_q_) process is invertible if it can be written as a _stationary autoregressive process of infinite order without an error term_
+
+
+## Invertible MA(1) model
+
+For example, consider an MA(1) model
+
+$$
+\begin{align}
+  x_t &= w_t + \theta w_{t-1} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta w_{t-1} \\
+  w_t &= x_t - \theta (x_{t-1} - \theta w_{t-2}) \\
+  w_t &= x_t - \theta x_{t-1} - \theta^2 w_{t-2} \\
+  & ~~\vdots \\
+  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
+\end{align}
+$$
+
+
+## Invertible MA(1) model
+
+If we constrain $\lvert \theta \rvert < 1$, then
+
+$$
+\lim_{k \to \infty} (-\theta)^{k+1} w_{t-k-1} = 0
+$$
+
+and
+
+$$
+\begin{align}
+  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k} \\
+  w_t &= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
+\end{align}
+$$
+
+
+## Invertible MA(1) model
+
+We can also show this by writing an MA(_q_) model with the backshift operator
+
+$$
+x_t = (1 + \theta_1 \mathbf{B} + \theta_2 \mathbf{B}^2 + \dots + \theta_q \mathbf{B}^q)w_t
+$$
+
+
+## Invertible MA(1) model
+
+For example, consider an MA(1) model
+
+$$
+\begin{align}
+  x_t &= (1 - \theta\mathbf{B}) w_t \\
+  & \Downarrow \\
+  w_t &= \frac{1}{1 - \theta\mathbf{B}} x_t \\[4pt]
+  & \Downarrow \text{via Taylor Series} \\[4pt]
+  w_t &= (1 + \theta\mathbf{B} + \theta^2 \mathbf{B}^2 + \dots + \theta^\infty\mathbf{B}^\infty) x_t \\
+  w_t &= x_t + \theta x_{t-1} + \theta^2 x_{t-2} + \dots + \theta^\infty x_{t - \infty}
+\end{align}
+$$
 
 
 
