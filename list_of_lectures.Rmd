@@ -47,11 +47,14 @@ ts_basics <- list(
 arma_basics <- list(
   title = "Intro to ARMA models",
   topics = c("Autoregressive (AR) models",
-             "Moving average (MA) models"),
-  pdf = "",
+             "Moving average (MA) models",
+             "stationarity",
+             "invertibility",
+             "Using ACF & PACF for model ID"),
+  pdf = "Lectures/Week 2/lec_03_ARMA_models.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 2/lec_03_ARMA_models.Rmd",
+  html = "Lectures/Week 2/lec_03_ARMA_models.html",
   video = "",
   reading = c("[CM09: Chap 6](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_6.pdf)","[CM09: Chap 7](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_7.pdf)","[HA18: Chap 8](https://otexts.org/fpp2/arima.html)"),
   instructor = "Mark"
