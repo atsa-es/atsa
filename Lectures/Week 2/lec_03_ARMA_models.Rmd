@@ -899,6 +899,34 @@ for(i in 1:4) {
 ```
 
 
+## ACF for ARMA(_p_,_q_) models
+
+```{r}
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(i in 1:4) {
+  acf(arma_mods[[i]][1:1000], las = 1,
+          main = "")
+  mtext(side = 3, titles[[i]],
+        line = 0.5, adj = 0, cex = 0.8)
+  
+}
+```
+
+
+## PACF for ARMA(_p_,_q_) models
+
+```{r}
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(i in 1:4) {
+  pacf(arma_mods[[i]][1:1000], las = 1,
+          main = "")
+  mtext(side = 3, titles[[i]],
+        line = 0.5, adj = 0, cex = 0.8)
+  
+}
+```
 
 ## Topics for today
 
