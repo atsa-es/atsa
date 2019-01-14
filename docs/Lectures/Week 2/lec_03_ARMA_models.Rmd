@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
 set.seed(123)
 ```
 
@@ -38,16 +39,7 @@ A time series $\{w_t\}$ is discrete white noise if its values are
 
 2. identically distributed with a mean of zero
 
-
-## White noise (WN)
-
-A time series $\{w_t\}$ is discrete white noise if its values are
-
-1. independent  
-
-2. identically distributed with a mean of zero
-
-Note that distributional form for $\{w_t\}$ is flexible
+The distributional form for $\{w_t\}$ is flexible
 
 
 ## White noise (WN)
@@ -58,15 +50,6 @@ tt <- rbinom(100, 1, 0.5) * 2 - 1
 plot.ts(tt, ylab = expression(italic(w[t])))
 acf(tt)
 ```
-
-
-## Gaussian white noise
-
-We often assume so-called _Gaussian white noise_, whereby
-
-$$
-w_t \sim \text{N}(0,\sigma^2)
-$$
 
 
 ## Gaussian white noise
@@ -113,30 +96,6 @@ A time series $\{x_t\}$ is a random walk if
 
 ## Random walk (RW)
 
-The following apply to random walks
-
-&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
-
-&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
-
-&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
-
-
-## Random walk (RW)
-
-The following apply to random walks
-
-&nbsp; &nbsp; mean: &nbsp; $\mu_x = 0$
-
-&nbsp; &nbsp; autocovariance: &nbsp; $\gamma_k(t) = t \sigma^2$
-
-&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k(t) = \frac{t \sigma^2}{\sqrt{t \sigma^2(t + k) \sigma^2}}$
-
-_Note_: Random walks are not stationary
-
-
-## Random walk (RW)
-
 ```{r ex_rw, fig.cap="$x_t = x_{t-1} + w_t; w_t \\sim \\text{N}(0,1)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
 tt <- cumsum(rnorm(100))
@@ -172,7 +131,7 @@ acf(tt)
 
 ## Differencing a biased random walk
 
-First-differencing a biased random walk yields white noise with a non-zero mean $u$
+First-differencing a biased random walk yields a constant mean (level) $u$ plus white noise
 
 $$
 \begin{align}
@@ -271,8 +230,7 @@ We seek a means for identifying whether our AR(_p_) models are also stationary
 
 ## Stationary AR(_p_) models
 
-We can write out an AR(_p_) model using the backshift operator $(\mathbf{B})$, such that
-
+We can write out an AR(_p_) model using the backshift operator
 
 $$
   x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + w_t \\
@@ -395,7 +353,10 @@ Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
 
 ## Stationary AR(1) models
 
-We can define a space over which all AR(1) model are stationary
+We can define a space over which all AR(1) models are stationary
+
+
+## Stationary AR(1) models
 
 For $x_t = \phi x_{t-1} + w_t$, we have
 
@@ -410,7 +371,17 @@ $$
 
 ## Stationary AR(1) models
 
-And for $x_t = -\phi x_{t-1} + w_t$, we have
+For $x_t = \phi x_{t-1} + w_t$, we have
+
+$$
+\begin{align}
+  1 - \phi \mathbf{B} &= 0 \\
+  -\phi \mathbf{B} &= -1 \\
+  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
+\end{align}
+$$
+
+For $x_t = -\phi x_{t-1} + w_t$, we have
 
 $$
 \begin{align}
@@ -419,8 +390,11 @@ $$
   \mathbf{B} &= \frac{-1}{\phi} > 1 \Rightarrow -1 < \phi < 0\\
 \end{align}
 $$
-<br>
-Thus, AR(1) models are stationary only if $\lvert \phi \rvert  < 1$  
+
+
+## Stationary AR(1) models
+
+Thus, AR(1) models are stationary if and only if $\lvert \phi \rvert < 1$  
 
 
 ## Coefficients of AR(1) models
@@ -597,7 +571,7 @@ Do you see the link between the order _p_ and lag _k_?
 
 ## Using ACF & PACF for model ID
 
-|         | ACF               | PACF                    |
+| Model   | ACF               | PACF                    |
 |:-------:|:-----------------:|:-----------------------:|
 | AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
 
@@ -629,6 +603,402 @@ Each of the $x_t$ is a sum of the most recent error terms
 
 Thus, _all_ MA processes are stationary because they are finite sums of stationary WN processes
 
+
+## Examples of MA(_q_) models
+
+```{r}
+## the 4 MA coefficients
+MAq <- c(0.7, 0.2, -0.1, -0.3)
+## empty list for storing models
+MA_mods <- vector("list", 4L)
+## loop over orders of q
+for(q in 1:4) {
+  ## assume SD=1, so not specified
+  MA_mods[[q]] <- arima.sim(n=500, list(ma=MAq[1:q]))
+}
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(q in 1:4) {
+  ## assume SD=1, so not specified
+  plot.ts(MA_mods[[q]][1:50], las = 1,
+          ylab = expression(italic(x[t])))
+  mtext(side = 3, paste0("MA(",q,")"),
+        line = 0.5, adj = 0)
+}
+
+```
+
+
+## Examples of MA(_q_) models
+
+```{r}
+## compare MA(1) & MA(2) with similar structure
+MA1 <- arima.sim(n=50, list(ma=c(0.7)))
+MA2 <- arima.sim(n=50, list(ma=c(-1, 0.7)))
+
+par(mfrow = c(1,2), mai = c(1,1,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+plot.ts(MA1, las = 1,
+        ylab = expression(italic(x[t])))
+mtext(side = 3,
+      expression(MA(1):~italic(x[t])==~italic(w[t])+0.7~italic(w[t-1])),
+      line = 0.5, adj = 0)
+plot.ts(MA2, las = 1,
+        ylab = expression(italic(x[t])))
+mtext(side = 3,
+      expression(MA(2):~italic(x[t])==~italic(w[t])-~italic(w[t-1])+0.7~italic(w[t-2])),
+      line = 0.5, adj = 0)
+
+```
+
+
+## AR(_p_) model as an MA($\infty$) model
+
+It is possible to write an AR(_p_) model as an MA($\infty$) model
+
+
+## AR(1) model as an MA($\infty$) model
+
+For example, consider an AR(1) model
+
+$$
+\begin{align}
+x_t &= \phi x_{t-1} + w_t \\
+x_t &= \phi (\phi x_{t-2} + w_{t-1}) + w_t \\
+x_t &= \phi^2 x_{t-2} + \phi w_{t-1} + w_t \\
+x_t &= \phi^3 x_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1}
+\end{align}
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+If our AR(1) model is stationary, then
+
+$$
+\lvert \phi \rvert < 1 ~ \Rightarrow ~ \lim_{k \to \infty} \phi^{k+1} = 0
+$$
+
+so
+
+$$
+\begin{align}
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1} \\
+  & \Downarrow \\
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k}
+\end{align}
+$$
+$$
+$$
+
+
+
+## Invertible MA(_q_) models
+
+An MA(_q_) process is invertible if it can be written as a _stationary autoregressive process of infinite order without an error term_
+
+
+## Invertible MA(1) model
+
+For example, consider an MA(1) model
+
+$$
+\begin{align}
+  x_t &= w_t + \theta w_{t-1} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta w_{t-1} \\
+  w_t &= x_t - \theta (x_{t-1} - \theta w_{t-2}) \\
+  w_t &= x_t - \theta x_{t-1} - \theta^2 w_{t-2} \\
+  & ~~\vdots \\
+  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
+\end{align}
+$$
+
+
+## Invertible MA(1) model
+
+If we constrain $\lvert \theta \rvert < 1$, then
+
+$$
+\lim_{k \to \infty} (-\theta)^{k+1} w_{t-k-1} = 0
+$$
+
+and
+
+$$
+\begin{align}
+  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k} \\
+  w_t &= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
+\end{align}
+$$
+
+
+## Invertible MA(1) model
+
+We can also show this by writing an MA(_q_) model with the backshift operator
+
+$$
+x_t = (1 + \theta_1 \mathbf{B} + \theta_2 \mathbf{B}^2 + \dots + \theta_q \mathbf{B}^q)w_t
+$$
+
+
+## Invertible MA(1) model
+
+For example, consider an MA(1) model
+
+$$
+\begin{align}
+  x_t &= (1 - \theta\mathbf{B}) w_t \\
+  & \Downarrow \\
+  w_t &= \frac{1}{1 - \theta\mathbf{B}} x_t \\[4pt]
+  & \Downarrow \text{via Taylor Series} \\[4pt]
+  w_t &= (1 + \theta\mathbf{B} + \theta^2 \mathbf{B}^2 + \dots + \theta^\infty\mathbf{B}^\infty) x_t \\
+  w_t &= x_t + \theta x_{t-1} + \theta^2 x_{t-2} + \dots + \theta^\infty x_{t - \infty}
+\end{align}
+$$
+
+
+## Invertible MA(_q_) models
+
+Q: Why do we care if an MA(_q_) model is invertible?
+
+A: It helps us identify the model's parameters
+
+
+## Invertible MA(_q_) models
+
+For example, these MA(1) models are equivalent
+
+$$
+x_t = w_t + \frac{1}{5} w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,25)
+$$
+
+$$
+x_t = w_t + 5 w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,1)
+$$
+
+
+## ACF & PACF for MA(_q_) models
+
+```{r}
+## set 3 AR coefficients
+MAp3 <- list(c(0.7), c(-0.7, 0.2, 0.1))
+
+expr <- list(expression(paste("MA(1) with ", theta[1], " = 0.7, ")),
+             expression(paste("MA(3) with ", theta[1], " = -0.7, ",
+                              theta[2], " = 0.2, ", theta[3], " = 0.1")))
+
+## empty list for storing models
+MA3_mods <- vector("list", 2L)
+
+par(mfrow = c(2,3), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(p in 1:2) {
+  ## assume SD=1, so not specified
+  MA3_mods[[p]] <- arima.sim(n=50, list(ma=MAp3[[p]]))
+  plot.ts(MA3_mods[[p]][1:50], las = 1,
+          ylab = expression(italic(x[t])))
+  acf(MA3_mods[[p]], lag.max = 20,
+      las = 1, main = "")
+  mtext(side = 3, expr[[p]],
+        line = 0.5, adj = 0.5)
+  pacf(MA3_mods[[p]], lag.max = 20,
+       las = 1, main = "")
+}
+```
+
+
+## ACF for MA(_q_) models
+
+```{r}
+## the 4 MA coefficients
+MAq <- c(0.7, 0.2, -0.1, -0.3)
+
+## empty list for storing models
+acf_mods <- vector("list", 4L)
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(q in 1:4) {
+  acf_mods[[p]] <- arima.sim(n=5000, list(ma=MAq[1:q]))
+  acf(acf_mods[[p]], lag.max = 15,
+       las = 1, main = "")
+  mtext(side = 3, paste0("MA(",q,")"),
+        line = 0.5, adj = 0)
+}
+```
+
+Do you see the link between the order _q_ and lag _k_?
+
+
+## Using ACF & PACF for model ID
+
+| Model   | ACF               | PACF                    |
+|:-------:|:-----------------:|:-----------------------:|
+| AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
+| MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
+
+
+## Using ACF & PACF for model ID
+
+
+
+## Autoregressive moving average models
+
+An autoregressive moving average, or ARMA(_p_,_q_), model is written as
+
+$$
+x_t = \phi_1 x_{t-1} + \dots + \phi_p x_{t-p} + w_t + \theta_1 w_{t-1} + \dots + \theta_q w_{t-q} 
+$$
+
+
+## Autoregressive moving average models
+
+We can write an ARMA(_p_,_q_) model using the backshift operator
+
+$$
+\phi_p (\mathbf{B}) x_t=  \theta_q (\mathbf{B}) w_t 
+$$
+
+ARMA models are _stationary_ if all roots of $\phi_p (\mathbf{B}) > 1$
+
+ARMA models are _invertible_ if all roots of $\theta_q (\mathbf{B}) > 1$
+
+
+## Examples of ARMA(_p_,_q_) models
+
+```{r}
+arma_mods <- vector("list", 4L)
+
+## ARMA(3,1): phi[1] = 0.7, phi[2] = 0.2, phi[3] = -0.1, theta[1]= 0.5
+arma_mods[[1]] <- arima.sim(list(ar=c(0.7, 0.2, -0.1), ma=c(0.5)), n=5000)
+## ARMA(2,2): phi[1] = -0.7, phi[2] = 0.2, theta[1] = 0.7, theta[2]= 0.2
+arma_mods[[2]] <- arima.sim(list(ar=c(-0.7, 0.2), ma=c(0.7, 0.2)), n=5000)
+## ARMA(1,3): phi[1] = 0.7, theta[1] = 0.7, theta[2]= 0.2, theta[3] = 0.5
+arma_mods[[3]] <- arima.sim(list(ar=c(0.7), ma=c(0.7, 0.2, 0.5)), n=5000)
+## ARMA(2,2): phi[1] = 0.7, phi[2] = 0.2, theta[1] = 0.7, theta[2]= 0.2
+arma_mods[[4]] <- arima.sim(list(ar=c(0.7, 0.2), ma=c(0.7, 0.2)), n=5000)
+
+titles <- list(
+  expression("ARMA(3,1): "*phi[1]*" = 0.7, "*phi[2]*" = 0.2, "*phi[3]*" = -0.1, "*theta[1]*" = 0.5"),
+  expression("ARMA(2,2): "*phi[1]*" = -0.7, "*phi[2]*" = 0.2, "*theta[1]*" = 0.7, "*theta[2]*" = 0.2"),
+  expression("ARMA(1,3): "*phi[1]*" = 0.7, "*theta[1]*" = 0.7, "*theta[2]*" = 0.2, "*theta[3]*" = 0.5"),
+  expression("ARMA(2,2): "*phi[1]*" = 0.7, "*phi[2]*" = 0.2, "*theta[1]*" = 0.7, "*theta[2]*" = 0.2")
+)
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(i in 1:4) {
+  plot.ts(arma_mods[[i]][1:50], las = 1,
+          main = "", ylab = expression(italic(x[t])))
+  mtext(side = 3, titles[[i]],
+        line = 0.5, adj = 0, cex = 0.8)
+  
+}
+```
+
+
+## ACF for ARMA(_p_,_q_) models
+
+```{r}
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(i in 1:4) {
+  acf(arma_mods[[i]][1:1000], las = 1,
+          main = "")
+  mtext(side = 3, titles[[i]],
+        line = 0.5, adj = 0, cex = 0.8)
+  
+}
+```
+
+
+## PACF for ARMA(_p_,_q_) models
+
+```{r}
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(i in 1:4) {
+  pacf(arma_mods[[i]][1:1000], las = 1,
+          main = "")
+  mtext(side = 3, titles[[i]],
+        line = 0.5, adj = 0, cex = 0.8)
+  
+}
+```
+
+
+## Using ACF & PACF for model ID
+
+| Model   | ACF               | PACF                    |
+|:-------:|:-----------------:|:-----------------------:|
+| AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
+| MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
+| ARMA(_p_,_q_) | Tails off slowly  | Tails off slowly  |
+
+
+## {.flexbox .vcenter}
+
+<font size="10">NONSTATIONARY MODELS</font>
+
+
+## Autoregressive integrated moving average (ARIMA) models
+
+If the data do not appear stationary, differencing can help
+
+This leads to the class of _autoregressive integrated moving average_ (ARIMA) models
+
+ARIMA models are indexed with orders (_p_,_d_,_q_) where _d_ indicates the order of differencing
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+
+For example, if $\{x_t\}$ is an ARIMA(1,1,0) process then $\nabla \{x_t\}$ is an ARMA(1,0) = AR(1) process
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+```{r}
+xx <- arima.sim(model=list(ar=0.5, sd=0.1), n=100)
+
+yy <- cumsum(xx)
+
+par(mfrow=c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(yy, las = 1,
+        ylab=expression(italic(x[t])))
+mtext(side = 3, "ARIMA(1,1,0)", line = 0.5, adj = 0, cex = 0.8)
+acf(yy)
+```
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+```{r}
+par(mfrow=c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(yy, las = 1,
+        ylab=expression(italic(x[t])))
+mtext(side = 3, "ARIMA(1,1,0)", line = 0.5, adj = 0, cex = 0.8)
+acf(yy)
+
+plot.ts(diff(yy), las = 1,
+        ylab=expression(paste(symbol("\xd1"), italic(x[t]))))
+mtext(side = 3, "ARMA(1,0)", line = 0.5, adj = 0, cex = 0.8)
+acf(diff(yy))
+```
 
 
 ## Topics for today

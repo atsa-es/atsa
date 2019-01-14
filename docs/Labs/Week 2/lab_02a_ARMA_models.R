@@ -444,7 +444,7 @@ MA.mods <- list()
 ## loop over orders of q
 for(q in 1:4) {
   ## assume SD=1, so not specified
-  MA.mods[[q]] <- arima.sim(n=1000, list(ma=MAq[1:q]))
+  MA.mods[[q]] <- arima.sim(n=500, list(ma=MAq[1:q]))
 }
 
 ## ----ts-plotMApCompsEcho, eval=FALSE, echo=TRUE--------------------------
