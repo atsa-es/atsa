@@ -928,6 +928,16 @@ for(i in 1:4) {
 }
 ```
 
+
+## Using ACF & PACF for model ID
+
+| Model   | ACF               | PACF                    |
+|:-------:|:-----------------:|:-----------------------:|
+| AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
+| MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
+| ARMA(_p_,_q_) | Tails off slowly  | Tails off slowly  |
+
+
 ## Topics for today
 
 Review
