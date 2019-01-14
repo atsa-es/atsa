@@ -783,6 +783,60 @@ x_t = w_t + 5 w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,1)
 $$
 
 
+## ACF & PACF for MA(_q_) models
+
+```{r}
+## set 3 AR coefficients
+MAp3 <- list(c(0.7), c(-0.7, 0.2, 0.1))
+
+expr <- list(expression(paste("MA(1) with ", theta[1], " = 0.7, ")),
+             expression(paste("MA(3) with ", theta[1], " = -0.7, ",
+                              theta[2], " = 0.2, ", theta[3], " = 0.1")))
+
+## empty list for storing models
+MA3_mods <- vector("list", 2L)
+
+par(mfrow = c(2,3), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(p in 1:2) {
+  ## assume SD=1, so not specified
+  MA3_mods[[p]] <- arima.sim(n=50, list(ma=MAp3[[p]]))
+  plot.ts(MA3_mods[[p]][1:50], las = 1,
+          ylab = expression(italic(x[t])))
+  acf(MA3_mods[[p]], lag.max = 20,
+      las = 1, main = "")
+  mtext(side = 3, expr[[p]],
+        line = 0.5, adj = 0.5)
+  pacf(MA3_mods[[p]], lag.max = 20,
+       las = 1, main = "")
+}
+```
+
+
+## ACF for MA(_q_) models
+
+```{r}
+## the 4 MA coefficients
+MAq <- c(0.7, 0.2, -0.1, -0.3)
+
+## empty list for storing models
+acf_mods <- vector("list", 4L)
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(q in 1:4) {
+  acf_mods[[p]] <- arima.sim(n=5000, list(ma=MAq[1:q]))
+  acf(acf_mods[[p]], lag.max = 15,
+       las = 1, main = "")
+  mtext(side = 3, paste0("MA(",q,")"),
+        line = 0.5, adj = 0)
+}
+
+```
+
+Do you see the link between the order _q_ and lag _k_?
+
+
 ## Topics for today
 
 Review
