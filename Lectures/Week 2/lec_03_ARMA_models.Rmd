@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
 set.seed(123)
 ```
 
@@ -229,8 +230,7 @@ We seek a means for identifying whether our AR(_p_) models are also stationary
 
 ## Stationary AR(_p_) models
 
-We can write out an AR(_p_) model using the backshift operator $(\mathbf{B})$, such that
-
+We can write out an AR(_p_) model using the backshift operator
 
 $$
   x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + w_t \\
@@ -353,7 +353,7 @@ Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
 
 ## Stationary AR(1) models
 
-We can define a space over which all AR(1) model are stationary
+We can define a space over which all AR(1) models are stationary
 
 
 ## Stationary AR(1) models
@@ -844,6 +844,10 @@ Do you see the link between the order _q_ and lag _k_?
 | MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
 
 
+## Using ACF & PACF for model ID
+
+
+
 ## Autoregressive moving average models
 
 An autoregressive moving average, or ARMA(_p_,_q_), model is written as
@@ -940,7 +944,7 @@ for(i in 1:4) {
 
 ## {.flexbox .vcenter}
 
-<font size="10">NONSTATIONARY TIME SERIES MODELS</font>
+<font size="10">NONSTATIONARY MODELS</font>
 
 
 ## Autoregressive integrated moving average (ARIMA) models
@@ -973,7 +977,8 @@ yy <- cumsum(xx)
 
 par(mfrow=c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
 
-plot.ts(yy, ylab=expression(italic(x[t])))
+plot.ts(yy, las = 1,
+        ylab=expression(italic(x[t])))
 mtext(side = 3, "ARIMA(1,1,0)", line = 0.5, adj = 0, cex = 0.8)
 acf(yy)
 ```
@@ -984,11 +989,13 @@ acf(yy)
 ```{r}
 par(mfrow=c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
 
-plot.ts(yy, ylab=expression(italic(x[t])))
+plot.ts(yy, las = 1,
+        ylab=expression(italic(x[t])))
 mtext(side = 3, "ARIMA(1,1,0)", line = 0.5, adj = 0, cex = 0.8)
 acf(yy)
 
-plot.ts(diff(yy), ylab=expression(paste(symbol("\xd1"), italic(x[t]))))
+plot.ts(diff(yy), las = 1,
+        ylab=expression(paste(symbol("\xd1"), italic(x[t]))))
 mtext(side = 3, "ARMA(1,0)", line = 0.5, adj = 0, cex = 0.8)
 acf(diff(yy))
 ```
