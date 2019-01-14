@@ -763,6 +763,25 @@ $$
 $$
 
 
+## Invertible MA(_q_) models
+
+Q: Why do we care if an MA(_q_) model is invertible?
+
+A: It helps us identify the model's parameters
+
+
+## Invertible MA(_q_) models
+
+For example, these MA(1) models are equivalent
+
+$$
+x_t = w_t + \frac{1}{5} w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,25)
+$$
+
+$$
+x_t = w_t + 5 w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,1)
+$$
+
 
 ## Topics for today
 
