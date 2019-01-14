@@ -831,10 +831,17 @@ for(q in 1:4) {
   mtext(side = 3, paste0("MA(",q,")"),
         line = 0.5, adj = 0)
 }
-
 ```
 
 Do you see the link between the order _q_ and lag _k_?
+
+
+## Using ACF & PACF for model ID
+
+| Model   | ACF               | PACF                    |
+|:-------:|:-----------------:|:-----------------------:|
+| AR(_p_) | Tails off slowly  | Cuts off after lag _p_  |
+| MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
 
 
 ## Topics for today
