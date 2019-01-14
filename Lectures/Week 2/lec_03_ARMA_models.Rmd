@@ -844,6 +844,62 @@ Do you see the link between the order _q_ and lag _k_?
 | MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
 
 
+## Autoregressive moving average models
+
+An autoregressive moving average, or ARMA(_p_,_q_), model is written as
+
+$$
+x_t = \phi_1 x_{t-1} + \dots + \phi_p x_{t-p} + w_t + \theta_1 w_{t-1} + \dots + \theta_q w_{t-q} 
+$$
+
+
+## Autoregressive moving average models
+
+We can write an ARMA(_p_,_q_) model using the backshift operator
+
+$$
+\phi_p (\mathbf{B}) x_t=  \theta_q (\mathbf{B}) w_t 
+$$
+
+ARMA models are _stationary_ if all roots of $\phi_p (\mathbf{B}) > 1$
+
+ARMA models are _invertible_ if all roots of $\theta_q (\mathbf{B}) > 1$
+
+
+## Examples of ARMA(_p_,_q_) models
+
+```{r}
+arma_mods <- vector("list", 4L)
+
+## ARMA(3,1): phi[1] = 0.7, phi[2] = 0.2, phi[3] = -0.1, theta[1]= 0.5
+arma_mods[[1]] <- arima.sim(list(ar=c(0.7, 0.2, -0.1), ma=c(0.5)), n=5000)
+## ARMA(2,2): phi[1] = -0.7, phi[2] = 0.2, theta[1] = 0.7, theta[2]= 0.2
+arma_mods[[2]] <- arima.sim(list(ar=c(-0.7, 0.2), ma=c(0.7, 0.2)), n=5000)
+## ARMA(1,3): phi[1] = 0.7, theta[1] = 0.7, theta[2]= 0.2, theta[3] = 0.5
+arma_mods[[3]] <- arima.sim(list(ar=c(0.7), ma=c(0.7, 0.2, 0.5)), n=5000)
+## ARMA(2,2): phi[1] = 0.7, phi[2] = 0.2, theta[1] = 0.7, theta[2]= 0.2
+arma_mods[[4]] <- arima.sim(list(ar=c(0.7, 0.2), ma=c(0.7, 0.2)), n=5000)
+
+titles <- list(
+  expression("ARMA(3,1): "*phi[1]*" = 0.7, "*phi[2]*" = 0.2, "*phi[3]*" = -0.1, "*theta[1]*" = 0.5"),
+  expression("ARMA(2,2): "*phi[1]*" = -0.7, "*phi[2]*" = 0.2, "*theta[1]*" = 0.7, "*theta[2]*" = 0.2"),
+  expression("ARMA(1,3): "*phi[1]*" = 0.7, "*theta[1]*" = 0.7, "*theta[2]*" = 0.2, "*theta[3]*" = 0.5"),
+  expression("ARMA(2,2): "*phi[1]*" = 0.7, "*phi[2]*" = 0.2, "*theta[1]*" = 0.7, "*theta[2]*" = 0.2")
+)
+
+par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+## loop over orders of p
+for(i in 1:4) {
+  plot.ts(arma_mods[[i]][1:50], las = 1,
+          main = "", ylab = expression(italic(x[t])))
+  mtext(side = 3, titles[[i]],
+        line = 0.5, adj = 0, cex = 0.8)
+  
+}
+```
+
+
+
 ## Topics for today
 
 Review
