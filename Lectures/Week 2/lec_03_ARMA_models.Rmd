@@ -938,6 +938,62 @@ for(i in 1:4) {
 | ARMA(_p_,_q_) | Tails off slowly  | Tails off slowly  |
 
 
+## {.flexbox .vcenter}
+
+<font size="10">NONSTATIONARY TIME SERIES MODELS</font>
+
+
+## Autoregressive integrated moving average (ARIMA) models
+
+If the data do not appear stationary, differencing can help
+
+This leads to the class of _autoregressive integrated moving average_ (ARIMA) models
+
+ARIMA models are indexed with orders (_p_,_d_,_q_) where _d_ indicates the order of differencing
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+
+For example, if $\{x_t\}$ is an ARIMA(1,1,0) process then $\nabla \{x_t\}$ is an ARMA(1,0) = AR(1) process
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+```{r}
+xx <- arima.sim(model=list(ar=0.5, sd=0.1), n=100)
+
+yy <- cumsum(xx)
+
+par(mfrow=c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(yy, ylab=expression(italic(x[t])))
+mtext(side = 3, "ARIMA(1,1,0)", line = 0.5, adj = 0, cex = 0.8)
+acf(yy)
+```
+
+
+## ARIMA(_p_,_d_,_q_) models
+
+```{r}
+par(mfrow=c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(yy, ylab=expression(italic(x[t])))
+mtext(side = 3, "ARIMA(1,1,0)", line = 0.5, adj = 0, cex = 0.8)
+acf(yy)
+
+plot.ts(diff(yy), ylab=expression(paste(symbol("\xd1"), italic(x[t]))))
+mtext(side = 3, "ARMA(1,0)", line = 0.5, adj = 0, cex = 0.8)
+acf(diff(yy))
+```
+
+
 ## Topics for today
 
 Review
