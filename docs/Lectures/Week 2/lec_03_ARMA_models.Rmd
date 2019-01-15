@@ -165,6 +165,11 @@ Here we extend those ideas to a general class of models call _autoregressive mov
 
 ## Autoregressive (AR) models
 
+Autoregressive models are widely used in ecology to treat a current state of nature as a function its past state(s)
+
+
+## Autoregressive (AR) models
+
 An _autoregressive_ model of order _p_, or AR(_p_), is defined as
 
 $$
@@ -578,6 +583,11 @@ Do you see the link between the order _p_ and lag _k_?
 
 ## Moving average (MA) models
 
+Moving average models are most commonly used for forecasting a future state
+
+
+## Moving average (MA) models
+
 A moving average model of order _q_, or MA(_q_), is defined as
 
 $$
@@ -734,31 +744,6 @@ $$
   & \Downarrow \\
   w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k} \\
   w_t &= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
-\end{align}
-$$
-
-
-## Invertible MA(1) model
-
-We can also show this by writing an MA(_q_) model with the backshift operator
-
-$$
-x_t = (1 + \theta_1 \mathbf{B} + \theta_2 \mathbf{B}^2 + \dots + \theta_q \mathbf{B}^q)w_t
-$$
-
-
-## Invertible MA(1) model
-
-For example, consider an MA(1) model
-
-$$
-\begin{align}
-  x_t &= (1 - \theta\mathbf{B}) w_t \\
-  & \Downarrow \\
-  w_t &= \frac{1}{1 - \theta\mathbf{B}} x_t \\[4pt]
-  & \Downarrow \text{via Taylor Series} \\[4pt]
-  w_t &= (1 + \theta\mathbf{B} + \theta^2 \mathbf{B}^2 + \dots + \theta^\infty\mathbf{B}^\infty) x_t \\
-  w_t &= x_t + \theta x_{t-1} + \theta^2 x_{t-2} + \dots + \theta^\infty x_{t - \infty}
 \end{align}
 $$
 
