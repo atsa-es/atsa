@@ -20,6 +20,10 @@ library(broom)
 library(datasets)
 library(MARSS)
 library(dplyr)
+library(caret)
+library(forecast)
+library(astsa)
+library(jpeg)
 ```
 
 ## Overview of today's material
@@ -163,6 +167,40 @@ AIC(stats::arima(y))
 AIC(forecast::Arima(y))
 ```
 
+## Bayesian model selection 
+
+Largely beyond the scope of this class, but as an overview there's several options
+
+* Bayes factors (approximated by BIC)
+    + can be very difficult to calculate for complex models
+
+* Deviance Information Criterion (DIC)
+    + Spiegelhalter et al. (2002) 
+    + DIC is easy to get out of some programs (JAGS)
+    
+DIC is also attempting to balance bias and variance
+
+## Bayesian model selection 
+
+Like AIC, DIC is estimated from (1) the deviance, and (2) penalty, or effective number of parameters $p_{D}$. 
+$$DIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + 2p_{D}$$
+Options for $p_{D}$ are 
+
+* $E[D]-D\left( \bar { \theta  } \right)$ (Spiegelhalter et al. 2002) and 
+
+* $\frac { Var(D\left( \theta  \right) ) }{ 2 }$ (Gelman et al. 2004)
+
+## Bayesian model selection
+
+The big difference between the Bayesian and maximum likelihood approaches are that
+
+* ML methods are maximizing the likelihood over the parameter space
+* Bayesian methods are integrating over the parameter space, asking 'what values are best, on average?'
+
+Many of the ML methods discussed were designed for models with only fixed effects.
+
+* What about correlated parameters, nested or hierarchical models?
+
 ## Cross validation
 
 Recent focus in ecology & fisheries on prediction
@@ -193,8 +231,26 @@ Recent focus in ecology & fisheries on prediction
 
 * Divide dataset into k-partitions
 * How well do (k-1) partitions predict kth set of points?
+* Relationship between LOOCV and AIC
 
 **Data split**: test/training sets (e.g. holdout last 5 data pts)
+
+## Resampling techniques
+
+Bootstrap or jackknife approaches are useful
+
+* generally used in the context of time series models to generate new or pseudo-datasets
+
+* state space models: use estimated deviations / errors to simulate, estimate CIs
+
+Examples
+```{r echo=TRUE, eval=FALSE}
+MARSS::MARSSboot()
+MARSS::MARSSinnovationsboot()
+forecast::bld.mbb.bootstrap()
+forecast::forecast(..., bootstrap=TRUE)
+```
+
 
 ## Resampling techniques
 
@@ -211,4 +267,324 @@ ggplot(beaver, aes(time, temp)) +
   ylab("Temperature") + xlab("Time")
 ```
 
+## Resampling techniques: K-fold cross validation
 
+* Choose model (e.g. regression)
+* Partition data
+* Fit & prediction
+
+Things to highlight: # folds, how sampling is done
+```{r echo=TRUE}
+K = 5 
+beaver$part = sample(1:K, size=nrow(beaver), replace=T)
+beaver$pred = 0
+for(i in 1:K) {
+	mod = lm(temp~time, data = beaver[beaver$part!=i,])
+	beaver$pred[beaver$part==i] = 
+	predict(mod, newdata = beaver[beaver$part==i,])
+}
+
+```
+
+## Resampling techniques: K-fold cross validation
+
+```{r}
+plot(beaver$time, beaver$temp,lwd=2)
+points(beaver$time, beaver$pred, col="red",lwd=2)
+lines(beaver$time, lm(temp~time, data=beaver)$fitted.values, 
+col="grey", lwd=3)
+legend("topleft", c("Obs","CV","lm"), lty=c(NA,NA,1), lwd=c(2,2,3),col=c("black","red","grey"),pch=c(21,21,NA))
+```
+
+
+## Resampling techniques: K-fold cross validation
+
+* How large should K be?
+
+* Bias/variance tradeoff:
+
+* Low K: low variance, larger bias, quicker to run. ML approaches recommend 5-10
+
+* High K (LOOCV): low bias, high variance, computationally expensive
+
+
+## Resampling techniques: repeated K-fold cross validation
+
+* To remove effect of random sampling / partitioning, repeat K-fold cross validation and average predictions for a given data point
+
+* caret() package in R
+
+## Resampling techniques: repeated K-fold cross validation
+
+* Need to specify repeats
+
+```{r echo=TRUE}
+train_control = caret::trainControl(method="repeatedcv", 
+                number=5, repeats=20)
+```
+
+* Again this is extendable across many widely used models
+
+```{r}
+model = train(temp~time, 
+              data=beaver, 
+              trControl=train_control, method="lm")
+```
+
+## Resampling techniques: repeated K-fold cross validation
+
+```{r echo=TRUE, results='asis'}
+summary(model)
+```
+
+## Resampling techniques
+
+What about for time series data?
+
+* Previous resampling was random
+* No preservation of order (autocorrelation)
+
+## Resampling techniques: forward chain CV
+
+Idea: only evaluate models on subsequent data
+
+* Fold 1: training[1], test[2]
+* Fold 2: training[1:2], test[3]
+* Fold 3: training[1:3], test[4]
+* Fold 4: training[1:4], test[5]
+
+## Resampling techniques: forward chain CV
+
+Example with Arima(1,1,1) model 
+
+* Assign partitions in order, 1:5
+
+```{r echo=TRUE}
+beaver$part = ceiling(5*seq(1,nrow(beaver)) / (nrow(beaver)))
+```
+
+* iterate through 2:5 fitting the model and forecasting
+
+## Resampling techniques: forward chain CV
+
+Example code:
+
+```{r echo=TRUE}
+for(i in 2:5) {
+mod = Arima(beaver$temp[which(beaver$part < i)], order=c(1,1,1))
+
+beaver$pred[which(beaver$part == i)] = 
+  as.numeric(forecast(mod, h = length(which(beaver$part == i)))$mean)
+}
+
+```
+
+## Bayesian cross validation
+
+LOOCV (Leave-one out cross validation) 
+    + preferred over alternatives
+
+WAIC (widely applicable information criterion)
+
+* Both available in `loo::loo()`
+
+Additional reading:
+https://cran.r-project.org/web/packages/loo/vignettes/loo2-example.html
+
+## Prediction and forecast evaluations
+
+## Forecasting with arima()
+
+* Let’s fit an ARMA(1,1) model to the global temperature data, after 1st differencing to remove trend
+
+* You can use the arima() function or Arima() function – Arima() is a wrapper for arima() 
+
+```{r}
+plot(globtemp)
+```
+
+## Forecasting with arima()
+
+Seasonal component not included because these data are collected annually
+
+```{r echo=TRUE}
+ar.global.1 = Arima(globtemp, order = c(1,1,1),
+              seasonal=list(order=c(0,0,0),
+              period=12))
+
+f1 = forecast(ar.global.1, h = 10)
+```
+
+* h = number of time steps to forecast in future
+
+
+## Forecasting with arima()
+
+```{r echo=TRUE, results='markdown'}
+summary(f1)
+```
+
+## Forecasting with arima()
+
+
+```{r echo=TRUE}
+plot(f1)
+```
+
+## Quantifying forecast performance
+
+One of the most widelty used metrics is mean square error (MSE)
+
+$$MSE=E\left[ { e }_{ t }^{ 2 } \right] =E\left[ { \left( { x }_{ t }-{ \hat { x }  }_{ t } \right)  }^{ 2 } \right]$$
+
+* Root mean squared error (RMSE) also very common
+
+## Quantifying forecast performance
+
+Like with model selection, the bias-variance tradeoff is important
+
+* principle of parsimony
+
+MSE can be rewritten as 
+
+$$MSE=Var\left( { \hat { x }  }_{ t } \right) +Bias{ \left( { x }_{ t },{ \hat { x }  }_{ t } \right)  }^{ 2 }$$
+* Smaller MSE = lower bias + variance
+
+## Quantifying forecast performance
+
+MSE and all forecast metrics can be calculated for 
+
+* single data points
+* entire time series
+* future forecasts
+
+$$MSE={ \frac { \sum _{ t=1 }^{ n }{ { \left( { x }_{ t }-{ \hat { x }  }_{ t } \right)  }^{ 2 } }  }{ n }  }$$
+
+* Do you care just about predicting the final outcome of a forecast, or also the trajectory to get there? 
+
+## Variances of MSE
+
+Root mean square error, RMSE (quadratic score)
+
+* RMSE = $\sqrt { RMSE }$
+* on the same scale as the data
+* also referred to as RMSD, root mean sq deviation
+
+Mean absolute error, MAE (linear score)
+$$E\left[ \left| { x }_{ t }-{ \hat { x }  }_{ t }  \right|  \right]$$
+
+Median absolute error, MdAE
+
+$$median\left[ \left| { x }_{ t }-{ \hat { x }  }_{ t } \right|  \right]$$
+
+## Scale independent measures of performance
+
+Better when applying statistics of model(s) to multiple datasets
+MSE or RMSE will be driven by time series that is larger in magnitude 
+```{r fig.height=4}
+set.seed(123)
+df = data.frame("Year"=1:20, "Abundance"=10+cumsum(rnorm(20)), 
+                "Population"=1, stringsAsFactors = FALSE)
+df2 = data.frame("Year"=1:20, "Abundance"=5+cumsum(rnorm(20)), 
+                "Population"=2, stringsAsFactors = FALSE)
+
+df = rbind(df, df2)
+df$Population = as.factor(df$Population)
+ggplot(df, aes(Year, Abundance, group=Population, color=Population)) + geom_line()
+```
+
+## 
+
+```{r, out.width = "800px", results="markdown"}
+knitr::include_graphics(path="wing_sales.jpg")
+```
+
+## Percent Error Statistics
+
+Percent Error: 
+
+$${ p }_{ t }=\frac { { e }_{ t }\cdot 100 }{ { Y }_{ t } }$$
+
+Mean Absolute Percent Error (MAPE):
+
+$$MAPE\quad =\quad E\left[ \left| { p }_{ t } \right|  \right]$$
+Root Mean Square Percent Error (RMSPE):
+
+$$RMSPE\quad =\quad \sqrt { E\left[ { p }_{ t }^{ 2 } \right]  }$$
+
+## Issues with percent error statistics
+
+* What happens when Y = 0? 
+
+* Distribution of percent errors tends to be highly skewed / long tails
+
+* MAPE tends to put higher penalty on positive errors 
+
+* See Hyndman & Koehler (2006)
+
+## Scaled error statistics
+
+Define scaled error as 
+
+$${ q }_{ t }=\frac { { e }_{ t } }{ \frac { 1 }{ n-1 } \sum _{ i=2 }^{ n }{ \left( { Y }_{ i }-{ Y }_{ i-1 } \right)  }  }$$
+
+* denominator is MAE from random walk model, so performance is gauged relative to that
+* this does not allow for missing data
+
+Absolute scaled error (ASE)
+
+$$ASE=\left| { q }_{ t } \right|$$
+Mean absolute scaled error (MASE) 
+
+$$MASE=E\left[ \left| { q }_{ t } \right|  \right]$$
+
+## Interpreting ASE and MASE
+
+All values are relative to the naïve random walk model
+
+* Values < 1 indicate better performance than RW model
+
+* Values > 1 indicate worse performance than RW model
+
+## Implementation in R
+
+* Fit an ARIMA model to ‘airmiles’,holding out last 3 points
+
+```{r echo=TRUE}
+n = length(airmiles)
+air.model = auto.arima(log(airmiles[1:(n-3)]))
+```
+
+## Implementation in R
+
+* Forecast the fitted model 3 steps ahead
+* Use holdout data to evaluate accuracy 
+
+```{r echo=TRUE, results='markdown'}
+air.forecast = forecast(air.model, h = 3)
+plot(air.forecast)
+```
+
+## Implementation in R
+
+Evaluate RMSE / MASE statistics for 3 holdouts
+
+```{r echo=TRUE, results='markdown'}
+accuracy(air.forecast, log(airmiles[(n-2):n]), test = 3)
+```
+
+Evaluate RMSE / MASE statistics for only last holdout
+```{r echo=TRUE, results='markdown'}
+accuracy(air.forecast, log(airmiles[(n-2):n]), test = 1)
+```
+
+# Performance metrics summary
+
+Raw statistics (e.g. MSE, RMSE) shouldn’t be applied for data of different scale
+
+Percent error metrics (e.g. MAPE) may be skewed & undefined for real zeroes
+
+Scaled error metrics (ASE, MASE) have been shown to be more robust meta-analyses of many datasets
+    + Hyndman & Koehler (2006)
+
+## Questions?
