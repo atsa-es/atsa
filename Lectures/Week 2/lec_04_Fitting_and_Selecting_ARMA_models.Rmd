@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+#knitr::opts_chunk$set(echo = FALSE)
 set.seed(123)
 ```
 
@@ -33,8 +33,8 @@ library(urca)
 
 A. Model form selection
 
-  1. Evaluate stationarity and seasonality
-  2. Selection of the differencing level (d)
+  1. Evaluate stationarity
+  2. Selection of the differencing level (d) -- to fix stationarity problems
   3. Selection of the AR level (p)
   4. Selection of the MA level (q)
 
@@ -44,7 +44,7 @@ C. Model checking
 
 ## Good news
 
-Much of the Box-Jenkins method will be automated with the forecast package functions, which we will use in the lab.
+Much of the Box-Jenkins method will be automated with the **forecast** package functions, which we will use in the lab.
 
 ## Stationarity
 
@@ -78,7 +78,7 @@ grid.arrange(p1, p2, ncol = 1)
 ## Example
 
 An AR-1 process with $-1<b<1$
-$$x_t = b x_{t-1} + e_t$$
+$$x_t = \phi x_{t-1} + e_t$$
 is also stationary.
 
 ```{r fig.stationarity2, fig.height = 3.5, fig.width = 7, fig.align = "center", echo=FALSE}
@@ -135,8 +135,8 @@ grid.arrange(p1, p4, p2, p5, p3, p6, ncol = 2)
 
 AR-1
 
-1. Non-zero mean adds $\mu$: $x_t = \mu + b x_{t-1} + e_t$
-2. Linear trend adds $at$: $x_t = \mu + at + b x_{t-1} + e_t$
+1. Non-zero mean adds $\mu$: $x_t = \mu + \phi x_{t-1} + e_t$
+2. Linear trend adds $at$: $x_t = \mu + at + \phi x_{t-1} + e_t$
 
 White noise ($b=0$)
 
@@ -272,7 +272,7 @@ library(reshape2)
 rws2=melt(rws, id.var="id")
 p3 = ggplot(rws2, aes(x=id,y=value,group=variable)) +
   geom_line() + xlab("") + ylab("value") +
-  ggtitle("", subtitle="Random walk + drift")
+  ggtitle("", subtitle="Random walk + constant (drift)")
 ys = matrix(intercept/(1-theta),TT,nsim)
 for(i in 2:TT) ys[i,]=intercept+theta*ys[i-1,]+rnorm(nsim)
 ar1s = data.frame(ys)
@@ -281,7 +281,7 @@ library(reshape2)
 ar1s2=melt(ar1s, id.var="id")
 p4 = ggplot(ar1s2, aes(x=id,y=value,group=variable)) +
   geom_line() + xlab("") + ylab("value") +
-  ggtitle("Alternate", subtitle="AR1 + non-zero level")
+  ggtitle("Alternate", subtitle="AR1 + constant (non-zero level)")
 #####
 ys = matrix(intercept+trend*1,TT,nsim)
 for(i in 2:TT) ys[i,]=intercept+trend*i+ys[i-1,]+rnorm(nsim)
@@ -291,7 +291,7 @@ library(reshape2)
 rws2=melt(rws, id.var="id")
 p5 = ggplot(rws2, aes(x=id,y=value,group=variable)) +
   geom_line() + xlab("") + ylab("value") +
-  ggtitle("", subtitle="Random walk + exponential drift")
+  ggtitle("", subtitle="Random walk + linear trend (a*t)")
 ys = matrix((intercept+trend*1)/(1-theta),TT,nsim)
 for(i in 2:TT) ys[i,]=intercept+trend*i+theta*ys[i-1,]+rnorm(nsim)
 ar1s = data.frame(ys)
@@ -305,41 +305,40 @@ p6 = ggplot(ar1s2, aes(x=id,y=value,group=variable)) +
 grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2)
 ```
 
+<!--
 ## Dickey-Fuller null and alternatives
 
-In math, here are the null and alternative hypotheses as equations.  In each, we are testing if $\delta=0$.
+In math, here are the null and alternative hypotheses as equations.  In each, we are testing if $(\phi-1)=0$. 
 
-1. Null $x_t = x_{t-1}+e_t$
+None: Null $x_t = x_{t-1} + e_t$; Alternative $x_t = \phi x_{t-1} +e_t$
 
-Alternative $x_t = \delta x_{t-1}+e_t$
+Drift (constant): Null $x_t = \mu + x_{t-1} + e_t$; Alternative $x_t = \mu + \phi x_{t-1} + e_t$
 
-2. Null $x_t = \mu + x_{t-1} + e_t$
+Trend: Null $x_t = \mu + at + x_{t-1} + e_t$; Alternative $x_t = \mu + at + \phi x_{t-1} + e_t$
 
-Alternative $x_t = \mu + \delta x_{t-1} + e_t$
+Note typically in the alternative hypothesis we restrict $-1<\phi<1$ which is stationary.  If $|\phi|>1$, the alternative process is 'explosive'.
 
-3. Null $x_t = \mu + at + x_{t-1} + e_t$
+-->
 
-Alternative $x_t = \mu + at + \delta x_{t-1} + e_t$
+## Dickey-Fuller test using `tseries::adf.test()`
 
-
-## Example: Dickey-Fuller tests on the anchovy time series
-
-`adf.test()` in the tseries package will apply the Augemented Dickey-Fuller and report the p-value.  We want to reject the Dickey=Fuller null hypothesis of non-stationarity.  We will set `k=0` to apply the Dickey-Fuller test which tests for AR(1) stationarity.  The Augmented Dickey-Fuller tests for more general lag-p stationarity.
+`adf.test()` in the tseries package will apply the Augemented Dickey-Fuller **with a constant and trend** and report the p-value.  We want to reject the Dickey=Fuller null hypothesis of non-stationarity.  We will set `k=0` to apply the Dickey-Fuller test which tests for AR(1) stationarity.  The Augmented Dickey-Fuller tests for more general lag-p stationarity.
 
 ```
 adf.test(x, alternative = c("stationary", "explosive"),
          k = trunc((length(x)-1)^(1/3)))
 ```
 
-Here is how to apply this test to the anchovy data
+## Example: Dickey-Fuller tests on the anchovy time series
+
+Here is how to apply this test to the anchovy data. The null hypothesis is not rejected.  That is not what we want.
 
 ```{r adf.test.anchovy1}
 adf.test(anchovy, k=0)
 ```
 
-The null hypothesis is not rejected.  That is not what we want.
 
-## Example: Dickey-Fuller tests on the anchovy time series
+## Dickey-Fuller test with `urca::ur.df`
 
 The `urca` R package can also be used to apply the Dickey-Fuller tests.  Use `lags=0` for Dickey-Fuller which tests for AR(1) stationarity.  We will set `type="trend"` to deal with the trend seen in the anchovy data.  Note, `adf.test()` uses this type by default.
 
@@ -347,25 +346,33 @@ The `urca` R package can also be used to apply the Dickey-Fuller tests.  Use `la
 ur.df(y, type = c("none", "drift", "trend"), lags = 0)
 ```
 
+## Dickey-Fuller test with 'ur.df'
+
 ```{r dickey.fuller, message=FALSE, warning=FALSE}
-require(urca)
-test = ur.df(anchovy, type="trend", lags=0)
+test = urca::ur.df(anchovy, type="trend", lags=0)
 test
 ```
 
-## Example: Dickey-Fuller tests on the anchovy time series
+## Dickey-Fuller test with 'ur.df'
 
-`ur.df()` will report the test statistic.  You can look up the values of the test statistic for different $\alpha$ levels using `summary(test)` or `attr(test, "cval")`.  If the test statistic is less than the critical value for $\alpha$=0.05 ('5pct' in cval), it means the null hypothesis of non-stationarity is rejected.  For the Dickey-Fuller test, you do want to reject the null hypothesis.
-
-The test statistic is 
+The test statistic and the critical value at $\alpha = 0.05$ are
 ```{r teststat}
 attr(test, "teststat")
 ```
-and the critical value at $\alpha = 0.05$ is 
 ```{r cval}
 attr(test,"cval")
 ```
 The statistic is larger than the critical value and thus the null hypothesis of non-stationarity is not rejected. That's not what we want.
+
+##
+
+The $\tau_3$ is the one we want. This is the stationarity parameter.
+
+$x_t = \phi x_{t-1} + \mu + a t + e_t$
+
+$x_t - x_{t-1} = \tau_3 x_{t-1} + \phi_2 + \phi_3 t + e_t$
+
+<!--
 
 ## Augmented Dickey-Fuller test
 
@@ -413,11 +420,11 @@ test
 
 The test statistic values are the same, but we need to look up the critical values with `summary(test)`.
 
+-->
+
 ## KPSS test
 
-In the Dickey-Fuller test, the null hypothesis is the unit root, i.e. random walk.  Often times, there is not enough power to reject the null hypothesis.  A null hypothesis is accepted unless there is strong evidence against it.  
-
-The Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test has as the null hypothesis that a time series is stationary around a level trend (or a linear trend). The alternative hypothesis for the KPSS test is a random walk.
+The Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test has as the null hypothesis that the time series is stationary around a level trend (or a linear trend). The alternative hypothesis for the KPSS test is a random walk.
 
 The stationarity assumption is general; it does not assume a specific type of stationarity such as white noise.
 
@@ -454,7 +461,7 @@ diff(x)
 
 Here is a plot of the anchovy data and its first difference.
 
-```{r diff1.plot, fig.align="center", fig.height = 4, fig.width = 8}
+```{r diff1.plot, fig.align="center", fig.height = 4, fig.width = 8, echo=FALSE}
 par(mfrow=c(1,2))
 plot(anchovy, type="l")
 title("Anchovy")
@@ -463,18 +470,18 @@ title("Anchovy first difference")
 ```
 
 
-## Stationarity of anchovy catch first differences
+## Stationarity of the first differences
 
 Let's test the anchovy data with one difference using the KPSS test.
 
-```{r diff.anchovy.test}
+```{r diff.anchovy.test, message=FALSE, warning=FALSE}
 diff.anchovy = diff(anchovy)
 kpss.test(diff.anchovy)
 ```
 
 The null hypothesis of stationairity is not rejected. That is good.
 
-## Stationarity of anchovy catch first differences
+## Stationarity of the first differences
 
 Let's test the first difference of the anchovy data using the Augmented Dickey-Fuller test.  We do the default test and allow it to chose the number of lags.
 
@@ -482,46 +489,208 @@ Let's test the first difference of the anchovy data using the Augmented Dickey-F
 adf.test(diff.anchovy)
 ```
 
+## 
+
 The null hypothesis of non-stationarity is not rejected.  That is not what we want.  However, we differenced which removed the trend thus we are testing against a more general model than we need.  Let's test with an alternative hypothesis that has a non-zero mean.  We can do this with `ur.df()` and `type='drift'`.
 
 ```{r test.dickey.fuller.diff2}
 test <- ur.df(diff.anchovy, type="drift", lags=2)
 ```
 
-## Stationarity of anchovy catch first differences
+## 
 
-The null hypothesis of NON-stationairity IS rejected. That is good.
-
-The test statistic is 
+The test statistic and the critical values are
 ```{r teststat.diff}
 attr(test, "teststat")
 ```
 
-and the critical value at $\alpha = 0.05$ is 
 ```{r cval.diff}
 attr(test,"cval")
+```
+
+The null hypothesis of NON-stationairity IS rejected. That is good.
+
+
+## `forecast::ndiffs()` function
+
+As an alternative to trying many different differences, you can use the `ndiffs()` function in the forecast package.  This automates finding the number of differences needed.
+
+```{r ndiff}
+forecast::ndiffs(anchovy, test="kpss")
+forecast::ndiffs(anchovy, test="adf")
 ```
 
 ## Summary
 
 Test stationarity before you fit a ARMA model.
 
-- Visual test: is the time series flutuating about a level or a linear trend?
+Visual test: Is the time series flutuating about a level or a linear trend?
 
-Yes or maybe?  Apply a "unit root" test.
+_Yes or maybe?_  -> Apply a "unit root" test. ADF or KPSS
 
-- (Augmented) Dickey-Fuller test
-- KPSS test
+_No or fails the unit root test?_ -> Apply differencing and re-test.
 
-No or fails the unit root test.
+_Still not passing?_ -> Try a second difference.
 
-- Apply differencing again and re-test.
+_Still not passing?_ -> ARMA model might not be the best choice. Or you may need to use an adhoc detrend.
 
-Still not passing?
+**These steps are automated by the forecast package**
 
-- Try a second difference.
+## Box-Jenkins method
 
-Still not passing?
+A. Model form selection
 
-- ARMA model might not be the best choice. Or you may need to an adhoc detrend.
+  1. Evaluate stationarity
+  2. Selection of the differencing level (d) -- to fix stationarity problems
+  3. **Selection of the AR level (p)**
+  4. **Selection of the MA level (q)**
 
+**B. Parameter estimation**
+
+C. Model checking
+
+## ACF and PACF
+
+On Tuesday, you learned how to use ACF and PACF to visually infer the AR and MA lags for a ARMA model.
+
+```{r pacf-acf-anchovy, echo=FALSE, fig.cap="ACF and PACF of anchovy time series."}
+par(mfrow=c(1,2))
+acf(diff(anchovy))
+pacf(diff(anchovy))
+```
+
+### Formal model selection
+
+This weighs how well the model fits against how many parameters your model has. Basic idea is to fit (many) models and use AIC or BIC to select.
+
+The `auto.arima()` function in the forecast package in R allows you to easily do this and will select the level of differencing.
+
+```{r auto.arima, eval=FALSE}
+forecast::auto.arima(anchovy)
+```
+
+Type `?forecast::auto.arima` to see a full description of the function.
+
+## Model selection with `auto.arima()`
+
+```{r auto.arima2}
+forecast::auto.arima(anchovy)
+```
+
+The output indicates that the 'best' model is a MA-1 with first difference.  "with drift" means that the mean of the anchovy first differences (the data for the model) is not zero. 
+
+## Selected model
+
+First difference of the data is MA(1) with drift
+
+$x_t - x_{t-1} = \mu + w_t + \theta_1 w_{t-1}$
+
+where $w_t$ is white noise.
+
+## Fit to simulated AR-2 data
+
+```{r fitting.example.1}
+set.seed(100)
+a1 = arima.sim(n=100, model=list(ar=c(.8,.1)))
+forecast::auto.arima(a1, seasonal=FALSE, max.d=0)
+```
+
+The 'best-fit' model is AR-1 not AR-2. 
+
+## How often is the 'true' model is chosen
+
+Let's run 100 simulations of a AR-2 process and record the best fits.
+
+```{r fit.1000}
+save.fits = rep(NA,100)
+for(i in 1:100){
+  a1 = arima.sim(n=100, model=list(ar=c(.8,.1)))
+  fit = forecast::auto.arima(a1, seasonal=FALSE, max.d=0, max.q=0)
+  save.fits[i] = paste0(fit$arma[1], "-", fit$arma[2])
+}
+```
+
+##
+
+Overwhelmingly the correct type of model (AR-p) is selected, but usually a simpler model of AR-1 is chosen over AR-2 (correct).
+
+Table heading is AR order - MA order.
+
+```{r fit.1000.table}
+table(save.fits)
+```
+
+## Trace = TRUE
+
+By default, step-wise selection is used for the model search. You can see what models that `auto.arima()` tried using `trace=TRUE`.  The models are selected on AICc by default and the AICc value is shown next to the model.
+
+```{r}
+forecast::auto.arima(anchovy, trace=TRUE)
+```
+
+## stepwise=FALSE
+
+By default, step-wise selection is used and an approximation is used for the models tried in the model selection step.  For a final model selection, you should turn these off.
+
+```{r}
+forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
+```
+
+## Summary: model selection and fitting
+
+- Once you have dealt with stationarity, you need to determine the order of the model: the AR part and the MA part.
+
+- Although you could simply use `auto.arima()`, it is best to run `acf()` and `pacf()` on your data to understand it better.
+
+  - Does it look like a pure AR process?
+    
+- Also evaluate if there are reasons to assume a particular structure.  
+
+  - Are you using an established model form, from say another paper?
+  - Are you fitting to a process that is fundamentally AR only or AR + MA?
+
+## Box-Jenkins method
+
+A. Model form selection
+
+  1. Evaluate stationarity
+  2. Selection of the differencing level (d) -- to fix stationarity problems
+  3. Selection of the AR level (p)
+  4. Selection of the MA level (q)
+
+B. Parameter estimation
+
+**C. Model checking**
+
+## Check the residuals
+
+Residuals = difference between the expected (fitted) value of $x_t$ and the data
+
+There is no observation error in an ARMA model. The expected value is the $x_t$ expected from data up to $t-1$.
+
+In an ARMA model this is your $w_t$:
+
+$x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \theta_1 w_{t-1} + \theta_2 w_{t-2} + 
+\dots + w_t$
+
+##
+
+```{r results="hide"}
+fit <- forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
+```
+
+First difference of the data is MA(1) with drift
+
+$x_t = x_{t-1} + \mu + w_t + \theta_1 w_{t-1}$
+
+Expected value of $x_t$ is 
+
+$\hat{x}_t = x_{t-1} + \mu + \theta_1 w_{t-1}$
+
+
+## Residuals check with forecast package
+
+```{r results="hide"}
+fit <- forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
+forecast::checkresiduals(fit)
+```

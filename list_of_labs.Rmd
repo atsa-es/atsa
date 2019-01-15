@@ -49,18 +49,18 @@ lmlab <- list(
 
 ```{r}
 forecastlab <- list(
-  title = "Fitting ARMA models",
-  topics = c("Forecasting with ARMA models", "Forecasting with ETS models"),
+  title = "Univariate state-space models",
+  topics = c("Simulating ARMA models", "Fitting ARIMA models", "Forecasting with ARIMA models"),
   pdf = "",
   rmd = "",
-  html = "",
+  html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html"),
   video = "",
   data = "",
-  homework = "At end of lab",
+  homework = "Intro to ts: problems at end of lab<br>Fitting ARMA models: problems at end of chapter",
   key = "",
-  instructor = "Eli",
-  hw_topics = c("Building forecastng models"),
-  hw_duedate = "Due 5pm next Tues"
+  instructor = "Mark & Eli",
+  hw_topics = c("ARIMA models"),
+  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
 )
 ```
 
