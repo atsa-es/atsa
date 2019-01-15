@@ -1,0 +1,214 @@
+---
+title: "Model selection, cross validation, and performance of time series models"
+author: "Eric Ward"
+date: "29 Jan 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+  beamer_presentation: default
+subtitle: FISH 507 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+library(ggplot2)
+library(rstan)
+library(atsar)
+library(broom)
+library(datasets)
+library(MARSS)
+library(dplyr)
+```
+
+## Overview of today's material
+
+* Approaches for model selection 
+* Cross validation
+* Quantifying forecast performance
+
+## How good are our models? 
+
+Several candidate models might be built based on
+
+* hypotheses / mechanisms
+* diagnostics / summaries of fit
+
+Models can be evaluated by their ability to explain data
+
+* OR by the tradeoff in the ability to explain data, and ability to predict future data
+* OR just in their predictive abilities
+    + Hindcasting
+    + Forecasting
+
+## How good are our models? 
+
+We can illustrate with an example to the `harborSealWA` dataset in MARSS
+```{r}
+data(harborSealWA)
+harborSealWA = harborSealWA[,c(1,3)]
+harborSealWA=as.data.frame(harborSealWA)
+ggplot(harborSealWA, aes(Year, SJI)) + 
+  geom_point() + geom_line() + ylab("ln abundance (San Juan Islands") 
+```
+
+## How good are our models?
+
+Metrics like the sum of squares are appealing,
+
+$$SS=\sum _{ i=1 }^{ n }{ { \left( y_{ i }-E[{ y }_{ i }] \right)  }^{ 2 } } $$
+
+## How good are our models?
+
+```{r, echo=FALSE, results='markup'}
+summary(lm(SJI~Year, data=harborSealWA))
+```
+
+## How good are our models?
+Our regression model had a pretty good sum-of-squares
+
+* But SS is problematic
+    + as we consider more complex models, they'll inevitably reduce SS
+    + there's no cost or penalty for having too many parameters
+
+## Model selection
+
+Lots of metrics have been developed to overcome this issue and penalize complex models
+
+* **Occam's razor**: "the law of briefness"
+
+* **Principle of parsimony**: choose the simplest possible model that explains the data pretty well
+    + choose a model that minimizes bias *and* variance
+
+## Model selection
+
+![](https://www.cell.com/cms/attachment/586583/4453621/gr1b1.jpg)
+https://doi.org/10.1016/j.tree.2006.10.004
+
+## Model selection: AIC
+
+Akaike's Information Criterion (**AIC**, Akaike 1973)
+
+* Attempts to balance the goodness of fit of the model against the number of parameters
+
+* Based on deviance = minus twice negative log likelihood
+
+Deviance = $$-2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right)$$
+
+* Deviance is a measure of model fit to data
+    + lower values are better
+    + Maximizing likelihood is equivalent to minimizing negative likelihood
+
+## Model selection: AIC
+
+Many *IC approaches to model selection also rely on deviance. Where they differ is how they structure the penalty term. 
+
+For AIC, the penalty is 2 * number of parameters ($k$),
+
+$$AIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + 2k$$
+
+* But what about sample size, $n$? 
+
+## Model selection: AIC
+
+Small sample AIC
+
+AICc=AIC+\frac { 2k(k+1) }{ n-k-1 } 
+
+* What happens to this term as n increases? 
+
+## Model selection: AIC
+
+AIC aims to find the best model to predict data generated from the same process that generated your observations
+
+Downside: AIC has a tendency to overpenalize, especially for more complex models
+* Equivalent to significance test w/$\alpha$ = 0.16
+
+Alternative: Schwarz/Bayesian Information Criterion (SIC/BIC)
+* Not Bayesian!
+* Relies on Laplace approximation to posterior
+* $\alpha$ becomes a function of sample size
+ 
+## Model selection: AIC 
+
+BIC is measure of explanatory power (rather than balancing explanation / prediction)
+
+$$BIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + k\cdot ln(n)$$
+
+* Tendency of BIC to underpenalize
+
+## Model selection: AIC
+
+Philosophical differences between AIC / BIC
+
+* AIC / AICc tries to choose a model that approximates reality
+    + does not assume that reality exists in your set of candidate models
+
+* BIC assumes that one of your models is truth
+    + This model will tend to be favored more as sample size increases
+
+## Model selection: AIC
+
+Many base functions in R support the extraction of AIC
+
+```{r eval=FALSE, echo=TRUE}
+y = cumsum(rnorm(20))
+AIC(lm(y~1))
+AIC(glm(y~1))
+AIC(mgcv::gam(y~1))
+AIC(glmmTMB::glmmTMB(y~1))
+AIC(lme4::lmer(y~1))
+AIC(stats::arima(y))
+AIC(forecast::Arima(y))
+```
+
+## Cross validation
+
+Recent focus in ecology & fisheries on prediction
+
+[Dietze et al. 2017](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/eap.1589)  
+
+[Maris et al. 2017](https://onlinelibrary.wiley.com/doi/full/10.1111/oik.04655)  
+
+[Pennekamp et al. 2017](https://www.sciencedirect.com/science/article/pii/S1476945X16301106)  
+
+[Pennekamp et al. 2018](https://www.biorxiv.org/content/early/2018/06/19/350017)  
+
+[Szuwalkski & Thorson 2017](https://onlinelibrary.wiley.com/doi/abs/10.1111/faf.12226)
+
+[Anderson et al. 2017](https://onlinelibrary.wiley.com/doi/abs/10.1111/faf.12200)
+
+## Resampling techniques
+
+**Jackknife**
+
+* Hold out each data point, recomputing some statistic (and then average across 1:n)
+
+**Bootstrap**
+
+* Similar to jackknife, but with resampling
+
+**Cross-validation (k-fold)**
+
+* Divide dataset into k-partitions
+* How well do (k-1) partitions predict kth set of points?
+
+**Data split**: test/training sets (e.g. holdout last 5 data pts)
+
+## Resampling techniques
+
+As an example, we'll use a time series of body temperature from the `beavers` dataset
+
+```{r echo=TRUE}
+data(beavers)
+beaver = dplyr::filter(beaver2, time>200)
+```
+
+```{r echo=TRUE, fig.height=2}
+ggplot(beaver, aes(time, temp)) + 
+  geom_point() + geom_line() + 
+  ylab("Temperature") + xlab("Time")
+```
+
+
