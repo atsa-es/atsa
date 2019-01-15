@@ -240,6 +240,10 @@ x_t = x_{t-1} + u + w_t
 
 </article></slide><slide class=""><hgroup><h2>Autoregressive (AR) models</h2></hgroup><article  id="autoregressive-ar-models">
 
+<p>Autoregressive models are widely used in ecology to treat a current state of nature as a function its past state(s)</p>
+
+</article></slide><slide class=""><hgroup><h2>Autoregressive (AR) models</h2></hgroup><article  id="autoregressive-ar-models-1">
+
 <p>An <em>autoregressive</em> model of order <em>p</em>, or AR(<em>p</em>), is defined as</p>
 
 <p>\[
@@ -500,6 +504,10 @@ x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + w_t
 
 </article></slide><slide class=""><hgroup><h2>Moving average (MA) models</h2></hgroup><article  id="moving-average-ma-models">
 
+<p>Moving average models are most commonly used for forecasting a future state</p>
+
+</article></slide><slide class=""><hgroup><h2>Moving average (MA) models</h2></hgroup><article  id="moving-average-ma-models-1">
+
 <p>A moving average model of order <em>q</em>, or MA(<em>q</em>), is defined as</p>
 
 <p>\[
@@ -510,7 +518,7 @@ x_t = w_t + \theta_1 w_{t-1} + \theta_2 w_{t-2} + \dots + \theta_q w_{t-q}
 
 <p>Each of the \(x_t\) is a sum of the most recent error terms</p>
 
-</article></slide><slide class=""><hgroup><h2>Moving average (MA) models</h2></hgroup><article  id="moving-average-ma-models-1">
+</article></slide><slide class=""><hgroup><h2>Moving average (MA) models</h2></hgroup><article  id="moving-average-ma-models-2">
 
 <p>A moving average model of order <em>q</em>, or MA(<em>q</em>), is defined as</p>
 
@@ -606,29 +614,6 @@ x_t &amp;= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k
   &amp; \Downarrow \\
   w_t &amp;= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k} \\
   w_t &amp;= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
-\end{align}
-\]</p>
-
-</article></slide><slide class=""><hgroup><h2>Invertible MA(1) model</h2></hgroup><article  id="invertible-ma1-model-2">
-
-<p>We can also show this by writing an MA(<em>q</em>) model with the backshift operator</p>
-
-<p>\[
-x_t = (1 + \theta_1 \mathbf{B} + \theta_2 \mathbf{B}^2 + \dots + \theta_q \mathbf{B}^q)w_t
-\]</p>
-
-</article></slide><slide class=""><hgroup><h2>Invertible MA(1) model</h2></hgroup><article  id="invertible-ma1-model-3">
-
-<p>For example, consider an MA(1) model</p>
-
-<p>\[
-\begin{align}
-  x_t &amp;= (1 - \theta\mathbf{B}) w_t \\
-  &amp; \Downarrow \\
-  w_t &amp;= \frac{1}{1 - \theta\mathbf{B}} x_t \\[4pt]
-  &amp; \Downarrow \text{via Taylor Series} \\[4pt]
-  w_t &amp;= (1 + \theta\mathbf{B} + \theta^2 \mathbf{B}^2 + \dots + \theta^\infty\mathbf{B}^\infty) x_t \\
-  w_t &amp;= x_t + \theta x_{t-1} + \theta^2 x_{t-2} + \dots + \theta^\infty x_{t - \infty}
 \end{align}
 \]</p>
 
