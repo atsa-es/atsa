@@ -668,29 +668,179 @@ Residuals = difference between the expected (fitted) value of $x_t$ and the data
 
 There is no observation error in an ARMA model. The expected value is the $x_t$ expected from data up to $t-1$.
 
-In an ARMA model this is your $w_t$:
+$x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} \theta_1 w_{t-1} + \theta_2 w_{t-2} + w_t$
 
-$x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \theta_1 w_{t-1} + \theta_2 w_{t-2} + 
-\dots + w_t$
+$\hat{x}_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} \theta_1 w_{t-1} + \theta_2 w_{t-2}$
 
-##
 
-```{r results="hide"}
+## `residuals()` function in R
+
+The `residuals()` function will return the residuals for fitted models.
+
+```{r}
 fit <- forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
+residuals(fit)
 ```
 
-First difference of the data is MA(1) with drift
+## `fitted()` function in R
 
-$x_t = x_{t-1} + \mu + w_t + \theta_1 w_{t-1}$
+The `fitted()` function will return the expected values. Remember that for a ARMA model, these are the expected values conditioned on the data up to time $t-1$.
 
-Expected value of $x_t$ is 
+```{r}
+fit <- forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
+fitted(fit)
+```
 
-$\hat{x}_t = x_{t-1} + \mu + \theta_1 w_{t-1}$
+The residuals are `data-fitted`.
 
+## Standard residuals tests
+
+* Plot the residuals. They should look roughly like white noise.
+* Look at the ACF of the residuals.  They should be uncorrelated.
+* Look at the histogram.  They should be normally distributed (if that is your error assumption).
 
 ## Residuals check with forecast package
+
+The **forecast** package provides a function to do standard residuals tests:
 
 ```{r results="hide"}
 fit <- forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
 forecast::checkresiduals(fit)
 ```
+
+## Test for autocorrelation of time-series residuals
+
+The standard test for autocorrelated time-series residuals is the Ljung-Box test.
+
+The null hypothesis for this test is **no autocorrelation**.  We do not want to reject the null. 
+
+```{r fig.show=FALSE}
+forecast::checkresiduals(fit)
+```
+
+$p>0.05$ would be interpreted as not enough statistical evidence to reject the null hypothesis. It doesn't mean they are independent but rather that you don't have support for dependent residuals.
+
+## Summary
+
+## Forecasting
+
+The basic idea of forecasting with an ARIMA model to estimate the parameters and forecast foreward.
+
+For example, let's say we want to forecast with ARIMA(2,1,0) model:
+$$y_t = \beta_1 y_{t-1} + \beta_2 y_{t-2} + e_t$$
+where $y_t$ is the first difference of our anchovy data.
+
+
+Let's estimate the $\beta$'s for this model from the 1964-1987 anchovy data.
+
+```{r}
+fit <- forecast::Arima(anchovy, order=c(2,1,0))
+coef(fit)
+```
+
+##
+
+So we will forecast with this model:
+
+$$y_t = -0.3348 y_{t-1} - 0.1454 y_{t-2} + e_t$$
+
+To get our forecast for 1988, we do this
+
+$$(y_{1988}-y_{1987}) = -0.3348 (y_{1987}-y_{1986}) - 0.1454 (y_{1986}-y_{1985})$$
+
+Thus
+
+$$y_{1988} = y_{1987}-0.3348 (y_{1987}-y_{1986}) - 0.1454 (y_{1986}-y_{1985})$$
+
+Here is R code to do that:
+
+```{r}
+anchovy[24]+coef(fit)[1]*(anchovy[24]-anchovy[23])+
+  coef(fit)[2]*(anchovy[23]-anchovy[22])
+```
+
+### Forecasting with `forecast()`
+
+`forecast(fit, h=h)` automates the forecast calculations for us and computes the upper and lower prediction intervals.  Prediction intervals include uncertainty in parameter estimates plus the process error uncertainty.
+
+```{r}
+fit <- forecast::auto.arima(anchovy)
+fr <- forecast::forecast(fit, h=5)
+fr
+```
+
+## Plotting our forecasts
+
+We can plot our forecast with prediction intervals.  Here is the sardine forecast:
+
+```{r}
+plot(fr, xlab="Year")
+```
+
+## Missing values
+
+Missing values are allowed for `arima()` and we can product forecasts with the same code.
+
+```{r}
+anchovy.miss <- anchovy
+anchovy.miss[10:11] <- NA
+anchovy.miss[20:21] <- NA
+fit <- forecast::auto.arima(anchovy.miss)
+fr <- forecast::forecast(fit, h=5)
+plot(fr)
+```
+
+## Seasonality
+
+### Load the chinook salmon data set
+
+```{r}
+load("chinook.RData")
+head(chinook)
+```
+
+
+The data are monthly and start in January 1990.  To make this into a ts object do
+
+```{r}
+chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), frequency=12)
+```
+`start` is the year and month and frequency is the number of months in the year.  
+
+Use `?ts` to see more examples of how to set up ts objects.
+
+### Plot seasonal data
+
+Now that we have specified our seasonal data as a ts object, it is easy to plot because R knows what the season is.
+
+```{r}
+plot(chinookts)
+```
+
+## Seasonal ARIMA model
+
+`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data by default.  We will define the training data up to 1998 and use 1999 as the test data.
+
+```{r}
+traindat <- window(chinookts, c(1990,10), c(1998,12))
+testdat <- window(chinookts, c(1999,1), c(1999,12))
+fit <- forecast::auto.arima(traindat)
+fr <- forecast::forecast(fit, h=12)
+plot(fr)
+points(testdat)
+```
+
+##
+
+
+## Missing values
+
+Missing values are ok when fitting a seasonal ARIMA model
+
+```{r}
+fulldat <- window(chinookts, c(1990,1), c(1999,12))
+fit <- forecast::auto.arima(fulldat)
+fr <- forecast::forecast(fit, h=12)
+plot(fr)
+```
+
