@@ -104,13 +104,14 @@ syl_txt <- data.frame(
   vid_links = vid_links_html,
   youtube_links = youtube_links_html,
   hw_links = hw_links_html,
-  duedate_links = dd_links_html,
+  # duedate_links = dd_links_html,
   key_links = key_links_html
 )
 colnames(syl_txt) <- c("Date", "Instructor", "Topics", "Lab", "Data",
-                       "Video", "YouTube", "Homework", "Due Date", "Key")
+                       "Video", "YouTube", "Homework", "Key")
 ## generate table
-kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
+kable(syl_txt, format = "html", caption = " ",
+      align = "cclccccccc", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%

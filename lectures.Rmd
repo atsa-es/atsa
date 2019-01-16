@@ -86,7 +86,8 @@ syl_txt <- data.frame(
 colnames(syl_txt) <- c("Date", "Instructor", "Lecture topics",
                        "Slides", "Video", "YouTube", "Reading")
 ## generate table
-kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
+kable(syl_txt, format = "html", caption = " ",
+      align = "cclcccc", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%
