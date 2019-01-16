@@ -22,7 +22,7 @@ intro <- list(
   html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
   video = c("https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bf227aa2-7185-4cc3-8c11-a9cf0163693f","https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1f328019-716a-4a80-bab7-a9cf0169d570"),
   reading = c("[CM09: Chap 1](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_1.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)" ),
-  youtube = "",
+  youtube = "https://youtu.be/-LlF6nyvz9E",
   instructor = "Mark"
 )
 ```
@@ -42,7 +42,7 @@ ts_basics <- list(
   html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=41c00b6a-60f7-4ed2-83a5-a9d10163cb68",
   reading = c("[CM09: Chap 2](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_2.pdf)","[CM09: Chap 4](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_4.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)"),
-  youtube = "",
+  youtube = "https://youtu.be/BeG-e4CKJHs",
   instructor = "Mark"
 )
 ```
@@ -61,7 +61,7 @@ arma_basics <- list(
   html = "Lectures/Week 2/lec_03_ARMA_models.html",
   video = "",
   reading = c("[CM09: Chap 6](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_6.pdf)","[CM09: Chap 7](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_7.pdf)","[HA18: Chap 8](https://otexts.org/fpp2/arima.html)"),
-  youtube = "",
+  youtube = "https://youtu.be/o31x36miSL0",
   instructor = "Mark"
 )
 ```
