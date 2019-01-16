@@ -22,8 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -92,14 +91,8 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
-.html-widget {
-  margin-bottom: 20px;
-}
 button.code-folding-btn:focus {
   outline: none;
-}
-summary {
-  display: list-item;
 }
 </style>
 
@@ -115,6 +108,7 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
+
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -134,43 +128,6 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -192,77 +149,18 @@ $(document).ready(function () {
 });
 </script>
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -347,6 +245,7 @@ $(document).ready(function () {
   html = c(&quot;Lectures/Week 1/lec_00_class_overview.html&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.html&quot;),
   video = c(&quot;https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bf227aa2-7185-4cc3-8c11-a9cf0163693f&quot;,&quot;https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1f328019-716a-4a80-bab7-a9cf0169d570&quot;),
   reading = c(&quot;[CM09: Chap 1](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_1.pdf)&quot;, &quot;[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)&quot; ),
+  youtube = &quot;https://youtu.be/-LlF6nyvz9E&quot;,
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>ts_basics &lt;- list(
@@ -363,14 +262,15 @@ $(document).ready(function () {
   html = &quot;Lectures/Week 1/lec_02_covariance_stationarity.html&quot;,
   video = &quot;https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=41c00b6a-60f7-4ed2-83a5-a9d10163cb68&quot;,
   reading = c(&quot;[CM09: Chap 2](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_2.pdf)&quot;,&quot;[CM09: Chap 4](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_4.pdf)&quot;,&quot;[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)&quot;),
+  youtube = &quot;https://youtu.be/BeG-e4CKJHs&quot;,
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>arma_basics &lt;- list(
   title = &quot;Intro to ARMA models&quot;,
   topics = c(&quot;Autoregressive (AR) models&quot;,
              &quot;Moving average (MA) models&quot;,
-             &quot;stationarity&quot;,
-             &quot;invertibility&quot;,
+             &quot;Stationary AR models&quot;,
+             &quot;Invertible MA models&quot;,
              &quot;Using ACF &amp; PACF for model ID&quot;),
   pdf = &quot;Lectures/Week 2/lec_03_ARMA_models.pdf&quot;,
   ppt = &quot;&quot;,
@@ -378,19 +278,21 @@ $(document).ready(function () {
   html = &quot;Lectures/Week 2/lec_03_ARMA_models.html&quot;,
   video = &quot;&quot;,
   reading = c(&quot;[CM09: Chap 6](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_6.pdf)&quot;,&quot;[CM09: Chap 7](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_7.pdf)&quot;,&quot;[HA18: Chap 8](https://otexts.org/fpp2/arima.html)&quot;),
+  youtube = &quot;https://youtu.be/o31x36miSL0&quot;,
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>freqdomain &lt;- list(
   title = &quot;Frequency domain methods&quot;,
   topics = c(&quot;Frequency domain methods&quot;,
-              &quot;Wavelet analysis&quot;,
-              &quot;Fourier transforms&quot;),
+             &quot;Wavelet analysis&quot;,
+             &quot;Fourier transforms&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>uni_ss &lt;- list(
@@ -403,6 +305,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;HWS14: Chap 7&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>marss &lt;- list(
@@ -414,20 +317,22 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;HWS14: Chap 8&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>covariates &lt;- list(
   title = &quot;Covariates in time-series models&quot;,
   topics = c(&quot;Including covariates (predictors) in models&quot;,
-              &quot;Seasonal effects&quot;,
-               &quot;Missing covariates&quot;,
-               &quot;Colinearity&quot;, &quot;MARSSX and ARMAX&quot;),
+             &quot;Seasonal effects&quot;,
+             &quot;Missing covariates&quot;,
+             &quot;Colinearity&quot;, &quot;MARSSX and ARMAX&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>model_inf &lt;- list(
@@ -441,6 +346,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>dlm &lt;- list(
@@ -452,6 +358,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>dlm2 &lt;- list(
@@ -463,6 +370,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>forecast &lt;- list(
@@ -474,6 +382,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>dfa &lt;- list(
@@ -485,6 +394,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>bayes &lt;- list(
@@ -496,6 +406,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>glm &lt;- list(
@@ -508,6 +419,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>spat_cor &lt;- list(
@@ -519,6 +431,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>ets &lt;- list(
@@ -530,6 +443,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>interactions1 &lt;- list(
@@ -542,6 +456,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>interactions2 &lt;- list(
@@ -553,6 +468,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>perturb &lt;- list(
@@ -564,6 +480,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>HMMs &lt;- list(
@@ -575,6 +492,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>present1 &lt;- list(
@@ -586,6 +504,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;&quot;
 )</code></pre>
 <pre class="r"><code>present2 &lt;- list(
@@ -597,6 +516,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;&quot;
 )</code></pre>
 <pre class="r"><code>EDM &lt;- list(
@@ -608,6 +528,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;https://rdcu.be/bdfWL&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>open &lt;- list(
@@ -619,6 +540,7 @@ $(document).ready(function () {
   html = &quot;&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
   instructor = &quot;Eric&quot;
 )</code></pre>
 
