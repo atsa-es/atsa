@@ -1,0 +1,114 @@
+---
+title: "A gentle introduction to hidden markov models"
+author: "Eric Ward"
+date: "14 Feb 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+  beamer_presentation: default
+subtitle: FISH 507 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+library(ggplot2)
+library(atsar)
+library(datasets)
+library(MARSS)
+library(dplyr)
+```
+
+## Overview of today's material
+
+* Gentle introduction to HMMs
+
+* Theory and notation
+
+* Examples of univariate HMMs in R
+
+* Examples of multivariate HMMs in R
+
+## State space models 
+
+We've already discussed state space models. These models include
+
+* a latent process model (we don't directly observe)
+
+* a data model (we've used normal data for this class)
+
+## State space models 
+
+Process model: 
+$${ x }_{ t }={ x }_{ t-1 }+{ \varepsilon  }_{ t-1 }$$
+
+Observation model: 
+$${ y }_{ t }={ x }_{ t }+{ \delta  }_{ t }$$
+
+where ${ \varepsilon  }_{ t } \sim Normal\left( 0,{ \sigma  }_{ \varepsilon  } \right)$ and ${ \delta  }_{ t } \sim Normal\left( 0,{ \sigma  }_{ \delta  } \right)$
+
+## State space models
+
+Adding AR coefficients can make these models stationary with respect to the mean,
+
+$${ x }_{ t }={ p\cdot x }_{ t-1 }+{ \varepsilon  }_{ t-1 }$$
+
+however they may not be able to explain some datasets very well. 
+
+* Specifically, these models are not well designed to model regimes
+
+## Regimes
+
+Many examples of time series in ecology & fisheries may alternate between multiple states (2+)
+
+* Vert-pre et al. (2013) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3562848/
+
+* Francis et al. (2012) https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2486.2012.02702.x
+
+## Regimes
+
+Lots of non-HMM approaches for detecting regimes
+
+* STARS algorithm
+    + Sequential t-test approach for detecting changes in the mean
+    + Rodionov (2015) https://www.mdpi.com/2225-1154/3/3/474
+
+* Brute force model selection approach
+    + iterate through change points, evaluating data support for each
+    + how do we do change points with regression? ${ Y }_{ t }=B{ X }_{ t }+{ \varepsilon  }_{ t }$
+    
+## Regimes: simulating data
+
+```{r}
+set.seed(123)
+state = 1
+probs = matrix(c(0.95,0.05,0.05,0.95),2,2)
+for(i in 2:100) {
+  state[i] = sample(c(1,2), prob = probs[state[i-1],])
+}
+mu = c(1,3)
+y = rnorm(length(state), mu[state], 0.5)
+plot(1:100, y, xlab="Time", ylab = "Simulated data", type="b")
+```
+
+## Limitations of state space models
+
+They can actually fit the data from a regime model quite well.
+
+* Via MARSS,
+```{r}
+
+plot(1:100, y, xlab="Time", ylab = "Simulated data", type="b")
+lines(MARSS(y)$states[1,], col="blue")
+
+```
+
+## Limitations of state space models
+
+What's lacking is inference about:
+
+* What's the probability of transition between regimes?
+* How long are regimes expected to last?
+* What regimes might we expect in the future?
+
