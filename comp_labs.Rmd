@@ -50,7 +50,7 @@ names(vid_links_html) <- NULL
 ```
 
 ```{r youtube_links, include = FALSE}
-youtube_links <- lapply(week_lecs, function(x){
+youtube_links <- lapply(week_labs, function(x){
   if(is.list(x)){x$youtube}else{""}})
 ## topics formatted for html
 youtube_links_html <- sapply(lapply(youtube_links, function(x){ tmp1<-"[YouTube]("; tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp,collapse="<br>"); tmp}), c)
