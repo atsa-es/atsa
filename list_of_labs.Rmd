@@ -19,7 +19,7 @@ matrixlab <- list(
   rmd = "",
   html = "",
   video = "",
-  youtube = "",
+  youtube = "https://youtu.be/D2rqcbRtjCA",
   data = "",
   homework = "Listed at end of lab",
   key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf",
