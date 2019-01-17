@@ -15,7 +15,11 @@ CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Sprin
 
 HWS14: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package. [Available here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
 
-HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook https://otexts.org/fpp2/
+HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook. [Available here](https://otexts.org/fpp2/)
+
+HSW18: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2018. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
+
+H18: Holmes, E. E. Fisheries Catch Forecasting with R. 2018. eBook. [Available here](https://fish-forecast.github.io/Fish-Forecast-Bookdown/) 
 
 
 ## Some classic textbooks

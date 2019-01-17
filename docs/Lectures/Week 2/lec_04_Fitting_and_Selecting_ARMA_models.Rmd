@@ -1,15 +1,16 @@
 ---
 title: "Fitting and Selecting ARIMA models"
-subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Eli Holmes"
 date: "17 Jan 2019"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
+subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
-#knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(R.options=list(width=60))
 set.seed(123)
 ```
 
@@ -19,8 +20,7 @@ load("landings.RData")
 landings$log.metric.tons = log(landings$metric.tons)
 landings = subset(landings, Year <= 1989)
 anchovy = subset(landings, Species=="Anchovy")$log.metric.tons
-sardine = subset(landings, Species=="Sardine")$log.metric.tons
-
+anchovyts = ts(anchovy, start=c(1964,1), frequency = 1)
 library(ggplot2)
 library(gridExtra)
 library(reshape2)
@@ -322,7 +322,7 @@ Note typically in the alternative hypothesis we restrict $-1<\phi<1$ which is st
 
 ## Dickey-Fuller test using `tseries::adf.test()`
 
-`adf.test()` in the tseries package will apply the Augemented Dickey-Fuller **with a constant and trend** and report the p-value.  We want to reject the Dickey=Fuller null hypothesis of non-stationarity.  We will set `k=0` to apply the Dickey-Fuller test which tests for AR(1) stationarity.  The Augmented Dickey-Fuller tests for more general lag-p stationarity.
+`adf.test()` in the tseries package will apply the Augmented Dickey-Fuller **with a constant and trend** and report the p-value.  We want to reject the Dickey=Fuller null hypothesis of non-stationarity.  We will set `k=0` to apply the Dickey-Fuller test which tests for AR(1) stationarity.  The Augmented Dickey-Fuller tests for more general lag-p stationarity.
 
 ```
 adf.test(x, alternative = c("stationary", "explosive"),
@@ -334,7 +334,7 @@ adf.test(x, alternative = c("stationary", "explosive"),
 Here is how to apply this test to the anchovy data. The null hypothesis is not rejected.  That is not what we want.
 
 ```{r adf.test.anchovy1}
-adf.test(anchovy, k=0)
+adf.test(anchovyts, k=0)
 ```
 
 
@@ -349,7 +349,7 @@ ur.df(y, type = c("none", "drift", "trend"), lags = 0)
 ## Dickey-Fuller test with 'ur.df'
 
 ```{r dickey.fuller, message=FALSE, warning=FALSE}
-test = urca::ur.df(anchovy, type="trend", lags=0)
+test = urca::ur.df(anchovyts, type="trend", lags=0)
 test
 ```
 
@@ -433,8 +433,7 @@ If both KPSS and Dickey-Fuller tests support non-stationarity, then the stationa
 ## Example: KPSS tests
 
 ```{r kpss.test, message=FALSE, warning=FALSE}
-require(tseries)
-kpss.test(anchovy, null="Trend")
+tseries::kpss.test(anchovyts, null="Trend")
 ```
 
 Here `null="Trend"` was included to account for the increasing trend in the data.  The null hypothesis of stationarity is rejected.  Thus both the KPSS and Dickey-Fuller tests support the hypothesis that the anchovy time series is non-stationary.  That's not what we want.
@@ -463,10 +462,10 @@ Here is a plot of the anchovy data and its first difference.
 
 ```{r diff1.plot, fig.align="center", fig.height = 4, fig.width = 8, echo=FALSE}
 par(mfrow=c(1,2))
-plot(anchovy, type="l")
+plot(anchovyts,xlab="")
 title("Anchovy")
-plot(diff(anchovy), type="l")
-title("Anchovy first difference")
+plot(diff(anchovyts),xlab="")
+title("Anchovy 1st diff")
 ```
 
 
@@ -475,7 +474,7 @@ title("Anchovy first difference")
 Let's test the anchovy data with one difference using the KPSS test.
 
 ```{r diff.anchovy.test, message=FALSE, warning=FALSE}
-diff.anchovy = diff(anchovy)
+diff.anchovy = diff(anchovyts)
 kpss.test(diff.anchovy)
 ```
 
@@ -491,10 +490,10 @@ adf.test(diff.anchovy)
 
 ## 
 
-The null hypothesis of non-stationarity is not rejected.  That is not what we want.  However, we differenced which removed the trend thus we are testing against a more general model than we need.  Let's test with an alternative hypothesis that has a non-zero mean.  We can do this with `ur.df()` and `type='drift'`.
+The null hypothesis of non-stationarity is not rejected.  That is not what we want.  However, we differenced which removed the trend thus we are testing against a more general model than we need.  Let's test with an alternative hypothesis that has a non-zero mean and no trend.  We can do this with `ur.df()` and `type='drift'`.
 
 ```{r test.dickey.fuller.diff2}
-test <- ur.df(diff.anchovy, type="drift", lags=2)
+test <- ur.df(diff.anchovy, type="drift")
 ```
 
 ## 
@@ -516,21 +515,21 @@ The null hypothesis of NON-stationairity IS rejected. That is good.
 As an alternative to trying many different differences, you can use the `ndiffs()` function in the forecast package.  This automates finding the number of differences needed.
 
 ```{r ndiff}
-forecast::ndiffs(anchovy, test="kpss")
-forecast::ndiffs(anchovy, test="adf")
+forecast::ndiffs(anchovyts, test="kpss")
+forecast::ndiffs(anchovyts, test="adf")
 ```
 
 ## Summary
 
 Test stationarity before you fit a ARMA model.
 
-Visual test: Is the time series flutuating about a level or a linear trend?
+Visual test: Do the data fluctuate around a level or do they have a trend or look like a random walk?
 
 _Yes or maybe?_  -> Apply a "unit root" test. ADF or KPSS
 
 _No or fails the unit root test?_ -> Apply differencing and re-test.
 
-_Still not passing?_ -> Try a second difference.
+_Still not passing?_ -> Try a second difference or you may need to transform the data (if say it has an exponential trend).
 
 _Still not passing?_ -> ARMA model might not be the best choice. Or you may need to use an adhoc detrend.
 
@@ -559,11 +558,11 @@ acf(diff(anchovy))
 pacf(diff(anchovy))
 ```
 
-### Formal model selection
+## Formal model selection
 
-This weighs how well the model fits against how many parameters your model has. Basic idea is to fit (many) models and use AIC or BIC to select.
+This weighs how well the model fits against how many parameters your model has. Basic idea is to fit (many) models and use AIC, AICc or BIC to select.
 
-The `auto.arima()` function in the forecast package in R allows you to easily do this and will select the level of differencing.
+The `auto.arima()` function in the forecast package in R allows you to easily do this and will also select the level of differencing (via ADF or KPSS tests).
 
 ```{r auto.arima, eval=FALSE}
 forecast::auto.arima(anchovy)
@@ -577,17 +576,25 @@ Type `?forecast::auto.arima` to see a full description of the function.
 forecast::auto.arima(anchovy)
 ```
 
-The output indicates that the 'best' model is a MA-1 with first difference.  "with drift" means that the mean of the anchovy first differences (the data for the model) is not zero. 
+The output indicates that the 'best' model is a MA(1) with first difference.  "with drift" means that the mean of the anchovy first differences (the data for the model) is not zero. 
+
+## Trace = TRUE
+
+By default, step-wise selection is used for the model search. You can see what models that `auto.arima()` tried using `trace=TRUE`.  The models are selected on AICc by default and the AICc value is shown next to the model.
+
+```{r}
+forecast::auto.arima(anchovy, trace=TRUE)
+```
 
 ## Selected model
 
 First difference of the data is MA(1) with drift
 
-$x_t - x_{t-1} = \mu + w_t + \theta_1 w_{t-1}$
+$$x_t - x_{t-1} = \mu + w_t + \theta_1 w_{t-1}$$
 
 where $w_t$ is white noise.
 
-## Fit to simulated AR-2 data
+## Example: Fit to simulated AR(2) data
 
 ```{r fitting.example.1}
 set.seed(100)
@@ -595,11 +602,11 @@ a1 = arima.sim(n=100, model=list(ar=c(.8,.1)))
 forecast::auto.arima(a1, seasonal=FALSE, max.d=0)
 ```
 
-The 'best-fit' model is AR-1 not AR-2. 
+The 'best-fit' model is AR(1) not AR(2). 
 
 ## How often is the 'true' model is chosen
 
-Let's run 100 simulations of a AR-2 process and record the best fits.
+Let's run 100 simulations of a AR(2) process and record the best fits.
 
 ```{r fit.1000}
 save.fits = rep(NA,100)
@@ -612,7 +619,7 @@ for(i in 1:100){
 
 ##
 
-Overwhelmingly the correct type of model (AR-p) is selected, but usually a simpler model of AR-1 is chosen over AR-2 (correct).
+Overwhelmingly the correct type of model (AR) is selected, but usually a simpler model of AR(2) is chosen over AR(2).
 
 Table heading is AR order - MA order.
 
@@ -620,30 +627,21 @@ Table heading is AR order - MA order.
 table(save.fits)
 ```
 
-## Trace = TRUE
-
-By default, step-wise selection is used for the model search. You can see what models that `auto.arima()` tried using `trace=TRUE`.  The models are selected on AICc by default and the AICc value is shown next to the model.
-
-```{r}
-forecast::auto.arima(anchovy, trace=TRUE)
-```
-
 ## stepwise=FALSE
 
 By default, step-wise selection is used and an approximation is used for the models tried in the model selection step.  For a final model selection, you should turn these off.
 
 ```{r}
-forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
+forecast::auto.arima(anchovy, stepwise=FALSE, 
+                     approximation=FALSE)
 ```
 
 ## Summary: model selection and fitting
 
 - Once you have dealt with stationarity, you need to determine the order of the model: the AR part and the MA part.
 
-- Although you could simply use `auto.arima()`, it is best to run `acf()` and `pacf()` on your data to understand it better.
+- Although you could simply use `auto.arima()`, it is best to run `acf()` and `pacf()` on your data to understand it better.  Definitely you want to plot your data and visually look for stationarity issues.
 
-  - Does it look like a pure AR process?
-    
 - Also evaluate if there are reasons to assume a particular structure.  
 
   - Are you using an established model form, from say another paper?
@@ -668,29 +666,232 @@ Residuals = difference between the expected (fitted) value of $x_t$ and the data
 
 There is no observation error in an ARMA model. The expected value is the $x_t$ expected from data up to $t-1$.
 
-In an ARMA model this is your $w_t$:
+$x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + w_t$
 
-$x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \theta_1 w_{t-1} + \theta_2 w_{t-2} + 
-\dots + w_t$
+$\hat{x}_t = \phi_1 x_{t-1} + \phi_2 x_{t-2}$
 
-##
 
-```{r results="hide"}
-fit <- forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
+## `residuals()` function in R
+
+The `residuals()` function will return the residuals for fitted models.
+
+```{r}
+fit <- forecast::auto.arima(anchovy)
+residuals(fit)
 ```
 
-First difference of the data is MA(1) with drift
+## `fitted()` function in R
 
-$x_t = x_{t-1} + \mu + w_t + \theta_1 w_{t-1}$
+The `fitted()` function will return the expected values. Remember that for a ARMA model, these are the expected values conditioned on the data up to time $t-1$.
 
-Expected value of $x_t$ is 
+```{r}
+fitted(fit)
+```
 
-$\hat{x}_t = x_{t-1} + \mu + \theta_1 w_{t-1}$
+The residuals are `data` minus `fitted`.
 
+## Standard residuals tests
+
+* Plot the residuals. They should look roughly like white noise.
+* Look at the ACF of the residuals.  They should be uncorrelated.
+* Look at the histogram.  They should be normally distributed (if that is your error assumption).
 
 ## Residuals check with forecast package
 
 ```{r results="hide"}
-fit <- forecast::auto.arima(anchovy, stepwise=FALSE, approximation=FALSE)
 forecast::checkresiduals(fit)
 ```
+
+## Test for autocorrelation
+
+The standard test for autocorrelated time-series residuals is the Ljung-Box test.  The null hypothesis for this test is **no autocorrelation**.  We do not want to reject the null. 
+
+```{r}
+forecast::checkresiduals(fit, plot=FALSE)
+```
+
+$p>0.05$ would be interpreted as not enough statistical evidence to reject the null hypothesis.
+
+## Forecasting (brief)
+
+The basic idea of forecasting with an ARIMA model to estimate the parameters and forecast forward.
+
+For example, let's say we want to forecast with this ARIMA(2,1,0) model:
+$$y_t = \mu + \beta_1 y_{t-1} + \beta_2 y_{t-2} + e_t$$
+or as `Arima()` would write this model:
+$$(y_t-m) = \beta_1 (y_{t-1}-m) + \beta_2 (y_{t-2}-m) + e_t$$
+where $y_t$ is the first difference of our anchovy data. $\mu = m(1 - \beta_1 - \beta_2)$.
+
+##
+
+Let's estimate the $\beta$'s for this model from the anchovy data.
+
+```{r}
+fit <- forecast::Arima(anchovyts, order=c(2,1,0), include.constant=TRUE)
+coef(fit)
+```
+
+```{r}
+mu <- coef(fit)[3]*(1-coef(fit)[1]-coef(fit)[2])
+mu
+```
+
+##
+
+So we will forecast with this model:
+
+$$y_t = 0.1065807-0.53850433 y_{t-1} - 0.44732522 y_{t-2} + e_t$$
+
+To get our forecast for 1990, we do this
+
+$$(x_{1990}-x_{1989}) = 0.106 - 0.538 (x_{1989}-x_{1988}) - 0.447 (x_{1988}-x_{1987})$$
+
+Thus
+
+$$x_{1990} = x_{1989}+0.106 -0.538  (x_{1989}-x_{1988}) - 0.447 (x_{1988}-x_{1987})$$
+
+##
+
+Here is R code to do that:
+
+```{r}
+anchovyts[26]+mu+coef(fit)[1]*(anchovyts[26]-anchovyts[25])+
+  coef(fit)[2]*(anchovyts[25]-anchovyts[24])
+```
+
+## Forecasting with `forecast()`
+
+`forecast(fit, h=h)` automates the forecast calculations for us and computes the upper and lower prediction intervals.  Prediction intervals include uncertainty in parameter estimates plus the process error uncertainty.
+
+```{r}
+fr <- forecast::forecast(fit, h=5)
+fr
+```
+
+## Plotting our forecasts
+
+```{r}
+plot(fr, xlab="Year")
+```
+
+## Missing values
+
+Missing values are allowed for `Arima()` and `arima()`. We can produce forecasts with the same code.
+
+```{r fig.show=FALSE}
+anchovy.miss <- anchovyts
+anchovy.miss[10:11] <- NA
+anchovy.miss[20:21] <- NA
+fit <- forecast::auto.arima(anchovy.miss)
+fr <- forecast::forecast(fit, h=5)
+fr
+```
+
+##
+
+```{r}
+plot(fr)
+```
+
+## Seasonality
+
+### Load the chinook salmon data set
+
+```{r}
+load("chinook.RData")
+head(chinook)
+```
+
+##
+
+The data are monthly and start in January 1990.  To make this into a ts object do
+
+```{r}
+chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
+                frequency=12)
+```
+`start` is the year and month and frequency is the number of months in the year.  
+
+Use `?ts` to see more examples of how to set up ts objects.
+
+## Plot seasonal data
+
+```{r}
+plot(chinookts)
+```
+
+## Seasonal ARIMA model
+
+Seasonally differenced data:
+
+$$z_t = x_t - x_{t+s} - m$$
+
+Basic structure of a seasonal AR model
+
+$z_t$ = AR(p) + AR(season) + AR(p+season)
+
+
+Example AR(1) non-seasonal part + AR(1) seasonal part
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13}$$
+
+## Notation
+
+ARIMA (p,d,q)(ps,ds,qs)S
+
+
+ARIMA (1,0,0)(1,1,0)[12]
+
+## `auto.arima()` for seasonal ts
+
+`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data by default.  We will define the training data up to 1998 and use 1999 as the test data.
+
+```{r}
+traindat <- window(chinookts, c(1990,10), c(1998,12))
+testdat <- window(chinookts, c(1999,1), c(1999,12))
+fit <- forecast::auto.arima(traindat)
+fit
+```
+
+## Forecast using seasonal model
+
+```{r}
+fr <- forecast::forecast(fit, h=12)
+plot(fr)
+points(testdat)
+```
+
+## Missing values
+
+Missing values are ok when fitting a seasonal ARIMA model
+
+```{r echo=FALSE}
+plot(fr)
+```
+
+## Summary
+
+Basic steps for identifying a seasonal model.  **forecast** automates most of this.
+
+* Check that you have specified your season correctly in your ts object.
+
+* Plot your data.  Look for trend, seasonality and random walks.
+
+## Summary
+
+* Use differencing to remove season and trend.
+    * Season and no trend.  Take a difference of lag = season
+    * No seasonality but a trend.  Try a first difference
+    * Both. Do both types of differences
+    * Neither. No differencing.
+    * Random walk. First difference.
+    * Parametric looking curve. Tranform.
+
+## Summary
+
+* Examine the ACF and PACF of the differenced data.
+    * Look for patterns (spikes) at seasonal lags
+
+* Estimate likely models and compare with model selection criteria (or cross-validation). Use `TRACE=TRUE`
+
+* Do residual checks. 
