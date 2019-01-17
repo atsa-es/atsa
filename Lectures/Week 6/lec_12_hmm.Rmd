@@ -112,3 +112,59 @@ What's lacking is inference about:
 * How long are regimes expected to last?
 * What regimes might we expect in the future?
 
+Lots of applications: speech recognition, bioinformatics, animal movement, environmental data (rain), finance
+
+## HMM: theory
+
+Markov Process
+
+* time may be discrete or continuous (we'll focus on discrete)
+* Markov if at each time step, the state $x_{t}$ is only dependent on the previous state $x_{t-1}$
+* $x_{t}$ does not depend on future values
+
+Entire history can be written as $$\left\{ { x }_{ 1 },{ x }_{ 2 },{ x }_{ 3 },...,{ x }_{ T } \right\}$$
+
+## HMM: theory
+
+A key piece of the Markov process are the transition probabilities.
+
+* The probability of transitioning from state $j$ to $i$ given the current state is 
+$$P\left( { x }_{ t+1 }=j | { x }_{ t }=i \right) ={ \gamma  }_{ ij }$$
+
+And then these probabilities can be summarized in a transition matrix, 
+$$\Gamma =\left[ \begin{matrix} { \gamma  }_{ 11 } & { \gamma  }_{ 12 } & { \gamma  }_{ 13 } \\ { \gamma  }_{ 21 } & { \gamma  }_{ 22 } & { \gamma  }_{ 23 } \\ { \gamma  }_{ 31 } & { \gamma  }_{ 32 } & { \gamma  }_{ 33 } \end{matrix} \right]$$
+
+## HMM theory
+
+Matrix $\Gamma$ is the 1-step transitions. However k-step transition probabilities can be generated, 
+
+$\Gamma(k) = \Gamma^{k}$
+
+* From this, we can also calculate the stationary distribution of the chain
+    + See Zucchini et al. (2006) Chapter 2
+
+## HMM theory
+
+There are two general flavours of transition matrices:
+
+* Homogenous (or stationary)
+    + transition probabilities don't depend on $t$
+
+* Non-homogeneous
+    + transition probabilities are time-varying
+
+* In this class, we'll only consider **homogeneous** cases
+
+## HMM: theory
+
+* Observations: observable data ${Y}_{ i=1,...,N }$
+
+* States: latent (discrete) variables that are not directly observed
+    + ${x}_{ t=1,...,T }$
+    + $N$ is the number of states possible
+
+* Transition probabilities: transition matrix representing the probability of transitioning between states in the Markov chain
+    + $\Gamma$ and ${ \gamma  }_{ ij }$
+    
+* Emission probabilities: how likely the states are at any particular timestep
+    + ${ \theta  }_{ i=1,...,N }$

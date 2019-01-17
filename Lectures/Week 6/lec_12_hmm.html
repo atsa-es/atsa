@@ -190,6 +190,84 @@
 <li>What&#39;s the probability of transition between regimes?</li>
 <li>How long are regimes expected to last?</li>
 <li>What regimes might we expect in the future?</li>
+</ul>
+
+<p>Lots of applications: speech recognition, bioinformatics, animal movement, environmental data (rain), finance</p>
+
+</article></slide><slide class=""><hgroup><h2>HMM: theory</h2></hgroup><article  id="hmm-theory">
+
+<p>Markov Process</p>
+
+<ul>
+<li>time may be discrete or continuous (we&#39;ll focus on discrete)</li>
+<li>Markov if at each time step, the state \(x_{t}\) is only dependent on the previous state \(x_{t-1}\)</li>
+<li>\(x_{t}\) does not depend on future values</li>
+</ul>
+
+<p>Entire history can be written as \[\left\{ { x }_{ 1 },{ x }_{ 2 },{ x }_{ 3 },...,{ x }_{ T } \right\}\]</p>
+
+</article></slide><slide class=""><hgroup><h2>HMM: theory</h2></hgroup><article  id="hmm-theory-1">
+
+<p>A key piece of the Markov process are the transition probabilities.</p>
+
+<ul>
+<li>The probability of transitioning from state \(j\) to \(i\) given the current state is \[P\left( { x }_{ t+1 }=j | { x }_{ t }=i \right) ={ \gamma  }_{ ij }\]</li>
+</ul>
+
+<p>And then these probabilities can be summarized in a transition matrix, \[\Gamma =\left[ \begin{matrix} { \gamma  }_{ 11 } &amp; { \gamma  }_{ 12 } &amp; { \gamma  }_{ 13 } \\ { \gamma  }_{ 21 } &amp; { \gamma  }_{ 22 } &amp; { \gamma  }_{ 23 } \\ { \gamma  }_{ 31 } &amp; { \gamma  }_{ 32 } &amp; { \gamma  }_{ 33 } \end{matrix} \right]\]</p>
+
+</article></slide><slide class=""><hgroup><h2>HMM theory</h2></hgroup><article  id="hmm-theory-2">
+
+<p>Matrix \(\Gamma\) is the 1-step transitions. However k-step transition probabilities can be generated,</p>
+
+<p>\(\Gamma(k) = \Gamma^{k}\)</p>
+
+<ul>
+<li>From this, we can also calculate the stationary distribution of the chain
+
+<ul>
+<li>See Zucchini et al. (2006) Chapter 2</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>HMM theory</h2></hgroup><article  id="hmm-theory-3">
+
+<p>There are two general flavours of transition matrices:</p>
+
+<ul>
+<li>Homogenous (or stationary)
+
+<ul>
+<li>transition probabilities don&#39;t depend on \(t\)</li>
+</ul></li>
+<li>Non-homogeneous
+
+<ul>
+<li>transition probabilities are time-varying</li>
+</ul></li>
+<li>In this class, we&#39;ll only consider <strong>homogeneous</strong> cases</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>HMM: theory</h2></hgroup><article  id="hmm-theory-4">
+
+<ul>
+<li><p>Observations: observable data \({Y}_{ i=1,...,N }\)</p></li>
+<li>States: latent (discrete) variables that are not directly observed
+
+<ul>
+<li>\({x}_{ t=1,...,T }\)</li>
+<li>\(N\) is the number of states possible</li>
+</ul></li>
+<li>Transition probabilities: transition matrix representing the probability of transitioning between states in the Markov chain
+
+<ul>
+<li>\(\Gamma\) and \({ \gamma }_{ ij }\)</li>
+</ul></li>
+<li>Emission probabilities: how likely the states are at any particular timestep
+
+<ul>
+<li>\({ \theta }_{ i=1,...,N }\)</li>
+</ul></li>
 </ul></article></slide>
 
 
