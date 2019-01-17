@@ -28,6 +28,9 @@ names(lab_topics_html) <- NULL
 # lab_links_html <- sapply(lapply(lab_links, function(x){ tmp1<-c("[PDF](","[Rmd]("); tmp2 <- c(")",")"); tmp1[x==""]=""; tmp2[x==""]=""; tmp <- paste(tmp1,x,tmp2); tmp=paste(tmp,collapse="<br>"); tmp}), c)
 # names(lab_links_html) <- NULL
 
+lab_links1 <- lapply(week_labs, function(x){if(is.list(x)){c(x$rmd)}else{""}})
+lab_links1_html <- sapply(lapply(lab_links1, function(x){
+  tmp1<-paste0("[Rmd ",1:length(x),"]("); tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp, collapse=" "); tmp}), c)
 lab_links2 <- lapply(week_labs, function(x){if(is.list(x)){c(x$pdf)}else{""}})
 lab_links2_html <- sapply(lapply(lab_links2, function(x){
   tmp1<-paste0("[PDF ",1:length(x),"]("); tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp, collapse=" "); tmp}), c)
@@ -36,7 +39,7 @@ lab_links3_html <- sapply(lapply(lab_links3, function(x){
   tmp1<-paste0("[html ",1:length(x),"]("); tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp, collapse=" "); tmp}), c)
 lab_links_html <- lab_links3_html
 for(i in 1:length(lab_links3_html)){
-  lab_links_html[i] <- paste( lab_links2_html[i], lab_links3_html[i], sep="<br>")
+  lab_links_html[i] <- paste(  lab_links1_html[i], lab_links2_html[i], lab_links3_html[i], sep="<br>")
 }
 
 names(lab_links_html) <- NULL
