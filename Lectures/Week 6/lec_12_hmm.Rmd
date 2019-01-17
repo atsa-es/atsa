@@ -155,6 +155,18 @@ There are two general flavours of transition matrices:
 
 * In this class, we'll only consider **homogeneous** cases
 
+## HMM theory
+
+Covariates may enter HMMs in one of two ways
+
+* Effects on the mean
+
+* Effects on the transition matrix $\Gamma$
+
+* For effects on $\Gamma$, probabilities are constrained (0,1) and constrained to sum to 1
+    + multivariate logit regression used to relate covariates to elements of $\Gamma$
+    + reference / base case is fixed at zero (Agresti 2002)
+    
 ## HMM: theory
 
 * Observations: observable data ${Y}_{ i=1,...,N }$
@@ -168,3 +180,52 @@ There are two general flavours of transition matrices:
     
 * Emission probabilities: how likely the states are at any particular timestep
     + ${ \theta  }_{ i=1,...,N }$
+
+## HMM: theory
+
+One quantity of interest from HMMs is the marginal distribution, $P(Y_{t})$
+
+Output from the model will give us the conditional distribution, $P(Y_{t}|x_{t}=i)$
+
+    + but we need to marginalize over all possible states
+    
+Solution: $$P(Y_{ t })=\sum _{ i=1 }^{ N }{ P({ x }_{ t }=i)P({ Y }_{ t }|{ x }_{ t }=i) }$$
+which can also be expressed as 
+$$P(Y_{ t })=\sum _{ i=1 }^{ N }{ { \delta  }_{ i }P({ Y }_{ t }|{ x }_{ t }=i) }$$ where 
+$\delta$ represents the stationary distribution (Zucchini et al. 2006)
+
+# HMM: theory
+
+Estimation of HMM parameters can be quite complicated
+
+Dealing with joint likelihood of observed data and unobserved states
+
+$$P(x,Y)=\prod _{ i=1 }^{ T }{ P({ x }_{ t }|{ x }_{ t-1 })P({ Y }_{ t }|{ x }_{ t }) }$$
+
+
+## HMM: theory
+
+Estimation most commonly done with maximum likelihood
+1. Forward-backward algorithm: calculate probability of observed data sequence
+2. Viterbi algorithm: used to generate most likely states
+3. Estimate / update parameters: EM-algorithm
+
+* For forward-backward algorithm we can factor conditional state probabilties as follows
+
+$$P\left( { x }_{ t }|{ Y }_{ 1:T } \right) =P({ x }_{ t }|{ Y }_{ 1:t },{ Y }_{ t+1:T })=P({ x }_{ t }|{ Y }_{ 1:t })P({ Y }_{ t+1:T }|{ x }_{ t })$$
+* Probability of state given the data is the probability of the state given the data up to that time step multiplied by the probability of future data
+
+## HMM: theory
+
+Forward backward algorithm has 3 steps:
+
+1. Forward probabilities
+
+* from the last slide, this step calculates $P({ x }_{ t }|{ Y }_{ 1:t }$
+
+2. Backward probabilities
+
+* from the last slide, this step calculates $P({ Y }_{ t+1:T }|{ x }_{ t })$
+
+3. Smoothing
+

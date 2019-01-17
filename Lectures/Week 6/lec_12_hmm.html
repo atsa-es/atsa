@@ -248,7 +248,21 @@
 <li>In this class, we&#39;ll only consider <strong>homogeneous</strong> cases</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>HMM: theory</h2></hgroup><article  id="hmm-theory-4">
+</article></slide><slide class=""><hgroup><h2>HMM theory</h2></hgroup><article  id="hmm-theory-4">
+
+<p>Covariates may enter HMMs in one of two ways</p>
+
+<ul>
+<li><p>Effects on the mean</p></li>
+<li><p>Effects on the transition matrix \(\Gamma\)</p></li>
+<li>For effects on \(\Gamma\), probabilities are constrained (0,1) and constrained to sum to 1
+
+<ul>
+<li>multivariate logit regression used to relate covariates to elements of \(\Gamma\)</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>HMM: theory</h2></hgroup><article  id="hmm-theory-5">
 
 <ul>
 <li><p>Observations: observable data \({Y}_{ i=1,...,N }\)</p></li>
@@ -268,7 +282,17 @@
 <ul>
 <li>\({ \theta }_{ i=1,...,N }\)</li>
 </ul></li>
-</ul></article></slide>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>HMM: theory</h2></hgroup><article  id="hmm-theory-6">
+
+<p>One quantity of interest from HMMs is the marginal distribution, \(P(Y_{t})\)</p>
+
+<p>Output from the model will give us the conditional distribution, \(P(Y_{t}|x_{t}=i)\)</p>
+
+<pre >+ but we need to marginalize over all possible states</pre>
+
+<p>Solution: \[P(Y_{ t })=\sum _{ i=1 }^{ N }{ P({ x }_{ t }=i)P({ Y }_{ t }|{ x }_{ t }=i) }\] which can also be expressed as \[P(Y_{ t })=\sum _{ i=1 }^{ N }{ { \delta  }_{ i }P({ Y }_{ t }|{ x }_{ t }=i) }\] where \(\delta\) represents the stationary distribution (Zucchini et al. 2006)</p></article></slide>
 
 
   <slide class="backdrop"></slide>
