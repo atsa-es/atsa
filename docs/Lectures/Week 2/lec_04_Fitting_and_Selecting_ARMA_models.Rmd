@@ -793,6 +793,7 @@ fr
 plot(fr)
 ```
 
+
 ## Seasonality
 
 ### Load the chinook salmon data set
@@ -895,3 +896,79 @@ Basic steps for identifying a seasonal model.  **forecast** automates most of th
 * Estimate likely models and compare with model selection criteria (or cross-validation). Use `TRACE=TRUE`
 
 * Do residual checks. 
+
+### Intercepts and drift in `Arima()`
+
+If $d=0$, 
+
+* $d=0$: Arima(x, order=c(1,0,0), include.drift=FALSE, include.mean=TRUE)
+
+$m$ is estimated and called `intercept`.
+
+$$(x_t-m) = \phi_1 (x_{t-1}-m) + w_t$$
+
+* $d=0$: Arima(x, order=c(1,0,0), include.drift=TRUE, include.mean=FALSE)
+
+$\mu$ is estimated and called `drift`.
+
+$$x_t = \mu + \phi_1 x_{t-1} + w_t$$
+* $d=0$: Arima(x, order=c(1,0,0), include.drift=TRUE, include.mean=TRUE)
+
+$\mu$ and $m$ are estimated and called `drift` and `intercept`.
+
+$$(x_t-m) = \mu + \phi_1 (x_{t-1}-m) + w_t$$
+
+If $d=1$, then `include.mean` is ignored in `Arima()` and `include.drift` estimates an intercept like `include.mean` in the $d=0$ case, but it is called `drift` in the output. $y_t = x_t-x_{t-1}$.
+
+* $d=1$: Arima(x, order=c(1,1,0), include.drift=TRUE)
+
+$m$ is estimated and called `drift`. 
+
+$$(y_t-m) = \phi_1 (y_{t-1}-m) + w_t$$
+* $d=1$: Arima(x, order=c(1,1,0), include.drift=FALSE)
+
+$$y_t = \phi_1 y_{t-1} + w_t$$
+
+* $d=1$: Arima(x, order=c(0,1,0), include.drift=TRUE)
+
+This is a random walk with drift.
+
+$$(y_t-m) = w_t$$
+which is
+
+$$x_t = m + x_{t-1} + w_t$$
+If $d\ge2$, then both `include.mean` and `include.drift` are ignored. $z_t = y_t-y_{t-1}$.
+
+* $d=2$: Arima(x, order=c(1,2,0))
+
+$$z_t = \phi_1 z_{t-1} + w_t$$
+
+### Intercepts in `arima()`
+
+If $d=0$, 
+
+* $d=0$: arima(x, order=c(1,0,0), include.mean=TRUE)
+
+$m$ is estimated and called `intercept`.
+
+$$(x_t-m) = \phi_1 (x_{t-1}-m) + w_t$$
+
+
+If $d=1$, then `include.mean` is ignored and no intercept can be estimated. 
+
+* $d=1$: arima(x, order=c(1,1,0), include.mean=TRUE)
+
+$$y_t = \phi_1 y_{t-1}+ w_t$$
+* $d=1$: arima(x, order=c(0,1,0))
+
+Because an intercept cannot be estimated, this means that a random walk with drift cannot be estimated by `arima()`.
+
+$$y_t = w_t$$
+only can be estimated which is random walk without drift.
+
+$$x_t = x_{t-1} + w_t$$
+
+
+
+
+
