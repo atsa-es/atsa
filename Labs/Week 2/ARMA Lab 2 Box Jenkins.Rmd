@@ -9,7 +9,7 @@ In this chapter, you will practice doing fitting an ARIMA model to catch data us
 
 ### Data
 
-Load catch landings from Greek waters [landings.RData](landings.RData) and the Chinook landings  [chinook.Rdata](chinook.RData) in Washington data.
+Load catch landings from Greek waters [landings.RData](landings.RData) and the Chinook landings  [chinook.RData](chinook.RData) in Washington data.
 
 ```{r read_data}
 load("landings.RData")
