@@ -2,14 +2,14 @@
 knitr::opts_knit$set(unnamed.chunk.label = "labboxjenkins-")
 ```
 
-# Stationarity tests in R  {#chap-labboxjenkins-}
-\chaptermark{Stationarity}
+# Fitting ARIMA models in R  {#chap-labboxjenkins-}
+\chaptermark{Fitting ARIMA models}
 
 In this chapter, you will practice doing fitting an ARIMA model to catch data using the Box-Jenkins method.  You will prepare simple forecasts using the **forecast** package.  
 
 ### Data
 
-Load catch landings from Greek waters [landings.Rdata](landings.Rdata) and the Chinook landings  [chinook.Rdata](chinook.Rdata) in Washington data. [landings.Rdata](landings.Rdata)
+Load catch landings from Greek waters [landings.Rdata](landings.Rdata) and the Chinook landings  [chinook.Rdata](chinook.Rdata) in Washington data.
 
 ```{r read_data}
 load("landings.RData")
