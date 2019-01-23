@@ -1,9 +1,9 @@
 #################################################################
 ##  Univariate state-space models
-##  Example 2.  The hidden x is a random walk.
+##  Example 2.  The hidden x is a random walk. Forecast.
 #################################################################
 
-##  BUT we fit with a linear regression
+##  Let's fit a model where the hidden state is a random walk
 
 #x is the "hidden" trend we want to find
 #x(t)=x(t-1)+slope+w(t), w(t)~N(0,q)
@@ -11,7 +11,7 @@
 intercept=1
 slope=0.5
 q=.1
-r=.1
+r=.2
 n=50
 t=1:n
 x=intercept+slope+rnorm(1,0,sqrt(q))
@@ -22,18 +22,15 @@ plot(x,xlim=c(1,n),type="l")
 y=x+rnorm(n,0,sqrt(r))
 points(y)
 
-#How do we deal with x being a random walk??
-#Let's just fit a straight line
-
 #Let's write x as a AR-1 model and y as an observation of that
-#x(t) = x(t-1) + slope + w(t), w(t)~N(0,0)  so w(t)=0
+#x(t) = x(t-1) + slope + w(t), w(t)~N(0,q)
 #x(0) = intercept
 #y(t) = x(t) + v(t), v(t)~N(0,r)
 mod.list=list(
   U=matrix("slope"),
   x0=matrix("intercept"),
   B=matrix(1),
-  Q=matrix(0),
+  Q=matrix("q"),
   Z=matrix(1),
   A=matrix(0),
   R=matrix("r"),
@@ -41,19 +38,32 @@ mod.list=list(
 
 fit2=MARSS(y,model=mod.list)
 lines(fit2$states[1,], col="blue", lwd=2)
-title("fit is blue; true x is black")
 est.slope=coef(fit2)$U[,1]
 est.intercept=coef(fit2)$x0[,1]
 est.r=coef(fit2)$R[,1]
+est.q=coef(fit2)$Q[,1]
 
-readline("Continue?")
+readline("Coninue?")
+
+# Look at the ACF of the differenced data
+# Negative auto-correlation at lag-1 is indicative of observation error
+par(mfrow=c(2,1))
+acf(diff(x),main="x")
+acf(diff(y),main="y")
+
+#Try this
+# acf(diff(rnorm(100,0,1)))
+
+
+readline("Coninue?")
+
+par(mfrow=c(1,1))
 
 #Let's forecast our OBSERVATIONS forward 10 time steps
 #x(t+1)=x(t)+slope
 #y(t+1)=x(t+1)+v(t+1), v(t)~N(0,r)
 #First let's set up our estimated x
 #The last x at t=max(t)
-x.est.end = fit2$states[1,n]
 t.forward = 50
 
 #Let's first add the the real x and observations
@@ -68,8 +78,10 @@ points(y)
 title(paste("forecast with",n,"data points for estimation\nblue is estimate; red is true"))
 
 #Now let's forecast 1000 times using our estimates
-x.forecast = x.est.end + est.slope*(1:t.forward)
+x.est.end = fit2$states[1,n]
 for(i in 1:1000){
+  x.forecast = x.est.end + est.slope + rnorm(1,0,sqrt(est.q))
+  for(i in 2:t.forward) x.forecast[i]=x.forecast[i-1]+est.slope+rnorm(1,0,sqrt(est.q))
   y.forecast = x.forecast + rnorm(t.forward,0,sqrt(est.r))
   jit=rnorm(1,0,.1)-.25
   points(n+1:t.forward+jit,y.forecast,pch=".",col="blue")
