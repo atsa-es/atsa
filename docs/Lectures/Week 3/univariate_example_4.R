@@ -1,6 +1,6 @@
 #################################################################
 ##  Univariate state-space models
-##  Example 4.  The hidden x is a random walk.
+##  Example 5.  The hidden x is a random walk.
 ##  BUT we ignore observation error
 #################################################################
 
@@ -83,3 +83,4 @@ for(i in 1:1000){
   jit=rnorm(1,0,.1)+.25
   points(n+1:t.forward+jit,y.true.forecast,pch=".",col="red")
 }
+text(n,y[n-10],"Notice that the estimated forecast is too wide.", adj=0)
