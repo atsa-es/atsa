@@ -95,7 +95,7 @@ sslab2 <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5)",
+  homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5); you can do Chap 5 problem just using Chap 6 information.",
   key = "",
   instructor = "Eli",
   hw_topics = c("State-space models"),

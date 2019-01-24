@@ -1,3 +1,4 @@
+library(MARSS)
 fit <- MARSS(log(wilddogs[,2]))
 kf.fit <- MARSSkfss(fit)
 par(mfrow=c(3,1),mar=c(2,1,1,1))
