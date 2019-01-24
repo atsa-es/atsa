@@ -17,15 +17,24 @@ What if our main goal is to predict $x_{t+1}$?  Note we (fisheries biologists an
 
 How do we do this?
 
-# Approach #1 (the rest of the class)
+# Approach #1 which we will use in the rest of the course
 
-We estimate $m_t$.
+We estimate $m_t$ from the data.  Once we have an estimate of $m_t$, we have an estimate of $e_t$.  We can model that error (think AR and MA) to help us predict future $x_t$ from $x_{t-1}$.
 
-If we had $m_t$ we can predict the mean $x_{t-1}$ but that error might also have some structure (think AR and MA processes) that we can use to help us predict future $x_t$ from $x_{t-1}$.  Our goal is to both model that error and estimate $m_t$.
+Mark introduced filtering (moving averages) as one way to estimate $m_t$. We will not be doing that in the rest course. Instead, we will have a model for the $m_t$ and we will fit
+$$x_t = m_t + e_t$$ 
+directly.  We will get an estimate of the model that produced $m_t$.  We will also estimate the structure (think AR, MA) of $w_t$. **directly** means that we not be transforming our data with differencing in order to produce a statistic (difference) that is stationary. The $x_t$ and $m_t$ models will have a biological interpretation.
+
+So for example if our model is
+
+$$m_t = m_{t-1}+\mu \\ x_t = m_t + w_t.$$
+Then we fit that model without taking any differences.  Note the above is a trivial example as it is just a linear deterministic trend but gives you the idea.
 
 # Approach #2 Box-Jenkins
 
-We remove (detrend) $m_t$ from our data using differencing.  We model $\Delta^d x_t$ and then predict $\Delta^d x_{t+1}$. Once we have that we can predict $x_{t+1}$ by using $x_t$, $x_{t-1}$, etc with some algebra.
+The Box-Jenkins approach is different. In this approach to predicting $x_{t+1}$, we remove $m_t$ from our data using differencing.  We don't have to worry about a model for $m_t$ because we have removed it!  
+
+And we don't actually need it to predict $x_{t+1}$ since we have $x_{t}$, $x_{t-1}$, etc.  We model $\Delta^d x_t$ and then predict $\Delta^d x_{t+1}$. $\Delta^d x_t$ is a d-th difference. Once we have that we can predict $x_{t+1}$ by using $x_t$, $x_{t-1}$, etc with some algebra.
 
 The error structure of $\Delta^d x_{t+1}$ is NOT the same as $e_t$. 
 $$\Delta^d x_{t} = \phi_1\Delta^d x_{t-1}$ + \phi_2\Delta^d x_{t-2} + \dots + z_t$$
