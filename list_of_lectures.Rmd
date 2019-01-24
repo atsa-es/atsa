@@ -122,10 +122,10 @@ marss <- list(
   topics = c("Introduction to multivariate state-space models"),
   pdf = "",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = c("Lectures/Week 3/lec_06_box_jenkins_redux.Rmd","Lectures/Week 3/MARSS_function.Rmd"),
+  html = c("Lectures/Week 3/lec_06_box_jenkins_redux.html","Lectures/Week 3/MARSS_function.html"),
   video = "",
-  reading = c("HWS14: Chap 8"),
+  reading = c("[HWS14: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)","[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[marss_example_1.R](Lectures/Week 3/marss_example_1.R)","[marss_example_2.R](Lectures/Week 3/marss_example_2.R)","[marss_example_3.R](Lectures/Week 3/marss_example_4.R)","[marss_example_4.R](Lectures/Week 3/marss_example_5.R)","[marss_example_5.R](Lectures/Week 3/marss_example_5.R)"),
   youtube = "",
   instructor = "Eli"
 )
