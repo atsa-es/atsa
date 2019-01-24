@@ -37,9 +37,9 @@ The Box-Jenkins approach is different. In this approach to predicting $x_{t+1}$,
 And we don't actually need it to predict $x_{t+1}$ since we have $x_{t}$, $x_{t-1}$, etc.  We model $\Delta^d x_t$ and then predict $\Delta^d x_{t+1}$. $\Delta^d x_t$ is a d-th difference. Once we have that we can predict $x_{t+1}$ by using $x_t$, $x_{t-1}$, etc with some algebra.
 
 The error structure of $\Delta^d x_{t+1}$ is NOT the same as $e_t$. 
-$$\Delta^d x_{t} = \phi_1\Delta^d x_{t-1}$ + \phi_2\Delta^d x_{t-2} + \dots + z_t$$
+$$\Delta^d x_{t} = \phi_1\Delta^d x_{t-1} + \phi_2\Delta^d x_{t-2} + \dots + z_t$$
 
-$z_t$ is the error of the differences.  And the $\phi$ are for the differences.  So it is more difficult to make a biological interpretation of the ARMA model.  Remember, the objective was to predict $x_{t+1}$.
+$z_t$ is the error of the differences.  And the $\phi$ in the AR part are for the differences not the original $x_t$.  So it is more difficult to make a biological interpretation of the ARMA model.  But remember, the objective was to predict $x_{t+1}$ not to fit a model with a biological interpretation.
 
 ## Examples of differencing, linear trend
 
