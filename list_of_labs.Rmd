@@ -92,7 +92,7 @@ sslab2 <- list(
   pdf = "",
   rmd = c("https://nwfsc-timeseries.github.io/atsa-labs/Rmds/fitting-univariate-state-space.Rmd","https://nwfsc-timeseries.github.io/atsa-labs/Rmds/multivariate-ss.Rmd"),
   html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html","https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html"),
-  video = "",
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=ff985d38-262d-403f-a781-a9df017e9207",
   youtube = "",
   data = "",
   homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5); you can do Chap 5 problem just using Chap 6 information.",
