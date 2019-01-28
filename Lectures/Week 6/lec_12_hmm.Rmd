@@ -1,5 +1,5 @@
 ---
-title: "A gentle introduction to hidden markov models"
+title: "An introduction to hidden markov models for time series"
 author: "Eric Ward"
 date: "14 Feb 2019"
 output:
@@ -19,6 +19,8 @@ library(datasets)
 library(MARSS)
 library(dplyr)
 library(depmixS4)
+library(rerddap)
+library(lubridate)
 ```
 
 ## Overview of today's material
@@ -437,3 +439,151 @@ for(i in 1:iter) {
 ## Examples of univariate HMMs in R
 
 Let's move on to a more complex example. 
+
+We'll pull some data from the CalCOFI ichthyoplankton cruises in Southern California. Some species have been used to indicate *cool* versus *warm* regimes. 
+
+* http://calcofi.org/publications/calcofireports/v58/Vol58-State_of_the_Current_pages_1-55.pdf
+
+For this example, we'll focus on the California smoothtongue (*Leuroglossus stilbius*) 
+
+```{r}
+if(!file.exists("calcofi.csv")) {
+
+calcofi_erddap <- "ERDDAP	Species
+erdCalCOFIlrvcntLBtoLI	Leuroglossus stilbius
+erdCalCOFIlrvcntLBtoLI	Lipolagus ochotensis
+"
+
+calcofi = read.table(textConnection(calcofi_erddap), header=TRUE, sep="\t")
+
+for(i in 1:nrow(calcofi)) {
+  
+out = info(as.character(calcofi$ERDDAP[i]))
+raw_dat = tabledap(out, fields = c("station", "line", "latitude",
+  "longitude","time","scientific_name", "larvae_10m2"))
+raw_dat$year = lubridate::year(raw_dat$time)
+raw_dat$month = lubridate::month(raw_dat$time)
+
+raw_dat = dplyr::filter(raw_dat, scientific_name == calcofi$Species[i]) %>% 
+  dplyr::filter(month %in% c(4,5)) %>% 
+  dplyr::group_by(station) %>%
+  dplyr::mutate(n = n()) %>% 
+  dplyr::filter(n >= 20) %>%
+  dplyr::group_by(year) %>% 
+  summarize(m = mean(as.numeric(larvae_10m2), na.rm=T))
+
+raw_dat$species = calcofi$Species[i]
+
+if(i==1) {
+  dat = raw_dat
+} else {
+  dat = rbind(dat, raw_dat)
+}
+
+}
+
+dat = dplyr::filter(dat, year >= 1980)
+write.csv(dat, file="calcofi.csv")
+}
+```
+
+## Examples of univariate HMMs in R
+
+*Caveat:* the survey is spatially gridded, and you'd want to perform index standardization or use spatial models to generate indices. For simplicty, we're just taking the mean abundance across stations in April-May. 
+
+```{r, fig.height=3.5}
+calcofi = read.csv("calcofi.csv", stringsAsFactors = FALSE)
+calcofi = dplyr::filter(calcofi, species == "Leuroglossus stilbius")
+ggplot(calcofi, aes(year, m)) + geom_line() + xlab("Year") + ylab("Mean CPUE") + 
+  ggtitle("Leuroglossus stilbius")
+```
+
+## Examples of univariate HMMs in R
+
+We'll start with fitting a 2-state model with `depmix`. Assumptions:
+
+* Model fit to ln transformed data, assumed Gaussian
+
+```{r echo=TRUE}
+set.seed(123)
+calcofi$ln = log(calcofi$m)
+mod = depmix(ln ~ 1, 
+             nstates = 2, 
+             data=calcofi)
+fitmod = fit(mod)
+```
+
+## Examples of univariate HMMs in R
+
+First let's look at how to get predictions out of a `depmix.fitted` object
+
+We'll start with the state probabilities. Remember we could work with either 
+
+* Most probable state trajectory - via the `viterbi` function
+* Marginals of $P(x_{t})$ - via the `posterior` function
+
+## Examples of univariate HMMs in R
+
+The most probable states are 
+```{r echo=TRUE}
+prstates = apply(posterior(fitmod)[,c("S1","S2")], 
+  1, which.max)
+```
+```{r echo=TRUE, fig.height=3}
+plot(prstates, type="b", xlab="Time", ylab="State")
+```
+
+## Examples of univariate HMMs in R
+
+`depmixS4` doesn't have a `predict()` or `forecast()` function, but creating estimated data is pretty straightforward. We can get the means out with 
+```{r echo=TRUE}
+mu = summary(fitmod)[,1]
+```
+
+```{r echo=TRUE}
+pred = data.frame("year"=seq(min(calcofi$year), max(calcofi$year)),
+                  "fit" = mu[prstates])
+```
+
+```{r, fig.height=2.7}
+ggplot(calcofi, aes(year, log(m))) + geom_point(col="blue", size=1.5) + 
+  geom_line(data=pred, aes(year, fit)) + ggtitle("Leuroglossus stilbius - raw data and predictions") + 
+  ylab("Ln CPUE") + xlab("Year")
+```
+
+## Examples of univariate HMMs in R
+
+Some diagnostics (like autocorrelation) may not look great. What if we compared the previous model to one with 3 states? AIC from the 2-state model was 
+
+```{r results='markdown'}
+AIC(fitmod)
+```
+
+```{r echo=TRUE}
+set.seed(123)
+calcofi$ln = log(calcofi$m)
+mod = depmix(ln ~ 1, 
+             nstates = 3, 
+             data=calcofi)
+fitmod = fit(mod)
+```
+This seems like increasing the states doesn't result in lower AIC
+```{r results='markdown'}
+AIC(fitmod)
+```
+
+
+
+## Examples of multivariate HMMs in R
+
+If the univariate examples make sense, it's not that different to extend these models for multiple time series. 
+
+In this setting, the assumption is that the latent state process is the same for all time series, though the time series may differ
+
+1. their lengths
+2. their error distributions 
+
+
+
+
+
