@@ -1,7 +1,7 @@
 ---
 title: "Fitting Bayesian time series models"
 author: "Eric Ward"
-date: "12 Feb 2019"
+date: "7 Feb 2019"
 output:
   ioslides_presentation:
     css: lecture_slides.css
