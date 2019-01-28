@@ -21,6 +21,7 @@ library(dplyr)
 library(depmixS4)
 library(rerddap)
 library(lubridate)
+library(reshape2)
 ```
 
 ## Overview of today's material
@@ -583,7 +584,59 @@ In this setting, the assumption is that the latent state process is the same for
 1. their lengths
 2. their error distributions 
 
+## Examples of multivariate HMMs in R
 
+In `depmix`, these arguments generally become lists
 
+We'll extend our CalCOFI example to include 2 species now
+
+```{r}
+calcofi = read.csv("calcofi.csv", stringsAsFactors = FALSE)
+ggplot(calcofi, aes(year, m, group=species,col=species)) + geom_line() + ylab("CPUE") + xlab("Year")
+```
+
+## Examples of multivariate HMMs in R
+
+Fitting a 2-state model with 2 species as responses. First we have to reshape the data,
+```{r echo=TRUE, results='markdown'}
+calcofi$ln = log(calcofi$m) # ln transform
+calcofi <- dcast(melt(calcofi[,c("year","ln","species")], 
+            id.vars = c("year", "species")), 
+            year ~ species)
+names(calcofi)[2:3] = c("L_stilbius","L_ochotensis")
+head(calcofi)
+```
+
+## Examples of multivariate HMMs in R
+```{r echo=TRUE}
+set.seed(123)
+mod = depmix(list(L_stilbius ~ 1, L_ochotensis~1), 
+             nstates = 2, 
+             family = list(gaussian(),gaussian()),
+             data=calcofi)
+fitmod = fit(mod)
+```
+
+## Examples of multivariate HMMs in R
+
+We could also have situations where the time series are of different length.
+
+* For example, if L_ochotensis time series was missing first hald of values
+
+* The argument `ntimes` is a list that becomes particularly valuable here - representing the length of each time series
+
+## Summary
+
+HMMs are a useful approach at identifying latent state vectors that undergo discrete transitions 
+
+Estimation of HMMs for time series in R generally done with ML methods
+
+* Fast, but these algorithms may get stuck
+* Robust solutions = multiple starting values
+
+Bayesian estimation generally beyond the scope of this class
+
+* Very sstraightforward to build these models in BUGS/JAGS
+* More complicated with newer sofware (Stan)
 
 
