@@ -1,0 +1,64 @@
+---
+title: "Intro to Dynamic Factor Analysis"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "31 Jan 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
+set.seed(123)
+```
+
+## Topics for today
+
+Review of linear regression
+
+Dynamic Factor Analysis (DFA)
+
+DFA with covariates
+
+
+## Simple linear regression
+
+We often assume so-called _Gaussian white noise_, whereby
+
+$$
+w_t \sim \text{N}(0,\sigma^2)
+$$
+
+and the following apply as well
+
+&nbsp; &nbsp; autocovariance:&nbsp; $\gamma_k =
+    \begin{cases}
+      \sigma^2 & \text{if } k = 0 \\
+      0 & \text{if } k \geq 1
+    \end{cases}$
+
+&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k =
+    \begin{cases}
+      1 & \text{if } k = 0 \\
+      0 & \text{if } k \geq 1
+    \end{cases}$
+
+
+
+## Topics for today
+
+Review
+
+* White noise  
+
+* Random walks  
+
+Autoregressive (AR) models
+
+Moving average (MA) models
+
+Autoregressive moving average (ARMA) models
+
+Using ACF & PACF for model ID
