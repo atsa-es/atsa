@@ -80,18 +80,83 @@ y_i \sim \text{N}(\alpha + \beta x_i,\sigma^2)
 $$
 
 
+## A simple time series model
+
+Consider a simple model with a mean $\mu$ plus white noise
+
+$$
+y_t = \mu + e_t ~ \text{with} ~ e_t \sim \text{N}(0,\sigma^2)
+$$
+
+
+## Time series model with covariates
+
+We can expand the deterministic part of the model, as before with linear regression
+
+$$
+y_t = \underbrace{\alpha + \beta x_t}_{\text{mean}} + e_t ~ \text{with} ~ e_t \sim \text{N}(0,\sigma^2)
+$$
+
+so
+
+$$
+y_t \sim \text{N}(\alpha + \beta x_t,\sigma^2)
+$$
+
+
+## Model with autocorrelated errors
+
+We can also expand the stochastic part of the model to have autocorrelated errors
+
+$$
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+$$
+
+
+## Model with autocorrelated errors
+
+We can also expand the stochastic part of the model to have autocorrelated errors
+
+$$
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+$$
+
+We can write this model as a state-space model
+
+
+## A simple time series model
+
+Beginning with the observation equation
+
+$$
+\begin{align}
+  y_t &= \alpha + \beta x_t + e_t \\
+      &= e_t + \alpha + \beta x_t\\
+      &\Downarrow \\
+  y_t &= x_t + u + D d_t + v_t\\
+\end{align}
+$$
+
+with
+
+$$
+\begin{align}
+  e_t &= x_t \\
+  \alpha &= u \\
+  D &= \beta \\
+  d_t &= x_t \\
+  v_t &= 0
+\end{align}
+$$
+
+
+
 ## Topics for today
 
-Review
+Deterministic vs stochastic elements
 
-* White noise  
+Dynamic Factor Analysis (DFA)
 
-* Random walks  
-
-Autoregressive (AR) models
-
-Moving average (MA) models
-
-Autoregressive moving average (ARMA) models
-
-Using ACF & PACF for model ID
+DFA with covariates
