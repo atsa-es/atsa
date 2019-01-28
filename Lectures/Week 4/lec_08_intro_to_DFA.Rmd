@@ -1,5 +1,5 @@
 ---
-title: "Intro to Dynamic Factor Analysis"
+title: "Dynamic Factor Analysis"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
 date: "31 Jan 2019"
@@ -104,6 +104,15 @@ y_t \sim \text{N}(\alpha + \beta x_t,\sigma^2)
 $$
 
 
+## EXAMPLE
+
+INSERT AN EXAMPLE HERE
+
+```{r ts_with_AR_errors}
+
+```
+
+
 ## Model with autocorrelated errors
 
 We can also expand the stochastic part of the model to have autocorrelated errors
@@ -163,7 +172,7 @@ $B = \phi$ and $x_t = e_t$
 
 ## State-space form
 
-Putting both parts together
+Putting both parts together yields
 
 $$
   y_t = Z x_t + a + D d_t + v_t\\
