@@ -25,25 +25,44 @@ DFA with covariates
 
 ## Simple linear regression
 
-We often assume so-called _Gaussian white noise_, whereby
+Here is a simple linear regression model
 
 $$
-w_t \sim \text{N}(0,\sigma^2)
+y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
 $$
 
-and the following apply as well
 
-&nbsp; &nbsp; autocovariance:&nbsp; $\gamma_k =
-    \begin{cases}
-      \sigma^2 & \text{if } k = 0 \\
-      0 & \text{if } k \geq 1
-    \end{cases}$
+## Simple linear regression
 
-&nbsp; &nbsp; autocorrelation: &nbsp; $\rho_k =
-    \begin{cases}
-      1 & \text{if } k = 0 \\
-      0 & \text{if } k \geq 1
-    \end{cases}$
+The righthand side of the equation is composed of _deterministic_ and _stochastic_ pieces
+
+$$
+y_i = \underbrace{\alpha + \beta x_i}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
+$$
+
+
+## Simple linear regression
+
+This can also be seen by rewriting the model 
+
+$$
+y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+as
+
+$$
+y_i \sim \text{N}(\alpha + \beta x_i,\sigma^2)
+$$
+
+
+## Simple linear regression
+
+Sometime these pieces are referred to as _fixed_ and _random_
+
+$$
+y_i = \underbrace{\alpha + \beta x_i}_{\text{fixed}} + \underbrace{e_i}_{\text{random}}
+$$
 
 
 
