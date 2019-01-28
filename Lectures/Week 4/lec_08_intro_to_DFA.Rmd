@@ -123,10 +123,10 @@ y_t = \alpha + \beta x_t + e_t \\
 e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
 $$
 
-We can write this model as a state-space model
+We can write this model as our standard state-space model
 
 
-## A simple time series model
+## Model with autocorrelated errors
 
 Beginning with the observation equation
 
@@ -135,22 +135,40 @@ $$
   y_t &= \alpha + \beta x_t + e_t \\
       &= e_t + \alpha + \beta x_t\\
       &\Downarrow \\
-  y_t &= x_t + u + D d_t + v_t\\
+  y_t &= Z x_t + a + D d_t + v_t\\
 \end{align}
 $$
 
 with
 
+$Z = 1$, $x_t = e_t$, $a = \alpha$, $D = \beta$, $d_t = x_t$ & $v_t = 0$
+
+
+## Model with autocorrelated errors
+
+And the state equation
+
 $$
 \begin{align}
-  e_t &= x_t \\
-  \alpha &= u \\
-  D &= \beta \\
-  d_t &= x_t \\
-  v_t &= 0
+  e_t &= \phi e_{t-1} + w_t \\
+      &\Downarrow \\
+  x_t &= B x_t + w_t\\
 \end{align}
 $$
 
+with
+
+$B = \phi$ and $x_t = e_t$
+
+
+## State-space form
+
+Putting both parts together
+
+$$
+  y_t = Z x_t + a + D d_t + v_t\\
+  x_t = B x_t + w_t
+$$
 
 
 ## Topics for today
