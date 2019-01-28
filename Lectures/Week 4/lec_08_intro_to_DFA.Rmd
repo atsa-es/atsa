@@ -16,54 +16,68 @@ set.seed(123)
 
 ## Topics for today
 
-Review of linear regression
+Deterministic vs stochastic elements
 
 Dynamic Factor Analysis (DFA)
 
 DFA with covariates
 
 
-## Simple linear regression
+## A very simple model
 
-Here is a simple linear regression model
+Consider this simple model, consisting of a mean $\mu$ plus error
 
 $$
-y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+y_i = \mu + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
 $$
 
 
-## Simple linear regression
+## A very simple model
 
 The righthand side of the equation is composed of _deterministic_ and _stochastic_ pieces
 
 $$
-y_i = \underbrace{\alpha + \beta x_i}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
+y_i = \underbrace{\mu}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
 $$
 
 
-## Simple linear regression
+## A very simple model
+
+Sometime these pieces are referred to as _fixed_ and _random_
+
+$$
+y_i = \underbrace{\mu}_{\text{fixed}} + \underbrace{e_i}_{\text{random}}
+$$
+
+
+## A very simple model
 
 This can also be seen by rewriting the model 
 
 $$
-y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+y_i = \mu + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
 $$
 
 as
 
 $$
-y_i \sim \text{N}(\alpha + \beta x_i,\sigma^2)
+y_i \sim \text{N}(\mu,\sigma^2)
 $$
 
 
 ## Simple linear regression
 
-Sometime these pieces are referred to as _fixed_ and _random_
+We can expand the deterministic part of the model, as with linear regression
 
 $$
-y_i = \underbrace{\alpha + \beta x_i}_{\text{fixed}} + \underbrace{e_i}_{\text{random}}
+y_i = \underbrace{\alpha + \beta x_i}_{\text{mean}} + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
 $$
 
+so
+
+$$
+y_i \sim \text{N}(\alpha + \beta x_i,\sigma^2)
+$$
 
 
 ## Topics for today
