@@ -13,7 +13,7 @@ output:
 knitr::opts_knit$set(unnamed.chunk.label = "tssolns-")
 ```
 
-Here are the answers for the homework problems based on the material in [Basic time series functions in R](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts-lab.html).  You can download the Rmd file for this key from [here](HW_2_ts_Key.html).
+Here are the answers for the homework problems based on the material in [Basic time series functions in R](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts-lab.html).  You can download the Rmd file for this key from [here](HW_2_ts_Key.Rmd).
 
 All of the questions were based on the following scenario:
 
