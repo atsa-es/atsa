@@ -551,6 +551,71 @@ $$
 $$
 
 
+## Finding common patterns
+
+What if our observations were instead a mixture of 2+ states?
+
+For example, we sampled haul-outs located between several breeding sites
+
+
+## Mixtures of states
+
+$$
+\begin{bmatrix}
+ y_1 \\
+ y_2 \\
+ y_3 \\
+ y_4 \\
+ y_5 
+\end{bmatrix}_t =
+\begin{bmatrix}
+ 0.8 & 0.2 & 0 \\
+ 0.2 & 0.7 & 0.1 \\
+ 0 & 0.9 & 0.1 \\
+ 0 & 0.3 & 0.7 \\
+ 0 & 0.1 & 0.9 \\
+\end{bmatrix} \times
+\begin{bmatrix}
+ x_{JF} \\
+ x_N \\
+ x_S 
+\end{bmatrix}_t +
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ a_4 \\
+ a_5 
+\end{bmatrix} +
+\begin{bmatrix}
+ v_1 \\
+ v_2 \\
+ v_3 \\
+ v_4 \\
+ v_5 
+\end{bmatrix}_t
+$$
+
+$$
+\begin{bmatrix}
+ x_{JF} \\
+ x_N \\
+ x_S 
+\end{bmatrix}_t =
+\begin{bmatrix}
+ x_{JF} \\
+ x_N \\
+ x_S 
+\end{bmatrix}_{t-1} +
+\begin{bmatrix}
+ w_{JF} \\
+ w_N \\
+ w_S
+\end{bmatrix}_t
+$$
+
+
+
 
 ## Topics for today
 
