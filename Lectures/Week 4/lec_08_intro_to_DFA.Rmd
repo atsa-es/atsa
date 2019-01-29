@@ -404,6 +404,87 @@ $$
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
 $$
 
+with 
+
+$\mathbf{v}_t \sim \text{MVN}(\mathbf{0}, \mathbf{R})$
+
+$\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$
+
+
+##
+
+```{r plot_many_ts, echo=FALSE, fig.align='center'}
+NN <- 25
+TT <- 30
+MM <- 3
+ 
+## MM x TT matrix of innovations
+ww <- matrix(rnorm(MM*TT, 0, 1), MM, TT)
+ww[,1] <- rnorm(MM, 0, sqrt(5))
+## MM x TT matrix of scaled latent trends
+xx <- t(scale(apply(ww,1,cumsum)))
+
+## loadings matrix
+ZZ <- matrix(runif(NN*MM, -1, 1), NN, MM)
+diag(ZZ) <- rev(sort(abs(diag(ZZ))))
+ZZ[upper.tri(ZZ)] <- 0
+ZZ <- round(ZZ, 2)
+
+## obs var
+obs_var <- 0.2^2
+## obs errors
+ee <- t(MASS::mvrnorm(TT, matrix(0,NN,1), diag(obs_var,NN,NN)))
+## NN x TT matrix of observed data
+yy <- ZZ %*% xx + ee
+
+clr <- viridis::plasma(NN, alpha=0.7, end=0.8)
+
+vv <- sample(seq(NN), NN)
+
+par(mfrow=c(5,5), mai=c(0.1,0.1,0,0), omi=c(0,0,0,0)) 
+
+for(i in 1:NN) {
+	plot.ts(yy[vv[i],], lwd=2,
+	        xlab="", xaxt="n", ylab="", yaxt="n",
+	        col=clr[i], bty="n")
+}
+```
+
+
+## Environmental time series
+
+We often observe covariance among environmental time series, especially for those close to one another
+
+
+##
+
+```{r, echo=FALSE, fig.align='center'}
+par(mfrow=c(5,5), mai=c(0.1,0.1,0,0), omi=c(0,0,0,0)) 
+
+for(i in 1:NN) {
+	plot.ts(yy[vv[i],], lwd=2,
+	        xlab="", xaxt="n", ylab="", yaxt="n",
+	        col=clr[i], bty="n")
+}
+
+```
+
+Are there some common patterns here?
+
+
+## Common patterns in time series
+
+```{r plot_dfa_trends, fig.align="center"}
+## plot the trends
+par(mfrow=c(1,3), mai=c(1.2,0,0,0), omi=rep(0.1,4))
+clr <- viridis::plasma(MM, end=0.8)
+for(i in 1:3) {
+	plot.ts(xx[i,], lwd=3,
+	        xlab="", xaxt="n", ylab="", yaxt="n",
+	        col=clr[i], bty="n")
+}
+```
+
 
 
 ## Topics for today
