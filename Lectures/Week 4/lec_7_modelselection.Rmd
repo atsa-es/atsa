@@ -1,10 +1,11 @@
 ---
 title: "Model selection, cross validation, and performance of time series models"
-author: "Eric Ward"
-date: "29 Jan 2019"
+author: "Eric Ward, warde@uw.edu"
+date: 'January 29 2019'
 output:
   ioslides_presentation:
     css: lecture_slides.css
+  slidy_presentation: default
   beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
@@ -118,7 +119,7 @@ $$AIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + 
 
 Small sample AIC
 
-AICc=AIC+\frac { 2k(k+1) }{ n-k-1 } 
+$$AICc=AIC+\frac { 2k(k+1) }{ n-k-1 }$$
 
 * What happens to this term as n increases? 
 
@@ -127,9 +128,11 @@ AICc=AIC+\frac { 2k(k+1) }{ n-k-1 }
 AIC aims to find the best model to predict data generated from the same process that generated your observations
 
 Downside: AIC has a tendency to overpenalize, especially for more complex models
-* Equivalent to significance test w/$\alpha$ = 0.16
+
+* Equivalent to significance test w/ $\alpha$ = 0.16
 
 Alternative: Schwarz/Bayesian Information Criterion (SIC/BIC)
+
 * Not Bayesian!
 * Relies on Laplace approximation to posterior
 * $\alpha$ becomes a function of sample size
@@ -462,13 +465,13 @@ $$MSE={ \frac { \sum _{ t=1 }^{ n }{ { \left( { x }_{ t }-{ \hat { x }  }_{ t } 
 
 * Do you care just about predicting the final outcome of a forecast, or also the trajectory to get there? 
 
-## Variances of MSE
+## Variants of MSE
 
 Root mean square error, RMSE (quadratic score)
 
 * RMSE = $\sqrt { RMSE }$
 * on the same scale as the data
-* also referred to as RMSD, root mean sq deviation
+* also referred to as RMSD, root mean square deviation
 
 Mean absolute error, MAE (linear score)
 $$E\left[ \left| { x }_{ t }-{ \hat { x }  }_{ t }  \right|  \right]$$
