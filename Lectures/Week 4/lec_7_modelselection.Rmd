@@ -3,10 +3,10 @@ title: "Model selection, cross validation, and performance of time series models
 author: "Eric Ward, warde@uw.edu"
 date: 'January 29 2019'
 output:
+  beamer_presentation: default
+  slidy_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  slidy_presentation: default
-  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 

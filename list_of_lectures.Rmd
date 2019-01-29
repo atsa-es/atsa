@@ -155,13 +155,13 @@ model_inf <- list(
   topics = c("Multi-model inference and selection",
              "Information criteria",
              "Cross-validation & LOOIC"),
-  pdf = "",
+  pdf = "Lectures/Week 4/lec_7_modelselection.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
-  video = "",
+  rmd = "Lectures/Week 4/lec_7_modelselection.Rmd",
+  html = "Lectures/Week 4/lec_7_modelselection.html",
+  video = "https://youtu.be/hF4aoFBZoCU",
   reading = c(""),
-  youtube = "",
+  youtube = "https://youtu.be/hF4aoFBZoCU",
   instructor = "Eric"
 )
 ```
