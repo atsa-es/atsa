@@ -6,7 +6,8 @@ output:
   html_document:
     theme: cerulean
     toc: true
-    toc_depth: 2
+    toc_depth: 3
+    toc_float: yes
 ---
 
 ```{r mlr-setup, include=FALSE, purl=FALSE}
@@ -19,7 +20,7 @@ Here are the answers for the homework problems based on the material in [Box-Jen
 # Solutions Chapter 5
 \chaptermark{Solutions Ch 5}
 
-## Question 1
+## Problem 1
 
 _Because the information on how to do a Dickey-Fuller test was buried in the material that I gave you and not in the help file for these functions, I did not grade problem 1._
 
@@ -76,7 +77,7 @@ c. **Do a KPSS test using `kpss.test()`.**
     ```
     The null of trend stationary is rejected at $\alpha=0.05$.  Again the data do not pass the stationarity tests.
 
-## Question 2
+## Problem 2
 
 **Repeat the stationarity tests and differencing tests for anchovy using the full data.  The full data go to 2007.** 
 ```{r read_data_prob2}
@@ -150,7 +151,7 @@ c. Fit the using `auto.arima()` to the full data (1964-2007) and recent data (19
     ```
 
     
-## Question 3
+## Problem 3
 
 **Fit each of the models listed under the `auto.arima()` trace using `Arima()` and show that you can produce the same AICc value that is shown in the trace table.**
 
@@ -182,7 +183,7 @@ forecast::auto.arima(anchovy, trace=TRUE)
     data.frame(model=models, AICc=aiccs)
     ```
     
-## Question 4
+## Problem 4
 
 **Use `auto.arima()` with `stepwise=FALSE` to find the top 3 models (according to AICc) for the anchovy.**
 
@@ -236,7 +237,7 @@ c. **Do the forecasts differ?**
     ```
 
 
-## Question 5
+## Problem 5
 
 a. **Fit a seasonal model to the Chinook data up to 1999 using `auto.arima()`.**
 

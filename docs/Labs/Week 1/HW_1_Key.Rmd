@@ -6,7 +6,8 @@ output:
   html_document:
     theme: cerulean
     toc: true
-    toc_depth: 2
+    toc_depth: 3
+    toc_float: yes
 ---
 
 ```{r mlr-setup, include=FALSE, purl=FALSE}
