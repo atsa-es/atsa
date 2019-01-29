@@ -104,12 +104,34 @@ y_t \sim \text{N}(\alpha + \beta x_t,\sigma^2)
 $$
 
 
-## EXAMPLE
-
-INSERT AN EXAMPLE HERE
+## Example of linear model
 
 ```{r ts_with_AR_errors}
+set.seed(123)
+tt <- 30
+ee <- rnorm(tt)
+ww <- rnorm(tt)
+phi <- 0.6
+for(t in 2:tt) {
+  ee[t] <- phi * ee[t-1] + ww[t]
+}
 
+aa <- 5
+bb <- 0.5
+xx <- rnorm(tt) + 2
+
+yy <- aa + bb * xx + ee
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(yy, ylim = c(min(xx,yy), max(xx, yy)), las = 1,
+        col = "darkred", lwd = 2,
+        ylab = expression(italic(x[t])~~or~~italic(y[t])))
+lines(xx, col = "blue", lwd = 2)
+text(xx[1], expression(italic(x[t])), pos = 3, col = "blue")
+text(yy[1], expression(italic(y[t])), pos = 3, col = "darkred")
+mtext(side = 3, expression(italic(y[t]) == 0.5~+~5~italic(x[t])~+~italic(e[t])),
+      line = 0.4, adj = 0)
 ```
 
 
@@ -167,7 +189,7 @@ $$
 
 with
 
-$B = \phi$ and $x_t = e_t$
+$x_t = e_t$ and $B = \phi$
 
 
 ## State-space form
