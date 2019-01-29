@@ -347,21 +347,62 @@ f_t \sim \text{N}(f_{t-1}, \gamma)
 $$
 
 
-## Expanding fixed & random effects
+## Fixed & random effects | In familiar state-space form
 
 $$
-y_t = x_t + a + D d_t + e_t \\
+y_t = x_t + a + D d_t + v_t \\
 x_t = x_{t-1} + w_t
 $$
 
 with
 
-$e_t \sim \text{N}(0, R)$
+$v_t \sim \text{N}(0, R)$
 
 $w_t \sim \text{N}(0, Q)$
 
 
+## {.flexbox .vcenter}
 
+<font size="10">MULTIPLE TIME SERIES</font>
+
+
+## Simple model for 2+ time series | Random walk observed with error
+
+$$
+y_{i,t} = x_{i,t} + a_i + v_{i,t} \\
+x_{i,t} = x_{i,t-1} + w_{i,t}
+$$
+
+with
+
+$v_{i,t} \sim \text{N}(0, R)$
+
+$w_{i,t} \sim \text{N}(0, Q)$
+
+
+## Random walk observed with error
+
+$$
+y_{1,t} = x_{1,t} + a_1 + v_{1,t} \\
+y_{2,t} = x_{2,t} + a_2 + v_{2,t} \\
+\vdots \\
+y_{n,t} = x_{n,t} + a_2 + v_{n,t} \\
+$$
+
+$$
+x_{1,t} = x_{1,t-1} + w_{1,t} \\
+x_{2,t} = x_{2,t-1} + w_{2,t} \\
+\vdots \\
+x_{n,t} = x_{n,t-1} + w_{n,t}
+$$
+
+
+## Random walk observed with error | In matrix form
+
+$$
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
 
 
 
