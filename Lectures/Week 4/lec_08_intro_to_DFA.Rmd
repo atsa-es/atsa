@@ -166,43 +166,44 @@ We can expand the stochastic part of the model to have autocorrelated errors
 
 $$
 y_t = \alpha + \beta x_t + e_t \\
-e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+e_t = \phi e_{t-1} + w_t
 $$
+
+with $w_t \sim \text{N}(0,\sigma^2)$
 
 
 ## Model with autocorrelated errors
 
-We can also expand the stochastic part of the model to have autocorrelated errors
+We can expand the stochastic part of the model to have autocorrelated errors
 
 $$
 y_t = \alpha + \beta x_t + e_t \\
-e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+e_t = \phi e_{t-1} + w_t
 $$
+
+with $w_t \sim \text{N}(0,\sigma^2)$
 
 We can write this model as our standard state-space model
 
 
-## Model with autocorrelated errors
-
-Beginning with the observation equation
+## State-space model | Observation equation
 
 $$
 \begin{align}
   y_t &= \alpha + \beta x_t + e_t \\
       &= e_t + \alpha + \beta x_t\\
       &\Downarrow \\
-  y_t &= Z x_t + a + D d_t + v_t\\
+  y_t &= x_t + a + D d_t + v_t\\
 \end{align}
 $$
 
 with
 
-$Z = 1$, $x_t = e_t$, $a = \alpha$, $D = \beta$, $d_t = x_t$ & $v_t = 0$
+$x_t = e_t$, $a = \alpha$, $D = \beta$, $d_t = x_t$, $v_t = 0$
 
 
-## Model with autocorrelated errors
+## State-space model | State equation
 
-And the state equation
 
 $$
 \begin{align}
@@ -217,14 +218,61 @@ with
 $x_t = e_t$ and $B = \phi$
 
 
-## State-space form
-
-Putting both parts together yields
+## State-space model | Full form
 
 $$
-  y_t = Z x_t + a + D d_t + v_t\\
-  x_t = B x_t + w_t
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t \\
+\Downarrow \\
+y_t = a + D d_t + x_t\\
+x_t = B x_t + w_t
 $$
+
+
+## State-space model | In full MARSS form
+
+$$
+y_t = a + D d_t + x_t \\
+x_t = B x_t + w_t \\
+\Downarrow \\
+y_t = Z x_t + a + D d_t + v_t \\
+x_t = B x_t + u + C c_t + w_t
+$$
+
+
+## State-space model | Observation model in `MARSS()`
+
+$$
+y_t = a + D d_t + x_t \\
+\Downarrow \\
+y_t = Z x_t + a + D d_t + v_t
+$$
+
+```{r, echo=TRUE, eval=FALSE}
+y = data         ## [1 x T] matrix of data
+a = matrix("a")  ## intercept
+D = matrix("D")  ## slope
+d = covariate    ## [1 x T] matrix of measured covariate
+Z = matrix(1)    ## no multiplier on x 
+R = matrix(0)    ## v_t ~ N(0,R); want y_t = 0 for all t
+```
+
+
+## State-space model | State model in `MARSS()`
+
+$$
+x_t = B x_t + w_t \\
+\Downarrow \\
+x_t = B x_t + u + C c_t + w_t
+$$
+
+```{r, echo=TRUE, eval=FALSE}
+B = matrix("b")  ## AR(1) coefficient for model errors
+Q = matrix("q")  ## w_t ~ N(0,Q); var for model errors
+u = matrix(0)    ## u = 0
+C = matrix(0)    ## C = 0
+c = matrix(0)    ## c_t = 0 for all t
+```
 
 
 ## Topics for today
