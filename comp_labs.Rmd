@@ -82,9 +82,15 @@ names(dd_links_html) <- NULL
 ```
 
 ```{r key_links, include = FALSE}
-key_links <- lapply(week_labs, function(x){if(is.list(x)){x$key}else{""}})
-## topics formatted for html
-key_links_html <- sapply(lapply(key_links, function(x){ if(identical(x, "")){""}else{ paste("[Key](",x,")", collapse="<br>")}}), c)
+# key_links <- lapply(week_labs, function(x){if(is.list(x)){x$key}else{""}})
+# ## topics formatted for html
+# key_links_html <- sapply(lapply(key_links, function(x){ if(identical(x, "")){""}else{ paste("[Key](",x,")", collapse="<br>")}}), c)
+# names(key_links_html) <- NULL
+
+key_links <- lapply(week_labs, function(x){if(is.list(x)){c(x$key)}else{""}})
+key_links_html <- sapply(lapply(key_links, function(x){
+  if(length(x)>1){
+    tmp1<-paste0("[Key ",1:length(x),"](") }else{ tmp1<-"[Key](" }; tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp, collapse=" "); tmp}), c)
 names(key_links_html) <- NULL
 ```
 

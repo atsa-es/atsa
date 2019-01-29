@@ -15,3 +15,7 @@ set.seed(123)
 ```
 
 https://www.stat.berkeley.edu/~arturof/Teaching/STAT248/lab10_part1.html
+
+https://tsmatz.wordpress.com/2017/08/04/time-series-arima-r-tutorial-02-unit-root-seasonal-arima/
+
+https://www.stat.berkeley.edu/~arturof/Teaching/STAT248/lab05_part1.html
