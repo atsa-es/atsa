@@ -227,6 +227,21 @@ bayes <- list(
 ```
 
 ```{r}
+bayes2 <- list(
+  title = "Bayesian estimation",
+  topics = c("Writing our own Bayesian models in STAN"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  html = "",
+  video = "",
+  reading = c(""),
+  youtube = "",
+  instructor = "Eric"
+)
+```
+
+```{r}
 glm <- list(
   title = "Generalized TS models",
   topics = c("Time series models with non-Gaussian errors",
