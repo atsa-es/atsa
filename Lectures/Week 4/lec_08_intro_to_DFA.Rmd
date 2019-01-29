@@ -1,0 +1,189 @@
+---
+title: "Dynamic Factor Analysis"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "31 Jan 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
+set.seed(123)
+```
+
+## Topics for today
+
+Deterministic vs stochastic elements
+
+Dynamic Factor Analysis (DFA)
+
+DFA with covariates
+
+
+## A very simple model
+
+Consider this simple model, consisting of a mean $\mu$ plus error
+
+$$
+y_i = \mu + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+
+## A very simple model
+
+The righthand side of the equation is composed of _deterministic_ and _stochastic_ pieces
+
+$$
+y_i = \underbrace{\mu}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
+$$
+
+
+## A very simple model
+
+Sometime these pieces are referred to as _fixed_ and _random_
+
+$$
+y_i = \underbrace{\mu}_{\text{fixed}} + \underbrace{e_i}_{\text{random}}
+$$
+
+
+## A very simple model
+
+This can also be seen by rewriting the model 
+
+$$
+y_i = \mu + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+as
+
+$$
+y_i \sim \text{N}(\mu,\sigma^2)
+$$
+
+
+## Simple linear regression
+
+We can expand the deterministic part of the model, as with linear regression
+
+$$
+y_i = \underbrace{\alpha + \beta x_i}_{\text{mean}} + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+so
+
+$$
+y_i \sim \text{N}(\alpha + \beta x_i,\sigma^2)
+$$
+
+
+## A simple time series model
+
+Consider a simple model with a mean $\mu$ plus white noise
+
+$$
+y_t = \mu + e_t ~ \text{with} ~ e_t \sim \text{N}(0,\sigma^2)
+$$
+
+
+## Time series model with covariates
+
+We can expand the deterministic part of the model, as before with linear regression
+
+$$
+y_t = \underbrace{\alpha + \beta x_t}_{\text{mean}} + e_t ~ \text{with} ~ e_t \sim \text{N}(0,\sigma^2)
+$$
+
+so
+
+$$
+y_t \sim \text{N}(\alpha + \beta x_t,\sigma^2)
+$$
+
+
+## EXAMPLE
+
+INSERT AN EXAMPLE HERE
+
+```{r ts_with_AR_errors}
+
+```
+
+
+## Model with autocorrelated errors
+
+We can also expand the stochastic part of the model to have autocorrelated errors
+
+$$
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+$$
+
+
+## Model with autocorrelated errors
+
+We can also expand the stochastic part of the model to have autocorrelated errors
+
+$$
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+$$
+
+We can write this model as our standard state-space model
+
+
+## Model with autocorrelated errors
+
+Beginning with the observation equation
+
+$$
+\begin{align}
+  y_t &= \alpha + \beta x_t + e_t \\
+      &= e_t + \alpha + \beta x_t\\
+      &\Downarrow \\
+  y_t &= Z x_t + a + D d_t + v_t\\
+\end{align}
+$$
+
+with
+
+$Z = 1$, $x_t = e_t$, $a = \alpha$, $D = \beta$, $d_t = x_t$ & $v_t = 0$
+
+
+## Model with autocorrelated errors
+
+And the state equation
+
+$$
+\begin{align}
+  e_t &= \phi e_{t-1} + w_t \\
+      &\Downarrow \\
+  x_t &= B x_t + w_t\\
+\end{align}
+$$
+
+with
+
+$B = \phi$ and $x_t = e_t$
+
+
+## State-space form
+
+Putting both parts together yields
+
+$$
+  y_t = Z x_t + a + D d_t + v_t\\
+  x_t = B x_t + w_t
+$$
+
+
+## Topics for today
+
+Deterministic vs stochastic elements
+
+Dynamic Factor Analysis (DFA)
+
+DFA with covariates
