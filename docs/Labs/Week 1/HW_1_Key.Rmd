@@ -33,6 +33,8 @@ knitr::opts_knit$set(unnamed.chunk.label = "mlrsolns-")
 # Solutions Chapter 2
 \chaptermark{Solutions Ch 2}
 
+You can download the Rmd file for this key from [here](HW_1_Key.Rmd).
+
 ## Data Set Up
 ```{r}
 library(datasets)
