@@ -1,0 +1,120 @@
+---
+title: "Covariates in MARSS Models"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Eli Holmes"
+date: "29 Jan 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
+set.seed(123)
+```
+
+## Why include covariates in a model?
+
+* We want to understand how covariates drive the hidden process.  For example, population growth rate from year to year or movement rates from step to step.
+
+* We want to test hypotheses for what caused a perturbation or change in the dynamics.
+
+* We want to forecast using covariates.
+
+* We want to model the _autocorrelation in the process errors_ using the known driver.
+
+## Why include covariates in a model?
+
+**Auto-correlated observation errors**
+
+* Model your $v_t$ as a AR-1 process. hard numerically
+
+* If know what is causing the auto-correlation, include that as a covariate. Easier.
+
+**Correlated observation errors across sites or species (y rows)**
+
+* Use a R matrix with off-diagonal terms. really hard numerically
+
+* If you know or suspect what is causing the correlation, include that as a covariate. Easier.
+
+"hard numerically" = you need a lot of data
+
+
+## Covariates in state process
+
+eg, nutrients affects growth, high temps kill...
+
+$$\mathbf{x}_t = \boxed{\mathbf{B}_t\mathbf{x}_{t-1}}+\mathbf{u}+\boxed{\mathbf{C}\mathbf{c}_t}+\mathbf{w}_t$$
+
+$\boxed{\mathbf{B}_t\mathbf{x}_{t-1}}$ Mark will discuss Dynamic Linear Models on Tuesday.  In these models, covariates appear in $\mathbf{B}_t$ and $\mathbf{x}_t$ is a time-varying effect of the covariate.
+
+$\boxed{\mathbf{C}\mathbf{c}_t}$ In this case, the covariate is in $\mathbf{c}_t$ and the effect is in matrix $\mathbf{C}$.  This is similar to how the covariate appears in a multivariate regression.
+
+## Covariates in the state process
+
+$$\begin{bmatrix}x_1 \\ x_2\end{bmatrix}_t = \begin{bmatrix}x_1 \\ x_2\end{bmatrix}_{t-1} + \begin{bmatrix}C_a & C_b \\ C_a & C_b\end{bmatrix}\begin{bmatrix}temp \\ wind\end{bmatrix}_t + \begin{bmatrix}w_1 \\ w_2\end{bmatrix}_t$$
+The model for $x_t$ in site 1 is:
+
+$$x_{1,t}=x_{1,t-1}+C_a temp_t + C_b wind_t + w_{1,t}$$
+There is an effect of the prior $x_t$ and an effect of temp and wind.
+
+## The structure of $\mathbf{C}$
+
+The structure of $\mathbf{C}$ can model different effect structures
+
+**Effect of temp and wind is the same**
+
+$$\begin{bmatrix}C & C \\ C & C\end{bmatrix}\begin{bmatrix}temp \\ wind\end{bmatrix}_t$$
+
+###  .
+
+**Effect of temp and wind is different but the same across sites, species, whatever the row in $\mathbf{x}$ is**
+
+$$\begin{bmatrix}C_a & C_b \\ C_a & C_b\end{bmatrix}\begin{bmatrix}temp \\ wind\end{bmatrix}_t$$
+
+##
+
+**Effect of temp and wind is different across sites or whatever the row in $\mathbf{x}$ is**
+
+$$\begin{bmatrix}C_{a1} & C_{b1} \\ C_{a2} & C_{b2}\end{bmatrix}\begin{bmatrix}temp \\ wind\end{bmatrix}_t$$
+
+###  .
+
+**Effect of temp is the same across sites but wind is not**
+
+$$\begin{bmatrix}C_{a} & C_{b1} \\ C_{a} & C_{b2}\end{bmatrix}\begin{bmatrix}temp \\ wind\end{bmatrix}_t$$
+
+## Covariate in the observation process
+
+eg, vegetation obscures individuals, temperature affects behavior making animals more or less visible
+
+$$\mathbf{y}_t = \mathbf{Z}\mathbf{x}_{t}+\mathbf{a}+\boxed{\mathbf{D}\mathbf{d}_t}+\mathbf{w}_t$$
+
+## Covariates in the observation process
+
+$$\begin{bmatrix}y_1 \\ y_2 \\y_3\end{bmatrix}_t = \begin{bmatrix}1 & 0 \\ 1 & 0 \\ 0 & 1\end{bmatrix}\begin{bmatrix}x_1 \\ x_2\end{bmatrix}_{t} + \begin{bmatrix}D_a & D_b \\ D_a & D_b \\D_a & D_b\end{bmatrix}\begin{bmatrix}temp \\ wind\end{bmatrix}_t + \begin{bmatrix}v_1 \\ v_2 \\v_3\end{bmatrix}_t$$
+In this case the covariate does not affect the _state_ $x$.  It only affects the observation of the state.
+
+The model for $y_t$ in site 1 is:
+
+$$y_{1,t}=x_{1,t}+D_a temp_t + D_b wind_t + v_{1,t}$$
+
+## The structure of $\mathbf{D}$
+
+The structure of $\mathbf{D}$ can model many different structures of the effects.
+
+**Effect of temp and wind is the same across sites 1 & 2 but different for site 3.  In site 3, temp has an effect but wind does not**
+
+$$\begin{bmatrix}D_a & D_b \\ D_a & D_b \\ D_c & 0\end{bmatrix}\begin{bmatrix}temp \\ wind\end{bmatrix}_t$$
+
+## Lecture on covariates in MARSS models Feb 19th
+
+* Different approaches to modeling seasonality
+   * Factors
+   * Sines and cosines (Fourier series)
+   * Polynomials
+* Dealing with missing covariates
+   * Modeling the covariates as a hidden process
+* Dealing with collinearity in your covariates
+* Lab to practice analyzing population data and infer effects of covariates on year-to-year growth rates
