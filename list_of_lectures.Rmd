@@ -159,7 +159,7 @@ model_inf <- list(
   ppt = "",
   rmd = c("Lectures/Week 4/lec_7_modelselection.Rmd","Lectures/Week 4/lec_07_covariates_in_marss_brief.Rmd"),
   html = c("Lectures/Week 4/lec_7_modelselection.html","Lectures/Week 4/lec_07_covariates_in_marss_brief.html"),
-  video = "",
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=142060d0-6f7b-4108-a80f-a9e40166b34d",
   reading = c(""),
   youtube = "https://youtu.be/hF4aoFBZoCU",
   instructor = "Eric"
