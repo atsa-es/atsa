@@ -547,6 +547,7 @@ plot(fr)
 The chinook data are monthly and start in January 1990.  To make this into a ts object do
 
 ```{r}
+load("chinook.RData")
 chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
                 frequency=12)
 ```

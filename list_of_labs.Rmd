@@ -60,7 +60,7 @@ forecastlab <- list(
   youtube = "",
   data = "",
   homework = "Intro to ts: problems at end of lab<br>Fitting ARMA models: problems at end of chapter",
-  key = c("Labs/Week 2/HW_2_ts_Key.html"),
+  key = c("Labs/Week 2/HW_2_ts_Key.html","Labs/Week 2/HW_2_box-jenkins_Key.html"),
   instructor = "Mark & Eli",
   hw_topics = c("ARIMA models"),
   hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
