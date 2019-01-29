@@ -95,7 +95,7 @@ sslab2 <- list(
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=ff985d38-262d-403f-a781-a9df017e9207",
   youtube = "",
   data = "",
-  homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5); you can do Chap 5 problems just using Chap 6 information.",
+  homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5); you can do Chap 5 problems just using Chap 6 information;<br>Due Thurs midnight.",
   key = "",
   instructor = "Eli",
   hw_topics = c("State-space models"),
