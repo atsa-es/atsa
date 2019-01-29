@@ -615,6 +615,37 @@ $$
 $$
 
 
+## Finding common patterns
+
+What if our observations were a mixture of states, but we didn't know how many or the weightings?
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+What is the dimension of $\mathbf{Z}$?
+
+What are the elements of $\mathbf{Z}$?
+
+
+## Dynamic Factor Analysis (DFA)
+
+DFA is a _dimension reduction_ technique, which models $n$ observed time series as a function of $m$ hidden states (patterns), where $n \gg m$
+
+
+## Dynamic Factor Analysis (DFA)
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$\mathbf{y}_t$ is $n \times 1$
+
+$\mathbf{x}_t$ is $m \times 1$
+
+$\mathbf{Z}$ is $n \times m$
 
 
 ## Topics for today
