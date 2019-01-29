@@ -111,13 +111,13 @@ set.seed(123)
 tt <- 30
 ee <- rnorm(tt)
 ww <- rnorm(tt)
-phi <- 0.6
+phi <- 0.7
 for(t in 2:tt) {
   ee[t] <- phi * ee[t-1] + ww[t]
 }
 
 aa <- 5
-bb <- 0.5
+bb <- 1
 xx <- rnorm(tt) + 2
 
 yy <- aa + bb * xx + ee
@@ -125,19 +125,44 @@ yy <- aa + bb * xx + ee
 par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
 
 plot.ts(yy, ylim = c(min(xx,yy), max(xx, yy)), las = 1,
-        col = "darkred", lwd = 2,
+        col = "dodgerblue", lwd = 2,
         ylab = expression(italic(x[t])~~or~~italic(y[t])))
 lines(xx, col = "blue", lwd = 2)
 text(xx[1], expression(italic(x[t])), pos = 3, col = "blue")
-text(yy[1], expression(italic(y[t])), pos = 3, col = "darkred")
+text(yy[1], expression(italic(y[t])), pos = 3, col = "dodgerblue")
 mtext(side = 3, expression(italic(y[t]) == 0.5~+~5~italic(x[t])~+~italic(e[t])),
       line = 0.4, adj = 0)
 ```
 
 
+## Model residuals
+
+```{r model_residuals}
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(ee, col = "darkred", lwd = 2,
+        ylab = expression(italic(e[t])))
+```
+
+These do _not_ look like white noise!
+
+
+## ACF of model residuals
+
+```{r ACF_model_residuals}
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+acf(ee)
+```
+
+There is significant autocorrelation at lag = 1
+
+
 ## Model with autocorrelated errors
 
-We can also expand the stochastic part of the model to have autocorrelated errors
+We can expand the stochastic part of the model to have autocorrelated errors
 
 $$
 y_t = \alpha + \beta x_t + e_t \\
