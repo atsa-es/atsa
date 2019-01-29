@@ -42,7 +42,7 @@ lmlab <- list(
   youtube = "",
   data = "",
   homework = "Linear Reg: Prob 1, 2, 3, 4a, 4b, 5a, 6a, 7",
-  key = "Labs/Week 1/HW_1_Key.Rmd",
+  key = "Labs/Week 1/HW_1_Key.html",
   instructor = c("Eli/Mark"),
   hw_topics = c("linear regression in matrix form"),
   hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
