@@ -294,12 +294,12 @@ $$
 We can expand the random portion
 
 $$
-y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{x_t + e_t}_{\text{random}}
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
 $$
 
 $$
-x_t \sim \text{N}(x_{t-1}, Q) \\
-e_t \sim \text{N}(0, R)
+e_t \sim \text{N}(0, \sigma) \\
+f_t \sim \text{N}(f_{t-1}, \gamma)
 $$
 
 
@@ -308,12 +308,12 @@ $$
 We can expand the random portion
 
 $$
-y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{x_t + e_t}_{\text{random}}
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
 $$
 
 $$
-x_t \sim \text{N}(x_{t-1}, Q) \\
-e_t \sim \text{N}(0, R)
+e_t \sim \text{N}(0, \sigma) \\
+f_t \sim \text{N}(x_{t-1}, \gamma)
 $$
 
 This is simply a random walk observed with error
@@ -322,7 +322,35 @@ This is simply a random walk observed with error
 ## Random walk observed with error
 
 $$
-y_t = x_t + a + e_t \\
+y_t = x_t + a + v_t \\
+x_t = x_{t-1} + w_t
+$$
+
+with
+
+$v_t \sim \text{N}(0, R)$
+
+$w_t \sim \text{N}(0, Q)$
+
+
+## Expanding fixed & random effects
+
+We can expand the random portion
+
+$$
+y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+$$
+
+$$
+e_t \sim \text{N}(0, \sigma) \\
+f_t \sim \text{N}(f_{t-1}, \gamma)
+$$
+
+
+## Expanding fixed & random effects
+
+$$
+y_t = x_t + a + D d_t + e_t \\
 x_t = x_{t-1} + w_t
 $$
 
@@ -331,7 +359,6 @@ with
 $e_t \sim \text{N}(0, R)$
 
 $w_t \sim \text{N}(0, Q)$
-
 
 
 
