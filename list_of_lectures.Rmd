@@ -155,7 +155,7 @@ model_inf <- list(
   topics = c("Multi-model inference and selection",
              "Information criteria",
              "Cross-validation & LOOIC"),
-  pdf = "Lectures/Week 4/lec_7_modelselection.pdf",
+  pdf = "",
   ppt = "",
   rmd = c("Lectures/Week 4/lec_7_modelselection.Rmd","Lectures/Week 4/lec_07_covariates_in_marss_brief.Rmd"),
   html = c("Lectures/Week 4/lec_7_modelselection.html","Lectures/Week 4/lec_07_covariates_in_marss_brief.html"),
