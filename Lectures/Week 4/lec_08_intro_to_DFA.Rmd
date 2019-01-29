@@ -275,6 +275,69 @@ c = matrix(0)    ## c_t = 0 for all t
 ```
 
 
+## {.flexbox .vcenter}
+
+<font size="10">MORE RANDOM EFFECTS</font>
+
+
+## Expanding the random effect
+
+Recall our simple model
+
+$$
+y_t = \underbrace{\mu}_{\text{fixed}} + \underbrace{e_t}_{\text{random}}
+$$
+
+
+## Expanding the random effect
+
+We can expand the random portion
+
+$$
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{x_t + e_t}_{\text{random}}
+$$
+
+$$
+x_t \sim \text{N}(x_{t-1}, Q) \\
+e_t \sim \text{N}(0, R)
+$$
+
+
+## Expanding the random effect
+
+We can expand the random portion
+
+$$
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{x_t + e_t}_{\text{random}}
+$$
+
+$$
+x_t \sim \text{N}(x_{t-1}, Q) \\
+e_t \sim \text{N}(0, R)
+$$
+
+This is simply a random walk observed with error
+
+
+## Random walk observed with error
+
+$$
+y_t = x_t + a + e_t \\
+x_t = x_{t-1} + w_t
+$$
+
+with
+
+$e_t \sim \text{N}(0, R)$
+
+$w_t \sim \text{N}(0, Q)$
+
+
+
+
+
+
+
 ## Topics for today
 
 Deterministic vs stochastic elements
