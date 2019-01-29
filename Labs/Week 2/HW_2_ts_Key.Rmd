@@ -6,7 +6,8 @@ output:
   html_document:
     theme: cerulean
     toc: true
-    toc_depth: 2
+    toc_depth: 3
+    toc_float: yes
 ---
 
 ```{r mlr-setup, include=FALSE, purl=FALSE}
@@ -29,7 +30,7 @@ load("hourly_phyto.RData")
 # Solutions Chapter 4
 \chaptermark{Solutions Ch 4}
 
-## Question 1
+## Problem 1
 
 **Convert pDat, which is a data.frame object, into a ts object.**
 
@@ -43,7 +44,7 @@ dayOfYear <- (dBegin - as.Date("2014-01-01") + 1)
 pDat <- ts(pDat, freq=24, start=c(dayOfYear,8))
 ```
 
-## Question 2
+## Problem 2
 
 **Plot the time series of phytoplankton density and provide a brief description of any notable features.**
 
@@ -56,7 +57,7 @@ plot.ts(pDat, xlab="Time (day of year)")
 The time series appear non-stationary in that they have an obvious seasonal signal corresponding to each 24-hr period.  The data also appear to be non-Gaussian (ie, they occur on the positive, real interval).
 
 
-## Question 3
+## Problem 3
 
 **Although you do not have the actual measurements for the specific temperature and light regimes used in the experiment, you have been informed that they follow a regular light/dark period with accompanying warm/cool temperatures. Thus, estimating a fixed seasonal effect is justifiable. Also, the instrumentation is precise enough to preclude any systematic change in measurements over time (i.e., you can assume m_t = 0 for all t). Obtain the time series of the estimated log-density of phytoplankton absent any hourly effects caused by variation in temperature or light.**
 
@@ -115,9 +116,9 @@ $$
 dens <- lDat - sDat
 ```
 
-## Question 4
+## Problem 4
 
-**Use diagnostic tools to identify the possible order(s) of ARMA model(s) that most likely describes the log of population density for this particular experiment. Note that at this point you should be focusing your analysis on the results obtained in Question 3.**
+**Use diagnostic tools to identify the possible order(s) of ARMA model(s) that most likely describes the log of population density for this particular experiment. Note that at this point you should be focusing your analysis on the results obtained in Problem 3.**
 
 
 The ACF and PACF are obvious choices here. Let's use the better plot functions we defined in Secs 1.4.1 & 1.4.2 of the lab handout.
@@ -155,12 +156,12 @@ plot.pacf(pacf(dens, plot=FALSE))
 
 It looks like the ACF (left plot) tails off slowly, but the PACF (right plot) tails off after lag=1, which suggests that an AR(1) model might be most appropriate.
 
-## Question 5
+## Problem 5
 
-**Use some form of search to identify what form of ARMA(p,q) model best describes the log of population density for this particular experiment. Use what you learned in Question 4 to inform possible orders of $p$ and $q$.**
+**Use some form of search to identify what form of ARMA(p,q) model best describes the log of population density for this particular experiment. Use what you learned in Problem 4 to inform possible orders of $p$ and $q$.**
 
 
-The first option would be a manual search over various orders of $p$ and $q$ in ARMA models. In Question 4 we were led to believe that an AR(1) model might be most appropriate, so let's try orders from 0-2 for both $p$ and $q$ in case we've made a mistake.
+The first option would be a manual search over various orders of $p$ and $q$ in ARMA models. In Problem 4 we were led to believe that an AR(1) model might be most appropriate, so let's try orders from 0-2 for both $p$ and $q$ in case we've made a mistake.
 
 ```{r}
 # range of orders for p & q
@@ -184,7 +185,7 @@ ARMA.AIC <- sapply(ARMA.res,function(x) x$aic)
 ARMA.res[[which(ARMA.AIC==min(ARMA.AIC))]]
 ```
 
-The results support our intuition from Question 4 in that an AR(1) model seems most parsimonious. Let's see if an auto-search yields the same answer.
+The results support our intuition from Problem 4 in that an AR(1) model seems most parsimonious. Let's see if an auto-search yields the same answer.
 
 ```{r}
 library(forecast)
@@ -194,11 +195,11 @@ auto.arima(dens, max.p=2, max.q=2, seasonal=FALSE)
 
 And we get the same answer here as well.
 
-## Question 6
+## Problem 6
 
 **Write out the best model in the form of Equation (1.26) using the underscore notation to refer to subscripts (e.g., write x_t for xt). You can round any parameters/coefficients to the nearest hundreth.  (Hint: if the mean of the time series is not zero, refer to Eqn 1.27 in the lab handout).**
 
-Our "best" model is an AR(1) model that includes a non-zero intercept. We can get the parameter values directly from the output in Question 5. So, our AR(1) model becomes:
+Our "best" model is an AR(1) model that includes a non-zero intercept. We can get the parameter values directly from the output in Problem 5. So, our AR(1) model becomes:
 $$
 (x_t-1.15) = 0.56 (x_{t-1}-1.15) + w_t \text{ with } w_t \sim \text{N}(0,0.085).
 $$

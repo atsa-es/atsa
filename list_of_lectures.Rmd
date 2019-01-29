@@ -155,13 +155,13 @@ model_inf <- list(
   topics = c("Multi-model inference and selection",
              "Information criteria",
              "Cross-validation & LOOIC"),
-  pdf = "",
+  pdf = "Lectures/Week 4/lec_7_modelselection.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
-  video = "",
+  rmd = "Lectures/Week 4/lec_7_modelselection.Rmd",
+  html = "Lectures/Week 4/lec_7_modelselection.html",
+  video = "https://youtu.be/hF4aoFBZoCU",
   reading = c(""),
-  youtube = "",
+  youtube = "https://youtu.be/hF4aoFBZoCU",
   instructor = "Eric"
 )
 ```
@@ -215,6 +215,21 @@ dfa <- list(
 bayes <- list(
   title = "Bayesian estimation",
   topics = c("Bayesian estimation of time-series and state-space models","STAN"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  html = "",
+  video = "",
+  reading = c(""),
+  youtube = "",
+  instructor = "Eric"
+)
+```
+
+```{r}
+bayes2 <- list(
+  title = "Bayesian estimation",
+  topics = c("Writing our own Bayesian models in STAN"),
   pdf = "",
   ppt = "",
   rmd = "",
