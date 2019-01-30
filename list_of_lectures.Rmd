@@ -168,8 +168,8 @@ model_inf <- list(
 
 ```{r}
 dlm <- list(
-  title = "Univariate dynamic Linear Models",
-  topics = c("Univariate dynamic linear models (DLMs)"),
+  title = "Dynamic Linear Models",
+  topics = c("Dynamic linear models (DLMs)"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -199,11 +199,13 @@ dlm2 <- list(
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Dynamic factor analysis (DFA)"),
-  pdf = "",
+  topics = c("Regression with AR(1) errors",
+             "Regression with temporal random effects",
+             "Dynamic factor analysis (DFA)"),
+  pdf = "Lectures/Week 4/lec_08_intro_to_DFA.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
+  html = "Lectures/Week 4/lec_08_intro_to_DFA.html",
   video = "",
   reading = c(""),
   youtube = "",
@@ -214,7 +216,7 @@ dfa <- list(
 ```{r}
 bayes <- list(
   title = "Bayesian estimation",
-  topics = c("Bayesian estimation of time-series and state-space models","STAN"),
+  topics = c("Bayesian estimation of time-series and state-space models","Stan"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -229,7 +231,7 @@ bayes <- list(
 ```{r}
 bayes2 <- list(
   title = "Bayesian estimation",
-  topics = c("Writing our own Bayesian models in STAN"),
+  topics = c("Writing our own Bayesian models in Stan"),
   pdf = "",
   ppt = "",
   rmd = "",
