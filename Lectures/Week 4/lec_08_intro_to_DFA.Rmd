@@ -34,7 +34,7 @@ $$
 
 ## A very simple model
 
-The righthand side of the equation is composed of _deterministic_ and _stochastic_ pieces
+The right-hand side of the equation is composed of _deterministic_ and _stochastic_ pieces
 
 $$
 y_i = \underbrace{\mu}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
@@ -130,7 +130,7 @@ plot.ts(yy, ylim = c(min(xx,yy), max(xx, yy)), las = 1,
 lines(xx, col = "blue", lwd = 2)
 text(xx[1], expression(italic(x[t])), pos = 3, col = "blue")
 text(yy[1], expression(italic(y[t])), pos = 3, col = "dodgerblue")
-mtext(side = 3, expression(italic(y[t]) == 0.5~+~5~italic(x[t])~+~italic(e[t])),
+mtext(side = 3, expression(italic(y[t]) == 1~+~5~italic(x[t])~+~italic(e[t])),
       line = 0.4, adj = 0)
 ```
 
@@ -229,17 +229,6 @@ x_t = B x_t + w_t
 $$
 
 
-## State-space model | In full MARSS form
-
-$$
-y_t = a + D d_t + x_t \\
-x_t = B x_t + w_t \\
-\Downarrow \\
-y_t = Z x_t + a + D d_t + v_t \\
-x_t = B x_t + u + C c_t + w_t
-$$
-
-
 ## State-space model | Observation model in `MARSS()`
 
 $$
@@ -294,7 +283,7 @@ $$
 We can expand the random portion
 
 $$
-y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
 $$
 
 $$
@@ -308,12 +297,12 @@ $$
 We can expand the random portion
 
 $$
-y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
 $$
 
 $$
 e_t \sim \text{N}(0, \sigma) \\
-f_t \sim \text{N}(x_{t-1}, \gamma)
+f_t \sim \text{N}(f_{t-1}, \gamma)
 $$
 
 This is simply a random walk observed with error
@@ -322,23 +311,20 @@ This is simply a random walk observed with error
 ## Random walk observed with error
 
 $$
-y_t = x_t + a + v_t \\
-x_t = x_{t-1} + w_t
+y_t = \mu + f_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0, \sigma) \\
+f_t = f_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, \gamma) \\
+\Downarrow \\
+y_t = a + x_t + v_t ~ \text{with} ~ v_t \sim \text{N}(0, R) \\
+x_t = x_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, Q)
 $$
-
-with
-
-$v_t \sim \text{N}(0, R)$
-
-$w_t \sim \text{N}(0, Q)$
 
 
 ## Expanding fixed & random effects
 
-We can expand the random portion
+We can expand the fixed portion
 
 $$
-y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
 $$
 
 $$
@@ -350,16 +336,12 @@ $$
 ## Fixed & random effects | In familiar state-space form
 
 $$
-y_t = x_t + a + D d_t + v_t \\
-x_t = x_{t-1} + w_t
+y_t = \alpha + \beta x_t + f_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0, \sigma) \\
+f_t = f_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, \gamma) \\
+\Downarrow \\
+y_t = a + D d_t + x_t + v_t ~ \text{with} ~ v_t \sim \text{N}(0, R) \\
+x_t = x_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, Q)
 $$
-
-with
-
-$v_t \sim \text{N}(0, R)$
-
-$w_t \sim \text{N}(0, Q)$
-
 
 ## {.flexbox .vcenter}
 
@@ -624,9 +606,9 @@ $$
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
 $$
 
-What is the dimension of $\mathbf{Z}$?
+What are the dimensions of $\mathbf{Z}$?
 
-What are the elements of $\mathbf{Z}$?
+What are the elements within $\mathbf{Z}$?
 
 
 ## Dynamic Factor Analysis (DFA)
@@ -1036,7 +1018,7 @@ $$
 \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
 $$
 
-We will set $\mathbf{Q}$ equal to the Identity martix $\mathbf{I}$
+We will set $\mathbf{Q}$ equal to the Identity matrix $\mathbf{I}$
 
 
 ## Constraints on DFA models | The state variance $\mathbf{Q}$
