@@ -1002,8 +1002,6 @@ $$
 \end{bmatrix}
 $$
 
-For $m - 1$ rows of $\mathbf{Z}$: $z_{i,j} = 0$ if $j > i$
-
 Diagonal of $\mathbf{Z}$ is positive: $z_{i,j} > 0$ if $i = j$
 
 
@@ -1036,6 +1034,57 @@ $$
 $$
 
 This allows our random walks to have a _lot_ of flexibility
+
+
+## Dynamic Factor Analysis (DFA) | Including $p$ covariates
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \underline{\mathbf{D} \mathbf{d}_t} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$\mathbf{d}_t$ is a $p \times 1$ vector of covariates at time $t$
+
+$\mathbf{D}$ is an $n \times p$ matrix of covariate effects
+
+
+## Dynamic Factor Analysis (DFA) | Form for $\mathbf{D}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \underline{\mathbf{D}} \mathbf{d}_t + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+Careful thought must be given _a priori_ as to the form for $\mathbf{D}$
+
+Should the effect(s) vary by site, species, etc?
+
+
+## Dynamic Factor Analysis (DFA) | Form for $\mathbf{D}$
+
+For example, given 2 covariates, $\text{Temp}$ and $\text{Salinity}$
+
+$$
+\mathbf{D} =
+\underbrace{
+\begin{bmatrix}
+ d_{\text{Temp}} & d_{\text{Salinity}} \\
+ d_{\text{Temp}} & d_{\text{Salinity}} \\
+ \vdots & \vdots \\
+ d_{\text{Temp}} & d_{\text{Salinity}} \\
+\end{bmatrix}
+}_{\text{effects same by site/species}}
+~ \text{or} ~
+\mathbf{D} =
+\underbrace{
+\begin{bmatrix}
+ d_{\text{Temp}, 1} & d_{\text{Salinity}, 1} \\
+ d_{\text{Temp}, 2} & d_{\text{Salinity}, 2} \\
+ \vdots & \vdots \\
+ d_{\text{Temp}, n} & d_{\text{Salinity}, n} \\
+\end{bmatrix}
+}_{\text{effects differ by site/species}}
+$$
 
 
 ## Topics for today
