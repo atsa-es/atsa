@@ -797,7 +797,6 @@ $$
 $$
 
 
-
 ## Dynamic Factor Analysis (DFA)
 
 $$
@@ -876,6 +875,95 @@ $$
 $$
 
 We'll use model selection criteria to choose (eg, AICc)
+
+
+## Fitting DFA models
+
+It turns out that there are an infinite number of combinations of $\mathbf{Z}$ and $\mathbf{x}$ that equal $\mathbf{y}$
+
+Therefore we need to impose some constraints on the model
+
+
+## Constraints on DFA models | The offset $\mathbf{a}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{a} =
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ \vdots \\
+ a_n
+\end{bmatrix}
+$$
+
+We will set the first $m$ elements of $\mathbf{a}$ to 0
+
+
+## Constraints on DFA models | The offset $\mathbf{a}$
+
+For example, if $n = 5$ and $m = 2$
+
+$$
+\mathbf{a} =
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+\Rightarrow
+\mathbf{a} =
+\begin{bmatrix}
+ 0 \\
+ 0 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+$$
+
+
+## Constraints on DFA models | The offset $\mathbf{a}$
+
+For example, if $n = 5$ and $m = 2$
+
+$$
+\mathbf{a} =
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+\Rightarrow
+\mathbf{a} =
+\begin{bmatrix}
+ 0 \\
+ 0 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+\Rightarrow
+\mathbf{a} =
+\begin{bmatrix}
+ 0 \\
+ 0 \\
+ 0 \\
+ 0 \\
+ 0
+\end{bmatrix}
+$$
+
+Note, however, that this causes problems for the EM algorithm so we will often de-mean the data and set $a_i = 0$ for all $i$
 
 
 ## Topics for today
