@@ -18,9 +18,17 @@ set.seed(123)
 
 Deterministic vs stochastic elements
 
+Regression with autocorrelated errors
+
+Regression with temporal random effects
+
 Dynamic Factor Analysis (DFA)
 
-DFA with covariates
+* Forms of covariance matrix  
+
+* Constraints for model fitting
+
+* Interpretation of results
 
 
 ## A very simple model
@@ -714,7 +722,7 @@ $$
 so
 
 $$
-\text{cov}(\mathbf{y}_t) = \mathbf{Z} \mathbf{Z}^\top + \mathbf{R}
+\text{cov}(\mathbf{y}_t) = \mathbf{Z} \text{cov}(\mathbf{x}_t) \mathbf{Z}^\top + \mathbf{R}
 $$
 In PCA, we require $\mathbf{R}$ to be diagonal, but not so in DFA
 
@@ -1264,11 +1272,19 @@ points(rload1, rload2, pch = 16, col = "blue")
 ```
 
 
-
 ## Topics for today
 
 Deterministic vs stochastic elements
 
+Regression with autocorrelated errors
+
+Regression with temporal random effects
+
 Dynamic Factor Analysis (DFA)
 
-DFA with covariates
+* Forms of covariance matrix  
+
+* Constraints for model fitting
+
+* Interpretation of results
+
