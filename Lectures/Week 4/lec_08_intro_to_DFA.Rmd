@@ -721,6 +721,83 @@ text(-3, 1.2,
 ```
 
 
+## Relationship between PCA & DFA
+
+We need to estimate the covariance in the data $\mathbf{y}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t, ~ \text{with} ~ \mathbf{v}_t \sim \text{MVN}(\mathbf{0}, \mathbf{R})
+$$
+
+so
+
+$$
+\text{cov}(\mathbf{y}_t) = \mathbf{Z} \mathbf{Z}^\top + \mathbf{R}
+$$
+In PCA, we require $\mathbf{R}$ to be diagonal, but not so in DFA
+
+
+## Principal Components Analysis (PCA) | Forms for $\mathbf{R}$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+
+## Dynamic Factor Analysis (DFA) | Forms for $\mathbf{R}$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & \gamma_{2,4} \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & \gamma_{2,4} & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+
+
 ## Dynamic Factor Analysis (DFA)
 
 $$
