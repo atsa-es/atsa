@@ -1025,6 +1025,37 @@ For $m - 1$ rows of $\mathbf{Z}$: $z_{i,j} = 0$ if $j > i$
 Diagonal of $\mathbf{Z}$ is positive: $z_{i,j} > 0$ if $i = j$
 
 
+## Constraints on DFA models | The state variance $\mathbf{Q}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+We will set $\mathbf{Q}$ equal to the Identity martix $\mathbf{I}$
+
+
+## Constraints on DFA models | The state variance $\mathbf{Q}$
+
+For example, if $m = 4$
+
+$$
+\mathbf{Q} =
+\begin{bmatrix}
+ 1 & 0 & 0 & 0 \\
+ 0 & 1 & 0 & 0 \\
+ 0 & 0 & 1 & 0 \\
+ 0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+
+This allows our random walks to have a _lot_ of flexibility
+
+
 ## Topics for today
 
 Deterministic vs stochastic elements
