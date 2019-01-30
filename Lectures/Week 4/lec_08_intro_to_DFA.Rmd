@@ -648,6 +648,71 @@ $\mathbf{x}_t$ is $m \times 1$
 $\mathbf{Z}$ is $n \times m$
 
 
+## Dimension reduction | Principal Components Analysis (PCA)
+
+Goal is to reduce some large number of correlated variates into a few uncorrelated factors
+
+
+## Principal Components Analysis (PCA)
+
+```{r}
+nn <- 100
+xx <- rnorm(nn,10,1)
+yy <- xx + rnorm(nn, 5)
+xx <- xx - mean(xx)
+yy <- yy - mean(yy)
+
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot(xx, yy, pch = 16, las = 1,
+     ylab ="Y", xlab = "X")
+
+text(-2.5, 3,
+     substitute(rho==x, list(x = round(cor(cbind(xx,yy))[2,1], 2))))
+```
+
+
+## Principal Components Analysis (PCA)
+
+```{r}
+pca <- prcomp(cbind(xx,yy))
+
+pc1 <- pca$rotation[,1]
+pc2 <- matrix(c(0,-1,1,0), 2, 2) %*% matrix(pc1, 2, 1)
+
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot(xx, yy, pch = 16, las = 1,
+     ylab ="Y", xlab = "X")
+arrows(0, 0, pc1[1], pc1[2],
+       col = "blue", lwd = 3, length = 0.1)
+text(pc1[1], pc1[2], "PC1",
+     pos = 3, col = "blue")
+arrows(0, 0, pc2[1], pc2[2],
+       col = "darkred", lwd = 3, length = 0.1)
+text(pc2[1], pc2[2], "PC2",
+     pos = 1, col = "darkred")
+```
+
+
+## Principal Components Analysis (PCA)
+
+```{r}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+
+plot(pca$x[,1], pca$x[,2], pch = 16, las = 1,
+     ylab ="PC2", xlab = "PC1")
+
+text(-3, 1.2,
+     substitute(rho==x, list(x = round(cor(pca$x)[2,1], 2))))
+```
+
+
+
+
+
+
+
 ## Topics for today
 
 Deterministic vs stochastic elements
