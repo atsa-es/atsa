@@ -1259,16 +1259,16 @@ plot(load1, load2, pch = 16, col = "darkgray",
      ylim = c(min(load2,rload2), max(load2,rload2)),
      xaxt = "n", yaxt = "n", bty = "n",
      xlab = "", ylab = "")
-abline(h = 0, col = "blue")
-abline(v = 0, col = "blue")
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
 for(i in 1:ncol(dat)) {
   text(rload1[i], rload2[i], colnames(dat)[i],
        pos = poz[i], xpd = NA)
 }
-text(0, min(load2) * 1.05, "R2", pos = 1, xpd = NA, col = "blue")
-text(min(load1) * 1.05, 0, "R1", pos = 2, xpd = NA, col = "blue")
+text(0, min(load2) * 1.05, "R2", pos = 1, xpd = NA, col = "darkgray")
+text(min(load1) * 1.05, 0, "R1", pos = 2, xpd = NA, col = "darkgray")
 
-points(rload1, rload2, pch = 16, col = "blue")
+points(rload1, rload2, pch = 16)
 ```
 
 
