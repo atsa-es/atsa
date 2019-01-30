@@ -84,13 +84,13 @@ syl_txt <- data.frame(
   reading_links = reading_links_html
 )
 colnames(syl_txt) <- c("Date", "Instructor", "Lecture topics",
-                       "Slides", "Video", "YouTube", "Reading")
+                       "Slides", "Video of Lecture", "Slides with Audio", "Reading")
 ## generate table
 kable(syl_txt, format = "html", caption = " ",
       align = "cclcccc", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%
-  column_spec(1, width = "8em") 
+  column_spec(c(1,4), width = "8em") 
 ```
 

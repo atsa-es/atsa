@@ -111,13 +111,13 @@ set.seed(123)
 tt <- 30
 ee <- rnorm(tt)
 ww <- rnorm(tt)
-phi <- 0.6
+phi <- 0.7
 for(t in 2:tt) {
   ee[t] <- phi * ee[t-1] + ww[t]
 }
 
 aa <- 5
-bb <- 0.5
+bb <- 1
 xx <- rnorm(tt) + 2
 
 yy <- aa + bb * xx + ee
@@ -125,59 +125,85 @@ yy <- aa + bb * xx + ee
 par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
 
 plot.ts(yy, ylim = c(min(xx,yy), max(xx, yy)), las = 1,
-        col = "darkred", lwd = 2,
+        col = "dodgerblue", lwd = 2,
         ylab = expression(italic(x[t])~~or~~italic(y[t])))
 lines(xx, col = "blue", lwd = 2)
 text(xx[1], expression(italic(x[t])), pos = 3, col = "blue")
-text(yy[1], expression(italic(y[t])), pos = 3, col = "darkred")
+text(yy[1], expression(italic(y[t])), pos = 3, col = "dodgerblue")
 mtext(side = 3, expression(italic(y[t]) == 0.5~+~5~italic(x[t])~+~italic(e[t])),
       line = 0.4, adj = 0)
 ```
 
 
+## Model residuals
+
+```{r model_residuals}
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(ee, col = "darkred", lwd = 2,
+        ylab = expression(italic(e[t])))
+```
+
+These do _not_ look like white noise!
+
+
+## ACF of model residuals
+
+```{r ACF_model_residuals}
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+acf(ee)
+```
+
+There is significant autocorrelation at lag = 1
+
+
 ## Model with autocorrelated errors
 
-We can also expand the stochastic part of the model to have autocorrelated errors
+We can expand the stochastic part of the model to have autocorrelated errors
 
 $$
 y_t = \alpha + \beta x_t + e_t \\
-e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+e_t = \phi e_{t-1} + w_t
 $$
+
+with $w_t \sim \text{N}(0,\sigma^2)$
 
 
 ## Model with autocorrelated errors
 
-We can also expand the stochastic part of the model to have autocorrelated errors
+We can expand the stochastic part of the model to have autocorrelated errors
 
 $$
 y_t = \alpha + \beta x_t + e_t \\
-e_t = \phi e_{t-1} + w_t~ \text{with} ~ w_t \sim \text{N}(0,\sigma^2)
+e_t = \phi e_{t-1} + w_t
 $$
+
+with $w_t \sim \text{N}(0,\sigma^2)$
 
 We can write this model as our standard state-space model
 
 
-## Model with autocorrelated errors
-
-Beginning with the observation equation
+## State-space model | Observation equation
 
 $$
 \begin{align}
   y_t &= \alpha + \beta x_t + e_t \\
       &= e_t + \alpha + \beta x_t\\
       &\Downarrow \\
-  y_t &= Z x_t + a + D d_t + v_t\\
+  y_t &= x_t + a + D d_t + v_t\\
 \end{align}
 $$
 
 with
 
-$Z = 1$, $x_t = e_t$, $a = \alpha$, $D = \beta$, $d_t = x_t$ & $v_t = 0$
+$x_t = e_t$, $a = \alpha$, $D = \beta$, $d_t = x_t$, $v_t = 0$
 
 
-## Model with autocorrelated errors
+## State-space model | State equation
 
-And the state equation
 
 $$
 \begin{align}
@@ -192,14 +218,151 @@ with
 $x_t = e_t$ and $B = \phi$
 
 
-## State-space form
-
-Putting both parts together yields
+## State-space model | Full form
 
 $$
-  y_t = Z x_t + a + D d_t + v_t\\
-  x_t = B x_t + w_t
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t \\
+\Downarrow \\
+y_t = a + D d_t + x_t\\
+x_t = B x_t + w_t
 $$
+
+
+## State-space model | In full MARSS form
+
+$$
+y_t = a + D d_t + x_t \\
+x_t = B x_t + w_t \\
+\Downarrow \\
+y_t = Z x_t + a + D d_t + v_t \\
+x_t = B x_t + u + C c_t + w_t
+$$
+
+
+## State-space model | Observation model in `MARSS()`
+
+$$
+y_t = a + D d_t + x_t \\
+\Downarrow \\
+y_t = Z x_t + a + D d_t + v_t
+$$
+
+```{r, echo=TRUE, eval=FALSE}
+y = data         ## [1 x T] matrix of data
+a = matrix("a")  ## intercept
+D = matrix("D")  ## slope
+d = covariate    ## [1 x T] matrix of measured covariate
+Z = matrix(1)    ## no multiplier on x 
+R = matrix(0)    ## v_t ~ N(0,R); want y_t = 0 for all t
+```
+
+
+## State-space model | State model in `MARSS()`
+
+$$
+x_t = B x_t + w_t \\
+\Downarrow \\
+x_t = B x_t + u + C c_t + w_t
+$$
+
+```{r, echo=TRUE, eval=FALSE}
+B = matrix("b")  ## AR(1) coefficient for model errors
+Q = matrix("q")  ## w_t ~ N(0,Q); var for model errors
+u = matrix(0)    ## u = 0
+C = matrix(0)    ## C = 0
+c = matrix(0)    ## c_t = 0 for all t
+```
+
+
+## {.flexbox .vcenter}
+
+<font size="10">MORE RANDOM EFFECTS</font>
+
+
+## Expanding the random effect
+
+Recall our simple model
+
+$$
+y_t = \underbrace{\mu}_{\text{fixed}} + \underbrace{e_t}_{\text{random}}
+$$
+
+
+## Expanding the random effect
+
+We can expand the random portion
+
+$$
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+$$
+
+$$
+e_t \sim \text{N}(0, \sigma) \\
+f_t \sim \text{N}(f_{t-1}, \gamma)
+$$
+
+
+## Expanding the random effect
+
+We can expand the random portion
+
+$$
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+$$
+
+$$
+e_t \sim \text{N}(0, \sigma) \\
+f_t \sim \text{N}(x_{t-1}, \gamma)
+$$
+
+This is simply a random walk observed with error
+
+
+## Random walk observed with error
+
+$$
+y_t = x_t + a + v_t \\
+x_t = x_{t-1} + w_t
+$$
+
+with
+
+$v_t \sim \text{N}(0, R)$
+
+$w_t \sim \text{N}(0, Q)$
+
+
+## Expanding fixed & random effects
+
+We can expand the random portion
+
+$$
+y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+$$
+
+$$
+e_t \sim \text{N}(0, \sigma) \\
+f_t \sim \text{N}(f_{t-1}, \gamma)
+$$
+
+
+## Expanding fixed & random effects
+
+$$
+y_t = x_t + a + D d_t + e_t \\
+x_t = x_{t-1} + w_t
+$$
+
+with
+
+$e_t \sim \text{N}(0, R)$
+
+$w_t \sim \text{N}(0, Q)$
+
+
+
+
 
 
 ## Topics for today

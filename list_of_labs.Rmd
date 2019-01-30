@@ -59,11 +59,11 @@ forecastlab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "Intro to ts: problems at end of lab<br>Fitting ARMA models: problems at end of chapter",
+  homework = "Intro to ts: problems at end of lab<br>Fitting ARMA models: problems at end of lab; <br>Due 5pm Tues 1/22",
   key = c("Labs/Week 2/HW_2_ts_Key.html","Labs/Week 2/HW_2_box-jenkins_Key.html"),
   instructor = "Mark & Eli",
   hw_topics = c("ARIMA models"),
-  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
+  hw_duedate = "Due 5pm Tues 1/22; email to instructor(s) for lab"
 )
 ```
 
@@ -77,7 +77,7 @@ sslab1 <- list(
   youtube = "",
   video = "",
   data = "",
-  homework = "Intro to uniSS: problems at end of chapter",
+  homework = "Intro to uniSS: problems at end of chapter; Due 5pm next Tues",
   key = "",
   instructor = "Eli",
   hw_topics = c("Univariate state-space models"),
@@ -95,11 +95,11 @@ sslab2 <- list(
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=ff985d38-262d-403f-a781-a9df017e9207",
   youtube = "",
   data = "",
-  homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5); you can do Chap 5 problems just using Chap 6 information.",
+  homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5); you can do Chap 5 problems just using Chap 6 information;<br>Due Thurs 1/31 midnight.",
   key = "",
   instructor = "Eli",
   hw_topics = c("State-space models"),
-  hw_duedate = "Due 5pm next THURS; email to instructor(s) for lab"
+  hw_duedate = "Due midnight THURS 1/31; email to instructor(s) for lab"
 )
 ```
 

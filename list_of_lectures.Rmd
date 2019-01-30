@@ -69,7 +69,7 @@ arma_basics <- list(
 
 ```{r}
 forecast <- list(
-  title = "Forecasting with ARMA models",
+  title = "Box-Jenkins Method",
   topics = c("Box-Jenkins method", "Fitting ARIMA models with R", "Forecasting with ARIMA models", "Seasonal ARIMA models"),
   pdf = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.pdf",
   ppt = "",
@@ -77,7 +77,7 @@ forecast <- list(
   html = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html",
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=208eca91-52a3-42c4-b21f-a9d801636039",
   reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)"),
-  youtube = "",
+  youtube = "https://youtu.be/RLxYULPA2Dc",
   instructor = "Eli"
 )
 ```
@@ -155,11 +155,11 @@ model_inf <- list(
   topics = c("Multi-model inference and selection",
              "Information criteria",
              "Cross-validation & LOOIC"),
-  pdf = "Lectures/Week 4/lec_7_modelselection.pdf",
+  pdf = "",
   ppt = "",
-  rmd = "Lectures/Week 4/lec_7_modelselection.Rmd",
-  html = "Lectures/Week 4/lec_7_modelselection.html",
-  video = "https://youtu.be/hF4aoFBZoCU",
+  rmd = c("Lectures/Week 4/lec_7_modelselection.Rmd","Lectures/Week 4/lec_07_covariates_in_marss_brief.Rmd"),
+  html = c("Lectures/Week 4/lec_7_modelselection.html","Lectures/Week 4/lec_07_covariates_in_marss_brief.html"),
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=142060d0-6f7b-4108-a80f-a9e40166b34d",
   reading = c(""),
   youtube = "https://youtu.be/hF4aoFBZoCU",
   instructor = "Eric"

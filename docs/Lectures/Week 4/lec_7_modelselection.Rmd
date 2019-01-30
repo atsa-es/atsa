@@ -88,7 +88,10 @@ Lots of metrics have been developed to overcome this issue and penalize complex 
 
 ## Model selection
 
+<center>
 ![](https://www.cell.com/cms/attachment/586583/4453621/gr1b1.jpg)
+</center>
+
 https://doi.org/10.1016/j.tree.2006.10.004
 
 ## Model selection: AIC

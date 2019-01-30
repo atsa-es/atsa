@@ -23,9 +23,8 @@
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -100,6 +99,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -114,7 +116,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -134,6 +135,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -155,18 +193,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -257,10 +354,10 @@ Lecture topics
 Slides
 </th>
 <th style="text-align:center;">
-Video
+Video of Lecture
 </th>
 <th style="text-align:center;">
-YouTube
+Slides with Audio
 </th>
 <th style="text-align:center;">
 Reading
@@ -278,7 +375,7 @@ Mark <br>
 <td style="text-align:left;">
 Course overview <br>Properties of time series <br>Data transformations <br>Time series decomposition <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <a href="Lectures/Week%201/lec_00_class_overview.Rmd">Rmd 1</a> <a href="Lectures/Week%201/lec_01_intro_to_ts.Rmd">Rmd 2</a><br><a href="Lectures/Week%201/lec_00_class_overview.pdf">PDF 1</a> <a href="Lectures/Week%201/lec_01_intro_to_ts.pdf">PDF 2</a><br><a href="Lectures/Week%201/lec_00_class_overview.html">html 1</a> <a href="Lectures/Week%201/lec_01_intro_to_ts.html">html 2</a>
 </td>
 <td style="text-align:center;">
@@ -301,7 +398,7 @@ Mark <br>
 <td style="text-align:left;">
 Covariance &amp; correlation <br>Autocorrelation &amp; Partial autocorrelation <br>Cross correlation <br>White noise <br>Random walks <br>Differencing <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <a href="Lectures/Week%201/lec_02_covariance_stationarity.Rmd">Rmd 1</a><br><a href="Lectures/Week%201/lec_02_covariance_stationarity.pdf">PDF 1</a><br><a href="Lectures/Week%201/lec_02_covariance_stationarity.html">html 1</a>
 </td>
 <td style="text-align:center;">
@@ -324,7 +421,7 @@ Mark <br>
 <td style="text-align:left;">
 Autoregressive (AR) models <br>Moving average (MA) models <br>Stationary AR models <br>Invertible MA models <br>Using ACF &amp; PACF for model ID <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <a href="Lectures/Week%202/lec_03_ARMA_models.Rmd">Rmd 1</a><br><a href="Lectures/Week%202/lec_03_ARMA_models.pdf">PDF 1</a><br><a href="Lectures/Week%202/lec_03_ARMA_models.html">html 1</a>
 </td>
 <td style="text-align:center;">
@@ -347,13 +444,14 @@ Eli <br>
 <td style="text-align:left;">
 Box-Jenkins method <br>Fitting ARIMA models with R <br>Forecasting with ARIMA models <br>Seasonal ARIMA models <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <a href="Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd">Rmd 1</a><br><a href="Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.pdf">PDF 1</a><br><a href="Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.html">html 1</a>
 </td>
 <td style="text-align:center;">
 <a href="https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=208eca91-52a3-42c4-b21f-a9d801636039">Video</a>
 </td>
 <td style="text-align:center;">
+<a href="https://youtu.be/RLxYULPA2Dc">YouTube</a>
 </td>
 <td style="text-align:center;">
 <a href="https://otexts.org/fpp2/arima.html">HA18: Chap 8.6-8.9</a> <br><a href="https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html">H18: ARIMA Models</a> <br>
@@ -369,7 +467,7 @@ Eli <br>
 <td style="text-align:left;">
 Univariate state-space models <br>Diagnostics for state-space models <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <a href="Lectures/Week%203/lec_05_univariate_state_space.Rmd">Rmd 1</a><br><a href="Lectures/Week%203/lec_05_uni_state_space.pdf">PDF 1</a><br>
 </td>
 <td style="text-align:center;">
@@ -391,7 +489,7 @@ Eli <br>
 <td style="text-align:left;">
 Introduction to multivariate state-space models <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <a href="Lectures/Week%203/lec_06_box_jenkins_redux.Rmd">Rmd 1</a><br><a href="Lectures/Week%203/lec_06_marss.pdf">PDF 1</a><br><a href="Lectures/Week%203/lec_06_box_jenkins_redux.html">html 1</a>
 </td>
 <td style="text-align:center;">
@@ -413,12 +511,14 @@ Eric <br>
 <td style="text-align:left;">
 Multi-model inference and selection <br>Information criteria <br>Cross-validation &amp; LOOIC <br>
 </td>
-<td style="text-align:center;">
-<br><br>
+<td style="text-align:center;width: 8em; ">
+<a href="Lectures/Week%204/lec_7_modelselection.Rmd">Rmd 1</a> <a href="Lectures/Week%204/lec_07_covariates_in_marss_brief.Rmd">Rmd 2</a><br><br><a href="Lectures/Week%204/lec_7_modelselection.html">html 1</a> <a href="Lectures/Week%204/lec_07_covariates_in_marss_brief.html">html 2</a>
 </td>
 <td style="text-align:center;">
+<a href="https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=142060d0-6f7b-4108-a80f-a9e40166b34d">Video</a>
 </td>
 <td style="text-align:center;">
+<a href="https://youtu.be/hF4aoFBZoCU">YouTube</a>
 </td>
 <td style="text-align:center;">
 <br>
@@ -434,7 +534,7 @@ Mark <br>
 <td style="text-align:left;">
 Dynamic factor analysis (DFA) <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -455,7 +555,7 @@ Mark <br>
 <td style="text-align:left;">
 Univariate dynamic linear models (DLMs) <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -471,12 +571,12 @@ Univariate dynamic linear models (DLMs) <br>
 7 February
 </td>
 <td style="text-align:center;">
-Mark <br>
+Eric <br>
 </td>
 <td style="text-align:left;">
-Multivariate dynamic linear models (DLMs) <br>
+Bayesian estimation of time-series and state-space models <br>STAN <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -495,9 +595,9 @@ Multivariate dynamic linear models (DLMs) <br>
 Eric <br>
 </td>
 <td style="text-align:left;">
-Bayesian estimation of time-series and state-space models <br>STAN <br>
+Writing our own Bayesian models in STAN <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -518,7 +618,7 @@ Eric <br>
 <td style="text-align:left;">
 Hidden Markov models <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -539,7 +639,7 @@ Eli <br>
 <td style="text-align:left;">
 Including covariates (predictors) in models <br>Seasonal effects <br>Missing covariates <br>Colinearity <br>MARSSX and ARMAX <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -560,7 +660,7 @@ Eli <br>
 <td style="text-align:left;">
 Exponential smoothing models <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -581,7 +681,7 @@ Eric <br>
 <td style="text-align:left;">
 Empirical dynamic modeling <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -602,7 +702,7 @@ Mark <br>
 <td style="text-align:left;">
 Frequency domain methods <br>Wavelet analysis <br>Fourier transforms <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -623,7 +723,7 @@ Eli <br>
 <td style="text-align:left;">
 Estimating interaction strengths <br>Gompertz models <br>Stability metrics <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -644,7 +744,7 @@ Eric <br>
 <td style="text-align:left;">
 Perturbation analysis <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -665,7 +765,7 @@ Eric <br>
 <td style="text-align:left;">
 <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">
@@ -686,7 +786,7 @@ Eric <br>
 <td style="text-align:left;">
 Student presentations <br>
 </td>
-<td style="text-align:center;">
+<td style="text-align:center;width: 8em; ">
 <br><br>
 </td>
 <td style="text-align:center;">

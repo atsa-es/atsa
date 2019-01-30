@@ -22,9 +22,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -99,6 +98,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -113,7 +115,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -133,6 +134,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -154,18 +192,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -287,7 +384,7 @@ $(document).ready(function () {
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>forecast &lt;- list(
-  title = &quot;Forecasting with ARMA models&quot;,
+  title = &quot;Box-Jenkins Method&quot;,
   topics = c(&quot;Box-Jenkins method&quot;, &quot;Fitting ARIMA models with R&quot;, &quot;Forecasting with ARIMA models&quot;, &quot;Seasonal ARIMA models&quot;),
   pdf = &quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.pdf&quot;,
   ppt = &quot;&quot;,
@@ -295,7 +392,7 @@ $(document).ready(function () {
   html = &quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html&quot;,
   video = &quot;https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=208eca91-52a3-42c4-b21f-a9d801636039&quot;,
   reading = c(&quot;[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)&quot;,&quot;[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)&quot;),
-  youtube = &quot;&quot;,
+  youtube = &quot;https://youtu.be/RLxYULPA2Dc&quot;,
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>freqdomain &lt;- list(
@@ -357,11 +454,11 @@ $(document).ready(function () {
   topics = c(&quot;Multi-model inference and selection&quot;,
              &quot;Information criteria&quot;,
              &quot;Cross-validation &amp; LOOIC&quot;),
-  pdf = &quot;Lectures/Week 4/lec_7_modelselection.pdf&quot;,
+  pdf = &quot;&quot;,
   ppt = &quot;&quot;,
-  rmd = &quot;Lectures/Week 4/lec_7_modelselection.Rmd&quot;,
-  html = &quot;Lectures/Week 4/lec_7_modelselection.html&quot;,
-  video = &quot;https://youtu.be/hF4aoFBZoCU&quot;,
+  rmd = c(&quot;Lectures/Week 4/lec_7_modelselection.Rmd&quot;,&quot;Lectures/Week 4/lec_07_covariates_in_marss_brief.Rmd&quot;),
+  html = c(&quot;Lectures/Week 4/lec_7_modelselection.html&quot;,&quot;Lectures/Week 4/lec_07_covariates_in_marss_brief.html&quot;),
+  video = &quot;https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=142060d0-6f7b-4108-a80f-a9e40166b34d&quot;,
   reading = c(&quot;&quot;),
   youtube = &quot;https://youtu.be/hF4aoFBZoCU&quot;,
   instructor = &quot;Eric&quot;
