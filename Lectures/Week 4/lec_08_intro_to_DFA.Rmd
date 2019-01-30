@@ -634,7 +634,7 @@ What are the elements of $\mathbf{Z}$?
 DFA is a _dimension reduction_ technique, which models $n$ observed time series as a function of $m$ hidden states (patterns), where $n \gg m$
 
 
-## Dynamic Factor Analysis (DFA)
+## Dynamic Factor Analysis (DFA) | State-space form
 
 $$
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
@@ -651,6 +651,19 @@ $\mathbf{Z}$ is $n \times m$
 ## Dimension reduction | Principal Components Analysis (PCA)
 
 Goal is to reduce some large number of correlated variates into a few uncorrelated factors
+
+
+## Principal Components Analysis (PCA)
+
+Calculating the principal components requires us to estimate the covariance of the data
+
+$$
+\text{PC} = \text{eigenvectors}(\text{cov}(\mathbf{y}))
+$$
+
+There will be $n$ principal components (eigenvectors) for an $n \times T$ matrix $\mathbf{y}$
+
+We reduce the dimension by selecting some a subset of the components that explain much of the variance (eg, the first 2)
 
 
 ## Principal Components Analysis (PCA)
