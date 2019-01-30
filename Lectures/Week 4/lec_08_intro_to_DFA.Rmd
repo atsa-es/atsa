@@ -1087,6 +1087,35 @@ $$
 $$
 
 
+## A note on model selection
+
+Earlier we saw that we could use model selection criteria to help us choose among the different forms for $\mathbf{Z}$
+
+However, caution must be given when comparing models with and without covariates, and varying numbers of states
+
+
+## A note on model selection
+
+Think about the model form
+
+$$
+\mathbf{y}_t = \mathbf{Z} \underline{\mathbf{x}_t} + \mathbf{a} + \mathbf{D} \underline{\mathbf{d}_t} + \mathbf{v}_t \\
+$$
+
+$\mathbf{x}_t$ is an _undetermined_ random walk
+
+$\mathbf{d}_t$ is a _predetermined_ covariate
+
+Unless $\mathbf{d}$ is highly correlated with $\mathbf{y}$, then the inclusion of a state $\mathbf{x}$ will be favored over $\mathbf{d}$
+
+
+## A note on model selection
+
+Thus, work out fixed effects (covariates) while keeping the random effects (states) constant, and vice versa
+
+For example, compare data support for models with different combinations of covariates, only one state ($m$ = 1), and a "diagonal and equal" $\mathbf{R}$
+
+
 ## Topics for today
 
 Deterministic vs stochastic elements
