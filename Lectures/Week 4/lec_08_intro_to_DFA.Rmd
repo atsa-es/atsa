@@ -623,11 +623,11 @@ $$
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
 $$
 
-$\mathbf{y}_t$ is $n \times 1$
+data: $\mathbf{y}_t$ is $n \times 1$
 
-$\mathbf{x}_t$ is $m \times 1$
+loadings: $\mathbf{Z}$ is $n \times m$ with $n > m$
 
-$\mathbf{Z}$ is $n \times m$
+states: $\mathbf{x}_t$ is $m \times 1$
 
 
 ## Dimension reduction | Principal Components Analysis (PCA)
@@ -645,7 +645,7 @@ $$
 
 There will be $n$ principal components (eigenvectors) for an $n \times T$ matrix $\mathbf{y}$
 
-We reduce the dimension by selecting some a subset of the components that explain much of the variance (eg, the first 2)
+We reduce the dimension by selecting a subset of the components that explain much of the variance (eg, the first 2)
 
 
 ## Principal Components Analysis (PCA)
@@ -719,7 +719,7 @@ $$
 In PCA, we require $\mathbf{R}$ to be diagonal, but not so in DFA
 
 
-## Principal Components Analysis (PCA) | Forms for $\mathbf{R}$
+## Principal Components Analysis (PCA) | Forms for $\mathbf{R}$ with $n = 4$
 
 $$
 \mathbf{R} \stackrel{?}{=}
@@ -740,7 +740,7 @@ $$
 $$
 
 
-## Dynamic Factor Analysis (DFA) | Forms for $\mathbf{R}$
+## Dynamic Factor Analysis (DFA) | Forms for $\mathbf{R}$ with $n = 4$
 
 $$
 \mathbf{R} \stackrel{?}{=}
@@ -833,7 +833,7 @@ $$
  z_1 \\
  z_2 \\
  z_3 \\
- z_4 \\
+ \vdots \\
  z_5
 \end{bmatrix}
 ~\text{or}~~
@@ -842,8 +842,8 @@ $$
  z_{1,1} & z_{2,1} \\
  z_{1,2} & z_{2,2} \\
  z_{1,3} & z_{2,3} \\
- z_{1,4} & z_{2,4} \\
- z_{1,5} & z_{2,5}
+ \vdots & \vdots \\
+ z_{1,n} & z_{2,n}
 \end{bmatrix}
 ~\text{or}~~
 \mathbf{Z} \stackrel{?}{=}
@@ -851,8 +851,8 @@ $$
  z_{1,1} & z_{2,1} & z_{3,1} \\
  z_{1,2} & z_{2,2} & z_{3,2} \\
  z_{1,3} & z_{2,3} & z_{3,3} \\
- z_{1,4} & z_{2,4} & z_{3,4} \\
- z_{1,5} & z_{2,5} & z_{3,5}
+ \vdots & \vdots & \vdots \\
+ z_{1,n} & z_{2,n} & z_{3,n}
 \end{bmatrix}
 $$
 
@@ -861,7 +861,7 @@ We'll use model selection criteria to choose (eg, AICc)
 
 ## Fitting DFA models
 
-It turns out that there are an infinite number of combinations of $\mathbf{Z}$ and $\mathbf{x}$ that equal $\mathbf{y}$
+It turns out that there are an infinite number of combinations of $\mathbf{Z}$ and $\mathbf{x}$ that will equal $\mathbf{y}$
 
 Therefore we need to impose some constraints on the model
 
@@ -966,7 +966,7 @@ $$
 \end{bmatrix}
 $$
 
-We will set the upper right of $\mathbf{Z}$ to 0
+We will set the upper right triangle of $\mathbf{Z}$ to 0
 
 
 ## Constraints on DFA models | The loadings $\mathbf{Z}$
@@ -984,7 +984,7 @@ $$
 \end{bmatrix}
 $$
 
-For $m - 1$ rows of $\mathbf{Z}$: $z_{i,j} = 0$ if $j > i$
+For the first $m - 1$ rows of $\mathbf{Z}$, $z_{i,j} = 0$ if $j > i$
 
 
 ## Constraints on DFA models | The loadings $\mathbf{Z}$
