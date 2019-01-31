@@ -92,7 +92,7 @@ $$
 There are 2 important points here:
 
 $$
-y_\boxed{t} = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t ~~~~~~~ \text{(dynamic)}
+y_\boxed{t} = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
 $$
 
 1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
@@ -103,12 +103,63 @@ $$
 There are 2 important points here:
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_\boxed{t} + e_t ~~~~~~~ \text{(dynamic)}
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_\boxed{t} + e_t
 $$
 
 1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
 
 2. The relationship between $\mathbf{y}$ and $\mathbf{X}$ is unique for every $t$
+
+
+## Constraining a DLM
+
+Close examination of the DLM reveals an apparent problem for parameter estimation
+
+$$
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_\boxed{t} + e_t
+$$
+
+
+## Constraining a DLM
+
+Close examination of the DLM reveals an apparent problem for parameter estimation
+
+$$
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
+$$
+
+We only have 1 data point per time step (ie, $y_t$ is a scalar)
+
+__Thus, we can only estimate 1 parameter (with no uncertainty)!__
+
+
+## Constraining a DLM
+
+To address this issue, we'll constrain the regression parameters to be dependent from $t$ to $t+1$
+
+$$
+\mathbf{\Theta}_t = \mathbf{G}_t \mathbf{\Theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+
+## Constraining a DLM
+
+In practice, we often make $\mathbf{G}_t$ time invariant 
+
+$$
+\mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t
+$$
+
+or assume $\mathbf{G}_t$ is the identity matrix $\mathbf{I}$
+
+$$
+\begin{align}
+  \mathbf{\Theta}_t &= \mathbf{I} \mathbf{\Theta}_{t-1} + \mathbf{w}_t \\
+                    &= \mathbf{\Theta}_{t-1} + \mathbf{w}_t
+\end{align}
+$$
+
+In the latter case, the parameters follow a random walk over time
 
 
 ## A very simple model
