@@ -1,0 +1,212 @@
+---
+title: "Dynamic Linear Models"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "5 Feb 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
+set.seed(123)
+```
+
+## Topics for today
+
+
+
+
+## A very simple model
+
+Consider this simple model, consisting of a mean $\mu$ plus error
+
+$$
+y_i = \mu + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+
+## A very simple model
+
+The right-hand side of the equation is composed of _deterministic_ and _stochastic_ pieces
+
+$$
+y_i = \underbrace{\mu}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
+$$
+
+
+## A very simple model
+
+Sometime these pieces are referred to as _fixed_ and _random_
+
+$$
+y_i = \underbrace{\mu}_{\text{fixed}} + \underbrace{e_i}_{\text{random}}
+$$
+
+
+## A very simple model
+
+This can also be seen by rewriting the model 
+
+$$
+y_i = \mu + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+as
+
+$$
+y_i \sim \text{N}(\mu,\sigma^2)
+$$
+
+
+## Simple linear regression
+
+We can expand the deterministic part of the model, as with linear regression
+
+$$
+y_i = \underbrace{\alpha + \beta x_i}_{\text{mean}} + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+so
+
+$$
+y_i \sim \text{N}(\alpha + \beta x_i,\sigma^2)
+$$
+
+
+## A simple time series model
+
+Consider a simple model with a mean $\mu$ plus white noise
+
+$$
+y_t = \mu + e_t ~ \text{with} ~ e_t \sim \text{N}(0,\sigma^2)
+$$
+
+
+## Time series model with covariates
+
+We can expand the deterministic part of the model, as before with linear regression
+
+$$
+y_t = \underbrace{\alpha + \beta x_t}_{\text{mean}} + e_t ~ \text{with} ~ e_t \sim \text{N}(0,\sigma^2)
+$$
+
+so
+
+$$
+y_t \sim \text{N}(\alpha + \beta x_t,\sigma^2)
+$$
+
+
+
+## Model with autocorrelated errors
+
+We can expand the stochastic part of the model to have autocorrelated errors
+
+$$
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t
+$$
+
+with $w_t \sim \text{N}(0,\sigma^2)$
+
+
+## Model with autocorrelated errors
+
+We can expand the stochastic part of the model to have autocorrelated errors
+
+$$
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t
+$$
+
+with $w_t \sim \text{N}(0,\sigma^2)$
+
+We can write this model as our standard state-space model
+
+
+## State-space model | Observation equation
+
+$$
+\begin{align}
+  y_t &= \alpha + \beta x_t + e_t \\
+      &= e_t + \alpha + \beta x_t\\
+      &\Downarrow \\
+  y_t &= x_t + a + D d_t + v_t\\
+\end{align}
+$$
+
+with
+
+$x_t = e_t$, $a = \alpha$, $D = \beta$, $d_t = x_t$, $v_t = 0$
+
+
+## State-space model | State equation
+
+
+$$
+\begin{align}
+  e_t &= \phi e_{t-1} + w_t \\
+      &\Downarrow \\
+  x_t &= B x_t + w_t\\
+\end{align}
+$$
+
+with
+
+$x_t = e_t$ and $B = \phi$
+
+
+## State-space model | Full form
+
+$$
+y_t = \alpha + \beta x_t + e_t \\
+e_t = \phi e_{t-1} + w_t \\
+\Downarrow \\
+y_t = a + D d_t + x_t\\
+x_t = B x_t + w_t
+$$
+
+
+
+## {.flexbox .vcenter}
+
+<font size="10">MORE RANDOM EFFECTS</font>
+
+
+
+
+## Random walk observed with error
+
+$$
+y_t = \mu + f_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0, \sigma) \\
+f_t = f_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, \gamma) \\
+\Downarrow \\
+y_t = a + x_t + v_t ~ \text{with} ~ v_t \sim \text{N}(0, R) \\
+x_t = x_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, Q)
+$$
+
+
+## {.flexbox .vcenter}
+
+<font size="10">MULTIPLE TIME SERIES</font>
+
+
+
+## Random walk observed with error | In matrix form
+
+$$
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+with 
+
+$\mathbf{v}_t \sim \text{MVN}(\mathbf{0}, \mathbf{R})$
+
+$\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$
+
+
+
