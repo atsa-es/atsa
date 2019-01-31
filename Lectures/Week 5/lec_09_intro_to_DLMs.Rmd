@@ -116,7 +116,7 @@ $$
 Close examination of the DLM reveals an apparent problem for parameter estimation
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_\boxed{t} + e_t
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
 $$
 
 
@@ -176,6 +176,159 @@ $$
 \mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t
 $$
 
+
+## Example of a seasonal DLM
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{qtr,t} + e_t \\
+\gamma_t^{qtr} = 
+\begin{cases}
+  \gamma_{1,t} & \text{if } qtr = 1 \\
+  \gamma_{2,t} & \text{if } qtr = 2 \\
+  \gamma_{3,t} & \text{if } qtr = 3 \\
+  \gamma_{4,t} & \text{if } qtr = 4
+\end{cases}
+$$
+
+If we had quarterly data & wanted only the effects of
+
+1. an intercept (level);  
+
+2. one covariate; and  
+
+3. the current quarter
+
+
+## Example of a seasonal DLM
+
+Full matrix form
+
+$$
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t \\
+\mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t
+$$
+
+with
+
+$$
+\mathbf{X}^{\top}_t =
+\begin{bmatrix}
+  1 & x_t & 1 & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+and
+
+$$
+\mathbf{\Theta}_t^{\top} = 
+\begin{bmatrix}
+  \alpha_t & \beta_t & \gamma_{1,t} & \gamma_{2,t} & \gamma_{3,t} & \gamma_{4,t}
+\end{bmatrix}
+$$
+
+
+## Example of non-diagonal $\mathbf{G}$
+
+We can use a non-diagonal $\mathbf{G}$ to get the correct quarter effect
+
+$$
+\mathbf{G} = 
+\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
+~ \text{and} ~~
+\mathbf{\Theta}_t = 
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{i,t} \\ \gamma_{j,t} \\ \gamma_{k,t} \\ \gamma_{l,t}
+\end{bmatrix}
+$$
+
+
+## Evolving parameters
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_1 \\ \beta_1 \\ \gamma_{1,1} \\ \gamma_{2,1} \\ \gamma_{3,1} \\ \gamma_{4,1}
+\end{bmatrix}}_{\mathbf{\Theta}_1} =
+\underbrace{\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_0 \\ \beta_0 \\ \gamma_{4,0} \\ \gamma_{1,0} \\ \gamma_{2,0} \\ \gamma_{3,0}
+\end{bmatrix}}_{\mathbf{\Theta}_0} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,1} \\ w_{\beta,1}  \\ w_{\gamma_1,1}  \\ w_{\gamma_2,1} \\ w_{\gamma_3,1} \\ w_{\gamma_4,1}
+\end{bmatrix}}_{\mathbf{w}_1}
+$$
+
+
+## Obtaining seasonal effect
+
+$$
+y_1 = 
+\begin{bmatrix}
+  1 & x_1 & 1 & 0 & 0 & 0
+\end{bmatrix} 
+\begin{bmatrix}
+  \alpha_1 \\ \beta_1 \\ \gamma_{1,1} \\ \gamma_{2,1} \\ \gamma_{3,1} \\ \gamma_{4,1}
+\end{bmatrix}
++ e_1
+$$
+
+$$
+y_1 = \alpha_1 + \beta_1 x_1 + \gamma_{1,1} + e_1
+$$
+
+
+## Evolving parameters
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_2 \\ \beta_2 \\ \gamma_{2,2} \\ \gamma_{3,2} \\ \gamma_{4,2} \\ \gamma_{1,2}
+\end{bmatrix}}_{\mathbf{\Theta}_2} =
+\underbrace{\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_1 \\ \beta_1 \\ \gamma_{1,1} \\ \gamma_{2,1} \\ \gamma_{3,1} \\ \gamma_{4,1}
+\end{bmatrix}}_{\mathbf{\Theta}_1} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,2} \\ w_{\beta,2}  \\ w_{\gamma_1,2}  \\ w_{\gamma_2,2} \\ w_{\gamma_3,2} \\ w_{\gamma_4,2}
+\end{bmatrix}}_{\mathbf{w}_2}
+$$
+
+
+## Obtaining seasonal effect
+
+$$
+y_2 = 
+\begin{bmatrix}
+  1 & x_2 & 1 & 0 & 0 & 0
+\end{bmatrix} 
+\begin{bmatrix}
+  \alpha_2 \\ \beta_2 \\ \gamma_{2,2} \\ \gamma_{3,2} \\ \gamma_{4,2} \\ \gamma_{1,2}
+\end{bmatrix}
++ e_1
+$$
+
+$$
+y_2 = \alpha_2 + \beta_2 x_2 + \gamma_{2,2} + e_2
+$$
 
 
 
