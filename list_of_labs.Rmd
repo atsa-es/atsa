@@ -131,7 +131,7 @@ dfalab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "Problems at end of lab",
+  homework = "Problems at end of lab<br>Due Thurs 2/7 midnight.",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
