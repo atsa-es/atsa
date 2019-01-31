@@ -131,11 +131,11 @@ dfalab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "At end of lab",
+  homework = "Problems at end of lab",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
+  hw_duedate = "Due midnight next Thurs 2/7; email to Mark"
 )
 ```
 
