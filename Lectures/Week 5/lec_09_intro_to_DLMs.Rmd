@@ -342,3 +342,18 @@ y_t = \mathbf{Z}_t \mathbf{x}_t + v_t \\
 $$
 
 
+## Contrast in covariate effects
+
+__Note__: DLMs include covariate effect in the observation eqn much differently than other forms of MARSS models
+
+DLM: $\mathbf{Z}$ is covariates, $\mathbf{x}$ is parameters 
+
+$$
+y_t = \boxed{\mathbf{Z}_t \mathbf{x}_t} + v_t \\
+$$
+
+Others: $\mathbf{d}$ is covariates, $\mathbf{D}$ is parameters
+
+$$
+y_t = \mathbf{Z}_t \mathbf{x}_t + \boxed{\mathbf{D} \mathbf{d}_t} +v_t \\
+$$
