@@ -19,6 +19,59 @@ set.seed(123)
 
 
 
+## Simple linear regression
+
+Let's begin with a linear regression model
+
+$$
+y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+The index $i$ has no explicit meaning--shuffling ($y_i,x_i$) pairs has no effect on parameter estimation
+
+
+## Simple linear regression
+
+We can write the model in matrix form
+
+$$
+y_i = \alpha + \beta x_i + e_i \\
+\Downarrow \\
+y_i = 
+\begin{bmatrix}
+  1 & x_i
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha \\
+  \beta
+\end{bmatrix} +
+e_i
+$$
+
+
+## Simple linear regression
+
+We can write the model in matrix form
+
+$$
+y_i = \alpha + \beta x_i + e_i \\
+\Downarrow \\
+y_i = 
+\begin{bmatrix}
+  1 & x_i
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha \\
+  \beta
+\end{bmatrix} +
+e_i \\
+\Downarrow \\
+y_i = \mathbf{X}^{\top}_i \mathbf{\Theta} + e_i
+$$
+
+with $\mathbf{X}^{\top}_i = \begin{bmatrix} 1 & x_i \end{bmatrix}$ and $\mathbf{\Theta} = \begin{bmatrix} \alpha & \beta \end{bmatrix}^{\top}$ 
+
+
 ## A very simple model
 
 Consider this simple model, consisting of a mean $\mu$ plus error
