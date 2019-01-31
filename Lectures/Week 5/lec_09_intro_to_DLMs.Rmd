@@ -72,6 +72,45 @@ $$
 with $\mathbf{X}^{\top}_i = \begin{bmatrix} 1 & x_i \end{bmatrix}$ and $\mathbf{\Theta} = \begin{bmatrix} \alpha & \beta \end{bmatrix}^{\top}$ 
 
 
+## Dynamic linear model (DLM)
+
+In a _dynamic_ linear model, the regression parameters change over time, so we write
+
+$$
+y_i = \mathbf{X}^{\top}_i \mathbf{\Theta} + e_i ~~~~~~~ \text{(static)}
+$$
+
+as
+
+$$
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t ~~~~~~~ \text{(dynamic)}
+$$
+
+
+## Dynamic linear model (DLM)
+
+There are 2 important points here:
+
+$$
+y_\boxed{t} = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t ~~~~~~~ \text{(dynamic)}
+$$
+
+1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
+
+
+## Dynamic linear model (DLM)
+
+There are 2 important points here:
+
+$$
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_\boxed{t} + e_t ~~~~~~~ \text{(dynamic)}
+$$
+
+1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
+
+2. The relationship between $\mathbf{y}$ and $\mathbf{X}$ is unique for every $t$
+
+
 ## A very simple model
 
 Consider this simple model, consisting of a mean $\mu$ plus error
