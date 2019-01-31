@@ -18,9 +18,17 @@ set.seed(123)
 
 Deterministic vs stochastic elements
 
+Regression with autocorrelated errors
+
+Regression with temporal random effects
+
 Dynamic Factor Analysis (DFA)
 
-DFA with covariates
+* Forms of covariance matrix  
+
+* Constraints for model fitting
+
+* Interpretation of results
 
 
 ## A very simple model
@@ -34,7 +42,7 @@ $$
 
 ## A very simple model
 
-The righthand side of the equation is composed of _deterministic_ and _stochastic_ pieces
+The right-hand side of the equation is composed of _deterministic_ and _stochastic_ pieces
 
 $$
 y_i = \underbrace{\mu}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
@@ -130,7 +138,7 @@ plot.ts(yy, ylim = c(min(xx,yy), max(xx, yy)), las = 1,
 lines(xx, col = "blue", lwd = 2)
 text(xx[1], expression(italic(x[t])), pos = 3, col = "blue")
 text(yy[1], expression(italic(y[t])), pos = 3, col = "dodgerblue")
-mtext(side = 3, expression(italic(y[t]) == 0.5~+~5~italic(x[t])~+~italic(e[t])),
+mtext(side = 3, expression(italic(y[t]) == 1~+~5~italic(x[t])~+~italic(e[t])),
       line = 0.4, adj = 0)
 ```
 
@@ -229,17 +237,6 @@ x_t = B x_t + w_t
 $$
 
 
-## State-space model | In full MARSS form
-
-$$
-y_t = a + D d_t + x_t \\
-x_t = B x_t + w_t \\
-\Downarrow \\
-y_t = Z x_t + a + D d_t + v_t \\
-x_t = B x_t + u + C c_t + w_t
-$$
-
-
 ## State-space model | Observation model in `MARSS()`
 
 $$
@@ -294,7 +291,7 @@ $$
 We can expand the random portion
 
 $$
-y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
 $$
 
 $$
@@ -308,12 +305,12 @@ $$
 We can expand the random portion
 
 $$
-y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
 $$
 
 $$
 e_t \sim \text{N}(0, \sigma) \\
-f_t \sim \text{N}(x_{t-1}, \gamma)
+f_t \sim \text{N}(f_{t-1}, \gamma)
 $$
 
 This is simply a random walk observed with error
@@ -322,23 +319,20 @@ This is simply a random walk observed with error
 ## Random walk observed with error
 
 $$
-y_t = x_t + a + v_t \\
-x_t = x_{t-1} + w_t
+y_t = \mu + f_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0, \sigma) \\
+f_t = f_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, \gamma) \\
+\Downarrow \\
+y_t = a + x_t + v_t ~ \text{with} ~ v_t \sim \text{N}(0, R) \\
+x_t = x_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, Q)
 $$
-
-with
-
-$v_t \sim \text{N}(0, R)$
-
-$w_t \sim \text{N}(0, Q)$
 
 
 ## Expanding fixed & random effects
 
-We can expand the random portion
+We can expand the fixed portion
 
 $$
-y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{e_t + f_t}_{\text{random}}
+y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
 $$
 
 $$
@@ -350,16 +344,12 @@ $$
 ## Fixed & random effects | In familiar state-space form
 
 $$
-y_t = x_t + a + D d_t + v_t \\
-x_t = x_{t-1} + w_t
+y_t = \alpha + \beta x_t + f_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0, \sigma) \\
+f_t = f_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, \gamma) \\
+\Downarrow \\
+y_t = a + D d_t + x_t + v_t ~ \text{with} ~ v_t \sim \text{N}(0, R) \\
+x_t = x_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, Q)
 $$
-
-with
-
-$v_t \sim \text{N}(0, R)$
-
-$w_t \sim \text{N}(0, Q)$
-
 
 ## {.flexbox .vcenter}
 
@@ -624,9 +614,9 @@ $$
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
 $$
 
-What is the dimension of $\mathbf{Z}$?
+What are the dimensions of $\mathbf{Z}$?
 
-What are the elements of $\mathbf{Z}$?
+What are the elements within $\mathbf{Z}$?
 
 
 ## Dynamic Factor Analysis (DFA)
@@ -634,23 +624,36 @@ What are the elements of $\mathbf{Z}$?
 DFA is a _dimension reduction_ technique, which models $n$ observed time series as a function of $m$ hidden states (patterns), where $n \gg m$
 
 
-## Dynamic Factor Analysis (DFA)
+## Dynamic Factor Analysis (DFA) | State-space form
 
 $$
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
 $$
 
-$\mathbf{y}_t$ is $n \times 1$
+data: $\mathbf{y}_t$ is $n \times 1$
 
-$\mathbf{x}_t$ is $m \times 1$
+loadings: $\mathbf{Z}$ is $n \times m$ with $n > m$
 
-$\mathbf{Z}$ is $n \times m$
+states: $\mathbf{x}_t$ is $m \times 1$
 
 
 ## Dimension reduction | Principal Components Analysis (PCA)
 
 Goal is to reduce some large number of correlated variates into a few uncorrelated factors
+
+
+## Principal Components Analysis (PCA)
+
+Calculating the principal components requires us to estimate the covariance of the data
+
+$$
+\text{PC} = \text{eigenvectors}(\text{cov}(\mathbf{y}))
+$$
+
+There will be $n$ principal components (eigenvectors) for an $n \times T$ matrix $\mathbf{y}$
+
+We reduce the dimension by selecting a subset of the components that explain much of the variance (eg, the first 2)
 
 
 ## Principal Components Analysis (PCA)
@@ -708,6 +711,82 @@ text(-3, 1.2,
 ```
 
 
+## Relationship between PCA & DFA
+
+We need to estimate the covariance in the data $\mathbf{y}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t, ~ \text{with} ~ \mathbf{v}_t \sim \text{MVN}(\mathbf{0}, \mathbf{R})
+$$
+
+so
+
+$$
+\text{cov}(\mathbf{y}_t) = \mathbf{Z} \text{cov}(\mathbf{x}_t) \mathbf{Z}^\top + \mathbf{R}
+$$
+In PCA, we require $\mathbf{R}$ to be diagonal, but not so in DFA
+
+
+## Principal Components Analysis (PCA) | Forms for $\mathbf{R}$ with $n = 4$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+
+## Dynamic Factor Analysis (DFA) | Forms for $\mathbf{R}$ with $n = 4$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & \gamma_{2,4} \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & \gamma_{2,4} & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+
 ## Dynamic Factor Analysis (DFA)
 
 $$
@@ -762,7 +841,7 @@ $$
  z_1 \\
  z_2 \\
  z_3 \\
- z_4 \\
+ \vdots \\
  z_5
 \end{bmatrix}
 ~\text{or}~~
@@ -771,8 +850,8 @@ $$
  z_{1,1} & z_{2,1} \\
  z_{1,2} & z_{2,2} \\
  z_{1,3} & z_{2,3} \\
- z_{1,4} & z_{2,4} \\
- z_{1,5} & z_{2,5}
+ \vdots & \vdots \\
+ z_{1,n} & z_{2,n}
 \end{bmatrix}
 ~\text{or}~~
 \mathbf{Z} \stackrel{?}{=}
@@ -780,18 +859,432 @@ $$
  z_{1,1} & z_{2,1} & z_{3,1} \\
  z_{1,2} & z_{2,2} & z_{3,2} \\
  z_{1,3} & z_{2,3} & z_{3,3} \\
- z_{1,4} & z_{2,4} & z_{3,4} \\
- z_{1,5} & z_{2,5} & z_{3,5}
+ \vdots & \vdots & \vdots \\
+ z_{1,n} & z_{2,n} & z_{3,n}
 \end{bmatrix}
 $$
 
 We'll use model selection criteria to choose (eg, AICc)
 
 
+## Fitting DFA models
+
+It turns out that there are an infinite number of combinations of $\mathbf{Z}$ and $\mathbf{x}$ that will equal $\mathbf{y}$
+
+Therefore we need to impose some constraints on the model
+
+
+## Constraints on DFA models | The offset $\mathbf{a}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{a} =
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ \vdots \\
+ a_n
+\end{bmatrix}
+$$
+
+We will set the first $m$ elements of $\mathbf{a}$ to 0
+
+
+## Constraints on DFA models | The offset $\mathbf{a}$
+
+For example, if $n = 5$ and $m = 2$
+
+$$
+\mathbf{a} =
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+\Rightarrow
+\mathbf{a} =
+\begin{bmatrix}
+ 0 \\
+ 0 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+$$
+
+
+## Constraints on DFA models | The offset $\mathbf{a}$
+
+For example, if $n = 5$ and $m = 2$
+
+$$
+\mathbf{a} =
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+\Rightarrow
+\mathbf{a} =
+\begin{bmatrix}
+ 0 \\
+ 0 \\
+ a_3 \\
+ a_4 \\
+ a_5
+\end{bmatrix}
+\Rightarrow
+\mathbf{a} =
+\begin{bmatrix}
+ 0 \\
+ 0 \\
+ 0 \\
+ 0 \\
+ 0
+\end{bmatrix}
+$$
+
+Note, however, that this causes problems for the EM algorithm so we will often de-mean the data and set $a_i = 0$ for all $i$
+
+
+## Constraints on DFA models | The loadings $\mathbf{Z}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+ z_{1,1} & z_{2,1} & \dots & z_{m,1} \\
+ z_{1,2} & z_{2,2} & \dots & z_{m,2} \\
+ z_{1,3} & z_{2,3} & \dots & z_{m,3} \\
+ \vdots & \vdots & \ddots & z_{m,4} \\
+ z_{1,n} & z_{2,n} & \dots & z_{m,n}
+\end{bmatrix}
+$$
+
+We will set the upper right triangle of $\mathbf{Z}$ to 0
+
+
+## Constraints on DFA models | The loadings $\mathbf{Z}$
+
+For example, if $n = 5$ and $m = 3$
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+ z_{1,1} & 0 & 0 \\
+ z_{1,2} & z_{2,2} & 0 \\
+ z_{1,3} & z_{2,3} & z_{3,3} \\
+ z_{1,4} & z_{2,3} & z_{3,4} \\
+ z_{1,5} & z_{2,5} & z_{3,5}
+\end{bmatrix}
+$$
+
+For the first $m - 1$ rows of $\mathbf{Z}$, $z_{i,j} = 0$ if $j > i$
+
+
+## Constraints on DFA models | The loadings $\mathbf{Z}$
+
+An additional constraint is necessary in a Bayesian context
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+ \underline{z_{1,1}} & 0 & 0 \\
+ z_{1,2} & \underline{z_{2,2}} & 0 \\
+ z_{1,3} & z_{2,3} & \underline{z_{3,3}} \\
+ z_{1,4} & z_{2,3} & z_{3,4} \\
+ z_{1,5} & z_{2,5} & z_{3,5}
+\end{bmatrix}
+$$
+
+Diagonal of $\mathbf{Z}$ is positive: $z_{i,j} > 0$ if $i = j$
+
+
+## Constraints on DFA models | The state variance $\mathbf{Q}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+We will set $\mathbf{Q}$ equal to the Identity matrix $\mathbf{I}$
+
+
+## Constraints on DFA models | The state variance $\mathbf{Q}$
+
+For example, if $m = 4$
+
+$$
+\mathbf{Q} =
+\begin{bmatrix}
+ 1 & 0 & 0 & 0 \\
+ 0 & 1 & 0 & 0 \\
+ 0 & 0 & 1 & 0 \\
+ 0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+
+This allows our random walks to have a _lot_ of flexibility
+
+
+## Dynamic Factor Analysis (DFA) | Including $p$ covariates
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \underline{\mathbf{D} \mathbf{d}_t} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$\mathbf{d}_t$ is a $p \times 1$ vector of covariates at time $t$
+
+$\mathbf{D}$ is an $n \times p$ matrix of covariate effects
+
+
+## Dynamic Factor Analysis (DFA) | Form for $\mathbf{D}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \underline{\mathbf{D}} \mathbf{d}_t + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+Careful thought must be given _a priori_ as to the form for $\mathbf{D}$
+
+Should the effect(s) vary by site, species, etc?
+
+
+## Dynamic Factor Analysis (DFA) | Form for $\mathbf{D}$
+
+For example, given 2 covariates, $\text{Temp}$ and $\text{Salinity}$
+
+$$
+\mathbf{D} =
+\underbrace{
+\begin{bmatrix}
+ d_{\text{Temp}} & d_{\text{Salinity}} \\
+ d_{\text{Temp}} & d_{\text{Salinity}} \\
+ \vdots & \vdots \\
+ d_{\text{Temp}} & d_{\text{Salinity}} \\
+\end{bmatrix}
+}_{\text{effects same by site/species}}
+~ \text{or} ~
+\mathbf{D} =
+\underbrace{
+\begin{bmatrix}
+ d_{\text{Temp}, 1} & d_{\text{Salinity}, 1} \\
+ d_{\text{Temp}, 2} & d_{\text{Salinity}, 2} \\
+ \vdots & \vdots \\
+ d_{\text{Temp}, n} & d_{\text{Salinity}, n} \\
+\end{bmatrix}
+}_{\text{effects differ by site/species}}
+$$
+
+
+## A note on model selection
+
+Earlier we saw that we could use model selection criteria to help us choose among the different forms for $\mathbf{Z}$
+
+However, caution must be given when comparing models with and without covariates, and varying numbers of states
+
+
+## A note on model selection
+
+Think about the model form
+
+$$
+\mathbf{y}_t = \mathbf{Z} \underline{\mathbf{x}_t} + \mathbf{a} + \mathbf{D} \underline{\mathbf{d}_t} + \mathbf{v}_t \\
+$$
+
+$\mathbf{x}_t$ is an _undetermined_ random walk
+
+$\mathbf{d}_t$ is a _predetermined_ covariate
+
+Unless $\mathbf{d}$ is highly correlated with $\mathbf{y}$, then the inclusion of a state $\mathbf{x}$ will be favored over $\mathbf{d}$
+
+
+## A note on model selection
+
+Thus, work out fixed effects (covariates) while keeping the random effects (states) constant, and vice versa
+
+For example, compare data support for models with different combinations of covariates, only one state ($m$ = 1), and a "diagonal and equal" $\mathbf{R}$
+
+
+## Interpreting DFA results
+
+Recall that we had to constrain the form of $\mathbf{Z}$ to fit the model
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+ z_{1,1} & 0 & \dots & 0 \\
+ z_{1,2} & z_{2,2} & \ddots & 0 \\
+ \vdots & \vdots & \ddots & 0 \\
+ \vdots & \vdots & \vdots & z_{m,m}  \\
+ \vdots & \vdots & \vdots & \vdots \\
+ z_{1,n} & z_{2,n} & z_{3,n} & z_{m,n} 
+\end{bmatrix}
+$$
+
+So, the 1st common factor is determined by the 1st variate, the 2nd common factor by the first two variates, etc.
+
+
+## Interpreting DFA results
+
+To help with this, we can use a _basis rotation_ to maximize the loadings on a few factors
+
+If $\mathbf{H}$ is an $m \times m$ non-singular matrix, these 2 DFA models are equivalent
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{H}^{-1} \mathbf{x}_t + \mathbf{a} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t \\
+\mathbf{H} \mathbf{x}_t = \mathbf{H} \mathbf{x}_{t-1} + \mathbf{H} \mathbf{w}_t
+$$
+
+How should we choose $\mathbf{H}$?
+
+
+## Basis rotation | Varimax
+
+A _varimax_ rotation will maximize the variance of the loadings in $\mathbf{Z}$ along a few of the factors
+
+
+## PCA of 5 wines with 8 attributes
+
+```{r}
+dat <- read.csv("wine_data_for_PCA.csv")
+colnames(dat)[2:3] <- c("For meat", "For dessert")
+
+pca <- prcomp(dat, scale. = TRUE)
+
+loads <- pca$rotation
+if(loads[1,2] < 0) { loads[,2] <- -1 * loads[,2] }
+
+load1 <- loads[,1]
+load2 <- loads[,2]
+
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 1.5, 0, 1.5))
+
+poz <- c(3, 1, 3, 3, 3, 4, 2)
+  
+plot(load1, load2, pch = 16,
+     xlim = c(min(load1), max(load1)),
+     ylim = c(min(load2), max(load2)),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "")
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+for(i in 1:ncol(dat)) {
+  text(load1[i], load2[i], colnames(dat)[i],
+       pos = poz[i], xpd = NA)
+}
+text(0, min(load2) * 1.05, "X2", pos = 1, xpd = NA, col = "darkgray")
+text(min(load1) * 1.05, 0, "X1", pos = 2, xpd = NA, col = "darkgray")
+```
+
+
+## Rotated loadings
+
+```{r}
+theta <- 165 * pi / 180
+basis_rot <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), 2, 2)
+  
+new_x <- t(basis_rot %*% matrix(c(1,0,-1,0),2,2))
+new_y <- t(basis_rot %*% matrix(c(0,1,0,-1),2,2))
+
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 1.5, 0, 1.5))
+
+plot(load1, load2, pch = 16,
+     xlim = c(min(load1), max(load1)),
+     ylim = c(min(load2), max(load2)),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "")
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+## new axes
+lines(new_x[,1], new_x[,2], col = "blue")
+lines(new_y[,1], new_y[,2], col = "blue")
+## labels
+for(i in 1:ncol(dat)) {
+  text(load1[i], load2[i], colnames(dat)[i],
+       pos = poz[i], xpd = NA)
+}
+text(0, min(load2) * 1.05, "X2", pos = 1, xpd = NA, col = "darkgray")
+text(min(load1) * 1.05, 0, "X1", pos = 2, xpd = NA, col = "darkgray")
+
+theta <- 345 * pi / 180
+basis_rot <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), 2, 2)
+text((basis_rot %*% matrix(c(0,par()$usr[3]),2,1))[1], min(load2) * 1.05,
+     "R2", pos = 1, xpd = NA, col = "blue")
+text(min(load1) * 1.05, (basis_rot %*% matrix(c(par()$usr[1],0),2,1))[2],
+     "R1", pos = 2, xpd = NA, col = "blue")
+
+```
+
+
+
+## Rotated loadings
+
+```{r}
+theta <- 15 * pi / 180
+basis_rot <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), 2, 2)
+  
+rot_loads <- t(basis_rot %*% t(loads[,1:2]))
+rload1 <- rot_loads[,1]
+rload2 <- rot_loads[,2]
+
+  
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 1.5, 0, 1.5))
+
+plot(load1, load2, pch = 16, col = "darkgray",
+     xlim = c(min(load1,rload1), max(load1,rload1)),
+     ylim = c(min(load2,rload2), max(load2,rload2)),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "")
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+for(i in 1:ncol(dat)) {
+  text(rload1[i], rload2[i], colnames(dat)[i],
+       pos = poz[i], xpd = NA)
+}
+text(0, min(load2) * 1.05, "R2", pos = 1, xpd = NA, col = "darkgray")
+text(min(load1) * 1.05, 0, "R1", pos = 2, xpd = NA, col = "darkgray")
+
+points(rload1, rload2, pch = 16)
+```
+
+
 ## Topics for today
 
 Deterministic vs stochastic elements
 
+Regression with autocorrelated errors
+
+Regression with temporal random effects
+
 Dynamic Factor Analysis (DFA)
 
-DFA with covariates
+* Forms of covariance matrix  
+
+* Constraints for model fitting
+
+* Interpretation of results
+

@@ -45,11 +45,9 @@ set.seed(123)
 
 eg, nutrients affects growth, high temps kill...
 
-$$\mathbf{x}_t = \boxed{\mathbf{B}_t\mathbf{x}_{t-1}}+\mathbf{u}+\boxed{\mathbf{C}\mathbf{c}_t}+\mathbf{w}_t$$
+$$\mathbf{x}_t = \mathbf{B}_t\mathbf{x}_{t-1}+\mathbf{u}+\boxed{\mathbf{C}\mathbf{c}_t}+\mathbf{w}_t$$
 
-$\boxed{\mathbf{B}_t\mathbf{x}_{t-1}}$ Mark will discuss Dynamic Linear Models on Tuesday.  In these models, covariates appear in $\mathbf{B}_t$ and $\mathbf{x}_t$ is a time-varying effect of the covariate.
-
-$\boxed{\mathbf{C}\mathbf{c}_t}$ In this case, the covariate is in $\mathbf{c}_t$ and the effect is in matrix $\mathbf{C}$.  This is similar to how the covariate appears in a multivariate regression.
+$\boxed{\mathbf{C}\mathbf{c}_t}$ The covariate is in $\mathbf{c}_t$ and the effect is in matrix $\mathbf{C}$.  This is similar to how the covariate appears in a multivariate regression.
 
 ## Covariates in the state process
 
