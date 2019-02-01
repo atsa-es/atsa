@@ -627,7 +627,7 @@ $$
   \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
 \end{bmatrix}}_{\mathbf{\Theta}_{t-1}} + 
 \underbrace{\begin{bmatrix}
-  w_{\alpha,t} \\ w_{\beta,t}  \\ w_{\gamma_2,t}  \\ w_{\gamma_3,t} \\ w_{\gamma_4,t} \\ w_{\gamma_1,t}
+  w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
 \end{bmatrix}}_{\mathbf{w}_t}
 $$
 
@@ -650,7 +650,7 @@ $$
   \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
 \end{bmatrix}}_{\mathbf{\Theta}_{t-1}} + 
 \underbrace{\begin{bmatrix}
-  w_{\alpha,t} \\ w_{\beta,t} \\ w_{\gamma_3,t} \\ w_{\gamma_4,t} \\ w_{\gamma_1,t}  \\ w_{\gamma_2,t}
+  w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
 \end{bmatrix}}_{\mathbf{w}_t}
 $$
 
