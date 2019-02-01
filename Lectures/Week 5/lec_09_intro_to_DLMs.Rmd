@@ -34,7 +34,7 @@ $$
 y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
 $$
 
-The index $i$ has no explicit meaning--shuffling ($y_i,x_i$) pairs has no effect on parameter estimation
+The index $i$ has no explicit meaning in that shuffling ($y_i,x_i$) pairs has no effect on parameter estimation
 
 
 ## Simple linear regression
@@ -177,7 +177,7 @@ $$
 y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
 $$
 
-State model determines how the parameters "evolve" over time
+State model determines how parameters "evolve" over time
 
 $$
 \mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t
@@ -188,7 +188,7 @@ $$
 
 $$
 y_t = \alpha_t + \beta_t x_t + \gamma_{qtr,t} + e_t \\
-\gamma_t^{qtr} = 
+\gamma_{qtr,t} = 
 \begin{cases}
   \gamma_{1,t} & \text{if } qtr = 1 \\
   \gamma_{2,t} & \text{if } qtr = 2 \\
@@ -208,11 +208,10 @@ If we had quarterly data & wanted only the effects of
 
 ## Example of a seasonal DLM
 
-Full matrix form
-
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t \\
-\mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t
+y_t = \alpha_t + \beta_t x_t + \gamma_{qtr,t} + e_t \\
+\Downarrow \\
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
 $$
 
 with
@@ -232,6 +231,26 @@ $$
   \alpha_t & \beta_t & \gamma_{1,t} & \gamma_{2,t} & \gamma_{3,t} & \gamma_{4,t}
 \end{bmatrix}
 $$
+
+
+## Obtaining seasonal effect
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1 & 0 & 0 & 0
+\end{bmatrix} 
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{1,t} \\ \gamma_{2,t} \\ \gamma_{3,t} \\ \gamma_{4,t}
+\end{bmatrix}
++ e_t
+$$
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{1,t} + e_t
+$$
+
+But this gives the effect of $\gamma_{1,t}$ at every time $t$
 
 
 ## Example of non-diagonal $\mathbf{G}$
@@ -256,53 +275,12 @@ $$
 $$
 
 
-## Evolving parameters
+## Evolving parameters | $t = 5$
 
 $$
 \underbrace{\begin{bmatrix}
-  \alpha_1 \\ \beta_1 \\ \gamma_{1,1} \\ \gamma_{2,1} \\ \gamma_{3,1} \\ \gamma_{4,1}
-\end{bmatrix}}_{\mathbf{\Theta}_1} =
-\underbrace{\begin{bmatrix}
-  1 & 0 & 0 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 & 0 & 0 \\
-  0 & 0 & 0 & 1 & 0 & 0 \\
-  0 & 0 & 0 & 0 & 1 & 0 \\
-  0 & 0 & 0 & 0 & 0 & 1 \\
-  0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}}_{\mathbf{G}}
-\underbrace{\begin{bmatrix}
-  \alpha_0 \\ \beta_0 \\ \gamma_{4,0} \\ \gamma_{1,0} \\ \gamma_{2,0} \\ \gamma_{3,0}
-\end{bmatrix}}_{\mathbf{\Theta}_0} + 
-\underbrace{\begin{bmatrix}
-  w_{\alpha,1} \\ w_{\beta,1}  \\ w_{\gamma_1,1}  \\ w_{\gamma_2,1} \\ w_{\gamma_3,1} \\ w_{\gamma_4,1}
-\end{bmatrix}}_{\mathbf{w}_1}
-$$
-
-
-## Obtaining seasonal effect
-
-$$
-y_1 = 
-\begin{bmatrix}
-  1 & x_1 & 1 & 0 & 0 & 0
-\end{bmatrix} 
-\begin{bmatrix}
-  \alpha_1 \\ \beta_1 \\ \gamma_{1,1} \\ \gamma_{2,1} \\ \gamma_{3,1} \\ \gamma_{4,1}
-\end{bmatrix}
-+ e_1
-$$
-
-$$
-y_1 = \alpha_1 + \beta_1 x_1 + \gamma_{1,1} + e_1
-$$
-
-
-## Evolving parameters
-
-$$
-\underbrace{\begin{bmatrix}
-  \alpha_2 \\ \beta_2 \\ \gamma_{2,2} \\ \gamma_{3,2} \\ \gamma_{4,2} \\ \gamma_{1,2}
-\end{bmatrix}}_{\mathbf{\Theta}_2} =
+  \alpha_{5} \\ \beta_{5} \\ \gamma_{1,5} \\ \gamma_{2,5} \\ \gamma_{3,5} \\ \gamma_{4,5}
+\end{bmatrix}}_{\mathbf{\Theta}_{5}} =
 \underbrace{\begin{bmatrix}
   1 & 0 & 0 & 0 & 0 & 0 \\
   0 & 1 & 0 & 0 & 0 & 0 \\
@@ -312,33 +290,56 @@ $$
   0 & 0 & 1 & 0 & 0 & 0
 \end{bmatrix}}_{\mathbf{G}}
 \underbrace{\begin{bmatrix}
-  \alpha_1 \\ \beta_1 \\ \gamma_{1,1} \\ \gamma_{2,1} \\ \gamma_{3,1} \\ \gamma_{4,1}
-\end{bmatrix}}_{\mathbf{\Theta}_1} + 
+  \alpha_{4} \\ \beta_{4} \\ \gamma_{4,4} \\ \gamma_{1,4} \\ \gamma_{2,4} \\ \gamma_{3,4}
+\end{bmatrix}}_{\mathbf{\Theta}_{4}} + 
 \underbrace{\begin{bmatrix}
-  w_{\alpha,2} \\ w_{\beta,2}  \\ w_{\gamma_1,2}  \\ w_{\gamma_2,2} \\ w_{\gamma_3,2} \\ w_{\gamma_4,2}
-\end{bmatrix}}_{\mathbf{w}_2}
+  w_{\alpha,5} \\ w_{\beta,5}  \\ w_{\gamma_1,5}  \\ w_{\gamma_2,5} \\ w_{\gamma_3,5} \\ w_{\gamma_4,5}
+\end{bmatrix}}_{\mathbf{w}_{5}}
+$$
+
+
+## Evolving parameters | $t = 6$
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_{6} \\ \beta_{6} \\ \gamma_{2,6} \\ \gamma_{3,6} \\ \gamma_{4,6} \\ \gamma_{1,6}
+\end{bmatrix}}_{\mathbf{\Theta}_{6}} =
+\underbrace{\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_{5} \\ \beta_{5} \\ \gamma_{1,5} \\ \gamma_{2,5} \\ \gamma_{3,5} \\ \gamma_{4,5}
+\end{bmatrix}}_{\mathbf{\Theta}_{5}} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,6} \\ w_{\beta,6}  \\ w_{\gamma_2,6}  \\ w_{\gamma_3,6} \\ w_{\gamma_4,6} \\ w_{\gamma_1,6}
+\end{bmatrix}}_{\mathbf{w}_{6}}
 $$
 
 
 ## Obtaining seasonal effect
 
 $$
-y_2 = 
+y_6 = 
 \begin{bmatrix}
-  1 & x_2 & 1 & 0 & 0 & 0
+  1 & x_6 & 1 & 0 & 0 & 0
 \end{bmatrix} 
 \begin{bmatrix}
-  \alpha_2 \\ \beta_2 \\ \gamma_{2,2} \\ \gamma_{3,2} \\ \gamma_{4,2} \\ \gamma_{1,2}
+  \alpha_6 \\ \beta_6 \\ \gamma_{2,6} \\ \gamma_{3,6} \\ \gamma_{4,6} \\ \gamma_{1,6}
 \end{bmatrix}
-+ e_1
++ e_6
 $$
 
 $$
-y_2 = \alpha_2 + \beta_2 x_2 + \gamma_{2,2} + e_2
+y_6 = \alpha_6 + \beta_6 x_6 + \gamma_{2,6} + e_6
 $$
 
 
-## DLM in MARSS notation
+## DLM in MARSS notation | Full state-space form
 
 $$
 y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t \\
