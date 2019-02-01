@@ -184,161 +184,6 @@ $$
 $$
 
 
-## Example of a seasonal DLM
-
-$$
-y_t = \alpha_t + \beta_t x_t + \gamma_{qtr,t} + e_t \\
-\gamma_{qtr,t} = 
-\begin{cases}
-  \gamma_{1,t} & \text{if } qtr = 1 \\
-  \gamma_{2,t} & \text{if } qtr = 2 \\
-  \gamma_{3,t} & \text{if } qtr = 3 \\
-  \gamma_{4,t} & \text{if } qtr = 4
-\end{cases}
-$$
-
-If we had quarterly data & wanted only the effects of
-
-1. an intercept (level);  
-
-2. one covariate; and  
-
-3. the current quarter
-
-
-## Example of a seasonal DLM
-
-$$
-y_t = \alpha_t + \beta_t x_t + \gamma_{qtr,t} + e_t \\
-\Downarrow \\
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
-$$
-
-with
-
-$$
-\mathbf{X}^{\top}_t =
-\begin{bmatrix}
-  1 & x_t & 1 & 0 & 0 & 0
-\end{bmatrix}
-$$
-
-and
-
-$$
-\mathbf{\Theta}_t^{\top} = 
-\begin{bmatrix}
-  \alpha_t & \beta_t & \gamma_{1,t} & \gamma_{2,t} & \gamma_{3,t} & \gamma_{4,t}
-\end{bmatrix}
-$$
-
-
-## Obtaining seasonal effect
-
-$$
-y_t = 
-\begin{bmatrix}
-  1 & x_t & 1 & 0 & 0 & 0
-\end{bmatrix} 
-\begin{bmatrix}
-  \alpha_t \\ \beta_t \\ \gamma_{1,t} \\ \gamma_{2,t} \\ \gamma_{3,t} \\ \gamma_{4,t}
-\end{bmatrix}
-+ e_t
-$$
-
-$$
-y_t = \alpha_t + \beta_t x_t + \gamma_{1,t} + e_t
-$$
-
-But this gives the effect of $\gamma_{1,t}$ at every time $t$
-
-
-## Example of non-diagonal $\mathbf{G}$
-
-We can use a non-diagonal $\mathbf{G}$ to get the correct quarter effect
-
-$$
-\mathbf{G} = 
-\begin{bmatrix}
-  1 & 0 & 0 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 & 0 & 0 \\
-  0 & 0 & 0 & 1 & 0 & 0 \\
-  0 & 0 & 0 & 0 & 1 & 0 \\
-  0 & 0 & 0 & 0 & 0 & 1 \\
-  0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}
-~ \text{and} ~~
-\mathbf{\Theta}_t = 
-\begin{bmatrix}
-  \alpha_t \\ \beta_t \\ \gamma_{i,t} \\ \gamma_{j,t} \\ \gamma_{k,t} \\ \gamma_{l,t}
-\end{bmatrix}
-$$
-
-
-## Evolving parameters | $t = 5$
-
-$$
-\underbrace{\begin{bmatrix}
-  \alpha_{5} \\ \beta_{5} \\ \gamma_{1,5} \\ \gamma_{2,5} \\ \gamma_{3,5} \\ \gamma_{4,5}
-\end{bmatrix}}_{\mathbf{\Theta}_{5}} =
-\underbrace{\begin{bmatrix}
-  1 & 0 & 0 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 & 0 & 0 \\
-  0 & 0 & 0 & 1 & 0 & 0 \\
-  0 & 0 & 0 & 0 & 1 & 0 \\
-  0 & 0 & 0 & 0 & 0 & 1 \\
-  0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}}_{\mathbf{G}}
-\underbrace{\begin{bmatrix}
-  \alpha_{4} \\ \beta_{4} \\ \gamma_{4,4} \\ \gamma_{1,4} \\ \gamma_{2,4} \\ \gamma_{3,4}
-\end{bmatrix}}_{\mathbf{\Theta}_{4}} + 
-\underbrace{\begin{bmatrix}
-  w_{\alpha,5} \\ w_{\beta,5}  \\ w_{\gamma_1,5}  \\ w_{\gamma_2,5} \\ w_{\gamma_3,5} \\ w_{\gamma_4,5}
-\end{bmatrix}}_{\mathbf{w}_{5}}
-$$
-
-
-## Evolving parameters | $t = 6$
-
-$$
-\underbrace{\begin{bmatrix}
-  \alpha_{6} \\ \beta_{6} \\ \gamma_{2,6} \\ \gamma_{3,6} \\ \gamma_{4,6} \\ \gamma_{1,6}
-\end{bmatrix}}_{\mathbf{\Theta}_{6}} =
-\underbrace{\begin{bmatrix}
-  1 & 0 & 0 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 & 0 & 0 \\
-  0 & 0 & 0 & 1 & 0 & 0 \\
-  0 & 0 & 0 & 0 & 1 & 0 \\
-  0 & 0 & 0 & 0 & 0 & 1 \\
-  0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}}_{\mathbf{G}}
-\underbrace{\begin{bmatrix}
-  \alpha_{5} \\ \beta_{5} \\ \gamma_{1,5} \\ \gamma_{2,5} \\ \gamma_{3,5} \\ \gamma_{4,5}
-\end{bmatrix}}_{\mathbf{\Theta}_{5}} + 
-\underbrace{\begin{bmatrix}
-  w_{\alpha,6} \\ w_{\beta,6}  \\ w_{\gamma_2,6}  \\ w_{\gamma_3,6} \\ w_{\gamma_4,6} \\ w_{\gamma_1,6}
-\end{bmatrix}}_{\mathbf{w}_{6}}
-$$
-
-
-## Obtaining seasonal effect
-
-$$
-y_6 = 
-\begin{bmatrix}
-  1 & x_6 & 1 & 0 & 0 & 0
-\end{bmatrix} 
-\begin{bmatrix}
-  \alpha_6 \\ \beta_6 \\ \gamma_{2,6} \\ \gamma_{3,6} \\ \gamma_{4,6} \\ \gamma_{1,6}
-\end{bmatrix}
-+ e_6
-$$
-
-$$
-y_6 = \alpha_6 + \beta_6 x_6 + \gamma_{2,6} + e_6
-$$
-
-
 ## DLM in MARSS notation | Full state-space form
 
 $$
@@ -426,51 +271,6 @@ lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states + 2*fit$states.se),
 lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states - 2*fit$states.se),
        lwd = 2, lty = "dashed", col = "blue")
 ```
-
-
-## The most simple multivariate DLM | Multiple observations of a single random walk
-
-$$
-\begin{matrix}
-  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
-  x_t = x_{t-1} + w_t & ~~ x_t ~ \text{is } 1 \times 1 
-\end{matrix}
-$$
-
-with
-
-$$
-\mathbf{Z} =
-\begin{bmatrix}
-  1 \\
-  1 \\
-  \vdots \\
-  1
-\end{bmatrix}
-$$
-
-
-## Another simple multivariate DLM | Multiple observations of multiple random walks
-
-$$
-\begin{matrix}
-  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
-  \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t & ~~ \mathbf{x}_t ~ \text{is } n \times 1 \\
-\end{matrix}
-$$
-
-with
-
-$$
-\mathbf{Z} =
-\mathbf{I} =
-\begin{bmatrix}
-  1 & 0 & \dots & 0 \\
-  0 & 1 & \ddots & 0 \\
-  \vdots & \ddots & \ddots & 0 \\
-  0 & \dots & 0 & 1 \\
-\end{bmatrix}
-$$
 
 
 ## Univariate DLM for level & growth
@@ -567,6 +367,206 @@ $$
     w_{\gamma,t}
   \end{bmatrix} 
 \end{align}
+$$
+
+
+
+## Example of a seasonal DLM
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{qtr,t} + e_t \\
+\gamma_{qtr,t} = 
+\begin{cases}
+  \gamma_{1,t} & \text{if } qtr = 1 \\
+  \gamma_{2,t} & \text{if } qtr = 2 \\
+  \gamma_{3,t} & \text{if } qtr = 3 \\
+  \gamma_{4,t} & \text{if } qtr = 4
+\end{cases}
+$$
+
+We have quarterly data & for each $t$ we want the effects of
+
+1. an intercept (level);  
+
+2. one covariate; and  
+
+3. the current quarter
+
+
+## Example of a seasonal DLM
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{qtr,t} + e_t \\
+\Downarrow \\
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
+$$
+
+with
+
+$$
+\mathbf{X}^{\top}_t =
+\begin{bmatrix}
+  1 & x_t & 1 & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+and
+
+$$
+\mathbf{\Theta}_t^{\top} = 
+\begin{bmatrix}
+  \alpha_t & \beta_t & \gamma_{i,t} & \gamma_{j,t} & \gamma_{k,t} & \gamma_{l,t}
+\end{bmatrix}
+$$
+
+
+## Obtaining seasonal effect
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1 & 0 & 0 & 0
+\end{bmatrix} 
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{i,t} \\ \gamma_{j,t} \\ \gamma_{k,t} \\ \gamma_{l,t}
+\end{bmatrix}
++ e_t
+$$
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{1,t} + e_t
+$$
+
+But this gives the effect of $\gamma_{1,t}$ at every time $t$
+
+
+## Example of non-diagonal $\mathbf{G}$
+
+We can use a non-diagonal $\mathbf{G}$ to get the correct quarter effect
+
+$$
+\mathbf{G} = 
+\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
+~ \text{and} ~~
+\mathbf{\Theta}_t = 
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{i,t} \\ \gamma_{j,t} \\ \gamma_{k,t} \\ \gamma_{l,t}
+\end{bmatrix}
+$$
+
+
+## Evolving parameters | $t = 6$
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_{6} \\ \beta_{6} \\ \gamma_{2,6} \\ \gamma_{3,6} \\ \gamma_{4,6} \\ \gamma_{1,6}
+\end{bmatrix}}_{\mathbf{\Theta}_{6}} =
+\underbrace{\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_{5} \\ \beta_{5} \\ \gamma_{1,5} \\ \gamma_{2,5} \\ \gamma_{3,5} \\ \gamma_{4,5}
+\end{bmatrix}}_{\mathbf{\Theta}_{5}} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,6} \\ w_{\beta,6}  \\ w_{\gamma_2,6}  \\ w_{\gamma_3,6} \\ w_{\gamma_4,6} \\ w_{\gamma_1,6}
+\end{bmatrix}}_{\mathbf{w}_{6}}
+$$
+
+
+## Evolving parameters | $t = 7$
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_{7} \\ \beta_{7} \\ \gamma_{3,7} \\ \gamma_{4,7} \\ \gamma_{1,7} \\ \gamma_{2,7}
+\end{bmatrix}}_{\mathbf{\Theta}_{7}} =
+\underbrace{\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_{6} \\ \beta_{6} \\ \gamma_{3,6} \\ \gamma_{4,6} \\ \gamma_{1,6} \\ \gamma_{2,6}
+\end{bmatrix}}_{\mathbf{\Theta}_{6}} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,7} \\ w_{\beta,7}  \\ w_{\gamma_1,7}  \\ w_{\gamma_2,7} \\ w_{\gamma_3,7} \\ w_{\gamma_4,7}
+\end{bmatrix}}_{\mathbf{w}_{7}}
+$$
+
+
+## Obtaining seasonal effect
+
+$$
+y_6 = 
+\begin{bmatrix}
+  1 & x_6 & 1 & 0 & 0 & 0
+\end{bmatrix} 
+\begin{bmatrix}
+  \alpha_6 \\ \beta_6 \\ \gamma_{2,6} \\ \gamma_{3,6} \\ \gamma_{4,6} \\ \gamma_{1,6}
+\end{bmatrix}
++ e_6
+$$
+
+$$
+y_6 = \alpha_6 + \beta_6 x_6 + \gamma_{2,6} + e_6
+$$
+
+## The most simple multivariate DLM | Multiple observations of a single random walk
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  x_t = x_{t-1} + w_t & ~~ x_t ~ \text{is } 1 \times 1 
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+  1 \\
+  1 \\
+  \vdots \\
+  1
+\end{bmatrix}
+$$
+
+
+## Another simple multivariate DLM | Multiple observations of multiple random walks
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t & ~~ \mathbf{x}_t ~ \text{is } n \times 1 \\
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\mathbf{I} =
+\begin{bmatrix}
+  1 & 0 & \dots & 0 \\
+  0 & 1 & \ddots & 0 \\
+  \vdots & \ddots & \ddots & 0 \\
+  0 & \dots & 0 & 1 \\
+\end{bmatrix}
 $$
 
 
