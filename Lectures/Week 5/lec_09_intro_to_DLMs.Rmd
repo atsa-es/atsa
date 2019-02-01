@@ -277,97 +277,109 @@ lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states - 2*fit$states.se),
 
 ## Univariate DLM for level & growth
 
-Stochastic "level" $\alpha_t$ with deterministic "growth" $\gamma$
+Stochastic "level" $\alpha_t$ with deterministic "growth" $\eta$
 
 $$
 y_t = \alpha_t + e_t \\
-\alpha_t = \alpha_{t-1} + \gamma + w_t \\
+\alpha_t = \alpha_{t-1} + \eta + w_t \\
 $$
 
 
 ## Univariate DLM for level & growth
 
-Stochastic "level" $\alpha_t$ with deterministic "growth" $\gamma$
+Stochastic "level" $\alpha_t$ with deterministic "growth" $\eta$
 
 $$
 y_t = \alpha_t + e_t \\
-\alpha_t = \alpha_{t-1} + \gamma + w_t \\
+\alpha_t = \alpha_{t-1} + \eta + w_t \\
 \Downarrow \\
 y_t = x_t + v_t \\
 x_t = x_{t-1} + u + w_t
 $$
 
-This is just a random walk with drift $u$
+This is just a random walk with bias $u$
 
 
 ## Univariate DLM for level & growth
 
-Stochastic "level" $\alpha_t$ with stochastic "growth" $\gamma_t$
+Stochastic "level" $\alpha_t$ with stochastic "growth" $\eta_t$
 
 $$
 \begin{align}
   y_t &= \alpha_t + e_t \\
-  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
-  \gamma_t &= \gamma_{t-1} + w_{\gamma,t} \\
+  \alpha_t &= \alpha_{t-1} + \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \eta_{t-1} + w_{\eta,t} \\
+\end{align}
+$$
+
+Now the "growth" term $\eta_t$ evolves as well
+
+
+## Univariate DLM for level & growth
+
+Evolution of $\alpha_t$ and $\eta_t$
+
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \eta_{t-1} + w_{\eta,t} \\
+  & \Downarrow \\
+  \alpha_t &= 1 \alpha_{t-1} + 1 \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= 0 \alpha_{t-1} + 1 \eta_{t-1} + w_{\eta,t}
 \end{align}
 $$
 
 
 ## Univariate DLM for level & growth
 
-Evolution of $\alpha_t$ and $\gamma_t$
+Evolution of $\alpha_t$ and $\eta_t$
 
 $$
 \begin{align}
-  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
-  \gamma_t &= \gamma_{t-1} + w_{\gamma,t}
-\end{align}
-$$
-
-
-## Univariate DLM for level & growth
-
-Evolution of $\alpha_t$ and $\gamma_t$
-
-$$
-\begin{align}
-  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
-  \gamma_t &= \gamma_{t-1} + w_{\gamma,t} \\
+  \alpha_t &= \alpha_{t-1} + \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \eta_{t-1} + w_{\eta,t} \\
   & \Downarrow \\
-  \alpha_t &= 1 \alpha_{t-1} + 1 \gamma_{t-1} + w_{\alpha,t} \\
-  \gamma_t &= 0 \alpha_{t-1} + 1 \gamma_{t-1} + w_{\gamma,t}
-\end{align}
-$$
-
-
-## Univariate DLM for level & growth
-
-Evolution of $\alpha_t$ and $\gamma_t$
-
-$$
-\begin{align}
-  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
-  \gamma_t &= \gamma_{t-1} + w_{\gamma,t} \\
+  \alpha_t &= \underline{1} \alpha_{t-1} + \underline{1} \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \underline{0} \alpha_{t-1} + \underline{1} \eta_{t-1} + w_{\eta,t} \\
   & \Downarrow \\
-  \alpha_t &= \underline{1} \alpha_{t-1} + \underline{1} \gamma_{t-1} + w_{\alpha,t} \\
-  \gamma_t &= \underline{0} \alpha_{t-1} + \underline{1} \gamma_{t-1} + w_{\gamma,t} \\
-  & \Downarrow \\
-  \begin{bmatrix}
+  \underbrace{\begin{bmatrix}
     \alpha_t \\
-    \gamma_t
-  \end{bmatrix} &=
-  \begin{bmatrix}
+    \eta_t
+  \end{bmatrix}}_{\mathbf{\Theta}_t} &=
+  \underbrace{\begin{bmatrix}
     \underline{1} & \underline{1} \\
     \underline{0} & \underline{1}
-  \end{bmatrix}
-  \begin{bmatrix}
+  \end{bmatrix}}_{\mathbf{G}}
+  \underbrace{\begin{bmatrix}
     \alpha_{t-1} \\
-    \gamma_{t-1}
-  \end{bmatrix} + 
-  \begin{bmatrix}
+    \eta_{t-1}
+  \end{bmatrix}}_{\mathbf{\Theta}_{t-1}} +
+  \underbrace{\begin{bmatrix}
     w_{\alpha,t} \\
-    w_{\gamma,t}
-  \end{bmatrix} 
+    w_{\eta,t}
+  \end{bmatrix}}_{\mathbf{w}_t} 
+\end{align}
+$$
+
+
+## Univariate DLM for level & growth
+
+Observation model for stochastic "level" & stochastic "growth"
+
+$$
+\begin{align}
+y_t &= \alpha_t + v_t \\
+& \Downarrow \\
+y_t &= \underline{1} \alpha_t + \underline{0} \eta_t + v_t \\
+& \Downarrow \\
+y_t &= 
+\underbrace{\begin{bmatrix}
+  \underline{1} & \underline{0}
+\end{bmatrix}}_{\mathbf{X}^{\top}_t}
+\underbrace{\begin{bmatrix}
+  \alpha_t \\ \eta_t 
+\end{bmatrix}}_{\mathbf{\Theta}_t}
++ v_t
 \end{align}
 $$
 
@@ -653,6 +665,11 @@ $$
   w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
 \end{bmatrix}}_{\mathbf{w}_t}
 $$
+
+
+## {.flexbox .vcenter}
+
+<font size="10">MULTIVARIATE DLMs</font>
 
 
 ## The most simple multivariate DLM | Multiple observations of a single random walk
