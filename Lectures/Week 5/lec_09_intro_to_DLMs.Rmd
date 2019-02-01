@@ -473,13 +473,28 @@ $$
 $$
 
 
-## Another simple multivariate DLM | Multiple observations of multiple random walks
+## Univariate DLM for level & growth
+
+Stochastic "level" with deterministic "growth"
 
 $$
-\begin{matrix}
-  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
-  \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t & ~~ \mathbf{x}_t ~ \text{is } n \times 1 \\
-\end{matrix}
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + \gamma + w_t \\
 $$
+
+
+## Univariate DLM for level & growth
+
+Stochastic "level" with deterministic "growth"
+
+$$
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + \gamma + w_t \\
+\Downarrow \\
+y_t = x_t + v_t \\
+x_t = x_{t-1} + u + w_t
+$$
+
+This is just a random walk with drift $u$
 
 
