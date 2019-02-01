@@ -10,8 +10,15 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(kableExtra)
+library(MARSS)
 set.seed(123)
+data("Nile")
+
+mod_list <- list(B = "identity", U = "zero", Q = matrix("q"),
+                 Z = "identity", A = matrix("a"), R = matrix("r"))
+
+fit <- MARSS(matrix(Nile, nrow = 1), mod_list)
+
 ```
 
 ## Topics for today
@@ -357,3 +364,68 @@ Others: $\mathbf{d}$ is covariates, $\mathbf{D}$ is parameters
 $$
 y_t = \mathbf{Z}_t \mathbf{x}_t + \boxed{\mathbf{D} \mathbf{d}_t} +v_t \\
 $$
+
+
+## Other forms of DLMs
+
+The regression model is but one type
+
+Others include:
+
+* stochastic "level" (intercept)
+
+* stochastic "growth" (trend, bias)
+
+* seasonal effects (fixed, harmonic)
+
+
+## The most simple DLM | Stochastic level
+
+$$
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + w_t
+$$
+
+
+## The most simple DLM | Stochastic level = random walk with obs error
+
+$$
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + w_t \\
+\Downarrow \\
+y_t = x_t + v_t \\
+x_t = x_{t-1} + w_t
+$$
+
+
+## Ex of stochastic level model
+
+```{r}
+data("Nile")
+
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
+
+plot.ts(Nile, las = 1,
+        xlab = "Year", ylab = "Flow of the River Nile")
+```
+
+
+## Ex of stochastic level model
+
+
+```{r}
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
+
+plot.ts(Nile, las = 1, lwd = 2,
+        xlab = "Year", ylab = "Flow of the River Nile")
+lines(seq(start(Nile)[1], end(Nile)[1]),
+       lwd = 2, t(fit$states), col = "blue")
+lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states + 2*fit$states.se),
+       lwd = 2, lty = "dashed", col = "blue")
+lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states - 2*fit$states.se),
+       lwd = 2, lty = "dashed", col = "blue")
+```
+
+
+
+
