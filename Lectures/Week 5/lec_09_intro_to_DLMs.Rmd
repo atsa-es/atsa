@@ -428,5 +428,58 @@ lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states - 2*fit$states.se),
 ```
 
 
+## The most simple multivariate DLM | Multiple observations of a single random walk
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  x_t = x_{t-1} + w_t & ~~ x_t ~ \text{is } 1 \times 1 
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+  1 \\
+  1 \\
+  \vdots \\
+  1
+\end{bmatrix}
+$$
+
+
+## Another simple multivariate DLM | Multiple observations of multiple random walks
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t & ~~ \mathbf{x}_t ~ \text{is } n \times 1 \\
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\mathbf{I} =
+\begin{bmatrix}
+  1 & 0 & \dots & 0 \\
+  0 & 1 & \ddots & 0 \\
+  \vdots & \ddots & \ddots & 0 \\
+  0 & \dots & 0 & 1 \\
+\end{bmatrix}
+$$
+
+
+## Another simple multivariate DLM | Multiple observations of multiple random walks
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t & ~~ \mathbf{x}_t ~ \text{is } n \times 1 \\
+\end{matrix}
+$$
 
 
