@@ -475,7 +475,7 @@ $$
 
 ## Univariate DLM for level & growth
 
-Stochastic "level" with deterministic "growth"
+Stochastic "level" $\alpha_t$ with deterministic "growth" $\gamma$
 
 $$
 y_t = \alpha_t + e_t \\
@@ -485,7 +485,7 @@ $$
 
 ## Univariate DLM for level & growth
 
-Stochastic "level" with deterministic "growth"
+Stochastic "level" $\alpha_t$ with deterministic "growth" $\gamma$
 
 $$
 y_t = \alpha_t + e_t \\
@@ -496,5 +496,78 @@ x_t = x_{t-1} + u + w_t
 $$
 
 This is just a random walk with drift $u$
+
+
+## Univariate DLM for level & growth
+
+Stochastic "level" $\alpha_t$ with stochastic "growth" $\gamma_t$
+
+$$
+\begin{align}
+  y_t &= \alpha_t + e_t \\
+  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
+  \gamma_t &= \gamma_{t-1} + w_{\gamma,t} \\
+\end{align}
+$$
+
+
+## Univariate DLM for level & growth
+
+Evolution of $\alpha_t$ and $\gamma_t$
+
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
+  \gamma_t &= \gamma_{t-1} + w_{\gamma,t}
+\end{align}
+$$
+
+
+## Univariate DLM for level & growth
+
+Evolution of $\alpha_t$ and $\gamma_t$
+
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
+  \gamma_t &= \gamma_{t-1} + w_{\gamma,t} \\
+  & \Downarrow \\
+  \alpha_t &= 1 \alpha_{t-1} + 1 \gamma_{t-1} + w_{\alpha,t} \\
+  \gamma_t &= 0 \alpha_{t-1} + 1 \gamma_{t-1} + w_{\gamma,t}
+\end{align}
+$$
+
+
+## Univariate DLM for level & growth
+
+Evolution of $\alpha_t$ and $\gamma_t$
+
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + \gamma_{t-1} + w_{\alpha,t} \\
+  \gamma_t &= \gamma_{t-1} + w_{\gamma,t} \\
+  & \Downarrow \\
+  \alpha_t &= \underline{1} \alpha_{t-1} + \underline{1} \gamma_{t-1} + w_{\alpha,t} \\
+  \gamma_t &= \underline{0} \alpha_{t-1} + \underline{1} \gamma_{t-1} + w_{\gamma,t} \\
+  & \Downarrow \\
+  \begin{bmatrix}
+    \alpha_t \\
+    \gamma_t
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \underline{1} & \underline{1} \\
+    \underline{0} & \underline{1}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \alpha_{t-1} \\
+    \gamma_{t-1}
+  \end{bmatrix} + 
+  \begin{bmatrix}
+    w_{\alpha,t} \\
+    w_{\gamma,t}
+  \end{bmatrix} 
+\end{align}
+$$
+
 
 
