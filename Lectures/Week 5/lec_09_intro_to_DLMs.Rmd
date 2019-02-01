@@ -810,6 +810,26 @@ y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Pi}], \ma
 $$
 
 
+## Diagnostics for DLMs
+
+Just as with other models, we'd like to know if our fitted DLM meets its underlying assumptions 
+
+We can calcuate the forecast error $e_t$ as
+
+$$
+e_t = y_t - \hat{y}_t
+$$
+and check if
+
+$$
+\begin{align}
+  (1) & ~~ e_t \sim \text{N}(0, \sigma) \\
+  (2) & ~~ \text{Cov}(e_t, e_{t-1}) = 0
+\end{align}
+$$
+
+with a QQ-plot (1) and an ACF (2)
+
 
 ## {.flexbox .vcenter}
 
