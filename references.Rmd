@@ -13,11 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. [Available here](https://link.springer.com/book/10.1007%2F978-0-387-88698-5).
 
-HWS14: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package. [Available here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
+HWS18a: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package. [Available here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
 
 HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook. [Available here](https://otexts.org/fpp2/)
 
-HSW18: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2018. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
+HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2018. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
 
 H18: Holmes, E. E. Fisheries Catch Forecasting with R. 2018. eBook. [Available here](https://fish-forecast.github.io/Fish-Forecast-Bookdown/) 
 
@@ -49,6 +49,8 @@ Baudron, A.R., C.L. Needle, A.D. Rijnsdorp, and C.T. Marshall. 2014. Warming tem
 
 Britten, G.L., M. Dowd, C. Minto, F. Ferretti, F. Boero, and H.K. Lotze. 2014. Predator decline leads to decreased stability in a coastal fish community. Ecology Letters, 17: 1518–1525.
 
+Goertler, P.A.L., M.D. Scheuerell, C.A. Simenstad, and D.L. Bottom. 2016. Estimating common growth patterns in juvenile Chinook salmon (Oncorhynchus tshawytscha) from diverse genetic stocks and a large spatial extent. PLoS ONE 11:e0162121
+
 Hampton, S.E., E.E. Holmes, L.P. Scheef, M.D. Scheuerell, S.L. Katz, D.E. Pendleton, and E.J. Ward 2013. Quantifying effects of abiotic and biotic drivers on community dynamics with multivariate autoregressive (MAR) models. Ecology 94:2663–2669. 
 
 Harrison, Philip J., Ilkka Hanski, and Otso Ovaskainen. 2011. Bayesian state-space modeling of metapopulation dynamics in the Glanville fritillary butterfly. Ecological Monographs 81:581–598.
@@ -61,6 +63,8 @@ Ives AR, Dennis B, Cottingham, KL, Carpenter SR. 2003. Estimating community stab
 
 Maurer, B.A., J.R. Bence, and T.O. Brenden. 2014. Assessing Dynamics of Lake Huron Fish Communities using Dynamic Factor
 Analysis. QFC Technical Report T2014-01 prepared for Ontario Ministry of Natural Resources. 
+
+Ohlberger, J., M.D. Scheuerell, and D.E. Schindler. 2016. Population coherence and environmental impacts across spatial scales: a case study of Chinook salmon. Ecosphere 7:e01333
 
 Rigot, T., A. Conte, M. Goffredo, E. Ducheyne, G. Hendrickx, and M. Gilbert. 2012. Predicting the spatio-temporal distribution of
 Culicoides imicola in Sardinia using a discrete-time population model. Parasites & Vectors 2012, 5:270. 
