@@ -749,7 +749,7 @@ Pseudo-code
 1. Define the parameters at time $t = 0$
 
 $$
-\boldsymbol{\theta}_0 | y_0 = \mathbf{\Pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 $$
 
 
@@ -758,12 +758,12 @@ $$
 1. Define the parameters at time $t = 0$
 
 $$
-\boldsymbol{\theta}_0 | y_0 = \mathbf{\Pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 \Downarrow \\
-\text{E}(\boldsymbol{\theta}_0) = \mathbf{\Pi} \\
+\text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi} \\
 \text{Var}(\boldsymbol{\theta}_0) = \mathbf{\Lambda} \\
 \Downarrow \\
-\boldsymbol{\theta}_0 | y_0 \sim \text{MVN}(\mathbf{\Pi}, \mathbf{\Lambda})
+\boldsymbol{\theta}_0 | y_0 \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda})
 $$
 
 
@@ -784,12 +784,12 @@ $$
 \boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
 \Downarrow \\
   \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\theta}_0 \\
-  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Pi} \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi} \\
 \text{and} \\
   \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \text{Var}(\boldsymbol{\theta}_0) \mathbf{G}^{\top} + \mathbf{Q} \\
   \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} \\
 \Downarrow \\
-\boldsymbol{\theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \mathbf{\Pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
+\boldsymbol{\theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
 $$
 
 
@@ -801,12 +801,12 @@ $$
 y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
 \Downarrow \\
 \text{E}(y_1) = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 \\
-\text{E}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Pi}] \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}] \\
 \text{and} \\
 \text{Var}(y_1) = \mathbf{X}^{\top}_1 \text{Var}(\boldsymbol{\theta}_1) \mathbf{X}_1 + R \\
 \text{Var}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R \\
 \Downarrow \\
-y_1 | y_0 \sim \text{N}(\mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Pi}], \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R)
+y_1 | y_0 \sim \text{N}(\mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R)
 $$
 
 
@@ -816,12 +816,26 @@ Putting it all together
 
 $$
 \begin{align}
-\boldsymbol{\theta}_0 | y_0 & \sim \text{MVN}(\mathbf{\Pi}, \mathbf{\Lambda}) \\
-\boldsymbol{\theta}_t | y_{t-1} & \sim \text{MVN}(\mathbf{G} \mathbf{\Pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}) \\
-y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Pi}], \mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_t + R)
+\boldsymbol{\theta}_0 | y_0 & \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_t | y_{t-1} & \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}) \\
+y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_t + R)
 \end{align}
 $$
 
+
+## Forecasting with a DLM
+
+Putting it all together
+
+$$
+\begin{align}
+\boldsymbol{\theta}_0 | y_0 & \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_t | y_{t-1} & \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}) \\
+y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_t + R)
+\end{align}
+$$
+
+Using `MARSS()` will make this easy to do
 
 ## Diagnostics for DLMs
 
