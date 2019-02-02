@@ -1118,13 +1118,11 @@ $$
 ## Multivariate DLMs | Parameter evolution
 
 $$
-\begin{align}
-\boldsymbol{\theta}_t  &=
+\boldsymbol{\theta}_t  =
 \left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
-& \Downarrow \\
-\boldsymbol{\theta}_t  &=
+\Downarrow \\
+\boldsymbol{\theta}_t  =
 \left( \mathbf{I}_2 \otimes \mathbf{I}_2 \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
-\end{align}
 $$
 
 
@@ -1200,6 +1198,128 @@ $$
 $$
 
 
+## Multivariate DLMs | Evolution variance
+
+$$
+\boldsymbol{\theta}_t = \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \underline{\mathbf{Q}})
+$$
+
+What form should we choose for $\mathbf{Q}$?
 
 
+## Multivariate DLMs | Evolution variance
 
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+$$
+\mathbf{Q}_{(\cdot)} =
+\begin{bmatrix}
+ q_{(\cdot)} & 0 & \dots & 0 \\
+ 0 & q_{(\cdot)} & \dots & 0 \\
+ \vdots & \vdots & \ddots & \vdots \\
+ 0 & 0 & \dots & q_{(\cdot)}
+\end{bmatrix}
+$$
+
+Diagonal and equal (IID)
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+$$
+\mathbf{Q}_{(\cdot)} =
+\begin{bmatrix}
+ q_{(\cdot)1} & 0 & \dots & 0 \\
+ 0 & q_{(\cdot)2} & \dots & 0 \\
+ \vdots & \vdots & \ddots & \vdots \\
+ 0 & 0 & \dots & q_{(\cdot)n}
+\end{bmatrix}
+$$
+
+Diagonal and unequal
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+$$
+\mathbf{Q}_{(\cdot)} =
+\begin{bmatrix}
+ q_{(\cdot)1,1} & q_{(\cdot)1,2} & \dots & q_{(\cdot)1,n} \\
+ q_{(\cdot)2,1} & q_{(\cdot)2,2} & \dots & q_{(\cdot)2,n} \\
+ \vdots & \vdots & \ddots & \vdots \\
+ q_{(\cdot)n,1} & q_{(\cdot)n,2} & \dots & q_{(\cdot)n,n}
+\end{bmatrix}
+$$
+
+Unconstrained
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+In practice, keep $\mathbf{Q}$ as simple as possible
