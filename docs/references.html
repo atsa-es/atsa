@@ -22,8 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="shortcut icon" href="favicon16x16.ico" type="image/x-icon">
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -93,14 +92,8 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
-.html-widget {
-  margin-bottom: 20px;
-}
 button.code-folding-btn:focus {
   outline: none;
-}
-summary {
-  display: list-item;
 }
 </style>
 
@@ -116,6 +109,7 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
+
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -135,43 +129,6 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -193,77 +150,18 @@ $(document).ready(function () {
 });
 </script>
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -339,9 +237,9 @@ $(document).ready(function () {
 <h2>Textbooks &amp; vignettes with specific <code>R</code> examples</h2>
 <p><strong>We will use these as references for the class.</strong></p>
 <p>CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. <a href="https://link.springer.com/book/10.1007%2F978-0-387-88698-5">Available here</a>.</p>
-<p>HWS14: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package. <a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">Available here</a></p>
+<p>HWS18a: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package. <a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">Available here</a></p>
 <p>HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook. <a href="https://otexts.org/fpp2/">Available here</a></p>
-<p>HSW18: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2018. Applied Time Series Analysis for Fisheries and Environmental data. eBook. <a href="https://nwfsc-timeseries.github.io/atsa-labs/">Available here</a></p>
+<p>HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2018. Applied Time Series Analysis for Fisheries and Environmental data. eBook. <a href="https://nwfsc-timeseries.github.io/atsa-labs/">Available here</a></p>
 <p>H18: Holmes, E. E. Fisheries Catch Forecasting with R. 2018. eBook. <a href="https://fish-forecast.github.io/Fish-Forecast-Bookdown/">Available here</a></p>
 </div>
 <div id="some-classic-textbooks" class="section level2">
@@ -359,12 +257,14 @@ $(document).ready(function () {
 <p>Andrews, K.S., G.D. Williams, J.F. Samhouri, K.N. Marshall, V. Gertseva, and P.S. Levin. In press. The legacy of a crowded ocean: indicators, status, and trends of anthropogenic pressures in the California Current ecosystem. Environmental Conservation.</p>
 <p>Baudron, A.R., C.L. Needle, A.D. Rijnsdorp, and C.T. Marshall. 2014. Warming temperatures and smaller body sizes: synchronous changes in growth of North Sea fishes. Global Change Biology, 20(4):1023-1031.</p>
 <p>Britten, G.L., M. Dowd, C. Minto, F. Ferretti, F. Boero, and H.K. Lotze. 2014. Predator decline leads to decreased stability in a coastal fish community. Ecology Letters, 17: 1518–1525.</p>
+<p>Goertler, P.A.L., M.D. Scheuerell, C.A. Simenstad, and D.L. Bottom. 2016. Estimating common growth patterns in juvenile Chinook salmon (Oncorhynchus tshawytscha) from diverse genetic stocks and a large spatial extent. PLoS ONE 11:e0162121</p>
 <p>Hampton, S.E., E.E. Holmes, L.P. Scheef, M.D. Scheuerell, S.L. Katz, D.E. Pendleton, and E.J. Ward 2013. Quantifying effects of abiotic and biotic drivers on community dynamics with multivariate autoregressive (MAR) models. Ecology 94:2663–2669.</p>
 <p>Harrison, Philip J., Ilkka Hanski, and Otso Ovaskainen. 2011. Bayesian state-space modeling of metapopulation dynamics in the Glanville fritillary butterfly. Ecological Monographs 81:581–598.</p>
 <p>Holmes EE, Ward EJ, Wills K. 2012. MARSS: multivariate autoregressive state-space models for analyzing time-series data. The R Journal. 4(1): 11-19</p>
 <p>Hyndman RJ, Khandakar Y. 2008. Automatic time series forecasting: the forecast package for R. Journal of Statistical Software 27(3): 1-22</p>
 <p>Ives AR, Dennis B, Cottingham, KL, Carpenter SR. 2003. Estimating community stability and ecological interactions from time series data. Ecological Monographs 73:301–330.</p>
 <p>Maurer, B.A., J.R. Bence, and T.O. Brenden. 2014. Assessing Dynamics of Lake Huron Fish Communities using Dynamic Factor Analysis. QFC Technical Report T2014-01 prepared for Ontario Ministry of Natural Resources.</p>
+<p>Ohlberger, J., M.D. Scheuerell, and D.E. Schindler. 2016. Population coherence and environmental impacts across spatial scales: a case study of Chinook salmon. Ecosphere 7:e01333</p>
 <p>Rigot, T., A. Conte, M. Goffredo, E. Ducheyne, G. Hendrickx, and M. Gilbert. 2012. Predicting the spatio-temporal distribution of Culicoides imicola in Sardinia using a discrete-time population model. Parasites &amp; Vectors 2012, 5:270.</p>
 <p>Sandlund, O.T., K.Ø. Gjelland, T. Bøhn, R. Knudsen, P.-A. Amundsen. 2013. Contrasting Population and Life History Responses of a Young Morph-Pair of European Whitefish to the Invasion of a Specialised Coregonid Competitor, Vendace. PLoS ONE 8(7): e68156. doi: 10.1371/journal.pone.0068156.</p>
 <p>Scheuerell MD, Williams JG. 2005. Forecasting climate-induced changes in the survival of Snake River spring/summer Chinook salmon (Oncorhynchus tshawytscha). Fisheries Oceanography 14: 448-457</p>

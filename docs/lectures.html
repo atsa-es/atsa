@@ -22,9 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="shortcut icon" href="favicon16x16.ico" type="image/x-icon">
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -94,14 +92,8 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
-.html-widget {
-  margin-bottom: 20px;
-}
 button.code-folding-btn:focus {
   outline: none;
-}
-summary {
-  display: list-item;
 }
 </style>
 
@@ -117,6 +109,7 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
+
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -136,43 +129,6 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -194,77 +150,18 @@ $(document).ready(function () {
 });
 </script>
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -477,7 +374,7 @@ Univariate state-space models <br>Diagnostics for state-space models <br>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-<a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">HWS14: Chap 7</a> <br><a href="Lectures/Week%203/MARSS_function.html">MARSS function</a> <br><a href="Lectures/Week%203/MARSS_Reference_Sheet.pdf">MARSS Ref Sheet</a> <br><a href="Lectures/Week%203/univariate_example_1.R">uni_example_1.R</a> <br><a href="Lectures/Week%203/univariate_example_2.R">uni_example_2.R</a> <br><a href="Lectures/Week%203/univariate_example_3.R">uni_example_3.R</a> <br><a href="Lectures/Week%203/univariate_example_4.R">uni_example_4.R</a> <br><a href="Lectures/Week%203/univariate_example_lm.R">uni_example_lm.R</a> <br><a href="Lectures/Week%203/univariate_example_arima.R">uni_example_arima.R</a> <br>
+<a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">HWS18a: Chap 7</a> <br><a href="Lectures/Week%203/MARSS_function.html">MARSS function</a> <br><a href="Lectures/Week%203/MARSS_Reference_Sheet.pdf">MARSS Ref Sheet</a> <br><a href="Lectures/Week%203/univariate_example_1.R">uni_example_1.R</a> <br><a href="Lectures/Week%203/univariate_example_2.R">uni_example_2.R</a> <br><a href="Lectures/Week%203/univariate_example_3.R">uni_example_3.R</a> <br><a href="Lectures/Week%203/univariate_example_4.R">uni_example_4.R</a> <br><a href="Lectures/Week%203/univariate_example_lm.R">uni_example_lm.R</a> <br><a href="Lectures/Week%203/univariate_example_arima.R">uni_example_arima.R</a> <br>
 </td>
 </tr>
 <tr>
@@ -499,7 +396,7 @@ Introduction to multivariate state-space models <br>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-<a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">HWS14: Chap 8</a> <br><a href="Lectures/Week%203/MARSS_function.html">MARSS function</a> <br><a href="Lectures/Week%203/MARSS_Reference_Sheet.pdf">MARSS Ref Sheet</a> <br><a href="Lectures/Week%203/marss_example_1.R">marss_example_1.R</a> <br><a href="Lectures/Week%203/marss_example_2.R">marss_example_2.R</a> <br><a href="Lectures/Week%203/marss_example_3.R">marss_example_3.R</a> <br><a href="Lectures/Week%203/marss_example_4.R">marss_example_4.R</a> <br><a href="Lectures/Week%203/marss_example_5.R">marss_example_5.R</a> <br>
+<a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">HWS18a: Chap 8</a> <br><a href="Lectures/Week%203/MARSS_function.html">MARSS function</a> <br><a href="Lectures/Week%203/MARSS_Reference_Sheet.pdf">MARSS Ref Sheet</a> <br><a href="Lectures/Week%203/marss_example_1.R">marss_example_1.R</a> <br><a href="Lectures/Week%203/marss_example_2.R">marss_example_2.R</a> <br><a href="Lectures/Week%203/marss_example_3.R">marss_example_3.R</a> <br><a href="Lectures/Week%203/marss_example_4.R">marss_example_4.R</a> <br><a href="Lectures/Week%203/marss_example_5.R">marss_example_5.R</a> <br>
 </td>
 </tr>
 <tr>
@@ -533,7 +430,7 @@ See list of references in the lecture <br><a href="https://otexts.com/fpp2/accur
 Mark <br>
 </td>
 <td style="text-align:left;">
-Regression with AR(1) errors <br>Regression with temporal random effects <br>Dynamic factor analysis (DFA) <br>
+Regression with autocorrelated errors <br>Dynamic factor analysis (DFA) <br>
 </td>
 <td style="text-align:center;width: 8em; ">
 <a href="Lectures/Week%204/lec_08_intro_to_DFA.Rmd">Rmd 1</a><br><a href="Lectures/Week%204/lec_08_intro_to_DFA.pdf">pdf 1</a><br><a href="Lectures/Week%204/lec_08_intro_to_DFA.html">html 1</a>
@@ -542,9 +439,10 @@ Regression with AR(1) errors <br>Regression with temporal random effects <br>Dyn
 <a href="https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=065aa722-ccb6-4ad5-b047-a9e601631f98">Video</a>
 </td>
 <td style="text-align:center;">
+<a href="https://youtu.be/FMLh8c_Sa8s">YouTube</a>
 </td>
 <td style="text-align:center;">
-<br>
+Zuur et al. (2003a) <br>Zuur et al. (2003b) <br>Goertler et al. (2016) <br>Ohlberger et al. (2016) <br>HWS18a: Chap 10 <br>
 </td>
 </tr>
 <tr>
@@ -558,14 +456,14 @@ Mark <br>
 Dynamic linear models (DLMs) <br>
 </td>
 <td style="text-align:center;width: 8em; ">
-<br><br>
+<a href="Lectures/Week%205/lec_09_intro_to_DLMs.Rmd">Rmd 1</a><br><a href="Lectures/Week%205/lec_09_intro_to_DLMs.pdf">pdf 1</a><br><a href="Lectures/Week%205/lec_09_intro_to_DLMs.html">html 1</a>
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-<br>
+Petris et al. (2009) <br>HWS18a: Chap 16 <br>Scheuerell &amp; Williams (2005) <br>
 </td>
 </tr>
 <tr>
