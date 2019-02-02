@@ -1349,6 +1349,8 @@ $$
 \right)
 $$
 
+In practice, keep $\mathbf{Q}$ as simple as possible
+
 
 ## Topics for today
 
@@ -1366,6 +1368,3 @@ Univariate response
 
 Multivariate response
 
-
-
-In practice, keep $\mathbf{Q}$ as simple as possible
