@@ -836,6 +836,169 @@ with a QQ-plot (1) and an ACF (2)
 <font size="10">MULTIVARIATE DLMs</font>
 
 
+## Multivariate DLMs
+
+Now lets consider DLMs with a multivariate response $\mathbf{y}_t$ where the observation model
+
+$$
+y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0,R)
+$$
+
+becomes
+
+$$
+\mathbf{y}_t = (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \mathbf{\Theta}_t + \mathbf{e}_t ~ \text{with} ~ \mathbf{e}_t \sim \text{MVN}(\mathbf{0},\mathbf{R})
+$$
+
+
+## Kronecker products
+
+If $\mathbf{A}$ is an $m \times n$ matrix and $\mathbf{B}$ is a $p \times q$ matrix
+
+then $\mathbf{A} \otimes \mathbf{B}$ will $mp \times nq$
+
+$$
+\mathbf{A} \otimes \mathbf{B} = 
+\begin{bmatrix}
+ a_{11} \mathbf{B} & \dots & a_{1n} \mathbf{B} \\
+ \vdots & \ddots & \vdots \\
+ a_{m1} \mathbf{B} & \dots & a_{mn} \mathbf{B} \\
+\end{bmatrix}
+$$
+
+## Kronecker products
+
+For example
+
+$$
+\mathbf{A} = 
+\begin{bmatrix}
+ 1 & 2 \\
+ 3 & 4
+\end{bmatrix}
+~ \text{and} ~
+\mathbf{B} = 
+\begin{bmatrix}
+ 2 & 4 \\
+ 6 & 8
+\end{bmatrix}
+$$
+
+so
+
+$$
+\mathbf{A} \otimes \mathbf{B} = 
+\begin{bmatrix}
+ 1 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix} & 
+ 2 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix} \\
+ 3 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix} &
+ 4 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix}
+\end{bmatrix} = 
+\begin{bmatrix}
+  2 & 4 & 4 & 8\\
+  6 & 8 & 12 & 16\\
+  6 & 12 & 8 & 16\\
+  18 & 24 & 24 & 32
+\end{bmatrix}
+$$
+
+
+## Multivariate DLMs
+
+Regression model with $n = 2$
+
+$$
+\begin{align}
+\mathbf{y}_t &= (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \mathbf{\Theta}_t + \mathbf{e}_t \\
+\begin{bmatrix}
+ y_{1,t} \\
+ y_{2,t}
+\end{bmatrix} &= 
+\left(
+\begin{bmatrix}
+ 1 & x_t
+\end{bmatrix}
+\otimes
+\begin{bmatrix}
+ 1 & 0 \\
+ 0 & 1
+\end{bmatrix}
+\right)
+\begin{bmatrix}
+ \alpha_{1,t} \\
+ \alpha_{2,t} \\
+ \beta_{1,t} \\
+ \beta_{2,t}
+\end{bmatrix} + 
+\begin{bmatrix}
+ e_{1,t} \\
+ e_{2,t}
+\end{bmatrix}
+\end{align}
+$$
+
+
+## Multivariate DLMs
+
+$$
+\begin{bmatrix}
+ y_{1,t} \\
+ y_{2,t}
+\end{bmatrix} = 
+\left(
+\begin{bmatrix}
+ 1 & x_t
+\end{bmatrix}
+\otimes
+\begin{bmatrix}
+ 1 & 0 \\
+ 0 & 1
+\end{bmatrix}
+\right)
+\begin{bmatrix}
+ \alpha_{1,t} \\
+ \alpha_{2,t} \\
+ \beta_{1,t} \\
+ \beta_{2,t}
+\end{bmatrix} + 
+\begin{bmatrix}
+ e_{1,t} \\
+ e_{2,t}
+\end{bmatrix} \\
+\Downarrow \\
+\begin{bmatrix}
+ y_{1,t} \\
+ y_{2,t}
+\end{bmatrix} = 
+\begin{bmatrix}
+ 1 & 0 & x_t & 0 \\
+ 0 & 1 & 0 & x_t
+\end{bmatrix}
+\begin{bmatrix}
+ \alpha_{1,t} \\
+ \alpha_{2,t} \\
+ \beta_{1,t} \\
+ \beta_{2,t}
+\end{bmatrix} + 
+\begin{bmatrix}
+ e_{1,t} \\
+ e_{2,t}
+\end{bmatrix}
+$$
+
+
 ## The most simple multivariate DLM | Multiple observations of a single random walk
 
 $$
