@@ -159,11 +159,11 @@ $$
 \boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
 $$
 
-or assume $\mathbf{G}_t$ is the identity matrix $\mathbf{I}$
+or assume $\mathbf{G}_t$ is an $m \times m$ identity matrix $\mathbf{I}_m$
 
 $$
 \begin{align}
-  \boldsymbol{\theta}_t &= \mathbf{I} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+  \boldsymbol{\theta}_t &= \mathbf{I}_m \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
                     &= \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
 \end{align}
 $$
@@ -871,7 +871,7 @@ with
 
 $$
 \mathbf{Z} =
-\mathbf{I} =
+\mathbf{I}_n =
 \begin{bmatrix}
   1 & 0 & \dots & 0 \\
   0 & 1 & \ddots & 0 \\
@@ -892,7 +892,7 @@ $$
 becomes
 
 $$
-\mathbf{y}_t = (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \boldsymbol{\theta}_t + \mathbf{e}_t ~ \text{with} ~ \mathbf{e}_t \sim \text{MVN}(\mathbf{0},\mathbf{R})
+\mathbf{y}_t = (\mathbf{X}^{\top}_t \otimes \mathbf{I}_n) \boldsymbol{\theta}_t + \mathbf{e}_t ~ \text{with} ~ \mathbf{e}_t \sim \text{MVN}(\mathbf{0},\mathbf{R})
 $$
 
 
@@ -900,7 +900,7 @@ $$
 
 If $\mathbf{A}$ is an $m \times n$ matrix and $\mathbf{B}$ is a $p \times q$ matrix
 
-then $\mathbf{A} \otimes \mathbf{B}$ will $mp \times nq$
+then $\mathbf{A} \otimes \mathbf{B}$ will be an $mp \times nq$ matrix
 
 $$
 \mathbf{A} \otimes \mathbf{B} = 
@@ -964,7 +964,7 @@ $$
 
 $$
 \begin{align}
-\mathbf{y}_t &= (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \boldsymbol{\theta}_t + \mathbf{e}_t \\
+\mathbf{y}_t &= (\mathbf{X}^{\top}_t \otimes \mathbf{I}_n) \boldsymbol{\theta}_t + \mathbf{e}_t \\
 \begin{bmatrix}
  y_{1,t} \\
  y_{2,t}
@@ -1089,31 +1089,114 @@ $$
 becomes
 
 $$
-\boldsymbol{\theta}_t = \left( \mathbf{G} \otimes \mathbf{I} \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+\boldsymbol{\theta}_t = \left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
 $$
 
 
 ## Multivariate DLMs | Parameter evolution
 
-There are 2 parameters in a regression model so
+If we have 2 regression parameters and $n = 2$, then
 
 $$
+\boldsymbol{\theta}_t =
+\begin{bmatrix}
+  \alpha_{1,t} \\
+  \alpha_{2,t} \\
+  \beta_{1,t} \\
+  \beta_{2,t} \\
+\end{bmatrix}
+~~ \text{and} ~~
 \mathbf{G} = 
 \begin{bmatrix}
  1 & 0 \\
  0 & 1
 \end{bmatrix} =
-\mathbf{I}_2 \\
-\Downarrow \\
-\mathbf{G} \otimes \mathbf{I}_n = \mathbf{I}_n \otimes \mathbf{I}_n = \mathbf{I}_{2n}
+\mathbf{I}_2 
 $$
 
-so
+
+## Multivariate DLMs | Parameter evolution
 
 $$
-\boldsymbol{\theta}_t = \left( \mathbf{G} \otimes \mathbf{I} \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
-\Downarrow \\
-\boldsymbol{\theta}_t = \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+\begin{align}
+\boldsymbol{\theta}_t  &=
+\left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+& \Downarrow \\
+\boldsymbol{\theta}_t  &=
+\left( \mathbf{I}_2 \otimes \mathbf{I}_2 \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+\end{align}
+$$
+
+
+## Multivariate DLMs | $\mathbf{I}_m \otimes \mathbf{I}_n = \mathbf{I}_{mn}$
+
+$$
+\begin{align}
+\mathbf{I}_2 \otimes \mathbf{I}_2 &= 
+\begin{bmatrix}
+ 1 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} & 
+ 0 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} \\
+ 0 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} &
+ 1 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} \\
+\end{bmatrix} \\
+ &=
+\begin{bmatrix}
+ 1 & 0 & 0 & 0 \\
+ 0 & 1 & 0 & 0 \\
+ 0 & 0 & 1 & 0 \\
+ 0 & 0 & 0 & 1
+\end{bmatrix}
+\end{align}
+$$
+
+
+## Multivariate DLMs | Parameter evolution
+
+$$
+\begin{align}
+\boldsymbol{\theta}_t  &=
+\left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+\boldsymbol{\theta}_t  &=
+\left( \mathbf{I}_2 \otimes \mathbf{I}_2 \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+\begin{bmatrix}
+  \alpha_{1,t} \\
+  \alpha_{2,t} \\
+  \beta_{1,t} \\
+  \beta_{2,t} \\
+\end{bmatrix} &=
+\begin{bmatrix}
+ 1 & 0 & 0 & 0 \\
+ 0 & 1 & 0 & 0 \\
+ 0 & 0 & 1 & 0 \\
+ 0 & 0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_{1,t-1} \\
+  \alpha_{2,t-1} \\
+  \beta_{1,t-1} \\
+  \beta_{2,t-1} \\
+\end{bmatrix} + 
+\begin{bmatrix}
+  w_{\alpha_1,t} \\
+  w_{\alpha_2,t} \\
+  w_{\beta_1,t} \\
+  w_{\beta_2,t}
+\end{bmatrix} \\
+\boldsymbol{\theta}_t  &=
+ \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+\end{align}
 $$
 
 
