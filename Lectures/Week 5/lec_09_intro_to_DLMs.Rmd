@@ -73,12 +73,12 @@ y_i =
 \end{bmatrix} +
 e_i \\
 \Downarrow \\
-y_i = \mathbf{X}^{\top}_i \mathbf{\Theta} + e_i
+y_i = \mathbf{X}^{\top}_i \boldsymbol{\theta} + e_i
 $$
 
 with
 
-$\mathbf{X}^{\top}_i = \begin{bmatrix} 1 & x_i \end{bmatrix}$ and $\mathbf{\Theta} = \begin{bmatrix} \alpha & \beta \end{bmatrix}^{\top}$ 
+$\mathbf{X}^{\top}_i = \begin{bmatrix} 1 & x_i \end{bmatrix}$ and $\boldsymbol{\theta} = \begin{bmatrix} \alpha & \beta \end{bmatrix}^{\top}$ 
 
 
 ## Dynamic linear model (DLM)
@@ -86,13 +86,13 @@ $\mathbf{X}^{\top}_i = \begin{bmatrix} 1 & x_i \end{bmatrix}$ and $\mathbf{\Thet
 In a _dynamic_ linear model, the regression parameters change over time, so we write
 
 $$
-y_i = \mathbf{X}^{\top}_i \mathbf{\Theta} + e_i ~~~~~~~ \text{(static)}
+y_i = \mathbf{X}^{\top}_i \boldsymbol{\theta} + e_i ~~~~~~~ \text{(static)}
 $$
 
 as
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t ~~~~~~~ \text{(dynamic)}
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t ~~~~~~~ \text{(dynamic)}
 $$
 
 
@@ -101,7 +101,7 @@ $$
 There are 2 important points here:
 
 $$
-y_\boxed{t} = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
+y_\boxed{t} = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
 $$
 
 1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
@@ -112,7 +112,7 @@ $$
 There are 2 important points here:
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_\boxed{t} + e_t
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_\boxed{t} + e_t
 $$
 
 1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
@@ -125,7 +125,7 @@ $$
 Close examination of the DLM reveals an apparent problem for parameter estimation
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
 $$
 
 
@@ -134,7 +134,7 @@ $$
 Close examination of the DLM reveals an apparent problem for parameter estimation
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
 $$
 
 We only have 1 data point per time step (ie, $y_t$ is a scalar)
@@ -147,7 +147,7 @@ __Thus, we can only estimate 1 parameter (with no uncertainty)!__
 To address this issue, we'll constrain the regression parameters to be dependent from $t$ to $t+1$
 
 $$
-\mathbf{\Theta}_t = \mathbf{G}_t \mathbf{\Theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+\boldsymbol{\theta}_t = \mathbf{G}_t \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
 $$
 
 
@@ -156,15 +156,15 @@ $$
 In practice, we often make $\mathbf{G}_t$ time invariant 
 
 $$
-\mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
 $$
 
 or assume $\mathbf{G}_t$ is the identity matrix $\mathbf{I}$
 
 $$
 \begin{align}
-  \mathbf{\Theta}_t &= \mathbf{I} \mathbf{\Theta}_{t-1} + \mathbf{w}_t \\
-                    &= \mathbf{\Theta}_{t-1} + \mathbf{w}_t
+  \boldsymbol{\theta}_t &= \mathbf{I} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+                    &= \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
 \end{align}
 $$
 
@@ -176,21 +176,21 @@ In the latter case, the parameters follow a random walk over time
 Observation model relates covariates to data
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
 $$
 
 State model determines how parameters "evolve" over time
 
 $$
-\mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
 $$
 
 
 ## DLM in MARSS notation | Full state-space form
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t \\
-\mathbf{\Theta}_t = \mathbf{G} \mathbf{\Theta}_{t-1} + \mathbf{w}_t \\
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t \\
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
 \Downarrow \\
 y_t = \mathbf{Z}_t \mathbf{x}_t + v_t \\
 \mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t
@@ -345,7 +345,7 @@ $$
   \underbrace{\begin{bmatrix}
     \alpha_t \\
     \eta_t
-  \end{bmatrix}}_{\mathbf{\Theta}_t} &=
+  \end{bmatrix}}_{\boldsymbol{\theta}_t} &=
   \underbrace{\begin{bmatrix}
     \underline{1} & \underline{1} \\
     \underline{0} & \underline{1}
@@ -353,7 +353,7 @@ $$
   \underbrace{\begin{bmatrix}
     \alpha_{t-1} \\
     \eta_{t-1}
-  \end{bmatrix}}_{\mathbf{\Theta}_{t-1}} +
+  \end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} +
   \underbrace{\begin{bmatrix}
     w_{\alpha,t} \\
     w_{\eta,t}
@@ -378,7 +378,7 @@ $$
   \end{bmatrix}}_{\mathbf{X}^{\top}_t}
   \underbrace{\begin{bmatrix}
     \alpha_t \\ \eta_t 
-  \end{bmatrix}}_{\mathbf{\Theta}_t}
+  \end{bmatrix}}_{\boldsymbol{\theta}_t}
   + v_t
 \end{align}
 $$
@@ -400,7 +400,7 @@ $$
   \end{bmatrix}}_{\mathbf{X}^{\top}_t}
   \underbrace{\begin{bmatrix}
     \alpha_t \\ \beta_t 
-  \end{bmatrix}}_{\mathbf{\Theta}_t}
+  \end{bmatrix}}_{\boldsymbol{\theta}_t}
   + v_t
 \end{align}
 $$
@@ -418,11 +418,11 @@ $$
   \underbrace{\begin{bmatrix}
     \alpha_t \\
     \beta_t
-  \end{bmatrix}}_{\mathbf{\Theta}_t} &=
+  \end{bmatrix}}_{\boldsymbol{\theta}_t} &=
   \underbrace{\begin{bmatrix}
     \alpha_{t-1} \\
     \beta_{t-1}
-  \end{bmatrix}}_{\mathbf{\Theta}_{t-1}} +
+  \end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} +
   \underbrace{\begin{bmatrix}
     w_{\alpha,t} \\
     w_{\beta,t}
@@ -605,7 +605,7 @@ $$
 
 ## Univariate DLM with seasonal effect
 
-We could instead reorder the $\gamma_i$ within $\mathbf{\Theta}_t$ ($qtr$ = 1)
+We could instead reorder the $\gamma_i$ within $\boldsymbol{\theta}_t$ ($qtr$ = 1)
 
 $$
 y_t = 
@@ -622,7 +622,7 @@ $$
 
 ## Univariate DLM with seasonal effect
 
-We could instead reorder the $\gamma_i$ within $\mathbf{\Theta}_t$ ($qtr$ = 2)
+We could instead reorder the $\gamma_i$ within $\boldsymbol{\theta}_t$ ($qtr$ = 2)
 
 $$
 y_t = 
@@ -639,10 +639,10 @@ $$
 
 ## Univariate DLM with seasonal effect
 
-But _how_ would we shift the $\gamma_i$ within $\mathbf{\Theta}_t$?
+But _how_ would we shift the $\gamma_i$ within $\boldsymbol{\theta}_t$?
 
 $$
-\mathbf{\Theta}_t =
+\boldsymbol{\theta}_t =
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ ? \\ ? \\ ? \\ ?
 \end{bmatrix}
@@ -672,7 +672,7 @@ $$
 $$
 \underbrace{\begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
-\end{bmatrix}}_{\mathbf{\Theta}_t} =
+\end{bmatrix}}_{\boldsymbol{\theta}_t} =
 \underbrace{\begin{bmatrix}
   1 & 0 & 0 & 0 & 0 & 0 \\
   0 & 1 & 0 & 0 & 0 & 0 \\
@@ -683,7 +683,7 @@ $$
 \end{bmatrix}}_{\mathbf{G}}
 \underbrace{\begin{bmatrix}
   \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
-\end{bmatrix}}_{\mathbf{\Theta}_{t-1}} + 
+\end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} + 
 \underbrace{\begin{bmatrix}
   w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
 \end{bmatrix}}_{\mathbf{w}_t}
@@ -695,7 +695,7 @@ $$
 $$
 \underbrace{\begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_3 \\ \gamma_4 \\ \gamma_1 \\ \gamma_2
-\end{bmatrix}}_{\mathbf{\Theta}_t} =
+\end{bmatrix}}_{\boldsymbol{\theta}_t} =
 \underbrace{\begin{bmatrix}
   1 & 0 & 0 & 0 & 0 & 0 \\
   0 & 1 & 0 & 0 & 0 & 0 \\
@@ -706,7 +706,7 @@ $$
 \end{bmatrix}}_{\mathbf{G}}
 \underbrace{\begin{bmatrix}
   \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
-\end{bmatrix}}_{\mathbf{\Theta}_{t-1}} + 
+\end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} + 
 \underbrace{\begin{bmatrix}
   w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
 \end{bmatrix}}_{\mathbf{w}_t}
@@ -736,7 +736,7 @@ Pseudo-code
 1. Define the parameters at time $t = 0$
 
 $$
-\mathbf{\Theta}_0 | y_0 = \mathbf{\Pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_0 | y_0 = \mathbf{\Pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 $$
 
 
@@ -745,12 +745,12 @@ $$
 1. Define the parameters at time $t = 0$
 
 $$
-\mathbf{\Theta}_0 | y_0 = \mathbf{\Pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_0 | y_0 = \mathbf{\Pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 \Downarrow \\
-\text{E}(\mathbf{\Theta}_0) = \mathbf{\Pi} \\
-\text{Var}(\mathbf{\Theta}_0) = \mathbf{\Lambda} \\
+\text{E}(\boldsymbol{\theta}_0) = \mathbf{\Pi} \\
+\text{Var}(\boldsymbol{\theta}_0) = \mathbf{\Lambda} \\
 \Downarrow \\
-\mathbf{\Theta}_0 | y_0 \sim \text{MVN}(\mathbf{\Pi}, \mathbf{\Lambda})
+\boldsymbol{\theta}_0 | y_0 \sim \text{MVN}(\mathbf{\Pi}, \mathbf{\Lambda})
 $$
 
 
@@ -759,7 +759,7 @@ $$
 2. Define the parameters at time $t = 1$
 
 $$
-\mathbf{\Theta}_1 | y_0 = \mathbf{G} \mathbf{\Theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
+\boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
 $$
 
 
@@ -768,15 +768,15 @@ $$
 2. Define the parameters at time $t = 1$
 
 $$
-\mathbf{\Theta}_1 | y_0 = \mathbf{G} \mathbf{\Theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
+\boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
 \Downarrow \\
-  \text{E}(\mathbf{\Theta}_1) = \mathbf{G} \mathbf{\Theta}_0 \\
-  \text{E}(\mathbf{\Theta}_1) = \mathbf{G} \mathbf{\Pi} \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\theta}_0 \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Pi} \\
 \text{and} \\
-  \text{Var}(\mathbf{\Theta}_1) = \mathbf{G} \text{Var}(\mathbf{\Theta}_0) \mathbf{G}^{\top} + \mathbf{Q} \\
-  \text{Var}(\mathbf{\Theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} \\
+  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \text{Var}(\boldsymbol{\theta}_0) \mathbf{G}^{\top} + \mathbf{Q} \\
+  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} \\
 \Downarrow \\
-\mathbf{\Theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \mathbf{\Pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
+\boldsymbol{\theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \mathbf{\Pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
 $$
 
 
@@ -785,12 +785,12 @@ $$
 3. Make a forecast of $y_t$ at time $t = 1$
 
 $$
-y_1 | y_0 = \mathbf{X}^{\top}_1 \mathbf{\Theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
+y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
 \Downarrow \\
-\text{E}(y_1) = \mathbf{X}^{\top}_1 \mathbf{\Theta}_1 \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 \\
 \text{E}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Pi}] \\
 \text{and} \\
-\text{Var}(y_1) = \mathbf{X}^{\top}_1 \text{Var}(\mathbf{\Theta}_1) \mathbf{X}_1 + R \\
+\text{Var}(y_1) = \mathbf{X}^{\top}_1 \text{Var}(\boldsymbol{\theta}_1) \mathbf{X}_1 + R \\
 \text{Var}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R \\
 \Downarrow \\
 y_1 | y_0 \sim \text{N}(\mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Pi}], \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R)
@@ -803,8 +803,8 @@ Putting it all together
 
 $$
 \begin{align}
-\mathbf{\Theta}_0 | y_0 & \sim \text{MVN}(\mathbf{\Pi}, \mathbf{\Lambda}) \\
-\mathbf{\Theta}_t | y_{t-1} & \sim \text{MVN}(\mathbf{G} \mathbf{\Pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}) \\
+\boldsymbol{\theta}_0 | y_0 & \sim \text{MVN}(\mathbf{\Pi}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_t | y_{t-1} & \sim \text{MVN}(\mathbf{G} \mathbf{\Pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}) \\
 y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Pi}], \mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_t + R)
 \end{align}
 $$
@@ -836,18 +836,63 @@ with a QQ-plot (1) and an ACF (2)
 <font size="10">MULTIVARIATE DLMs</font>
 
 
-## Multivariate DLMs
-
-Now lets consider DLMs with a multivariate response $\mathbf{y}_t$ where the observation model
+## The most simple multivariate DLM | Multiple observations of a stochastic level
 
 $$
-y_t = \mathbf{X}^{\top}_t \mathbf{\Theta}_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0,R)
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} \alpha_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \alpha_t = \alpha_{t-1} + w_t & ~~ \alpha_t ~ \text{is } 1 \times 1 
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+  1 \\
+  1 \\
+  \vdots \\
+  1
+\end{bmatrix}
+$$
+
+
+## Another simple multivariate DLM | Multiple observations of multiple levels
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} \boldsymbol{\alpha}_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \boldsymbol{\alpha}_t = \boldsymbol{\alpha}_{t-1} + \mathbf{w}_t & ~~ \boldsymbol{\alpha}_t ~ \text{is } n \times 1 \\
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\mathbf{I} =
+\begin{bmatrix}
+  1 & 0 & \dots & 0 \\
+  0 & 1 & \ddots & 0 \\
+  \vdots & \ddots & \ddots & 0 \\
+  0 & \dots & 0 & 1 \\
+\end{bmatrix}
+$$
+
+
+## Multivariate DLMs | Regression model
+
+Our univariate model 
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0,R)
 $$
 
 becomes
 
 $$
-\mathbf{y}_t = (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \mathbf{\Theta}_t + \mathbf{e}_t ~ \text{with} ~ \mathbf{e}_t \sim \text{MVN}(\mathbf{0},\mathbf{R})
+\mathbf{y}_t = (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \boldsymbol{\theta}_t + \mathbf{e}_t ~ \text{with} ~ \mathbf{e}_t \sim \text{MVN}(\mathbf{0},\mathbf{R})
 $$
 
 
@@ -915,13 +960,11 @@ $$
 $$
 
 
-## Multivariate DLMs
-
-Regression model with $n = 2$
+## Multivariate DLMs | Regression model with $n = 2$
 
 $$
 \begin{align}
-\mathbf{y}_t &= (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \mathbf{\Theta}_t + \mathbf{e}_t \\
+\mathbf{y}_t &= (\mathbf{X}^{\top}_t \otimes \mathbf{I}) \boldsymbol{\theta}_t + \mathbf{e}_t \\
 \begin{bmatrix}
  y_{1,t} \\
  y_{2,t}
@@ -995,51 +1038,6 @@ $$
 \begin{bmatrix}
  e_{1,t} \\
  e_{2,t}
-\end{bmatrix}
-$$
-
-
-## The most simple multivariate DLM | Multiple observations of a single random walk
-
-$$
-\begin{matrix}
-  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
-  x_t = x_{t-1} + w_t & ~~ x_t ~ \text{is } 1 \times 1 
-\end{matrix}
-$$
-
-with
-
-$$
-\mathbf{Z} =
-\begin{bmatrix}
-  1 \\
-  1 \\
-  \vdots \\
-  1
-\end{bmatrix}
-$$
-
-
-## Another simple multivariate DLM | Multiple observations of multiple random walks
-
-$$
-\begin{matrix}
-  \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
-  \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t & ~~ \mathbf{x}_t ~ \text{is } n \times 1 \\
-\end{matrix}
-$$
-
-with
-
-$$
-\mathbf{Z} =
-\mathbf{I} =
-\begin{bmatrix}
-  1 & 0 & \dots & 0 \\
-  0 & 1 & \ddots & 0 \\
-  \vdots & \ddots & \ddots & 0 \\
-  0 & \dots & 0 & 1 \\
 \end{bmatrix}
 $$
 
