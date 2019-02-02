@@ -110,7 +110,7 @@ uni_ss <- list(
   rmd = "Lectures/Week 3/lec_05_univariate_state_space.Rmd",
   html = "",
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b046674e-45bd-4ef5-8bf9-a9df0029c285",
-  reading = c("[HWS14: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)","[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[uni_example_1.R](Lectures/Week 3/univariate_example_1.R)","[uni_example_2.R](Lectures/Week 3/univariate_example_2.R)","[uni_example_3.R](Lectures/Week 3/univariate_example_3.R)","[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)","[uni_example_lm.R](Lectures/Week 3/univariate_example_lm.R)","[uni_example_arima.R](Lectures/Week 3/univariate_example_arima.R)"),
+  reading = c("[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)","[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[uni_example_1.R](Lectures/Week 3/univariate_example_1.R)","[uni_example_2.R](Lectures/Week 3/univariate_example_2.R)","[uni_example_3.R](Lectures/Week 3/univariate_example_3.R)","[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)","[uni_example_lm.R](Lectures/Week 3/univariate_example_lm.R)","[uni_example_arima.R](Lectures/Week 3/univariate_example_arima.R)"),
   youtube = "",
   instructor = "Eli"
 )
@@ -125,7 +125,7 @@ marss <- list(
   rmd = c("Lectures/Week 3/lec_06_box_jenkins_redux.Rmd"),
   html = c("Lectures/Week 3/lec_06_box_jenkins_redux.html"),
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=e4ad0958-c830-447c-a1bd-a9df016331cb",
-  reading = c("[HWS14: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)","[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[marss_example_1.R](Lectures/Week 3/marss_example_1.R)","[marss_example_2.R](Lectures/Week 3/marss_example_2.R)","[marss_example_3.R](Lectures/Week 3/marss_example_3.R)","[marss_example_4.R](Lectures/Week 3/marss_example_4.R)","[marss_example_5.R](Lectures/Week 3/marss_example_5.R)"),
+  reading = c("[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)","[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[marss_example_1.R](Lectures/Week 3/marss_example_1.R)","[marss_example_2.R](Lectures/Week 3/marss_example_2.R)","[marss_example_3.R](Lectures/Week 3/marss_example_3.R)","[marss_example_4.R](Lectures/Week 3/marss_example_4.R)","[marss_example_5.R](Lectures/Week 3/marss_example_5.R)"),
   youtube = "",
   instructor = "Eli"
 )
@@ -170,12 +170,12 @@ model_inf <- list(
 dlm <- list(
   title = "Dynamic Linear Models",
   topics = c("Dynamic linear models (DLMs)"),
-  pdf = "",
+  pdf = "Lectures/Week 5/lec_09_intro_to_DLMs.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
+  html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
   video = "",
-  reading = c(""),
+  reading = c("Petris et al. (2009)", "HWS18a: Chap 16", "Scheuerell & Williams (2005)"),
   youtube = "",
   instructor = "Mark"
 )
@@ -199,16 +199,15 @@ dlm2 <- list(
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Regression with AR(1) errors",
-             "Regression with temporal random effects",
+  topics = c("Regression with autocorrelated errors",
              "Dynamic factor analysis (DFA)"),
   pdf = "Lectures/Week 4/lec_08_intro_to_DFA.pdf",
   ppt = "",
   rmd = "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
   html = "Lectures/Week 4/lec_08_intro_to_DFA.html",
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=065aa722-ccb6-4ad5-b047-a9e601631f98",
-  reading = c(""),
-  youtube = "",
+  reading = c("Zuur et al. (2003a)", "Zuur et al. (2003b)", "Goertler et al. (2016)", "Ohlberger et al. (2016)", "HWS18a: Chap 10"),
+  youtube = "https://youtu.be/FMLh8c_Sa8s",
   instructor = "Mark"
 )
 ```
