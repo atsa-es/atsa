@@ -23,6 +23,19 @@ fit <- MARSS(matrix(Nile, nrow = 1), mod_list)
 
 ## Topics for today
 
+Univariate response
+
+* Stochastic level & growth
+
+* Dynamic Regression
+
+* Dynamic Regression with fixed season
+
+* Forecasting with a DLM
+
+* Model diagnostics
+
+Multivariate response
 
 
 
@@ -1321,5 +1334,24 @@ $$
 \end{bmatrix}
 \right)
 $$
+
+
+## Topics for today
+
+Univariate response
+
+* Stochastic level & growth
+
+* Dynamic Regression
+
+* Dynamic Regression with fixed season
+
+* Forecasting with a DLM
+
+* Model diagnostics
+
+Multivariate response
+
+
 
 In practice, keep $\mathbf{Q}$ as simple as possible
