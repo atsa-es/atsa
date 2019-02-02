@@ -1042,4 +1042,81 @@ $$
 $$
 
 
+## Multivariate DLMs | Covariance of observation errors
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & \gamma_{2,4} \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & \gamma_{2,4} & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+## Multivariate DLMs | Parameter evolution
+
+$$
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+becomes
+
+$$
+\boldsymbol{\theta}_t = \left( \mathbf{G} \otimes \mathbf{I} \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+
+## Multivariate DLMs | Parameter evolution
+
+There are 2 parameters in a regression model so
+
+$$
+\mathbf{G} = 
+\begin{bmatrix}
+ 1 & 0 \\
+ 0 & 1
+\end{bmatrix} =
+\mathbf{I}_2 \\
+\Downarrow \\
+\mathbf{G} \otimes \mathbf{I}_n = \mathbf{I}_n \otimes \mathbf{I}_n = \mathbf{I}_{2n}
+$$
+
+so
+
+$$
+\boldsymbol{\theta}_t = \left( \mathbf{G} \otimes \mathbf{I} \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+\Downarrow \\
+\boldsymbol{\theta}_t = \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+$$
+
+
+
+
 
