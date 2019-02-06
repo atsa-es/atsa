@@ -176,7 +176,7 @@ dlm <- list(
   html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
   video = "",
   reading = c("Petris et al. (2009)", "HWS18a: Chap 16", "Scheuerell & Williams (2005)"),
-  youtube = "",
+  youtube = "https://youtu.be/UphDr8v1uc8",
   instructor = "Mark"
 )
 ```
