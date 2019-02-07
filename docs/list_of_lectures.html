@@ -22,7 +22,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <link rel="shortcut icon" href="favicon16x16.ico" type="image/x-icon">
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -92,8 +93,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -109,7 +116,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -129,6 +135,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -150,18 +193,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -402,10 +504,10 @@ $(document).ready(function () {
 <pre class="r"><code>bayes &lt;- list(
   title = &quot;Bayesian estimation&quot;,
   topics = c(&quot;Bayesian estimation of time-series and state-space models&quot;,&quot;Stan&quot;),
-  pdf = &quot;&quot;,
+  pdf = &quot;Lectures/Week 5/lec_10_bayes.pdf&quot;,
   ppt = &quot;&quot;,
-  rmd = &quot;&quot;,
-  html = &quot;&quot;,
+  rmd = &quot;Lectures/Week 5/lec_10_bayes.Rmd&quot;,
+  html = &quot;Lectures/Week 5/lec_10_bayes.html&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   youtube = &quot;&quot;,
@@ -414,10 +516,10 @@ $(document).ready(function () {
 <pre class="r"><code>bayes2 &lt;- list(
   title = &quot;Bayesian estimation&quot;,
   topics = c(&quot;Writing our own Bayesian models in Stan&quot;),
-  pdf = &quot;&quot;,
+  pdf = &quot;Lectures/Week 6/lec_11_stan.pdf&quot;,
   ppt = &quot;&quot;,
-  rmd = &quot;&quot;,
-  html = &quot;&quot;,
+  rmd = &quot;Lectures/Week 6/lec_11_stan.Rmd&quot;,
+  html = &quot;Lectures/Week 6/lec_11_stan.html&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   youtube = &quot;&quot;,
@@ -500,10 +602,10 @@ $(document).ready(function () {
 <pre class="r"><code>HMMs &lt;- list(
   title = &quot;Hidden Markov models&quot;,
   topics = c(&quot;Hidden Markov models&quot;),
-  pdf = &quot;&quot;,
+  pdf = &quot;Lectures/Week 6/lec_12_hmm.pdf&quot;,
   ppt = &quot;&quot;,
-  rmd = &quot;&quot;,
-  html = &quot;&quot;,
+  rmd = &quot;Lectures/Week 6/lec_12_hmm.Rmd&quot;,
+  html = &quot;Lectures/Week 6/lec_12_hmm.html&quot;,
   video = &quot;&quot;,
   reading = c(&quot;&quot;),
   youtube = &quot;&quot;,

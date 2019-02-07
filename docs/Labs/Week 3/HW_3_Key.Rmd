@@ -1,0 +1,490 @@
+---
+title: "HW 3 Multivariate State-Space Key"
+author: "E Holmes"
+date: "2/1/2019"
+output: 
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+---
+
+```{r mlr-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "marsssolns-")
+knitr::opts_chunk$set(fig.align='center', out.width = '90%', cache=TRUE, warning=FALSE)
+```
+
+# Solutions Chapter 7
+\chaptermark{Solutions Ch 7}
+
+Here are the answers for the homework problems based on the material in [Multivariate state-space models](https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html).  You can download the Rmd file for this key from [here](HW_3_Key.Rmd).
+
+
+For these questions, use the `harborSealWA` data set in **MARSS**.  The data are already logged, but you will need to remove the year column and have time going across the columns not down the rows.
+```{r}
+require(MARSS)
+data(harborSealWA, package="MARSS")
+dat <- t(harborSealWA[,2:6])
+```
+The sites are San Juan de Fuca (SJF 3), San Juan Islands (SJI 4), Eastern Bays (EBays 5), Puget Sound (PSnd 6) and Hood Canal (HC 7).
+
+## Problem 1
+
+**Plot the harbor seal data.**
+
+```{r}
+library(ggplot2)
+temp <- as.data.frame(MARSS::harborSealWA)
+pdat <- reshape2::melt(temp, id.vars="Year", variable.name = "region")
+p <- ggplot(pdat, aes(x=Year, y=value, col=region)) + geom_point() + geom_line() + ggtitle("Puget Sound Harbor Seal Surveys")
+p + facet_wrap(~region)
+```
+
+## Problem 2
+
+**Fit a panmictic population model that assumes that each of the 5 sites is observing one "Inland WA" harbor seal population with trend $u$. Assume the observation errors are independent and identical. This means 1 variance on diagonal and 0s on off-diagonal.  This is the default assumption for `MARSS()` [_MISTAKE in problem; default is diagonal and unequal._]**
+
+a. **Write the $\mathbf{Z}$ for this model.**
+
+$$\mathbf{Z}=\begin{bmatrix}1\\1\\1\\1\\1\end{bmatrix}$$
+
+b. **Write the $\mathbf{Z}$ matrix in R using `Z=matrix(...)` and using the factor short-cut for specifying $\mathbf{Z}$.  `Z=factor(c(...)`.**
+    
+    ```{r}
+    Z = matrix(1, nrow=5)
+    Z = factor(rep("inland",5))
+    ```
+    
+c. **Fit the model using `MARSS()`.  What is the estimated trend ($u$)? How fast was the population increasing (percent per year) based on this estimated $u$?** _Note, the problem incorrectly stated the default R is diagonal and equal.  The default is default is diagonal and unequal.  If you used the default, you were not counted off._
+
+    ```{r}
+    fit <- MARSS(dat, model=list(Z=Z, R="diagonal and equal"))
+    ```
+    The estimate $u$ is
+    
+    ```{r}
+    coef(fit)$U
+    ```
+    which translates to an approximate 4.75% increase per year.
+    
+d. **Compute the confidence intervals for the parameter estimates. Compare the intervals using the Hessian approximation and using a parametric bootstrap. What differences do you see between the two approaches?**
+
+    Confidence intervals using the Hessian approximation:
+
+    ```{r}
+    library(broom)
+    cis <- tidy(fit)
+    knitr::kable(cis)
+    ```
+    versus parametric bootstrap
+    ```{r}
+    # set nboot low so it doesn't take forever
+    cis <- tidy(fit, method="parametric",nboot=100)
+    knitr::kable(cis)
+    ```
+
+    The parametric bootstrap is using just 100 simulations so the CIs will be variable, but the CIs are quite similar to the Hessian approximation CIs--except for the variance CIs, in particular the CI for $\mathbf{Q}$.  The Hessian method uses a Normal approximation which is symmetric, but variances are strictly positive.  We see that the lower CI for $\mathbf{Q}$ is negative for the Hessian approximation.  The parametric bootstrap uses estimates of $\mathbf{Q}$ so the estimate will never be negative, though it could be 0.
+
+e. **What does an estimate of $\mathbf{Q}=0$ mean? What would the estimated state ($x$) look like when $\mathbf{Q}=0$?**
+
+    $\mathbf{Q}=0$ means that there is no process variance, aka the state process is deterministic.  The state process will look like a straight line with slope = $u$.
+
+## Problem 3
+
+**Using the same panmictic population model, compare 3 assumptions about the observation error structure.**  
+
+* The observation errors are independent with different variances.
+* The observation errors are independent with the same variance.
+* The observation errors are correlated with the same variance and same correlation.
+    
+a. **Write the $\mathbf{R}$ variance-covariance matrices for each assumption.**  
+
+    The observation errors are independent with different variances.
+
+$$\mathbf{Z}=\begin{bmatrix}
+r_1&0&0&0&0\\
+0&r_2&0&0&0\\
+0&0&r_3&0&0\\
+0&0&0&r_4&0\\
+0&0&0&0&r_5\end{bmatrix}$$
+
+The observation errors are independent with the same variance.
+
+$$\mathbf{Z}=\begin{bmatrix}
+r&0&0&0&0\\
+0&r&0&0&0\\
+0&0&r&0&0\\
+0&0&0&r&0\\
+0&0&0&0&r\end{bmatrix}$$
+
+The observation errors are correlated with the same variance and same correlation.
+
+$$\mathbf{Z}=\begin{bmatrix}
+r&c&c&c&c\\
+c&r&c&c&c\\
+c&c&r&c&c\\
+c&c&c&r&c\\
+c&c&c&c&r\end{bmatrix}$$
+
+
+b. **Create each $\mathbf{R}$ matrix in R.**
+
+    The observation errors are independent with different variances.
+
+    ```{r}
+    R1 <- matrix(list(0),5,5)
+    diag(R1) <- paste0("r",1:5)
+    R1
+    ```
+
+    The observation errors are independent with the same variance.
+
+    ```{r}
+    R2 <- matrix(list(0),5,5)
+    diag(R2) <- "r"
+    R2
+    ```
+
+    The observation errors are correlated with the same variance and same correlation.
+    
+    ```{r}
+    R3 <- matrix("c",5,5)
+    diag(R3) <- "r"
+    R3
+    ```
+
+c. **Fit each model using `MARSS()` and compare the estimated $u$ (the population long-term trend).  Does the assumption about the errors change the $u$ estimate?**
+
+    ```{r}
+    fit1 <- MARSS(dat, model=list(Z=Z, R=R1), silent=TRUE)
+    fit2 <- MARSS(dat, model=list(Z=Z, R=R2), silent=TRUE)
+    fit3 <- MARSS(dat, model=list(Z=Z, R=R3), silent=TRUE)
+    c(coef(fit1)$U, coef(fit2)$U, coef(fit3)$U)
+    ```
+
+    Yes, the more structure we allow in the $\mathbf{R}$ matrix, the lower the $u$ estimate.
+
+d. **Plot the state residuals, the ACF of the state residuals, and the histogram of the state residuals for each fit.  Are there any issues that you see?**
+
+    The plot of the residuals have a trend and look autocorrelated.
+
+    ```{r}
+    resids1 <- residuals(fit1)$state.residuals[1,]
+    resids2 <- residuals(fit2)$state.residuals[1,]
+    resids3 <- residuals(fit3)$state.residuals[1,]
+    par(mfrow=c(3,1), mar=c(1,1,3,1))
+    plot(resids1, main="resids1")
+    plot(resids2, main="resids2")
+    plot(resids3, main="resids3")
+    ```
+    
+    The ACF plots also show the autocorrelation.
+
+    ```{r}
+    par(mfrow=c(3,1), mar=c(1,1,3,1))
+    acf(resids1, na.action=na.pass)
+    acf(resids2, na.action=na.pass)
+    acf(resids3, na.action=na.pass)
+    ```
+
+    However, you might notice that the first 5 state residuals have the same values. This is because 1979-1982 (2nd-5th observations) are all NAs. Maybe we should remove those since those would increase the apparent autocorrelation.  With these removed, the residuals do not have strong autocorrelation.
+
+    ```{r}
+    resids1[2:5]=NA
+    resids2[2:5]=NA
+    resids3[2:5]=NA
+    par(mfrow=c(3,1), mar=c(1,1,3,1))
+    acf(resids1, na.action=na.pass)
+    acf(resids2, na.action=na.pass)
+    acf(resids3, na.action=na.pass)
+    ```
+
+    Histograms and qqplots.  Use the residuals with the residuals for points 2-5 set to NA.  We don't have very many points.  The histograms do not look wildly non-normal.  For example, there aren't 2 peaks or very obvious long-tails on one side.
+
+    ```{r}
+    par(mfrow=c(3,2), mar=c(1,1,3,1))
+    hist(resids1)
+    qqnorm(resids1); qqline(resids1)
+    hist(resids2)
+    qqnorm(resids2); qqline(resids2)
+    hist(resids3)
+    qqnorm(resids3); qqline(resids3)
+    ```
+    
+## Problem 4
+
+**Fit a model with 3 subpopulations. 1=SJF,SJI; 2=PS,EBays; 3=HC.  The $x$ part f the model is the population structure.  Assume that the observation errors are identical and independent (`R="diagonal and equal"`).  Assume that the process errors are unique and independent (`Q="diagonal and unequal"`).**
+
+a. **Write the $\mathbf{x}$ equation. Make sure each matrix in the equation has the right number of rows and columns.**
+
+    First look at `dat` to see which area is on which row.
+    
+    ```{r}
+    dat[,1:2]
+    ```
+    
+    The problem doesn't state what assumption to use for $u$.  Let's assume that the $u$ are diffferent in each subpopulation.
+
+$$\begin{bmatrix}
+x_1\\
+x_2\\
+x_3
+\end{bmatrix}_t = 
+\begin{bmatrix}
+1&0&0\\
+1&0&0\\
+0&1&0\\
+0&1&0\\
+0&0&1
+\end{bmatrix}\begin{bmatrix}
+x_1\\
+x_2\\
+x_3
+\end{bmatrix}_{t+1} + \begin{bmatrix}
+u_1\\
+u_2\\
+u_3
+\end{bmatrix} + 
+\begin{bmatrix}
+w_1\\
+w_2\\
+w_3
+\end{bmatrix}_t \\
+\begin{bmatrix}
+w_1\\
+w_2\\
+w_3
+\end{bmatrix}_t \sim \text{MVN}\left( 0, \begin{bmatrix}
+q_1&0&0\\
+0&q_2&0\\
+0&0&q_3
+\end{bmatrix}\right)
+$$
+    
+b. **Write the $\mathbf{Z}$ matrix.**
+
+$$
+\mathbf{Z}=
+\begin{bmatrix}
+1&0&0\\
+1&0&0\\
+0&1&0\\
+0&1&0\\
+0&0&1
+\end{bmatrix}
+$$
+    
+c. **Write the $\mathbf{Z}$ in R using `Z=matrix(...)` and using the factor shortcut `Z=factor(c(...))`.**
+
+    ```{r}
+    Z4 = matrix(c(1,1,0,0,0,0,0,1,1,0,0,0,0,0,1), 5,3)
+    Z4 = factor(c("1","1","2","2","3"))
+    ```
+    
+d. **Fit the model with `MARSS()`.**
+
+    ```{r}
+    fit4 <- MARSS(dat, model=list(Z=Z4, R="diagonal and equal", Q="diagonal and unequal", U="unequal"))
+    ```
+    
+e. **What do the estimated $u$ and $\mathbf{Q}$ imply about the population dynamics in the 3 subpopulations?**
+
+    The population growth rate $u$ is higher the closer to the coast.  The Hood Canal region is steady or declining in constrast to the other areas.  The $\mathbf{Q}$ is much higher in Hood Canal in addition to the trend being much lower.
+
+    
+## Problem 5
+
+**Repeat the fit from Question 4 but assume that the 3 subpopulations covary. Use `Q="unconstrained"`.**
+
+```{r}
+fit5 <- MARSS(dat, model=list(Z=Z4, R="diagonal and equal", Q="unconstrained", U="unequal"))
+```
+
+a. **What does the estimated  $\mathbf{Q}$ matrix tell you about how the 3 subpopulation covary?**
+
+    ```{r}
+    Qest <- coef(fit5, type="matrix")$Q
+    Qest
+    ```
+
+    We can compute the correlation matrix as follows.
+    
+    ```{r}
+    Dinv <- diag(1/sqrt(diag(Qest)))
+    Dinv%*%Qest%*%Dinv
+    ```
+
+    Hood Canal appears to be independent of subpopulation closer to the coast while somewhat correlated to the subpopulation in the inner Puget Sound.  The inner Puget Sound subpopulation and the subpopulation close to the coast are highly temporally correlated.
+
+b. **Compare the AICc from the model in Question 4 and the one with `Q="unconstrained"`.  Which is more supported?**
+
+    ```{r}
+    c(fit4=fit4$AICc, fit5=fit5$AICc)
+    ```
+    
+    The model allowing for temporal correlation is much more supported.  $\Delta AICc$ = `r fit4=fit4$AICc-fit5$AICc`.
+
+c. **Fit the model with `Q="equalvarcov"`.  Is this more supported based on AICc?**
+
+    ```{r}
+    fit5c <- MARSS(dat, model=list(Z=Z4, R="diagonal and equal",  Q="equalvarcov", U="unequal"))
+    ```
+AICc is much lower = `r fit5c$AICc` indicating higher data support.  This model has many fewer parameters but still fits the data well.
+
+## Problem 6
+
+**Develop the following alternative models for the structure of the inland harbor seal population.  For each model assume that the observation errors are identical and independent (`R="diagonal and equal"`).  Assume that the process errors covary with equal variance and covariances (`Q="equalvarcov"`).**
+
+    * model 1: 5 independent subpopulations with unique trends $u$.
+    * model 2: 5 independent subpopulations with the same trend $u$.
+    * model 3: 5 independent subpopulations with the same trend in 3 regions: SJF+SJI, PS+EBays, HC.
+    * model 4: 1 panmictic population (the model from question 2).
+    * model 5: 3 subpopulations. 1=SJF,SJI, 2=PS,EBays, 3=HC (the model from question 4).
+    * model 6: 2 subpopulations. 1=SJF,SJI,PS,EBays, 2=HC.
+    
+a. **Fit each model using `MARSS()`.**
+
+    For model 1, there are a number of ways you could specify `Z`: `diag(1,5)`, `"identity"`, `factor(1:5)` or you could leave off since this is the default model for `Z`. Similarly for `U` there are a number of equivalent specifications: `"unequal"`, `matrix(paste0("u",1:5), ncol=1)` or leave off since this is the default for `U`.
+
+    ```{r}
+    Q="equalvarcov"
+    R="diagonal and equal"
+    mod1 <- list(Z=diag(1,5), U="unequal", Q=Q, R=R)
+    fit1 <- MARSS(dat, model=mod1, silent=TRUE)
+    ```
+
+    For model 2, `Z` is the same as in model 1. For `U` there are a number of equivalent specifications: `"equal"` or `matrix("u",5, 1)`.
+
+    ```{r}
+    mod2 <- list(Z=diag(1,5), U="equal", Q=Q, R=R)
+    fit2 <- MARSS(dat, model=mod2, silent=TRUE)
+    ```
+    
+    For model 3, `Z` is the same as in model 1. The $u$ are shared across some of the subpopulations.
+
+    ```{r}
+    u3 <- matrix(c("u1","u1","u2","u2","u3"),5,1)
+    mod3 <- list(Z=diag(1,5), U=u3, Q=Q, R=R)
+    fit3 <- MARSS(dat, model=mod3, silent=TRUE)
+    ```
+
+    Model 4 has a `Z` with one column. We do not need to specify `U` since it is $1\times 1$.
+
+    ```{r}
+    mod4 <- list(Z=matrix(1,5,1), Q=Q, R=R)
+    fit4 <- MARSS(dat, model=mod4, silent=TRUE)
+    ```
+   
+    Model 5 has three subpopulations (3 $x$'s) and it's easiest to specify using `factor`. The question doesn't specify what to assume for $u$. Let's assume $u$ is different for each subpopulation.
+
+    ```{r}
+    mod5 <- list(Z=factor(c(1,1,2,2,3)), Q=Q, R=R, U="unequal")
+    fit5 <- MARSS(dat, model=mod5, silent=TRUE)
+    ```
+
+    Model 6 has two subpopulations. The question doesn't specify what to assume for $u$. Let's assume $u$ is different for each subpopulation.
+
+    ```{r}
+    mod6 <- list(Z=factor(c(1,1,1,1,2)), Q=Q, R=R, U="unequal")
+    fit6 <- MARSS(dat, model=mod6, silent=TRUE)
+    ```
+
+b. **Prepare a table of each model with a column for the AICc values. And a column for $\Delta AICc$ (AICc minus the lowest AICc in the group).  What is the most supported model?**
+
+    ```{r}
+    models <- paste("model", 1:6)
+    aicc <- c(fit1$AICc, fit2$AICc, fit3$AICc, fit4$AICc, fit5$AICc, fit6$AICc)
+    restab <- data.frame(model=models, AICc=aicc, Delta.AICc=aicc-min(aicc))
+    knitr::kable(restab)
+    ```
+    
+    Models 3 and 5 have equivalent support. These models are very similar as each allow a different trend associated with three areas: 2 regions closest to coast, 2 regions more interior to Puget Sound, and Hood Canal. _Note, if you assumed that `U="equal"` for model 5, you would get a different result._
+    
+    * model 3: 5 independent subpopulations with the same trend in 3 regions: SJF+SJI, PS+EBays, HC.
+    * model 5: 3 subpopulations. 1=SJF,SJI, 2=PS,EBays, 3=HC
+
+
+## Problem 7
+
+**Do diagnostics on the model residuals for the 3 subpopulation model from question 4. Put NAs in the model residuals where there are missing data. Then do the tests on each row of `resids`.**
+
+This is model 5 from Problem 6, which we denoted `mod5` and the fit `fit5`. We compute the model residuals using
+
+```{r mss-resids}
+resids <- residuals(fit5)$model.residuals
+resids[is.na(dat)] <- NA
+```
+
+a. **Plot the model residuals.**
+
+    I'll use `ggplot` and thus need to rearrange the residuals into a melted dataframe.
+
+    ```{r}
+    rs <- t(resids)
+    rs <- reshape2::melt(rs, varnames=c("t","region"), value.name = "resid")
+    p <- ggplot(rs, aes(x=t, y=resid, col=region)) + 
+      geom_point() + 
+      ggtitle("Model Residuals")
+    p + facet_wrap(~region)
+    ```
+
+b. **Plot the ACF of the model residuals. Use `acf(..., na.action=na.pass)`.**
+
+    We could just do a series of `acf` calls for each row of `resids`:
+    
+    ```{r}
+    acf(resids[1,], na.action=na.pass)
+    ```
+
+    If we want to show all the ACF plots, using `ggplot`, we need to write some code:
+
+    ```{r}
+    TT <- dim(resids)[2]
+    CL <- 1.96/sqrt(TT) #approx critical level
+    lacf <- apply(resids, 1, acf, plot=FALSE, na.action=na.pass)
+    lacf <- lapply(lacf, function(x){data.frame(lag=x$lag, acf=x$acf)})
+    pdat <- reshape2::melt(lacf, id="lag", value.name = "acf")
+    p <- ggplot(data = pdat, mapping = aes(x = lag, y = acf)) +
+       geom_hline(aes(yintercept = 0)) +
+       geom_segment(mapping = aes(xend = lag, yend = 0)) + 
+       ggtitle("Model Residuals ACFs") +
+       geom_hline(yintercept = CL, color="blue") +
+       geom_hline(yintercept = -1*CL, color="blue")
+    p + facet_wrap(~L1)
+    ```
+
+    Note, the **forecast** package has a function that will plot the ACF and PACF of residuals. We can only plot one row of the residuals at a time.
+
+    ```{r}
+    forecast::ggtsdisplay(resids[1,],lag.max=30)
+    ```
+   
+c. **Plot the histogram of the model residuals.**
+
+    We could do a series of `hist` calls for each row of `resids`:
+    ```{r}
+    hist(resids[1,])
+    ```
+
+    Or write code to make all the histograms with `ggplot`:
+    ```{r}
+    rs <- t(resids)
+    rs <- reshape2::melt(rs, varnames=c("t","region"), value.name = "resid")
+    p <- ggplot(rs, aes(resid)) + 
+      geom_histogram(bins=5) + 
+      ggtitle("Model Residuals")
+    p + facet_wrap(~region)
+    ```
+    
+d. **Fit an ARIMA() model to your model residuals using `forecast::auto.arima()`.  Are the best fit models what you want?  Note, we cannot use the Augmented Dickey-Fuller or KPSS tests when there are missing values in our residuals time series.**
+
+    ```{r}
+    for(i in 1:5){
+      fit <- forecast::auto.arima(resids[i,])
+      cat("\n","Residual",i,"\n")
+      print(fit)
+    }
+    ```
+    
+    Yes all the best fit models are white noise.
