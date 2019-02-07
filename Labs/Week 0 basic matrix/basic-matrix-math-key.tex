@@ -1,0 +1,202 @@
+\input{../tex/headerfile}
+\input{../tex/mathdefs}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{enumerate}
+\usepackage{Sweave}
+\begin{document}
+\input{basic-matrix-math-key-concordance}
+
+
+\chapter*{Solutions Chapter \ref{chap:basicmat}}
+\addcontentsline{toc}{chapter}{Solutions Chapter \ref{chap:basicmat}}
+
+%######################################
+%# Basic Matrix Math
+%# Homework Questions
+%######################################
+
+\begin{enumerate}
+\item 
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:4,4,3)
+\end{Sinput}
+\end{Schunk}
+\item 
+\begin{Schunk}
+\begin{Sinput}
+ A[1:2,1:2]
+\end{Sinput}
+\end{Schunk}
+\item
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:12,4,3, byrow=TRUE)
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ #end up with a vector
+ A[3,]
+ #end up with a matrix
+ A[3,,drop=FALSE]
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ B=matrix(1,4,3)
+ B[2,3]=2
+\end{Sinput}
+\end{Schunk}
+
+\item 
+\begin{Schunk}
+\begin{Sinput}
+ t(B)
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ diag(1:4)
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ B=diag(1,5)
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ diag(B)=2
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ diag(1,4)+1
+ #or
+ B=matrix(1,4,4)
+ diag(B)=2
+ B
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ solve(B)
+ #or this but only works because B is symmetric
+ chol2inv(chol(B))
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ B=matrix(letters[1:9],3,3)
+ B
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ diag(B)="cat"
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1,4,3)
+ B=matrix(2,3,4)
+ A%*%B
+ #or
+ B%*%A
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ # A%*%A #throws an error
+ A%*%t(A) #works
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ #this is an example where you use B to select values in A
+ A=matrix(1:9,3,3)
+ B=matrix(0,3,3)
+ B[1,1]=1
+ B[2,3]=1
+ B[3,2]=1
+ C=A%*%B
+ diag(C)
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ #this shows one of the uses of diagonal matrices
+ B=diag(2,3)
+ C=A%*%B
+ C
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ #this shows how to use a column vector (matrix with 1 col) 
+ #to compute row sums
+ B=matrix(1,3,1)
+ C=A%*%B
+ C
+\end{Sinput}
+\end{Schunk}
+
+\item
+\begin{Schunk}
+\begin{Sinput}
+ #this shows how to use a row vector (matrix with one row) 
+ #to compute column sums
+ B=matrix(1,1,3)
+ C=B%*%A
+ C
+\end{Sinput}
+\end{Schunk}
+ 
+\item
+\begin{Schunk}
+\begin{Sinput}
+ A=diag(1,3)+1
+ C=matrix(3,3,1)
+ #AB=C
+ #B=inv(A)%*%C
+ B=solve(A)%*%C
+ B
+\end{Sinput}
+\end{Schunk}
+
+\end{enumerate}
+
+
+
+\bibliography{../tex/Fish507}
+
+\end{document}

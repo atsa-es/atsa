@@ -1,0 +1,426 @@
+---
+title: "HW 1 Key"
+author: "EE Holmes"
+date: "1/23/2019"
+output: 
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+---
+
+```{r mlr-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "mlrsolns-")
+```
+
+\newcommand{\ee}{\mathbf{e}}
+\newcommand{\xx}{\mathbf{x}}
+\newcommand{\yy}{\mathbf{y}}
+\newcommand{\ZZ}{\mathbf{Z}}
+\newcommand{\MVN}{\,\text{MVN}}
+\newcommand{\N}{\,\text{N}}
+\renewcommand{\AA}{\mathbf{A}}
+\renewcommand{\aa}{\mathbf{a}}
+\newcommand{\BB}{\mathbf{B}}
+\newcommand{\DD}{\mathbf{D}}
+\newcommand{\dd}{\mathbf{d}}
+\newcommand{\II}{\mathbf{I}}
+\newcommand{\MM}{\mathbf{M}}
+\newcommand{\PP}{\mathbf{P}}
+\newcommand{\pp}{\mathbf{p}}
+
+
+# Solutions Chapter 2
+\chaptermark{Solutions Ch 2}
+
+You can download the Rmd file for this key from [here](HW_1_Key.Rmd).
+
+## Data Set Up
+```{r}
+library(datasets)
+data(airquality)
+#remove any rows with NAs omitted.
+airquality=na.omit(airquality)
+#make Month a factor (i.e., the Month number is a name rather than a number)
+airquality$Month=as.factor(airquality$Month)
+#add a region factor
+airquality$region = rep(c("north","south"),60)[1:111]
+#Only use 5 data points for the homework so you can show the matrices easily
+homeworkdat = airquality[1:5,]
+```
+
+
+## Problem 1
+
+**Using Form 1 $\mathbf{y}=\mathbf{Z}\mathbf{x}+\mathbf{e}$, write the model being fit by this command**
+```{r}
+fit=lm(Ozone ~ Wind + Temp, data=homeworkdat)
+```
+The model is 
+$$Ozone_i = \alpha + \beta_w Wind_i + \beta_t Temp_i + e_i.$$
+Form 1 for this model is:
+$$
+\begin{bmatrix} Ozone_1 \\ Ozone_2  \\ Ozone_3 \\ Ozone_4 \\ Ozone_5 \end{bmatrix}=
+\begin{bmatrix} 1 & Wind_1 & Temp_1\\ 1 & Wind_2 & Temp_2 \\ 1 & Wind_3 & Temp_3 \\ 1 & Wind_4 & Temp_4 \\ 1 & Wind_5 & Temp_5 \end{bmatrix}
+\begin{bmatrix} \alpha \\ \beta_w \\ \beta_t \end{bmatrix} + 
+\begin{bmatrix} e_1 \\ e_2 \\ e_3 \\ e_4 \\ e_5 \end{bmatrix}
+$$
+
+## Problem 2
+
+**Build the $\mathbf{y}$ and $\mathbf{Z}$ matrices for the above model in R and solve for $\mathbf{x}$ (the parameters).  Show that they match what you get from the `lm` call.**
+
+Here are the $\mathbf{y}$ and $\mathbf{Z}$. You can see they match the $\mathbf{y}$ and $\mathbf{Z}$ in the equation above:
+```{r}
+y=matrix(homeworkdat$Ozone, ncol=1)
+Z=cbind(1, homeworkdat$Wind, homeworkdat$Temp)
+y
+Z
+```
+Next we solve for $\mathbf{x}$ and show it matches what we get from 'lm'. This uses the code in Chapter 2.
+```{r}
+solve(t(Z)%*%Z)%*%t(Z)%*%y
+coef(lm(Ozone ~ Wind + Temp, data=homeworkdat))
+```
+
+## Problem 3
+
+**a. If you added -1 to your 'lm' call in question 1, what changes in your model?**
+
+First run the 'lm' call and see what changed.  The intercept ($\alpha$) is dropped.
+```{r}
+fit=lm(Ozone ~ -1 + Wind + Temp, data=homeworkdat)
+fit
+```
+
+**b. Write out the new $\ZZ$ and $\xx$ matrices.**
+
+The model is now 
+$$Ozone_i = \beta_w Wind_i + \beta_t Temp_i + e_i.$$
+To get rid of the $\alpha$ we drop the 1s column: 
+$$
+\begin{bmatrix} Ozone_1 \\ Ozone_2  \\ Ozone_3 \\ Ozone_4 \\ Ozone_5 \end{bmatrix}=
+\begin{bmatrix} Wind_1 & Temp_1\\ Wind_2 & Temp_2 \\ Wind_3 & Temp_3 \\ Wind_4 & Temp_4 \\ Wind_5 & Temp_5 \end{bmatrix}
+\begin{bmatrix} \beta_w \\ \beta_t \end{bmatrix} + 
+\begin{bmatrix} e_1 \\ e_2 \\ e_3 \\ e_4 \\ e_5 \end{bmatrix}
+$$
+The $\ZZ$ matrix is
+$$
+\begin{bmatrix} Wind_1 & Temp_1\\ Wind_2 & Temp_2 \\ Wind_3 & Temp_3 \\ Wind_4 & Temp_4 \\ Wind_5 & Temp_5 \end{bmatrix}.
+$$
+The $\xx$ matrix is
+$$
+\begin{bmatrix} \beta_w \\ \beta_t \end{bmatrix}.
+$$
+**c. Solve and show that the result matches that returned by `lm()`.**
+
+```{r}
+y=matrix(homeworkdat$Ozone, ncol=1)
+Z=cbind(homeworkdat$Wind, homeworkdat$Temp)
+solve(t(Z)%*%Z)%*%t(Z)%*%y
+coef(lm(Ozone ~ -1 + Wind + Temp, data=homeworkdat))
+```
+
+## Problem 4
+
+**a. Write the model for question 1 in Form 2.**
+
+In Form 2, $\mathbf{y}=\mathbf{Z}\mathbf{x}+\mathbf{e}$ and the explanatory variables appear in the $\mathbf{x}$ as a column vector (a matrix with one column). So $\mathbf{x}$ looks like this
+$$\begin{bmatrix} 1 \\ Wind_1 \\ \dots \\ Wind_5 \\ Temp_1 \\ \dots \\ Temp_5 \end{bmatrix}$$
+
+Once you get that, then you know that $\mathbf{Z}$ is a $5 \times (1+5+5)$ matrix.  The first column of $\mathbf{Z}$ is the $\alpha$.  The next 5 columns of $\mathbf{Z}$ is a $5 \times 5$ diagonal matrix with $\beta_w$ on the diagonal, just like in Equation 1.12.  For the next explanatory variable, Temperature, we tack on another $5 \times 5$ diagonal matrix; this time with $\beta_t$ on the diagonal.  That's all you needed to say for homework; just to show that you figured out what the form of the $\mathbf{y}$, $\mathbf{Z}$ and $\mathbf{x}$ look like.
+
+If you wanted to write it out in math form, you could show $\mathrm{Z}$ as:
+$$
+\begin{bmatrix} \text{column of} & 5\times5\text{ diagonal matrix}& 5\times5\text{ diagonal matrix} \\
+\alpha & \text{with }\beta_w\text{ on the diagonal} & \text{with }\beta_t\text{ on the diagonal} \end{bmatrix}
+$$
+or
+$$
+\begin{bmatrix} \alpha & \beta_w & \dots & 0 & \beta_t & \dots & 0 \\
+\dots & \dots & \ddots & \dots & \dots & \ddots & \dots \\
+\alpha & 0 & \dots & \beta_w & 0 & \dots & \beta_t \end{bmatrix}
+$$
+
+**b. Construct the $\ZZ$, $\yy$ and $\xx$ in R code.**
+
+
+To do the 2nd part, you adapt the code from subsection \ref{solveform2} to solve for the parameters. You will need to contruct new $\ZZ$, $\yy$ and $\xx$ in the code. 
+
+The $\mathbf{y}$ and $\mathbf{x}$ are easy:
+```{r}
+y=matrix(homeworkdat$Ozone, ncol=1)
+x=matrix(c(1, homeworkdat$Wind, homeworkdat$Temp), ncol=1)
+```
+
+We adapt the code for making $\mathbf{Z}$ from Section 2.3.4:
+
+```{r}
+#we know that Z is a 5 x (1+5+5) matrix
+#n is the number of data points
+n=5
+#nrows = n; what about ncol?,  ncol is 1 (alpha) + n (Wind) + n (Temp)
+Z=matrix(list(0),n,1+n+n)
+#the first column is alpha
+Z[,1]="alpha"
+#columns 2:112 are a diagonal matrix with betaw on the diagonal
+diag(Z[,2:(n+1)])="betaw"
+#columns 113:223 are a diagonal matrix with betat on the diagonal
+diag(Z[,(n+2):(2*n+1)])="betat"
+Z
+```
+
+**c. Solve for the parameters.**
+
+Now we can solve for $\mathrm{Z}$:
+```{r}
+require(MARSS)
+P=MARSS:::convert.model.mat(Z)$free[,,1]
+M=kronecker(t(x),diag(n))%*%P
+solve(t(M)%*%M)%*%t(M)%*%y
+coef(lm(Ozone ~ Wind + Temp, data=homeworkdat))
+```
+
+## Problem 5
+
+**a. Model the ozone data with only a region effect.  Write this in Form 1.** 
+ 
+First make sure you understand what model is being fit by the 'lm' call:
+```{r}
+fit=lm(Ozone ~ -1 + region, data=homeworkdat)
+fit
+```
+
+The model is 
+$$Ozone_i = \alpha_j + e_i$$
+where $j$ is the region the measurement was taken in. This is an intercept (or level) only model where the intercept is determined by the region (north or south). 
+
+We want to write that model in matrix form using Form 1, $\mathbf{y}=\mathbf{Z}\mathbf{x}+\mathbf{e}$.  Eqn 2.2 shows you how to do this for Form 1, except we do not have explanatory variables besides region so we do not have a column with something like 'air' in it.
+
+Matrix $\mathbf{y}$ is as before:
+  $$\mathbf{y} = \begin{bmatrix} Ozone_1 \\ Ozone_2 \\ \dots \\ Ozone_5\end{bmatrix}$$
+
+Matrix $\mathbf{x}$ are our parameters:
+  $$\mathbf{x} = \begin{bmatrix} \alpha_n \\ \alpha_s \end{bmatrix}$$
+
+For $\mathbf{Z}$, we need to know that each row of $\mathbf{x}$ is for a different data point $i$ and tells us what region that data point is from.  So $\mathbf{Z}$ has 2 column, one for each region.  If there is a 1 in column 1, it means that data point came from the north.  If there is a 1 in column 2, it means that data point came from the south.
+
+Let's look at the regions 
+```{r}
+homeworkdat$region
+```
+
+So the first measurement is from the north, next from south, then north, ...  $\mathbf{Z}$ looks like this
+$$\begin{bmatrix} 
+1&0\\
+0&1\\
+1&0\\
+0&1\\
+1&0
+\end{bmatrix}$$
+
+You can also let R show you what $\ZZ$ is:
+```{r}
+model.matrix(fit)
+```
+
+The model in matrix form is
+$$\begin{bmatrix} Ozone_1 \\ Ozone_2 \\ \dots \\ Ozone_5\end{bmatrix}=\begin{bmatrix} 
+1&0\\
+0&1\\
+1&0\\
+0&1\\
+1&0
+\end{bmatrix}\begin{bmatrix} \alpha_n \\ \alpha_s \end{bmatrix}+\begin{bmatrix} e_1 \\ e_2 \\ \dots \\ e_5\end{bmatrix}$$
+
+**b. Show that you can solve for the parameters and show they match what you get from `lm()`.**
+
+Section 2.2.1 shows you how to solve for the parameters.  We need to make $\mathbf{y}$ and $\mathbf{Z}$ in R.
+
+```{r}
+y=matrix(homeworkdat$Ozone, ncol=1)
+```
+
+We could form $\mathbf{Z}$ like so
+```{r}
+ndatapoints=5
+Z=matrix(0,ndatapoints,2)
+for(i in 1:ndatapoints) Z[i,ifelse(airquality$region[i]=="north",1,2)]=1
+```
+or this
+```{r}
+Z=cbind(
+  as.numeric(airquality$region=="north"),
+  as.numeric(airquality$region=="south")
+)
+```
+or just use the output from our `lm` call since R's 'lm' is forming the $\mathbf{Z}$ matrix too:
+```{r}
+Z=model.matrix(fit)
+```
+
+Now we solve for the parameters:
+```{r}
+solve(t(Z)%*%Z)%*%t(Z)%*%y
+coef(lm(Ozone ~ -1 + region, data=homeworkdat))
+```
+
+## Problem 6
+
+**a. Write the model in question 5 in Form 2**
+
+The reason we had to use a matrix with 1s and 0s was to tell our matrix math what $\alpha$ to use with what data point. Form 1 has the parameters appearing once in a column vector.  So we need a matrix with 1s and 0s to say 'where' to put the $\alpha$s. 
+
+In Form 2, we can have the parameters just repeat in our matrix.  This is how we'd write the model on the whiteboard.  We just have the $\alpha$ (intercept) column have different $\alpha$s in it. 
+
+The model in Form 2 is:
+
+$$
+\begin{bmatrix} Ozone_1 \\ Ozone_2  \\ Ozone_3 \\ Ozone_4 \\ Ozone_5 \end{bmatrix}
+= 
+\begin{bmatrix}
+\alpha_n\\
+\alpha_s\\
+\alpha_n \\
+\alpha_s \\
+\alpha_n
+\end{bmatrix}\begin{bmatrix}1\end{bmatrix}
++
+\begin{bmatrix} e_1\\ e_2\\ e_3 \\ e_4 \\ e_5\end{bmatrix}=\mathbf{Z}\mathbf{x}+\mathbf{e}
+$$
+
+**b. Solve for the parameters and show they match `lm()` output.**
+
+To solve for the parameters, we write $\mathbf{y}$, $\mathbf{Z}$, and $\mathbf{x}$ in R and use the code in section 2.3.3.
+
+```{r}
+#the number of data points
+n=5
+y=matrix(homeworkdat$Ozone, ncol=1)
+x=matrix(1)
+Z=matrix(paste("alpha",homeworkdat$region, sep="."),ncol=1)
+```
+
+Then we solve for the parameters:
+```{r}
+require(MARSS)
+P=MARSS:::convert.model.mat(Z)$free[,,1]
+M=kronecker(t(x),diag(n))%*%P
+solve(t(M)%*%M)%*%t(M)%*%y
+coef(lm(Ozone ~ -1 + region, data=homeworkdat))
+```
+
+## Problem 7
+
+**Write the model below in Form 2 and show the $\ZZ$, $\yy$ and $\xx$ parameters.**
+
+```{r}
+fit=lm(Ozone ~ Temp:region, data=homeworkdat)
+```
+
+The first step is to write out what model is being fit.  The model is 
+$$ Ozone_i = \alpha + \beta_n Temp_i + e_i$$
+if $i$ is from the north, and is
+$$ Ozone_i = \alpha + \beta_s Temp_i + e_i$$
+if $i$ is from the south. So each region has the same intercept $\alpha$ but we are including a temperature effect that is different for each region.
+
+The model written in Form 2 is
+
+$$\begin{bmatrix} Ozone_1 \\ Ozone_2  \\ Ozone_3 \\ Ozone_4 \\ Ozone_5 \end{bmatrix}
+= 
+\begin{bmatrix}
+\alpha & \beta_n & 0 & 0 & 0 & 0\\
+\alpha & 0 & \beta_s & 0 & 0 & 0\\
+\alpha & 0 & 0 & \beta_n & 0 & 0\\
+\alpha & 0 & 0 & 0 & \beta_s & 0\\
+\alpha & 0 & 0 & 0 & 0 & \beta_n
+\end{bmatrix}\begin{bmatrix}1 \\ Temp_1 \\ Temp_2 \\ Temp_3 \\ Temp_4 \\ Temp_5 \end{bmatrix}
++
+\begin{bmatrix} e_1\\ e_2\\ e_3 \\ e_4 \\ e_5\end{bmatrix}=\mathbf{Z}\mathbf{x}+\mathbf{e}$$
+
+The $\ZZ$ matrix has the parameter names and the $\xx$ matrix has the covariates with the row a 1 for the intercept.
+
+**Optional. Solve for the parameters.**
+
+Solving for this is a matter of writing $\mathbf{y}$, $\mathbf{Z}$, and $\mathbf{x}$ in R.
+
+```{r}
+n=5 #the number of data points
+y=matrix(homeworkdat$Ozone, ncol=1)
+x=matrix(c(1, homeworkdat$Temp),ncol=1)
+#Set up Z; it is 5 x 6
+Z=matrix(list(0),n,n+1)
+#make the alpha column
+Z[,1]="alpha"
+#make the diagonal of columns 2:6 equal to the betas
+diag(Z[,2:(1+n)])=paste("beta",homeworkdat$region, sep=".")
+```
+
+Then we solve for the parameters:
+```{r}
+require(MARSS)
+P=MARSS:::convert.model.mat(Z)$free[,,1]
+M=kronecker(t(x),diag(n))%*%P
+solve(t(M)%*%M)%*%t(M)%*%y
+coef(lm(Ozone ~ Temp:region, data=homeworkdat))
+```
+
+
+## Problem 8
+
+**a. Using the airquality dataset with 111 data points, write the model below
+in Form 2.**
+
+```{r}
+fit=lm(Ozone ~ -1 + Temp:region + Month, data=airquality)
+```
+
+The first step is to write out what model is being fit.   
+$$ Ozone_i = \alpha_j + \beta_k Temp_i + e_i$$
+If $i$ is from the $j$-th month, the intercept is $\alpha_j$.  If $i$ is from the north, $beta_k$ is $\beta_n$. If it is from the south, $beta_k$ is $\beta_s$.
+
+Next, let's look at region and Month.
+```{r}
+airquality$region[1:10]
+airquality$Month
+```
+Region is alternating north/south and month is grouped.
+
+So in matrix form our model looks like
+$$\begin{bmatrix}Ozone_1\\ Ozone_2\\ \dots \\ Ozone_{111}\end{bmatrix}
+= 
+\begin{bmatrix}
+\alpha_5 & \beta_n & 0 &  \dots & 0 & 0\\
+\alpha_5 & 0 &\beta_s &  \dots & 0 & 0\\
+\dots  & \dots & \dots & \ddots &  \dots & 0\\
+\alpha_9& 0 & 0 & \dots &  \beta_s & 0\\
+\alpha_9& 0 & 0 & \dots &  0 & \beta_n
+\end{bmatrix}\begin{bmatrix}1 \\ Temp_1 \\ Temp_2 \\ \dots \\ Temp_{111} \end{bmatrix}
++
+\begin{bmatrix} e_1\\ e_2\\ \dots \\ e_{111}\end{bmatrix}=\mathbf{Z}\mathbf{x}+\mathbf{e}$$
+
+**b. Solve for the parameters and show they match what `lm()` returns.***
+
+Solving for this is a matter of writing $\mathbf{y}$, $\mathbf{Z}$, and $\mathbf{x}$ in R.  Notice how we don't have to tedious create character strings for our parameter names.  We just use the text in our data.frame and use the `paste()` function.
+
+```{r}
+n=111 #the number of data points
+y=matrix(airquality$Ozone, ncol=1)
+x=matrix(c(1, airquality$Temp),ncol=1)
+#Set up Z; it is 111 x 112
+Z=matrix(list(0),n,n+1)
+#make the alpha column
+Z[,1]=paste("alpha",airquality$Month, sep="")
+#make the diagonal of columns 2:112 equal to the betas
+diag(Z[,2:(1+n)])=paste("beta",airquality$region, sep=".")
+```
+
+Then we solve for the parameters:
+```{r}
+require(MARSS)
+P=MARSS:::convert.model.mat(Z)$free[,,1]
+M=kronecker(t(x),diag(n))%*%P
+solve(t(M)%*%M)%*%t(M)%*%y
+coef(lm(Ozone ~ -1 + Temp:region + Month, data=airquality))
+```

@@ -1,0 +1,51 @@
+---
+title: "Applied Time Series Analysis (FISH 507)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is the website for _Applied Time Series Analysis_ (FISH 507) offered at the University of Washington during winter quarter of odd years.
+
+# Instructors
+
+[__Eli Holmes__](https://faculty.washington.edu/eeholmes/)  
+eeholmes@uw.edu
+
+[__Eric Ward__](https://faculty.washington.edu/warde/)  
+warde@uw.edu
+
+[__Mark Scheuerell__](https://faculty.washington.edu/scheuerl/)  
+scheuerl@uw.edu
+
+# Lectures
+
+Tuesday & Thursday from 1:30-2:50 in FSH 203
+
+# Computer Lab
+
+Thursday from 3:00-3:50 in FSH 203
+
+# Grading
+
+Your grade for the course will come from 4 elements.
+
+### Homework (30%)  
+Homework will be assigned each Thursday and is due by 5:00 PM PST on the following Thursday. It will consist of some short answers and __R__ code based on topics covered in lab. There will be 6 assignments worth 5% each.
+
+Homework will be submitted via...
+
+### Individual project (40%)  
+Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, these papers can be done alone, or in pairs (expectations will be higher for joint work). Students may also use data from the instructors, or datasets included in __R__ libraries. The paper is due by 11:59 PM PST on March 15.
+
+### Peer reviews (20%)  
+Each student will have to provide 2 anonymous peer-reviews of their colleagues’ papers (10% each), which are due by 11:59 PM PST on March 21.
+
+### Participation (10%)  
+This is a graduate-level course and we expect a certain amount of engagement from each student, which includes attending lectures and computer labs.
+
+# Conduct
+
+We expect everyone to abide by the [UW Student Code of Conduct](https://www.washington.edu/admin/rules/policies/WAC/478-120TOC.html). If you believe you have been a victim of an alleged violation of the Student Conduct Code or you are aware of an alleged violation of the Student Conduct Code, you have the right to report that to the University (contact info [here](https://www.washington.edu/cssc/for-students-2/)).

@@ -1,0 +1,638 @@
+\input{../tex/headerfile}
+\input{../tex/mathdefs}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{enumerate}
+\usepackage{Sweave}
+\begin{document}
+\input{basic-matrix-math-concordance}
+
+
+
+\chapter{Basic matrix math in R}
+\label{chap:basicmat}
+\chaptermark{Matrix math}
+
+This chapter reviews the basic matrix math operations that you will need to understand the course material and how to do these operations in R.
+
+\section{Creating matrices in R}
+Create a $3 \times 4$ matrix, meaning 3 row and 4 columns, that is all 1s:
+\begin{Schunk}
+\begin{Sinput}
+ matrix(1, 3, 4)
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    1    1    1    1
+[2,]    1    1    1    1
+[3,]    1    1    1    1
+\end{Soutput}
+\end{Schunk}
+Create a $3 \times 4$ matrix filled in with the numbers 1 to 12 by column (default) and by row:
+\begin{Schunk}
+\begin{Sinput}
+ matrix(1:12, 3, 4)
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    1    4    7   10
+[2,]    2    5    8   11
+[3,]    3    6    9   12
+\end{Soutput}
+\begin{Sinput}
+ matrix(1:12, 3, 4, byrow=TRUE)
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    1    2    3    4
+[2,]    5    6    7    8
+[3,]    9   10   11   12
+\end{Soutput}
+\end{Schunk}
+Create a matrix with one column:
+\begin{Schunk}
+\begin{Sinput}
+ matrix(1:4, ncol=1)
+\end{Sinput}
+\begin{Soutput}
+     [,1]
+[1,]    1
+[2,]    2
+[3,]    3
+[4,]    4
+\end{Soutput}
+\end{Schunk}
+Create a matrix with one row:
+\begin{Schunk}
+\begin{Sinput}
+ matrix(1:4, nrow=1)
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    1    2    3    4
+\end{Soutput}
+\end{Schunk}
+Check the dimensions of a matrix
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:6, 2,3)
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+\end{Soutput}
+\begin{Sinput}
+ dim(A)
+\end{Sinput}
+\begin{Soutput}
+[1] 2 3
+\end{Soutput}
+\end{Schunk}
+Get the number of rows in a matrix:
+\begin{Schunk}
+\begin{Sinput}
+ dim(A)[1]
+\end{Sinput}
+\begin{Soutput}
+[1] 2
+\end{Soutput}
+\begin{Sinput}
+ nrow(A)
+\end{Sinput}
+\begin{Soutput}
+[1] 2
+\end{Soutput}
+\end{Schunk}
+Create a 3D matrix (called array):
+\begin{Schunk}
+\begin{Sinput}
+ A=array(1:6, dim=c(2,3,2))
+ A
+\end{Sinput}
+\begin{Soutput}
+, , 1
+
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+
+, , 2
+
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+\end{Soutput}
+\begin{Sinput}
+ dim(A)
+\end{Sinput}
+\begin{Soutput}
+[1] 2 3 2
+\end{Soutput}
+\end{Schunk}
+Check if an object is a matrix.  A dataframe is not a matrix.  A vector is not a matrix.
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:4, 1, 4)
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    1    2    3    4
+\end{Soutput}
+\begin{Sinput}
+ class(A)
+\end{Sinput}
+\begin{Soutput}
+[1] "matrix"
+\end{Soutput}
+\begin{Sinput}
+ B=data.frame(A)
+ B
+\end{Sinput}
+\begin{Soutput}
+  X1 X2 X3 X4
+1  1  2  3  4
+\end{Soutput}
+\begin{Sinput}
+ class(B)
+\end{Sinput}
+\begin{Soutput}
+[1] "data.frame"
+\end{Soutput}
+\begin{Sinput}
+ C=1:4
+ C
+\end{Sinput}
+\begin{Soutput}
+[1] 1 2 3 4
+\end{Soutput}
+\begin{Sinput}
+ class(C)
+\end{Sinput}
+\begin{Soutput}
+[1] "integer"
+\end{Soutput}
+\end{Schunk}
+
+\section{Matrix multiplication, addition and transpose}
+You will need to be very solid in matrix multiplication for the course.  If you haven't done it in awhile, google `matrix multiplication youtube' and you find lots of 5min videos to remind you.
+
+In R, you use the \verb@%*%@ operation to do matrix multiplication.  When you do matrix multiplication, the columns of the matrix on the left must equal the rows of the matrix on the right.  The result is a matrix that has the number of rows of the matrix on the left and number of columns of the matrix on the right.
+$$(n \times m)(m \times p) = (n \times p)$$
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:6, 2, 3) #2 rows, 3 columns
+ B=matrix(1:6, 3, 2) #3 rows, 2 columns
+ A%*%B #this works
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2]
+[1,]   22   49
+[2,]   28   64
+\end{Soutput}
+\begin{Sinput}
+ B%*%A #this works
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    9   19   29
+[2,]   12   26   40
+[3,]   15   33   51
+\end{Soutput}
+\begin{Sinput}
+ try(B%*%B) #this doesn't
+\end{Sinput}
+\end{Schunk}
+To add two matrices use \verb@+@. The matrices have to have the same dimensions.
+\begin{Schunk}
+\begin{Sinput}
+ A+A #works
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    2    6   10
+[2,]    4    8   12
+\end{Soutput}
+\begin{Sinput}
+ A+t(B) #works
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    2    5    8
+[2,]    6    9   12
+\end{Soutput}
+\begin{Sinput}
+ try(A+B) #does not work since A has 2 rows and B has 3
+\end{Sinput}
+\end{Schunk}
+The transpose of a matrix is denoted $\AA^\top$ or $\AA^\prime$.  To transpose a matrix in R, you use \verb@t()@.
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:6, 2, 3) #2 rows, 3 columns
+ t(A) #is the transpose of A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2]
+[1,]    1    2
+[2,]    3    4
+[3,]    5    6
+\end{Soutput}
+\begin{Sinput}
+ try(A%*%A) #this won't work
+ A%*%t(A) #this will
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2]
+[1,]   35   44
+[2,]   44   56
+\end{Soutput}
+\end{Schunk}
+
+\section{Subsetting a matrix}
+To subset a matrix, we use \verb@[ ]@:
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:9, 3, 3) #3 rows, 3 columns
+ #get the first and second rows of A
+ #it's a 2x3 matrix
+ A[1:2,]
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+\end{Soutput}
+\begin{Sinput}
+ #get the top 2 rows and left 2 columns
+ A[1:2,1:2]
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2]
+[1,]    1    4
+[2,]    2    5
+\end{Soutput}
+\begin{Sinput}
+ #What does this do?
+ A[c(1,3),c(1,3)]
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2]
+[1,]    1    7
+[2,]    3    9
+\end{Soutput}
+\begin{Sinput}
+ #This?
+ A[c(1,2,1),c(2,3)]
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2]
+[1,]    4    7
+[2,]    5    8
+[3,]    4    7
+\end{Soutput}
+\end{Schunk}
+If you have used matlab, you know you can say something like \verb@A[1,end]@ to denote the element of a matrix in row 1 and the last column.  R does not have `end'.  To do, the same in R you do something like:
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:9, 3, 3)
+ A[1,ncol(A)]
+\end{Sinput}
+\begin{Soutput}
+[1] 7
+\end{Soutput}
+\begin{Sinput}
+ #or
+ A[1,dim(A)[2]]
+\end{Sinput}
+\begin{Soutput}
+[1] 7
+\end{Soutput}
+\end{Schunk}
+
+\textbf{Warning R will create vectors from subsetting matrices!}
+
+One of the really bad things that R does with matrices is create a vector if you happen to subset a matrix to create a matrix with 1 row or 1 column.  Look at this:
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:9, 3, 3)
+ #take the first 2 rows
+ B=A[1:2,]
+ #everything is ok
+ dim(B)
+\end{Sinput}
+\begin{Soutput}
+[1] 2 3
+\end{Soutput}
+\begin{Sinput}
+ class(B)
+\end{Sinput}
+\begin{Soutput}
+[1] "matrix"
+\end{Soutput}
+\begin{Sinput}
+ #take the first row
+ B=A[1,]
+ #oh no! It should be a 1x3 matrix but it is not.
+ dim(B)
+\end{Sinput}
+\begin{Soutput}
+NULL
+\end{Soutput}
+\begin{Sinput}
+ #It is not even a matrix any more
+ class(B)
+\end{Sinput}
+\begin{Soutput}
+[1] "integer"
+\end{Soutput}
+\begin{Sinput}
+ #and what happens if we take the transpose?
+ #Oh no, it's a 1x3 matrix not a 3x1 (transpose of 1x3)
+ t(B)
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    4    7
+\end{Soutput}
+\begin{Sinput}
+ #A%*%B should fail because A is (3x3) and B is (1x3)
+ A%*%B
+\end{Sinput}
+\begin{Soutput}
+     [,1]
+[1,]   66
+[2,]   78
+[3,]   90
+\end{Soutput}
+\begin{Sinput}
+ #It works? That is horrible!
+\end{Sinput}
+\end{Schunk}
+This will create hard to find bugs in your code because you will look at \verb@B=A[1,]@ and everything looks fine.  Why is R saying it is not a matrix!  To stop R from doing this use \verb@drop=FALSE@.
+\begin{Schunk}
+\begin{Sinput}
+ B=A[1,,drop=FALSE]
+ #Now it is a matrix as it should be
+ dim(B)
+\end{Sinput}
+\begin{Soutput}
+[1] 1 3
+\end{Soutput}
+\begin{Sinput}
+ class(B)
+\end{Sinput}
+\begin{Soutput}
+[1] "matrix"
+\end{Soutput}
+\begin{Sinput}
+ #this fails as it should (alerting you to a problem!)
+ try(A%*%B)
+\end{Sinput}
+\end{Schunk}
+
+\section{Replacing elements in a matrix}
+Replace 1 element.
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1, 3, 3)
+ A[1,1]=2
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    2    1    1
+[2,]    1    1    1
+[3,]    1    1    1
+\end{Soutput}
+\end{Schunk}
+Replace a row with all 1s or a string of values
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1, 3, 3)
+ A[1,]=2
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    2    2    2
+[2,]    1    1    1
+[3,]    1    1    1
+\end{Soutput}
+\begin{Sinput}
+ A[1,]=1:3
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    1    1    1
+[3,]    1    1    1
+\end{Soutput}
+\end{Schunk}
+Replace group of elements.  This often does not work as one expects so be sure look at your matrix after trying something like this.  Here I want to replace elements (1,3) and (3,1) with 2, but it didn't work as I wanted.
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1, 3, 3)
+ A[c(1,3),c(3,1)]=2
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    2    1    2
+[2,]    1    1    1
+[3,]    2    1    2
+\end{Soutput}
+\end{Schunk}
+How do I replace elements (1,1) and (3,3) with 2 then?  It's tedious.  If you have a lot of elements to replace, you might want to use a for loop.
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1, 3, 3)
+ A[1,3]=2
+ A[3,1]=2
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    1    2
+[2,]    1    1    1
+[3,]    2    1    1
+\end{Soutput}
+\end{Schunk}
+
+\section{Diagonal matrices and identity matrices}
+A diagonal matrix is one that is square, meaning number of rows equals number of columns, and it has 0s on the off-diagonal and non-zeros on the diagonal.  In R, you form a diagonal matrix with the \verb@diag()@ function:
+\begin{Schunk}
+\begin{Sinput}
+ diag(1,3) #put 1 on diagonal of 3x3 matrix
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1
+\end{Soutput}
+\begin{Sinput}
+ diag(2, 3) #put 2 on diagonal of 3x3 matrix
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    2    0    0
+[2,]    0    2    0
+[3,]    0    0    2
+\end{Soutput}
+\begin{Sinput}
+ diag(1:4) #put 1 to 4 on diagonal of 4x4 matrix
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    1    0    0    0
+[2,]    0    2    0    0
+[3,]    0    0    3    0
+[4,]    0    0    0    4
+\end{Soutput}
+\end{Schunk}
+The \verb@diag()@ function can also be used to replace elements on the diagonal of a matrix:
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(3, 3, 3)
+ diag(A)=1
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    3    3
+[2,]    3    1    3
+[3,]    3    3    1
+\end{Soutput}
+\begin{Sinput}
+ A=matrix(3, 3, 3)
+ diag(A)=1:3
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    3    3
+[2,]    3    2    3
+[3,]    3    3    3
+\end{Soutput}
+\begin{Sinput}
+ A=matrix(3, 3, 4)
+ diag(A[1:3,2:4])=1
+ A
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    3    1    3    3
+[2,]    3    3    1    3
+[3,]    3    3    3    1
+\end{Soutput}
+\end{Schunk}
+The \verb@diag@ function is also used to get the diagonal of a matrix.
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:9, 3, 3)
+ diag(A)
+\end{Sinput}
+\begin{Soutput}
+[1] 1 5 9
+\end{Soutput}
+\end{Schunk}
+The identity matrix is a special kind of diagonal matrix with 1s on the diagonal.  It is denoted $\II$.  $\II_3$ would mean a $3 \times 3$ diagonal matrix.  A identity matrix has the property that $\AA\II=\AA$ and $\II\AA=\AA$ so it is like a 1.
+\begin{Schunk}
+\begin{Sinput}
+ A=matrix(1:9, 3, 3)
+ I=diag(3) #shortcut for 3x3 identity matrix
+ A%*%I
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9
+\end{Soutput}
+\end{Schunk}
+
+\section{Taking the inverse of a square matrix}
+The inverse of a matrix is denoted $\AA^{-1}$.  You can think of the inverse of a matrix like $1/a$.  $1/a \times a = 1$. $\AA^{-1}\AA = \AA\AA^{-1} = \II$.  The inverse of a matrix does not always exist; for one it has to be square.  We'll be using inverses for variance-covariance matrices and by definition (of a variance-covariance matrix), the inverse of those exist.  In R, there are a couple way common ways to take the inverse of a variance-covariance matrix (or something with the same properties).  \verb@solve@ is the most common probably:
+\begin{Schunk}
+\begin{Sinput}
+ A=diag(3,3)+matrix(1,3,3)
+ invA=solve(A)
+ invA%*%A
+\end{Sinput}
+\begin{Soutput}
+             [,1]          [,2] [,3]
+[1,] 1.000000e+00 -6.938894e-18    0
+[2,] 2.081668e-17  1.000000e+00    0
+[3,] 0.000000e+00  0.000000e+00    1
+\end{Soutput}
+\begin{Sinput}
+ A%*%invA
+\end{Sinput}
+\begin{Soutput}
+             [,1]          [,2] [,3]
+[1,] 1.000000e+00 -6.938894e-18    0
+[2,] 2.081668e-17  1.000000e+00    0
+[3,] 0.000000e+00  0.000000e+00    1
+\end{Soutput}
+\end{Schunk}
+Another option is to use \verb@chol2inv@ which uses a Cholesky decomposition\footnote{The Cholesky decomposition is a handy way to keep your variance-covariance matrices valid when doing a parameter search.  Don't search over the raw variance-covariance matrix.  Search over a matrix where the lower triangle is 0, that is what a Cholesky decomposition looks like.  Let's call it \texttt{B}. Your variance-covariance matrix is \texttt{t(B)\%*\%B}.}:
+\begin{Schunk}
+\begin{Sinput}
+ A=diag(3,3)+matrix(1,3,3)
+ invA=chol2inv(chol(A))
+ invA%*%A
+\end{Sinput}
+\begin{Soutput}
+              [,1]         [,2]          [,3]
+[1,]  1.000000e+00 6.938894e-17  0.000000e+00
+[2,]  2.081668e-17 1.000000e+00 -2.775558e-17
+[3,] -5.551115e-17 0.000000e+00  1.000000e+00
+\end{Soutput}
+\begin{Sinput}
+ A%*%invA
+\end{Sinput}
+\begin{Soutput}
+             [,1]          [,2]          [,3]
+[1,] 1.000000e+00  2.081668e-17 -5.551115e-17
+[2,] 6.938894e-17  1.000000e+00  0.000000e+00
+[3,] 0.000000e+00 -2.775558e-17  1.000000e+00
+\end{Soutput}
+\end{Schunk}
+For the purpose of this course, \verb@solve@ is fine.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\renewcommand{\rightmark}{}
+\section*{Problems}
+\addcontentsline{toc}{section}{Problems}
+
+\begin{hwenumerate} 
+\item Build a $4 \times 3$ matrix with the numbers 1 through 4 in each row.
+\item Extract the elements in the 1st and 2nd rows and 1st and 2nd columns (you'll have a $2 \times 2$ matrix). Show the R code that will do this.
+\item Build a $4 \times 3$ matrix with the numbers 1 through 12 by row (meaning the first row will have the numbers 1 through 4 in it).
+\item Extract the 3rd row of the above.  Show R code to do this where you end up with a vector and how to do this where you end up with a $1 \times 3$ matrix.
+\item Build a $4 \times 3$ matrix that is all 1s except a 2 in the (2,3) element (2nd row, 3rd column).
+\item Take the transpose of the above.
+\item Build a $4 \times 4$ diagonal matrix with 1 through 4 on the diagonal.
+\item Build a $5 \times 5$ identity matrix.
+\item Replace the diagonal in the above matrix with 2 (the number 2).
+\item Build a matrix with 2 on the diagonal and 1s on the offdiagonals.
+\item Take the inverse of the above.
+\item Build a $3 \times 3$ matrix with the first 9 letters of the alphabet.  First column should be ``a'', ``b'', ``c''.  \verb@letters[1:9]@ gives you these letters.
+\item Replace the diagonal of this matrix with the word ``cat''.
+\item Build a $4 \times 3$ matrix with all 1s. Multiply by a $3 \times 4$ matrix with all 2s.
+\item If $\AA$ is a $4 \times 3$ matrix, is $\AA \AA$ possible? Is $\AA  \AA^\top$ possible?  Show how to write $\AA\AA^\top$ in R.
+\item In the equation, $\AA \BB = \CC$, let $\AA=\left[ \begin{smallmatrix}1&4&7\\2&5&8\\3&6&9\end{smallmatrix}\right]$.  Build a $\BB$ matrix with only 1s and 0s such that the values on the diagonal of $\CC$ are 1, 8, 6 (in that order).  Show your R code for $\AA$, $\BB$ and $\AA \BB$.
+\item Same $\AA$ matrix as above and same equation $\AA \BB = \CC$.  Build a $3 \times 3$ $\BB$ matrix such that $\CC=2\AA$.  So $\CC=\left[ \begin{smallmatrix}2&8&14\\ 4&10&16\\ 6&12&18\end{smallmatrix}\right]$. Hint, $\BB$ is diagonal.
+\item Same $\AA$ and $\AA \BB=\CC$ equation.  Build a $\BB$ matrix to compute the row sums of $\AA$.  So the first `row sum' would be $1+4+7$, the sum of all elements in row 1 of $\AA$.  $\CC$ will be $\left[ \begin{smallmatrix}12\\ 15\\ 18\end{smallmatrix}\right]$, the row sums of $\AA$. Hint, $\BB$ is a column matrix (1 column).
+\item Same $\AA$ matrix as above but now equation $\BB \AA  = \CC$.  Build a $\BB$ matrix to compute the column sums of $\AA$.  So the first `column sum' would be $1+2+3$.  $\CC$ will be a $1 \times 3$ matrix.
+\item Let $\AA \BB=\CC$ equation but $\AA=\left[ \begin{smallmatrix}2&1&1\\1&2&1\\1&1&2\end{smallmatrix}\right]$ (so A=\verb@diag(3)+1@).  Build a $\BB$ matrix such that $\CC=\left[ \begin{smallmatrix}3\\ 3\\ 3\end{smallmatrix}\right]$. Hint, you need to use the inverse of $\AA$.
+
+\end{hwenumerate}
+
+
+\bibliography{../tex/Fish507}
+
+\end{document}

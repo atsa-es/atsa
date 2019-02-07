@@ -1,0 +1,95 @@
+---
+title: 'Homework #1'
+author: "Your Name"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+`r format(Sys.time(), '%d %b %Y')`
+
+
+# An example Knitr/R Markdown document
+
+This is a super simple template to show you how to use knitr and rmarkdown to create a html file with your R code and output. Look at http://rmarkdown.rstudio.com/authoring_basics.html to see how to make lists, tables, italics, bold, etc.
+
+```{r knitr_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=12, fig.height=4, fig.path='./', warning=FALSE, message=FALSE)
+```
+
+## Problem 1
+
+This is my solution to problem 1: add together 2 numbers. I decided to do $1+1$. It was not very hard. 
+```{r basic_addition}
+1+1
+```
+
+## Problem 2
+
+This question asked me to add together the numbers `r 1:9`, so $\sum_{i=1}^9 i$. This question was also easy using 
+ [Smith et al., Adv Numerics 10:5&ndash;12,
+2002]
+
+```{r add_numbers}
+sum(1:9)
+```
+
+## Problem 3
+
+Use the `lm` function to do a linear regression using the example in `?lm`.
+
+```{r lm}
+## Annette Dobson (1990) "An Introduction to Generalized Linear Models".
+## Page 9: Plant Weight Data.
+ctl = c(4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14)
+trt = c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
+group = gl(2, 10, 20, labels = c("Ctl","Trt"))
+weight = c(ctl, trt)
+lm.D9 = lm(weight ~ group)
+```
+
+We can use `summary` to get a summary.
+
+```{r summary_lm}
+summary(lm.D9)
+```
+
+## Problem 4
+
+Use `plot()` to get a summary plot.
+
+```{r summary_plot, fig.height=8}
+opar <- par(mfrow = c(2,2), oma = c(0, 0, 1.1, 0))
+plot(lm.D9, las = 1)      # Residuals, Fitted, ...
+par(opar)
+```
+## Problem 5
+
+This problem asked me to write a function to do $$\sqrt{b^2 - 4ac}$$.
+
+```{r function}
+myfun = function(a,b,c){return(sqrt(b^2-4*a*c))}
+myfun(1,3,1)
+```
+
+## Problem 6
+
+This problem asked me to write out a matrix equation $\mathbf{A}\mathbf{B}$ with $\mathbf{A}$ as a $3 \times 2$ matrix and $\mathbf{B}$ as a $2 \times 2$ matrix.  I chose this equation:
+$$
+\mathbf{A}\mathbf{B}=
+\begin{bmatrix} 1 & 4\\ 2 & 5 \\ 3 & 6\end{bmatrix}
+\begin{bmatrix} 3 & 0 \\ 0 & 3 \end{bmatrix}
+$$
+Here's my R code:
+
+```{r matrix_math}
+A=matrix(1:6,3,2)
+B=diag(3,2)
+A%*%B
+```

@@ -1,0 +1,96 @@
+---
+title: "MARSS model specification"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Eli Holmes"
+date: "22 Jan 2019"
+output:
+  ioslides_presentation:
+  css: lecture_slides.css
+---
+
+
+## MARSS Package
+
+We will be using the MARSS package to fit univariate and multivariate state-space models. 
+
+The main function is `MARSS()`:
+
+```
+fit <- MARSS(data, model=list())
+```
+
+data are a vector or a matrix with time going along the columns.
+
+model list is a list with the structure of all the parameters.
+
+## MARSS model notation
+
+$$x_t = \mathbf{B}x_{t-1} + \mathbf{U} + w_t, \,\,\, w_t \sim N(0,\mathbf{Q})$$
+$$y_t = \mathbf{Z}x_{t} + \mathbf{A} + v_t, \,\,\, v_t \sim N(0,\mathbf{R})$$
+  
+The MARSS model list follows this notation one-to-one.
+
+## Example 2 x time series
+
+$$\begin{bmatrix}x_1 \\ x_2\end{bmatrix}_t = \begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}\begin{bmatrix}x_1 \\ x_2\end{bmatrix}_{t-1} + \begin{bmatrix}u \\ u\end{bmatrix}+\begin{bmatrix}w_1 \\ w_2\end{bmatrix}_t$$
+
+$$\begin{bmatrix}w_1 \\ w_2\end{bmatrix}_t \sim N\left( 0, \begin{bmatrix}q & 0 \\ 0 & q\end{bmatrix} \right)$$
+  
+## Let's write out the x parameters
+
+$$\mathbf{B} = \begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}$$
+```{r}
+B <- diag(1,2)
+B
+```
+
+##
+
+$$\mathbf{U} = \begin{bmatrix}u \\ u\end{bmatrix}$$
+
+```{r}
+U <- matrix("u",2,1)
+U
+```
+
+A value in quotes is a character vector and is the name of a parameter to be estimated.
+
+##
+
+$$\mathbf{Q} = \begin{bmatrix}q & c \\ c & q\end{bmatrix}$$
+
+```{r}
+Q <- matrix(c("q","c","c","q"),2,2)
+Q
+```
+
+or use
+```
+Q <- "equalvarcov"
+```
+
+## Example 2 y time series
+
+$$\begin{bmatrix}y_1 \\ y_2\end{bmatrix}_t = \begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}\begin{bmatrix}x_1 \\ x_2\end{bmatrix}_t + \begin{bmatrix}0 \\ 0\end{bmatrix}+\begin{bmatrix}v_1 \\ v_2\end{bmatrix}_t$$
+
+$$\begin{bmatrix}v_1 \\ v_2\end{bmatrix}_t \sim N\left( 0, \begin{bmatrix}r & 0 \\ 0 & r\end{bmatrix} \right)$$
+  
+## Let's write out the y parameters
+
+The $\mathbf{Z}$ and $\mathbf{A}$ are just like $\mathbf{B}$ and $\mathbf{U}$, but $\mathbf{R}$ is different.
+
+$$\mathbf{R} = \begin{bmatrix}r & 0 \\ 0 & r\end{bmatrix}$$
+
+```{r}
+R <- matrix(list(0),2,2)
+diag(Q) <- "r"
+R
+```
+
+or use
+```
+R <- "diagonal and equal"
+```
+
+$\mathbf{R}$ has both fixed values (the 0s) and estimated values (the $r$), so we need both numbers and charaters in our matrix.
+  

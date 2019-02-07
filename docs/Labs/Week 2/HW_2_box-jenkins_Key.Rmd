@@ -1,0 +1,267 @@
+---
+title: "HW 2 Box-Jenkins Chapter Key"
+author: "EE Holmes"
+date: "1/28/2019"
+output: 
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+---
+
+```{r mlr-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "bjsolns-")
+```
+
+Here are the answers for the homework problems based on the material in [Box-Jenkins method in R](https://nwfsc-timeseries.github.io/atsa-labs/chap-labboxjenkins-.html).  You can download the Rmd file for this key from [here](HW_2_box-jenkins_Key.Rmd).
+
+
+# Solutions Chapter 5
+\chaptermark{Solutions Ch 5}
+
+## Problem 1
+
+_Because the information on how to do a Dickey-Fuller test was buried in the material that I gave you and not in the help file for these functions, I did not grade problem 1._
+
+
+**Repeat the stationarity tests for another species in the landings data set.  Sardine, Chub.mackerel, and Horse.mackerel have enough data. Here is how to set up the data for another species.**
+```{r get.another.species}
+load("landings.RData")
+datdf <- subset(landings, Species=="Chub.mackerel" & Year<=1989)
+dat <- ts(datdf$log.metric.tons, start=1964)
+```
+
+a. **Do a Dickey-Fuller test using `ur.df()` and `adf.test()`. What do you need to set the lags to to achieve that?**
+  
+    You need to set the lags to 0 to do a Dickey-Fuller test. The Dickey-Fuller test assumes an AR(1) process for the stationary process while an Augmented Dickey-Fuller test allows AR($k+1$) where $k$ is the lag value that you pass into the test function.  The $k$ is referring to the $\delta$ lags in the test equation:
+    $$\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \delta_1 \Delta y_{t-1} + \delta_2 \Delta y_{t-2} + \dots$$
+    Setting lags = 0 will be this model and we are testing if $\gamma = 0$.
+
+    $$\Delta y_t = \alpha + \beta t + \gamma y_{t-1}$$
+    ```{r}
+    tseries::adf.test(dat, k=0)
+    ```
+    The null hypothesis of non-stationarity is not rejected, i.e. we cannot reject that $\gamma=0$.
+
+    Getting the information on whether the null is rejected is harder for `ur.df()`.
+    ```{r}
+    library(urca)
+    test <- ur.df(dat, lags=0, type="trend")
+    summary(test)
+    ```
+    Ignore the part in the summary with the p-value.  You need to look at the test-statistic and see if the `tau` statistic is greater than the critical value at 5pct; if greater it means you do not reject the null of non-stationarity.  The first test statistic is `tau3`, the second `phi2` and the third is `phi3`.  The test statistic for `tau3` is -2.89 and is greater than -3.50. Thus the null of $\gamma=0$ is not rejected at $\alpha=0.05$.
+    
+    For our purposes, we just need to focus on the `tau`. The `phi` are for other null hypotheses involving the presence or absence of the drift and trend terms.
+    
+b. **Do an Augmented Dickey-Fuller test using `ur.df()`. How did you choose to set the lags?**
+    
+    There are a few different approaches to use to set the lags. You could use the rule of thumb that `adf.test()` uses which is `trunc((length(x)-1)^(1/3))` which is 2 for 26 data points.  
+    
+    ```{r}
+    urca::ur.df(dat, lags=2, type="trend")
+    ```
+    
+    You could also let `ur.df()` select the best lag based on AIC or BIC. It chooses 2 also.  Look for the number of `z.diff.lag`s in the summary table.
+
+    ```{r}
+    library(urca)
+    test<-ur.df(dat, lags=8, type="trend", selectlags="AIC")
+    summary(test)
+    ```
+
+c. **Do a KPSS test using `kpss.test()`.**
+
+    ```{r}
+    tseries::kpss.test(dat, null="Trend")
+    ```
+    The null of trend stationary is rejected at $\alpha=0.05$.  Again the data do not pass the stationarity tests.
+
+## Problem 2
+
+**Repeat the stationarity tests and differencing tests for anchovy using the full data.  The full data go to 2007.** 
+```{r read_data_prob2}
+load("landings.RData")
+datdf <- subset(landings, Species=="Anchovy")
+anchovy <- ts(datdf$log.metric.tons, start=1964)
+```
+
+a. Do the conclusions regarding stationarity and the amount of differencing needed change? 
+
+    ````{r}
+    tseries::adf.test(anchovy)
+    tseries::kpss.test(anchovy)
+    forecast::ndiffs(anchovy, test="kpss")
+    forecast::ndiffs(anchovy, test="adf")
+    ```
+
+    In the chapter, we tested the anchovy catch data up to 1989 and needed 1 difference to pass the stationarity tests.  With the longer time series, the null is not rejected in the ADF test, is rejected in the KPSS test, and one difference is required to pass the KPSS and ADF tests.  So the conclusions are the same.
+    
+    However notice that the time series is fairly different after 1987.
+    
+    ```{r}
+    plot(anchovy)
+    ```
+
+b. Repeat with only the data after 1987.  Are the conclusions different for only the recent data?
+
+    ```{r read_data_prob2b}
+    anchovy88.07 <- window(anchovy, start=1988)
+    ```
+
+    ````{r test_87_07}
+    tseries::adf.test(anchovy88.07)
+    tseries::kpss.test(anchovy88.07)
+    forecast::ndiffs(anchovy88.07, test="kpss")
+    forecast::ndiffs(anchovy88.07, test="adf")
+    ```
+
+    With only the data after 1987, the null is not rejected in the ADF test nor in the KPSS test.  So for the KPSS, we cannot reject (at $\alpha=0.05$) that the data are stationary while with ADF, we do reject that the data are non-stationary. Correspondingly, no difference is required to pass the KPSS while one difference is required to pass the ADF test.  Basically the data are on the borderline of appearing stationary and a conservative approach would use one difference.
+
+c. Fit the using `auto.arima()` to the full data (1964-2007) and recent data (1987 to present).  Do the selected models change?
+
+    ```{r read_data_prob2c}
+    anchovy87.07 <- window(anchovy, start=1987)
+    fit1 <- forecast::auto.arima(anchovy, stepwise=FALSE)
+    fit2 <- forecast::auto.arima(anchovy87.07, stepwise=FALSE)
+    fit1
+    fit2
+    ```
+
+    Both are MA(1), with different parameter values, however the differencing changes so we are fitting to different data.  If we difference the 1987 to 2007 data and fit, the model choose is white noise (0,0,0) which would be a ARIMA(0,1,0) for the undifferenced data.   ARIMA(0,1,0) is a random walk.
+    
+    ```{r fit3}
+    fit3 <- forecast::auto.arima(diff(anchovy87.07), stepwise=FALSE)
+    fit3
+    ```
+
+    We cannot directly compare the AICc from fitting an ARIMA(0,1,0) to a ARIMA(0,0,1) with `Arima()` because the data have changed.  In one case we are fitting to the first differences and in the other we are not.  Instead let's fit an AR(1) and compare to the MA(1) which was the best fit to the undifferenced data.
+    
+    ```{r fit3-w-aicc}
+    fitar1 <- forecast::Arima(anchovy87.07, order=c(1,0,0))
+    fitma1 <- forecast::Arima(anchovy87.07, order=c(0,0,1))
+    tab <- data.frame(model=c("AR(1)","MA(1) with mean"), 
+                      AICc=c(fitar1$aicc, fitma1$aicc) )
+    tab
+    ```
+    The AICc are very similar (<1 difference) though the estimated $\theta$ for the AR(1) is nowhere close to 1.  1 would mean a random walk.
+    
+    ```{r fit3-ar1}
+    fitar1
+    ```
+
+    
+## Problem 3
+
+**Fit each of the models listed under the `auto.arima()` trace using `Arima()` and show that you can produce the same AICc value that is shown in the trace table.**
+
+```{r}
+forecast::auto.arima(anchovy, trace=TRUE)
+```
+
+    The AICc is output in `fit$aicc`.
+    
+    ```{r}
+    aiccs <- c(
+    forecast::Arima(anchovy, order=c(2,1,2), include.drift=TRUE)$aicc,
+    forecast::Arima(anchovy, order=c(0,1,0), include.drift=TRUE)$aicc,
+    forecast::Arima(anchovy, order=c(1,1,0), include.drift=TRUE)$aicc,
+    forecast::Arima(anchovy, order=c(0,1,1), include.drift=TRUE)$aicc,
+    forecast::Arima(anchovy, order=c(0,1,0), include.drift=FALSE)$aicc,
+    forecast::Arima(anchovy, order=c(1,1,1), include.drift=TRUE)$aicc,
+    forecast::Arima(anchovy, order=c(0,1,2), include.drift=TRUE)$aicc,
+    forecast::Arima(anchovy, order=c(1,1,2), include.drift=TRUE)$aicc,
+    forecast::Arima(anchovy, order=c(0,1,1), include.drift=FALSE)$aicc,
+    forecast::Arima(anchovy, order=c(1,1,1), include.drift=FALSE)$aicc,
+    forecast::Arima(anchovy, order=c(0,1,2), include.drift=FALSE)$aicc,
+    forecast::Arima(anchovy, order=c(1,1,2), include.drift=FALSE)$aicc )
+    models <- c("(2,1,2) with drift","(0,1,0) with drift","(1,1,0) with drift",
+                "(0,1,1) with drift","(0,1,0) no drift","(1,1,1) with drift",
+                "(0,1,2) with drift","(1,1,2) with drift","(0,1,1) no drift",
+                "(1,1,1) no drift","(0,1,2) no drift","(1,1,2) no drift"
+    )
+    data.frame(model=models, AICc=aiccs)
+    ```
+    
+## Problem 4
+
+**Use `auto.arima()` with `stepwise=FALSE` to find the top 3 models (according to AICc) for the anchovy.**
+
+We fit using `trace=TRUE` and scan to find the 3 models with the lowest AICc.  They are ARIMA(0,1,1),  ARIMA(0,1,1) with drift, and ARIMA(0,1,0).  The all are within 1 of the lowest AICc so have similar data support.
+    
+```{r results='hide'}
+forecast::auto.arima(anchovy, stepwise=FALSE, trace=TRUE)
+```
+
+a. **Use `Arima()` to fit the top 3 models to the data.**
+
+    The top 3 models are all random walks. The first has no drift but autocorrelated errors, the 2nd and 3rd have independent errors but the 2nd has drift and the 3rd does not.
+    
+    ```{r}
+    fit1 <- forecast::Arima(anchovy, order=c(0,1,1), include.drift=FALSE)
+    fit2 <- forecast::Arima(anchovy, order=c(0,1,0), include.drift=TRUE)
+    fit3 <- forecast::Arima(anchovy, order=c(0,1,0), include.drift=FALSE)
+    ```
+
+b. **Create a 5-year forecast for each of the top 3 models using the fits from (a).**
+
+    ```{r}
+    fr1 <- forecast::forecast(fit1, h=5)
+    fr2 <- forecast::forecast(fit2, h=5)
+    fr3 <- forecast::forecast(fit3, h=5)
+    ```
+
+c. **Do the forecasts differ?**
+    
+    The forecast from the model with drift has a trend so that is definitely different.  
+    
+    ```{r}
+    plot(fr1)
+    ```
+    
+    ```{r}
+    plot(fr2)
+    ```
+
+    ```{r}
+    plot(fr3)
+    ```
+    
+    The first and 3rd models differ in having (or not) the MA(1) term which is autocorrelation in the errors.  It is hard to see but this leads to the forecasts from the first model having smaller prediction intervals.  You can see this is you compare 20-year forecasts.  Compare the high prediction intervals for 2027.
+
+    ```{r}
+    fr1 <- forecast::forecast(fit1, h=20)
+    fr3 <- forecast::forecast(fit3, h=20)
+    fr1
+    fr3
+    ```
+
+
+## Problem 5
+
+a. **Fit a seasonal model to the Chinook data up to 1999 using `auto.arima()`.**
+
+    ```{r}
+    load("chinook.RData")
+    chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
+                frequency=12)
+    traindat <- window(chinookts, c(1990,10), c(1999,12))
+    fit <- forecast::auto.arima(traindat)
+    fit
+    ```
+
+b. **Then create a forecast through 2015.**
+
+    We need to forecast 16 years and 12 seasons into the future so `h=16*12`.  The output is not shown since it is verbose.
+
+    ```{r forecast-chinook, results='hide'}
+    fr <- forecast::forecast(fit, h=16*12)
+    ```
+    
+c. **Plot the forecast with the 2014 and 2015 actual landings added as data points.**
+
+    ```{r}
+    plot(fr)
+    testdat <- window(chinookts, c(2014,1), c(2015,12))
+    points(testdat)
+    ```

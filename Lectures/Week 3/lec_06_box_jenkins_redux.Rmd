@@ -1,0 +1,221 @@
+---
+title: "Revisiting the Box-Jenkins Method"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Eli Holmes"
+date: "24 Jan 2019"
+output: 
+  html_document:
+    theme: cerulean
+---
+
+
+Let's imagine that we can describe our data as a combination of the mean trend and error.
+
+$$x_t = m_t + e_t$$
+
+What if our main goal is to predict $x_{t+1}$?  Note we (fisheries biologists and ecologists) often want to know $m_t$. In fact, that is often our main and sole goal.  But let's say our goal is to predict $x_{t+1}$.  
+
+How do we do this?
+
+# Approach #1 which we will use in the rest of the course
+
+We estimate $m_t$ from the data.  Once we have an estimate of $m_t$, we have an estimate of $e_t$.  We can model that error (think AR and MA) to help us predict future $x_t$ from $x_{t-1}$.
+
+Mark introduced filtering (moving averages) as one way to estimate $m_t$. We will not be doing that in the rest course. Instead, we will have a model for the $m_t$ and we will fit
+$$x_t = m_t + e_t$$ 
+directly.  We will get an estimate of the model that produced $m_t$.  We will also estimate the structure (think AR, MA) of $w_t$. **directly** means that we not be transforming our data with differencing in order to produce a statistic (difference) that is stationary. The $x_t$ and $m_t$ models will have a biological interpretation.
+
+So for example if our model is
+
+$$m_t = m_{t-1}+\mu \\ x_t = m_t + w_t.$$
+Then we fit that model without taking any differences.  Note the above is a trivial example as it is just a linear deterministic trend but gives you the idea.
+
+# Approach #2 Box-Jenkins
+
+The Box-Jenkins approach is different. In this approach to predicting $x_{t+1}$, we remove $m_t$ from our data using differencing.  We don't have to worry about a model for $m_t$ because we have removed it!  
+
+And we don't actually need it to predict $x_{t+1}$ since we have $x_{t}$, $x_{t-1}$, etc.  We model $\Delta^d x_t$ and then predict $\Delta^d x_{t+1}$. $\Delta^d x_t$ is a d-th difference. Once we have that we can predict $x_{t+1}$ by using $x_t$, $x_{t-1}$, etc with some algebra.
+
+The error structure of $\Delta^d x_{t+1}$ is NOT the same as $e_t$. 
+$$\Delta^d x_{t} = \phi_1\Delta^d x_{t-1} + \phi_2\Delta^d x_{t-2} + \dots + z_t$$
+
+$z_t$ is the error of the differences.  And the $\phi$ in the AR part are for the differences not the original $x_t$.  So it is more difficult to make a biological interpretation of the ARMA model.  But remember, the objective was to predict $x_{t+1}$ not to fit a model with a biological interpretation.
+
+## Examples of differencing, linear trend
+
+$m_t$ is linear and deterministic.
+
+$$x_t = \mu t + w_t$$
+
+```{r, echo=FALSE}
+set.seed(123)
+n=100
+sd=sqrt(.1)
+mu=0.02
+mt=mu*(1:n)
+et=rnorm(n,0,sd)
+xt=mt+et
+plot(xt[1:100],type="l")
+```
+
+When we take the first difference, we get
+$$\Delta x_t = \mu (t - (t-1)) + w_t - w_{t-1} = \mu + w_t - w_{t-1}$$
+So you expect that we should estimate a ARIMA(0,1,1) with drift.  For some reason `auto.arima()` is returning Inf for the AICc for ARIMA(0,1,1) with drift although `Arima()` returns it.  Turn on `trace=TRUE` to see the problem.
+
+```{r}
+forecast::auto.arima(xt, stepwise=FALSE)
+```
+But we can recover the parameters with `Arima()`.  Notice that the AICc is much smaller than for the model chosen by `auto.arima()`.
+```{r}
+forecast::Arima(xt,order=c(0,1,1),include.drift=TRUE)
+```
+
+## Examples of differencing, quadradic trend
+
+$m_t$ is quadratic linear and deterministic.
+
+$$x_t = \mu t^2 + w_t$$
+
+```{r, echo=FALSE}
+set.seed(123)
+n=1000
+sd=sqrt(.1)
+mu=0.005
+mt=mu*(1:n)^2
+et=rnorm(n,0,sd)
+xt=mt+et
+plot(xt[1:100],type="l")
+```
+
+When we take the first difference, we get
+$$\Delta x_t = \mu (t^2 - (t-1)^2) + w_t - w_{t-1} = \mu(2t-1) + w_t - w_{t-1}$$
+When we take another difference, and we get
+$$\Delta^2 x_t =  2\mu(2t-1-2(t-1)+1) + w_t - 2w_{t-1} + w_{t-2}$$
+So you expect that we should estimate a ARIMA(0,2,2) with drift.  Because `Arima()` will not estimate the drift term if we have a 2nd difference, I will fit to the first difference. And we recover the terms as expected.
+```{r}
+forecast::Arima(diff(xt),order=c(0,1,2), include.drift=TRUE)
+```
+
+`auto.arima()` struggles however.
+```{r}
+forecast::auto.arima(diff(xt), stepwise=FALSE)
+```
+
+## Examples of differencing, random walk trend
+
+$m_t$ is a random walk.
+
+$$x_t = m_t + w_t\\m_t = m_{t-1}+v_t$$
+When we take the first difference, we get
+$$\Delta x_t = m_t - m_{t-1} + w_t - w_{t-1} = v_t + w_t - w_{t-1}$$
+That's a moving average ($w_t-w_{t+1}$) plus added white noise which is not an ARMA model.  We can fit as a state-space model however.
+
+# Seasonal models
+
+We can take the same approach with a seasonal model.  Let's imagine that we can describe our data as a combination of the mean trend, a seasonal term, and error.
+
+$$x_t = \mu t+ s_t + w_t$$
+Let's imagine that the seasonal term is just a constant based on month and doesn't change with time.
+
+$$s_t = f(month)$$
+We want to remove the $s_t$ with differencing so that we can model $e_t$.  We can solve for $x_{t+1}$ by using $x_{t-s}$ where $s$ is the seasonal length (e.g. 12 if season is yearly).
+
+When we take the first seasonal difference, we get
+$$\Delta_s x_t = \mu(t-(t-s)) + s_t - s_{t-s} + w_t - w_{t-s} = \mu s + w_t - w_{t-s}$$
+The $s_t-s_{t-s}$ disappears because $s_t = s_{t-s}$ when the seasonal effect is just a function of the month.  Depending on what $m_t$ is, we might be done or we might have to do a first difference.  Notice that the error term is a moving average in the seasonal part.
+
+```{r, echo=FALSE}
+set.seed(123)
+yr=10
+s=12
+sd=sqrt(.1)
+mu=0.05
+st=sin(pi*(1:(s*yr))/(s/2))
+mt=mu*(1:(s*yr))
+et=rnorm(s*yr,0,sd)
+xt=mt+st+et
+xt=ts(xt,start=1,frequency=12)
+plot(xt)
+```
+`auto.arima()` identifies a ARIMA(0,0,0)(0,1,2)[12].
+```{r}
+forecast::auto.arima(xt, stepwise=FALSE)
+```
+
+But we can recover the model parameters with `Arima()`. Note the drift term is returned at $\mu$ not $\mu s$.
+```{r}
+forecast::Arima(xt, seasonal=c(0,1,1), include.drift=TRUE)
+```
+
+
+## Seasonal model with changing season
+
+Let's imagine that our seasonality in increasing over time.
+
+$$s_t = \beta \times year \times f(month)\times$$
+When we take the first seasonal difference, we get
+$$\Delta_s x_t = \mu(t-(t-s)) + \beta f(month)\times (year - (year-1)) + w_t - w_{t-s} \\ = \mu s + \beta f(month) + w_t - w_{t-s}$$
+We need to take another seasonal difference to get rid of the $f(month)$ which is not a constant; it is different for different months as it is our seasonality.
+$$\Delta^2_{s} x_t = w_t - w_{t-s} - w_{t-s} + w_{t-2s}=w_t - 2w_{t-s} + w_{t-2s}$$
+So our ARIMA model should be ARIMA(0,0,0)(0,2,2)
+```{r, echo=FALSE}
+set.seed(123)
+yr=10
+s=12
+sd=sqrt(.1)
+mu=0.05
+beta=.2
+st=(1+beta*rep(1:yr, each=s))*sin(pi*(1:(s*yr))/(s/2))
+st=beta*rep(1:yr, each=s)*sin(pi*(1:(s*yr))/(s/2))
+mt=mu*(1:(s*yr))
+et=rnorm(s*yr,0,sd)
+xt=mt+st+et
+xt=ts(xt,start=1,frequency=12)
+plot(xt)
+```
+`auto.arima()` again has problems and returns many Infs; turn on `trace=TRUE` to see the problem.
+```{r}
+forecast::auto.arima(xt, stepwise=FALSE)
+```
+
+But we can recover the model with `Arima()`. Note the drift term is returned at $\mu$ not $\mu s$.
+```{r}
+forecast::Arima(xt, seasonal=c(0,2,2))
+```
+
+## Seasonal model with changing season #2
+
+Let's imagine that our seasonality increases and then decreases.
+
+$$s_t = (a y^2-b y+h) f(month)$$
+```{r, echo=FALSE}
+set.seed(100)
+yr=10
+s=12
+sd=sqrt(.1)
+mu=0.05
+beta=.1*(rep(1:yr, each=s)^2-2*5*rep(1:yr, each=s)+30)
+st=beta*sin(pi*(1:(s*yr))/(s/2))
+mt=mu*(1:(s*yr))
+et=rnorm(s*yr,0,sd)
+xt=mt+st+et
+xt=ts(xt,start=1,frequency=12)
+plot(xt)
+```
+
+Then we need to take 3 seasonal differences to get rid of the seasonality. The first will get rid of the $h f(month)$, the next will get rid of $by$ (year) terms and $y^2$ terms, the third will get rid of extra $y$ terms introduced by the 2nd difference.  The seasonal differences will get rid of the linear trend also.
+
+$$\Delta^3_{s} x_t = w_t - 2w_{t-s} + w_{t-2s}-w_{t-s}+2w_{t-2s}-w_{t-3s}=w_t - 3w_{t-s} + 3w_{t-2s}-w_{t-3s}$$
+
+So our ARIMA model should be ARIMA(0,0,0)(0,3,3).
+
+
+`auto.arima()` again has problems and returns many Infs; turn on `trace=TRUE` to see the problem.
+```{r, eval=FALSE}
+forecast::auto.arima(xt, stepwise=FALSE)
+```
+
+But we can recover the model parameters, more or less, with `Arima()`. 
+```{r}
+forecast::Arima(xt, seasonal=c(0,3,3))
+```

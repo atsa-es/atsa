@@ -1,3 +1,0 @@
-"0","load(""landings.RData"")"
-"0","datdf <- subset(landings, Species==""Anchovy"")"
-"0","dat <- ts(datdf$log.metric.tons, start=1964)"

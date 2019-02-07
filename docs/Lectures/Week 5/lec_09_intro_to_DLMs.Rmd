@@ -1,0 +1,1370 @@
+---
+title: "Dynamic Linear Models"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "5 Feb 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(MARSS)
+set.seed(123)
+data("Nile")
+
+mod_list <- list(B = "identity", U = "zero", Q = matrix("q"),
+                 Z = "identity", A = matrix("a"), R = matrix("r"))
+
+fit <- MARSS(matrix(Nile, nrow = 1), mod_list)
+
+```
+
+## Topics for today
+
+Univariate response
+
+* Stochastic level & growth
+
+* Dynamic Regression
+
+* Dynamic Regression with fixed season
+
+* Forecasting with a DLM
+
+* Model diagnostics
+
+Multivariate response
+
+
+
+## Simple linear regression
+
+Let's begin with a linear regression model
+
+$$
+y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
+The index $i$ has no explicit meaning in that shuffling ($y_i,x_i$) pairs has no effect on parameter estimation
+
+
+## Simple linear regression
+
+We can write the model in matrix form
+
+$$
+y_i = \alpha + \beta x_i + e_i \\
+\Downarrow \\
+y_i = 
+\begin{bmatrix}
+  1 & x_i
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha \\
+  \beta
+\end{bmatrix} +
+e_i
+$$
+
+
+## Simple linear regression
+
+We can write the model in matrix form
+
+$$
+y_i = \alpha + \beta x_i + e_i \\
+\Downarrow \\
+y_i = 
+\begin{bmatrix}
+  1 & x_i
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha \\
+  \beta
+\end{bmatrix} +
+e_i \\
+\Downarrow \\
+y_i = \mathbf{X}^{\top}_i \boldsymbol{\theta} + e_i
+$$
+
+with
+
+$\mathbf{X}^{\top}_i = \begin{bmatrix} 1 & x_i \end{bmatrix}$ and $\boldsymbol{\theta} = \begin{bmatrix} \alpha & \beta \end{bmatrix}^{\top}$ 
+
+
+## Dynamic linear model (DLM)
+
+In a _dynamic_ linear model, the regression parameters change over time, so we write
+
+$$
+y_i = \mathbf{X}^{\top}_i \boldsymbol{\theta} + e_i ~~~~~~~ \text{(static)}
+$$
+
+as
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t ~~~~~~~ \text{(dynamic)}
+$$
+
+
+## Dynamic linear model (DLM)
+
+There are 2 important points here:
+
+$$
+y_\boxed{t} = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
+$$
+
+1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
+
+
+## Dynamic linear model (DLM)
+
+There are 2 important points here:
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_\boxed{t} + e_t
+$$
+
+1. Subscript $t$ explicitly acknowledges implicit info in the time ordering of the data in $\mathbf{y}$  
+
+2. The relationship between $\mathbf{y}$ and $\mathbf{X}$ is unique for every $t$
+
+
+## Constraining a DLM
+
+Close examination of the DLM reveals an apparent problem for parameter estimation
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
+$$
+
+
+## Constraining a DLM
+
+Close examination of the DLM reveals an apparent problem for parameter estimation
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
+$$
+
+We only have 1 data point per time step (ie, $y_t$ is a scalar)
+
+__Thus, we can only estimate 1 parameter (with no uncertainty)!__
+
+
+## Constraining a DLM
+
+To address this issue, we'll constrain the regression parameters to be dependent from $t$ to $t+1$
+
+$$
+\boldsymbol{\theta}_t = \mathbf{G}_t \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+
+## Constraining a DLM
+
+In practice, we often make $\mathbf{G}_t$ time invariant 
+
+$$
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+$$
+
+or assume $\mathbf{G}_t$ is an $m \times m$ identity matrix $\mathbf{I}_m$
+
+$$
+\begin{align}
+  \boldsymbol{\theta}_t &= \mathbf{I}_m \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+                    &= \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+\end{align}
+$$
+
+In the latter case, the parameters follow a random walk over time
+
+
+## DLM in state-space form
+
+Observation model relates covariates to data
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
+$$
+
+State model determines how parameters "evolve" over time
+
+$$
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+$$
+
+
+## DLM in MARSS notation | Full state-space form
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t \\
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+\Downarrow \\
+y_t = \mathbf{Z}_t \mathbf{x}_t + v_t \\
+\mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+
+## Contrast in covariate effects
+
+__Note__: DLMs include covariate effect in the observation eqn much differently than other forms of MARSS models
+
+DLM: $\mathbf{Z}$ is covariates, $\mathbf{x}$ is parameters 
+
+$$
+y_t = \boxed{\mathbf{Z}_t \mathbf{x}_t} + v_t \\
+$$
+
+Others: $\mathbf{d}$ is covariates, $\mathbf{D}$ is parameters
+
+$$
+y_t = \mathbf{Z}_t \mathbf{x}_t + \boxed{\mathbf{D} \mathbf{d}_t} +v_t \\
+$$
+
+
+## Other forms of DLMs
+
+The regression model is but one type
+
+Others include:
+
+* stochastic "level" (intercept)
+
+* stochastic "growth" (trend, bias)
+
+* seasonal effects (fixed, harmonic)
+
+
+## The most simple DLM | Stochastic level
+
+$$
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + w_t
+$$
+
+
+## The most simple DLM | Stochastic level = random walk with obs error
+
+$$
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + w_t \\
+\Downarrow \\
+y_t = x_t + v_t \\
+x_t = x_{t-1} + w_t
+$$
+
+
+## Ex of stochastic level model
+
+```{r}
+data("Nile")
+
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
+
+plot.ts(Nile, las = 1,
+        xlab = "Year", ylab = "Flow of the River Nile")
+```
+
+
+## Ex of stochastic level model
+
+
+```{r}
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
+
+plot.ts(Nile, las = 1, lwd = 2,
+        xlab = "Year", ylab = "Flow of the River Nile")
+lines(seq(start(Nile)[1], end(Nile)[1]),
+       lwd = 2, t(fit$states), col = "blue")
+lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states + 2*fit$states.se),
+       lwd = 2, lty = "dashed", col = "blue")
+lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states - 2*fit$states.se),
+       lwd = 2, lty = "dashed", col = "blue")
+```
+
+
+## Univariate DLM for level & growth
+
+Stochastic "level" $\alpha_t$ with deterministic "growth" $\eta$
+
+$$
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + \eta + w_t \\
+$$
+
+
+## Univariate DLM for level & growth
+
+Stochastic "level" $\alpha_t$ with deterministic "growth" $\eta$
+
+$$
+y_t = \alpha_t + e_t \\
+\alpha_t = \alpha_{t-1} + \eta + w_t \\
+\Downarrow \\
+y_t = x_t + v_t \\
+x_t = x_{t-1} + u + w_t
+$$
+
+This is just a random walk with bias $u$
+
+
+## Univariate DLM for level & growth
+
+Stochastic "level" $\alpha_t$ with stochastic "growth" $\eta_t$
+
+$$
+\begin{align}
+  y_t &= \alpha_t + e_t \\
+  \alpha_t &= \alpha_{t-1} + \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \eta_{t-1} + w_{\eta,t} \\
+\end{align}
+$$
+
+Now the "growth" term $\eta_t$ evolves as well
+
+
+## Univariate DLM for level & growth
+
+Evolution of $\alpha_t$ and $\eta_t$
+
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \eta_{t-1} + w_{\eta,t} \\
+  & \Downarrow \\
+  \alpha_t &= 1 \alpha_{t-1} + 1 \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= 0 \alpha_{t-1} + 1 \eta_{t-1} + w_{\eta,t}
+\end{align}
+$$
+
+
+## Univariate DLM for level & growth
+
+Evolution of $\alpha_t$ and $\eta_t$
+
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \eta_{t-1} + w_{\eta,t} \\
+  & \Downarrow \\
+  \alpha_t &= \underline{1} \alpha_{t-1} + \underline{1} \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \underline{0} \alpha_{t-1} + \underline{1} \eta_{t-1} + w_{\eta,t} \\
+  & \Downarrow \\
+  \underbrace{\begin{bmatrix}
+    \alpha_t \\
+    \eta_t
+  \end{bmatrix}}_{\boldsymbol{\theta}_t} &=
+  \underbrace{\begin{bmatrix}
+    \underline{1} & \underline{1} \\
+    \underline{0} & \underline{1}
+  \end{bmatrix}}_{\mathbf{G}}
+  \underbrace{\begin{bmatrix}
+    \alpha_{t-1} \\
+    \eta_{t-1}
+  \end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} +
+  \underbrace{\begin{bmatrix}
+    w_{\alpha,t} \\
+    w_{\eta,t}
+  \end{bmatrix}}_{\mathbf{w}_t} 
+\end{align}
+$$
+
+
+## Univariate DLM for level & growth
+
+Observation model for stochastic "level" & stochastic "growth"
+
+$$
+\begin{align}
+  y_t &= \alpha_t + v_t \\
+  & \Downarrow \\
+  y_t &= \underline{1} \alpha_t + \underline{0} \eta_t + v_t \\
+  & \Downarrow \\
+  y_t &= 
+  \underbrace{\begin{bmatrix}
+    \underline{1} & \underline{0}
+  \end{bmatrix}}_{\mathbf{X}^{\top}_t}
+  \underbrace{\begin{bmatrix}
+    \alpha_t \\ \eta_t 
+  \end{bmatrix}}_{\boldsymbol{\theta}_t}
+  + v_t
+\end{align}
+$$
+
+
+## Univariate DLM for regression
+
+Stochastic intercept and slope
+
+$$
+\begin{align}
+  y_t &= \alpha_t + \beta_t x_t + v_t \\
+  & \Downarrow \\
+  y_t &= \underline{1} \alpha_t + \underline{x_t} \beta_t + v_t \\
+  & \Downarrow \\
+  y_t &= 
+  \underbrace{\begin{bmatrix}
+    \underline{1} & \underline{x_t}
+  \end{bmatrix}}_{\mathbf{X}^{\top}_t}
+  \underbrace{\begin{bmatrix}
+    \alpha_t \\ \beta_t 
+  \end{bmatrix}}_{\boldsymbol{\theta}_t}
+  + v_t
+\end{align}
+$$
+
+
+## Univariate DLM for regression
+
+Parameter evolution follows a random walk
+
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + w_{\alpha,t} \\
+  \beta_t &= \beta_{t-1} + w_{\beta,t} \\
+  & \Downarrow \\
+  \underbrace{\begin{bmatrix}
+    \alpha_t \\
+    \beta_t
+  \end{bmatrix}}_{\boldsymbol{\theta}_t} &=
+  \underbrace{\begin{bmatrix}
+    \alpha_{t-1} \\
+    \beta_{t-1}
+  \end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} +
+  \underbrace{\begin{bmatrix}
+    w_{\alpha,t} \\
+    w_{\beta,t}
+  \end{bmatrix}}_{\mathbf{w}_t} 
+\end{align}
+$$
+
+
+## Univariate DLM with seasonal effect
+
+Dynamic linear regression with fixed seasonal effect
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
+\gamma_{qtr} = 
+\begin{cases}
+  \gamma_{1} & \text{if } qtr = 1 \\
+  \gamma_{2} & \text{if } qtr = 2 \\
+  \gamma_{3} & \text{if } qtr = 3 \\
+  \gamma_{4} & \text{if } qtr = 4
+\end{cases}
+$$
+
+
+## Univariate DLM with seasonal effect
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
+\Downarrow \\
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{qtr}
+\end{bmatrix}
++ e_t
+$$
+
+
+## Univariate DLM with seasonal effect
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{qtr}
+\end{bmatrix}
++ e_t \\
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{qtr}
+\end{bmatrix} =
+\begin{bmatrix}
+  \alpha_{t-1} \\ \beta_{t-1} \\ ?
+\end{bmatrix} +
+\begin{bmatrix}
+  w_{\alpha,t} \\ w_{\beta,t} \\ ?
+\end{bmatrix}
+$$
+
+How should we model the fixed effect of $\gamma_{qtr}$?
+
+
+## Univariate DLM with seasonal effect
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{qtr}
+\end{bmatrix}
++ e_t \\
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{qtr}
+\end{bmatrix} =
+\begin{bmatrix}
+  \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_{qtr}
+\end{bmatrix} +
+\begin{bmatrix}
+  w_{\alpha,t} \\ w_{\beta,t} \\ 0
+\end{bmatrix}
+$$
+
+We don't want the effect of quarter to evolve
+
+
+## Univariate DLM with seasonal effect
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{qtr}
+\end{bmatrix}
++ e_t \\
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_{qtr}
+\end{bmatrix} =
+\begin{bmatrix}
+  \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_{qtr}
+\end{bmatrix} +
+\begin{bmatrix}
+  w_{\alpha,t} \\ w_{\beta,t} \\ 0
+\end{bmatrix}
+$$
+
+OK, but how do we select the right quarterly effect?
+
+
+## Univariate DLM with seasonal effect
+
+Let's separate out the quarterly effects
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_1 + \gamma_2 + \gamma_3 + \gamma_4 + e_t \\
+\Downarrow \\
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1 & 1 & 1 & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
+\end{bmatrix}
+$$
+
+But how do we select only the current quarter?
+
+
+## Univariate DLM with seasonal effect
+
+We can set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 1)
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1 & 0 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
+\end{bmatrix} \\
+\Downarrow \\
+y_t = \alpha_t + \beta_t x_t + \gamma_1 + e_t \\
+$$
+
+
+## Univariate DLM with seasonal effect
+
+We can set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 2)
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 0 & 1 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
+\end{bmatrix} \\
+\Downarrow \\
+y_t = \alpha_t + \beta_t x_t + \gamma_2 + e_t \\
+$$
+
+
+## Univariate DLM with seasonal effect
+
+But _how_ would we set the correct 0/1 values?
+
+$$
+\mathbf{X}^{\top}_t =
+\begin{bmatrix}
+  1 & x_t & ? & ? & ? & ?
+\end{bmatrix}
+$$
+
+
+## Univariate DLM with seasonal effect
+
+We could instead reorder the $\gamma_i$ within $\boldsymbol{\theta}_t$ ($qtr$ = 1)
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1 & 0 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
+\end{bmatrix} \\
+\Downarrow \\
+y_t = \alpha_t + \beta_t x_t + \gamma_1 + e_t \\
+$$
+
+
+## Univariate DLM with seasonal effect
+
+We could instead reorder the $\gamma_i$ within $\boldsymbol{\theta}_t$ ($qtr$ = 2)
+
+$$
+y_t = 
+\begin{bmatrix}
+  1 & x_t & 1 & 0 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
+\end{bmatrix} \\
+\Downarrow \\
+y_t = \alpha_t + \beta_t x_t + \gamma_2 + e_t \\
+$$
+
+
+## Univariate DLM with seasonal effect
+
+But _how_ would we shift the $\gamma_i$ within $\boldsymbol{\theta}_t$?
+
+$$
+\boldsymbol{\theta}_t =
+\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ ? \\ ? \\ ? \\ ?
+\end{bmatrix}
+$$
+
+
+
+## Example of non-diagonal $\mathbf{G}$
+
+We can use a non-diagonal $\mathbf{G}$ to get the correct quarter effect
+
+$$
+\mathbf{G} = 
+\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+
+## Evolving parameters
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
+\end{bmatrix}}_{\boldsymbol{\theta}_t} =
+\underbrace{\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
+\end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
+\end{bmatrix}}_{\mathbf{w}_t}
+$$
+
+
+## Evolving parameters
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \gamma_3 \\ \gamma_4 \\ \gamma_1 \\ \gamma_2
+\end{bmatrix}}_{\boldsymbol{\theta}_t} =
+\underbrace{\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
+\end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
+\end{bmatrix}}_{\mathbf{w}_t}
+$$
+
+
+## Forecasting with a DLM
+
+DLMs are often used in a forecasting context where we want a prediction for time $t$ based on the data up through time $t-1$
+
+
+## Forecasting with a DLM
+
+Pseudo-code
+
+1. get estimate of today's parameters from yesterday's
+
+2. make prediction based on today's parameters & covariates
+
+3. get observation for today
+
+4. update parameters and repeat
+
+
+## Forecasting with a DLM
+
+1. Define the parameters at time $t = 0$
+
+$$
+\boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+$$
+
+
+## Forecasting with a DLM
+
+1. Define the parameters at time $t = 0$
+
+$$
+\boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+\Downarrow \\
+\text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi} \\
+\text{Var}(\boldsymbol{\theta}_0) = \mathbf{\Lambda} \\
+\Downarrow \\
+\boldsymbol{\theta}_0 | y_0 \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda})
+$$
+
+
+## Forecasting with a DLM
+
+2. Define the parameters at time $t = 1$
+
+$$
+\boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
+$$
+
+
+## Forecasting with a DLM
+
+2. Define the parameters at time $t = 1$
+
+$$
+\boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
+\Downarrow \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\theta}_0 \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi} \\
+\text{and} \\
+  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \text{Var}(\boldsymbol{\theta}_0) \mathbf{G}^{\top} + \mathbf{Q} \\
+  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} \\
+\Downarrow \\
+\boldsymbol{\theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
+$$
+
+
+## Forecasting with a DLM
+
+3. Make a forecast of $y_t$ at time $t = 1$
+
+$$
+y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
+\Downarrow \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}] \\
+\text{and} \\
+\text{Var}(y_1) = \mathbf{X}^{\top}_1 \text{Var}(\boldsymbol{\theta}_1) \mathbf{X}_1 + R \\
+\text{Var}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R \\
+\Downarrow \\
+y_1 | y_0 \sim \text{N}(\mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R)
+$$
+
+
+## Forecasting with a DLM
+
+Putting it all together
+
+$$
+\begin{align}
+\boldsymbol{\theta}_0 | y_0 & \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_t | y_{t-1} & \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}) \\
+y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_t + R)
+\end{align}
+$$
+
+
+## Forecasting with a DLM
+
+Putting it all together
+
+$$
+\begin{align}
+\boldsymbol{\theta}_0 | y_0 & \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda}) \\
+\boldsymbol{\theta}_t | y_{t-1} & \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}) \\
+y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_t + R)
+\end{align}
+$$
+
+Using `MARSS()` will make this easy to do
+
+## Diagnostics for DLMs
+
+Just as with other models, we'd like to know if our fitted DLM meets its underlying assumptions 
+
+We can calcuate the forecast error $e_t$ as
+
+$$
+e_t = y_t - \hat{y}_t
+$$
+and check if
+
+$$
+\begin{align}
+  (1) & ~~ e_t \sim \text{N}(0, \sigma) \\
+  (2) & ~~ \text{Cov}(e_t, e_{t-1}) = 0
+\end{align}
+$$
+
+with a QQ-plot (1) and an ACF (2)
+
+
+## {.flexbox .vcenter}
+
+<font size="10">MULTIVARIATE DLMs</font>
+
+
+## The most simple multivariate DLM | Multiple observations of a stochastic level
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} \alpha_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \alpha_t = \alpha_{t-1} + w_t & ~~ \alpha_t ~ \text{is } 1 \times 1 
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+  1 \\
+  1 \\
+  \vdots \\
+  1
+\end{bmatrix}
+$$
+
+
+## Another simple multivariate DLM | Multiple observations of multiple levels
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} \boldsymbol{\alpha}_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \boldsymbol{\alpha}_t = \boldsymbol{\alpha}_{t-1} + \mathbf{w}_t & ~~ \boldsymbol{\alpha}_t ~ \text{is } n \times 1 \\
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\mathbf{I}_n =
+\begin{bmatrix}
+  1 & 0 & \dots & 0 \\
+  0 & 1 & \ddots & 0 \\
+  \vdots & \ddots & \ddots & 0 \\
+  0 & \dots & 0 & 1 \\
+\end{bmatrix}
+$$
+
+
+## Multivariate DLMs | Regression model
+
+Our univariate model 
+
+$$
+y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0,R)
+$$
+
+becomes
+
+$$
+\mathbf{y}_t = (\mathbf{X}^{\top}_t \otimes \mathbf{I}_n) \boldsymbol{\theta}_t + \mathbf{e}_t ~ \text{with} ~ \mathbf{e}_t \sim \text{MVN}(\mathbf{0},\mathbf{R})
+$$
+
+
+## Kronecker products
+
+If $\mathbf{A}$ is an $m \times n$ matrix and $\mathbf{B}$ is a $p \times q$ matrix
+
+then $\mathbf{A} \otimes \mathbf{B}$ will be an $mp \times nq$ matrix
+
+$$
+\mathbf{A} \otimes \mathbf{B} = 
+\begin{bmatrix}
+ a_{11} \mathbf{B} & \dots & a_{1n} \mathbf{B} \\
+ \vdots & \ddots & \vdots \\
+ a_{m1} \mathbf{B} & \dots & a_{mn} \mathbf{B} \\
+\end{bmatrix}
+$$
+
+## Kronecker products
+
+For example
+
+$$
+\mathbf{A} = 
+\begin{bmatrix}
+ 1 & 2 \\
+ 3 & 4
+\end{bmatrix}
+~ \text{and} ~
+\mathbf{B} = 
+\begin{bmatrix}
+ 2 & 4 \\
+ 6 & 8
+\end{bmatrix}
+$$
+
+so
+
+$$
+\mathbf{A} \otimes \mathbf{B} = 
+\begin{bmatrix}
+ 1 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix} & 
+ 2 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix} \\
+ 3 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix} &
+ 4 \begin{bmatrix}
+  2 & 4 \\
+  6 & 8
+ \end{bmatrix}
+\end{bmatrix} = 
+\begin{bmatrix}
+  2 & 4 & 4 & 8\\
+  6 & 8 & 12 & 16\\
+  6 & 12 & 8 & 16\\
+  18 & 24 & 24 & 32
+\end{bmatrix}
+$$
+
+
+## Multivariate DLMs | Regression model with $n = 2$
+
+$$
+\begin{align}
+\mathbf{y}_t &= (\mathbf{X}^{\top}_t \otimes \mathbf{I}_n) \boldsymbol{\theta}_t + \mathbf{e}_t \\
+\begin{bmatrix}
+ y_{1,t} \\
+ y_{2,t}
+\end{bmatrix} &= 
+\left(
+\begin{bmatrix}
+ 1 & x_t
+\end{bmatrix}
+\otimes
+\begin{bmatrix}
+ 1 & 0 \\
+ 0 & 1
+\end{bmatrix}
+\right)
+\begin{bmatrix}
+ \alpha_{1,t} \\
+ \alpha_{2,t} \\
+ \beta_{1,t} \\
+ \beta_{2,t}
+\end{bmatrix} + 
+\begin{bmatrix}
+ e_{1,t} \\
+ e_{2,t}
+\end{bmatrix}
+\end{align}
+$$
+
+
+## Multivariate DLMs
+
+$$
+\begin{bmatrix}
+ y_{1,t} \\
+ y_{2,t}
+\end{bmatrix} = 
+\left(
+\begin{bmatrix}
+ 1 & x_t
+\end{bmatrix}
+\otimes
+\begin{bmatrix}
+ 1 & 0 \\
+ 0 & 1
+\end{bmatrix}
+\right)
+\begin{bmatrix}
+ \alpha_{1,t} \\
+ \alpha_{2,t} \\
+ \beta_{1,t} \\
+ \beta_{2,t}
+\end{bmatrix} + 
+\begin{bmatrix}
+ e_{1,t} \\
+ e_{2,t}
+\end{bmatrix} \\
+\Downarrow \\
+\begin{bmatrix}
+ y_{1,t} \\
+ y_{2,t}
+\end{bmatrix} = 
+\begin{bmatrix}
+ 1 & 0 & x_t & 0 \\
+ 0 & 1 & 0 & x_t
+\end{bmatrix}
+\begin{bmatrix}
+ \alpha_{1,t} \\
+ \alpha_{2,t} \\
+ \beta_{1,t} \\
+ \beta_{2,t}
+\end{bmatrix} + 
+\begin{bmatrix}
+ e_{1,t} \\
+ e_{2,t}
+\end{bmatrix}
+$$
+
+
+## Multivariate DLMs | Covariance of observation errors
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+$$
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & \gamma_{2,4} \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & \gamma_{2,4} & 0 & \sigma_4
+\end{bmatrix}
+$$
+
+## Multivariate DLMs | Parameter evolution
+
+$$
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+becomes
+
+$$
+\boldsymbol{\theta}_t = \left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+
+## Multivariate DLMs | Parameter evolution
+
+If we have 2 regression parameters and $n = 2$, then
+
+$$
+\boldsymbol{\theta}_t =
+\begin{bmatrix}
+  \alpha_{1,t} \\
+  \alpha_{2,t} \\
+  \beta_{1,t} \\
+  \beta_{2,t} \\
+\end{bmatrix}
+~~ \text{and} ~~
+\mathbf{G} = 
+\begin{bmatrix}
+ 1 & 0 \\
+ 0 & 1
+\end{bmatrix} =
+\mathbf{I}_2 
+$$
+
+
+## Multivariate DLMs | Parameter evolution
+
+$$
+\boldsymbol{\theta}_t  =
+\left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+\Downarrow \\
+\boldsymbol{\theta}_t  =
+\left( \mathbf{I}_2 \otimes \mathbf{I}_2 \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+$$
+
+
+## Multivariate DLMs | $\mathbf{I}_m \otimes \mathbf{I}_n = \mathbf{I}_{mn}$
+
+$$
+\begin{align}
+\mathbf{I}_2 \otimes \mathbf{I}_2 &= 
+\begin{bmatrix}
+ 1 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} & 
+ 0 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} \\
+ 0 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} &
+ 1 \begin{bmatrix}
+  1 & 0 \\
+  0 & 1
+ \end{bmatrix} \\
+\end{bmatrix} \\
+ &=
+\begin{bmatrix}
+ 1 & 0 & 0 & 0 \\
+ 0 & 1 & 0 & 0 \\
+ 0 & 0 & 1 & 0 \\
+ 0 & 0 & 0 & 1
+\end{bmatrix}
+\end{align}
+$$
+
+
+## Multivariate DLMs | Parameter evolution
+
+$$
+\begin{align}
+\boldsymbol{\theta}_t  &=
+\left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+\boldsymbol{\theta}_t  &=
+\left( \mathbf{I}_2 \otimes \mathbf{I}_2 \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+\begin{bmatrix}
+  \alpha_{1,t} \\
+  \alpha_{2,t} \\
+  \beta_{1,t} \\
+  \beta_{2,t} \\
+\end{bmatrix} &=
+\begin{bmatrix}
+ 1 & 0 & 0 & 0 \\
+ 0 & 1 & 0 & 0 \\
+ 0 & 0 & 1 & 0 \\
+ 0 & 0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha_{1,t-1} \\
+  \alpha_{2,t-1} \\
+  \beta_{1,t-1} \\
+  \beta_{2,t-1} \\
+\end{bmatrix} + 
+\begin{bmatrix}
+  w_{\alpha_1,t} \\
+  w_{\alpha_2,t} \\
+  w_{\beta_1,t} \\
+  w_{\beta_2,t}
+\end{bmatrix} \\
+\boldsymbol{\theta}_t  &=
+ \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+\end{align}
+$$
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\boldsymbol{\theta}_t = \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \underline{\mathbf{Q}})
+$$
+
+What form should we choose for $\mathbf{Q}$?
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+$$
+\mathbf{Q}_{(\cdot)} =
+\begin{bmatrix}
+ q_{(\cdot)} & 0 & \dots & 0 \\
+ 0 & q_{(\cdot)} & \dots & 0 \\
+ \vdots & \vdots & \ddots & \vdots \\
+ 0 & 0 & \dots & q_{(\cdot)}
+\end{bmatrix}
+$$
+
+Diagonal and equal (IID)
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+$$
+\mathbf{Q}_{(\cdot)} =
+\begin{bmatrix}
+ q_{(\cdot)1} & 0 & \dots & 0 \\
+ 0 & q_{(\cdot)2} & \dots & 0 \\
+ \vdots & \vdots & \ddots & \vdots \\
+ 0 & 0 & \dots & q_{(\cdot)n}
+\end{bmatrix}
+$$
+
+Diagonal and unequal
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+$$
+\mathbf{Q}_{(\cdot)} =
+\begin{bmatrix}
+ q_{(\cdot)1,1} & q_{(\cdot)1,2} & \dots & q_{(\cdot)1,n} \\
+ q_{(\cdot)2,1} & q_{(\cdot)2,2} & \dots & q_{(\cdot)2,n} \\
+ \vdots & \vdots & \ddots & \vdots \\
+ q_{(\cdot)n,1} & q_{(\cdot)n,2} & \dots & q_{(\cdot)n,n}
+\end{bmatrix}
+$$
+
+Unconstrained
+
+
+## Multivariate DLMs | Evolution variance
+
+$$
+\begin{bmatrix}
+  \boldsymbol{\alpha}_t \\
+  \boldsymbol{\beta}_t 
+\end{bmatrix} \sim
+~ \text{MVN} \left(
+\begin{bmatrix}
+  \mathbf{0} \\
+  \mathbf{0}
+\end{bmatrix} ,
+\begin{bmatrix}
+  \mathbf{Q}_\alpha & \mathbf{0} \\
+  \mathbf{0} & \mathbf{Q}_\beta 
+\end{bmatrix}
+\right)
+$$
+
+In practice, keep $\mathbf{Q}$ as simple as possible
+
+
+## Topics for today
+
+Univariate response
+
+* Stochastic level & growth
+
+* Dynamic Regression
+
+* Dynamic Regression with fixed season
+
+* Forecasting with a DLM
+
+* Model diagnostics
+
+Multivariate response
+
