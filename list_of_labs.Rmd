@@ -96,7 +96,7 @@ sslab2 <- list(
   youtube = "",
   data = "",
   homework = "Chap 5 Univariate SS: Problems 6 and 7; Chap 6 Multivariate SS: Problems 1,2,3,4,6 (skip 5); you can do Chap 5 problems just using Chap 6 information;<br>Due Thurs 1/31 midnight.",
-  key = "Labs/Week 3/HW_3_Key.html",
+  key = c("Labs/Week 3/HW_3_uss_Key.html", "Labs/Week 3/HW_3_Key.html"),
   instructor = "Eli",
   hw_topics = c("State-space models"),
   hw_duedate = "Due midnight THURS 1/31; email to instructor(s) for lab"
