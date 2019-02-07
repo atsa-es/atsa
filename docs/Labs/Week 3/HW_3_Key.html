@@ -771,7 +771,7 @@ Dinv%*%Qest%*%Dinv</code></pre>
 <pre class="r"><code>c(fit4=fit4$AICc, fit5=fit5$AICc)</code></pre>
 <pre><code>##      fit4      fit5 
 ## -22.44756 -29.70739</code></pre>
-<p>The model allowing for temporal correlation is much more supported. <span class="math inline">\(\Delta AICc\)</span> = .</p></li>
+<p>The model allowing for temporal correlation is much more supported. <span class="math inline">\(\Delta AICc\)</span> = 7.259839.</p></li>
 <li><p><strong>Fit the model with <code>Q=&quot;equalvarcov&quot;</code>. Is this more supported based on AICc?</strong></p>
 <pre class="r"><code>fit5c &lt;- MARSS(dat, model=list(Z=Z4, R=&quot;diagonal and equal&quot;,  Q=&quot;equalvarcov&quot;, U=&quot;unequal&quot;))</code></pre>
 <pre><code>## Success! abstol and log-log tests passed at 256 iterations.

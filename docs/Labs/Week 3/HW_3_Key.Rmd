@@ -323,7 +323,7 @@ b. **Compare the AICc from the model in Question 4 and the one with `Q="unconstr
     c(fit4=fit4$AICc, fit5=fit5$AICc)
     ```
     
-    The model allowing for temporal correlation is much more supported.  $\Delta AICc$ = `r fit4=fit4$AICc-fit5$AICc`.
+    The model allowing for temporal correlation is much more supported.  $\Delta AICc$ = `r fit4$AICc-fit5$AICc`.
 
 c. **Fit the model with `Q="equalvarcov"`.  Is this more supported based on AICc?**
 
