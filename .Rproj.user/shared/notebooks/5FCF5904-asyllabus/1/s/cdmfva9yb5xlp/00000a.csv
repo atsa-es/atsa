@@ -1,0 +1,4 @@
+"0","lab_topics <- lapply(week_labs, function(x){if(is.list(x)){x$topics}else{""""}})"
+"0","## topics formatted for html"
+"0","lab_topics_html <- sapply(lapply(lab_topics, paste, ""<br>"", collapse=""""), c)"
+"0","names(lab_topics_html) <- NULL"
