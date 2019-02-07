@@ -74,9 +74,11 @@ library(dplyr)
 
 * Both packages very flexible, and allow same syntax as basic lm/glm or lmer models, e.g.
 
-`rstan::stan_lm`
-`rstan::stan_glm`
-`rstan::stan_glmer`
+```{r echo=TRUE, eval=FALSE}
+rstan::stan_lm
+rstan::stan_glm
+rstan::stan_glmer
+```
 
 * Vignettes
 [brms](http://paul-buerkner.github.io/brms/)
@@ -88,6 +90,17 @@ library(dplyr)
 
 * But doesn't allow for AR processes on parameters / latent variables
 * Also doesn't include multivariate data
+
+## Advantages
+
+`brms` offers notation that should be very familiar to run many classes of models, 
+
+```{r, echo=TRUE, eval=FALSE}
+brms::brm(y ~ x * z + (1|group), data=d)
+brms::brm(y01 ~ x * z + (1|group), data=d, family = binomial("logit"))
+brms::brm(bf(y ~ s(x)), data=d)
+```
+
 
 ## To install code for this class
 
@@ -212,8 +225,11 @@ rstan::stan_ac(lm_intercept, pars=c("beta[1]","sigma"))
 
 ## Plotting with Stan output
 These plots only the tip of the iceberg for plotting. For more great examples of the kinds of plots avaialable, see these vignettes:
+
 * [Examples on Stan](https://mc-stan.org/users/interfaces/bayesplot)
+
 * [Jonah Gabry's introduction to bayesplot](https://cran.r-project.org/web/packages/bayesplot/vignettes/plotting-mcmc-draws.html)
+
 * [Matthew Kay's introduction to bayesplot and tidybayes](https://cran.r-project.org/web/packages/tidybayes/vignettes/tidybayes.html)
 
 ## Tidy summaries from Stan output
@@ -422,10 +438,6 @@ rot = rotate_trends(mod_3)
 `trends_lower`, lower 2.5% on trends  
 `trends_upper`, upper 97.5% on trends  
 
-## Predicted values from DFA
-
-TBD
-
 ## Other variance structures
 
 By default, the structure is `diagonal and equal`
@@ -437,8 +449,6 @@ Diagonal and unequal or shared variances can also be specified using `varIndx` a
 ```{r echo=TRUE, eval=FALSE}
 mod_3 = fit_dfa(y = t(dat.spp.1980), num_trends=3, varIndx = rep(1,5))
 ```
-
-## Predicted values
 
 ## Uncertainty intervals on states
 

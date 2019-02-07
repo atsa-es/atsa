@@ -221,7 +221,7 @@ bayes <- list(
   html = "Lectures/Week 5/lec_10_bayes.html",
   video = "",
   reading = c(""),
-  youtube = "",
+  youtube = "https://youtu.be/EzmfcyL0n2I",
   instructor = "Eric"
 )
 ```
