@@ -108,16 +108,16 @@ dlmlab <- list(
   title = "Dynamic Linear Models",
   topics = c("Fitting DLMs"),
   pdf = "",
-  rmd = "",
-  html = "",
+  rmd = "https://nwfsc-timeseries.github.io/atsa-labs/Rmds/DLM.Rmd",
+  html = "https://nwfsc-timeseries.github.io/atsa-labs/chap-dlm-dynamic-linear-models.html",
   video = "",
   youtube = "",
   data = "",
-  homework = "At end of lab",
+  homework = "Problems end of lab; due midnight next Thurs 2/14",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
+  hw_duedate = "Due midnight next Thurs 2/14; email to instructor(s) for lab"
 )
 ```
 
