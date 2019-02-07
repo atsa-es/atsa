@@ -169,13 +169,13 @@ model_inf <- list(
 ```{r}
 dlm <- list(
   title = "Dynamic Linear Models",
-  topics = c("Dynamic linear models (DLMs)"),
+  topics = c("Regression with autocorrelated errors", "Dynamic linear models (DLMs)"),
   pdf = "Lectures/Week 5/lec_09_intro_to_DLMs.pdf",
   ppt = "",
   rmd = "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
   html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
-  video = "",
-  reading = c("Petris et al. (2009)", "HWS18a: Chap 16", "Scheuerell & Williams (2005)"),
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=065aa722-ccb6-4ad5-b047-a9e601631f98",
+  reading = c("Petris et al. (2009)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "Scheuerell & Williams (2005)"),
   youtube = "https://youtu.be/UphDr8v1uc8",
   instructor = "Mark"
 )
@@ -199,15 +199,14 @@ dlm2 <- list(
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Regression with autocorrelated errors",
-             "Dynamic factor analysis (DFA)"),
+  topics = c("Dynamic factor analysis (DFA)"),
   pdf = "Lectures/Week 4/lec_08_intro_to_DFA.pdf",
   ppt = "",
   rmd = "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
   html = "Lectures/Week 4/lec_08_intro_to_DFA.html",
-  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=065aa722-ccb6-4ad5-b047-a9e601631f98",
-  reading = c("Zuur et al. (2003a)", "Zuur et al. (2003b)", "Goertler et al. (2016)", "Ohlberger et al. (2016)", "HWS18a: Chap 10"),
-  youtube = "https://youtu.be/FMLh8c_Sa8s",
+  video = "",
+  reading = c("[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Goertler et al. 2016](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162121)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
+  youtube = "https://youtu.be/UphDr8v1uc8",
   instructor = "Mark"
 )
 ```
