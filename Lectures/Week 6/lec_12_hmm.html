@@ -3077,6 +3077,10 @@ if (document.readyState !== "loading" &&
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -3711,7 +3715,7 @@ fitmod = fit(mod)</pre>
 <p>We could also have situations where the time series are of different length.</p>
 
 <ul>
-<li><p>For example, if L_ochotensis time series was missing first hald of values</p></li>
+<li><p>For example, if L_ochotensis time series was missing first half of values</p></li>
 <li><p>The argument <code>ntimes</code> is a list that becomes particularly valuable here - representing the length of each time series</p></li>
 </ul>
 
@@ -3729,7 +3733,7 @@ fitmod = fit(mod)</pre>
 <p>Bayesian estimation generally beyond the scope of this class</p>
 
 <ul>
-<li>Very sstraightforward to build these models in BUGS/JAGS</li>
+<li>Very straightforward to build these models in BUGS/JAGS</li>
 <li>More complicated with newer sofware (Stan)</li>
 </ul></article></slide>
 
