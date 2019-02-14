@@ -341,9 +341,9 @@ HMMs <- list(
   ppt = "",
   rmd = "Lectures/Week 6/lec_12_hmm.Rmd",
   html = "Lectures/Week 6/lec_12_hmm.html",
-  video = "",
+  video = "https://youtu.be/MHJFNeK-rug",
   reading = c(""),
-  youtube = "",
+  youtube = "https://youtu.be/MHJFNeK-rug",
   instructor = "Eric"
 )
 ```

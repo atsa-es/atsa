@@ -621,7 +621,7 @@ fitmod = fit(mod)
 
 We could also have situations where the time series are of different length.
 
-* For example, if L_ochotensis time series was missing first hald of values
+* For example, if L_ochotensis time series was missing first half of values
 
 * The argument `ntimes` is a list that becomes particularly valuable here - representing the length of each time series
 
@@ -636,7 +636,7 @@ Estimation of HMMs for time series in R generally done with ML methods
 
 Bayesian estimation generally beyond the scope of this class
 
-* Very sstraightforward to build these models in BUGS/JAGS
+* Very straightforward to build these models in BUGS/JAGS
 * More complicated with newer sofware (Stan)
 
 
