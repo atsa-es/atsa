@@ -164,7 +164,7 @@ bayeslab <- list(
               "STAN"),
   pdf = "",
   rmd = "",
-  html = "",
+  html = "https://nwfsc-timeseries.github.io/atsa-labs/chap-stan.html",
   video = "",
   youtube = "",
   data = "",
