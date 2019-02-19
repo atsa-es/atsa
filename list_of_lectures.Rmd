@@ -219,8 +219,8 @@ bayes <- list(
   ppt = "",
   rmd = "Lectures/Week 5/lec_10_bayes.Rmd",
   html = "Lectures/Week 5/lec_10_bayes.html",
-  video = "",
-  reading = c(""),
+  video = "https://youtu.be/EzmfcyL0n2I",
+  reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)"),
   youtube = "https://youtu.be/EzmfcyL0n2I",
   instructor = "Eric"
 )
@@ -342,7 +342,7 @@ HMMs <- list(
   rmd = "Lectures/Week 6/lec_12_hmm.Rmd",
   html = "Lectures/Week 6/lec_12_hmm.html",
   video = "https://youtu.be/MHJFNeK-rug",
-  reading = c(""),
+  reading = c("[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
   youtube = "https://youtu.be/MHJFNeK-rug",
   instructor = "Eric"
 )
