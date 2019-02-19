@@ -219,7 +219,7 @@ bayes <- list(
   ppt = "",
   rmd = "Lectures/Week 5/lec_10_bayes.Rmd",
   html = "Lectures/Week 5/lec_10_bayes.html",
-  video = "https://youtu.be/EzmfcyL0n2I",
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=71749dcf-20da-4c86-90bf-a9ed017e1e14",
   reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)"),
   youtube = "https://youtu.be/EzmfcyL0n2I",
   instructor = "Eric"
@@ -275,7 +275,7 @@ spat_cor <- list(
 ```{r}
 ets <- list(
   title = "Exponential smoothing models",
-  topics = c("Exponential smoothing models"),
+  topics = c("Exponential smoothing models", "crossvalidation tests"),
   pdf = "",
   ppt = "",
   rmd = "",
