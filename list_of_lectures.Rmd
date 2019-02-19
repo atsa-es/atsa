@@ -279,7 +279,7 @@ ets <- list(
   pdf = "",
   ppt = "",
   rmd = "",
-  html = "",
+  html = "Lectures/Week 7/ETS.html",
   video = "",
   reading = c(""),
   youtube = "",
