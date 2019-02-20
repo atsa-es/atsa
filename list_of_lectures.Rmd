@@ -143,7 +143,7 @@ covariates <- list(
   rmd = "",
   html = "",
   video = "",
-  reading = c(""),
+  reading = c("[HA18: Chap 5](https://otexts.com/fpp2/regression.html)","[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
   youtube = "",
   instructor = "Eli"
 )
@@ -279,9 +279,9 @@ ets <- list(
   pdf = "",
   ppt = "",
   rmd = "",
-  html = "Lectures/Week 7/ETS.html",
+  html = c("Lectures/Week 7/ETS.html"),
   video = "",
-  reading = c(""),
+  reading = c("[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)","[H18: Chap 4](https://fish-forecast.github.io/Fish-Forecast-Bookdown/4-exponential-smoothing-models.html)"),
   youtube = "",
   instructor = "Eli"
 )
