@@ -1,0 +1,13 @@
+\input{../tex/headerfile}
+\input{../tex/mathdefs}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{enumerate}
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\SweaveInput{multivariate-ss-with-cov-content.Rnw}
+\SweaveInput{multivariate-ss-with-cov-homework.Rnw}
+
+\bibliography{../tex/Fish507}
+
+\end{document}

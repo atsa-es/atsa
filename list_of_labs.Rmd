@@ -141,19 +141,19 @@ dfalab <- list(
 
 ```{r}
 etsedmlab <- list(
-  title = "Forecasting with EDM and ETS models",
-  topics = c("Forecasting with EDM and ETS models"),
-  pdf = "",
+  title = "Forecasting with ETS models",
+  topics = c("Forecasting with ETS models, Model comparison, Covariates in MARSS models"),
+  pdf = "Labs/Week 6/multivariate-ss-with-cov.pdf",
   rmd = "",
-  html = "",
+  html = "https://fish-forecast.github.io/Fish-Forecast-Webpage/Exp_Smoothing.html",
   video = "",
   youtube = "",
   data = "",
-  homework = "At end of lab",
+  homework = "Problems 1-6 in the Covariates Chapter (pdf)",
   key = "",
-  instructor = c("Eric","Eli"),
-  hw_topics = c("Forecasting with EDM and ETS in R"),
-  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
+  instructor = c("Eli"),
+  hw_topics = c("Covariates in MARSS models"),
+  hw_duedate = "Due 5pm next Thurs 2/28; email to instructor(s) for lab"
 )
 ```
 
