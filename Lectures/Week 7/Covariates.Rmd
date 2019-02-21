@@ -9,7 +9,6 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
 library(kableExtra)
 set.seed(123)
 options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
@@ -54,12 +53,125 @@ knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%2
 
 ## Covariates -> Forecast
 
-```{r out.width=c('300px', '350px'), out.extra='style="float:left; display:block; padding:30px"'}
+```{r out.width=c('300px', '350px'), out.extra='style="float:left; display:block; padding:30px"', echo=FALSE}
 knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/salmoncovariates.jpg")
 knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/redgreenyellowlight.png")
 ```
 
+## Covariates in time series models
 
+* Multivariate linear regression for time series data
+* ARIMA models
+    * Linear regression with ARIMA errors
+    * ARMAX
+* MARSS models with covariates
+    * We will focus on this.  Related to ARMAX
+
+What about ETS and covariates?  Wouldn’t make sense.
+
+## Multivariate linear regression for time series data
+
+Can you do a linear regression with time series data (response and predictors)? Yes, but you need to be careful.  Read Chapter 5 in [Hyndman and Athanasopoulos 2018]( https://otexts.com/fpp2/regression.html)
+
+* Diagnostics that need to be satisfied
+    * Residuals are temporally uncorrelated
+    * Residuals are not correlated with the predictor variables
+* Be careful regarding spurious correlation if both response and predictor variables have trends
+
+## Autocorrelated response and predictor variables
+
+Imagine that your data looked like so where the line is the data and the color represents your covariate.  
+
+```{r echo=FALSE, fig.height=4}
+colfunc<-colorRampPalette(c("red","yellow","springgreen","royalblue"))
+plot(rep(1,20),col=(colfunc(50)), pch=19,cex=2,ylim=c(0,10))
+dat <- sin((10:30)*pi/20)*3+5
+lines(dat)
+points(dat)
+```
+    
+## Autocorrelated response and predictor variables
+
+* Do you really have 20 independent data points for estimating the covariate effect?
+* Why are the data correlated? It is only because of the covariate?
+* How many covariates did you look at?
+* This can be another type of spurious correlation.
+
+## Linear regression with autocorrelated errors
+
+The `xreg` argument in `Arima()` and `arima()` allows you to fit linear regressions with autocorrelated errors.  Read Chapter 9 in [Hyndman and Athanasopoulos 2018](https://otexts.com/fpp2/dynamic.html) on Dynamic Regression.
+
+A linear regression with autocorrelated errors is for example:
+
+$$y_t = \alpha + \beta d_t + \nu_t \\ \nu_t = \theta_1 \nu_{t-1} + \theta_2 \nu_{t-2} + e_t$$
+
+## Fitting in R
+
+### `Arima()`
+
+```
+fit <- Arima(y, xreg=d, order=c(1,1,0))
+```
+
+### `auto.arima()`
+
+```
+fit <- auto.arima(y, xreg=x)
+```
+
+## Example from Hyndman and Athanasopoulos 2018
+
+```{r, echo=FALSE, message=FALSE, fig.height=4}
+library(fpp2)
+autoplot(uschange[,1:2], facets=TRUE) +
+  xlab("Year") + ylab("") +
+  ggtitle("Quarterly changes in US consumption
+    and personal income")
+```
+
+## A simple regression has problems
+
+```{r, fig.height=4}
+y <- uschange[,"Consumption"]; d <- uschange[,"Income"]
+fit <- lm(y~d)
+checkresiduals(fit)
+```
+
+## Try AR(1) errors
+
+```{r, fig.height=4}
+fit <- Arima(y, xreg=d, order=c(1,0,0))
+checkresiduals(fit)
+```
+
+## Let `auto.arima()` find best ARMA model
+
+```{r}
+fit <- auto.arima(y, xreg=d) # It finds a ARMA(1,0,2) is best.
+checkresiduals(fit)
+```
+
+## Collinearity
+
+The is a big issue.  If you are thinking about stepwise variable selection, do a literature search on the issue.  Read the chapter in [Holmes 2018: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html) on catch forecasting models using multivariate regression for a discussion of
+
+* Stepwise variable regression in R
+* Cross-validation for regression models
+* Penalized regression in R
+    * Lasso
+    * Ridge
+    * Elastic Net
+* Diagnostics
+
+
+## Covariates in MARSS models
+
+We are trying to explain the ERRORS with our covariates.
+
+$$\mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_t + \mathbf{w}_t \\ \mathbf{y}_t = \mathbf{Z} \mathbf{x}_{t} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t$$
+
+
+<!--
 ## Why include covariates in a model?
 
 * You want to explain correlation in observation errors across sites or auto-correlation in time
@@ -83,4 +195,6 @@ head(mtcars)
 tail(mtcars)
 ```
 </div>
+
+-->
 
