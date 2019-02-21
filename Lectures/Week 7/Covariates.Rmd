@@ -1,19 +1,42 @@
 ---
+title: "Intro to ARMA models"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "15 Jan 2019"
 output:
-  xaringan::moon_reader:
-    css: "my-theme.css"
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
+  ioslides_presentation:
+    css: lecture_slides.css
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
+set.seed(123)
+```
+
+## Topics for today
+
+Review
+
+* White noise  
+
+* Random walks  
+
+Autoregressive (AR) models
+
+Moving average (MA) models
+
+Autoregressive moving average (ARMA) models
+
+Using ACF & PACF for model ID
+
+
+## White noise (WN)
 
 ```{r setup, include=FALSE, message=FALSE}
 options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
 knitr::opts_chunk$set(fig.height=5, fig.align="center")
-library(huxtable)
-load("landings.RData")
-greeklandings <- landings
+library(FishForecast)
 ```
 
 layout: true

@@ -278,7 +278,7 @@ ets <- list(
   topics = c("Exponential smoothing models", "crossvalidation tests"),
   pdf = "",
   ppt = "",
-  rmd = "",
+  rmd = c("Lectures/Week 7/ETS.Rmd"),
   html = c("Lectures/Week 7/ETS.html"),
   video = "",
   reading = c("[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)","[H18: Chap 4](https://fish-forecast.github.io/Fish-Forecast-Bookdown/4-exponential-smoothing-models.html)"),
