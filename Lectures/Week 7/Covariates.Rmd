@@ -2,7 +2,7 @@
 title: "Covariates in Time Series Models"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Eli Holmes"
-date: "15 Jan 2019"
+date: "21 Feb 2019"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -12,10 +12,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 library(kableExtra)
 set.seed(123)
-```
-
-
-```{r setup, include=FALSE, message=FALSE}
 options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
 knitr::opts_chunk$set(fig.height=5, fig.align="center")
 library(FishForecast)
@@ -40,4 +36,51 @@ library(FishForecast)
 
 ## Why include covariates in a model?
 
+* We are often interested in knowing the cause of variation
+* Covariates can explain the process that generated the patterns
+
+
+```{r covariates, echo=FALSE, out.width = '80%'}
+knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/superbowl.png")
+```
+
+## Why include covariates in a model?
+
+* You want to forecast something using covariates
+
+```{r forecastsalmon, echo=FALSE, out.width = '100%'}
+knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/forecastsalmon.png")
+```
+
+## Covariates -> Forecast
+
+```{r out.width=c('300px', '350px'), out.extra='style="float:left; display:block; padding:30px"'}
+knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/salmoncovariates.jpg")
+knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/redgreenyellowlight.png")
+```
+
+
+## Why include covariates in a model?
+
+* You want to explain correlation in observation errors across sites or auto-correlation in time
+
+<style>
+  .col2 {
+    columns: 2 200px;         /* number of columns and width in pixels*/
+    -webkit-columns: 2 200px; /* chrome, safari */
+    -moz-columns: 2 200px;    /* firefox */
+  }
+  .col3 {
+    columns: 3 100px;
+    -webkit-columns: 3 100px;
+    -moz-columns: 3 100px;
+  }
+</style>
+
+<div class="col2">
+```{r}
+head(mtcars)
+tail(mtcars)
+```
+</div>
 

@@ -12,10 +12,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 library(kableExtra)
 set.seed(123)
-```
-
-
-```{r setup, include=FALSE, message=FALSE}
 options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
 knitr::opts_chunk$set(fig.height=5, fig.align="center")
 library(FishForecast)
@@ -40,4 +36,6 @@ library(FishForecast)
 
 ## Why include covariates in a model?
 
-
+```{r covariates, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/superbowl.png")
+```
