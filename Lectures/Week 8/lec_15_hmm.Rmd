@@ -20,11 +20,11 @@ library(dplyr)
 
 ## Overview of today's material
 
-* Gaussian processes for time series
+* Gaussian process models for time series
 
-* Neural networks
+* Neural network models
 
-* EDM 
+* Empirical dynamic modeling
 
 ## Gaussian processes for time series
 
@@ -105,5 +105,118 @@ Differences:
 
 * GAMs use smooth functions & knot locations to constrain how neighbors affect mean
 * GP models use covariance function to control how much neighbors can influence eachother based on how far apart they are
+
+## Gaussian processes for time series
+
+We have some function we want to approximate
+```{r}
+set.seed(123)
+df=data.frame(y = cumsum(rnorm(100)), x=1:100)
+g = mgcv::gam(y ~ s(x), data=df)
+
+plot(1:100, g$fitted.values, xlab="X", ylab="Y")
+```
+
+## Gaussian processes for time series
+
+We could estimate the latent values at all observed locations
+* What are the downsides to this?
+```{r}
+set.seed(123)
+df=data.frame(y = cumsum(rnorm(100)), x=1:100)
+g = mgcv::gam(y ~ s(x), data=df)
+
+plot(1:100, g$fitted.values, xlab="X", ylab="Y")
+points(1:100, g$fitted.values, col="blue", pch=16)
+```
+
+## Gaussian processes for time series
+
+Instead, consider estimating them at a subset of points and extrapolating (aka Kriging)
+
+* these locations are called the *knots*
+* extrapolating to other locations = *predictive process model*
+
+```{r}
+set.seed(123)
+df=data.frame(y = cumsum(rnorm(100)), x=1:100)
+g = mgcv::gam(y ~ s(x), data=df)
+
+plot(1:100, g$fitted.values, xlab="X", ylab="Y")
+points(seq(1,100,5), g$fitted.values[seq(1,100,5)], col="blue", pch=16)
+```
+
+## Gaussian processes for time series
+
+Lots of applications in Fisheries and Ecology
+
+* Munch et al. 2005 [link](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.137.6285&rep=rep1&type=pdf)
+* Munch et al. 2018 [link](https://onlinelibrary.wiley.com/doi/full/10.1111/faf.12304)
+
+Especially with applications to spatial models 
+
+* Latimer et al. 2009 [link](https://onlinelibrary.wiley.com/doi/full/10.1111/j.1461-0248.2008.01270.x)
+* Finley et al. 2017 [link](https://arxiv.org/abs/1702.00434)
+* Gelfand et al. 2018 [link](https://www.sciencedirect.com/science/article/pii/S2211675316300033)
+* Anderson et al. 2018 [link](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1002/ecy.2403)
+
+## Gaussian processes for time series
+
+Several options for estimating *f(x)* at knot locations
+
+* Common choice is random effects
+
+Gaussian Process models use the covariance function, $\Sigma$
+
+* e.g. Assume the random effects are MV Normal, e.g. $w \sim MVNormal(u, \Sigma)$
+
+## Gaussian processes for time series
+
+We could estimate elements of $\Sigma$ as unconstrained matrix (e.g. 'unconstrained' in MARSS)
+
+* but that's a lot of parameters! ~ m*(m+1)/2
+
+We could try to zero out some elements of $\Sigma$
+
+* but this will cause problems: if ${x}_{1}$ and ${x}_{2}$ are correlated, and ${x}_{1}$ and ${x}_{3}$ are correlated, ${x}_{2}$ and ${x}_{3}$ have to be correlated too
+
+## Gaussian processes for time series
+
+Instead, we'll use a covariance function (aka kernel). Common choices are 
+
+* Exponential 
+* Squared-exponential (Gaussian)
+* Matern
+* Anisotropic functions
+
+## Gaussian processes for time series
+
+For example with the exponential function,
+
+$${ \Sigma}_{i,j}={\sigma}^{2}exp\left( -{ d }_{ i,j }/\tau  \right)$$
+
+* ${\sigma}^{2}$ is the variance parameter (estimated)
+
+* ${ d }_{ i,j }$ is the distance between points, e.g. $|{x}_{i}-{x}_{j}|$
+
+* distance could be distance in time, space, etc
+
+* $\tau$ is a scaling parameter (estimated)
+
+## Gaussian processes for time series
+
+Question:
+
+**For our exponential function, how do $\sigma$ and $\tau$ control 'wiggliness'?**
+
+## Gaussian processes for time series
+
+**For our exponential function, how do $\sigma$ and $\tau$ control 'wiggliness'?**
+
+* Larger values of $\sigma$ introduce more variability between $f(x)$ at knot locations
+
+* Larger values of $\tau$ will make the 'exp(...)' term closer to 1
+
+
 
 
