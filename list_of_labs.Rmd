@@ -149,7 +149,7 @@ etsedmlab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "Problems 1-6 in the Covariates Chapter (pdf)",
+  homework = "Problems 1-5 in the Covariates Chapter (pdf)",
   key = "",
   instructor = c("Eli"),
   hw_topics = c("Covariates in MARSS models"),
