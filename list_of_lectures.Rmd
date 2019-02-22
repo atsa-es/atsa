@@ -142,7 +142,7 @@ covariates <- list(
   ppt = "",
   rmd = c("Lectures/Week 7/ETS_revisted.Rmd", "Lectures/Week 7/Covariates.Rmd"),
   html = c("Lectures/Week 7/ETS_revisted.html", "Lectures/Week 7/Covariates.html"),
-  video = "",
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1b55bcd8-5eb6-4909-b71b-a9fb01633327",
   reading = c("[HA18: Chap 5](https://otexts.com/fpp2/regression.html)","[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)", "[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
   youtube = "",
   instructor = "Eli"
