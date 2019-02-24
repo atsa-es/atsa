@@ -16,11 +16,15 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE,
 library(ggplot2)
 library(MARSS)
 library(dplyr)
+library(forecast)
+library(lubridate)
+library(waterData)
+library(tsDyn)
 ```
 
 ## Overview of today's material
 
-* Gaussian process models for time series
+* Gaussian process models
 
 * Neural network models
 
@@ -159,6 +163,8 @@ Especially with applications to spatial models
 * Finley et al. 2017 [link](https://arxiv.org/abs/1702.00434)
 * Gelfand et al. 2018 [link](https://www.sciencedirect.com/science/article/pii/S2211675316300033)
 * Anderson et al. 2018 [link](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1002/ecy.2403)
+* Shelton et al. 2014 [link](http://www.nrcresearchpress.com/doi/10.1139/cjfas-2013-0508#.XHLYt89KiM4)
+* Ward et al. 2018 [link](https://www.ncbi.nlm.nih.gov/pubmed/30121848)
 
 ## Gaussian processes for time series
 
@@ -217,6 +223,239 @@ Question:
 
 * Larger values of $\tau$ will make the 'exp(...)' term closer to 1
 
+## Gaussian processes for time series
+
+Revisiting univariate state space models, what are some reasons the AR process is used?
+
+$$x_t = x_{t-1}+w_t,  \,\,\, w_t \sim N(0,q)$$
+
+$$y_t = x_t + v_t, \,\,\, v_t \sim N(0,r)$$ 
+* Mechanism may be AR or RW **BUT** also
+* AR process is just one flavor of constraining estimation
+* Convenience / estimation of $q$ and $r$
+
+## Gaussian processes for time series
+
+Any of the univariate SS or multivariate models (DFA, MARSS) can be modified by swapping out an AR latent process for a GP one!
+
+Example: Gaussian process DFA
+
+* Simulated trend via AR process looks like this
+![](raw_data.png)
+
+## Gaussian processes for time series
+
+Using a GP-DFA estimation model, we can see our ability to recover the process improve from 4 to 10 to 25 knots. 4 knots:
+
+![](4_knots.png)
 
 
+## Gaussian processes for time series
 
+Using a GP-DFA estimation model, we can see our ability to recover process improve from 4 to 10 to 25 knots. 10 knots:
+
+![](10_knots.png)
+
+## Gaussian processes for time series
+
+Using a GP-DFA estimation model, we can see our ability to recover the process improve from 4 to 10 to 25 knots. 25 knots:
+
+![](25_knots.png)
+
+## Neural network time series models
+
+Neural networks widely used in lots of fields. Not widely used in fisheries with a few examples:
+
+Ward et al. 2014 [link](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1600-0706.2014.00916.x)
+Coro et al. 2016 [link](https://academic.oup.com/icesjms/article/73/10/2552/2647120)
+
+* Special applications to time series or data that are sequentially structured
+
+## Neural network time series models
+
+Some NNet jargon:
+
+* *Inputs* are predictors (including lagged data)
+
+* *Hidden layer* are the latent variables / process
+
+* *Neurons* control dimensionality of hidden layer (a collection of hidden neurons = hidden layer)
+
+* *Output* is the predictions vailidated against observable data
+
+## Neural network time series models
+
+Neural networks offer an advantage over many approaches we've seen in that they're non-linear
+
+Example: 
+
+* We have a number of predictors for our time series. These are the inputs 
+
+${ X }_{ 1 }$, ${ X }_{ 2 }$, ${ X }_{ 3 }$
+
+* The neuron takes the inputs, and uses a function $f(...)$ to generate predictions. $f(...)$ is known as the *activation function* and is non-linear (sigmoid, exponential, etc)
+
+## Neural network time series models
+
+Just like regression, the nueron estimates coefficients (aka *weights*) for each of the predictors.
+
+$E[Y] = f({ b }_{ 0 } + { b }_{ 1 }*{ X }_{ 1 } + { b }_{ 2 }*{ X }_{ 2 } + { b }_{ 3 }*{ X }_{ 3 })$
+
+Note: ${ b }_{ 0 }$ is sometimes called the bias -- but is similar to intercept in regression
+
+## Neural network time series models
+
+Implementation in R
+
+*We'll talk about examples in 2 packages
+
+* *forecast*, *tsDyn*
+
+## Neural network time series models
+
+First the forecast package -- function *nnetar*
+
+* This package implements NNet models with *autoregression*, where this is defined as lagged values of the response time series *Y*
+
+* Rob Hyndman has some great tutorials / vignettes for more in-depth info. [more on nnetar here](https://otexts.com/fpp2/nnetar.html)
+
+## Neural network time series models
+
+We'll apply this to daily flow data from the Cedar River
+
+```{r echo=TRUE, fig.height=3.5, fig.width=3.5}
+library(waterData)
+dat = importDVs(staid = "12119000")
+library(lubridate)
+dat = dat[which(year(date(dat$dates)) == 2018),]
+ggplot(dat, aes(dates,val)) + geom_point() + 
+  ylab("Flow")
+```
+
+## Neural network time series models
+
+Using the 'nnetar' function, there's several important arguments to consider
+
+```{r echo=TRUE, eval=FALSE}
+mod = nnetar(y=dat$val, p=..., size=...)
+```
+
+* p represents the *embedding dimension* or number of lags to include
+
+* size represents the dimension of the hidden layer (# neurons)
+
+Each of these has defaults, but we'll do a couple sensitivities
+
+
+## Neural network time series models
+
+First, let's look at varying the number of lagged predictors
+
+```{r echo=TRUE}
+mod_1 = nnetar(y=dat$val, p=1, size=1)
+mod_5 = nnetar(y=dat$val, p=5, size=1)
+mod_15 = nnetar(y=dat$val, p=15, size=1)
+```
+
+
+## Neural network time series models
+
+Even with embedding dimension = 1, predictions are pretty good
+
+```{r}
+dat$pred = mod_1$fitted
+ggplot(dat, aes(dates,val)) + geom_point() + 
+  ylab("Flow") + 
+  geom_line(aes(dates,pred), col="blue")
+```
+
+## Neural network time series models
+
+Only very slight differences here -- slight ones in Feb/March for example
+
+```{r echo=FALSE}
+dat$pred_1 = mod_1$fitted
+dat$pred_5 = mod_5$fitted
+ggplot(dat, aes(dates,val)) + geom_point() + 
+  ylab("Flow") + 
+  geom_line(aes(dates,pred_1), col="blue") +
+  geom_line(aes(dates,pred_5), col="purple")
+```
+
+## Neural network time series models
+
+Ok, now a sensitivity to the size of the hidden layer
+
+```{r echo=TRUE}
+mod_1 = nnetar(y=dat$val, p=1, size=1)
+mod_5 = nnetar(y=dat$val, p=1, size=5)
+mod_15 = nnetar(y=dat$val, p=1, size=15)
+```
+
+## Neural network time series models
+
+Again, the fit with 1 neuron looks pretty good
+
+```{r echo=FALSE}
+dat$pred_1 = mod_1$fitted
+ggplot(dat, aes(dates,val)) + geom_point() + 
+  ylab("Flow") + 
+  geom_line(aes(dates,pred_1), col="blue")
+```
+
+## Neural network time series models
+
+And there only appear to be slight differences as we add more neurons
+
+```{r echo=FALSE}
+dat$pred_1 = mod_1$fitted
+dat$pred_5 = mod_5$fitted
+ggplot(dat, aes(dates,val)) + geom_point() + 
+  ylab("Flow") + 
+  geom_line(aes(dates,pred_1), col="blue") +
+  geom_line(aes(dates,pred_5), col="purple")
+```
+
+## Neural network time series models
+
+Selecting the size of the network and number of lags (embedding dimension) can be tricky. Many estimation routines will do this for you. 
+
+* nnetar will do this for you
+
+For our flow data for example, we can not specify *p* or *size*
+
+```{r echo=TRUE}
+mod = nnetar(y=dat$val)
+```
+
+## Neural network time series models
+
+Output here is as NNAR(p,k) with *p* equal to the embedding dimension, and *k* the hidden nodes
+```{r echo=TRUE, results='markdown'}
+mod
+```
+
+## Neural network time series models
+
+Models are trained on 1-step ahead forecasts
+
+* but this can be customized
+
+Weights are randomized from lots of starting values and forecasts averaged
+
+Point forecasts can be used from the fitted object as before, 
+```{r echo=TRUE, eval=FALSE}
+f = forecast(mod, h = 10)
+```
+
+## Neural network time series models
+
+Alternative estimation routines also exist in 'tsDyn' package
+
+```{r echo=TRUE, eval=FALSE}
+nnetTs(x, m, d = 1, steps = d, size)
+```
+Just like 'nnetar', 
+
+* *m* is embedding dimension
+* *size* is dimension of neural network
