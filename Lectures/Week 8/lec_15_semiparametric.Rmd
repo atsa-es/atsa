@@ -470,3 +470,119 @@ S-Map [link](https://royalsocietypublishing.org/doi/10.1098/rsta.1994.0106)
 Convergent cross-mapping [link](http://science.sciencemag.org/content/338/6106/496)
 
 Hao Ye's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.html)
+Yair Daon's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-algorithms.pdf)
+Owen Petchey's Vignette [link](https://www.zora.uzh.ch/id/eprint/129395/1/Simplex_projection_walkthrough.pdf)
+
+## Empirical dynamic modeling for time series
+
+These tools generally represent nearest neighbor forecasting (projecting) routines
+
+* Like NNets, there is a lag (embedding dimension) that needs to be chosen
+
+* Also need to specify the number of nearest neighbors (default Simplex = E+1)
+
+## Empirical dynamic modeling for time series
+
+First, the embedding dimension. We'll start with a lag / embedding dimension of $E$ = 5
+
+```{r}
+set.seed(123)
+r = rnorm(25)
+y = c(r,r,r,r,r[1])+rnorm(101,0,0.1)
+plot(y, type="l",
+     ylab="")
+points(96:100,y[96:100],col="blue", pch=16,cex=1.2)
+```
+
+## Empirical dynamic modeling for time series
+
+Or we could use a value of $E$ = 3
+
+```{r}
+set.seed(123)
+r = rnorm(25)
+y = c(r,r,r,r,r[1])+rnorm(101,0,0.1)
+plot(y, type="l",
+     ylab="")
+points(98:100,y[98:100],col="blue", pch=16,cex=1.2)
+```
+
+## Empirical dynamic modeling for time series
+
+There's some optimal embedding dimension we can select 
+
+* predictions are likely affected strongly by recent dynamics
+
+* it is less likely that conditions in the distant past are also useful at making projections
+
+* as a result, predictability may increase slightly with greater values of $E$ and then eventually decline
+
+## Empirical dynamic modeling for time series
+
+Internally, forecasts will be made based on the library of predictors
+
+* This library is generated from previous dynamics that mirror the most recent time period
+* Forecasts are then averaged + validated (cross - validation)
+
+```{r, fig.height=3}
+set.seed(123)
+r = rnorm(25)
+y = c(r,r,r,r,r[1])+rnorm(101,0,0.1)
+plot(y, type="l",
+     ylab="")
+points(98:100,y[98:100],col="blue", pch=16,cex=1.2)
+```
+
+http://deepeco.ucsd.edu/simplex/
+
+## Empirical dynamic modeling for time series
+
+Examples: let's start with the classic 'lynx' dataset
+
+```{r}
+data(lynx)
+plot(lynx)
+```
+
+## Empirical dynamic modeling for time series
+
+Examples: let's start with the classic 'lynx' dataset
+
+```{r, echo=TRUE}
+mod = rEDM::simplex(as.numeric(lynx), E=1:10)
+```
+
+
+## Empirical dynamic modeling for time series
+
+Predictability increases a lot when E=2, but pretty flat after
+
+```{r, echo=TRUE, fig.height=4, fig.width=4}
+ggplot(mod, aes(E,rho)) + geom_line()
+```
+
+## Empirical dynamic modeling for time series
+
+Similar patterns with RMSE
+
+```{r, echo=TRUE, fig.height=4, fig.width=4}
+ggplot(mod, aes(E,rmse)) + geom_line()
+```
+
+## Empirical dynamic modeling for time series
+
+We can also pull out predictions (off by default) with the 'stats_only' argument,
+
+```{r, echo=TRUE, fig.height=3, fig.width=3}
+mod = rEDM::simplex(as.numeric(lynx), E=1:10, stats_only=FALSE)
+ggplot(mod[[2]]$model_output, aes(obs, pred)) + geom_point()
+```
+
+## Empirical dynamic modeling for time series
+
+```{r}
+ggplot(mod[[2]]$model_output, aes(time, pred)) + geom_line() + 
+  geom_point(aes(time, obs)) + ylab("Lynx")
+
+```
+
