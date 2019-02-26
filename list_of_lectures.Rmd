@@ -380,12 +380,12 @@ present2 <- list(
 
 ```{r}
 EDM <- list(
-  title = "Empirical dynamic modeling",
-  topics = c("Empirical dynamic modeling"),
-  pdf = "",
+  title = "Semi- and non-parametric models",
+  topics = c("Semi- and non-parametric models"),
+  pdf = "Lectures/Week 8/lec_15_semiparametric.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 8/lec_15_semiparametric.Rmd",
+  html = "Lectures/Week 8/lec_15_semiparametric.html",
   video = "",
   reading = c("https://rdcu.be/bdfWL"),
   youtube = "",
