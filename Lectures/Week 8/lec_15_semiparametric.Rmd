@@ -586,3 +586,39 @@ ggplot(mod[[2]]$model_output, aes(time, pred)) + geom_line() +
 
 ```
 
+## Empirical dynamic modeling for time series
+
+We can also play with out of sample forecasting by specifiying the data to be used in the library ('lib') and data to be used for prediction ('pred'). For example, to forecast the last 14 data points of the lynx series, we could use
+
+```{r echo=TRUE, eval=FALSE}
+mod = rEDM::simplex(as.numeric(lynx), E=1:10, stats_only=FALSE,
+      lib=c(1,100), pred=c(101,114))
+```
+
+## Empirical dynamic modeling for time series
+
+As a second example, let's fit this to the water data from the Cedar River.
+
+```{r echo=TRUE, fig.height=3}
+mod = rEDM::simplex(dat$val, E=1:10)
+ggplot(mod, aes(E,rho)) + geom_line()
+```
+
+## Empirical dynamic modeling for time series
+
+For this application, it's also interesting to maybe compare the Simplex fits against the neural network time series. Here, the 'forecast skill' (rho) is 0.9817 for the best model (E=3).
+
+Fitting the nnet model yields a slightly higher correlation (0.988)
+
+```{r echo=TRUE, eval=FALSE}
+mod_nn = nnetar(y=dat$val)
+```
+
+## Empirical dynamic modeling for time series
+
+Beyond Simplex: in the interest of time, we haven't talked about SMAP or Cross Mapping
+
+* Smap (rEDM::s_map) is similar to Simplex, but also estimates a non linear parameter $\theta$
+
+* Cross mapping (rEDM::ccm) models causality in multiple time series, using information in lags
+
