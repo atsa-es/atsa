@@ -123,7 +123,10 @@ lines(apply(ft, 2, sum), lwd = 2)
 ## Fourier series
 
 ```{r}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
 
+plot(seq(nn), apply(ft, 1, max), type = "h", las = 1,
+        ylab = "Amplitude", xlab = "Frequency")
 ```
 
 
@@ -139,15 +142,35 @@ lines(apply(ft, 2, sum), lwd = 2)
 We can make use of Euler's formula
 
 $$
-\cos(2 \pi \theta) + i \sin(2 \pi \theta) = e^{2 \pi i \theta}
+\cos(2 \pi k) + i \sin(2 \pi k) = e^{i 2 \pi k}
 $$
 
 and write the Fourier transform of $f(t)$ as
 
 $$
-f(t) = \int_{-\infty}^\infty \hat{f}(\theta) ~ e^{2 \pi i t \theta} ~ d \theta
+f(t) = \int_{-\infty}^\infty \hat{f}(k) ~ e^{2 \pi i t k} ~ d k
 $$
 
-where $\theta$ is the frequency
+where $k$ is the frequency
+
+
+## Discrete Fourier transform
+
+$$
+f_k = \sum_{n=0}^{N-1} x_t ~ e^{-i 2 \pi n k}
+$$
+
+
+## Discrete Fourier transform
+
+$$
+f_k = \sum_{n=0}^{N-1} x_t ~ e^{-i 2 \pi n k}
+$$
+
+Inverse
+
+$$
+x_t = \frac{1}{N} \sum_{k=0}^{N-1} f_k ~ e^{i 2 \pi n k}
+$$
 
 
