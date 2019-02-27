@@ -245,6 +245,80 @@ lines(Re(ift), col = "darkred", lwd = 1, lty = "dashed")
 ```
 
 
+## Spectral analysis
+
+Spectral analysis refers to a _general_ way of decomposing time series into their constituent frequencies
+
+
+## Spectral analysis
+
+Consider a linear regression model for $\{x_t\}$ with various sines and cosines as predictors
+
+$$
+x_t = a_0 + \sum_{k = 1}^{n/2-1} a_k \cos(2 \pi f_0 k t/n) + b_k \sin(2 \pi f_0 k t/n)
+$$
+
+
+## Periodogram
+
+The _periodogram_ measures the contributions of each frequency $k$ to $\{x_t\}$
+
+$$
+P_k = a^2_k + b^2_k
+$$
+
+
+## Estimate the periodogram in R
+
+```{r, eval=FALSE, echo=TRUE}
+spectrum(xt, log = "on")
+spectrum(xt, log = "off")
+spectrum(xt, log = "dB")
+```
+
+
+## Periodogram for our $\{x_t\}$
+
+```{r}
+par(mai = c(1,0.9,0.3,0.1), omi = c(0,0,0,0))
+spectrum(xt, main = "", las = 1, log = "dB")
+```
+
+`spectrum(xt, log = "dB")`
+
+## Periodogram for our $\{x_t\}$
+
+```{r}
+delta <- 1/100
+x_spec <- spectrum(xt, log = "no", plot = FALSE)
+sx <- x_spec$freq/delta
+sy <- 2*x_spec$spec
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(sx, sy, type = "l",
+     xlab = "Frequency", ylab = "Spectral density")
+```
+
+Density on natural scale & frequency in cycles per time
+
+
+## Spectral density estimation via AR(_p_)
+
+For an AR(_p_) process
+
+$$
+x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \cdots + \phi_p x_{t-p} + e_t
+$$
+
+The spectral density is
+
+$$
+S(f,\phi_1, \dots, \phi_p, \sigma^2) = \frac{\sigma^2 \Delta t}{\vert 1 - \sum_{k = 1}^p \phi_k e^{-i 2 \pi f k \Delta t} \vert ^2}
+$$
+
+
+
+
 
 
 
