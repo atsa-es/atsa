@@ -317,9 +317,47 @@ S(f,\phi_1, \dots, \phi_p, \sigma^2) = \frac{\sigma^2 \Delta t}{\vert 1 - \sum_{
 $$
 
 
+## Limits to spectral analysis
+
+Spectral analysis works well for
+
+1. stationary time series
+
+2. identifying periodic signals corrupted by noise
+
+What if the frequency changes over time?
+
+
+## Graphical forms for decomposition
+
+```{r}
+par(mfrow = c(1,2), mai = c(0.5,0.5,0.5,0.5), omi = c(1,0,0,0))
+## original
+plot(c(1,10), c(1,10), type = "n",
+     xaxt = "n", yaxt = "n",
+     ylab = "", xlab = "")
+mtext(side = 1, "Time", line = 0.5)
+mtext(side = 2, "Frequency", line = 0.5)
+mtext(side = 3, "Original series", line = 0.5,
+      adj = 0.5, cex = 1.5)
+abline(v = seq(10), col = "blue")
+## fourier
+plot(c(1,10), c(1,10), type = "n",
+     xaxt = "n", yaxt = "n",
+     ylab = "", xlab = "")
+mtext(side = 1, "Time", line = 0.5)
+mtext(side = 2, "Frequency", line = 0.5)
+mtext(side = 3, "Fourier transform", line = 0.5,
+      adj = 0.5, cex = 1.5)
+abline(h = seq(10), col = "darkred")
+```
 
 
 
 
+## Wavelets
 
+For non-stationary time series we can use so-called _wavelets_
+
+A wavelet is a function that is localized in time & frequency
 
