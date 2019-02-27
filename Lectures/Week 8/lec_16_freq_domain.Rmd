@@ -1,5 +1,5 @@
 ---
-title: "Time series in the frequency domain"
+title: "Time series analysis in the frequency domain"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
 date: "28 Feb 2019"
@@ -18,7 +18,41 @@ set.seed(123)
 
 What is the frequency domain?
 
+Fourier transforms
+
 Spectral analysis
 
 Wavelets
+
+
+## Fourier series
+
+Complex periodic functions can be written as infinite sums of sine and cosine waves
+
+$$
+f(t) = \frac{1}{2} a_0 + \sum_{n = 1}^\infty [a_n \cos(n t) + b_n \sin(n t)] 
+$$
+
+
+## Fourier series
+
+[animated example](https://upload.wikimedia.org/wikipedia/commons/7/72/Fourier_transform_time_and_frequency_domains_%28small%29.gif)
+
+
+## Fourier transform
+
+We can make use of Euler's formula
+
+$$
+\cos(2 \pi \theta) + i \sin(2 \pi \theta) = e^{2 \pi i \theta}
+$$
+
+and write the Fourier transform of $f(t)$ as
+
+$$
+f(t) = \int_{-\infty}^\infty \hat{f}(\theta) ~ e^{2 \pi i t \theta} ~ d \theta
+$$
+
+where $\theta$ is the frequency
+
 
