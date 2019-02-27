@@ -8,6 +8,7 @@ output:
     css: lecture_slides.css
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(MARSS)
@@ -49,19 +50,19 @@ Today we'll consider how amplitude changes with frequency
 
 ## Jean-Baptiste Fourier (1768 - 1830)
 
-French mathematician best known for his studies of heat transfer
+French mathematician & physicist best known for his studies of heat transfer
 
 First described what we now call the "greenhouse effect"
 
 
 ## Solving hard problems
 
-Solving the heat equation involves solving _partial differential equations_, subjected to some boundary conditions
+Solving the heat equation involves solving _partial differential equations_ conditional on some boundary conditions
 
 $$
 \begin{matrix}
 \large \text{Problem} \\
-really \downarrow hard \\
+really \Bigg \downarrow hard \\
 \large \text{Solution}
 \end{matrix}
 $$
@@ -74,7 +75,7 @@ Find $f(t)$ and $\hat{f}(t)$, such that
 $$
 \begin{matrix}
 \large \text{Problem} && \xrightarrow{f(t)} && \large \text{Transformed problem} \\
-really \downarrow hard && && much \downarrow easier \\
+really \Bigg \downarrow hard && && much \Bigg \downarrow easier \\
 \large \text{Solution}  && \xleftarrow{\hat{f}(t)} && \large \text{Transformed solution} \\
 \end{matrix}
 $$
@@ -82,11 +83,50 @@ $$
 
 ## Fourier series
 
-Complex periodic functions can be written as infinite sums of sine and cosine waves
+Complex periodic functions can be written as infinite sums of sine waves
 
 $$
-f(t) = \frac{1}{2} a_0 + \sum_{n = 1}^\infty [a_n \cos(n t) + b_n \sin(n t)] 
+f(t) = a_0 + \sum_{k = 1}^\infty a_k \sin(2 \pi f_0 k t + p_k)
 $$
+
+
+## Fourier series
+
+A finite example
+
+$$
+f(t) = \sum_{k = 1}^5 \frac{1}{k} \sin(2 \pi k t + k^2) 
+$$
+
+## Fourier series
+
+```{r fourier_ex}
+tt <- seq(-1,1,1/100)
+nn <- 5
+
+ft <- matrix(NA, nn, length(tt))
+
+for(k in 1:nn) {
+  ft[k,] <- 1/k * sin(2 * pi * k * tt + k^2)
+}
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(apply(ft, 2, sum), type = "n", las = 1,
+        ylab = expression(italic(f[t])))
+matlines(t(ft), lty = "solid",
+        col = viridis::plasma(nn, 0.7, 0.1, 0.5))
+lines(apply(ft, 2, sum), lwd = 2)
+```
+
+
+## Fourier series
+
+```{r}
+
+```
+
+
 
 
 ## Fourier series
