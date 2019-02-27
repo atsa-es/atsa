@@ -102,21 +102,23 @@ $$
 
 ```{r fourier_ex}
 tt <- seq(-1,1,1/100)
+TT <- length(tt)
 nn <- 5
 
-ft <- matrix(NA, nn, length(tt))
+fs <- matrix(NA, nn, TT)
 
 for(k in 1:nn) {
-  ft[k,] <- 1/k * sin(2 * pi * k * tt + k^2)
+  fs[k,] <- 1/k * sin(2 * pi * k * tt + k^2)
 }
+xt <- apply(fs, 2, sum)
 
 par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
 
-plot.ts(apply(ft, 2, sum), type = "n", las = 1,
-        ylab = expression(italic(f[t])))
-matlines(t(ft), lty = "solid",
+plot.ts(xt, type = "n", las = 1,
+        ylab = expression(italic(x[t])))
+matlines(t(fs), lty = "solid",
         col = viridis::plasma(nn, 0.7, 0.1, 0.5))
-lines(apply(ft, 2, sum), lwd = 2)
+lines(xt, lwd = 2)
 ```
 
 
@@ -125,7 +127,7 @@ lines(apply(ft, 2, sum), lwd = 2)
 ```{r}
 par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
 
-plot(seq(nn), apply(ft, 1, max), type = "h", las = 1,
+plot(seq(nn), apply(fs, 1, max), type = "h", las = 1,
         ylab = "Amplitude", xlab = "Frequency")
 ```
 
@@ -148,7 +150,7 @@ $$
 and write the Fourier transform of $f(t)$ as
 
 $$
-f(t) = \int_{-\infty}^\infty \hat{f}(k) ~ e^{2 \pi i t k} ~ d k
+f(t) = \int_{-\infty}^\infty \hat{f}(k) ~ e^{i 2 \pi t k} ~ d k
 $$
 
 where $k$ is the frequency
@@ -156,12 +158,40 @@ where $k$ is the frequency
 
 ## Discrete Fourier transform
 
+Fourier transform
+
 $$
 f_k = \sum_{n=0}^{N-1} x_t ~ e^{-i 2 \pi n k}
 $$
 
 
-## Discrete Fourier transform
+## Fourier transforms in R
+
+__R__ uses what's known as _Fast Fourier transform_ via `fft()`, which returns the amplitude at each frequency
+
+```{r, eval = FALSE, echo = TRUE}
+ft <- fft(xt)
+## often normalize by the length
+ft <- fft(xt) / length(xt)
+```
+
+
+## Fourier represention of our $\{x_t\}$
+
+```{r}
+ft <- fft(xt) / TT
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot(seq(length(tt))-1, Mod(ft), type = "h", lwd = 3,
+     las = 1, xlim = c(0,20),
+     ylab = "Amplitude", xlab = "Frequency")
+```
+
+
+## Discrete Inverse Fourier transform
+
+Fourier transform
 
 $$
 f_k = \sum_{n=0}^{N-1} x_t ~ e^{-i 2 \pi n k}
@@ -170,7 +200,52 @@ $$
 Inverse
 
 $$
-x_t = \frac{1}{N} \sum_{k=0}^{N-1} f_k ~ e^{i 2 \pi n k}
+x_t = \sum_{k=0}^{N-1} f_k ~ e^{i 2 \pi n k}
 $$
+
+
+## Inverse Fourier transforms in R
+
+```{r, echo=TRUE, warning=FALSE}
+ i <- complex(1, re = 0, im = 1)
+xx <- rep(NA, TT)
+kk <- seq(TT) - 1
+## Inverse Fourier transform
+## ft <- fft(xt)
+for(t in kk) {
+  xx[t+1] <- sum(ft * exp(i*2*pi*kk*t/TT))
+}
+```
+
+
+## Original $\{x_t\}$ & our inverse transform
+
+```{r}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+plot.ts(xt, las = 1, lwd = 3, col = "gray",
+        ylab = expression(italic(x[t])))
+lines(Re(xx), col = "blue", lwd = 1, lty = "dashed")
+```
+
+
+## Inverse Fourier transforms in R
+
+```{r, echo=TRUE}
+ift <- fft(ft, inverse = TRUE)
+```
+
+
+## Original $\{x_t\}$ & R's inverse transform
+
+```{r, warning=FALSE}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+plot.ts(xt, las = 1, lwd = 3, col = "gray",
+        ylab = expression(italic(x[t])))
+lines(Re(ift), col = "darkred", lwd = 1, lty = "dashed")
+```
+
+
+
+
 
 
