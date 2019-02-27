@@ -25,6 +25,61 @@ Spectral analysis
 Wavelets
 
 
+## Time domain
+
+```{r}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(cumsum(rnorm(50,0,1)),
+        ylab = expression(italic(x[t])))
+```
+
+We having been examining changes in $x_t$ over time
+
+
+## Time domain
+
+We can think of this as comparing changes in amplitude (displacement) with time
+
+
+## Frequency domain
+
+Today we'll consider how amplitude changes with frequency
+
+
+## Jean-Baptiste Fourier (1768 - 1830)
+
+French mathematician best known for his studies of heat transfer
+
+First described what we now call the "greenhouse effect"
+
+
+## Solving hard problems
+
+Solving the heat equation involves solving _partial differential equations_, subjected to some boundary conditions
+
+$$
+\begin{matrix}
+\large \text{Problem} \\
+really \downarrow hard \\
+\large \text{Solution}
+\end{matrix}
+$$
+
+
+## Fourier's approach
+
+Find $f(t)$ and $\hat{f}(t)$, such that
+
+$$
+\begin{matrix}
+\large \text{Problem} && \xrightarrow{f(t)} && \large \text{Transformed problem} \\
+really \downarrow hard && && much \downarrow easier \\
+\large \text{Solution}  && \xleftarrow{\hat{f}(t)} && \large \text{Transformed solution} \\
+\end{matrix}
+$$
+
+
 ## Fourier series
 
 Complex periodic functions can be written as infinite sums of sine and cosine waves
