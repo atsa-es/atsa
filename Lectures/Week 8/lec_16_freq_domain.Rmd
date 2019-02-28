@@ -422,9 +422,106 @@ $$
 where 
 
 $j$ is the dilation index
+
 $k$ is the translation index 
 
 and
 
 $2^{j/2}$ is a normalization constant
+
+
+## Wavelets in practice
+
+There are many options for $\psi(t)$, but we'll use scaling functions and define
+
+$$
+\psi(t) = \sum_{k=0}^K c_k \psi(2x - k)
+$$
+
+where the $c_k$ are filter coefficients*
+
+<br>
+<br>
+
+*Note that $\psi(t)$ gets "smoother" as $K$ increases 
+
+
+## Haar's scaling function
+
+Simple, but commonly used, where $\small K = 1; ~ c_0 = 1; ~ c_1 = 1$
+
+$$
+\psi(t) = \sum_{k=0}^K c_k \psi(2x - k) \\
+\big \Downarrow \\
+\psi(t) = \psi(2t) + \psi(2t + 1)
+$$
+
+The only function that satisfies this is:
+
+$$
+\begin{align}
+\psi(t) &= 1 ~ \text{if} ~ 0 \leq t \leq 1 \\
+\psi(t) &= 0 ~ \text{otherwise}
+\end{align}
+$$
+
+
+## Haar's scaling function
+
+```{r}
+haar <- function(t) {
+  hh <- ifelse(t >= 0 & t <= 1, 1, 0)
+  return(hh)
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar(ti), type = "l", lwd = 2,
+     las = 1, col = "purple", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
+```
+
+
+
+## Haar's scaling function
+
+In terms of the dilation
+
+$$
+\begin{align}
+\psi(2t) &= 1 ~ \text{if} ~ 0 \leq t \leq 0.5 \\
+\psi(2t) &= 0 ~ \text{otherwise}
+\end{align}
+$$
+
+and translation
+
+$$
+\begin{align}
+\psi(2t + 1) &= 1 ~ \text{if} ~ 0.5 \leq t \leq 1 \\
+\psi(2t + 1) &= 0 ~ \text{otherwise}
+\end{align}
+$$
+
+
+## Haar's scaling function
+
+```{r}
+haar <- function(t) {
+  h0 <- ifelse(t >= 0 & t <= 1/2, 1, 0)
+  h1 <- ifelse(t >= 1/2 & t <= 1, 1, 0)
+  return(list(h0, h1))
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar(ti)[[1]], type = "l", lwd = 2,
+     las = 1, col = "blue", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
+lines(ti, haar(ti)[[2]], type = "l", lwd = 2,
+      col = "darkred")
+text(0, 0.8, expression(paste(psi,"(2t)")), pos = 2, col = "blue")
+text(1, 0.8, expression(paste(psi,"(2t + 1)")), pos = 4, col = "darkred")
+```
+
+
+
 
