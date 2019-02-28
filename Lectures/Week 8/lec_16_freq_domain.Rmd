@@ -408,7 +408,7 @@ In terms of scaling functions that describe
 
 1. Dilations $~~~~~~~~~~~~~~ \psi(t) \rightarrow \psi(2t)$ 
 
-2. Translations $~~~~~~~~~ \psi(t) \rightarrow \psi(t+1)$ 
+2. Translations $~~~~~~~~~ \psi(t) \rightarrow \psi(t - 1)$ 
 
 
 ## How are wavelets defined?
@@ -453,7 +453,7 @@ Simple, but commonly used, where $\small K = 1; ~ c_0 = 1; ~ c_1 = 1$
 $$
 \psi(t) = \sum_{k=0}^K c_k \psi(2x - k) \\
 \big \Downarrow \\
-\psi(t) = \psi(2t) + \psi(2t + 1)
+\psi(t) = \psi(2t) + \psi(2t - 1)
 $$
 
 The only function that satisfies this is:
@@ -497,8 +497,8 @@ and translation
 
 $$
 \begin{align}
-\psi(2t + 1) &= 1 ~ \text{if} ~ 0.5 \leq t \leq 1 \\
-\psi(2t + 1) &= 0 ~ \text{otherwise}
+\psi(2t - 1) &= 1 ~ \text{if} ~ 0.5 \leq t \leq 1 \\
+\psi(2t - 1) &= 0 ~ \text{otherwise}
 \end{align}
 $$
 
@@ -506,20 +506,74 @@ $$
 ## Haar's scaling function
 
 ```{r}
-haar <- function(t) {
+haar2 <- function(t) {
   h0 <- ifelse(t >= 0 & t <= 1/2, 1, 0)
   h1 <- ifelse(t >= 1/2 & t <= 1, 1, 0)
   return(list(h0, h1))
 }
 ti <- seq(-5,5,0.01)
 par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
-plot(ti, haar(ti)[[1]], type = "l", lwd = 2,
+plot(ti, haar2(ti)[[1]], type = "l", lwd = 2,
      las = 1, col = "blue", 
      xlab = "Time", ylab = expression(psi[italic(t)]))
-lines(ti, haar(ti)[[2]], type = "l", lwd = 2,
+lines(ti, haar2(ti)[[2]], type = "l", lwd = 2,
       col = "darkred")
 text(0, 0.8, expression(paste(psi,"(2t)")), pos = 2, col = "blue")
 text(1, 0.8, expression(paste(psi,"(2t + 1)")), pos = 4, col = "darkred")
+```
+
+
+## Haar's wavelet
+
+Wavelets are created via differencing of scaling functions
+
+$$
+\psi(t) = \sum_{k=0}^1 (-1)^k c_k \psi(2x - k) \\
+$$
+
+where $(-1)^k$ creates the difference
+
+
+## Haar's wavelet
+
+```{r}
+haar3 <- function(t) {
+  h0 <- ifelse(t >= 0 & t <= 1/2, 1, 0)
+  h1 <- ifelse(t >= 1/2 & t <= 1, -1, 0)
+  return(h0 + h1)
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar3(ti), type = "l", lwd = 2,
+     las = 1, col = "purple", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
+```
+
+
+## Family of Haar's wavelets
+
+So-called "family" wavelets are created via dilation & translation
+
+$$
+\psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
+$$
+
+The basic Haar wavelet has $j = 0$
+
+
+## A child wavelet of Haar's
+
+```{r}
+haar3 <- function(t) {
+  h0 <- ifelse(t >= 0 & t <= 1/2, 1, 0)
+  h1 <- ifelse(t >= 1/2 & t <= 1, -1, 0)
+  return(h0 + h1)
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar3(ti), type = "l", lwd = 2,
+     las = 1, col = "purple", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
 ```
 
 
