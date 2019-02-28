@@ -667,7 +667,8 @@ w_est <- analyze.wavelet(dat, "tmp",        ## need both df & colname
                          loess.span = 0,    ## no de-trending
                          dt = 1/12,         ## monthly sampling
                          lowerPeriod = 1/6, ## default = 2*dt
-                         n.sim = 100)
+                         n.sim = 100,
+                         verbose = FALSE)
 ```
 
 
@@ -680,6 +681,26 @@ wt.image(w_est, color.key = "quantile", n.levels = 250,
          legend.params = list(lab = "wavelet power levels"))
 ```
 
-Use `wt.image()` to plot the wavelet power spectrum
+Use `wt.image()` to plot the spectrum
 
+
+## Inverse wavelet transforms
+
+Involves integral calculus
+
+$$
+f(t) = \frac{1}{C_{\psi}} \int_a \int_b < f(t), \psi_{a,b}(t) > \psi_{a,b}(t) db \frac{da}{a^2}
+$$
+
+
+## Inverse wavelet transforms in R
+
+```{r, fig.align = 'center', message=FALSE}
+par(mai = c(0.7,0.9,0.1,0.1), omi = c(0,0,0,0))
+reconstruct(w_est, plot.waves = F, lwd = c(1,2),
+            show.legend = FALSE,
+            verbose = FALSE)
+```
+
+Use `reconstruct()` to get estimate of original time series
 
