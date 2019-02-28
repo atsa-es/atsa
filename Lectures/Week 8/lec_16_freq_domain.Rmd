@@ -89,6 +89,16 @@ $$
 f(t) = a_0 + \sum_{k = 1}^\infty a_k \sin(2 \pi f_0 k t + p_k)
 $$
 
+where
+
+$k$ is the number of waves
+
+$a_k$ is the amplitude of wave $k$
+
+$f_0$ is the fundamental refrequency
+
+$p_k$ is the phase shift
+
 
 ## Fourier series
 
@@ -325,6 +335,15 @@ Spectral analysis works well for
 
 2. identifying periodic signals corrupted by noise
 
+But...
+
+1. it's an inconsistent estimator for most real data sets
+
+2. it's generally biased
+
+
+## Shifting frequencies
+
 What if the frequency changes over time?
 
 
@@ -451,7 +470,7 @@ where the $c_k$ are filter coefficients*
 Simple, but commonly used, where $\small K = 1; ~ c_0 = 1; ~ c_1 = 1$
 
 $$
-\psi(t) = \sum_{k=0}^K c_k \psi(2x - k) \\
+\psi(t) = \sum_{k=0}^K c_k \psi(2t - k) \\
 \big \Downarrow \\
 \psi(t) = \psi(2t) + \psi(2t - 1)
 $$
