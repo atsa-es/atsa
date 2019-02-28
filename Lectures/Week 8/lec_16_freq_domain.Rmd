@@ -328,9 +328,16 @@ Spectral analysis works well for
 What if the frequency changes over time?
 
 
+## Wavelets
+
+For non-stationary time series we can use so-called _wavelets_
+
+A wavelet is a function that is localized in time & frequency
+
+
 ## Graphical forms for decomposition
 
-```{r}
+```{r, fig.align = 'center'}
 par(mfrow = c(1,2), mai = c(0.5,0.5,0.5,0.5), omi = c(1,0,0,0))
 ## original
 plot(c(1,10), c(1,10), type = "n",
@@ -353,11 +360,23 @@ abline(h = seq(10), col = "darkred")
 ```
 
 
+## Graphical form for decomposition
 
-
-## Wavelets
-
-For non-stationary time series we can use so-called _wavelets_
-
-A wavelet is a function that is localized in time & frequency
+```{r, fig.align = 'center'}
+par(mai = c(0.5,0.5,0.5,0.5), omi = c(1,1.5,0,1.5))
+nn <- 31
+plot(c(1,nn), c(1,7), type = "n",
+     xaxt = "n", yaxt = "n",
+     ylab = "", xlab = "")
+mtext(side = 1, "Time", line = 0.5)
+mtext(side = 2, "Frequency", line = 0.5)
+mtext(side = 3, "Wavelet transform", line = 0.5,
+      adj = 0.5, cex = 1.5)
+abline(h = seq(7), col = "darkred")
+for(i in 1:6) {
+  segments(seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i,
+           seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i+1,
+           col = "blue")
+}
+```
 
