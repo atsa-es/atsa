@@ -91,7 +91,7 @@ $$
 
 where
 
-$k$ is the number of waves
+$k$ is the wave number (index)
 
 $a_k$ is the amplitude of wave $k$
 
@@ -146,7 +146,7 @@ plot(seq(nn), apply(fs, 1, max), type = "h", las = 1,
 
 ## Fourier series
 
-[animated example](https://upload.wikimedia.org/wikipedia/commons/7/72/Fourier_transform_time_and_frequency_domains_%28small%29.gif)
+Here's an [animated example](https://upload.wikimedia.org/wikipedia/commons/7/72/Fourier_transform_time_and_frequency_domains_%28small%29.gif) from Wikipedia
 
 
 ## Fourier transform
@@ -645,7 +645,9 @@ Wavelet analysis is used widely in video compression
 
 ## Estimating wavelet transforms in R
 
-We'll use the __WaveletComp__ package & the L Washington temperature data from the __MARSS__ package
+We'll use the __WaveletComp__ package, which uses the Morlet wavelet
+
+We'll also use the L Washington temperature data from the __MARSS__ package
 
 ```{r, echo=TRUE}
 library(WaveletComp)
@@ -679,6 +681,5 @@ wt.image(w_est, color.key = "quantile", n.levels = 250,
 ```
 
 Use `wt.image()` to plot the wavelet power spectrum
-
 
 
