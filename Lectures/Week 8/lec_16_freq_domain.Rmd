@@ -522,7 +522,7 @@ $$
 $$
 
 
-## Haar's scaling function
+## Haar's scaling function (father)
 
 ```{r}
 haar2 <- function(t) {
@@ -542,7 +542,7 @@ text(1, 0.8, expression(paste(psi,"(2t + 1)")), pos = 4, col = "darkred")
 ```
 
 
-## Haar's wavelet
+## Haar's mother wavelet
 
 Wavelets are created via differencing of scaling functions
 
@@ -553,7 +553,7 @@ $$
 where $(-1)^k$ creates the difference
 
 
-## Haar's wavelet
+## Haar's mother wavelet
 
 ```{r}
 haar3 <- function(t) {
@@ -571,18 +571,18 @@ plot(ti, haar3(ti), type = "l", lwd = 2,
 
 ## Family of Haar's wavelets
 
-So-called "family" wavelets are created via dilation & translation
+So-called "child" wavelets are created via dilation & translation
 
 $$
 \psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
 $$
 
-The basic Haar wavelet has $j = 0$
+The mother Haar wavelet has $j = 0$
 
 
 ## Family of Haar's wavelets
 
-So-called "family" wavelets are created via dilation & translation
+So-called "child" wavelets are created via dilation & translation
 
 $$
 \psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
@@ -590,14 +590,14 @@ $$
 
 The basic Haar wavelet has $j = 0$
 
-Setting $j = 1$ yields a child
+Setting $j = 1$ yields a daughter
 
 $$
 \psi_{j,k}(t) = \sqrt{2} \psi(2 t - k)
 $$
 
 
-## Haar's child wavelet
+## Haar's daughter wavelet
 
 $$
 \psi(t) = \sum_{k=0}^1 (-1)^k c_k \sqrt{2} \psi(2 t - k)
@@ -606,7 +606,7 @@ $$
 Recall that $(-1)^k$ creates the difference
 
 
-## A child wavelet of Haar's
+## A daughter wavelet of Haar's
 
 ```{r}
 haar4 <- function(t) {
@@ -623,6 +623,54 @@ plot(ti, haar4(ti), type = "l", lwd = 2,
      xlab = "Time", ylab = expression(psi[italic(t)]))
 ```
 
+
+## Other wavelets
+
+There are many forms of wavelets, many of which were developed in the past 50 years
+
+
+## Morlet {data-background=morlet.png data-background-size=cover}
+
+
+## Mexican Hat {data-background=hat.png data-background-size=cover}
+
+
+## Estimating wavelet transforms in R
+
+We'll use the __WaveletComp__ package & the L Washington temperature data from the __MARSS__ package
+
+```{r, echo=TRUE}
+library(WaveletComp)
+## L WA temperature data
+tmp <- MARSS::lakeWAplanktonTrans[,"Temp"]
+## WaveletComp needs data as df
+dat <- data.frame(tmp = tmp)
+```
+
+
+## Estimating wavelet transforms in R
+
+Use `analyze.wavelet()` to estimate the wavelet transform
+
+```{r, echo = TRUE, message=FALSE, warning=FALSE}
+w_est <- analyze.wavelet(dat, "tmp",        ## need both df & colname
+                         loess.span = 0,    ## no de-trending
+                         dt = 1/12,         ## monthly sampling
+                         lowerPeriod = 1/6, ## default = 2*dt
+                         n.sim = 100)
+```
+
+
+## Estimating wavelets in R
+ 
+```{r, fig.align='center'}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+wt.image(w_est, color.key = "quantile", n.levels = 250,
+         color.palette = "viridis::plasma(n.levels, 1, 0.1, 0.9)",
+         legend.params = list(lab = "wavelet power levels"))
+```
+
+Use `wt.image()` to plot the wavelet power spectrum
 
 
 
