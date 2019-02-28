@@ -635,6 +635,14 @@ There are many forms of wavelets, many of which were developed in the past 50 ye
 ## Mexican Hat {data-background=hat.png data-background-size=cover}
 
 
+## Who does this?
+
+Wavelet analysis is used widely in video compression
+
+
+## JPEG {data-background=JPEG2000_wavelet.png data-background-size='75%' data-background-position='90% 50%'}
+
+
 ## Estimating wavelet transforms in R
 
 We'll use the __WaveletComp__ package & the L Washington temperature data from the __MARSS__ package
