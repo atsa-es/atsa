@@ -95,8 +95,8 @@ freqdomain <- list(
   rmd = "Lectures/Week 8/lec_16_freq_domain.Rmd",
   html = "Lectures/Week 8/lec_16_freq_domain.html",
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c1e4c5db-4a11-46ba-813d-aa020163c219",
-  reading = c(""),
-  youtube = "",
+  reading = c("[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)", "[Percival & Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)"),
+  youtube = "https://youtu.be/N-9kgB6T17o",
   instructor = "Mark"
 )
 ```

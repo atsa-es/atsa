@@ -22,9 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="shortcut icon" href="favicon16x16.ico" type="image/x-icon">
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -94,14 +92,8 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
-.html-widget {
-  margin-bottom: 20px;
-}
 button.code-folding-btn:focus {
   outline: none;
-}
-summary {
-  display: list-item;
 }
 </style>
 
@@ -117,6 +109,7 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
+
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -136,43 +129,6 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -194,77 +150,18 @@ $(document).ready(function () {
 });
 </script>
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -545,7 +442,7 @@ Dynamic factor analysis (DFA) <br>
 <a href="https://youtu.be/FMLh8c_Sa8s">YouTube</a>
 </td>
 <td style="text-align:center;">
-<a href="http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M">Zuur et al. 2003a</a> <br><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611">Zuur et al. 2003b</a> <br><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162121">Goertler et al. 2016</a> <br><a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333">Ohlberger et al. 2016</a> <br><a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">HWS18a: Chap 10</a> <br>
+<a href="http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M">Zuur et al. 2003a</a> <br><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611">Zuur et al. 2003b</a> <br><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162121">Goertler et al. 2016</a> <br><a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333">Ohlberger et al. 2016</a> <br><a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">HWS18a: Chap 10</a> <br>
 </td>
 </tr>
 <tr>
@@ -590,7 +487,7 @@ Bayesian estimation of time-series and state-space models <br>Stan <br>
 <a href="https://youtu.be/EzmfcyL0n2I">YouTube</a>
 </td>
 <td style="text-align:center;">
-<a href="https://mc-stan.org/users/documentation/">Stan manual</a> <br><a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681">Monnahan et al. 2017</a> <br>
+<a href="https://mc-stan.org/users/documentation/">Stan manual</a> <br><a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681">Monnahan et al. 2017</a> <br>
 </td>
 </tr>
 <tr>
@@ -634,7 +531,7 @@ Hidden Markov models <br>
 <a href="https://youtu.be/MHJFNeK-rug">YouTube</a>
 </td>
 <td style="text-align:center;">
-<a href="https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf">Zucchini et al. 2006</a> <br><a href="https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf">depmixS4 vignette</a> <br>
+<a href="https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf">Zucchini et al. 2006</a> <br><a href="https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf">depmixS4 vignette</a> <br>
 </td>
 </tr>
 <tr>
@@ -699,7 +596,7 @@ Semi- and non-parametric models <br>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-<a href="https://link.springer.com/epdf/10.1007/s11284-017-1469-9?shared_access_token=uo6dSpx2HhqFSdKklUb91ve4RwlQNchNByi7wbcMAY46qf1ru5YtibpRTA9bGJJXdv8wOCFEurjER4XMpGuPd-QPKglrjNFUFLLw1xY5KfAWa2Ln-vHCv747UBEe-04n2oRgCUyZ0dONF9fk2aRo8j07QNwfnwGIhi71df0wnXA%3D">Chang et al. 2017</a> <br><a href="https://www.nature.com/articles/344734a0">Sugihara and May</a> <br><a href="https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.html">rEDM Vignette</a> <br><a href="https://www.youtube.com/watch?v=fevurdpiRYg">Intro to EDM</a> <br><a href="https://www.youtube.com/watch?v=6yq0VAriUIQ">EMD lecture</a> <br>
+<a href="https://link.springer.com/epdf/10.1007/s11284-017-1469-9?shared_access_token=uo6dSpx2HhqFSdKklUb91ve4RwlQNchNByi7wbcMAY46qf1ru5YtibpRTA9bGJJXdv8wOCFEurjER4XMpGuPd-QPKglrjNFUFLLw1xY5KfAWa2Ln-vHCv747UBEe-04n2oRgCUyZ0dONF9fk2aRo8j07QNwfnwGIhi71df0wnXA%3D">Chang et al. 2017</a> <br><a href="https://www.nature.com/articles/344734a0">Sugihara and May</a> <br><a href="https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.html">rEDM Vignette</a> <br><a href="https://www.youtube.com/watch?v=fevurdpiRYg">Intro to EDM</a> <br><a href="https://www.youtube.com/watch?v=6yq0VAriUIQ">EMD lecture</a> <br>
 </td>
 </tr>
 <tr>
@@ -719,9 +616,10 @@ Frequency domain <br>Fourier transforms <br>Spectral analysis <br>Wavelet analys
 <a href="https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c1e4c5db-4a11-46ba-813d-aa020163c219">Video</a>
 </td>
 <td style="text-align:center;">
+<a href="https://youtu.be/N-9kgB6T17o">YouTube</a>
 </td>
 <td style="text-align:center;">
-<br>
+<a href="https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf">Graps (1995)</a> <br><a href="https://staff.washington.edu/dbp/wmtsa.html">Percival &amp; Walden (2000)</a> <br>
 </td>
 </tr>
 <tr>
