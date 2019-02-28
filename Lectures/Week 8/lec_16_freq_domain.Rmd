@@ -380,3 +380,51 @@ for(i in 1:6) {
 }
 ```
 
+
+## What is a wavelet?
+
+Formally, a wavelet $\psi$ is
+
+$$
+\psi_{\sigma, \tau}(t) = \frac{1}{\sqrt{\vert \sigma \vert}} \psi \left( \frac{t - \tau}{\sigma} \right)
+$$
+
+such that it goes up __and__ down
+
+$$
+\int_{-\infty}^{\infty} \psi(t) ~ dt = 0
+$$
+
+and it has a finite sum
+
+$$
+\int_{-\infty}^{\infty} \vert \psi(t) \vert ~ dt < \infty
+$$
+
+
+## How are wavelets defined?
+
+In terms of scaling functions that describe
+
+1. Dilations $~~~~~~~~~~~~~~ \psi(t) \rightarrow \psi(2t)$ 
+
+2. Translations $~~~~~~~~~ \psi(t) \rightarrow \psi(t+1)$ 
+
+
+## How are wavelets defined?
+
+More generally,
+
+$$
+\psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
+$$
+
+where 
+
+$j$ is the dilation index
+$k$ is the translation index 
+
+and
+
+$2^{j/2}$ is a normalization constant
+
