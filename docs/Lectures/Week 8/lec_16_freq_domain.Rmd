@@ -1,0 +1,706 @@
+---
+title: "Time series analysis in the frequency domain"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "28 Feb 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(MARSS)
+set.seed(123)
+```
+
+## Topics for today
+
+What is the frequency domain?
+
+Fourier transforms
+
+Spectral analysis
+
+Wavelets
+
+
+## Time domain
+
+```{r}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(cumsum(rnorm(50,0,1)),
+        ylab = expression(italic(x[t])))
+```
+
+We having been examining changes in $x_t$ over time
+
+
+## Time domain
+
+We can think of this as comparing changes in amplitude (displacement) with time
+
+
+## Frequency domain
+
+Today we'll consider how amplitude changes with frequency
+
+
+## Jean-Baptiste Fourier (1768 - 1830)
+
+French mathematician & physicist best known for his studies of heat transfer
+
+First described what we now call the "greenhouse effect"
+
+
+## Solving hard problems
+
+Solving the heat equation involves solving _partial differential equations_ conditional on some boundary conditions
+
+$$
+\begin{matrix}
+\large \text{Problem} \\
+really \Bigg \downarrow hard \\
+\large \text{Solution}
+\end{matrix}
+$$
+
+
+## Fourier's approach
+
+Find $f(t)$ and $\hat{f}(t)$, such that
+
+$$
+\begin{matrix}
+\large \text{Problem} && \xrightarrow{f(t)} && \large \text{Transformed problem} \\
+really \Bigg \downarrow hard && && much \Bigg \downarrow easier \\
+\large \text{Solution}  && \xleftarrow{\hat{f}(t)} && \large \text{Transformed solution} \\
+\end{matrix}
+$$
+
+
+## Fourier series
+
+Complex periodic functions can be written as infinite sums of sine waves
+
+$$
+f(t) = a_0 + \sum_{k = 1}^\infty a_k \sin(2 \pi f_0 k t + p_k)
+$$
+
+where
+
+$k$ is the wave number (index)
+
+$a_k$ is the amplitude of wave $k$
+
+$f_0$ is the fundamental refrequency
+
+$p_k$ is the phase shift
+
+
+## Fourier series
+
+A finite example
+
+$$
+f(t) = \sum_{k = 1}^5 \frac{1}{k} \sin(2 \pi k t + k^2) 
+$$
+
+## Fourier series
+
+```{r fourier_ex}
+tt <- seq(-1,1,1/100)
+TT <- length(tt)
+nn <- 5
+
+fs <- matrix(NA, nn, TT)
+
+for(k in 1:nn) {
+  fs[k,] <- 1/k * sin(2 * pi * k * tt + k^2)
+}
+xt <- apply(fs, 2, sum)
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(xt, type = "n", las = 1,
+        ylab = expression(italic(x[t])))
+matlines(t(fs), lty = "solid",
+        col = viridis::plasma(nn, 0.7, 0.1, 0.5))
+lines(xt, lwd = 2)
+```
+
+
+## Fourier series
+
+```{r}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot(seq(nn), apply(fs, 1, max), type = "h", las = 1,
+        ylab = "Amplitude", xlab = "Frequency")
+```
+
+
+
+
+## Fourier series
+
+Here's an [animated example](https://upload.wikimedia.org/wikipedia/commons/7/72/Fourier_transform_time_and_frequency_domains_%28small%29.gif) from Wikipedia
+
+
+## Fourier transform
+
+We can make use of Euler's formula
+
+$$
+\cos(2 \pi k) + i \sin(2 \pi k) = e^{i 2 \pi k}
+$$
+
+and write the Fourier transform of $f(t)$ as
+
+$$
+f(t) = \int_{-\infty}^\infty \hat{f}(k) ~ e^{i 2 \pi t k} ~ d k
+$$
+
+where $k$ is the frequency
+
+
+## Discrete Fourier transform
+
+Fourier transform
+
+$$
+f_k = \sum_{n=0}^{N-1} x_t ~ e^{-i 2 \pi n k}
+$$
+
+
+## Fourier transforms in R
+
+__R__ uses what's known as _Fast Fourier transform_ via `fft()`, which returns the amplitude at each frequency
+
+```{r, eval = FALSE, echo = TRUE}
+ft <- fft(xt)
+## often normalize by the length
+ft <- fft(xt) / length(xt)
+```
+
+
+## Fourier represention of our $\{x_t\}$
+
+```{r}
+ft <- fft(xt) / TT
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot(seq(length(tt))-1, Mod(ft), type = "h", lwd = 3,
+     las = 1, xlim = c(0,20),
+     ylab = "Amplitude", xlab = "Frequency")
+```
+
+
+## Discrete Inverse Fourier transform
+
+Fourier transform
+
+$$
+f_k = \sum_{n=0}^{N-1} x_t ~ e^{-i 2 \pi n k}
+$$
+
+Inverse
+
+$$
+x_t = \sum_{k=0}^{N-1} f_k ~ e^{i 2 \pi n k}
+$$
+
+
+## Inverse Fourier transforms in R
+
+```{r, echo=TRUE, warning=FALSE}
+ i <- complex(1, re = 0, im = 1)
+xx <- rep(NA, TT)
+kk <- seq(TT) - 1
+## Inverse Fourier transform
+## ft <- fft(xt)
+for(t in kk) {
+  xx[t+1] <- sum(ft * exp(i*2*pi*kk*t/TT))
+}
+```
+
+
+## Original $\{x_t\}$ & our inverse transform
+
+```{r}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+plot.ts(xt, las = 1, lwd = 3, col = "gray",
+        ylab = expression(italic(x[t])))
+lines(Re(xx), col = "blue", lwd = 1, lty = "dashed")
+```
+
+
+## Inverse Fourier transforms in R
+
+```{r, echo=TRUE}
+ift <- fft(ft, inverse = TRUE)
+```
+
+
+## Original $\{x_t\}$ & R's inverse transform
+
+```{r, warning=FALSE}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+plot.ts(xt, las = 1, lwd = 3, col = "gray",
+        ylab = expression(italic(x[t])))
+lines(Re(ift), col = "darkred", lwd = 1, lty = "dashed")
+```
+
+
+## Spectral analysis
+
+Spectral analysis refers to a _general_ way of decomposing time series into their constituent frequencies
+
+
+## Spectral analysis
+
+Consider a linear regression model for $\{x_t\}$ with various sines and cosines as predictors
+
+$$
+x_t = a_0 + \sum_{k = 1}^{n/2-1} a_k \cos(2 \pi f_0 k t/n) + b_k \sin(2 \pi f_0 k t/n)
+$$
+
+
+## Periodogram
+
+The _periodogram_ measures the contributions of each frequency $k$ to $\{x_t\}$
+
+$$
+P_k = a^2_k + b^2_k
+$$
+
+
+## Estimate the periodogram in R
+
+```{r, eval=FALSE, echo=TRUE}
+spectrum(xt, log = "on")
+spectrum(xt, log = "off")
+spectrum(xt, log = "dB")
+```
+
+
+## Periodogram for our $\{x_t\}$
+
+```{r}
+par(mai = c(1,0.9,0.3,0.1), omi = c(0,0,0,0))
+spectrum(xt, main = "", las = 1, log = "dB")
+```
+
+`spectrum(xt, log = "dB")`
+
+## Periodogram for our $\{x_t\}$
+
+```{r}
+delta <- 1/100
+x_spec <- spectrum(xt, log = "no", plot = FALSE)
+sx <- x_spec$freq/delta
+sy <- 2*x_spec$spec
+
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(sx, sy, type = "l",
+     xlab = "Frequency", ylab = "Spectral density")
+```
+
+Density on natural scale & frequency in cycles per time
+
+
+## Spectral density estimation via AR(_p_)
+
+For an AR(_p_) process
+
+$$
+x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \cdots + \phi_p x_{t-p} + e_t
+$$
+
+The spectral density is
+
+$$
+S(f,\phi_1, \dots, \phi_p, \sigma^2) = \frac{\sigma^2 \Delta t}{\vert 1 - \sum_{k = 1}^p \phi_k e^{-i 2 \pi f k \Delta t} \vert ^2}
+$$
+
+
+## Limits to spectral analysis
+
+Spectral analysis works well for
+
+1. stationary time series
+
+2. identifying periodic signals corrupted by noise
+
+But...
+
+1. it's an inconsistent estimator for most real data sets
+
+2. it's generally biased
+
+
+## Shifting frequencies
+
+What if the frequency changes over time?
+
+
+## Wavelets
+
+For non-stationary time series we can use so-called _wavelets_
+
+A wavelet is a function that is localized in time & frequency
+
+
+## Graphical forms for decomposition
+
+```{r, fig.align = 'center'}
+par(mfrow = c(1,2), mai = c(0.5,0.5,0.5,0.5), omi = c(1,0,0,0))
+## original
+plot(c(1,10), c(1,10), type = "n",
+     xaxt = "n", yaxt = "n",
+     ylab = "", xlab = "")
+mtext(side = 1, "Time", line = 0.5)
+mtext(side = 2, "Frequency", line = 0.5)
+mtext(side = 3, "Original series", line = 0.5,
+      adj = 0.5, cex = 1.5)
+abline(v = seq(10), col = "blue")
+## fourier
+plot(c(1,10), c(1,10), type = "n",
+     xaxt = "n", yaxt = "n",
+     ylab = "", xlab = "")
+mtext(side = 1, "Time", line = 0.5)
+mtext(side = 2, "Frequency", line = 0.5)
+mtext(side = 3, "Fourier transform", line = 0.5,
+      adj = 0.5, cex = 1.5)
+abline(h = seq(10), col = "darkred")
+```
+
+
+## Graphical form for decomposition
+
+```{r, fig.align = 'center'}
+par(mai = c(0.5,0.5,0.5,0.5), omi = c(1,1.5,0,1.5))
+nn <- 31
+plot(c(1,nn), c(1,7), type = "n",
+     xaxt = "n", yaxt = "n",
+     ylab = "", xlab = "")
+mtext(side = 1, "Time", line = 0.5)
+mtext(side = 2, "Frequency", line = 0.5)
+mtext(side = 3, "Wavelet transform", line = 0.5,
+      adj = 0.5, cex = 1.5)
+abline(h = seq(7), col = "darkred")
+for(i in 1:6) {
+  segments(seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i,
+           seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i+1,
+           col = "blue")
+}
+```
+
+
+## What is a wavelet?
+
+Formally, a wavelet $\psi$ is
+
+$$
+\psi_{\sigma, \tau}(t) = \frac{1}{\sqrt{\vert \sigma \vert}} \psi \left( \frac{t - \tau}{\sigma} \right)
+$$
+
+such that it goes up __and__ down
+
+$$
+\int_{-\infty}^{\infty} \psi(t) ~ dt = 0
+$$
+
+and it has a finite sum
+
+$$
+\int_{-\infty}^{\infty} \vert \psi(t) \vert ~ dt < \infty
+$$
+
+
+## How are wavelets defined?
+
+In terms of scaling functions that describe
+
+1. Dilations $~~~~~~~~~~~~~~ \psi(t) \rightarrow \psi(2t)$ 
+
+2. Translations $~~~~~~~~~ \psi(t) \rightarrow \psi(t - 1)$ 
+
+
+## How are wavelets defined?
+
+More generally,
+
+$$
+\psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
+$$
+
+where 
+
+$j$ is the dilation index
+
+$k$ is the translation index 
+
+and
+
+$2^{j/2}$ is a normalization constant
+
+
+## Wavelets in practice
+
+There are many options for $\psi(t)$, but we'll use scaling functions and define
+
+$$
+\psi(t) = \sum_{k=0}^K c_k \psi(2x - k)
+$$
+
+where the $c_k$ are filter coefficients*
+
+<br>
+<br>
+
+*Note that $\psi(t)$ gets "smoother" as $K$ increases 
+
+
+## Haar's scaling function
+
+Simple, but commonly used, where $\small K = 1; ~ c_0 = 1; ~ c_1 = 1$
+
+$$
+\psi(t) = \sum_{k=0}^K c_k \psi(2t - k) \\
+\big \Downarrow \\
+\psi(t) = \psi(2t) + \psi(2t - 1)
+$$
+
+The only function that satisfies this is:
+
+$$
+\begin{align}
+\psi(t) &= 1 ~ \text{if} ~ 0 \leq t \leq 1 \\
+\psi(t) &= 0 ~ \text{otherwise}
+\end{align}
+$$
+
+
+## Haar's scaling function
+
+```{r}
+haar <- function(t) {
+  hh <- ifelse(t >= 0 & t <= 1, 1, 0)
+  return(hh)
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar(ti), type = "l", lwd = 2,
+     las = 1, col = "purple", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
+```
+
+
+
+## Haar's scaling function
+
+In terms of the dilation
+
+$$
+\begin{align}
+\psi(2t) &= 1 ~ \text{if} ~ 0 \leq t \leq 0.5 \\
+\psi(2t) &= 0 ~ \text{otherwise}
+\end{align}
+$$
+
+and translation
+
+$$
+\begin{align}
+\psi(2t - 1) &= 1 ~ \text{if} ~ 0.5 \leq t \leq 1 \\
+\psi(2t - 1) &= 0 ~ \text{otherwise}
+\end{align}
+$$
+
+
+## Haar's scaling function (father)
+
+```{r}
+haar2 <- function(t) {
+  h0 <- ifelse(t >= 0 & t <= 1/2, 1, 0)
+  h1 <- ifelse(t >= 1/2 & t <= 1, 1, 0)
+  return(list(h0, h1))
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar2(ti)[[1]], type = "l", lwd = 2,
+     las = 1, col = "blue", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
+lines(ti, haar2(ti)[[2]], type = "l", lwd = 2,
+      col = "darkred")
+text(0, 0.8, expression(paste(psi,"(2t)")), pos = 2, col = "blue")
+text(1, 0.8, expression(paste(psi,"(2t + 1)")), pos = 4, col = "darkred")
+```
+
+
+## Haar's mother wavelet
+
+Wavelets are created via differencing of scaling functions
+
+$$
+\psi(t) = \sum_{k=0}^1 (-1)^k c_k \psi(2t - k)
+$$
+
+where $(-1)^k$ creates the difference
+
+
+## Haar's mother wavelet
+
+```{r}
+haar3 <- function(t) {
+  h0 <- ifelse(t >= 0 & t <= 1/2, 1, 0)
+  h1 <- ifelse(t >= 1/2 & t <= 1, -1, 0)
+  return(h0 + h1)
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar3(ti), type = "l", lwd = 2,
+     las = 1, col = "purple", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
+```
+
+
+## Family of Haar's wavelets
+
+So-called "child" wavelets are created via dilation & translation
+
+$$
+\psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
+$$
+
+The mother Haar wavelet has $j = 0$
+
+
+## Family of Haar's wavelets
+
+So-called "child" wavelets are created via dilation & translation
+
+$$
+\psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
+$$
+
+The basic Haar wavelet has $j = 0$
+
+Setting $j = 1$ yields a daughter
+
+$$
+\psi_{j,k}(t) = \sqrt{2} \psi(2 t - k)
+$$
+
+
+## Haar's daughter wavelet
+
+$$
+\psi(t) = \sum_{k=0}^1 (-1)^k c_k \sqrt{2} \psi(2 t - k)
+$$
+
+Recall that $(-1)^k$ creates the difference
+
+
+## A daughter wavelet of Haar's
+
+```{r}
+haar4 <- function(t) {
+  h0 <- ifelse(t >= 0 & t <= 1/4, sqrt(2), 0)
+  h1 <- ifelse(t >= 1/4 & t <= 1/2, -sqrt(2), 0)
+  h2 <- ifelse(t >= 1/2 & t <= 3/4, sqrt(2), 0)
+  h3 <- ifelse(t >= 3/4 & t <= 1, -sqrt(2), 0)
+  return(h0 + h1 + h2 + h3)
+}
+ti <- seq(-5,5,0.01)
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0.2,0,0,0))
+plot(ti, haar4(ti), type = "l", lwd = 2,
+     las = 1, col = "purple", 
+     xlab = "Time", ylab = expression(psi[italic(t)]))
+```
+
+
+## Other wavelets
+
+There are many forms of wavelets, many of which were developed in the past 50 years
+
+
+## Morlet {data-background=morlet.png data-background-size=cover}
+
+
+## Mexican Hat {data-background=hat.png data-background-size=cover}
+
+
+## Who does this?
+
+Wavelet analysis is used widely in video compression
+
+
+## JPEG {data-background=JPEG2000_wavelet.png data-background-size='75%' data-background-position='90% 50%'}
+
+
+## Estimating wavelet transforms in R
+
+We'll use the __WaveletComp__ package, which uses the Morlet wavelet
+
+We'll also use the L Washington temperature data from the __MARSS__ package
+
+```{r, echo=TRUE}
+library(WaveletComp)
+## L WA temperature data
+tmp <- MARSS::lakeWAplanktonTrans[,"Temp"]
+## WaveletComp needs data as df
+dat <- data.frame(tmp = tmp)
+```
+
+
+## Estimating wavelet transforms in R
+
+Use `analyze.wavelet()` to estimate the wavelet transform
+
+```{r, echo = TRUE, message=FALSE, warning=FALSE}
+w_est <- analyze.wavelet(dat, "tmp",        ## need both df & colname
+                         loess.span = 0,    ## no de-trending
+                         dt = 1/12,         ## monthly sampling
+                         lowerPeriod = 1/6, ## default = 2*dt
+                         n.sim = 100,
+                         verbose = FALSE)
+```
+
+
+## Estimating wavelets in R
+ 
+```{r, fig.align='center'}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+wt.image(w_est, color.key = "quantile", n.levels = 250,
+         color.palette = "viridis::plasma(n.levels, 1, 0.1, 0.9)",
+         legend.params = list(lab = "wavelet power levels"))
+```
+
+Use `wt.image()` to plot the spectrum
+
+
+## Inverse wavelet transforms
+
+Involves integral calculus
+
+$$
+f(t) = \frac{1}{C_{\psi}} \int_a \int_b < f(t), \psi_{a,b}(t) > \psi_{a,b}(t) db \frac{da}{a^2}
+$$
+
+
+## Inverse wavelet transforms in R
+
+```{r, fig.align = 'center', message=FALSE}
+par(mai = c(0.7,0.9,0.1,0.1), omi = c(0,0,0,0))
+reconstruct(w_est, plot.waves = F, lwd = c(1,2),
+            show.legend = FALSE,
+            verbose = FALSE)
+```
+
+Use `reconstruct()` to get estimate of original time series
+
