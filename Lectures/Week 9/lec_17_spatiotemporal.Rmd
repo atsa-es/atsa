@@ -1,0 +1,49 @@
+---
+title: "Fitting spatial and spatiotemporal models"
+author: "Eric Ward"
+date: "07 Feb 2019"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+  beamer_presentation: default
+subtitle: FISH 507 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+library(ggplot2)
+library(MARSS)
+library(dplyr)
+library(forecast)
+library(lubridate)
+library(waterData)
+library(tsDyn)
+```
+
+## What we’ve learned so far
+
+* Time series can be useful for identifying structure, improving precision, and accuracy of forecasts 
+
+* Modeling multivariate time series
+    - e.g. MARSS() function, with each observed time series mapped to a single discrete state
+
+* Using DFA 
+    - Structure determined by factor loadings
+
+## Response generally the same variable (not separate species)
+
+* Making inference about population as a whole involves modeling 
+pink as well as blue time series
+
+```{r echo=FALSE, fig.height=4.2}
+y = cumsum(rnorm(100))
+
+plot(y, type="l",col="blue1",lwd=3,ylim=c(-7,15),ylab="Response", xlab= "Time")
+y2 = y + 5 + rnorm(length(y),0,1)
+y2[sample(seq(1,length(y2)),size=65,replace=F)]=NA
+points(y2,col="tomato1",lwd=3)
+
+```
+
