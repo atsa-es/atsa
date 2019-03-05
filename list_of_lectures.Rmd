@@ -293,12 +293,12 @@ interactions1 <- list(
   title = "Species interactions I",
   topics = c("Estimating interaction strengths",
              "Gompertz models", "Stability metrics"),
-  pdf = "",
+  pdf = "Lectures/Week 9/lec_17_estimating_interactions.pdf",
   ppt = "",
   rmd = "",
   html = "",
   video = "",
-  reading = c(""),
+  reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
   youtube = "",
   instructor = "Eli"
 )
