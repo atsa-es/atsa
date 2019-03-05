@@ -281,7 +281,7 @@ ets <- list(
   ppt = "",
   rmd = c("Lectures/Week 7/ETS.Rmd"),
   html = c("Lectures/Week 7/ETS.html"),
-  video = "",
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bddd18a2-d980-4d88-aa9c-a9fa00024e17",
   reading = c("[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)","[H18: Chap 4](https://fish-forecast.github.io/Fish-Forecast-Bookdown/4-exponential-smoothing-models.html)"),
   youtube = "",
   instructor = "Eli"
@@ -342,7 +342,7 @@ HMMs <- list(
   ppt = "",
   rmd = "Lectures/Week 6/lec_12_hmm.Rmd",
   html = "Lectures/Week 6/lec_12_hmm.html",
-  video = "https://youtu.be/MHJFNeK-rug",
+  video = "",
   reading = c("[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
   youtube = "https://youtu.be/MHJFNeK-rug",
   instructor = "Eric"
