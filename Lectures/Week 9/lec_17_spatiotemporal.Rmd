@@ -47,3 +47,19 @@ points(y2,col="tomato1",lwd=3)
 
 ```
 
+## Lots of time series -> complicated covariance matrices
+
+* Last week, in talking about Gaussian process models, we showed the number of covariance matrix parameters = $m*(m+1)/2$
+    - problematic for > 5 or so time series
+    
+* MARSS solutions: diagonal matrices or 'equalvarcov'
+
+* DFA runs into same issues with estimating unconstrained $R$ matrix
+
+## Potential problems with both the MARSS and DFA approach
+
+* Sites separated by large distances may be grouped together
+
+* Sites close to one another may be found to have very different dynamics
+
+
