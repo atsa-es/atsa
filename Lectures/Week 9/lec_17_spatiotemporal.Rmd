@@ -14,12 +14,10 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE,
                       message=FALSE, results='hide',
                       fig.align = 'center')
 library(ggplot2)
-library(MARSS)
 library(dplyr)
 library(forecast)
 library(lubridate)
-library(waterData)
-library(tsDyn)
+library(MARSS)
 ```
 
 ## What we’ve learned so far
@@ -62,4 +60,56 @@ points(y2,col="tomato1",lwd=3)
 
 * Sites close to one another may be found to have very different dynamics
 
+![](sites.png)<!-- .element height="10%" width="10%" -->
 
+## Are there biological mechanisms that may explain this?
+
+* Puget Sound Chinook salmon
+    - 21 populations generally cluster into 2-3 groups based on genetics
+    - Historically large hatchery programs
+
+* Hood canal harbor seals
+    - Visited by killer whales
+
+```{r echo=FALSE, fig.height = 2.5}
+data(harborSealWA)
+
+matplot(harborSealWA[,1], harborSealWA[,-1],type="b", xlab="Year", ylab="ln (count)")
+```
+
+## Motivation of explicitly including spatial structure
+
+* Adjacent sites can be allowed to covary 
+
+* Estimated parameters greatly reduced to 2-5
+
+## Types of spatial data
+
+Point referenced data (aka geostatistical)
+
+* Typically 2-D, but could be 1-D or 3-D (depth, altitude)
+* May be fixed station or random (e.g. trawl surveys)
+
+Point pattern data
+
+* Spatially referenced based on outcomes (e.g. presence)
+* Inference focused on describing clustering (or not)
+
+Areal data
+
+* Locations occur in blocks
+* counties, management zones, etc.
+
+## Computationally convenient approaches
+
+CAR (conditionally autoregressive models)
+
+* Better suited for Bayesian methods
+* Goal of both is to write the distribution of a single prediction analytically in terms of the joint (y1, y2)
+
+SAR (simultaneous autregressive models)
+
+* Better suited for ML methods
+* Simultaneously model distribution of predicted values
+
+‘Autoregressive’ in the sense of spatial dependency / correlation between locations
