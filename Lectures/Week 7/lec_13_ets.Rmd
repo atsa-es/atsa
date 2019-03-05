@@ -1,12 +1,11 @@
 ---
+title: "Simple Exponential Smoothing"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Eli Holmes"
+date: "19 Feb 2019"
 output:
-  xaringan::moon_reader:
-    css: "my-theme.css"
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-    self_contained: true
+  ioslides_presentation:
+    css: lecture_slides.css
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
@@ -17,19 +16,6 @@ load("landings.RData")
 greeklandings <- landings
 ```
 
-layout: true
-
----
-
-class: center, middle, inverse
-# Forecasting Time Series
-## Simple Exponential Smoothing
-
-.futnote[Eli Holmes, NOAA Fisheries]
-
-.citation[eli.holmes@noaa.gov]
-
----
 
 ## Naive forecast
 
@@ -39,7 +25,8 @@ $$\hat{x}_{1988} = x_{1987}$$
 Which is the same as saying that we put 100% of the 'weight' on the most recent value and no weight on any value prior to that.
 
 $$\hat{x}_{1988} = 1 \times x_{1987} + 0 \times x_{1986} + 0 \times x_{1985} + \dots$$
----
+
+##
 
 Past values in the time series have information about the current state, but only the most recent past value.
 
@@ -48,8 +35,7 @@ plot(1987:1964, c(1,rep(0,23)), lwd=2, ylab="weight", xlab="", type="l")
 title("weight put on past values for 1988 forecast")
 ```
 
-
----
+##
 
 That's a bit extreme.  Often the values prior to the last value also have some information about future states.  But the 'information content' should decrease the farther in the past that we go.
 
@@ -59,7 +45,7 @@ plot(1987:1964, alpha^(1:24), lwd=2, ylab="weight", xlab="", type="l")
 title("more weight put on more recent values\nfor 1988 forecast")
 ```
 
----
+##
 
 Simple exponential smoothing uses this type of weighting that falls off exponentially and the objective to estimate the best weighting ( $\alpha$ ):
 
@@ -77,8 +63,6 @@ legend("topleft", c("alpha=1 like naive","alpha=0.5","alpha=0.05 like mean"),lwd
 title("more weight put on more recent values\nfor 1988 forecast")
 ```
 
----
-
 ## Fitting exponential smoothing models
 
 The forecast package will fit a wide variety of exponential smoothing models.  The main fitting function is `ets()`:
@@ -95,7 +79,7 @@ ets(y, model = "ZZZ", < + many other arguments >)
     * second letter is for trend
     * third letter is for season
 
----
+##
 
 We are going to `ets()` to fit three simple types of exponential smoothing models:
 
@@ -107,9 +91,7 @@ exponential smoothing choose trend  | "AZN" | NA |
 
 The alternate function does exactly the same fitting.  It is just a 'shortcut'.
 
----
-
-## Fit exponential smoothing with no trend
+## Fit ETS with no trend
 
 This is like the naive model that just uses the last value to make the forecast, but instead of only using the last value it will use values farther in the past also. The weighting fall off exponentially.
 
@@ -128,21 +110,17 @@ fit <- ets(anchovy, model="ANN")
 fr <- forecast(fit, h=5)
 ```
 
----
+##
 
 ```{r}
 plot(fr)
 ```
-
----
 
 ## Look at the estimates
 
 ```{r}
 fit
 ```
-
----
 
 ## The weighting function
 
@@ -152,8 +130,6 @@ wts <- alpha*(1-alpha)^(0:23)
 plot(1987:1964, wts/sum(wts), lwd=2, ylab="weight", xlab="", type="l")
 title("Weighting for simple exp. smooth of anchovy")
 ```
-
----
 
 ## Produce forecast with ets from a previous fit
 
@@ -165,6 +141,8 @@ This is the fit to the 1964-1987 data:
 fit1 <- ets(anchovy, model="ANN")
 ```
 
+##
+
 Use that model with the 2000-2007 data and produce a forecast:
 
 ```{r fit.new.ann}
@@ -174,25 +152,28 @@ fit2 <- ets(dat, model=fit1)
 fr2 <- forecast(fit2, h=5)
 ```
 
----
+##
 
 ```{r}
 plot(fr2)
 ```
 
----
+## Naive model with trend
 
-## Naive model with drift
+Fit a model that uses the last observation as the forecast but includes a trend estimated from ALL the data.  This is what the naive model with trend (or drift) does.
 
-Fit a model that uses the last observation as the forecast but includes a trend estimated from ALL the data.  This is what the naive model with drift does.
-
-```{r fig.height=4.5}
+```{r}
 fit.rwf <- Arima(anchovy, order=c(0,1,0), include.drift=TRUE)
 fr.rwf <- forecast(fit.rwf, h=5)
+```
+
+##
+
+```{r fig.height=4.5}
 plot(fr.rwf)
 ```
 
----
+##
 
 The trend seen in the blue line is estimated from the overall trend in ALL the data.
 
@@ -208,15 +189,13 @@ mean(diff(anchovy))
 
 So we only use the latest data to choose the level for our forecast but use all the data to choose the trend?  It would make more sense to weight the more recent trends more heavily.
 
----
-
-## Exponential smoothing model with trend
+## ETS model with trend
 
 The exponential smoothing model with trend does this.  The one-year trend is 
 $$x_t - x_{t-1}$$
 That is how much the data increased or decreased.  
 
----
+##
 
 ```{r}
 plot(diff(anchovy),ylim=c(-0.3,.3))
@@ -225,11 +204,13 @@ abline(h=mean(diff(anchovy)),col="red")
 title("0 means no change")
 ```
 
----
+##
 
 If we take the average of all $x_t - x_{t-1}$ we are using the average trend like the naive model with drift.  We put an equal weighting on all trends.
 
 But we could use a weighting that falls off exponentially so that we more recent trends affect the forecast more than trends in the distant past.  That is what an exponential smoothing model with trend does.
+
+##
 
 ```{r echo=FALSE}
 alpha <- 1
@@ -245,36 +226,33 @@ legend("topleft", c("beta=1","beta=0.5","beta=0.05 like rw with drift"),lwd=2, c
 title("more weight put on more recent values\nfor 1988 forecast")
 ```
 
----
-
 ## Naive model with trend
 
 If your training data are length $T$, then a forecast for $T+h$ is
 
-$$\hat{x}_{T+h} = l_T + h \bar{b}$$
+$$\hat{x}_{T+h} = l_T + h \hat{b}$$
 
 where $\hat{b}$ is the mean of the the yearly changes in $x$, so the mean of $x_t - x_{t-1}$.
 
 $$\hat{b} = \sum_{t=2}^T (x_t - x_{t-1})$$
 
-## Exponential smoothing model with trend
+## ETS model with trend
+
+The ETS model puts more weight on the recent trends.
 
 $$\hat{x}_{T+h} = l_T + h b_T$$
 
 where $b_T$ is a weighted average with the more recent trends given more weight.
 
 $$b_t = \sum_{t=2}^T \beta (1-\beta)^{t-2}(x_t - x_{t-1})$$
----
- 
-## Fit exponential smoothing with trend
+
+## Fit using `ets()`
 
 ```{r}
 fit <- ets(anchovy, model="AAN")
 fr <- forecast(fit, h=5)
 plot(fr)
 ```
-
----
 
 ## Decomposing your model fit
 
@@ -284,11 +262,7 @@ Sometimes you would like to see the smoothed level and smoothed trend that the m
 autoplot(fit)
 ```
 
----
-
 ## Validation
-
----
 
 ```{r load_packages, echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -318,7 +292,7 @@ points(1988:1989, testdat, pch=2, col="red")
 legend("topleft", c("Training data","Test data"), pch=c(1,2), col=c("black", "red"))
 ```
 
----
+##
 
 We will fit to the training data and make a forecast.
 
@@ -334,7 +308,7 @@ points(25:26, testdat, pch=2, col="red")
 legend("topleft", c("forecast","actual"), pch=c(20,2), col=c("blue","red"))
 ```
 
----
+##
 
 How to we quantify the difference between the forecast and the actual values?
 
@@ -345,9 +319,9 @@ fr.err
 
 There are many metrics.  The `accuracy()` function in forecast provides many different metrics: mean error, root mean square error, mean absolute error, mean percentage error, mean absolute percentage error.
 
----
+##
 
-### ME Mean err
+### ME Mean error
 
 ```{r}
 me <- mean(fr.err)
@@ -368,7 +342,7 @@ mae <- mean(abs(fr.err))
 mae
 ```
 
----
+##
 
 ### MPE Mean percentage error
 
@@ -385,7 +359,7 @@ mape <- mean(abs(fr.pe))
 mape
 ```
 
----
+##
 
 ```{r}
 accuracy(fr, testdat)[,1:5]
@@ -395,11 +369,9 @@ accuracy(fr, testdat)[,1:5]
 c(me, rmse, mae, mpe, mape)
 ```
 
----
+## Test all the models in your candidate set
 
-## Test all the models in your candidate model
-
-Now that you have some metrics for forecast accuracy, you can compute these for all the models in your candidate set.
+Compute metrics for all the models in your candidate set.
 
 ```{r}
 # The model picked by auto.arima
@@ -418,8 +390,6 @@ fr3 <- forecast(fit3, h=2)
 test3 <- accuracy(fr3, testdat)[2,1:5]
 ```
 
----
-
 ## Show a summary
 
 ```{r results='asis', echo=FALSE}
@@ -429,9 +399,7 @@ sum.tests <- format(sum.tests, digits=3)
 knitr::kable(sum.tests, format="html")
 ```
 
----
-
-## Cross-Validation
+## Cross-validation
 
 An alternate approach to testing a model's forecast accuracy is to use windows or shorter segments of the whole time series to make a series of single forecasts.  
 
@@ -448,7 +416,7 @@ gridExtra::grid.arrange(
 )
 ```
 
----
+##
 
 Another approach uses a fixed window.  For example, a 10-year window.
 
@@ -464,8 +432,6 @@ gridExtra::grid.arrange(
   top = grid::textGrob("Cross-validation: fixed window", gp=grid::gpar(fontsize=20,font=3))
 )
 ```
-
----
 
 ## Time-series cross-validation with the forecast package
 
@@ -483,8 +449,6 @@ Compare to RMSE from just the 2 test data points.
 test1[c("ME","RMSE","MAE")]
 ```
 
----
-
 ## Cross-validation farther in future
 
 ```{r cv.sliding.4plot, echo=FALSE}
@@ -500,8 +464,7 @@ gridExtra::grid.arrange(
 )
 ```
 
-
----
+##
 
 Compare accuracy of forecasts 1 year out versus 4 years out.  If `h` is greater than 1, then the errors are returned as a matrix with each `h` in a column.  Column 4 is the forecast, 4 years out.
 
@@ -512,7 +475,7 @@ tscv4 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(ab
 rbind(tscv1, tscv4)
 ```
 
----
+##
 
 Compare accuracy of forecasts with a fixed 10-year window and 1-year out forecasts.
 
@@ -523,7 +486,7 @@ tscvf1 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(a
 tscvf1
 ```
 
----
+##
 
 ```{r results='asis'}
 comp.tab <- rbind(test1=test1[c("ME","RMSE","MAE")],
@@ -532,9 +495,6 @@ comp.tab <- rbind(test1=test1[c("ME","RMSE","MAE")],
       fixed1=tscvf1)
 knitr::kable(comp.tab, format="html")
 ```
-
-
----
 
 ## Forecast performance for ETS models
 
@@ -551,8 +511,6 @@ traindat <- ts(subset(training, Species==spp)$log.metric.tons, start=1964)
 testdat <- ts(subset(test, Species==spp)$log.metric.tons, start=1988)
 ```
 
----
-
 ## Test forecast performance against a test data set
 
 We will fit an an exponential smoothing model with trend to the training data and make a forecast for the years that we 'held out'. 
@@ -566,7 +524,7 @@ points(end(traindat)[1]+1:h, testdat, pch=2, col="red")
 legend("topleft", c("forecast","actual"), pch=c(20,2), col=c("blue","red"))
 ```
 
----
+##
 
 We can calculate a variety of forecast error metrics with
 
@@ -575,8 +533,6 @@ accuracy(fr, testdat)
 ```
 
 We would now repeat this for all the models in our candidate set and choose the model with the best forecast performance.
-
----
 
 ## Forecast performance with time-series cross-validation
 
@@ -587,8 +543,6 @@ spp <- "Anchovy"
 training = subset(landings, Year <= 1989)
 traindat <- subset(training, Species==spp)$log.metric.tons
 ```
-
----
 
 ## tsCV() function
 
@@ -601,7 +555,7 @@ far2 <- function(x, h, model){
   }
 ```
 
----
+##
 
 Now we can use `tsCV()` to run our `far2()` function to a series of training data sets.  We will specify that a NEW ets model be estimated for each training set.  We are not using the weighting estimated for the whole data set but estimating the weighting new for each set.
 
@@ -612,7 +566,7 @@ e <- tsCV(traindat, far2, h=1, model="AAN")
 e
 ```
 
----
+##
 
 Let's look at the first few `e` so we see exactly with `tsCV()` is doing.
 
@@ -630,7 +584,7 @@ fr.temp <- forecast(fit.temp, h=1)
 traindat[TT+1] - fr.temp$mean
 ```
 
----
+##
 
 ```{r}
 e[3]
@@ -646,9 +600,7 @@ fr.temp <- forecast(fit.temp, h=1)
 traindat[TT+1] - fr.temp$mean
 ```
 
----
-
-## Testing a specific ets model
+## Testing a specific ETS model
 
 By specifying `model="AAN"`, we estimated a new ets model (meaning new weighting) for each training set used.  We might want to specify that we use only the weighting we estimated for the full data set.
 
@@ -661,8 +613,6 @@ fit1 <- ets(traindat, model="AAN")
 e <- tsCV(traindat, far2, h=1, model=fit1)
 e
 ```
-
----
 
 ## Forecast accuracy metrics
 
@@ -680,13 +630,9 @@ mae <- mean(abs(e), na.rm=TRUE)
 
 We would repeat this process for all models in our candidate set and compare forecast fits to choose our forecast model.
 
----
-
 ## Comparing performance in a candidate set
 
 Now you are ready to compare forecasts from a variety of models and choose a forecast model.  Note when you compare models, you can use both 'training data/test data' and use time-series cross-validation, but report the metrics in separate columns.  Example, 'RMSE from tsCV' and 'RMSE from test data'.
-
----
 
 ## Example candidate set for anchovy
 
@@ -711,9 +657,7 @@ fit <- Arima(traindat, order(2,1,0), include.drift=TRUE)
 fr <- forecast(fr)
 ```
 
----
-
-## Candidata models continued
+## Candidate models continued
 
 * Time-varying regression with linear time
 ```
@@ -742,16 +686,14 @@ fit <- Arima(traindat, order(0,0,0))
 fr <- forecast(fit)
 ```
 
----
-
-## Seasonal Exponential Smoothing Models
+## Seasonal exponential smoothing models
 
 ```{r}
 load("chinook.RData")
 head(chinook)
 ```
 
----
+##
 
 The data are monthly and start in January 1990.  To make this into a ts object do
 
@@ -759,8 +701,6 @@ The data are monthly and start in January 1990.  To make this into a ts object d
 chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), frequency=12)
 ```
 `start` is the year and month and frequency is the number of months in the year.  
-
----
 
 ## Plot seasonal data
 
@@ -770,9 +710,7 @@ Now that we have specified our seasonal data as a ts object, it is easy to plot 
 plot(chinookts)
 ```
 
----
-
-## Seasonal Exponential Smoothing Model
+## Seasonal ETS model
 
 Now we add a few more lines to our ETS table of models:
 
@@ -786,8 +724,7 @@ estimate best trend and season model | "ZZZ" | NA |
 
 Unfortunately `ets()` will not handle missing values and will find the longest continuous piece of our data and use that.
 
----
-
+##
 
 ```{r}
 library(forecast)
@@ -798,8 +735,6 @@ plot(fr)
 points(window(chinookts, c(1996,1), c(1996,12)))
 ```
 
----
-
 ## Decompose
 
 If we plot the decomposition, we see the the seasonal component is not changing over time, unlike the actual data.  The bar on the right, alerts us that the scale on the 3rd panel is much smaller.
@@ -807,8 +742,6 @@ If we plot the decomposition, we see the the seasonal component is not changing 
 ```{r fig.height=4}
 autoplot(fit)
 ```
-
----
 
 ## Force seasonality to evolve more
 
@@ -818,13 +751,11 @@ fit <- ets(traindat, model="AAA", gamma=0.4)
 autoplot(fit)
 ```
 
----
-
 ## Compare to a seasonal ARIMA model
 
 `auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data.  Let's use the data that `ets()` used.  This is shorter than our training data.  The data used by `ets()` is returned in `fit$x`.
 
----
+##
 
 ```{r}
 no_miss_dat <- fit$x
@@ -834,17 +765,15 @@ plot(fr)
 points(window(chinookts, c(1996,1), c(1996,12)))
 ```
 
----
+## Missing values
 
-## Missing values are ok when fitting a seasonal ARIMA model
+Missing values are ok when fitting a seasonal ARIMA model, unlike an ETS model.
 
 ```{r}
 fit <- auto.arima(traindat)
 fr <- forecast(fit, h=12)
 plot(fr)
 ```
-
----
 
 ## Forecast evaluation
 
@@ -864,7 +793,7 @@ Use `accuracy()` to get the forecast error metrics.
 accuracy(fr, testdat)
 ```
 
----
+##
 
 We can do the same for the ARIMA model.
 
@@ -874,8 +803,6 @@ fit <- auto.arima(no_miss_dat)
 fr <- forecast(fit, h=12)
 accuracy(fr, testdat)
 ```
-
----
 
 ## Lab on Thursday
 
