@@ -113,3 +113,46 @@ SAR (simultaneous autregressive models)
 * Simultaneously model distribution of predicted values
 
 ‘Autoregressive’ in the sense of spatial dependency / correlation between locations
+
+## CAR models (Besag 1991)
+
+$${ Y }_{ i }=B{ X }_{ i }+{ \phi  }_{ i }i+{ \varepsilon  }_{ i }$$
+
+${ X }_{ i }$ are predictors (regression) 
+${ \phi  }_{ i }i$ spatial component, (aka markov random field)
+${ \varepsilon  }_{ i }$ residual error term
+
+* Create spatial adjacency matrix W, based on neighbors, e.g. 
+* W(i,j) = 1 if neighbors, 0 otherwise
+* W often row-normalized (rows sum to 1)
+
+## Adjacency matrix example
+
+<img src="adjacency.png" width="500" height="500" />
+
+## CAR models
+
+## SAR models
+
+* Simultaneous autoregressive model
+
+
+* Remember that the CAR was
+
+$${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
+
+
+## Commonalities of both approaches
+
+* Adjacency matrix W can also instead be modified to include distance
+
+* Models spatial dependency as a function of single parameter $\rho$
+
+* Models don’t include time dimension in spatial field
+    - One field estimated for all time steps
+
+## Problems with these approaches
+
+Wall (2004) "A close look at the spatial structure implied by the CAR and SAR models"
+
+<img src="car_sar.png" width="400" height="400" />
