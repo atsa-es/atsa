@@ -18,6 +18,7 @@ library(dplyr)
 library(forecast)
 library(lubridate)
 library(MARSS)
+library(fields)
 ```
 
 ## What we’ve learned so far
@@ -36,6 +37,7 @@ library(MARSS)
 pink as well as blue time series
 
 ```{r echo=FALSE, fig.height=4.2}
+set.seed(123)
 y = cumsum(rnorm(100))
 
 plot(y, type="l",col="blue1",lwd=3,ylim=c(-7,15),ylab="Response", xlab= "Time")
@@ -136,11 +138,11 @@ ${ \varepsilon  }_{ i }$ residual error term
 
 * Simultaneous autoregressive model
 
+$${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D } { \left( I-\rho W \right)  }^{ -1 } \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
 
 * Remember that the CAR was
 
 $${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
-
 
 ## Commonalities of both approaches
 
@@ -153,6 +155,145 @@ $${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right)
 
 ## Problems with these approaches
 
-Wall (2004) "A close look at the spatial structure implied by the CAR and SAR models"
+Wall (2004) "A close look at the spatial structure implied by the CAR and SAR models". 
 
-<img src="car_sar.png" width="400" height="400" />
+* Note: not a 1-to-1 mapping of distance and correlation
+
+<div style="text-align: center"><img src="car_sar.png" width="400" height="400" />
+
+## Alternative to CAR & SAR
+
+* model elements of Q as functions
+* Create matrix D, as pairwise distances
+* This can be 1-D, or any dimension
+    - We’ll use Euclidian distances for 2-D
+
+<div style="text-align: center"><img src="euclidian.png" width="300" height="200" />
+
+## Squared exponential covariance
+
+```{r}
+set.seed(123)
+theta = 1
+x = seq(0,99)
+mat = matrix(0, 100, 10)
+for(i in 1:10) {
+  mat[,i] = exp(-(i/10)*x)
+}
+matplot(mat,type="l",col=tim.colors(10),lwd=2,xlim=c(0,40),ylab="Cov(dist)",xlab="Distance",main="Squared exponential")
+
+```
+
+## Squared exponential covariance
+
+<div style="text-align: center"><img src="squared_exponential.png" width="550" height="550" />
+
+## Squared exponential covariance
+
+<div style="text-align: center"><img src="squared_exponential2.png" width="550" height="550" />
+
+## Considerations for time series models
+
+Should spatial dependency be included?
+If so, how to model it? 
+
+* Constant
+* Time varying
+* Autoregressive
+* Random walk
+* Independent variation
+
+## Model-based geostatistical approaches
+
+1. Generalized least squares
+
+2. Bayesian methods in spBayes, glmmfields
+
+3. INLA models
+
+4. Spatial GAMs
+
+5. VAST (TMB)
+
+## Method 1: using gls()
+
+Generalized least squares function
+    - similar syntax to lm, glm, etc.
+
+Flexible correlation structures
+    - corExp()
+    - corGaus()
+    - corLin()
+    - corSpher()
+
+Allows irregularly spaced data / NAs
+    - unlike Arima(), auto.arima(), etc.
+
+## WA Snotel sites
+
+<div style="text-align: center"><img src="wa_snotel.png" width="550" height="550" />
+
+## Modeling WA Snotel data
+
+We’ll use Snow Water Equivalent (SWE) data in Washington state
+
+70 SNOTEL sites
+
+* we’ll focus only on Cascades
+
+1981-2013
+
+Initially start using just the February SWE data
+
+1518 data points (only 29 missing values!)
+
+## Use AIC to evaluate different correlation models
+
+```{r echo = TRUE, eval=FALSE}
+mod.exp = gls(Feb ~ elev, 
+  correlation = corExp(form=~lat+lon,nugget=T), 
+  data = y[which(is.na(y$Feb)==F & y$Water.Year==2013),])
+AIC(mod.exp) = 431.097
+
+mod.gaus = gls(Feb ~ elev, 
+  correlation = corGaus(form=~lat+lon,nugget=T), 
+  data = y[which(is.na(y$Feb)==F & y$Water.Year==2013),])
+AIC(mod.gaus) = 433.485
+
+```
+
+## Diagnostics: fitting variograms
+
+```{r echo = TRUE, eval = FALSE}
+var.exp <- Variogram(mod.exp, form =~ lat+lon)
+plot(var.exp,main="Exponential",ylim=c(0,1))
+
+var.gaus <- Variogram(mod.gaus, form =~ lat+lon)
+plot(var.gaus,main="Gaussian",ylim=c(0,1))
+```
+
+## Exponential variogram
+
+<div style="text-align: center"><img src="exponential_variogram.png" width="600" height="400" />
+
+## Gaussian variogram
+
+<div style="text-align: center"><img src="gaussian_variogram.png" width="600" height="400" />
+
+## Extensions of these models
+
+corExp and corGaus spatial structure useful for wide variety of models / R packages
+
+Linear/non-linear mixed effect models
+
+* lme() / nlme() in nlme package
+
+Generalized linear mixed models
+
+* glmmPQL() in MASS package
+
+Generalized additive mixed models
+
+* gamm() in mgcv package
+
+## Set 
