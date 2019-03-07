@@ -6,6 +6,7 @@ output:
     nature:
       highlightStyle: github
       highlightLines: true
+    self_contained: true
 ---
 
 ```{r setup, include=FALSE, message=FALSE}

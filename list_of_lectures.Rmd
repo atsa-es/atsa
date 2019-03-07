@@ -320,13 +320,13 @@ interactions2 <- list(
 ```
 
 ```{r}
-perturb <- list(
-  title = "Perturbation analysis",
-  topics = c("Perturbation analysis"),
+spatial <- list(
+  title = "Spatial and spatio-temporal models",
+  topics = c("Spatial and spatio-temporal models"),
   pdf = "",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 9/lec_18_spatiotemporal.Rmd",
+  html = "Lectures/Week 9/lec_18_spatiotemporal.html",
   video = "",
   reading = c(""),
   youtube = "",
