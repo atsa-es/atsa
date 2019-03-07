@@ -1,7 +1,7 @@
 ---
 title: "Fitting spatial and spatiotemporal models"
 author: "Eric Ward"
-date: "07 Feb 2019"
+date: "07 Mar 2019"
 output:
   ioslides_presentation:
     css: lecture_slides.css
