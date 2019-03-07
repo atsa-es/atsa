@@ -137,6 +137,12 @@ ${ \varepsilon  }_{ i }$ residual error term
 
 ## CAR models
 
+In matrix form, 
+
+$${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
+
+* Implemented in 'spdep', 'CARBayes', etc 
+
 ## SAR models
 
 * Simultaneous autoregressive model
@@ -575,3 +581,11 @@ auto.arima(Feb, xreg=Water.Year)
 
 * Or post-hoc approach to look at changes in spatial variability post-spill
     - why: lagged effects, non-stationary spatial effects
+    
+## Example: modeling spatiotemporal responses of fish to oil spills
+
+<div style="text-align: center"><img src="covariate_dwh.png" width="500" height="500" />
+
+## Example: modeling spatiotemporal responses of fish to oil spills
+
+<div style="text-align: center"><img src="marginal.png" width="500" height="500" />
