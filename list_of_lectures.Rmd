@@ -236,7 +236,7 @@ bayes2 <- list(
   rmd = "Lectures/Week 6/lec_11_stan.Rmd",
   html = "Lectures/Week 6/lec_11_stan.html",
   video = "",
-  reading = c(""),
+  reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
   youtube = "",
   instructor = "Eric"
 )
@@ -264,10 +264,10 @@ spat_cor <- list(
   topics = c("Time series models with spatial autocorrelation"),
   pdf = "",
   ppt = "",
-  rmd = "",
+  rmd = "Lectures/Week 9/lec_18_spatiotemporal.Rmd",
   html = "",
-  video = "",
-  reading = c(""),
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=10c366d6-e1e8-4b8a-bcaa-aa090163c5c8",
+  reading = c("[GitHub Lec 18 Files](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)"),
   youtube = "",
   instructor = "Eric"
 )
@@ -283,7 +283,7 @@ ets <- list(
   html = c("Lectures/Week 7/ETS.html"),
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bddd18a2-d980-4d88-aa9c-a9fa00024e17",
   reading = c("[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)","[H18: Chap 4](https://fish-forecast.github.io/Fish-Forecast-Bookdown/4-exponential-smoothing-models.html)"),
-  youtube = "",
+  youtube = "https://youtu.be/afqU8uWkY3g",
   instructor = "Eli"
 )
 ```
