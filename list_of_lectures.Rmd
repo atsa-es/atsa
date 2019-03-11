@@ -145,7 +145,7 @@ covariates <- list(
   html = c("Lectures/Week 7/ETS_revisted.html", "Lectures/Week 7/Covariates.html"),
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1b55bcd8-5eb6-4909-b71b-a9fb01633327",
   reading = c("[HA18: Chap 5](https://otexts.com/fpp2/regression.html)","[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)", "[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
-  youtube = "",
+  youtube = "https://youtu.be/ANaAjUKvoiw",
   instructor = "Eli"
 )
 ```
@@ -283,7 +283,7 @@ ets <- list(
   html = c("Lectures/Week 7/ETS.html"),
   video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bddd18a2-d980-4d88-aa9c-a9fa00024e17",
   reading = c("[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)","[H18: Chap 4](https://fish-forecast.github.io/Fish-Forecast-Bookdown/4-exponential-smoothing-models.html)"),
-  youtube = "https://youtu.be/BzUg5qg-IzQ",
+  youtube = "",
   instructor = "Eli"
 )
 ```
@@ -297,9 +297,9 @@ interactions1 <- list(
   ppt = "",
   rmd = "",
   html = "",
-  video = "",
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1731178b-5171-4e09-99b3-aa070163a1f2",
   reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
-  youtube = "",
+  youtube = "https://youtu.be/lXasbuMdUT4",
   instructor = "Eli"
 )
 ```
