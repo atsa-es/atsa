@@ -3,9 +3,9 @@ title: "Semi- and non-parametric time series models"
 author: "Eric Ward"
 date: "26 Feb 2019"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
