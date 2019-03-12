@@ -305,21 +305,6 @@ interactions1 <- list(
 ```
 
 ```{r}
-perturb <- list(
-  title = "Perturbations and outliers",
-  topics = c("Perturbations","interventions","outliers","standardized residuals"),
-  pdf = "Lectures/Week 10/lec_19_perturbations.pdf",
-  ppt = "",
-  rmd = "",
-  html = "",
-  video = "",
-  reading = "[HWS18a: Chap 12](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
-  youtube = "",
-  instructor = "Eric/Eli"
-)
-```
-
-```{r}
 spatial <- list(
   title = "Spatial and spatio-temporal models",
   topics = c("Spatial and spatio-temporal models"),
@@ -397,14 +382,29 @@ EDM <- list(
 ```{r}
 zeros <- list(
   title = "Zero-inflated data",
-  topics = c("Zero-inflated data"),
-  pdf = "",
+  topics = c("Zero-inflated data","Perturbation analysis","outliers","standardized residuals"),
+  pdf = "Lectures/Week 10/lec_19_perturbations.pdf",
   ppt = "",
   rmd = "Lectures/Week 10/lec_19_zero-inflated.Rmd",
   html = "Lectures/Week 10/lec_19_zero-inflated.html",
   video = "",
-  reading = c(""),
+  reading = "[HWS18a: Chap 12](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
   youtube = "",
-  instructor = "Eric"
+  instructor = "Eric/Mark/Eli"
+)
+```
+
+```{r}
+perturb <- list(
+  title = "Perturbations and outliers",
+  topics = c("Perturbations","interventions","outliers","standardized residuals"),
+  pdf = "Lectures/Week 10/lec_19_perturbations.pdf",
+  ppt = "",
+  rmd = "",
+  html = "",
+  video = "",
+  reading = "[HWS18a: Chap 12](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
+  youtube = "",
+  instructor = "Eric/Eli"
 )
 ```
