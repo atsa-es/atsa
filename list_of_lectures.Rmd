@@ -397,7 +397,7 @@ EDM <- list(
 ```{r}
 zeros <- list(
   title = "Zero-inflated data",
-  topics = c(""),
+  topics = c("Zero-inflated data"),
   pdf = "",
   ppt = "",
   rmd = "Lectures/Week 10/lec_19_zero-inflated.Rmd",
