@@ -395,13 +395,13 @@ EDM <- list(
 ```
 
 ```{r}
-open <- list(
-  title = "Open",
+zeros <- list(
+  title = "Zero-inflated data",
   topics = c(""),
   pdf = "",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 10/lec_19_zero-inflated.Rmd",
+  html = "Lectures/Week 10/lec_19_zero-inflated.html",
   video = "",
   reading = c(""),
   youtube = "",

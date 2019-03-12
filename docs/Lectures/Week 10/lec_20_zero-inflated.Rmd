@@ -21,6 +21,7 @@ library(MARSS)
 library(mgcv)
 library(glmmTMB)
 library(kableExtra)
+library(brms)
 ```
 
 ## Modeling zero-inflated data
@@ -354,21 +355,70 @@ m[3,2] = 0.339
 knitr::kable(m)
 ```
 
+## brms
+
+Bayesian hurdle models, optionally with smooth functions and random effects!
+
+Start with month (factor) and Year (linear trend) in positive model, hurdle is intercept only
+
+```{r echo=TRUE, eval=FALSE}
+library(brms)
+mod = brm(bf(Conochilus~ as.factor(Month) + Year, 
+       hu ~ 1, 
+      data = lakeWAplanktonRaw, family = hurdle_gamma(), 
+        chains=1, iter=1000)
+```
+
+## brms
+
+Now we can add month covariates to the hurdle part, and a smooth function on Year
+
+* We use *k* to select the wiggliness of the smooth. 
+* It can be selected automatically, but probably better to put some thought into this!
+```{r echo=TRUE, eval=FALSE}
+library(brms)
+mod = brm(bf(Conochilus~ as.factor(Month) + s(Year, k=10), 
+       hu ~ as.factor(Month), 
+      data = lakeWAplanktonRaw, family = hurdle_gamma(), 
+        chains=1, iter=1000)
+```
+
+## brms
+
+Or we could include the month term as a random effect (intercept)
+
+```{r echo=TRUE, eval=FALSE}
+library(brms)
+mod = brm(bf(Conochilus~ as.factor(Month) + s(Year, k=10), 
+       hu ~ as.factor(Month), 
+      data = lakeWAplanktonRaw, family = hurdle_gamma(), 
+        chains=1, iter=1000)
+```
 
 
+## brms
 
+Each of these models can be evaluated with LOOIC for model selection, e.g. 
+```{r echo=TRUE, eval=FALSE}
+library(brms)
+mod = brm(bf(Conochilus~ as.factor(Month) + s(Year, k=10), 
+       hu ~ as.factor(Month), 
+      data = lakeWAplanktonRaw, family = hurdle_gamma(), 
+        chains=1, iter=1000)
+loo::loo(mod)
+```
 
+## Summary: Advantages and disadvantages of Tweedie and delta-GLMMs
 
-
-## Tweedie overview
-
-Advantages
+Advantages of Tweedie
 
 * Single link function 
     - sometimes awkward to have multiple link functions (logit, log) with covariate effects in each
+    - one coefficient to interpret / covariate
     
-Disadvantages
+Advantages of delta-GLMMs
 
-- Can be slow
-- no mechanistic model for 0s
+- More flexible
+- Estimation can be faster than Tweedie (particularly if power parameter *p* estimated)
+- Mechanistic model for 0s that you don't get with Tweedie
 
