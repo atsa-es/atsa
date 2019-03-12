@@ -305,17 +305,17 @@ interactions1 <- list(
 ```
 
 ```{r}
-interactions2 <- list(
-  title = "Species interactions II",
-  topics = c("Community dynamics & stability with MAR(1) models"),
-  pdf = "",
+perturb <- list(
+  title = "Perturbations and outliers",
+  topics = c("Perturbations","interventions","outliers","standardized residuals"),
+  pdf = "Lectures/Week 10/lec_19_perturbations.pdf",
   ppt = "",
   rmd = "",
   html = "",
   video = "",
-  reading = c(""),
+  reading = "[HWS18a: Chap 12](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
   youtube = "",
-  instructor = "Eli"
+  instructor = "Eric/Eli"
 )
 ```
 
@@ -327,8 +327,8 @@ spatial <- list(
   ppt = "",
   rmd = "Lectures/Week 9/lec_18_spatiotemporal.Rmd",
   html = "Lectures/Week 9/lec_18_spatiotemporal.html",
-  video = "",
-  reading = c(""),
+  video = "https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=10c366d6-e1e8-4b8a-bcaa-aa090163c5c8",
+  reading = c("[GitHub folder with code](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)"),
   youtube = "",
   instructor = "Eric"
 )
