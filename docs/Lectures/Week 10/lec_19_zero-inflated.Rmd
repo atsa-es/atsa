@@ -3,10 +3,10 @@ title: "Dealing with complicated data in time series models"
 author: "Eric Ward"
 date: "12 Mar 2019"
 output:
-  beamer_presentation: default
-  slidy_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
+  slidy_presentation: default
+  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -243,7 +243,7 @@ $log(u_i) = CZ_i$
 
 Adding these error terms allow us to turn conventional GLM into time series models with autoregressive behavior, e.g.
 $$Y_t \sim Bernoulli(p_t)$$
-$$logit(p_t) = logit(X_t)$$
+$$logit(p_t) = BX_t $$
 $$X_{t} = BX_{t-1} + \epsilon_{t-1}$$
 $$\epsilon_t \sim Normal(0, \sigma)$$
 

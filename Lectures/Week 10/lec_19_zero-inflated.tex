@@ -1,8 +1,45 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
 \documentclass[ignorenonframetext,]{beamer}
+\usepackage{pgfpages}
 \setbeamertemplate{caption}[numbered]
 \setbeamertemplate{caption label separator}{: }
 \setbeamercolor{caption name}{fg=normal text.fg}
 \beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+\centering
+\begin{beamercolorbox}[sep=16pt,center]{part title}
+  \usebeamerfont{part title}\insertpart\par
+\end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+\centering
+\begin{beamercolorbox}[sep=12pt,center]{part title}
+  \usebeamerfont{section title}\insertsection\par
+\end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{part title}
+  \usebeamerfont{subsection title}\insertsubsection\par
+\end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -10,28 +47,32 @@
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
 \else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
+  \usepackage{unicode-math}
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 % use microtype if available
 \IfFileExists{microtype.sty}{%
-\usepackage{microtype}
+\usepackage[]{microtype}
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\newif\ifbibliography
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
 \hypersetup{
             pdftitle={Dealing with complicated data in time series models},
             pdfauthor={Eric Ward},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\newif\ifbibliography
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -41,69 +82,50 @@
 \usepackage{framed}
 \definecolor{shadecolor}{RGB}{248,248,248}
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\NormalTok}[1]{#1}
-
-% Prevent slide breaks in the middle of a paragraph:
-\widowpenalties 1 10000
-\raggedbottom
-
-\AtBeginPart{
-  \let\insertpartnumber\relax
-  \let\partname\relax
-  \frame{\partpage}
-}
-\AtBeginSection{
-  \ifbibliography
-  \else
-    \let\insertsectionnumber\relax
-    \let\sectionname\relax
-    \frame{\sectionpage}
-  \fi
-}
-\AtBeginSubsection{
-  \let\insertsubsectionnumber\relax
-  \let\subsectionname\relax
-  \frame{\subsectionpage}
-}
-
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{0}
 
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
 \title{Dealing with complicated data in time series models}
+\providecommand{\subtitle}[1]{}
 \subtitle{FISH 507 -- Applied Time Series Analysis}
 \author{Eric Ward}
 \date{12 Mar 2019}
@@ -112,6 +134,7 @@
 \frame{\titlepage}
 
 \begin{frame}{Modeling zero-inflated data}
+\protect\hypertarget{modeling-zero-inflated-data}{}
 
 Zero-inflated = data with excess of zero counts
 
@@ -122,6 +145,7 @@ The degree of zero-inflation may be extreme
 \end{frame}
 
 \begin{frame}{Modeling zero-inflated data}
+\protect\hypertarget{modeling-zero-inflated-data-1}{}
 
 Zero-inflated = data with excess of zero counts
 
@@ -132,9 +156,9 @@ Or more subtle
 \end{frame}
 
 \begin{frame}{Lots of options for dealing with zeros}
+\protect\hypertarget{lots-of-options-for-dealing-with-zeros}{}
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
 \item
   Remove them from the dataset and ignore them
 \item
@@ -146,18 +170,21 @@ Or more subtle
 \end{frame}
 
 \begin{frame}{1. Dropping zeros}
+\protect\hypertarget{dropping-zeros}{}
 
 \begin{center}\includegraphics{lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-3-1} \end{center}
 
 \end{frame}
 
 \begin{frame}{1. Dropping zeros}
+\protect\hypertarget{dropping-zeros-1}{}
 
 \begin{center}\includegraphics{lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-4-1} \end{center}
 
 \end{frame}
 
 \begin{frame}{1. Dropping zeros}
+\protect\hypertarget{dropping-zeros-2}{}
 
 Can work in a limited number of cases BUT
 
@@ -177,6 +204,7 @@ Becomes problematic for
 \end{frame}
 
 \begin{frame}{2. Transforming data}
+\protect\hypertarget{transforming-data}{}
 
 With zero-inflated data, it's common to add a small number and transform
 the results -- ln(), sqrt(), etc.
@@ -191,18 +219,21 @@ the results -- ln(), sqrt(), etc.
 \end{frame}
 
 \begin{frame}{Example: Lake WA Conochilus}
+\protect\hypertarget{example-lake-wa-conochilus}{}
 
 \begin{center}\includegraphics{lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-5-1} \end{center}
 
 \end{frame}
 
 \begin{frame}{Example: Lake WA Conochilus}
+\protect\hypertarget{example-lake-wa-conochilus-1}{}
 
 \begin{center}\includegraphics{lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-6-1} \end{center}
 
 \end{frame}
 
 \begin{frame}{Example: Lake WA Conochilus}
+\protect\hypertarget{example-lake-wa-conochilus-2}{}
 
 Lots of problems with this approach generally
 
@@ -219,6 +250,7 @@ constants
 \end{frame}
 
 \begin{frame}{Example: Lake WA Conochilus}
+\protect\hypertarget{example-lake-wa-conochilus-3}{}
 
 log(Conochilus + 0.001) = ARIMA(3,1,1) + no drift
 
@@ -231,8 +263,9 @@ log(Conochilus + 1) = ARIMA(5,1,0) + drift
 \end{frame}
 
 \begin{frame}{References for adding constants (or not)}
+\protect\hypertarget{references-for-adding-constants-or-not}{}
 
-Ekwaru et al. 2017
+Ekwaru et al.~2017
 \href{https://amstat.tandfonline.com/doi/abs/10.1080/19466315.2017.1369900?journalCode=usbr20\#.XIe-RBNKiM4}{link}
 
 O'hara and Kotze 2010
@@ -241,9 +274,9 @@ O'hara and Kotze 2010
 \end{frame}
 
 \begin{frame}{3. Using more complicated statistical models}
+\protect\hypertarget{using-more-complicated-statistical-models}{}
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
 \item
   Tweedie distribution
 \item
@@ -253,6 +286,7 @@ O'hara and Kotze 2010
 \end{frame}
 
 \begin{frame}{Tweedie distribution}
+\protect\hypertarget{tweedie-distribution}{}
 
 \begin{itemize}
 \item
@@ -270,6 +304,7 @@ O'hara and Kotze 2010
 \end{frame}
 
 \begin{frame}{Implementation in R}
+\protect\hypertarget{implementation-in-r}{}
 
 Lots of existing family support
 
@@ -300,6 +335,7 @@ Lots of existing family support
 \end{frame}
 
 \begin{frame}[fragile]{Let's apply GLMs with Tweedie to Lake WA data}
+\protect\hypertarget{lets-apply-glms-with-tweedie-to-lake-wa-data}{}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -313,6 +349,7 @@ Lots of existing family support
 \end{frame}
 
 \begin{frame}[fragile]{What's the right variance power to choose?}
+\protect\hypertarget{whats-the-right-variance-power-to-choose}{}
 
 Package `tweedie' does ML estimation of the \emph{p} parameter.
 
@@ -328,6 +365,7 @@ Package `tweedie' does ML estimation of the \emph{p} parameter.
 \end{frame}
 
 \begin{frame}[fragile]{What's the right variance power to choose?}
+\protect\hypertarget{whats-the-right-variance-power-to-choose-1}{}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -340,6 +378,7 @@ Package `tweedie' does ML estimation of the \emph{p} parameter.
 \end{frame}
 
 \begin{frame}[fragile]{Other implementations in R}
+\protect\hypertarget{other-implementations-in-r}{}
 
 Also supported in `mgcv'. \emph{p} parameter may be fixed
 
@@ -362,6 +401,7 @@ or estimated
 \end{frame}
 
 \begin{frame}{Delta (aka hurdle models)}
+\protect\hypertarget{delta-aka-hurdle-models}{}
 
 Tweedie models every data point as being generated from the same process
 
@@ -378,6 +418,7 @@ Alternative: use delta- or hurdle- models
 \end{frame}
 
 \begin{frame}{Sub-models}
+\protect\hypertarget{sub-models}{}
 
 Binomial data (logit link) \(logit(p_i) = log(p_i/(1-p_i)) = BX_i\)
 
@@ -396,10 +437,11 @@ Positive model (log link generally) \(log(u_i) = CZ_i\)
 \end{frame}
 
 \begin{frame}{Time series}
+\protect\hypertarget{time-series}{}
 
 Adding these error terms allow us to turn conventional GLM into time
 series models with autoregressive behavior, e.g.
-\[Y_t \sim Bernoulli(p_t)\] \[logit(p_t) = logit(X_t)\]
+\[Y_t \sim Bernoulli(p_t)\] \[logit(p_t) = BX_t \]
 \[X_{t} = BX_{t-1} + \epsilon_{t-1}\]
 \[\epsilon_t \sim Normal(0, \sigma)\]
 
@@ -412,6 +454,7 @@ series models with autoregressive behavior, e.g.
 \end{frame}
 
 \begin{frame}[fragile]{Hurdle models}
+\protect\hypertarget{hurdle-models}{}
 
 Delta-GLM: We'll start fitting 2 models to the Conochilus data
 
@@ -432,6 +475,7 @@ Delta-GLM: We'll start fitting 2 models to the Conochilus data
 \end{frame}
 
 \begin{frame}[fragile]{Hurdle models}
+\protect\hypertarget{hurdle-models-1}{}
 
 Now we can combine predictions from these models for estimates of
 Conochilus density
@@ -450,6 +494,7 @@ Conochilus density
 \end{frame}
 
 \begin{frame}[fragile]{Hurdle models}
+\protect\hypertarget{hurdle-models-2}{}
 
 In the last example, we used glm() to put the model pieces together
 ourselves.
@@ -465,6 +510,7 @@ Alternatives:
 \end{frame}
 
 \begin{frame}[fragile]{Hurdle models via mgcv}
+\protect\hypertarget{hurdle-models-via-mgcv}{}
 
 Given the fits to the hurdle model with GLM() weren't great, it may be
 worthwhile to try a GAM
@@ -490,6 +536,7 @@ Delta-GAM: We'll start fitting 2 models to the Conochilus data
 \end{frame}
 
 \begin{frame}[fragile]{Hurdle models}
+\protect\hypertarget{hurdle-models-3}{}
 
 Predictions via the GAM. These look maybe slightly better but don't
 appear to capture really high observations
@@ -508,6 +555,7 @@ appear to capture really high observations
 \end{frame}
 
 \begin{frame}[fragile]{Extensions with adding mixed effects}
+\protect\hypertarget{extensions-with-adding-mixed-effects}{}
 
 Several R packages out there. `glmmTMB' makes ML estimation relatively
 straightforward if your hurdle model = Poisson or NegBin.
@@ -528,6 +576,7 @@ straightforward if your hurdle model = Poisson or NegBin.
 \end{frame}
 
 \begin{frame}{Extensions with adding mixed effects}
+\protect\hypertarget{extensions-with-adding-mixed-effects-1}{}
 
 Comparing these models so far,
 
@@ -546,6 +595,7 @@ GLMM & 0.339\\
 \end{frame}
 
 \begin{frame}[fragile]{brms}
+\protect\hypertarget{brms}{}
 
 Bayesian hurdle models, optionally with smooth functions and random
 effects!
@@ -566,6 +616,7 @@ hurdle is intercept only
 \end{frame}
 
 \begin{frame}[fragile]{brms}
+\protect\hypertarget{brms-1}{}
 
 Now we can add month covariates to the hurdle part, and a smooth
 function on Year
@@ -592,6 +643,7 @@ function on Year
 \end{frame}
 
 \begin{frame}[fragile]{brms}
+\protect\hypertarget{brms-2}{}
 
 Or we could include the month term as a random effect (intercept)
 
@@ -608,6 +660,7 @@ Or we could include the month term as a random effect (intercept)
 \end{frame}
 
 \begin{frame}[fragile]{brms}
+\protect\hypertarget{brms-3}{}
 
 Each of these models can be evaluated with LOOIC for model selection,
 e.g.
@@ -627,6 +680,7 @@ e.g.
 
 \begin{frame}{Summary: Advantages and disadvantages of Tweedie and
 delta-GLMMs}
+\protect\hypertarget{summary-advantages-and-disadvantages-of-tweedie-and-delta-glmms}{}
 
 Advantages of Tweedie
 

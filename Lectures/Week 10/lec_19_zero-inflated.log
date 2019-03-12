@@ -1,46 +1,46 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  12 MAR 2019 13:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  12 MAR 2019 13:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **lec_19_zero-inflated.tex
 (./lec_19_zero-inflated.tex
-LaTeX2e <2018-04-01> patch level 2
-Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamer.cls
-Document Class: beamer 2018/02/20 v3.50 A class for typesetting presentations
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasemodes.sty (/usr/
-local/texlive/2018/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count80
-)
+LaTeX2e <2017-04-15>
+Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamer.cls
+Document Class: beamer 2017/01/23 v3.41 A class for typesetting presentations
+(/usr/local/texlive/2017/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2017/01/02 v2.4 e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count79
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasemodes.sty
 \beamer@tempbox=\box26
-\beamer@tempcount=\count81
-\c@beamerpauses=\count82
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasedecode.sty
-\beamer@slideinframe=\count83
-\beamer@minimum=\count84
+\beamer@tempcount=\count80
+\c@beamerpauses=\count81
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasedecode.sty
+\beamer@slideinframe=\count82
+\beamer@minimum=\count83
 )
 \beamer@commentbox=\box27
-\beamer@modecount=\count85
-) (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+\beamer@modecount=\count84
+) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
-\headdp=\dimen102
-\footheight=\dimen103
-\sidebarheight=\dimen104
-\beamer@tempdim=\dimen105
-\beamer@finalheight=\dimen106
-\beamer@animht=\dimen107
-\beamer@animdp=\dimen108
-\beamer@animwd=\dimen109
-\beamer@leftmargin=\dimen110
-\beamer@rightmargin=\dimen111
-\beamer@leftsidebar=\dimen112
-\beamer@rightsidebar=\dimen113
-\beamer@boxsize=\dimen114
-\beamer@vboxoffset=\dimen115
-\beamer@descdefault=\dimen116
-\beamer@descriptionwidth=\dimen117
+\headheight=\dimen102
+\headdp=\dimen103
+\footheight=\dimen104
+\sidebarheight=\dimen105
+\beamer@tempdim=\dimen106
+\beamer@finalheight=\dimen107
+\beamer@animht=\dimen108
+\beamer@animdp=\dimen109
+\beamer@animwd=\dimen110
+\beamer@leftmargin=\dimen111
+\beamer@rightmargin=\dimen112
+\beamer@leftsidebar=\dimen113
+\beamer@rightsidebar=\dimen114
+\beamer@boxsize=\dimen115
+\beamer@vboxoffset=\dimen116
+\beamer@descdefault=\dimen117
+\beamer@descriptionwidth=\dimen118
 \beamer@lastskip=\skip41
 \beamer@areabox=\box28
 \beamer@animcurrent=\box29
@@ -48,140 +48,145 @@ Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 \beamer@sectionbox=\box31
 \beamer@logobox=\box32
 \beamer@linebox=\box33
-\beamer@sectioncount=\count86
-\beamer@subsubsectionmax=\count87
-\beamer@subsectionmax=\count88
-\beamer@sectionmax=\count89
-\beamer@totalheads=\count90
-\beamer@headcounter=\count91
-\beamer@partstartpage=\count92
-\beamer@sectionstartpage=\count93
-\beamer@subsectionstartpage=\count94
-\beamer@animationtempa=\count95
-\beamer@animationtempb=\count96
-\beamer@xpos=\count97
-\beamer@ypos=\count98
-\beamer@ypos@offset=\count99
-\beamer@showpartnumber=\count100
-\beamer@currentsubsection=\count101
-\beamer@coveringdepth=\count102
-\beamer@sectionadjust=\count103
-\beamer@tocsectionnumber=\count104
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseoptions.sty (/us
-r/local/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
+\beamer@sectioncount=\count85
+\beamer@subsubsectionmax=\count86
+\beamer@subsectionmax=\count87
+\beamer@sectionmax=\count88
+\beamer@totalheads=\count89
+\beamer@headcounter=\count90
+\beamer@partstartpage=\count91
+\beamer@sectionstartpage=\count92
+\beamer@subsectionstartpage=\count93
+\beamer@animationtempa=\count94
+\beamer@animationtempb=\count95
+\beamer@xpos=\count96
+\beamer@ypos=\count97
+\beamer@showpartnumber=\count98
+\beamer@currentsubsection=\count99
+\beamer@coveringdepth=\count100
+\beamer@sectionadjust=\count101
+\beamer@tocsectionnumber=\count102
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseoptions.sty (/us
+r/local/texlive/2017/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks14
 ))
 \beamer@paperwidth=\skip42
 \beamer@paperheight=\skip43
-(/usr/local/texlive/2018/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2018/03/24 v5.7 Page Geometry
-(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
-) (/usr/local/texlive/2018/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count105
-\Gm@cntv=\count106
-\c@Gm@tempcnt=\count107
-\Gm@bindingoffset=\dimen118
-\Gm@wd@mp=\dimen119
-\Gm@odd@mp=\dimen120
-\Gm@even@mp=\dimen121
-\Gm@layoutwidth=\dimen122
-\Gm@layoutheight=\dimen123
-\Gm@layouthoffset=\dimen124
-\Gm@layoutvoffset=\dimen125
+\Gm@cnth=\count103
+\Gm@cntv=\count104
+\c@Gm@tempcnt=\count105
+\Gm@bindingoffset=\dimen119
+\Gm@wd@mp=\dimen120
+\Gm@odd@mp=\dimen121
+\Gm@even@mp=\dimen122
+\Gm@layoutwidth=\dimen123
+\Gm@layoutheight=\dimen124
+\Gm@layouthoffset=\dimen125
+\Gm@layoutvoffset=\dimen126
 \Gm@dimlist=\toks15
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/base/size11.clo
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/base/size11.clo
 File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/us
-r/local/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/us
+r/local/texlive/2017/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/04/14 v1.1b Standard LaTeX Graphics (DPC,SPQR)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count106
 ))
-\Gin@req@height=\dimen126
-\Gin@req@width=\dimen127
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/us
-r/local/texlive/2018/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
+\Gin@req@height=\dimen127
+\Gin@req@width=\dimen128
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/us
+r/local/texlive/2017/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
 x
 \pgfutil@everybye=\toks16
-\pgfutil@tempdima=\dimen128
-\pgfutil@tempdimb=\dimen129
+\pgfutil@tempdima=\dimen129
+\pgfutil@tempdimb=\dimen130
 
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-li
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-li
 sts.tex))
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box34
-(/usr/local/texlive/2018/texmf-dist/tex/latex/ms/everyshi.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/ms/everyshi.sty
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
-)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.te
+)) (/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.te
 x
 Package: pgfrcs 2015/08/07 v3.0.1a (rcs-revision 1.31)
 ))
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2014/07/09 v3.0.1a (rcs-revision 1.48)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks17
 \pgfkeys@temptoks=\toks18
 
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.c
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.c
 ode.tex
 \pgfkeys@tmptoks=\toks19
 ))
-\pgf@x=\dimen130
-\pgf@y=\dimen131
-\pgf@xa=\dimen132
-\pgf@ya=\dimen133
-\pgf@xb=\dimen134
-\pgf@yb=\dimen135
-\pgf@xc=\dimen136
-\pgf@yc=\dimen137
+\pgf@x=\dimen131
+\pgf@y=\dimen132
+\pgf@xa=\dimen133
+\pgf@ya=\dimen134
+\pgf@xb=\dimen135
+\pgf@yb=\dimen136
+\pgf@xc=\dimen137
+\pgf@yc=\dimen138
 \w@pgf@writea=\write3
 \r@pgf@reada=\read1
-\c@pgf@counta=\count108
-\c@pgf@countb=\count109
-\c@pgf@countc=\count110
-\c@pgf@countd=\count111
+\c@pgf@counta=\count107
+\c@pgf@countb=\count108
+\c@pgf@countc=\count109
+\c@pgf@countd=\count110
 \t@pgf@toka=\toks20
 \t@pgf@tokb=\toks21
 \t@pgf@tokc=\toks22
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.d
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.d
 ef
 File: pgfsys-pdftex.def 2014/10/11  (rcs-revision 1.35)
 
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-p
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-p
 df.def
 File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 )))
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.
 code.tex
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count112
-\pgfsyssoftpath@bigbuffer@items=\count113
+\pgfsyssoftpath@smallbuffer@items=\count111
+\pgfsyssoftpath@bigbuffer@items=\count112
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.
 code.tex
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/xcolor/xcolor.sty
+)) (/usr/local/texlive/2017/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -195,149 +200,145 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr
-/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/usr/
-local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen138
-\pgfmath@count=\count114
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr
+/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/usr/
+local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen139
+\pgfmath@count=\count113
 \pgfmath@box=\box35
 \pgfmath@toks=\toks23
 \pgfmath@stack@operand=\toks24
 \pgfmath@stack@operation=\toks25
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.
 tex
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic
 .code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigo
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigo
 nometric.code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rando
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rando
 m.code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.compa
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.compa
 rison.code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.
 code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round
 .code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.
 code.tex)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
-erarithmetics.code.tex))) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/m
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
+erarithmetics.code.tex))) (/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/m
 ath/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count115
+\c@pgfmathroundto@lastzeros=\count114
 ))
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.co
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.co
 de.tex
 File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
-\pgf@picminx=\dimen139
-\pgf@picmaxx=\dimen140
-\pgf@picminy=\dimen141
-\pgf@picmaxy=\dimen142
-\pgf@pathminx=\dimen143
-\pgf@pathmaxx=\dimen144
-\pgf@pathminy=\dimen145
-\pgf@pathmaxy=\dimen146
-\pgf@xx=\dimen147
-\pgf@xy=\dimen148
-\pgf@yx=\dimen149
-\pgf@yy=\dimen150
-\pgf@zx=\dimen151
-\pgf@zy=\dimen152
+\pgf@picminx=\dimen140
+\pgf@picmaxx=\dimen141
+\pgf@picminy=\dimen142
+\pgf@picmaxy=\dimen143
+\pgf@pathminx=\dimen144
+\pgf@pathmaxx=\dimen145
+\pgf@pathminy=\dimen146
+\pgf@pathmaxy=\dimen147
+\pgf@xx=\dimen148
+\pgf@xy=\dimen149
+\pgf@yx=\dimen150
+\pgf@yy=\dimen151
+\pgf@zx=\dimen152
+\pgf@zy=\dimen153
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconst
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconst
 ruct.code.tex
 File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
-\pgf@path@lastx=\dimen153
-\pgf@path@lasty=\dimen154
+\pgf@path@lastx=\dimen154
+\pgf@path@lasty=\dimen155
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage
 .code.tex
 File: pgfcorepathusage.code.tex 2014/11/02  (rcs-revision 1.24)
-\pgf@shorten@end@additional=\dimen155
-\pgf@shorten@start@additional=\dimen156
+\pgf@shorten@end@additional=\dimen156
+\pgf@shorten@start@additional=\dimen157
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.co
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.co
 de.tex
 File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
 \pgfpic=\box36
 \pgf@hbox=\box37
 \pgf@layerbox@main=\box38
-\pgf@picture@serial@count=\count116
+\pgf@picture@serial@count=\count115
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicst
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicst
 ate.code.tex
 File: pgfcoregraphicstate.code.tex 2014/11/02  (rcs-revision 1.12)
-\pgflinewidth=\dimen157
+\pgflinewidth=\dimen158
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransform
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransform
 ations.code.tex
 File: pgfcoretransformations.code.tex 2015/08/07  (rcs-revision 1.20)
-\pgf@pt@x=\dimen158
-\pgf@pt@y=\dimen159
-\pgf@pt@temp=\dimen160
+\pgf@pt@x=\dimen159
+\pgf@pt@y=\dimen160
+\pgf@pt@temp=\dimen161
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.cod
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.cod
 e.tex
 File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.c
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.c
 ode.tex
 File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathproce
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathproce
 ssing.code.tex
 File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.co
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.co
 de.tex
 File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
-\pgfarrowsep=\dimen161
+\pgfarrowsep=\dimen162
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.cod
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.cod
 e.tex
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
-\pgf@max=\dimen162
-\pgf@sys@shading@range@num=\count117
+\pgf@max=\dimen163
+\pgf@sys@shading@range@num=\count116
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.cod
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.cod
 e.tex
 File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
 
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.
 code.tex
 File: pgfcoreexternal.code.tex 2014/07/09  (rcs-revision 1.21)
 \pgfexternal@startupbox=\box39
 ))
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.co
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.co
 de.tex
 File: pgfcorelayers.code.tex 2013/07/18  (rcs-revision 1.7)
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretranspare
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretranspare
 ncy.code.tex
 File: pgfcoretransparency.code.tex 2013/09/30  (rcs-revision 1.5)
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.
+(/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.
 code.tex
 File: pgfcorepatterns.code.tex 2013/11/07  (rcs-revision 1.5)
-))) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/utilities/xxcolor.sty
+))) (/usr/local/texlive/2017/texmf-dist/tex/latex/pgf/utilities/xxcolor.sty
 Package: xxcolor 2003/10/24 ver 0.1
-\XC@nummixins=\count118
-\XC@countmixins=\count119
-) (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+\XC@nummixins=\count117
+\XC@countmixins=\count118
+) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/infwarerr.sty
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
-) (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
-(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2017/03/14 v6.85a Hypertext links for LaTeX
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
-(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -354,7 +355,7 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-Package: pdftexcmds 2018/01/30 v0.27 Utility functions of pdfTeX for LuaTeX (HO
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -374,72 +375,76 @@ Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
 Package hobsub Info: Skipping package `atbegshi' (already loaded).
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/auxhook.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
-\@linkdim=\dimen163
-\Hy@linkcounter=\count120
-\Hy@pagecounter=\count121
-(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
-Now handling font encoding PD1 ...
-... no UTF-8 mapping file for font encoding PD1
+\@linkdim=\dimen164
+\Hy@linkcounter=\count119
+\Hy@pagecounter=\count120
+(/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2017/03/14 v6.85a Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count122
-(/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+\Hy@SavedSpaceFactor=\count121
+(/usr/local/texlive/2017/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Option `bookmarks' set `true' on input line 4383.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 4383.
-Package hyperref Info: Option `implicit' set `false' on input line 4383.
-Package hyperref Info: Hyper figures OFF on input line 4509.
-Package hyperref Info: Link nesting OFF on input line 4514.
-Package hyperref Info: Hyper index ON on input line 4517.
-Package hyperref Info: Plain pages OFF on input line 4524.
-Package hyperref Info: Backreferencing OFF on input line 4529.
+Package hyperref Info: Option `unicode' set `true' on input line 4374.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2017/03/14 v6.85a Hyperref: PDF Unicode definition (HO)
+)
+Package hyperref Info: Option `bookmarks' set `true' on input line 4374.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4374.
+Package hyperref Info: Option `implicit' set `false' on input line 4374.
+Package hyperref Info: Hyper figures OFF on input line 4498.
+Package hyperref Info: Link nesting OFF on input line 4503.
+Package hyperref Info: Hyper index ON on input line 4506.
+Package hyperref Info: Plain pages OFF on input line 4513.
+Package hyperref Info: Backreferencing OFF on input line 4518.
 Package hyperref Info: Implicit mode OFF; no redefinition of LaTeX internals.
-Package hyperref Info: Bookmarks ON on input line 4762.
-\c@Hy@tempcnt=\count123
-(/usr/local/texlive/2018/texmf-dist/tex/latex/url/url.sty
+Package hyperref Info: Bookmarks ON on input line 4751.
+\c@Hy@tempcnt=\count122
+(/usr/local/texlive/2017/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5115.
-\XeTeXLinkMargin=\dimen164
-\Fld@menulength=\count124
-\Field@Width=\dimen165
-\Fld@charsize=\dimen166
-Package hyperref Info: Hyper figures OFF on input line 6369.
-Package hyperref Info: Link nesting OFF on input line 6374.
-Package hyperref Info: Hyper index ON on input line 6377.
-Package hyperref Info: backreferencing OFF on input line 6384.
-Package hyperref Info: Link coloring OFF on input line 6389.
-Package hyperref Info: Link coloring with OCG OFF on input line 6394.
-Package hyperref Info: PDF/A mode OFF on input line 6399.
-LaTeX Info: Redefining \ref on input line 6439.
-LaTeX Info: Redefining \pageref on input line 6443.
-\Hy@abspage=\count125
+LaTeX Info: Redefining \url on input line 5104.
+\XeTeXLinkMargin=\dimen165
+\Fld@menulength=\count123
+\Field@Width=\dimen166
+\Fld@charsize=\dimen167
+Package hyperref Info: Hyper figures OFF on input line 6358.
+Package hyperref Info: Link nesting OFF on input line 6363.
+Package hyperref Info: Hyper index ON on input line 6366.
+Package hyperref Info: backreferencing OFF on input line 6373.
+Package hyperref Info: Link coloring OFF on input line 6378.
+Package hyperref Info: Link coloring with OCG OFF on input line 6383.
+Package hyperref Info: PDF/A mode OFF on input line 6388.
+LaTeX Info: Redefining \ref on input line 6428.
+LaTeX Info: Redefining \pageref on input line 6432.
+\Hy@abspage=\count124
 
 Package hyperref Message: Stopped early.
 
 )
-Package hyperref Info: Driver (autodetected): hpdftex.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
-\Fld@listcount=\count126
-\c@bookmark@seq@number=\count127
-(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
+\Fld@listcount=\count125
+\c@bookmark@seq@number=\count126
+(/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaserequires.sty
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasecompatibility.st
-y) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasefont.sty (/us
-r/local/texlive/2018/texmf-dist/tex/latex/amsfonts/amssymb.sty
+)) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaserequires.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasecompatibility.st
+y) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasefont.sty (/us
+r/local/texlive/2017/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks26
 \symAMSa=\mathgroup4
@@ -447,144 +452,145 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(/usr/local/texlive/2018/texmf-dist/tex/latex/sansmathaccent/sansmathaccent.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/sansmathaccent/sansmathaccent.sty
 Package: sansmathaccent 2013/03/28
-(/usr/local/texlive/2018/texmf-dist/tex/latex/filehook/filehook.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/filehook/filehook.sty
 Package: filehook 2011/10/12 v0.5d Hooks for input files
-))) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasetranslator.s
-ty (/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator.sty
-Package: translator 2018/01/04 v1.12 Easy translation of strings in LaTeX
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasemisc.sty) (/u
-sr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasetwoscreens.sty) (/u
-sr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseoverlay.sty
-\beamer@argscount=\count128
+))) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasetranslator.s
+ty (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/translator.s
+ty
+Package: translator 2010/06/12 ver 1.10
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/translator-lang
+uage-mappings.tex))) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beame
+rbasemisc.sty) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaset
+woscreens.sty) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseo
+verlay.sty
+\beamer@argscount=\count127
 \beamer@lastskipcover=\skip44
-\beamer@trivlistdepth=\count129
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasetitle.sty) (/u
-sr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasesection.sty
-\c@lecture=\count130
-\c@part=\count131
-\c@section=\count132
-\c@subsection=\count133
-\c@subsubsection=\count134
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseframe.sty
+\beamer@trivlistdepth=\count128
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasetitle.sty) (/u
+sr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasesection.sty
+\c@lecture=\count129
+\c@part=\count130
+\c@section=\count131
+\c@subsection=\count132
+\c@subsubsection=\count133
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseframe.sty
 \beamer@framebox=\box40
 \beamer@frametitlebox=\box41
 \beamer@zoombox=\box42
-\beamer@zoomcount=\count135
-\beamer@zoomframecount=\count136
-\beamer@frametextheight=\dimen167
-\c@subsectionslide=\count137
+\beamer@zoomcount=\count134
+\beamer@zoomframecount=\count135
+\beamer@frametextheight=\dimen168
+\c@subsectionslide=\count136
 \beamer@frametopskip=\skip45
 \beamer@framebottomskip=\skip46
 \beamer@frametopskipautobreak=\skip47
 \beamer@framebottomskipautobreak=\skip48
 \beamer@envbody=\toks27
-\framewidth=\dimen168
-\c@framenumber=\count138
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseverbatim.sty
+\framewidth=\dimen169
+\c@framenumber=\count137
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseverbatim.sty
 \beamer@verbatimfileout=\write4
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseframesize.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseframesize.sty
 \beamer@splitbox=\box43
-\beamer@autobreakcount=\count139
-\beamer@autobreaklastheight=\dimen169
+\beamer@autobreakcount=\count138
+\beamer@autobreaklastheight=\dimen170
 \beamer@frametitletoks=\toks28
 \beamer@framesubtitletoks=\toks29
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseframecomponents.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseframecomponents.
 sty
 \beamer@footins=\box44
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasecolor.sty
-\beamer@bg@ht=\dimen170
-\beamer@bg@wd=\dimen171
-\beamer@bg@dp=\dimen172
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasenotes.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasecolor.sty) (/u
+sr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasenotes.sty
 \beamer@frameboxcopy=\box45
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasetoc.sty) (/usr
-/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasetemplates.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasetoc.sty) (/usr
+/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasetemplates.sty
 \beamer@sbttoks=\toks30
 
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseauxtemplates.sty
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaseboxes.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseauxtemplates.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaseboxes.sty
 \bmb@box=\box46
 \bmb@colorbox=\box47
 \bmb@boxshadow=\box48
 \bmb@boxshadowball=\box49
 \bmb@boxshadowballlarge=\box50
-\bmb@temp=\dimen173
-\bmb@dima=\dimen174
-\bmb@dimb=\dimen175
-\bmb@prevheight=\dimen176
+\bmb@temp=\dimen171
+\bmb@dima=\dimen172
+\bmb@dimb=\dimen173
+\bmb@prevheight=\dimen174
 )
-\beamer@blockheadheight=\dimen177
+\beamer@blockheadheight=\dimen175
 ))
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbaselocalstructure.s
-ty (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/enumerate.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbaselocalstructure.s
+ty (/usr/local/texlive/2017/texmf-dist/tex/latex/tools/enumerate.sty
 Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
 \@enLab=\toks31
 )
-\c@figure=\count140
-\c@table=\count141
+\c@figure=\count139
+\c@table=\count140
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasenavigation.sty
-\beamer@section@min@dim=\dimen178
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasetheorems.sty (
-/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2017/09/02 v2.17a AMS math features
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasenavigation.sty
+\beamer@section@min@dim=\dimen176
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasetheorems.sty (
+/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2016/11/05 v2.16a AMS math features
 \@mathmargin=\skip51
 For additional information on amsmath, use the `?' option.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01 AMS text
-(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks32
-\ex@=\dimen179
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsbsy.sty
+\ex@=\dimen177
+)) (/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen180
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsopn.sty
+\pmbraise@=\dimen178
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count142
+\inf@bad=\count141
 LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count143
-\leftroot@=\count144
+\uproot@=\count142
+\leftroot@=\count143
 LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count145
-\DOTSCASE@=\count146
+\classnum@=\count144
+\DOTSCASE@=\count145
 LaTeX Info: Redefining \ldots on input line 472.
 LaTeX Info: Redefining \dots on input line 475.
 LaTeX Info: Redefining \cdots on input line 596.
 \Mathstrutbox@=\box51
 \strutbox@=\box52
-\big@size=\dimen181
+\big@size=\dimen179
 LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count147
-\c@MaxMatrixCols=\count148
+\macc@depth=\count146
+\c@MaxMatrixCols=\count147
 \dotsspace@=\muskip11
-\c@parentequation=\count149
-\dspbrk@lvl=\count150
+\c@parentequation=\count148
+\dspbrk@lvl=\count149
 \tag@help=\toks33
-\row@=\count151
-\column@=\count152
-\maxfields@=\count153
+\row@=\count150
+\column@=\count151
+\maxfields@=\count152
 \andhelp@=\toks34
-\eqnshift@=\dimen182
-\alignsep@=\dimen183
-\tagshift@=\dimen184
-\tagwidth@=\dimen185
-\totwidth@=\dimen186
-\lineht@=\dimen187
+\eqnshift@=\dimen180
+\alignsep@=\dimen181
+\tagshift@=\dimen182
+\tagwidth@=\dimen183
+\totwidth@=\dimen184
+\lineht@=\dimen185
 \@envbody=\toks35
 \multlinegap=\skip52
 \multlinetaggap=\skip53
 \mathdisplay@stack=\toks36
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/amscls/amsthm.sty
-Package: amsthm 2017/10/31 v2.20.4
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2015/03/04 v2.20.2
 \thm@style=\toks37
 \thm@bodyfont=\toks38
 \thm@headfont=\toks39
@@ -595,20 +601,46 @@ Package: amsthm 2017/10/31 v2.20.4
 \thm@headsep=\skip56
 \dth@everypar=\toks42
 )
-\c@theorem=\count154
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasethemes.sty)) (
-/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerthemedefault.sty
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerfontthemedefault.sty
+\c@theorem=\count153
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/beamerbasethemes.sty))
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/themes/theme/beamerthemede
+fault.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/themes/font/beamerfontthem
+edefault.sty)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/themes/color/beamercolorth
+emedefault.sty)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/themes/inner/beamerinnerth
+emedefault.sty
+\beamer@dima=\dimen186
+\beamer@dimb=\dimen187
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamercolorthemedefault.st
-y)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerinnerthemedefault.st
-y
-\beamer@dima=\dimen188
-\beamer@dimb=\dimen189
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/themes/outer/beamerouterth
+emedefault.sty))) (/usr/local/texlive/2017/texmf-dist/tex/latex/pgf/utilities/p
+gfpages.sty
+Package: pgfpages 2011/01/05 ver 0.02
+(/usr/local/texlive/2017/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count154
+\calc@Bcount=\count155
+\calc@Adimen=\dimen188
+\calc@Bdimen=\dimen189
+\calc@Askip=\skip57
+\calc@Bskip=\skip58
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count156
+\calc@Cskip=\skip59
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerouterthemedefault.st
-y))) (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/lmodern.sty
+\pgf@logicalpages=\count157
+\pgf@firstshipout=\count158
+\pgf@lastshipout=\count159
+\pgf@currentshipout=\count160
+\pgf@cpn=\count161
+\pgf@shipoutnextto=\count162
+\pgfphysicalheight=\dimen190
+\pgfphysicalwidth=\dimen191
+\pgfpages@shipoutbox=\box53
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -642,7 +674,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/base/fixltx2e.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/base/fixltx2e.sty
 Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
 Applying: [2015/01/01] Old fixltx2e package on input line 46.
 
@@ -651,19 +683,329 @@ Package fixltx2e Warning: fixltx2e is not required with releases after 2015
 (fixltx2e)                See the latexrelease package for details.
 
 Already applied: [0000/00/00] Old fixltx2e package on input line 53.
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/base/fontenc.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/t1enc.def
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/t1enc.def
 File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2018/04/06 v1.3b Input encoding file
+)) (/usr/local/texlive/2017/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks43
 \inpenc@posthook=\toks44
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/upquote/upquote.sty
-Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
-tim
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+Now handling font encoding OML ...
+... no UTF-8 mapping file for font encoding OML
+Now handling font encoding T1 ...
+... processing UTF-8 mapping file for font encoding T1
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/t1enc.dfu
+File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00AD (decimal 173)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C4 (decimal 196)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00C7 (decimal 199)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CB (decimal 203)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00CE (decimal 206)
+   defining Unicode char U+00CF (decimal 207)
+   defining Unicode char U+00D0 (decimal 208)
+   defining Unicode char U+00D1 (decimal 209)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D6 (decimal 214)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DB (decimal 219)
+   defining Unicode char U+00DC (decimal 220)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00DE (decimal 222)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E4 (decimal 228)
+   defining Unicode char U+00E5 (decimal 229)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00E7 (decimal 231)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EB (decimal 235)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F0 (decimal 240)
+   defining Unicode char U+00F1 (decimal 241)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F6 (decimal 246)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FB (decimal 251)
+   defining Unicode char U+00FC (decimal 252)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+00FE (decimal 254)
+   defining Unicode char U+00FF (decimal 255)
+   defining Unicode char U+0100 (decimal 256)
+   defining Unicode char U+0101 (decimal 257)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0104 (decimal 260)
+   defining Unicode char U+0105 (decimal 261)
+   defining Unicode char U+0106 (decimal 262)
+   defining Unicode char U+0107 (decimal 263)
+   defining Unicode char U+0108 (decimal 264)
+   defining Unicode char U+0109 (decimal 265)
+   defining Unicode char U+010A (decimal 266)
+   defining Unicode char U+010B (decimal 267)
+   defining Unicode char U+010C (decimal 268)
+   defining Unicode char U+010D (decimal 269)
+   defining Unicode char U+010E (decimal 270)
+   defining Unicode char U+010F (decimal 271)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0112 (decimal 274)
+   defining Unicode char U+0113 (decimal 275)
+   defining Unicode char U+0114 (decimal 276)
+   defining Unicode char U+0115 (decimal 277)
+   defining Unicode char U+0116 (decimal 278)
+   defining Unicode char U+0117 (decimal 279)
+   defining Unicode char U+0118 (decimal 280)
+   defining Unicode char U+0119 (decimal 281)
+   defining Unicode char U+011A (decimal 282)
+   defining Unicode char U+011B (decimal 283)
+   defining Unicode char U+011C (decimal 284)
+   defining Unicode char U+011D (decimal 285)
+   defining Unicode char U+011E (decimal 286)
+   defining Unicode char U+011F (decimal 287)
+   defining Unicode char U+0120 (decimal 288)
+   defining Unicode char U+0121 (decimal 289)
+   defining Unicode char U+0122 (decimal 290)
+   defining Unicode char U+0123 (decimal 291)
+   defining Unicode char U+0124 (decimal 292)
+   defining Unicode char U+0125 (decimal 293)
+   defining Unicode char U+0128 (decimal 296)
+   defining Unicode char U+0129 (decimal 297)
+   defining Unicode char U+012A (decimal 298)
+   defining Unicode char U+012B (decimal 299)
+   defining Unicode char U+012C (decimal 300)
+   defining Unicode char U+012D (decimal 301)
+   defining Unicode char U+012E (decimal 302)
+   defining Unicode char U+012F (decimal 303)
+   defining Unicode char U+0130 (decimal 304)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0132 (decimal 306)
+   defining Unicode char U+0133 (decimal 307)
+   defining Unicode char U+0134 (decimal 308)
+   defining Unicode char U+0135 (decimal 309)
+   defining Unicode char U+0136 (decimal 310)
+   defining Unicode char U+0137 (decimal 311)
+   defining Unicode char U+0139 (decimal 313)
+   defining Unicode char U+013A (decimal 314)
+   defining Unicode char U+013B (decimal 315)
+   defining Unicode char U+013C (decimal 316)
+   defining Unicode char U+013D (decimal 317)
+   defining Unicode char U+013E (decimal 318)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0143 (decimal 323)
+   defining Unicode char U+0144 (decimal 324)
+   defining Unicode char U+0145 (decimal 325)
+   defining Unicode char U+0146 (decimal 326)
+   defining Unicode char U+0147 (decimal 327)
+   defining Unicode char U+0148 (decimal 328)
+   defining Unicode char U+014A (decimal 330)
+   defining Unicode char U+014B (decimal 331)
+   defining Unicode char U+014C (decimal 332)
+   defining Unicode char U+014D (decimal 333)
+   defining Unicode char U+014E (decimal 334)
+   defining Unicode char U+014F (decimal 335)
+   defining Unicode char U+0150 (decimal 336)
+   defining Unicode char U+0151 (decimal 337)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0154 (decimal 340)
+   defining Unicode char U+0155 (decimal 341)
+   defining Unicode char U+0156 (decimal 342)
+   defining Unicode char U+0157 (decimal 343)
+   defining Unicode char U+0158 (decimal 344)
+   defining Unicode char U+0159 (decimal 345)
+   defining Unicode char U+015A (decimal 346)
+   defining Unicode char U+015B (decimal 347)
+   defining Unicode char U+015C (decimal 348)
+   defining Unicode char U+015D (decimal 349)
+   defining Unicode char U+015E (decimal 350)
+   defining Unicode char U+015F (decimal 351)
+   defining Unicode char U+0160 (decimal 352)
+   defining Unicode char U+0161 (decimal 353)
+   defining Unicode char U+0162 (decimal 354)
+   defining Unicode char U+0163 (decimal 355)
+   defining Unicode char U+0164 (decimal 356)
+   defining Unicode char U+0165 (decimal 357)
+   defining Unicode char U+0168 (decimal 360)
+   defining Unicode char U+0169 (decimal 361)
+   defining Unicode char U+016A (decimal 362)
+   defining Unicode char U+016B (decimal 363)
+   defining Unicode char U+016C (decimal 364)
+   defining Unicode char U+016D (decimal 365)
+   defining Unicode char U+016E (decimal 366)
+   defining Unicode char U+016F (decimal 367)
+   defining Unicode char U+0170 (decimal 368)
+   defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0172 (decimal 370)
+   defining Unicode char U+0173 (decimal 371)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0178 (decimal 376)
+   defining Unicode char U+0179 (decimal 377)
+   defining Unicode char U+017A (decimal 378)
+   defining Unicode char U+017B (decimal 379)
+   defining Unicode char U+017C (decimal 380)
+   defining Unicode char U+017D (decimal 381)
+   defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+01CD (decimal 461)
+   defining Unicode char U+01CE (decimal 462)
+   defining Unicode char U+01CF (decimal 463)
+   defining Unicode char U+01D0 (decimal 464)
+   defining Unicode char U+01D1 (decimal 465)
+   defining Unicode char U+01D2 (decimal 466)
+   defining Unicode char U+01D3 (decimal 467)
+   defining Unicode char U+01D4 (decimal 468)
+   defining Unicode char U+01E2 (decimal 482)
+   defining Unicode char U+01E3 (decimal 483)
+   defining Unicode char U+01E6 (decimal 486)
+   defining Unicode char U+01E7 (decimal 487)
+   defining Unicode char U+01E8 (decimal 488)
+   defining Unicode char U+01E9 (decimal 489)
+   defining Unicode char U+01EA (decimal 490)
+   defining Unicode char U+01EB (decimal 491)
+   defining Unicode char U+01F0 (decimal 496)
+   defining Unicode char U+01F4 (decimal 500)
+   defining Unicode char U+01F5 (decimal 501)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
+   defining Unicode char U+0232 (decimal 562)
+   defining Unicode char U+0233 (decimal 563)
+   defining Unicode char U+1E02 (decimal 7682)
+   defining Unicode char U+1E03 (decimal 7683)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2010 (decimal 8208)
+   defining Unicode char U+2011 (decimal 8209)
+   defining Unicode char U+2012 (decimal 8210)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2015 (decimal 8213)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+   defining Unicode char U+1E20 (decimal 7712)
+   defining Unicode char U+1E21 (decimal 7713)
+)
+Now handling font encoding OT1 ...
+... processing UTF-8 mapping file for font encoding OT1
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/ot1enc.dfu
+File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AD (decimal 173)
+   defining Unicode char U+00B8 (decimal 184)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+)
+Now handling font encoding OMS ...
+... processing UTF-8 mapping file for font encoding OMS
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/omsenc.dfu
+File: omsenc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+)
+Now handling font encoding OMX ...
+... no UTF-8 mapping file for font encoding OMX
+Now handling font encoding U ...
+... no UTF-8 mapping file for font encoding U
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+02C6 (decimal 710)
+   defining Unicode char U+02DC (decimal 732)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2026 (decimal 8230)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2423 (decimal 9251)
+)) (/usr/local/texlive/2017/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2017/04/05 v2.0i Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -677,12 +1019,12 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             Family '?' is the default used for unknown fonts.
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/ts1enc.def
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 Now handling font encoding TS1 ...
 ... processing UTF-8 mapping file for font encoding TS1
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/ts1enc.dfu
-File: ts1enc.dfu 2018/04/05 v1.2c UTF-8 support for inputenc
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/ts1enc.dfu
+File: ts1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A2 (decimal 162)
    defining Unicode char U+00A3 (decimal 163)
    defining Unicode char U+00A4 (decimal 164)
@@ -752,7 +1094,6 @@ File: ts1enc.dfu 2018/04/05 v1.2c UTF-8 support for inputenc
    defining Unicode char U+25E6 (decimal 9702)
    defining Unicode char U+25EF (decimal 9711)
    defining Unicode char U+266A (decimal 9834)
-   defining Unicode char U+FEFF (decimal 65279)
 ))
 LaTeX Info: Redefining \oldstylenums on input line 334.
 Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
@@ -817,72 +1158,79 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/microtype.sty
-Package: microtype 2018/01/14 v2.7a Micro-typographical refinements (RS)
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2016/05/14 v2.6a Micro-typographical refinements (RS)
 \MT@toks=\toks45
-\MT@count=\count155
-LaTeX Info: Redefining \textls on input line 793.
-\MT@outer@kern=\dimen190
-LaTeX Info: Redefining \textmicrotypecontext on input line 1339.
-\MT@listname@count=\count156
-(/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/microtype-pdftex.def
-File: microtype-pdftex.def 2018/01/14 v2.7a Definitions specific to pdftex (RS)
+\MT@count=\count163
+LaTeX Info: Redefining \textls on input line 774.
+\MT@outer@kern=\dimen192
+LaTeX Info: Redefining \textmicrotypecontext on input line 1310.
+\MT@listname@count=\count164
+(/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+File: microtype-pdftex.def 2016/05/14 v2.6a Definitions specific to pdftex (RS)
 
-LaTeX Info: Redefining \lsstyle on input line 913.
-LaTeX Info: Redefining \lslig on input line 913.
-\MT@outer@space=\skip57
+LaTeX Info: Redefining \lsstyle on input line 916.
+LaTeX Info: Redefining \lslig on input line 916.
+\MT@outer@space=\skip60
 )
 Package microtype Info: Loading configuration file microtype.cfg.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/microtype.cfg
-File: microtype.cfg 2018/01/14 v2.7a microtype main configuration file (RS)
-))
-Package hyperref Info: Option `breaklinks' set `true' on input line 33.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2016/05/14 v2.6a microtype main configuration file (RS)
+)) (/usr/local/texlive/2017/texmf-dist/tex/latex/parskip/parskip.sty
+Package: parskip 2001/04/09 non-zero parskip adjustments
+)
+Package hyperref Info: Option `breaklinks' set `true' on input line 73.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
 Package: fancyvrb 2008/02/07
 
 Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
 <2008/02/07> (tvz)
-\FV@CodeLineNo=\count157
+\FV@CodeLineNo=\count165
 \FV@InFile=\read2
-\FV@TabBox=\box53
-\c@FancyVerbLine=\count158
-\FV@StepNumber=\count159
+\FV@TabBox=\box54
+\c@FancyVerbLine=\count166
+\FV@StepNumber=\count167
 \FV@OutFile=\write5
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/framed/framed.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/framed/framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
-\OuterFrameSep=\skip58
-\fb@frw=\dimen191
-\fb@frh=\dimen192
-\FrameRule=\dimen193
-\FrameSep=\dimen194
+\OuterFrameSep=\skip61
+\fb@frw=\dimen193
+\fb@frh=\dimen194
+\FrameRule=\dimen195
+\FrameSep=\dimen196
 )
 No file lec_19_zero-inflated.aux.
 \openout1 = `lec_19_zero-inflated.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 111.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 111.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 133.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 133.
 
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/ts1cmr.fd
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Try loading font information for T1+lmss on input line 111.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Try loading font information for T1+lmss on input line 133.
 
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmss.fd
+(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 *geometry* driver: auto-detecting
@@ -919,121 +1267,122 @@ File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-(/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count160
-\scratchdimen=\dimen195
-\scratchbox=\box54
-\nofMPsegments=\count161
-\nofMParguments=\count162
+\scratchcounter=\count168
+\scratchdimen=\dimen197
+\scratchbox=\box55
+\nofMPsegments=\count169
+\nofMParguments=\count170
 \everyMPshowfont=\toks46
-\MPscratchCnt=\count163
-\MPscratchDim=\dimen196
-\MPnumerator=\count164
-\makeMPintoPDFobject=\count165
+\MPscratchCnt=\count171
+\MPscratchDim=\dimen198
+\MPnumerator=\count172
+\makeMPintoPDFobject=\count173
 \everyMPtoPDFconversion=\toks47
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
-(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/grfext.sty
+(/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/grfext.sty
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 38.
 Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+(/usr/local/texlive/2017/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )) ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box55
-Package hyperref Info: Link coloring OFF on input line 111.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
+\AtBeginShipoutBox=\box56
+Package hyperref Info: Link coloring OFF on input line 133.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
-(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count166
+\c@section@level=\count174
 )
-LaTeX Info: Redefining \ref on input line 111.
-LaTeX Info: Redefining \pageref on input line 111.
-LaTeX Info: Redefining \nameref on input line 111.
+LaTeX Info: Redefining \ref on input line 133.
+LaTeX Info: Redefining \pageref on input line 133.
+LaTeX Info: Redefining \nameref on input line 133.
 \@outlinefile=\write6
 \openout6 = `lec_19_zero-inflated.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 111.
+(Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 133.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/lmr/bx/n --> OT1/cmss/bx/n on input line 111.
+(Font)                  OT1/lmr/bx/n --> OT1/cmss/bx/n on input line 133.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 111.
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 133.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 111.
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 133.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/lmss/m/n --> T1/lmr/m/n on input line 111.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 111.
+(Font)                  OT1/lmss/m/n --> T1/lmr/m/n on input line 133.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 111.
+(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 111.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 111.
+(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 133.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> T1/lmss/m/n on input line 111.
+(Font)                  OT1/lmss/m/n --> T1/lmss/m/n on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> T1/lmss/m/n on input line 111.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 111.
+(Font)                  OT1/lmss/bx/n --> T1/lmss/m/n on input line 133.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> T1/lmss/m/it on input line 111.
+(Font)                  OT1/lmr/m/it --> T1/lmss/m/it on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/lmr/bx/it --> T1/lmss/m/it on input line 111.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 111.
+(Font)                  OT1/lmr/bx/it --> T1/lmss/m/it on input line 133.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 111.
+(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 111.
+(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 133.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 111.
+(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 133.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 111.
+(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/lmss/bx/n --> T1/lmr/bx/n on input line 111.
+(Font)                  OT1/lmss/bx/n --> T1/lmr/bx/n on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  T1/lmss/bx/n --> T1/lmss/bx/n on input line 111.
+(Font)                  T1/lmss/bx/n --> T1/lmss/bx/n on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 111.
+(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 111.
+(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 133.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  T1/lmtt/m/n --> T1/lmtt/bx/n on input line 111.
+(Font)                  T1/lmtt/m/n --> T1/lmtt/bx/n on input line 133.
 
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-basic-dicti
-onary-English.dict
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/dicts/translato
+r-basic-dictionary/translator-basic-dictionary-English.dict
 Dictionary: translator-basic-dictionary, Language: English 
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-bibliograph
-y-dictionary-English.dict
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/dicts/translato
+r-bibliography-dictionary/translator-bibliography-dictionary-English.dict
 Dictionary: translator-bibliography-dictionary, Language: English 
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-environment
--dictionary-English.dict
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/dicts/translato
+r-environment-dictionary/translator-environment-dictionary-English.dict
 Dictionary: translator-environment-dictionary, Language: English 
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-months-dict
-ionary-English.dict
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/dicts/translato
+r-months-dictionary/translator-months-dictionary-English.dict
 Dictionary: translator-months-dictionary, Language: English 
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-numbers-dic
-tionary-English.dict
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/dicts/translato
+r-numbers-dictionary/translator-numbers-dictionary-English.dict
 Dictionary: translator-numbers-dictionary, Language: English 
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-theorem-dic
-tionary-English.dict
+(/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/dicts/translato
+r-theorem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \microtypecontext on input line 111.
+LaTeX Info: Redefining \includegraphics on input line 133.
+LaTeX Info: Redefining \microtypecontext on input line 133.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
@@ -1043,49 +1392,49 @@ Package microtype Info: Using default expansion set `basictext'.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
-Package microtype Info: Loading generic protrusion settings for font family
+Package microtype Info: Loading generic settings for font family
 (microtype)             `lmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 No file lec_19_zero-inflated.nav.
 [1
 
-{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 <lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-1-1.pdf, id=21, 712.662
 5pt x 493.845pt>
 File: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-1-1.pdf Graphic fi
 le (type pdf)
 <use lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-1-1.pdf>
 Package pdftex.def Info: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk
--1-1.pdf  used on input line 122.
+-1-1.pdf used on input line 145.
 (pdftex.def)             Requested size: 712.66077pt x 493.84378pt.
 
-Overfull \hbox (405.3709pt too wide) in paragraph at lines 122--122
+Overfull \hbox (405.3709pt too wide) in paragraph at lines 145--145
  [] 
  []
 
 
-Overfull \vbox (311.37067pt too high) detected at line 122
+Overfull \vbox (302.97067pt too high) detected at line 145
  []
 
 [2
 
  <./lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-1-1.pdf>]
-<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-2-1.pdf, id=34, 712.662
+<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-2-1.pdf, id=35, 712.662
 5pt x 493.845pt>
 File: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-2-1.pdf Graphic fi
 le (type pdf)
 <use lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-2-1.pdf>
 Package pdftex.def Info: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk
--2-1.pdf  used on input line 132.
+-2-1.pdf used on input line 156.
 (pdftex.def)             Requested size: 712.66077pt x 493.84378pt.
 
-Overfull \hbox (405.3709pt too wide) in paragraph at lines 132--132
+Overfull \hbox (405.3709pt too wide) in paragraph at lines 156--156
  [] 
  []
 
 
-Overfull \vbox (311.37067pt too high) detected at line 132
+Overfull \vbox (302.97067pt too high) detected at line 156
  []
 
 [3
@@ -1093,134 +1442,130 @@ Overfull \vbox (311.37067pt too high) detected at line 132
  <./lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-2-1.pdf>] [4
 
 ]
-<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-3-1.pdf, id=52, 712.662
+<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-3-1.pdf, id=55, 712.662
 5pt x 493.845pt>
 File: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-3-1.pdf Graphic fi
 le (type pdf)
 <use lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk
--3-1.pdf  used on input line 152.
+-3-1.pdf used on input line 177.
 (pdftex.def)             Requested size: 712.66077pt x 493.84378pt.
 
-Overfull \hbox (405.3709pt too wide) in paragraph at lines 152--152
+Overfull \hbox (405.3709pt too wide) in paragraph at lines 177--177
  [] 
  []
 
 
-Overfull \vbox (274.17065pt too high) detected at line 152
+Overfull \vbox (262.17065pt too high) detected at line 177
  []
 
 [5
 
  <./lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-3-1.pdf>]
-<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-4-1.pdf, id=65, 712.662
+<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-4-1.pdf, id=69, 712.662
 5pt x 493.845pt>
 File: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-4-1.pdf Graphic fi
 le (type pdf)
 <use lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-4-1.pdf>
 Package pdftex.def Info: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk
--4-1.pdf  used on input line 158.
+-4-1.pdf used on input line 184.
 (pdftex.def)             Requested size: 712.66077pt x 493.84378pt.
 
-Overfull \hbox (405.3709pt too wide) in paragraph at lines 158--158
+Overfull \hbox (405.3709pt too wide) in paragraph at lines 184--184
  [] 
  []
 
 
-Overfull \vbox (274.17065pt too high) detected at line 158
+Overfull \vbox (262.17065pt too high) detected at line 184
  []
 
 [6
 
  <./lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-4-1.pdf>]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 177
+LaTeX Font Info:    Try loading font information for OT1+lmss on input line 204
 .
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmss.fd
+(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmss' (encoding: OT1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 177.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 204.
 
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omllmm.fd
+(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 177
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 204
 .
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omslmsy.fd
+(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 177
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 204
 .
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omxlmex.fd
+(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 177.
+(Font)              <8> on input line 204.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 177.
+(Font)              <6> on input line 204.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 177.
-LaTeX Font Info:    Try loading font information for U+msa on input line 177.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
+(Font)              <5> on input line 204.
+LaTeX Font Info:    Try loading font information for U+msa on input line 204.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/mt-msa.cfg
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 177.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
+LaTeX Font Info:    Try loading font information for U+msb on input line 204.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/mt-msb.cfg
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 177.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <8> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 177.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 204.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <6> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 177.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 204.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <5> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 204.
 [7
 
 ] [8
 
 ]
-<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-5-1.pdf, id=90, 712.662
+<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-5-1.pdf, id=97, 712.662
 5pt x 493.845pt>
 File: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-5-1.pdf Graphic fi
 le (type pdf)
 <use lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-5-1.pdf>
 Package pdftex.def Info: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk
--5-1.pdf  used on input line 197.
+-5-1.pdf used on input line 226.
 (pdftex.def)             Requested size: 712.66077pt x 493.84378pt.
 
-Overfull \hbox (405.3709pt too wide) in paragraph at lines 197--197
+Overfull \hbox (405.3709pt too wide) in paragraph at lines 226--226
  [] 
  []
 
 
-Overfull \vbox (274.17065pt too high) detected at line 197
+Overfull \vbox (262.17065pt too high) detected at line 226
  []
 
 [9
 
  <./lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-5-1.pdf>]
-<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-6-1.pdf, id=103, 712.66
+<lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-6-1.pdf, id=111, 712.66
 25pt x 496.85625pt>
 File: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-6-1.pdf Graphic fi
 le (type pdf)
 <use lec_19_zero-inflated_files/figure-beamer/unnamed-chunk-6-1.pdf>
 Package pdftex.def Info: lec_19_zero-inflated_files/figure-beamer/unnamed-chunk
--6-1.pdf  used on input line 203.
+-6-1.pdf used on input line 233.
 (pdftex.def)             Requested size: 712.66077pt x 496.85503pt.
 
-Overfull \hbox (405.3709pt too wide) in paragraph at lines 203--203
+Overfull \hbox (405.3709pt too wide) in paragraph at lines 233--233
  [] 
  []
 
 
-Overfull \vbox (277.1819pt too high) detected at line 203
+Overfull \vbox (265.1819pt too high) detected at line 233
  []
 
 [10
@@ -1233,39 +1578,34 @@ Overfull \vbox (277.1819pt too high) detected at line 203
 
 ] [14
 
-]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 270.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 270.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 270.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 270.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 270.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <5> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 270.
-[15
+] [15
 
 ]
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10.95> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 335.
+Package microtype Info: Loading generic settings for font family
+(microtype)             `lmss' (encoding: OT1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 335.
 
-! Package inputenc Error: Unicode character μ (U+3BC)
+! Package inputenc Error: Unicode char μ (U+3BC)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.300 \end{frame}
+l.335 \end{frame}
                   
 Here is how much of TeX's memory you used:
- 19618 strings out of 492649
- 369094 string characters out of 6129622
- 465257 words of memory out of 5000000
- 22999 multiletter control sequences out of 15000+600000
- 68341 words of font info for 74 fonts, out of 8000000 for 9000
+ 23239 strings out of 492995
+ 417438 string characters out of 6132704
+ 497373 words of memory out of 5000000
+ 26247 multiletter control sequences out of 15000+600000
+ 51903 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,11n,55p,824b,451s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,11n,55p,807b,403s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 !  ==> Fatal error occurred, no output PDF file produced!
