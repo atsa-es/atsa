@@ -337,7 +337,11 @@ HMMs <- list(
 ```{r}
 present1 <- list(
   title = "Student presentations",
-  topics = c("Warlick", "Lowe",    "McGill",  "Feddern", "Sorel"),
+  topics = c("Warlick-Pinniped stranding data</br>",
+             "Lowe-Bull trout life history trends</br>",
+             "McGill-Coastal productivity trends</br>",
+             "Feddern-Coastal stream flow patterns</br>",
+             "Sorel-Juvenile chinook timing</br>"),
   pdf = "",
   ppt = "",
   rmd = "",
