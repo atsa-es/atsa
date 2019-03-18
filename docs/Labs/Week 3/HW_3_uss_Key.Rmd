@@ -490,7 +490,8 @@ relLik <- exp(-0.5*delAIC)
 aic.table <- data.frame(
   AICc = AICc,
   delAICc = delAIC,
-  relLik = relLik/sum(relLik)
+  relLik = relLik,
+  weight = relLik/sum(relLik)
 )
 rownames(aic.table) <- c(
   "proc only with drift", 
@@ -501,6 +502,44 @@ knitr::kable(round(aic.table, digits=3))
 ```
 
 There is not much data support for including observation error with $r=0.05$.  But that is because $r=0.05$ is too big.  If we estimate $r$, the process error with drift and observation error model would is best.
+
+**Show the acf of the model and state residuals for the best model.  Do they suggest any problems?**
+
+We need to specify `na.action` since the state residuals have an NA at the last value.
+
+```{r}
+best.fit <- fit.whales4
+sres <- residuals(best.fit)$state.residuals[1,]
+mres <- residuals(best.fit)$model.residuals[1,]
+par(mfrow=c(1,2), mar=c(1,2,2,1))
+acf(sres, na.action=na.omit)
+acf(mres, na.action=na.omit)
+```
+
+The state residuals have some autocorrelation suggesting that the model with uncorrelated errors does not fully capture the temporal correlation in the data.  The model residuals look 'ok' but on plotting the residuals, we see something odd.  
+
+```{r}
+par(mfrow=c(1,2), mar=c(1,2,2,1))
+plot(sres, main="state residuals")
+plot(mres, main="model residuals")
+```
+
+The model residuals have a 0 when the data are NA.  In the MARSS output, model residual = expected value of (y|all data) - fitted value of (y|all data).  Fitted is $x_{t|y_{1:T}}+a$.  When the data are missing, expected value of y is fitted value, so model residual is 0.  However, when evaluating model residuals, we should set the model residual to 0 when the data are missing.  The state residuals are also 0 when data are missing.  We might want to set those to NA also so they do not skew our auto-correlation estimates.  Since this creates internal NAs, we need to set `na.action=na.pass`.  Now the state residuals look better.
+
+```{r}
+par(mfrow=c(1,2), mar=c(1,2,2,1))
+sres[is.na(dat)]=NA
+mres[is.na(dat)]=NA
+acf(sres, na.action=na.pass)
+acf(mres, na.action=na.pass)
+```
+
+We can plot the residuals nicely with `plot()` also.
+
+```{r}
+plot(best.fit, plot.type="state.residuals")
+plot(best.fit, plot.type="model.residuals")
+```
 
 ## Problem 7
 
