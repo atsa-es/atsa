@@ -245,7 +245,7 @@ a. **Fit a seasonal model to the Chinook data up to 1999 using `auto.arima()`.**
     load("chinook.RData")
     chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
                 frequency=12)
-    traindat <- window(chinookts, c(1990,10), c(1999,12))
+    traindat <- window(chinookts, c(1990,1), c(1999,12))
     fit <- forecast::auto.arima(traindat)
     fit
     ```
