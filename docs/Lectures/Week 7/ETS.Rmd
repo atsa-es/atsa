@@ -25,9 +25,9 @@ class: center, middle, inverse
 # Forecasting Time Series
 ## Simple Exponential Smoothing
 
-.futnote[Eli Holmes, NOAA Fisheries]
+.futnote[Eli Holmes, UW SAFS]
 
-.citation[eli.holmes@noaa.gov]
+.citation[eeholmes@uw.edu]
 
 ---
 
