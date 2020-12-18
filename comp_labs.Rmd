@@ -39,7 +39,7 @@ lab_links3_html <- sapply(lapply(lab_links3, function(x){
   tmp1<-paste0("[html ",1:length(x),"]("); tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp, collapse=" "); tmp}), c)
 lab_links_html <- lab_links3_html
 for(i in 1:length(lab_links3_html)){
-  lab_links_html[i] <- paste(  lab_links1_html[i], lab_links2_html[i], lab_links3_html[i], sep="<br>")
+  lab_links_html[i] <- paste(  lab_links3_html[i], lab_links2_html[i], lab_links1_html[i], sep="<br>")
 }
 
 names(lab_links_html) <- NULL
@@ -82,11 +82,6 @@ names(dd_links_html) <- NULL
 ```
 
 ```{r key_links, include = FALSE}
-# key_links <- lapply(week_labs, function(x){if(is.list(x)){x$key}else{""}})
-# ## topics formatted for html
-# key_links_html <- sapply(lapply(key_links, function(x){ if(identical(x, "")){""}else{ paste("[Key](",x,")", collapse="<br>")}}), c)
-# names(key_links_html) <- NULL
-
 key_links <- lapply(week_labs, function(x){if(is.list(x)){c(x$key)}else{""}})
 key_links_html <- sapply(lapply(key_links, function(x){
   if(length(x)>1){
@@ -109,18 +104,18 @@ syl_txt <- data.frame(
   instructor = instructor_html,
   lab_topics = lab_topics_html,
   lab_links = lab_links_html,
-  data_links = data_links_html,
+  #data_links = data_links_html,
   vid_links = vid_links_html,
-  youtube_links = youtube_links_html,
+  #youtube_links = youtube_links_html,
   hw_links = hw_links_html,
-  # duedate_links = dd_links_html,
+  duedate_links = dd_links_html,
   key_links = key_links_html
 )
-colnames(syl_txt) <- c("Date", "Instructor", "Topics", "Lab", "Data",
-                       "Video", "YouTube", "Homework", "Key")
+colnames(syl_txt) <- c("Date", "Instructor", "Topics", "Lab Material",
+                       "Video", "Homework", "Due Date", "Key")
 ## generate table
 kable(syl_txt, format = "html", caption = " ",
-      align = "cclccccccc", escape = FALSE) %>%
+      align = "cclccccc", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%

@@ -45,7 +45,7 @@ names(lec_links_html) <- NULL
 vid_links <- lapply(week_lecs, function(x){if(is.list(x)){x$video}else{""}})
 ## topics formatted for html
 vid_links_html <- sapply(lapply(vid_links, function(x){
-  tmp1<-"[Panapto]("; tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp,collapse="<br>"); tmp}), c)
+  tmp1<-"[Video]("; tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp,collapse="<br>"); tmp}), c)
 names(vid_links_html) <- NULL
 ```
 
@@ -80,14 +80,13 @@ syl_txt <- data.frame(
   lec_topics = lec_topics_html,
   lec_links = lec_links_html,
   vid_links = vid_links_html,
-  youtube_links = youtube_links_html,
   reading_links = reading_links_html
 )
 colnames(syl_txt) <- c("Date", "Instructor", "Lecture topics",
-                       "Slides", "Video of Lecture", "Slides with Audio", "Reading")
+                       "Slides", "Video of Lecture", "Reading")
 ## generate table
 kable(syl_txt, format = "html", caption = " ",
-      align = "cclcccc", escape = FALSE) %>%
+      align = "cclccc", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%

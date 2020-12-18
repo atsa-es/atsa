@@ -7,15 +7,19 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Here are some papers and presentation topics from students who took the class in prior years.
-
-# Publications
-
-Siple, M. C. and Francis, T. B. 2016. Population diversity in Pacific herring of Puget Sound, USA. Oecologia 180: 111-125.[Link to article](https://doi.org/10.1007/s00442-015-3439-7)
+Here are the independent projects from students who took the class in prior years.
 
 # Presentation topics
 
 Here are some of the topics of the students' final projects from years past.
+
+### 2019
+
+* "A century of stable isotope data demonstrates robust trophic ecology and ecosystem productivity from archival bone of a generalist predator"
+* "Estimating common trends in bull trout life history strategies"
+* "Assessing spatial covariance among time series of river discharge across western North America"
+* "Timing and abundance of juvenile spring Chinook emigrants from the Chiwawa River"
+* "Cetacean Strandings in the Pacific Northwest"
 
 ### 2017
 
@@ -51,3 +55,8 @@ Here are some of the topics of the students' final projects from years past.
 * "Describing variability of fish and macrozooplankton density at marine hydrokinetic energy sites"
 * "Lake specific variation in juvenile sockeye salmon growth driven by competition in a changing climate"
 * "Environmental and phenological variability: match-mismatch effects of lake conditions and entry timing on sockeye salmon survival and growth"
+
+# Publications
+
+Siple, M. C. and Francis, T. B. 2016. Population diversity in Pacific herring of Puget Sound, USA. Oecologia 180: 111-125.[Link to article](https://doi.org/10.1007/s00442-015-3439-7)
+
