@@ -1,5 +1,5 @@
 ---
-title: "2019 List of Lectures"
+title: "2021 List of Labs"
 output: html_document
 ---
 
@@ -45,7 +45,7 @@ lmlab <- list(
   key = "Labs/Week 1/HW_1_Key.html",
   instructor = c("Eli/Mark"),
   hw_topics = c("linear regression in matrix form"),
-  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
+  hw_duedate = "Due next Tues 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 
@@ -63,7 +63,7 @@ forecastlab <- list(
   key = c("Labs/Week 2/HW_2_ts_Key.html","Labs/Week 2/HW_2_box-jenkins_Key.html"),
   instructor = "Mark & Eli",
   hw_topics = c("ARIMA models"),
-  hw_duedate = "Due 5pm Tues 1/22; email to instructor(s) for lab"
+  hw_duedate = "Due next Tues 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 
@@ -81,7 +81,7 @@ sslab1 <- list(
   key = "",
   instructor = "Eli",
   hw_topics = c("Univariate state-space models"),
-  hw_duedate = "Due 5pm next Tues; email to instructor(s) for lab"
+  hw_duedate = "Due next Tues 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 
@@ -99,7 +99,7 @@ sslab2 <- list(
   key = c("Labs/Week 3/HW_3_uss_Key.html", "Labs/Week 3/HW_3_Key.html"),
   instructor = "Eli",
   hw_topics = c("State-space models"),
-  hw_duedate = "Due midnight THURS 1/31; email to instructor(s) for lab"
+  hw_duedate = "Due next Tues 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 
@@ -117,7 +117,7 @@ dlmlab <- list(
   key = "Labs/Week 5/HW_5_answer_key.pdf",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "Due midnight next Thurs 2/14; email to instructor(s) for lab"
+  hw_duedate = "Due next Tues 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 
@@ -135,7 +135,7 @@ dfalab <- list(
   key = "Labs/Week 4/HW_4_answer_key.pdf",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due midnight next Thurs 2/7; email to Mark"
+  hw_duedate = "Due next Tues 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 
@@ -153,7 +153,7 @@ etsedmlab <- list(
   key = "Labs/Week 6/multivariate-ss-with-cov-hw-key.html",
   instructor = c("Eli"),
   hw_topics = c("Covariates in MARSS models"),
-  hw_duedate = "Due 5pm next Thurs 2/28; email to instructor(s) for lab"
+  hw_duedate = "Due next Tues 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: "2019 List of Lectures"
+title: "2021 List of Lectures"
 output: html_document
 ---
 
@@ -337,11 +337,9 @@ HMMs <- list(
 ```{r}
 present1 <- list(
   title = "Student presentations",
-  topics = c("Warlick-Pinniped stranding data</br>",
-             "Lowe-Bull trout life history trends</br>",
-             "McGill-Coastal productivity trends</br>",
-             "Feddern-Coastal stream flow patterns</br>",
-             "Sorel-Juvenile chinook timing</br>"),
+  topics = c("</br>",
+             "</br>",
+             "</br>"),
   pdf = "",
   ppt = "",
   rmd = "",

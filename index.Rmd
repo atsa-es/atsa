@@ -33,7 +33,7 @@ Thursday from 3:00-3:50 -- Online in 2021
 Your grade for the course will come from 4 elements.
 
 ### Homework (30%)  
-Homework will be assigned each Thursday and is due by 5:00 PM PST on the following Thursday. It will consist of some short answers and __R__ code based on topics covered in lab. There will be 6 assignments worth 5% each.
+Homework will be assigned each Thursday and is due by 11:59 PM PST on the following Thursday. It will consist of some short answers and __R__ code based on topics covered in lab. There will be 6 assignments worth 5% each.
 
 Homework will be submitted via...
 

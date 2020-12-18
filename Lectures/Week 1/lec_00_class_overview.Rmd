@@ -37,7 +37,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 * __Weekly homework__ (30% of total)
     - Assigned Thurs at the end of computer lab
-    - Due by 5:00 PM the following Tues
+    - Due by 11:59 PM the following Tues
     - Based on material from lecture & computer lab
 
 * __Research project & paper__ (40% of total)
