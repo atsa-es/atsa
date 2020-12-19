@@ -1,0 +1,44 @@
+---
+title: "MANUSCRIPT REVIEW FOR FISH 507"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Title of paper:
+
+# QUANTITATIVE SCORING
+
+Please assign a score from 1 (needs major improvements) to 6 (excellent).
+
+### 1. Rate this paper’s “wow” factor. Given their dataset, did the author present a cool interesting story? Would you recommend this paper to a lab mate? Is the paper a standalone contribution to the field (you can understand it and its relevance without having to read all of the papers they cite)?
+
+Score = 
+
+### 2. Rate this paper’s overall clarity. Did the author leave out any key details? Could you replicate their analysis if you were given the data? 
+
+Score = 
+
+### 3. Rate this paper’s overall statistical analysis. Did the author justify biological reasons for using the model(s) presented? Did they do a thorough job assessing convergence / diganostics / outliers / etc? Did they address all major problems and / or obstacles?
+
+Score = 
+
+### 4. Rate this paper’s presentation of figures and tables: did they include information about the study area / data? Did all of the figures and tables add to the story, or were some of them unnecessary? Were they understandable without having to refer back to the paper?
+
+Score = 
+
+### 5. Rate the results and discussion. Are their conclusions supported by the results? Are conclusions wildly overstated? Does the discussion set the broader context for the paper and help you understand the results? 
+
+Score = 
+
+
+### TOTAL SCORE (out of 30) = 
+
+
+# MAJOR COMMENTS 
+
+
+# MINOR COMMENTS 

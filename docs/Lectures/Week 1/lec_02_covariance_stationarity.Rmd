@@ -2,7 +2,7 @@
 title: "Stationarity & introductory functions"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "10 Jan 2019"
+date: "7 Jan 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -39,7 +39,7 @@ $\text{E}(x) \equiv$ mean of $x = \mu$
 We can estimate $\mu$ from a sample as
 
 $$
-m = \frac{\sum_{i=1}^N{x_i}}{N}
+m = \frac{1}{N} \sum_{i=1}^N{x_i}
 $$
 
 

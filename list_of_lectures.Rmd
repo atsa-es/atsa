@@ -16,14 +16,13 @@ intro <- list(
              "Properties of time series",
              "Data transformations",
              "Time series decomposition"),
-  pdf = "",
+  pdf = c("Lectures/Week 1/lec_00_class_overview.pdf", "Lectures/Week 1/lec_01_intro_to_ts.pdf"),
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
+  html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("[CM09: Chap 1](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_1.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)" ),
+  reading = c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)" ),
   instructor = "Mark"
 )
 ```
@@ -44,7 +43,7 @@ ts_basics <- list(
   video = "",
   youtube = "",
   reading = "",
-  #reading = c("[CM09: Chap 2](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_2.pdf)","[CM09: Chap 4](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_4.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)"),
+  #reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)"),
   instructor = "Mark"
 )
 ```
@@ -64,7 +63,7 @@ arma_basics <- list(
   video = "",
   youtube = "",
   reading = "",
-  #reading = c("[CM09: Chap 6](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_6.pdf)","[CM09: Chap 7](https://link.springer.com/content/pdf/10.1007%2F978-0-387-88698-5_7.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)"),
+  #reading = c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)"),
   instructor = "Mark"
 )
 ```
