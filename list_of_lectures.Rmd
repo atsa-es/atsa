@@ -36,14 +36,13 @@ ts_basics <- list(
              "White noise",
              "Random walks",
              "Differencing"),
-  pdf = "",
+  pdf = "Lectures/Week 1/lec_02_covariance_stationarity.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
+  html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)"),
+  reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)"),
   instructor = "Mark"
 )
 ```
