@@ -2,7 +2,7 @@
 title: "Course overview"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
-date: "8 Jan 2019"
+date: "5 Jan 2021"
 output: ioslides_presentation
 ---
 
@@ -17,46 +17,67 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Introductions
 
-### Who & why you’re here?  
+### Who are you?
 
-### What are you looking to get from this class?  
+### What School/Dept/Program are you from?
 
-
-## Days & times
-
-* __Lectures__
-    + When: Tues & Thurs from 1:30-2:50  
-    + Where: FSH 203  
-
-* __Computer lab__  
-    + When: Thurs from 3:00-3:50  
-    + Where: FSH 203  
+### What are you looking to get out this class?  
 
 
-## Grading {.smaller}
+## Course format
 
-* __Weekly homework__ (30% of total)
-    - Assigned Thurs at the end of computer lab
-    - Due by 11:59 PM the following Tues
-    - Based on material from lecture & computer lab
+### Combination of lectures and labs
 
-* __Research project & paper__ (40% of total)
-    - Must involve some form of time series model(s)
-    - Due by 11:59 PM PST on March 15
+### Hands-on exercises and R coding
 
-* __Two anonymous peer-reviews__ (20% of total)
-    - One review each for 2 colleague’s papers
-    - Due by 11:59 PM PST on March 21
 
-* __Participation__ (10%)
-    - We expect to show up and interact
+## Communications
+
+### We encourage lots of questions during class
+
+### Feel free to email any of the instructors outside of class
+
+### We will respond within 24 hours
+
+
+## Grading
+
+__Weekly homework__ (30% of total)  
+
+* Assigned Thurs at the end of computer lab  
+
+* Due by 11:59 PM the following Thurs  
+
+* Based on material from lectures & computer labs  
+
+
+## Grading
+
+__Research project & paper__ (40% of total)
+
+* Must involve some form of time series model(s)
+
+* Due by 11:59 PM PST on March 14
+
+__Two anonymous peer-reviews__ (20% of total)
+
+* One review each for 2 of your colleague’s papers
+
+* Due by 11:59 PM PST on March 18
+
+
+## Grading
+
+__Participation__ (10%)  
+
+* We expect you to show up and interact
+
+* Please contact one of the instructors if you have any conflicts
     
 
-## Expectations for final project {.smaller}
+## Expectations for final project
 
-* Research paper or thesis chapter that you can turn into a peer-reviewed publication
-
-* Ideally a solo effort, but you can work in pairs
+* Research paper or thesis chapter that could result in a peer-reviewed publication
 
 * Focus on applied time series analysis (univariate or multivariate)  
     
@@ -65,7 +86,7 @@ knitr::opts_chunk$set(echo = FALSE)
     - 12-pt font, double-spaced throughout
 
 
-## Don't have time series data? {.smaller}
+## Don't have time series data?
 
 * [RAM Legacy](http://ramlegacy.marinebiodiversity.ca/)
 
