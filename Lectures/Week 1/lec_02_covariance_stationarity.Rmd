@@ -2,14 +2,14 @@
 title: "Stationarity & introductory functions"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "10 Jan 2019"
+date: "7 Jan 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 set.seed(123)
 ```
 
@@ -39,7 +39,7 @@ $\text{E}(x) \equiv$ mean of $x = \mu$
 We can estimate $\mu$ from a sample as
 
 $$
-m = \frac{\sum_{i=1}^N{x_i}}{N}
+m = \frac{1}{N} \sum_{i=1}^N{x_i}
 $$
 
 
@@ -301,9 +301,9 @@ $$
 \gamma_k = \text{E}([x_t - \mu][x_{t+k} - \mu])
 $$
 
-"Smooth" series have large ACVF for large $k$
+"Smooth" time series have large ACVF for large $k$
 
-"Choppy" series have ACVF near 0 for small $k$
+"Choppy" time series have ACVF near 0 for small $k$
 
 
 ## Autocovariance function (ACVF)
@@ -357,7 +357,7 @@ The ACF has several important properties:
 
 > - $r_k = r_{-k}$  
 
-> - $r_k$ of periodic function is itself periodic  
+> - $r_k$ of a periodic function is itself periodic  
 
 > - $r_k$ for the sum of 2 independent variables is the sum of $r_k$ for each of them 
 
@@ -564,7 +564,7 @@ pacf(lwa[,"Cryptomonas"], na.action = na.pass)
 
 ## ACF & PACF in model selection
 
-The ACF & PACF will be _very_ useful for identifying the orders of ARMA models
+We will see that the ACF & PACF are _very_ useful for identifying the orders of ARMA models
 
 
 
