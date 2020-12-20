@@ -2,7 +2,7 @@
 title: "Intro to ARMA models"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "15 Jan 2019"
+date: "12 Jan 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -104,6 +104,11 @@ acf(tt)
 ```
 
 
+## Random walk (RW)
+
+**Of note**: Random walks are extremely flexible models and can be fit to many kinds of time series
+
+
 ## Biased random walk
 
 A _biased random walk_ (or _random walk with drift_) is written as
@@ -117,15 +122,15 @@ where $u$ is the bias (drift) per time step and $w_t$ is white noise
 
 ## Biased random walk
 
-```{r ex_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
+```{r ex_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,4)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
-xx <- ww <- rnorm(100)
+xx <- ww <- rnorm(100, 0, 4)
 uu <- 1
 for(t in 2:100) {
   xx[t] <- xx[t-1] + uu + ww[t]
 }
 plot.ts(xx, ylab = expression(italic(x[t])))
-acf(tt)
+acf(xx)
 ```
 
 
@@ -135,7 +140,9 @@ First-differencing a biased random walk yields a constant mean (level) $u$ plus 
 
 $$
 \begin{align}
-  \nabla x_t &= x_{t-1} + u + w_t \\
+  x_t &= x_{t-1} + u + w_t \\
+  &\Downarrow \\
+  \nabla (x_t &= x_{t-1} + u + w_t) \\
   x_t - x_{t-1} &= x_{t-1} + u + w_t - x_{t-1} \\
   x_t - x_{t-1} &= u + w_t
 \end{align}
@@ -144,16 +151,15 @@ $$
 
 ## Differencing a biased random walk
 
-```{r ex_diff_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
+```{r ex_diff_biased_rw, fig.cap="$x_t - x_{t-1} = 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
 plot.ts(diff(xx), ylab = expression(nabla~italic(x[t])))
-acf(tt)
+abline(h = 1, lty = "dashed", col = "blue", lwd = 2)
+acf(diff(xx))
 ```
 
 
-## {.flexbox .vcenter}
-
-<font size="10">LINEAR STATIONARY MODELS</font>
+# Linear stationary models
 
 
 ## Linear stationary models
@@ -265,9 +271,20 @@ To be stationary, __all roots__ of the characteristic equation __must exceed 1 i
 For example, consider this AR(1) model from earlier
 
 $$
+x_t = 0.5 x_{t-1} + w_t
+$$
+
+
+## Stationary AR(_p_) models
+
+For example, consider this AR(1) model from earlier
+
+$$
+x_t = 0.5 x_{t-1} + w_t \\
+\Downarrow \\
 \begin{align}
-  x_t &= 0.5 x_{t-1} + w_t \\
   x_t - 0.5 x_{t-1} &= w_t \\
+  x_t - 0.5 \mathbf{B}x_t &= w_t \\
   (1 - 0.5 \mathbf{B})x_t &= w_t \\
 \end{align}
 $$
@@ -279,8 +296,6 @@ For example, consider this AR(1) model from earlier
 
 $$
 \begin{align}
-  x_t &= 0.5 x_{t-1} + w_t \\
-  x_t - 0.5 x_{t-1} &= w_t \\
   (1 - 0.5 \mathbf{B})x_t &= w_t \\
   \Downarrow \\
   1 - 0.5 \mathbf{B} &= 0 \\
@@ -297,9 +312,20 @@ This model is indeed stationary because $\mathbf{B} > 1$
 What about this AR(2) model from earlier?
 
 $$
+x_t = -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+$$
+
+
+## Stationary AR(_p_) models
+
+What about this AR(2) model from earlier?
+
+$$
+x_t = -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+\Downarrow \\
 \begin{align}
-  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
   x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
+  x_t + 0.2 \mathbf{B} x_t - 0.4 \mathbf{B}^2 x_t &= w_t \\
   (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
 \end{align}
 $$
@@ -310,18 +336,14 @@ $$
 What about this AR(2) model from earlier?
 
 $$
-\begin{align}
-  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
-  x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
-  (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
-  \Downarrow \\
-  1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2 &= 0 \\
-  \Downarrow \\
-  \mathbf{B} \approx -1.35 ~ \text{and}& ~ \mathbf{B} \approx 1.85
-\end{align}
+(1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t = w_t \\
+\Downarrow \\
+1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2 = 0 \\
+\Downarrow \\
+\mathbf{B}_1 \approx -1.35 ~ \text{and} ~ \mathbf{B}_2 \approx 1.85
 $$
 
-This model is _not_ stationary because only one $\mathbf{B} > 1$
+This model is _not_ stationary because only $\mathbf{B}_2 > 1$
 
 
 ## What about random walks?
@@ -329,9 +351,20 @@ This model is _not_ stationary because only one $\mathbf{B} > 1$
 Consider our random walk model
 
 $$
+x_t = x_{t-1} + w_t
+$$
+
+
+## What about random walks?
+
+Consider our random walk model
+
+$$
+x_t = x_{t-1} + w_t \\
+\Downarrow \\
 \begin{align}
-  x_t &= x_{t-1} + w_t \\
   x_t - x_{t-1} &= w_t \\
+  x_t - 1 \mathbf{B}x_t &= w_t \\
   (1 - 1 \mathbf{B})x_t &= w_t \\
 \end{align}
 $$
@@ -343,8 +376,8 @@ Consider our random walk model
 
 $$
 \begin{align}
-  x_t &= x_{t-1} + w_t \\
   x_t - x_{t-1} &= w_t \\
+  x_t - 1 \mathbf{B}x_t &= w_t \\
   (1 - 1 \mathbf{B})x_t &= w_t \\
   \Downarrow \\
   1 - 1 \mathbf{B} &= 0 \\
@@ -358,7 +391,26 @@ Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
 
 ## Stationary AR(1) models
 
-We can define a space over which all AR(1) models are stationary
+We can define a parameter space over which all AR(1) models are stationary
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+$$
+
+
+## Stationary AR(1) models
+
+We can define a parameter space over which all AR(1) models are stationary
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+\Downarrow \\
+\begin{align}
+  x_t - \phi x_{t-1} &= w_t \\
+  x_t - \phi \mathbf{B} x_t &= w_t \\
+  (1 - \phi \mathbf{B}) x_t &= w_t \\
+\end{align} 
+$$
 
 
 ## Stationary AR(1) models
@@ -366,34 +418,47 @@ We can define a space over which all AR(1) models are stationary
 For $x_t = \phi x_{t-1} + w_t$, we have
 
 $$
+(1 - \phi \mathbf{B}) x_t = w_t \\
+\Downarrow \\
 \begin{align}
   1 - \phi \mathbf{B} &= 0 \\
   -\phi \mathbf{B} &= -1 \\
-  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
-\end{align}
+  \mathbf{B} &= \frac{1}{\phi}
+\end{align} \\
+  \Downarrow \\
+  \mathbf{B} = \frac{1}{\phi} > 1 ~ \text{iff} ~  0 < \phi < 1\\
 $$
 
 
 ## Stationary AR(1) models
 
-For $x_t = \phi x_{t-1} + w_t$, we have
+What if $\phi$ is negative, such that $x_t = -\phi x_{t-1} + w_t$?
 
 $$
+x_t = -\phi x_{t-1} + w_t \\
+\Downarrow \\
 \begin{align}
-  1 - \phi \mathbf{B} &= 0 \\
-  -\phi \mathbf{B} &= -1 \\
-  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
-\end{align}
+  x_t + \phi x_{t-1} &= w_t \\
+  x_t + \phi \mathbf{B} x_t &= w_t \\
+  (1 + \phi \mathbf{B}) x_t &= w_t \\
+\end{align} 
 $$
+
+
+## Stationary AR(1) models
 
 For $x_t = -\phi x_{t-1} + w_t$, we have
 
 $$
+(1 + \phi \mathbf{B}) x_t = w_t \\
+\Downarrow \\
 \begin{align}
   1 + \phi \mathbf{B} &= 0 \\
   \phi \mathbf{B} &= -1 \\
-  \mathbf{B} &= \frac{-1}{\phi} > 1 \Rightarrow -1 < \phi < 0\\
-\end{align}
+  \mathbf{B} &= -\frac{1}{\phi}
+\end{align} \\
+  \Downarrow \\
+  \mathbf{B} = -\frac{1}{\phi} > 1 ~ \text{iff} ~~  {-1} < \phi < 0\\
 $$
 
 
