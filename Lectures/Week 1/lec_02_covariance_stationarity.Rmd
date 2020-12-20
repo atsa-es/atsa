@@ -260,16 +260,20 @@ In general, a time series is said to be stationary if there is
 ## Identifying stationarity
 
 ```{r, fig.align="center"}
-par(mfrow = c(2,2), mai = c(0.7,0.4,0.1,0.1))
+par(mfrow = c(2,2), mai = c(0.7,0.4,0.2,0.1))
 
 plot.ts(arima.sim(model = list(ar = 0.3, sd = 0.1), n = 100),
         las = 1, ylab = "")
+mtext("A", 3, line = 0, adj = 0, xpd = NA)
 plot.ts(arima.sim(model = list(ar = 0.9, sd = 0.1), n = 100),
         las = 1, ylab = "")
+mtext("B", 3, line = 0, adj = 0, xpd = NA)
 plot.ts(arima.sim(model = list(ar = -0.9, sd = 0.1), n = 100),
         las = 1, ylab = "")
+mtext("C", 3, line = 0, adj = 0, xpd = NA)
 plot.ts(arima.sim(model = list(ma = 0.1, sd = 0.1), n = 100),
         las = 1, ylab = "")
+mtext("D", 3, line = 0, adj = 0, xpd = NA)
 ```
 
 
@@ -419,6 +423,13 @@ text(x=14, y=0.55, expression(+frac(italic(z)[1-frac(alpha,2)], sqrt(italic(n)))
 ```
 
 
+## Estimating the ACF in R
+
+```{r acf_example, echo = TRUE , eval = FALSE}
+acf(ts_object)
+```
+
+
 ## ACF for deterministic forms
 
 ```{r}
@@ -542,7 +553,7 @@ lwa <- lakeWAplanktonTrans
 lwa <- lwa[lwa[,"Year"] >= 1975,]
 lwa <- ts(lwa, start = c(1975,1), freq = 12)
 par(mai=c(1,1,0,0), omi=c(0.1,0.1,0.1,0.1))
-plot.ts(lwa[,"Cryptomonas"], ylab=expression(log(italic(Cryptomonus))))
+plot.ts(lwa[,"Cryptomonas"], ylab=expression(log(italic(Cryptomonus))), las = 1)
 ```
 
 
@@ -550,7 +561,7 @@ plot.ts(lwa[,"Cryptomonas"], ylab=expression(log(italic(Cryptomonus))))
 
 ```{r lwa_phyto_acf, fig.cap = "Autocorrelation"}
 par(mai=c(1,1,0,0), omi=c(0.1,0.1,0.1,0.1))
-acf(lwa[,"Cryptomonas"], na.action = na.pass)
+acf(lwa[,"Cryptomonas"], na.action = na.pass, las = 1)
 ```
 
 
@@ -558,7 +569,7 @@ acf(lwa[,"Cryptomonas"], na.action = na.pass)
 
 ```{r lwa_phyto_pacf, fig.cap = "Partial autocorrelation"}
 par(mai=c(1,1,0,0), omi=c(0.1,0.1,0.1,0.1))
-pacf(lwa[,"Cryptomonas"], na.action = na.pass)
+pacf(lwa[,"Cryptomonas"], na.action = na.pass, las = 1)
 ```
 
 
@@ -581,7 +592,7 @@ Often we want to look for relationships between 2 different time series
 
 We can extend the notion of covariance to _cross-covariance_
 
-We can estimate $g^{x,y}_k$ from a sample as
+We can estimate the CCVF $(g^{x,y}_k)$ from a sample as
 
 $$
 g^{x,y}_k = \frac{1}{N}\sum_{t=1}^{N-k}{(x_t - m_x)(y_{t+k} - m_y)}
@@ -601,6 +612,17 @@ Just as with other measures of correlation
 $$
 -1 \leq r^{x,y}_k \leq 1
 $$
+
+
+## Estimating the CCF in R
+
+```{r ccf_example, echo = TRUE , eval = FALSE}
+ccf(x, y)
+```
+
+**Note**: the lag `k` value returned by `ccf(x, y)` is the correlation between `x[t+k]` and `y[t]`
+
+In an explanatory context, we often think of $y = f(x)$, so it's helpful to use `ccf(y, x)` and only consider positive lags
 
 
 ## Example of cross-correlation
@@ -844,7 +866,9 @@ $$
 
 Differencing is a simple means for removing a trend
 
-The 1st-difference removes a linear trend; a 2nd-difference would remove a quadratic trend, etc.
+The 1st-difference removes a linear trend
+
+A 2nd-difference will remove a quadratic trend
 
 
 ## Differencing to remove a trend
@@ -886,6 +910,56 @@ plot.ts(lwa[,"Temp"], las = 1,
 plot.ts(diff(lwa[,"Temp"], 12), las = 1,
         ylab = expression(nabla~Temperature))
 ```
+
+
+## Differencing to remove a trend in R
+
+We can use `diff()` to easily compute differences
+
+```{r diff_example, echo = TRUE, eval = FALSE}
+diff(x,
+     lag,
+     differences
+     )
+```
+
+
+## Differencing to remove a trend in R
+
+```{r diff_example_2, echo = TRUE, eval = FALSE}
+diff(x,
+     ### <b>
+     lag,
+     ### </b>
+     differences
+     )
+```
+
+`lag` $(h)$ specifies $t - h$
+
+`lag = 1` (default) is for non-seasonal data
+
+`lag = 4` would work for quarterly data or
+
+`lag = 12` for monthly data
+
+
+## Differencing to remove a trend in R
+
+```{r diff_example_3, echo = TRUE, eval = FALSE}
+diff(x,
+     lag,
+     ### <b>
+     differences
+     ### </b>
+     )
+```
+
+`differences` is the number of differencing operations
+
+`differences = 1` (default) is for a linear trend
+
+`differences = 2` is for a quadratic trend
 
 
 ## Topics for today
