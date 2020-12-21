@@ -682,32 +682,6 @@ Thus, _all_ MA processes are stationary because they are finite sums of stationa
 ## Examples of MA(_q_) models
 
 ```{r}
-## the 4 MA coefficients
-MAq <- c(0.7, 0.2, -0.1, -0.3)
-## empty list for storing models
-MA_mods <- vector("list", 4L)
-## loop over orders of q
-for(q in 1:4) {
-  ## assume SD=1, so not specified
-  MA_mods[[q]] <- arima.sim(n=500, list(ma=MAq[1:q]))
-}
-
-par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
-## loop over orders of p
-for(q in 1:4) {
-  ## assume SD=1, so not specified
-  plot.ts(MA_mods[[q]][1:50], las = 1,
-          ylab = expression(italic(x[t])))
-  mtext(side = 3, paste0("MA(",q,")"),
-        line = 0.5, adj = 0)
-}
-
-```
-
-
-## Examples of MA(_q_) models
-
-```{r}
 ## compare MA(1) & MA(2) with similar structure
 MA1 <- arima.sim(n=50, list(ma=c(0.7)))
 MA2 <- arima.sim(n=50, list(ma=c(-1, 0.7)))
@@ -726,111 +700,6 @@ mtext(side = 3,
       line = 0.5, adj = 0)
 
 ```
-
-
-## AR(_p_) model as an MA($\infty$) model
-
-It is possible to write an AR(_p_) model as an MA($\infty$) model
-
-
-## AR(1) model as an MA($\infty$) model
-
-For example, consider an AR(1) model
-
-$$
-\begin{align}
-x_t &= \phi x_{t-1} + w_t \\
-x_t &= \phi (\phi x_{t-2} + w_{t-1}) + w_t \\
-x_t &= \phi^2 x_{t-2} + \phi w_{t-1} + w_t \\
-x_t &= \phi^3 x_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
-& \Downarrow \\
-x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1}
-\end{align}
-$$
-
-
-## AR(1) model as an MA($\infty$) model
-
-If our AR(1) model is stationary, then
-
-$$
-\lvert \phi \rvert < 1 ~ \Rightarrow ~ \lim_{k \to \infty} \phi^{k+1} = 0
-$$
-
-so
-
-$$
-\begin{align}
-  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1} \\
-  & \Downarrow \\
-  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k}
-\end{align}
-$$
-$$
-$$
-
-
-
-## Invertible MA(_q_) models
-
-An MA(_q_) process is invertible if it can be written as a _stationary autoregressive process of infinite order without an error term_
-
-
-## Invertible MA(1) model
-
-For example, consider an MA(1) model
-
-$$
-\begin{align}
-  x_t &= w_t + \theta w_{t-1} \\
-  & \Downarrow \\
-  w_t &= x_t - \theta w_{t-1} \\
-  w_t &= x_t - \theta (x_{t-1} - \theta w_{t-2}) \\
-  w_t &= x_t - \theta x_{t-1} - \theta^2 w_{t-2} \\
-  & ~~\vdots \\
-  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
-\end{align}
-$$
-
-
-## Invertible MA(1) model
-
-If we constrain $\lvert \theta \rvert < 1$, then
-
-$$
-\lim_{k \to \infty} (-\theta)^{k+1} w_{t-k-1} = 0
-$$
-
-and
-
-$$
-\begin{align}
-  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
-  & \Downarrow \\
-  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k} \\
-  w_t &= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
-\end{align}
-$$
-
-
-## Invertible MA(_q_) models
-
-Q: Why do we care if an MA(_q_) model is invertible?
-
-A: It helps us identify the model's parameters
-
-
-## Invertible MA(_q_) models
-
-For example, these MA(1) models are equivalent
-
-$$
-x_t = w_t + \frac{1}{5} w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,25)
-$$
-
-$$
-x_t = w_t + 5 w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,1)
-$$
 
 
 ## ACF & PACF for MA(_q_) models
@@ -894,8 +763,214 @@ Do you see the link between the order _q_ and lag _k_?
 | MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
 
 
-## Using ACF & PACF for model ID
+## AR(_p_) model as an MA($\infty$) model
 
+It is possible to write an AR(_p_) model as an MA($\infty$) model
+
+
+## AR(1) model as an MA($\infty$) model
+
+For example, consider an AR(1) model
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+For example, consider an AR(1) model
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+\Downarrow \\
+x_{t-1} = \phi x_{t-2} + w_{t-1} \\
+\Downarrow \\
+x_{t-2} = \phi x_{t-3} + w_{t-2} \\
+\Downarrow \\
+x_{t-3} = \phi x_{t-4} + w_{t-3} \\
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+Substituting in the expression for $x_{t-1}$ into that for $x_t$
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+\Downarrow \\
+x_{t-1} = \phi x_{t-2} + w_{t-1} \\
+\Downarrow \\
+x_t = \phi (\phi x_{t-2} + w_{t-1}) + w_t \\
+x_t = \phi^2 x_{t-2} + \phi w_{t-1} + w_t
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+And repeated substitutions yields
+
+$$
+\begin{align}
+x_t &= \phi^2 x_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= \phi^3 x_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= \phi^4 x_{t-4} + \phi^3 w_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1}
+\end{align}
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+If our AR(1) model is stationary, then
+
+$$
+\lvert \phi \rvert < 1
+$$
+
+which then implies that
+
+$$
+\lim_{k \to \infty} \phi^{k+1} = 0
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+If our AR(1) model is stationary, then
+
+$$
+\lvert \phi \rvert < 1
+$$
+
+which then implies that
+
+$$
+\lim_{k \to \infty} \phi^{k+1} = 0
+$$
+
+and hence
+
+$$
+\begin{align}
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1} \\
+  & \Downarrow \\
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k}
+\end{align}
+$$
+
+
+## Invertible MA(_q_) models
+
+An MA(_q_) process is *invertible* if it can be written as a stationary autoregressive process of infinite order without an error term
+
+$$
+x_t = w_t + \theta_1 w_{t-1} + \theta_2 w_{t-2} + \dots + \theta_q w_{t-q} \\
+\Downarrow ? \\
+w_t = x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
+$$
+
+
+## Invertible MA(_q_) models
+
+Q: Why do we care if an MA(_q_) model is invertible?
+
+A: It helps us identify the model's parameters
+
+
+## Invertible MA(_q_) models
+
+For example, these MA(1) models are equivalent
+
+$$
+x_t = w_t + \frac{1}{5} w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,25) \\
+\Updownarrow \\
+x_t = w_t + 5 w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,1)
+$$
+
+
+## Variance of an MA(1) model
+
+The variance of $x_t$ is given by
+
+$$
+x_t = w_t + \frac{1}{5} w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,25) \\
+\Downarrow \\
+\begin{align}
+\text{Var}(x_t) &= \text{Var}(w_t) + \left( \frac{1}{25} \right) \text{Var}(w_{t-1}) \\
+  &= 25 + \left( \frac{1}{25} \right) 25 \\
+  &= 25 + 1 \\
+  &= 26
+\end{align}
+$$
+
+
+## Variance of an MA(1) model
+
+The variance of $x_t$ is given by
+
+$$
+x_t = w_t + 5 w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,1) \\
+\Downarrow \\
+\begin{align}
+\text{Var}(x_t) &= \text{Var}(w_t) + (25) \text{Var}(w_{t-1}) \\
+  &= 1 + (25) 1 \\
+  &= 1 + 25 \\
+  &= 26
+\end{align}
+$$
+
+
+## Rewriting MA(1) model
+
+We can rewrite an MA(1) model in terms of $x$
+
+$$
+  x_t = w_t + \theta w_{t-1} \\
+   \Downarrow \\
+  w_t = x_t - \theta w_{t-1} \\
+$$
+
+
+## Rewriting our MA(1) model
+
+And now we can substitute in previous expressions for $w_t$
+
+$$
+\begin{align}
+  w_t &= x_t - \theta w_{t-1} \\
+  & \Downarrow \\
+  w_{t-1} &= x_{t-1} - \theta w_{t-2} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta (x_{t-1} - \theta w_{t-2}) \\
+  w_t &= x_t - \theta x_{t-1} - \theta^2 w_{t-2} \\
+  & ~~\vdots \\
+  w_t &= x_t - \theta x_{t-1} - \dots -\theta^k x_{t-k}  -\theta^{k+1} w_{t-k-1} \\
+\end{align}
+$$
+
+
+## Invertible MA(1) model
+
+If we constrain $\lvert \theta \rvert < 1$, then
+
+$$
+\lim_{k \to \infty} (-\theta)^{k+1} w_{t-k-1} = 0
+$$
+
+and
+
+$$
+\begin{align}
+  w_t &= x_t - \theta x_{t-1} - \dots -\theta^k x_{t-k}  -\theta^{k+1} w_{t-k-1} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta x_{t-1} - \dots -\theta^k x_{t-k} \\
+  w_t &= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
+\end{align}
+$$
 
 
 ## Autoregressive moving average models
