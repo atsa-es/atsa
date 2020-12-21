@@ -924,7 +924,7 @@ x_t = w_t + 5 w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,1) \\
 $$
 
 
-## Rewriting MA(1) model
+## Rewriting an MA(1) model
 
 We can rewrite an MA(1) model in terms of $x$
 
@@ -935,7 +935,7 @@ $$
 $$
 
 
-## Rewriting our MA(1) model
+## Rewriting an MA(1) model
 
 And now we can substitute in previous expressions for $w_t$
 
@@ -979,6 +979,15 @@ An autoregressive moving average, or ARMA(_p_,_q_), model is written as
 
 $$
 x_t = \phi_1 x_{t-1} + \dots + \phi_p x_{t-p} + w_t + \theta_1 w_{t-1} + \dots + \theta_q w_{t-q} 
+$$
+
+
+## Autoregressive moving average models
+
+We can write an ARMA(_p_,_q_) model using the backshift operator
+
+$$
+\phi_p (\mathbf{B}) x_t=  \theta_q (\mathbf{B}) w_t 
 $$
 
 
@@ -1081,16 +1090,35 @@ This leads to the class of _autoregressive integrated moving average_ (ARIMA) mo
 ARIMA models are indexed with orders (_p_,_d_,_q_) where _d_ indicates the order of differencing
 
 
-## ARIMA(_p_,_d_,_q_) models
+## ARIMA(_p_,_d_,_q_) models | Definition
 
-For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+$\{x_t\}$ follows an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
 
 
-## ARIMA(_p_,_d_,_q_) models
+## ARIMA(_p_,_d_,_q_) models | An example
 
-For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+Consider an ARMA(1,0) = AR(1) process where
 
-For example, if $\{x_t\}$ is an ARIMA(1,1,0) process then $\nabla \{x_t\}$ is an ARMA(1,0) = AR(1) process
+$$
+x_t = (1 + \phi) x_{t-1} + w_t
+$$
+
+
+## ARIMA(_p_,_d_,_q_) models | An example
+
+Consider an ARMA(1,0) = AR(1) process where
+
+$$
+x_t = (1 + \phi) x_{t-1} + w_t \\
+\Downarrow \\
+\begin{align}
+x_t &= x_{t-1} + \phi x_{t-1} + w_t \\
+x_t - x_{t-1} &= \phi x_{t-1} + w_t \\
+(1-\mathbf{B}) x_t &= \phi x_{t-1} + w_t
+\end{align}
+$$
+
+So ${x_t}$ is indeed an ARIMA(1,1,0) process
 
 
 ## ARIMA(_p_,_d_,_q_) models
