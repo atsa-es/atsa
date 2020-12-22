@@ -2,7 +2,7 @@
 title: "Intro to ARMA models"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "15 Jan 2019"
+date: "12 Jan 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -104,6 +104,11 @@ acf(tt)
 ```
 
 
+## Random walk (RW)
+
+**Of note**: Random walks are extremely flexible models and can be fit to many kinds of time series
+
+
 ## Biased random walk
 
 A _biased random walk_ (or _random walk with drift_) is written as
@@ -117,15 +122,15 @@ where $u$ is the bias (drift) per time step and $w_t$ is white noise
 
 ## Biased random walk
 
-```{r ex_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
+```{r ex_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,4)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
-xx <- ww <- rnorm(100)
+xx <- ww <- rnorm(100, 0, 4)
 uu <- 1
 for(t in 2:100) {
   xx[t] <- xx[t-1] + uu + ww[t]
 }
 plot.ts(xx, ylab = expression(italic(x[t])))
-acf(tt)
+acf(xx)
 ```
 
 
@@ -135,7 +140,9 @@ First-differencing a biased random walk yields a constant mean (level) $u$ plus 
 
 $$
 \begin{align}
-  \nabla x_t &= x_{t-1} + u + w_t \\
+  x_t &= x_{t-1} + u + w_t \\
+  &\Downarrow \\
+  \nabla (x_t &= x_{t-1} + u + w_t) \\
   x_t - x_{t-1} &= x_{t-1} + u + w_t - x_{t-1} \\
   x_t - x_{t-1} &= u + w_t
 \end{align}
@@ -144,16 +151,15 @@ $$
 
 ## Differencing a biased random walk
 
-```{r ex_diff_biased_rw, fig.cap="$x_t = x_{t-1} + 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
+```{r ex_diff_biased_rw, fig.cap="$x_t - x_{t-1} = 1 + w_t; w_t \\sim \\text{N}(0,1)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
 plot.ts(diff(xx), ylab = expression(nabla~italic(x[t])))
-acf(tt)
+abline(h = 1, lty = "dashed", col = "blue", lwd = 2)
+acf(diff(xx))
 ```
 
 
-## {.flexbox .vcenter}
-
-<font size="10">LINEAR STATIONARY MODELS</font>
+# Linear stationary models
 
 
 ## Linear stationary models
@@ -265,9 +271,20 @@ To be stationary, __all roots__ of the characteristic equation __must exceed 1 i
 For example, consider this AR(1) model from earlier
 
 $$
+x_t = 0.5 x_{t-1} + w_t
+$$
+
+
+## Stationary AR(_p_) models
+
+For example, consider this AR(1) model from earlier
+
+$$
+x_t = 0.5 x_{t-1} + w_t \\
+\Downarrow \\
 \begin{align}
-  x_t &= 0.5 x_{t-1} + w_t \\
   x_t - 0.5 x_{t-1} &= w_t \\
+  x_t - 0.5 \mathbf{B}x_t &= w_t \\
   (1 - 0.5 \mathbf{B})x_t &= w_t \\
 \end{align}
 $$
@@ -279,8 +296,6 @@ For example, consider this AR(1) model from earlier
 
 $$
 \begin{align}
-  x_t &= 0.5 x_{t-1} + w_t \\
-  x_t - 0.5 x_{t-1} &= w_t \\
   (1 - 0.5 \mathbf{B})x_t &= w_t \\
   \Downarrow \\
   1 - 0.5 \mathbf{B} &= 0 \\
@@ -297,9 +312,20 @@ This model is indeed stationary because $\mathbf{B} > 1$
 What about this AR(2) model from earlier?
 
 $$
+x_t = -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+$$
+
+
+## Stationary AR(_p_) models
+
+What about this AR(2) model from earlier?
+
+$$
+x_t = -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
+\Downarrow \\
 \begin{align}
-  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
   x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
+  x_t + 0.2 \mathbf{B} x_t - 0.4 \mathbf{B}^2 x_t &= w_t \\
   (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
 \end{align}
 $$
@@ -310,18 +336,14 @@ $$
 What about this AR(2) model from earlier?
 
 $$
-\begin{align}
-  x_t &= -0.2 x_{t-1} + 0.4 x_{t-2} + w_t \\
-  x_t + 0.2 x_{t-1} - 0.4 x_{t-2} &= w_t \\
-  (1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t &= w_t \\
-  \Downarrow \\
-  1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2 &= 0 \\
-  \Downarrow \\
-  \mathbf{B} \approx -1.35 ~ \text{and}& ~ \mathbf{B} \approx 1.85
-\end{align}
+(1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2)x_t = w_t \\
+\Downarrow \\
+1 + 0.2 \mathbf{B} - 0.4 \mathbf{B}^2 = 0 \\
+\Downarrow \\
+\mathbf{B}_1 \approx -1.35 ~ \text{and} ~ \mathbf{B}_2 \approx 1.85
 $$
 
-This model is _not_ stationary because only one $\mathbf{B} > 1$
+This model is _not_ stationary because only $\mathbf{B}_2 > 1$
 
 
 ## What about random walks?
@@ -329,9 +351,20 @@ This model is _not_ stationary because only one $\mathbf{B} > 1$
 Consider our random walk model
 
 $$
+x_t = x_{t-1} + w_t
+$$
+
+
+## What about random walks?
+
+Consider our random walk model
+
+$$
+x_t = x_{t-1} + w_t \\
+\Downarrow \\
 \begin{align}
-  x_t &= x_{t-1} + w_t \\
   x_t - x_{t-1} &= w_t \\
+  x_t - 1 \mathbf{B}x_t &= w_t \\
   (1 - 1 \mathbf{B})x_t &= w_t \\
 \end{align}
 $$
@@ -343,8 +376,8 @@ Consider our random walk model
 
 $$
 \begin{align}
-  x_t &= x_{t-1} + w_t \\
   x_t - x_{t-1} &= w_t \\
+  x_t - 1 \mathbf{B}x_t &= w_t \\
   (1 - 1 \mathbf{B})x_t &= w_t \\
   \Downarrow \\
   1 - 1 \mathbf{B} &= 0 \\
@@ -358,7 +391,26 @@ Random walks are __not__ stationary because $\mathbf{B} = 1 \ngtr 1$
 
 ## Stationary AR(1) models
 
-We can define a space over which all AR(1) models are stationary
+We can define a parameter space over which all AR(1) models are stationary
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+$$
+
+
+## Stationary AR(1) models
+
+We can define a parameter space over which all AR(1) models are stationary
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+\Downarrow \\
+\begin{align}
+  x_t - \phi x_{t-1} &= w_t \\
+  x_t - \phi \mathbf{B} x_t &= w_t \\
+  (1 - \phi \mathbf{B}) x_t &= w_t \\
+\end{align} 
+$$
 
 
 ## Stationary AR(1) models
@@ -366,34 +418,47 @@ We can define a space over which all AR(1) models are stationary
 For $x_t = \phi x_{t-1} + w_t$, we have
 
 $$
+(1 - \phi \mathbf{B}) x_t = w_t \\
+\Downarrow \\
 \begin{align}
   1 - \phi \mathbf{B} &= 0 \\
   -\phi \mathbf{B} &= -1 \\
-  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
-\end{align}
+  \mathbf{B} &= \frac{1}{\phi}
+\end{align} \\
+  \Downarrow \\
+  \mathbf{B} = \frac{1}{\phi} > 1 ~ \text{iff} ~  0 < \phi < 1\\
 $$
 
 
 ## Stationary AR(1) models
 
-For $x_t = \phi x_{t-1} + w_t$, we have
+What if $\phi$ is negative, such that $x_t = -\phi x_{t-1} + w_t$?
 
 $$
+x_t = -\phi x_{t-1} + w_t \\
+\Downarrow \\
 \begin{align}
-  1 - \phi \mathbf{B} &= 0 \\
-  -\phi \mathbf{B} &= -1 \\
-  \mathbf{B} &= \frac{1}{\phi} > 1 \Rightarrow 0 < \phi < 1\\
-\end{align}
+  x_t + \phi x_{t-1} &= w_t \\
+  x_t + \phi \mathbf{B} x_t &= w_t \\
+  (1 + \phi \mathbf{B}) x_t &= w_t \\
+\end{align} 
 $$
+
+
+## Stationary AR(1) models
 
 For $x_t = -\phi x_{t-1} + w_t$, we have
 
 $$
+(1 + \phi \mathbf{B}) x_t = w_t \\
+\Downarrow \\
 \begin{align}
   1 + \phi \mathbf{B} &= 0 \\
   \phi \mathbf{B} &= -1 \\
-  \mathbf{B} &= \frac{-1}{\phi} > 1 \Rightarrow -1 < \phi < 0\\
-\end{align}
+  \mathbf{B} &= -\frac{1}{\phi}
+\end{align} \\
+  \Downarrow \\
+  \mathbf{B} = -\frac{1}{\phi} > 1 ~ \text{iff} ~~  {-1} < \phi < 0\\
 $$
 
 
@@ -617,32 +682,6 @@ Thus, _all_ MA processes are stationary because they are finite sums of stationa
 ## Examples of MA(_q_) models
 
 ```{r}
-## the 4 MA coefficients
-MAq <- c(0.7, 0.2, -0.1, -0.3)
-## empty list for storing models
-MA_mods <- vector("list", 4L)
-## loop over orders of q
-for(q in 1:4) {
-  ## assume SD=1, so not specified
-  MA_mods[[q]] <- arima.sim(n=500, list(ma=MAq[1:q]))
-}
-
-par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
-## loop over orders of p
-for(q in 1:4) {
-  ## assume SD=1, so not specified
-  plot.ts(MA_mods[[q]][1:50], las = 1,
-          ylab = expression(italic(x[t])))
-  mtext(side = 3, paste0("MA(",q,")"),
-        line = 0.5, adj = 0)
-}
-
-```
-
-
-## Examples of MA(_q_) models
-
-```{r}
 ## compare MA(1) & MA(2) with similar structure
 MA1 <- arima.sim(n=50, list(ma=c(0.7)))
 MA2 <- arima.sim(n=50, list(ma=c(-1, 0.7)))
@@ -661,111 +700,6 @@ mtext(side = 3,
       line = 0.5, adj = 0)
 
 ```
-
-
-## AR(_p_) model as an MA($\infty$) model
-
-It is possible to write an AR(_p_) model as an MA($\infty$) model
-
-
-## AR(1) model as an MA($\infty$) model
-
-For example, consider an AR(1) model
-
-$$
-\begin{align}
-x_t &= \phi x_{t-1} + w_t \\
-x_t &= \phi (\phi x_{t-2} + w_{t-1}) + w_t \\
-x_t &= \phi^2 x_{t-2} + \phi w_{t-1} + w_t \\
-x_t &= \phi^3 x_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
-& \Downarrow \\
-x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1}
-\end{align}
-$$
-
-
-## AR(1) model as an MA($\infty$) model
-
-If our AR(1) model is stationary, then
-
-$$
-\lvert \phi \rvert < 1 ~ \Rightarrow ~ \lim_{k \to \infty} \phi^{k+1} = 0
-$$
-
-so
-
-$$
-\begin{align}
-  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1} \\
-  & \Downarrow \\
-  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k}
-\end{align}
-$$
-$$
-$$
-
-
-
-## Invertible MA(_q_) models
-
-An MA(_q_) process is invertible if it can be written as a _stationary autoregressive process of infinite order without an error term_
-
-
-## Invertible MA(1) model
-
-For example, consider an MA(1) model
-
-$$
-\begin{align}
-  x_t &= w_t + \theta w_{t-1} \\
-  & \Downarrow \\
-  w_t &= x_t - \theta w_{t-1} \\
-  w_t &= x_t - \theta (x_{t-1} - \theta w_{t-2}) \\
-  w_t &= x_t - \theta x_{t-1} - \theta^2 w_{t-2} \\
-  & ~~\vdots \\
-  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
-\end{align}
-$$
-
-
-## Invertible MA(1) model
-
-If we constrain $\lvert \theta \rvert < 1$, then
-
-$$
-\lim_{k \to \infty} (-\theta)^{k+1} w_{t-k-1} = 0
-$$
-
-and
-
-$$
-\begin{align}
-  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k}  + (-\theta)^{k+1} w_{t-k-1} \\
-  & \Downarrow \\
-  w_t &= x_t - \theta x_{t-1} + \dots + (-\theta)^k x_{t-k} \\
-  w_t &= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
-\end{align}
-$$
-
-
-## Invertible MA(_q_) models
-
-Q: Why do we care if an MA(_q_) model is invertible?
-
-A: It helps us identify the model's parameters
-
-
-## Invertible MA(_q_) models
-
-For example, these MA(1) models are equivalent
-
-$$
-x_t = w_t + \frac{1}{5} w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,25)
-$$
-
-$$
-x_t = w_t + 5 w_{t-1}, ~\text{with} ~w_t \sim ~\text{N}(0,1)
-$$
 
 
 ## ACF & PACF for MA(_q_) models
@@ -829,8 +763,214 @@ Do you see the link between the order _q_ and lag _k_?
 | MA(_q_) | Cuts off after lag _q_  | Tails off slowly  |
 
 
-## Using ACF & PACF for model ID
+## AR(_p_) model as an MA($\infty$) model
 
+It is possible to write an AR(_p_) model as an MA($\infty$) model
+
+
+## AR(1) model as an MA($\infty$) model
+
+For example, consider an AR(1) model
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+For example, consider an AR(1) model
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+\Downarrow \\
+x_{t-1} = \phi x_{t-2} + w_{t-1} \\
+\Downarrow \\
+x_{t-2} = \phi x_{t-3} + w_{t-2} \\
+\Downarrow \\
+x_{t-3} = \phi x_{t-4} + w_{t-3} \\
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+Substituting in the expression for $x_{t-1}$ into that for $x_t$
+
+$$
+x_t = \phi x_{t-1} + w_t \\
+\Downarrow \\
+x_{t-1} = \phi x_{t-2} + w_{t-1} \\
+\Downarrow \\
+x_t = \phi (\phi x_{t-2} + w_{t-1}) + w_t \\
+x_t = \phi^2 x_{t-2} + \phi w_{t-1} + w_t
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+And repeated substitutions yields
+
+$$
+\begin{align}
+x_t &= \phi^2 x_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= \phi^3 x_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= \phi^4 x_{t-4} + \phi^3 w_{t-3} + \phi^2 w_{t-2} + \phi w_{t-1} + w_t \\
+& \Downarrow \\
+x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1}
+\end{align}
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+If our AR(1) model is stationary, then
+
+$$
+\lvert \phi \rvert < 1
+$$
+
+which then implies that
+
+$$
+\lim_{k \to \infty} \phi^{k+1} = 0
+$$
+
+
+## AR(1) model as an MA($\infty$) model
+
+If our AR(1) model is stationary, then
+
+$$
+\lvert \phi \rvert < 1
+$$
+
+which then implies that
+
+$$
+\lim_{k \to \infty} \phi^{k+1} = 0
+$$
+
+and hence
+
+$$
+\begin{align}
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k} + \phi^{k+1} x_{t-k-1} \\
+  & \Downarrow \\
+  x_t &= w_t + \phi w_{t-1}+ \phi^2 w_{t-2} + \dots + \phi^k w_{t-k}
+\end{align}
+$$
+
+
+## Invertible MA(_q_) models
+
+An MA(_q_) process is *invertible* if it can be written as a stationary autoregressive process of infinite order without an error term
+
+$$
+x_t = w_t + \theta_1 w_{t-1} + \theta_2 w_{t-2} + \dots + \theta_q w_{t-q} \\
+\Downarrow ? \\
+w_t = x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
+$$
+
+
+## Invertible MA(_q_) models
+
+Q: Why do we care if an MA(_q_) model is invertible?
+
+A: It helps us identify the model's parameters
+
+
+## Invertible MA(_q_) models
+
+For example, these MA(1) models are equivalent
+
+$$
+x_t = w_t + \frac{1}{5} w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,25) \\
+\Updownarrow \\
+x_t = w_t + 5 w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,1)
+$$
+
+
+## Variance of an MA(1) model
+
+The variance of $x_t$ is given by
+
+$$
+x_t = w_t + \frac{1}{5} w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,25) \\
+\Downarrow \\
+\begin{align}
+\text{Var}(x_t) &= \text{Var}(w_t) + \left( \frac{1}{25} \right) \text{Var}(w_{t-1}) \\
+  &= 25 + \left( \frac{1}{25} \right) 25 \\
+  &= 25 + 1 \\
+  &= 26
+\end{align}
+$$
+
+
+## Variance of an MA(1) model
+
+The variance of $x_t$ is given by
+
+$$
+x_t = w_t + 5 w_{t-1} ~\text{with} ~w_t \sim ~\text{N}(0,1) \\
+\Downarrow \\
+\begin{align}
+\text{Var}(x_t) &= \text{Var}(w_t) + (25) \text{Var}(w_{t-1}) \\
+  &= 1 + (25) 1 \\
+  &= 1 + 25 \\
+  &= 26
+\end{align}
+$$
+
+
+## Rewriting an MA(1) model
+
+We can rewrite an MA(1) model in terms of $x$
+
+$$
+  x_t = w_t + \theta w_{t-1} \\
+   \Downarrow \\
+  w_t = x_t - \theta w_{t-1} \\
+$$
+
+
+## Rewriting an MA(1) model
+
+And now we can substitute in previous expressions for $w_t$
+
+$$
+\begin{align}
+  w_t &= x_t - \theta w_{t-1} \\
+  & \Downarrow \\
+  w_{t-1} &= x_{t-1} - \theta w_{t-2} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta (x_{t-1} - \theta w_{t-2}) \\
+  w_t &= x_t - \theta x_{t-1} - \theta^2 w_{t-2} \\
+  & ~~\vdots \\
+  w_t &= x_t - \theta x_{t-1} - \dots -\theta^k x_{t-k}  -\theta^{k+1} w_{t-k-1} \\
+\end{align}
+$$
+
+
+## Invertible MA(1) model
+
+If we constrain $\lvert \theta \rvert < 1$, then
+
+$$
+\lim_{k \to \infty} (-\theta)^{k+1} w_{t-k-1} = 0
+$$
+
+and
+
+$$
+\begin{align}
+  w_t &= x_t - \theta x_{t-1} - \dots -\theta^k x_{t-k}  -\theta^{k+1} w_{t-k-1} \\
+  & \Downarrow \\
+  w_t &= x_t - \theta x_{t-1} - \dots -\theta^k x_{t-k} \\
+  w_t &= x_t + \sum_{k=1}^\infty(-\theta)^k x_{t-k}
+\end{align}
+$$
 
 
 ## Autoregressive moving average models
@@ -839,6 +979,15 @@ An autoregressive moving average, or ARMA(_p_,_q_), model is written as
 
 $$
 x_t = \phi_1 x_{t-1} + \dots + \phi_p x_{t-p} + w_t + \theta_1 w_{t-1} + \dots + \theta_q w_{t-q} 
+$$
+
+
+## Autoregressive moving average models
+
+We can write an ARMA(_p_,_q_) model using the backshift operator
+
+$$
+\phi_p (\mathbf{B}) x_t=  \theta_q (\mathbf{B}) w_t 
 $$
 
 
@@ -941,16 +1090,35 @@ This leads to the class of _autoregressive integrated moving average_ (ARIMA) mo
 ARIMA models are indexed with orders (_p_,_d_,_q_) where _d_ indicates the order of differencing
 
 
-## ARIMA(_p_,_d_,_q_) models
+## ARIMA(_p_,_d_,_q_) models | Definition
 
-For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+$\{x_t\}$ follows an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
 
 
-## ARIMA(_p_,_d_,_q_) models
+## ARIMA(_p_,_d_,_q_) models | An example
 
-For $d > 0$, $\{x_t\}$ is an ARIMA(_p_,_d_,_q_) process if $(1-\mathbf{B})^d x_t$ is an ARMA(_p_,_q_) process
+Consider an ARMA(1,0) = AR(1) process where
 
-For example, if $\{x_t\}$ is an ARIMA(1,1,0) process then $\nabla \{x_t\}$ is an ARMA(1,0) = AR(1) process
+$$
+x_t = (1 + \phi) x_{t-1} + w_t
+$$
+
+
+## ARIMA(_p_,_d_,_q_) models | An example
+
+Consider an ARMA(1,0) = AR(1) process where
+
+$$
+x_t = (1 + \phi) x_{t-1} + w_t \\
+\Downarrow \\
+\begin{align}
+x_t &= x_{t-1} + \phi x_{t-1} + w_t \\
+x_t - x_{t-1} &= \phi x_{t-1} + w_t \\
+(1-\mathbf{B}) x_t &= \phi x_{t-1} + w_t
+\end{align}
+$$
+
+So ${x_t}$ is indeed an ARIMA(1,1,0) process
 
 
 ## ARIMA(_p_,_d_,_q_) models

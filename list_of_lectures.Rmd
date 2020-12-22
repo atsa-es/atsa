@@ -55,14 +55,13 @@ arma_basics <- list(
              "Stationary AR models",
              "Invertible MA models",
              "Using ACF & PACF for model ID"),
-  pdf = "",
+  pdf = "Lectures/Week 2/lec_03_ARMA_models.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 2/lec_03_ARMA_models.Rmd",
+  html = "Lectures/Week 2/lec_03_ARMA_models.html",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)"),
+  reading = c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)"),
   instructor = "Mark"
 )
 ```

@@ -92,6 +92,161 @@ Real (eg, fish mass = 10.2 g)
 Complex (eg, cos(2π2.43) + _i_ sin(2π2.43))
 
 
+## Classification of time series | We will focus on integers & real-values in discrete time
+
+Univariate $(x_t)$
+
+<br>
+
+Multivariate $\begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}_t$
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example, eval = FALSE, echo = TRUE}
+ts(data,
+   start, end,
+   frequency
+   )
+```
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_2, eval = FALSE, echo = TRUE}
+### <b>
+ts(data,
+   ### </b>
+   start, end,
+   frequency
+   )
+```
+
+`data` should be a vector (univariate)
+
+or a data frame or matrix (multivariate)
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_3, eval = FALSE, echo = TRUE}
+ts(data,
+   ### <b>
+   start, end,
+   ### </b>
+   frequency
+   )
+```
+
+`start` and `end` give the first and last time indices
+
+For monthly series, specify them as `c(year, month)`
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_4, eval = FALSE, echo = TRUE}
+ts(data,
+   start, end,
+   ### <b>
+   frequency
+   ### </b>
+   )
+```
+
+`frequency` is the number of observations per unit time
+
+For annual series, `frequency = 1`
+
+For monthly series, `frequency = 12`
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_5, eval = FALSE, echo = TRUE}
+ts(data,
+   start, end,
+   ### <b>
+   deltat
+   ### </b>
+   )
+```
+
+`deltat` is the fraction of the sampling period
+
+For annual series, `deltat = 1`
+
+For monthly series, `deltat = 1/12`
+
+
+## Time series objects in R
+
+```{r ts_example_6, eval = TRUE, echo = TRUE}
+set.seed(507)
+
+## annual data
+dat_1 <- rnorm(30)
+dat_yr <- ts(dat_1,
+             start = 1991, end = 2020,
+             frequency = 1)
+
+## monthly data
+dat_2 <- rnorm(30*12)
+dat_mo <- ts(dat_2,
+             start = c(1991, 1), end = c(2020, 12),
+             frequency = 12)
+```
+
+
+## Plotting time series objects in R
+
+There is a designated function for plotting `ts` objects: `plot.ts()`
+
+```{r plotts_example, eval = FALSE, echo = TRUE}
+plot.ts(ts_object)
+```
+
+
+## Plotting time series objects in R
+
+```{r plotts_example_2}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(dat_yr)
+```
+
+
+## Plotting time series objects in R
+
+We can specify some additional arguments to `plot.ts`
+
+```{r plotts_example_3, eval = FALSE, echo = TRUE}
+plot.ts(dat_yr,
+        ylab = expression(italic(x[t])),
+        las = 1, col = "blue", lwd = 2)
+```
+
+
+## Plotting time series objects in R
+
+```{r plotts_example_4}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(dat_yr,
+        ylab = expression(italic(x[t])), las = 1, col = "blue", lwd = 2)
+```
+
+# Analysis of time series
+
+
 ## Statistical analyses of time series
 
 Most statistical analyses are concerned with estimating properties of a population from a sample
