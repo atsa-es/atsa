@@ -3,7 +3,15 @@ title: "Computer Labs"
 output: html_document
 ---
 
-[Link to Lab Book](https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html)
+<br>
+
+### Meeting days & times
+
+Thursday from 3:00-3:50 via [Zoom](https://washington.zoom.us/j/96843523832)
+
+### Lab book
+
+You can find the electronic lab book [here](https://nwfsc-timeseries.github.io/atsa-labs).
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -119,6 +127,7 @@ kable(syl_txt, format = "html", caption = " ",
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%
-  column_spec(1, width = "8em") 
+  column_spec(1, width = "8em")  %>%
+  scroll_box(height = "700px", extra_css = "border-style: none;")
 ```
 

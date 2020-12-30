@@ -3,6 +3,12 @@ title: "Lecture presentations"
 output: html_document
 ---
 
+<br>
+
+### Meeting days & times
+
+Tuesday & Thursday from 1:30-2:50 via [Zoom](https://washington.zoom.us/j/93874357621)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(kableExtra)
@@ -16,7 +22,7 @@ lec_topics_html <- sapply(lapply(lec_topics, paste, "<br>", collapse=""), c)
 names(lec_topics_html) <- NULL
 ```
 
-<!-- first is PDF, 2nd PPT, 3rd Rmd -->
+<!-- 1st is pdf, 2nd html, 3rd Rmd -->
 ```{r lec_links, include = FALSE}
 # lec_links <- lapply(week_lecs, function(x){if(is.list(x)){c(x$rmd,x$pdf,x$ppt)}else{""}})
 # ## topics formatted for html
@@ -34,7 +40,7 @@ lec_links3_html <- sapply(lapply(lec_links3, function(x){
   tmp1<-paste0("[html ",1:length(x),"]("); tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp, collapse=" "); tmp}), c)
 lec_links_html <- lec_links3_html
 for(i in 1:length(lec_links3_html)){
-  lec_links_html[i] <- paste(lec_links1_html[i], lec_links2_html[i], lec_links3_html[i], sep="<br>")
+  lec_links_html[i] <- paste(lec_links2_html[i], lec_links3_html[i], lec_links1_html[i], sep="<br>")
 }
 
 names(lec_links_html) <- NULL
@@ -90,6 +96,7 @@ kable(syl_txt, format = "html", caption = " ",
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%
-  column_spec(c(1,4), width = "8em") 
+  column_spec(c(1,4), width = "8em")  %>%
+  scroll_box(height = "700px", extra_css = "border-style: none;")
 ```
 
