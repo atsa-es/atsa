@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Course overview
 
-This course is intended to give students an overview of the theory and practical aspects of fitting time series models to fisheries and environmental data. The course will cover topics ranging from autocorrelation and crosscorrelation, autoregressive (AR) and moving average (MA) models, univariate and multivariate state-space models, and estimating model parameters. This course also covers various aspects of assessing model performance and evaluating model diagnostics. In general, students will focus on conceptualizing analyses, implementing analyses, and making inference from the results.
+This course is intended to give students an overview of the theory and practical aspects of fitting time series models to fisheries and environmental data. The course will cover topics ranging from autocorrelation and crosscorrelation, autoregressive (AR) and moving average (MA) models, univariate and multivariate state-space models, and estimating model parameters. This course also covers various aspects of assessing model performance and evaluating model diagnostics. The course is focused almost exclusively on problems and analyses in the time domain, and only briefly addresses methods for the frequency domain. In general, students will focus on conceptualizing analyses, implementing analyses, and making inference from the results.
 
 <br>
 
@@ -26,7 +26,15 @@ By the end of the quarter, students should be able to:
 
 * Understand how to use ACF and PACF to identify orders of ARMA(*p*,*q*) models for time series data
 
-* Identify appropriate univariate and multivariate state-space models for time series data
+* Apply appropriate diagnostic measures to identify any shortcomings in model assumptions
+
+* Understand how to use information theoretic methods and corss validation for model selection
+
+* Understand how to combine state and observation models into a state-space model
+
+* Use Dynamic Factor Analysis to identify common patterns among many time series
+
+* Use Dynamic Linear Models to allow for changing relationships between a response variable and any explanatory variable(s)
 
 <br>
 
