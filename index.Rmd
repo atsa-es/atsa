@@ -28,13 +28,17 @@ By the end of the quarter, students should be able to:
 
 * Apply appropriate diagnostic measures to identify any shortcomings in model assumptions
 
-* Understand how to use information theoretic methods and corss validation for model selection
+* Understand how to use information theoretic methods and cross validation for model selection
 
 * Understand how to combine state and observation models into a state-space model
+
+* Use multivariate time series models with covariates to identify influential explanatory variables and do perturbation analyses
 
 * Use Dynamic Factor Analysis to identify common patterns among many time series
 
 * Use Dynamic Linear Models to allow for changing relationships between a response variable and any explanatory variable(s)
+
+* Prepare forecasts with uncertainty using time series models
 
 <br>
 
@@ -142,7 +146,7 @@ This course will introduce new material primarily through prepared slides and ha
 
 This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group Zoom calls as needed.
 
-In addition to email and Zoom, we will use the "Isuues" feature in **GitHub** to ask questions and assist others. Specifically, questions and answers can be posted to the issues in the course's "assistance" repository [here](https://github.com/QERM514/assistance/issues).
+In addition to email and Zoom, we will use the "Issues" feature in **GitHub** to ask questions and assist others. Specifically, questions and answers can be posted to the issues in the course's "assistance" repository [here](https://github.com/QERM514/assistance/issues).
 
 <br>
 
