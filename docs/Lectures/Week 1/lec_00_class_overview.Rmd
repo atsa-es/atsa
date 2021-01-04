@@ -101,6 +101,17 @@ __Participation__ (10%)
     - Lake Washington plankton
 
 
+## Ecological Forecast Challenge
+
+The [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) is happening concurrently this course
+
+You are welcome to do one of the challenges as your individual project (but you don't need to formally participate in the challenge)
+
+All the data are provided and the challenge lays out the goals (what to forecast) for each challenge
+
+The **Aquatic Ecosystems**, **Tick Abundance**, and **Beetle Abundance** challenges would be appropriate
+
+
 ## {.flexbox .vcenter .bigger}
 
 <font size="10">
