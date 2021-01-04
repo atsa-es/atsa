@@ -1,0 +1,33 @@
+---
+title: "Review Guidelines"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+As part of your grade (20% total; 10% for each review), each student provide 2 anonymous peer-reviews of their colleagues’ papers. A template to use for your review is below.
+
+# Advice on reviewing scientific papers
+
+If you are looking for some guidance on writing reviews of scientific papers, here are some links to various columns, blogs, etc, about reviewing scientific papers:
+
+[Arthropod Ecology](http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/)
+
+[Violent metaphors](http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/)
+(don't let the name scare you)
+
+[Duke Writing Lab](http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf)
+
+[Examples of good reviews from Peerage](http://www.peerageofscience.org/review/review-examples/)
+
+
+# Review Guidelines
+
+Final papers will be peer-reviewed and reviewed by instructors based on the following criteria. Please read before you submit your final paper.
+
+[Example of a manuscript review for Fish 507.docx](Files/MANUSCRIPT REVIEW FOR FISH 507.docx)
+
+Review templates: [MS Word](Files/review_template.docx) or [R Markdown](Files/review_template.Rmd)
+

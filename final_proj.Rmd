@@ -7,28 +7,34 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+As part of the class, each student will have to write a complete, publishable (<20 page) paper using the time series analysis techniques learned in class. See below for details on the structure of the paper.
 
-# Advice on reviewing scientific papers
+# Data sets
 
-If you are looking for some guidance on writing reviews of scientific papers, here are some links to various columns, blogs, etc, about reviewing scientific papers:
+Students are encouraged to use their own data and the paper may form a chapter for their thesis/dissertation. However some students might not have their own data. Students may also use data from the instructors, public datasets or datasets included in __R__ libraries.
 
-[Arthropod Ecology](http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/)
+Students without data or a particular project in mind might consider taking part in the [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) happening concurrently with the 2021 Fish 507 course. You do not need to formally participate in the challenge (i.e. register as a team but you are welcome to do so). All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.
 
-[Violent metaphors](http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/)
-(don't let the name scare you)
+Other sources of public fisheries data sets are:
 
-[Duke Writing Lab](http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf)
+* [RAM Legacy](http://ramlegacy.marinebiodiversity.ca/)
 
-[Examples of good reviews from Peerage](http://www.peerageofscience.org/review/review-examples/)
+* [RAM’s Stock-Recruitment Database](http://www.mscs.dal.ca/~myers/welcome.html)
 
+* [Global Population Dynamics Database](http://www3.imperial.ac.uk/cpb/databases/gpdd)
 
-# Review Guidelines
+* [NOAA NWFSC Salmon Population Summary](https://www.webapps.nwfsc.noaa.gov/apex/f?p=261:home:0)
 
-Final papers will be peer-reviewed and reviewed by instructors based on the following criteria. Please read before you submit your final paper.
+* [FAO Catch Databases](http://www.fao.org/fishery/statistics/collections/en)
 
-[Example of a manuscript review for Fish 507.docx](Files/MANUSCRIPT REVIEW FOR FISH 507.docx)
+* [Ecomarres Global Catch database](https://ecomarres.com/?page_id=945); [paper on the Global Catch Database](https://www.nature.com/articles/sdata201739#Sec16)
 
-Review templates: [MS Word](Files/review_template.docx) or [R Markdown](Files/review_template.Rmd)
+* [Sea Around Us databases](http://www.seaaroundus.org/)
+
+* [Global Fishing Watch data](https://globalfishingwatch.org/datasets-and-code/)
+* SAFS (contact the instructors)
+    - Alaska Salmon Program
+    - Lake Washington plankton
 
 
 # Preparation of final papers

@@ -160,7 +160,7 @@ Homework will be assigned each Thursday and is due by 11:59 PM PST on the follow
 
 ### Individual project (40%)  
 
-Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data. Students may also use data from the instructors, or datasets included in __R__ libraries. See [list of prior student projects](https://nwfsc-timeseries.github.io/atsa/student_pubs.html) for the types of projects done is prior years.
+Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See [list of prior student projects](https://nwfsc-timeseries.github.io/atsa/student_pubs.html) for the types of projects done is prior years.
 
 The techniques you will be learning would be appropriate for the [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) happening concurrently with the 2021 Fish 507 course. You are welcome to do one of the challenges as your individual project. You do not need to formally participate in the challenge (i.e. register as a team but you are welcome to do so). All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.
 
