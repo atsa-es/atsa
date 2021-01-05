@@ -11,7 +11,7 @@ The homework for each week is listed with the [Computer Labs](comp_labs.html).
 
 # Homework format
 
-Please submit your homework as an Rmarkdown document (.Rmd), which will allow you to combine text, equations, and R code into a pdf or html file. The easiest way to do so is to use the built-in capabilities of RStudio. For those unfamiliar with Rmarkdown, there is a nice introduction [here](http://rmarkdown.rstudio.com/lesson-1.html). There is also help available in RStudio. Please use the template below when submitting your homework.  Email your file(s) to the instructor indicated for each week.
+Please submit your homework as an Rmarkdown document (.Rmd), which will allow you to combine text, equations, and R code into a pdf or html file. The easiest way to do so is to use the built-in capabilities of RStudio. For those unfamiliar with Rmarkdown, there is a nice introduction [here](https://qerm514.github.io/website/comp_labs.html) on the first QERM 514 lab. There is also help available in RStudio. Please use the template below when submitting your homework.  Email your file(s) to the instructor indicated for each week.
 
 # Homework templates
 
