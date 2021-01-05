@@ -23,6 +23,9 @@ navbar:
         href: student_pubs.html
     - text: "References"
       href: references.html
+    - text: "Post questions"
+      href: https://github.com/nwfsc-timeseries/safs-timeseries/issues
+
 output_dir: "docs"
 output:
   html_document:
