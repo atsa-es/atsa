@@ -20,7 +20,7 @@ intro <- list(
   ppt = "",
   rmd = c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
   html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
-  video = "",
+  video = "https://washington.zoom.us/rec/play/AKLCPTIA9y4vOAy0l3UUEaq9bc_aqkZ9Y5MBu9WVMHmRB5VBvRh9SLODhN-EnWumqAts4pDyFuuYgBTt.Sqz8HYpKVbOB34jw",
   youtube = "",
   reading = c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)" ),
   instructor = "Mark"
