@@ -38,7 +38,7 @@ lmlab <- list(
   pdf = "",
   rmd = "",
   html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html","https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html"),
-  video = "",
+  video = "https://washington.zoom.us/rec/share/O_e7v3FiQEjaOJbaBKuxDnXr5QEL93M_0FyKUVOH9SM0QUfxPOhCWoBwykgJ_bRC.XBwGGqdt5oz_uEHb?startTime=1610059899000",
   youtube = "",
   data = "",
   homework = "Optional (but important to understand course material): End of <a href='https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html'>Chapter 2</a> in the ATSA lab book.",
