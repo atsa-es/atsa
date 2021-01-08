@@ -56,7 +56,8 @@ names(lab_links_html) <- NULL
 ```{r video_links, include = FALSE}
 vid_links <- lapply(week_labs, function(x){if(is.list(x)){x$video}else{""}})
 ## topics formatted for html
-vid_links_html <- sapply(lapply(vid_links, function(x){ tmp <- paste("[Video](",x,")<br>", collapse=""); tmp[x==""]=""}), c)
+vid_links_html <- sapply(lapply(vid_links, function(x){
+  tmp1<-"[Video]("; tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp,collapse="<br>"); tmp}), c)
 names(vid_links_html) <- NULL
 ```
 
