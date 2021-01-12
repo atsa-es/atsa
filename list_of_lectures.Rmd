@@ -71,14 +71,14 @@ arma_basics <- list(
 forecast <- list(
   title = "Box-Jenkins Method",
   topics = c("Box-Jenkins method", "Fitting ARIMA models with R", "Forecasting with ARIMA models", "Seasonal ARIMA models"),
-  pdf = "",
+  pdf = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.Rmd",
+  html = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html",
   video = "",
   youtube = "",
   reading = "",
-  #reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)"),
+  reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)"),
   instructor = "Eli"
 )
 ```
