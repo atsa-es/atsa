@@ -249,7 +249,7 @@ $$
 \begin{align}
   x_t - \phi_1 x_{t-1} - \phi_2 x_{t-2} - \dots - \phi_p x_{t-p} &= w_t \\
   (1 - \phi_1 \mathbf{B} - \phi_2 \mathbf{B}^2 - \dots - \phi_p \mathbf{B}^p) x_t &= w_t \\
-  \phi_p (\mathbf{B}) x_t &= w_t \\
+  \phi_p (\mathbf{B}^p) x_t &= w_t \\
 \end{align}
 $$
 
@@ -260,7 +260,7 @@ If we treat $\mathbf{B}$ as a number (or numbers), we can out write the _charact
 $$
 \phi_p (\mathbf{B}) x_t = w_t \\
 \Downarrow \\
-\phi_p (\mathbf{B}) = 0
+\phi_p (\mathbf{B}^p) = 0
 $$
 
 To be stationary, __all roots__ of the characteristic equation __must exceed 1 in absolute value__
@@ -987,7 +987,7 @@ $$
 We can write an ARMA(_p_,_q_) model using the backshift operator
 
 $$
-\phi_p (\mathbf{B}) x_t=  \theta_q (\mathbf{B}) w_t 
+\phi_p (\mathbf{B}^p) x_t=  \theta_q (\mathbf{B}^q) w_t 
 $$
 
 
@@ -996,7 +996,7 @@ $$
 We can write an ARMA(_p_,_q_) model using the backshift operator
 
 $$
-\phi_p (\mathbf{B}) x_t=  \theta_q (\mathbf{B}) w_t 
+\phi_p (\mathbf{B}^p) x_t=  \theta_q (\mathbf{B}^q) w_t 
 $$
 
 ARMA models are _stationary_ if all roots of $\phi_p (\mathbf{B}) > 1$
