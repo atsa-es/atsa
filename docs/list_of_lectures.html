@@ -13,7 +13,6 @@
 
 <title>2021 List of Lectures</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -397,13 +396,12 @@ $(document).ready(function () {
 <pre class="r"><code>forecast &lt;- list(
   title = &quot;Box-Jenkins Method&quot;,
   topics = c(&quot;Box-Jenkins method&quot;, &quot;Fitting ARIMA models with R&quot;, &quot;Forecasting with ARIMA models&quot;, &quot;Seasonal ARIMA models&quot;),
-  pdf = &quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.pdf&quot;,
+  pdf = c(&quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.pdf&quot;, &quot;Lectures/Week 2/lec_04_Forecasting_ARIMA.pdf&quot;, &quot;Lectures/Week 2/lec_04_Arima_intercepts.pdf&quot;),
   ppt = &quot;&quot;,
-  rmd = &quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.Rmd&quot;,
-  html = &quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html&quot;,
+  rmd = c(&quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.Rmd&quot;, &quot;Lectures/Week 2/lec_04_Forecasting_ARIMA.Rmd&quot;, &quot;Lectures/Week 2/lec_04_Arima_intercepts.Rmd&quot;),
+  html = c(&quot;Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html&quot;, &quot;Lectures/Week 2/lec_04_Forecasting_ARIMA.html&quot;, &quot;Lectures/Week 2/lec_04_Arima_intercepts.html&quot;),
   video = &quot;&quot;,
   youtube = &quot;&quot;,
-  reading = &quot;&quot;,
   reading = c(&quot;[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)&quot;,&quot;[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)&quot;),
   instructor = &quot;Eli&quot;
 )</code></pre>
@@ -573,7 +571,7 @@ $(document).ready(function () {
 )</code></pre>
 <pre class="r"><code>ets &lt;- list(
   title = &quot;Exponential smoothing models&quot;,
-  topics = c(&quot;Exponential smoothing models&quot;, &quot;crossvalidation tests&quot;),
+  topics = c(&quot;Exponential smoothing models (ETS)&quot;, &quot;Crossvalidation tests&quot;, &quot;Forecasting with ETS models&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;&quot;,

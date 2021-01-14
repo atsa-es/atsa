@@ -1,0 +1,180 @@
+---
+title: "Forecating with ARIMA models"
+author: "Eli Holmes"
+date: "14 Jan 2021"
+output:
+  beamer_presentation: default
+  ioslides_presentation:
+    css: lecture_slides.css
+subtitle: FISH 507 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(R.options=list(width=60))
+set.seed(123)
+```
+
+
+```{r load_data, message=FALSE, warning=FALSE, echo=FALSE}
+load("landings.RData")
+landings$log.metric.tons = log(landings$metric.tons)
+landings = subset(landings, Year <= 1989)
+anchovy = subset(landings, Species=="Anchovy")$log.metric.tons
+anchovyts = ts(anchovy, start=c(1964,1), frequency = 1)
+library(ggplot2)
+library(gridExtra)
+library(reshape2)
+library(tseries)
+library(urca)
+```
+
+## Forecasting with an ARIMA model
+
+The basic idea of forecasting with an ARIMA model to estimate the parameters and forecast forward.
+
+For example, let's say we want to forecast with this ARIMA(2,1,0) model:
+$$y_t = \mu + \beta_1 y_{t-1} + \beta_2 y_{t-2} + e_t$$
+where $y_t = x_t - x_{t-1}$, the first difference.
+
+`Arima()` would write this model:
+$$(y_t-m) = \beta_1 (y_{t-1}-m) + \beta_2 (y_{t-2}-m) + e_t$$
+The relationship between $\mu$ and $m$ is $\mu = m(1 - \beta_1 - \beta_2)$.
+
+##
+
+Let's estimate the $\beta$'s for this model from the anchovy data.
+
+```{r}
+fit <- forecast::Arima(anchovyts, order=c(2,1,0), include.constant=TRUE)
+coef(fit)
+```
+
+```{r}
+mu <- coef(fit)[3]*(1-coef(fit)[1]-coef(fit)[2])
+mu
+```
+
+##
+
+So we will forecast with this model:
+
+$$y_t = 0.1065807-0.53850433 y_{t-1} - 0.44732522 y_{t-2} + e_t$$
+
+To get our forecast for 1990, we do this
+
+$$(x_{90}-x_{89}) = 0.106 - 0.538 (x_{89}-x_{88}) - 0.447 (x_{88}-x_{87})$$
+
+Thus
+
+$$x_{90} = x_{89}+0.106 -0.538  (x_{89}-x_{88}) - 0.447 (x_{88}-x_{87})$$
+
+##
+
+Here is R code to do that:
+
+```{r}
+anchovyts[26]+mu+coef(fit)[1]*(anchovyts[26]-anchovyts[25])+
+  coef(fit)[2]*(anchovyts[25]-anchovyts[24])
+```
+
+## Forecasting with `forecast()`
+
+`forecast(fit, h=h)` automates the forecast calculations for us and computes the upper and lower prediction intervals.  Prediction intervals include uncertainty in parameter estimates plus the process error uncertainty.
+
+```{r}
+fr <- forecast::forecast(fit, h=5)
+fr
+```
+
+## Plotting our forecasts
+
+```{r}
+plot(fr, xlab="Year")
+```
+
+## Missing values
+
+Missing values are allowed for `Arima()` and `arima()`. We can produce forecasts with the same code.
+
+```{r fig.show=FALSE}
+anchovy.miss <- anchovyts
+anchovy.miss[10:11] <- NA
+anchovy.miss[20:21] <- NA
+fit <- forecast::auto.arima(anchovy.miss)
+fr <- forecast::forecast(fit, h=5)
+fr
+```
+
+##
+
+```{r}
+plot(fr)
+```
+
+
+## Forecasting with a Seasonal model
+
+### Load the chinook salmon data
+
+```{r}
+load("chinook.RData")
+chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
+                frequency=12)
+```
+
+## Plot seasonal data
+
+```{r}
+plot(chinookts)
+```
+
+## Seasonal ARIMA model
+
+Seasonally differenced data, e.g. chinook data January 1990 - chinook data January 1989.
+
+$$z_t = x_t - x_{t+s} - m$$
+
+Basic structure of a seasonal AR model
+
+$z_t$ = AR(p) + AR(season) + AR(p+season)
+
+e.g. $z_t$ = AR(1) + AR(12) + AR(1+12)
+
+
+Example AR(1) non-seasonal part + AR(1) seasonal part
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13}$$
+
+## Notation
+
+ARIMA (p,d,q)(ps,ds,qs)S
+
+
+ARIMA (1,0,0)(1,1,0)[12]
+
+## `auto.arima()` for seasonal ts
+
+`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data by default.  We will define the training data up to 1998 and use 1999 as the test data.
+
+```{r}
+traindat <- window(chinookts, c(1990,10), c(1998,12))
+testdat <- window(chinookts, c(1999,1), c(1999,12))
+fit <- forecast::auto.arima(traindat)
+fit
+```
+
+## Forecast using seasonal model
+
+```{r}
+fr <- forecast::forecast(fit, h=12)
+plot(fr)
+points(testdat)
+```
+
+## Missing values
+
+Missing values are ok when fitting a seasonal ARIMA model
+
+```{r echo=FALSE}
+plot(fr)
+```

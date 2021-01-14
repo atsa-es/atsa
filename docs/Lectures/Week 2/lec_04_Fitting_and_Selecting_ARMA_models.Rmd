@@ -3,9 +3,9 @@ title: "Fitting and Selecting ARIMA models"
 author: "Eli Holmes"
 date: "14 Jan 2021"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -734,87 +734,6 @@ forecast::checkresiduals(fit, plot=FALSE)
 
 $p>0.05$ would be interpreted as not enough statistical evidence to reject the null hypothesis.
 
-## Forecasting (brief)
-
-The basic idea of forecasting with an ARIMA model to estimate the parameters and forecast forward.
-
-For example, let's say we want to forecast with this ARIMA(2,1,0) model:
-$$x_t = \mu + \beta_1 x_{t-1} + \beta_2 x_{t-2} + e_t$$
-or as `Arima()` would write this model:
-$$(x_t-m) = \beta_1 (x_{t-1}-m) + \beta_2 (x_{t-2}-m) + e_t$$
-where $x_t$ is the first difference of our anchovy data. $\mu = m(1 - \beta_1 - \beta_2)$.
-
-##
-
-Let's estimate the $\beta$'s for this model from the anchovy data.
-
-```{r}
-fit <- forecast::Arima(anchovyts, order=c(2,1,0), include.constant=TRUE)
-coef(fit)
-```
-
-```{r}
-mu <- coef(fit)[3]*(1-coef(fit)[1]-coef(fit)[2])
-mu
-```
-
-##
-
-So we will forecast with this model:
-
-$$x_t = 0.1065807-0.53850433 x_{t-1} - 0.44732522 x_{t-2} + e_t$$
-
-To get our forecast for 1990, we do this
-
-$$(x_{1990}-x_{1989}) = 0.106 - 0.538 (x_{1989}-x_{1988}) - 0.447 (x_{1988}-x_{1987})$$
-
-Thus
-
-$$x_{1990} = x_{1989}+0.106 -0.538  (x_{1989}-x_{1988}) - 0.447 (x_{1988}-x_{1987})$$
-
-##
-
-Here is R code to do that:
-
-```{r}
-anchovyts[26]+mu+coef(fit)[1]*(anchovyts[26]-anchovyts[25])+
-  coef(fit)[2]*(anchovyts[25]-anchovyts[24])
-```
-
-## Forecasting with `forecast()`
-
-`forecast(fit, h=h)` automates the forecast calculations for us and computes the upper and lower prediction intervals.  Prediction intervals include uncertainty in parameter estimates plus the process error uncertainty.
-
-```{r}
-fr <- forecast::forecast(fit, h=5)
-fr
-```
-
-## Plotting our forecasts
-
-```{r}
-plot(fr, xlab="Year")
-```
-
-## Missing values
-
-Missing values are allowed for `Arima()` and `arima()`. We can produce forecasts with the same code.
-
-```{r fig.show=FALSE}
-anchovy.miss <- anchovyts
-anchovy.miss[10:11] <- NA
-anchovy.miss[20:21] <- NA
-fit <- forecast::auto.arima(anchovy.miss)
-fr <- forecast::forecast(fit, h=5)
-fr
-```
-
-##
-
-```{r}
-plot(fr)
-```
-
 
 ## Seasonality
 
@@ -843,18 +762,29 @@ Use `?ts` to see more examples of how to set up ts objects.
 plot(chinookts)
 ```
 
-## Seasonal ARIMA model
+## Seasonal ARIMA model SARIMA
 
-Seasonally differenced data:
+Seasonally differenced data, e.g. chinook data January 1990 - chinook data January 1989.
 
 $$z_t = x_t - x_{t+s} - m$$
 
 Basic structure of a seasonal AR model
 
-$z_t$ = AR(p) + AR(season) + AR(p+season)
+seasonal differenced data = AR(seasonal) + AR(non-seasonal) + AR(p+season)
+
+##
+
+For example, SARIMA model could capture this process
+
+1. AR(seasonal) January in $t$ is correlated with January in $t-1$
+2. AR(non-seasonal) January differences are correlated with February differences
+3. AR(p+season) appears because of 1 and 2
+
+##
 
 
-Example AR(1) non-seasonal part + AR(1) seasonal part
+
+$z_t$ = AR(1) + AR(12) + AR(1+12)
 
 $$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13}$$
 
@@ -862,8 +792,114 @@ $$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13}$$
 
 ARIMA (p,d,q)(ps,ds,qs)S
 
+ARIMA (non-seasonal part)(seasonal part)Frequency
+
+ARIMA (non-seasonal) means $t$ correlated with $t-1$
+
+ARIMA (seasonal) means $t$ correlated with $t-s$
+
+
+## Examples
+
+ARIMA (1,0,0)(1,0,0)[12]
+
+What data are we modeling? Get the differences
+
+$$z_t = x_t - m$$
+
+Write out the AR parts with $z_t$
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13} + w_t$$
+
+Write out the MA parts, the $w_t$. No MA in this model.
+
+$$w_t = e_t$$
+
+##
 
 ARIMA (1,0,0)(1,1,0)[12]
+
+Figure out $z_t$. Just a seasonal difference.
+
+$$z_t = x_t - x_{t-12} - m$$
+
+Write out the AR parts with $z_t$
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13} + w_t$$
+
+Write out the MA parts, the $w_t$. No MA in this model. $w_t$ is white noise.
+
+$$w_t = e_t$$
+
+
+## Seasonal random walk model
+
+ARIMA(0,0,0)(0,1,0)[12]
+
+expected January 1990 = January 1989 + constant mean
+
+Figure out $z_t$. $m$ is the mean seasonal difference.
+
+$$z_t = x_t - x_{t-12} - m$$
+
+Write out the AR parts with $z_t$. No AR part.
+
+$$z_t = w_t$$
+
+Write out the MA parts, the $w_t$.
+
+$$w_t = e_t$$
+
+## Seasonal random walk model with random trend
+
+ARIMA(0,1,0)(0,1,0)[12]
+
+expected Feb 1990 = Feb 1989 + (Jan 1990 - Jan 1989)
+
+Figure out $z_t$. $m$ is the mean seasonal difference.
+
+$$z_t = (x_t - x_{t-12}) - (x_{t-1} - x_{t-13}) - m$$
+
+Write out the AR parts with $z_t$. No AR part.
+
+$$z_t = w_t$$
+
+Write out the MA parts, the $w_t$.
+
+$$w_t = e_t$$
+
+
+## airline model
+
+ARIMA(0, 1, 1)(0, 1, 1)[12]
+
+Figure out $z_t$. 
+
+$$z_t = (x_t - x_{t-12}) - (x_{t-1} - x_{t-13}) - m$$
+
+Write out the AR parts with $z_t$. No AR part.
+
+$$z_t = w_t$$
+
+Write out the MA parts, the $w_t$.
+
+$$w_t = e_t - \theta_1 e_{t-1} - \Theta_1 e_{t-12} + \theta_1\Theta_1 e_{t-13}$$
+
+## Example with longer lags
+
+ARIMA (2,0,1)(1,0,2)[12]
+
+What data are we modeling? Get the differences
+
+$$z_t = x_t - m$$
+
+Write out the AR parts with $z_t$
+
+$$z_t = \phi_1 z_{t-1} + \phi_2 z_{t-2} + \Phi_1 z_{t-12} - (\text{cross products}) + w_t$$
+
+Write out the MA parts, the $w_t$. 
+
+$$w_t = e_t - \theta_1 e_{t-1} - \Theta_1 e_{t-12} - \Theta_2 e_{t-24} + (\text{cross products})$$
 
 ## `auto.arima()` for seasonal ts
 
@@ -876,23 +912,8 @@ fit <- forecast::auto.arima(traindat)
 fit
 ```
 
-## Forecast using seasonal model
 
-```{r}
-fr <- forecast::forecast(fit, h=12)
-plot(fr)
-points(testdat)
-```
-
-## Missing values
-
-Missing values are ok when fitting a seasonal ARIMA model
-
-```{r echo=FALSE}
-plot(fr)
-```
-
-## Summary
+## Summary for seasonal models
 
 Basic steps for identifying a seasonal model.  **forecast** automates most of this.
 
@@ -906,9 +927,9 @@ Basic steps for identifying a seasonal model.  **forecast** automates most of th
     * Season and no trend.  Take a difference of lag = season
     * No seasonality but a trend.  Try a first difference
     * Both. Do both types of differences
-    * Neither. No differencing.
-    * Random walk. First difference.
-    * Parametric looking curve. Tranform.
+    * Neither. No differencing
+    * Random walk. First difference
+    * Parametric looking curve. Transform
 
 ## Summary
 
@@ -917,91 +938,5 @@ Basic steps for identifying a seasonal model.  **forecast** automates most of th
 
 * Estimate likely models and compare with model selection criteria (or cross-validation). Use `TRACE=TRUE`
 
-* Do residual checks. 
-
-
-## Cover on your own: Intercepts and drift in `Arima()`
-
-$d=0$ `Arima(x, order=c(1,0,0), include.drift=FALSE, include.mean=TRUE)`
-
-$m$ is estimated and called `intercept`.
-
-$$(x_t-m) = \phi_1 (x_{t-1}-m) + w_t$$
-`Arima(x, order=c(1,0,0), include.drift=TRUE, include.mean=FALSE)`
-
-$\mu$ is estimated and called `drift`.
-
-$$x_t = \mu + \phi_1 x_{t-1} + w_t$$
-
-##
-
-`Arima(x, order=c(1,0,0), include.drift=TRUE, include.mean=TRUE)`
-
-$\mu$ and $m$ are estimated and called `drift` and `intercept`.
-
-$$(x_t-m) = \mu + \phi_1 (x_{t-1}-m) + w_t$$
-
-##
-
-If $d=1$, then `include.mean` is ignored in `Arima()` and `include.drift` estimates an intercept like `include.mean` in the $d=0$ case, but it is called `drift` in the output. $y_t = x_t-x_{t-1}$.
-
-* `Arima(x, order=c(1,1,0), include.drift=TRUE)`
-
-$m$ is estimated and called `drift`. 
-
-$$(y_t-m) = \phi_1 (y_{t-1}-m) + w_t$$
-
-* `Arima(x, order=c(1,1,0), include.drift=FALSE)`
-
-$$y_t = \phi_1 y_{t-1} + w_t$$
-
-##
-
-* `Arima(x, order=c(0,1,0), include.drift=TRUE)`
-
-This is a random walk with drift.
-
-$$(y_t-m) = w_t$$
-which is
-
-$$x_t = m + x_{t-1} + w_t$$
-
-##
-
-If $d\ge2$, then both `include.mean` and `include.drift` are ignored. $z_t = y_t-y_{t-1} = (x_t - x_{t-1}) - (x_{t-1}-x_{t-2})$.
-
-* `Arima(x, order=c(1,2,0))`
-
-$$z_t = \phi_1 z_{t-1} + w_t$$
-
-## Intercepts in `arima()`
-
-If $d=0$, 
-
-* `arima(x, order=c(1,0,0), include.mean=TRUE)`
-
-$m$ is estimated and called `intercept`.
-
-$$(x_t-m) = \phi_1 (x_{t-1}-m) + w_t$$
-
-##
-
-If $d=1$, then `include.mean` is ignored and no intercept can be estimated. 
-
-* `arima(x, order=c(1,1,0), include.mean=TRUE)`
-
-$$y_t = \phi_1 y_{t-1}+ w_t$$
-
-* `arima(x, order=c(0,1,0))`
-
-Because an intercept cannot be estimated, this means that a random walk with drift cannot be estimated by `arima()`.
-
-$$y_t = w_t$$
-only can be estimated which is random walk without drift.
-
-$$x_t = x_{t-1} + w_t$$
-
-
-
-
+* Do residual checks 
 

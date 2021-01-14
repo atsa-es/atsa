@@ -71,13 +71,12 @@ arma_basics <- list(
 forecast <- list(
   title = "Box-Jenkins Method",
   topics = c("Box-Jenkins method", "Fitting ARIMA models with R", "Forecasting with ARIMA models", "Seasonal ARIMA models"),
-  pdf = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.pdf",
+  pdf = c("Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.pdf", "Lectures/Week 2/lec_04_Forecasting_ARIMA.pdf", "Lectures/Week 2/lec_04_Arima_intercepts.pdf"),
   ppt = "",
-  rmd = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.Rmd",
-  html = "Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html",
+  rmd = c("Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.Rmd", "Lectures/Week 2/lec_04_Forecasting_ARIMA.Rmd", "Lectures/Week 2/lec_04_Arima_intercepts.Rmd"),
+  html = c("Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html", "Lectures/Week 2/lec_04_Forecasting_ARIMA.html", "Lectures/Week 2/lec_04_Arima_intercepts.html"),
   video = "",
   youtube = "",
-  reading = "",
   reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)"),
   instructor = "Eli"
 )
@@ -287,7 +286,7 @@ spat_cor <- list(
 ```{r}
 ets <- list(
   title = "Exponential smoothing models",
-  topics = c("Exponential smoothing models", "crossvalidation tests"),
+  topics = c("Exponential smoothing models (ETS)", "Crossvalidation tests", "Forecasting with ETS models"),
   pdf = "",
   ppt = "",
   rmd = "",
