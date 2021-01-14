@@ -1,5 +1,5 @@
 ---
-title: "Forecating with ARIMA models"
+title: "Forecasting with ARIMA models"
 author: "Eli Holmes"
 date: "14 Jan 2021"
 output:
