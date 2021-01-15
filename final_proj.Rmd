@@ -36,8 +36,25 @@ Other sources of public fisheries data sets are:
     - Alaska Salmon Program
     - Lake Washington plankton
 
+# Project Plan due Fri Jan 29th 11:59 pm PST
 
-# Preparation of final papers
+Write a 1-page description of your project idea that includes
+
+* the question(s) of interest
+* the data you will use
+* your general approach to analyzing the data.
+
+Things to consider:
+
+* what type of time series models do you expect to use?
+* univariate or multivariate
+* one model or multiple models (and multi-model inference)
+* covariates?
+* linear, non-linear, or non-parametric
+* Guassian or non-Gaussian
+
+
+# Preparation of final papers due Fri Mar 12 11:59pm PST
 
 ### Length
 

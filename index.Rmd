@@ -18,6 +18,18 @@ This course is intended to give students an overview of the theory and practical
 
 <br>
 
+# Key dates
+
+* HW #1 Thurs Jan 21 11:59pm PST
+* HW #2 Thurs Jan 28 11:59pm PST
+* [Project proposals](final_proj.html) due Fri Jan 29th 11:59pm PST
+* HW #3 Thurs Feb 4 11:59pm PST
+* HW #4 Thurs Feb 11 11:59pm PST
+* HW #5 Thurs Feb 18 11:59pm PST
+* HW #6 Thurs Feb 25 11:59pm PST
+* [Final project](final_proj.html) due Fri Mar 12th 11:59pm PST
+* [Peer reviews](review_guide.html) due Fri Mar 19th 11:59pm PST
+
 # Learning objectives
 
 By the end of the quarter, students should be able to:
@@ -156,7 +168,7 @@ Students will be evaluated on their knowledge of course content and their abilit
 
 ### Homework (30%)
 
-Homework will be assigned each Thursday and is due by 11:59 PM PST on the following Tuesday. It will consist of some short answers and __R__ code based on topics covered in lab. There will be 6 assignments worth 5% each.  Your learning in the class will be greatly enhanced by doing the homework which consist of applying the material you learn in each lecture to a data set.
+Homework will be assigned each Thursday and is due by 11:59 PM PST on the following Thursday. It will consist of some short answers and __R__ code based on topics covered in lab. There will be 6 assignments worth 5% each.  Your learning in the class will be greatly enhanced by doing the homework which consist of applying the material you learn in each lecture to a data set.
 
 ### Individual project (40%)  
 
