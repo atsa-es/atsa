@@ -242,7 +242,7 @@ The Dickey=Fuller test (and Augmented Dickey-Fuller test) look for evidence that
 
 The **null hypothesis** is that the time series has a unit root, that is, it has a random walk component.  
 
-The **alternative hypothesis** is some variation of stationarity.  The test has three main verisons. 
+The **alternative hypothesis** is some variation of stationarity.  The test has three main versions. 
 
 ## Dickey-Fuller nulls and alternatives
 

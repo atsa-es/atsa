@@ -1,0 +1,266 @@
+---
+title: "Fitting ARIMA models"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Eli Holmes"
+date: "19 Jan 2021"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(kableExtra)
+set.seed(123)
+```
+
+## Points from Thursday
+
+ARIMA models
+
+* An approach for fitting time series data by differencing the data to produce a new stationary time series
+* Works because any stationary time series can be modeled as a ARMA process (Wold Decomposition)
+
+## Box-Jenkins method for fitting ARIMA model
+
+1. Make data stationarity by differencing the data (if required)
+2. Determine AR and MA lags via model selection
+3. Estimate the parameters (fit the model)
+4. Assess the residuals for problems
+
+## Approaches for non-stationary time series data
+
+ARIMA models are one approach for fitting non-stationary time series data.
+
+Other approaches (and what we'll be mostly cover in this class)
+
+* Regression with AR or ARMA errors
+* Stochastic level models (type of hidden random walk model)
+* ARMAX models: $x_t = b x_{t-1} + \beta \text{covariates} + \text{error}$
+
+## Let's see an example
+
+AR(1) data: $x_t = 0.8 x_{t-1} + e_t$
+
+Trend: $z_t = f(t, t^2, t^3)$, some 3rd order polynomial
+
+Data: $y_t = z_t + x_t$, Trend + AR(1)
+
+```{r ar1plustrend, echo=FALSE, fig.show=TRUE, fig.height=3}
+t <- 1:100
+z <- 0.1^5*(t-50)^3
+y <- arima.sim(n=100, model=list(ar=0.8)) + 10*z
+plot(y, main="AR1 + trend (red)"); lines(10*z, col="red")
+legend("topleft", c("y = x + z", "z"), col=c("black", "red"), lty=1)
+```
+
+## ARIMA Approach
+
+```{r echo=TRUE, message=FALSE}
+t1 <- 1:90
+fit <- forecast::auto.arima(y[t1])
+fit
+```
+
+##
+
+```{r echo=TRUE, fig.show=TRUE}
+plot(forecast::forecast(fit, h=10))
+t2 <- 91:100
+points(t2, y[t2])
+```
+
+## Polynomial regression w ARMA errors
+
+Use `xreg` to do this. Fits $y_t = \alpha + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + e_t$
+
+```{r echo=TRUE}
+t1=1:90
+xreg <- cbind(t1=t, t2=t^2, t3=t^3) # use poly(t, 3) in practice
+fit <- forecast::auto.arima(y[t1], xreg=xreg[t1,], d=0)
+fit
+```
+
+##
+
+```{r echo=TRUE, fig.show=TRUE}
+t2=91:100
+plot(forecast::forecast(fit, h=10, xreg=xreg[t2,]))
+points(t2, y[t2])
+```
+
+
+<!--
+
+## Points from Thursday
+
+* Data affected by a perturbation can be problematic for arima(), Arima().
+* Seasonal ARIMA has effect of Jan (or Feb …) in year t on Jan (or Feb …) in year t+1.  Not typical when working with population data.
+* Removing the mean season is different than a seasonal difference.
+* Data with multiple seasons (daily, monthly, yearly) will be problematic for standard ARIMA seasonal models.
+
+-->
+
+## SARIMA: Seasonal ARIMA model 
+
+### Load the chinook salmon data set
+
+It has WA and OR data.
+
+```{r echo=TRUE}
+library(atsalibrary)
+head(chinook.month)
+```
+
+##
+
+The data are monthly and start in January 1990.  To make this into a ts object do
+
+```{r echo=TRUE}
+chinookts <- ts(chinook.month$log.metric.tons[chinook.month$State=="WA"], 
+                start=c(1990,1), 
+                frequency=12)
+```
+`start` is the year and month and frequency is the number of months in the year.  
+
+Use `?ts` to see more examples of how to set up ts objects.
+
+## Plot seasonal data
+
+```{r}
+plot(chinookts, ylab="log metric tons", main="WA Chinook Catch")
+```
+
+## 
+
+A seasonal difference is $x_t$ minus $x_{t-s}$, e.g. chinook data January 1990 - chinook data January 1989.
+
+$$z_t = x_t - x_{t-12}$$
+
+This will remove the seasonality.
+
+```{r echo=TRUE, fig.height=3}
+dts <- diff(chinookts, lag=12)
+plot(dts, main="seasonal differences")
+```
+
+## SARIMA structure
+
+I = differencing to produce stationarity
+
+SARMA = AR & MA with seasonal lags.
+
+Basic structure of a SARIMA(1) model is AR(non-seasonal) + AR(seasonal)
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13}$$
+
+So feb 90 - feb 89 ($z_t$) is, potentially, correlated with jan 90 - jan 89 ($z_{t-1}$) and feb 89 - feb 88 ($z_{t-12}$) 
+
+
+## Notation
+
+ARIMA (p,d,q)(ps,ds,qs)s
+
+ARIMA (non-seasonal part)(seasonal part)Frequency
+
+* ARIMA (non-seasonal) means $z_t$ correlated with $z_{t-1}$
+
+* ARIMA (seasonal) means $z_t$ correlated with $z_{t-s}$
+
+
+## Examples
+
+**ARIMA (1,0,0)(1,1,0)[12]**
+
+1. Look at $d$'s to figure out $z_t$. Just a seasonal difference.
+
+$$z_t = x_t - x_{t-12}$$
+
+2. Write out the AR parts with $z_t$
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13} + w_t$$
+
+3. Write out the MA parts, the $w_t$. No MA in this model. $w_t$ is white noise.
+
+$$w_t = e_t$$
+
+
+## Seasonal random walk model
+
+**ARIMA(0,0,0)(0,1,0)[12] with drift**
+
+1. Look at $d$ and any 'with drift' to figure out $z_t$
+
+$$z_t = x_t - x_{t-12} + m$$
+
+No AR parts. $z_t = w_t$
+
+No MA part, so $w_t = e_t$ (white noise)
+
+January 1990 = January 1989 + constant mean
+
+
+## airline model
+
+**ARIMA(0, 1, 1)(0, 1, 1)[12]**
+
+Figure out $z_t$. 
+
+$$z_t = (x_t - x_{t-12}) - (x_{t-1} - x_{t-13})$$
+
+Write out the AR parts with $z_t$. No AR part.
+
+$$z_t = w_t$$
+
+Write out the MA parts, the $w_t$.
+
+$$w_t = e_t - \theta_1 e_{t-1} - \Theta_1 e_{t-12} + \theta_1\Theta_1 e_{t-13}$$
+
+## `auto.arima()` for seasonal ts
+
+`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data by default.  We will fit to 1990 to 2000 data.
+
+```{r echo=TRUE}
+dat <- window(chinookts, start=c(1990,1), end=c(2000,12))
+fit <- forecast::auto.arima(dat)
+fit
+```
+
+##
+
+**ARIMA(1,0,0)(0,1,2)[12] with drift**
+
+* One seasonal difference
+* "with drift" mean of differenced data is not equal to 0
+* $z_t$ is correlated with $z_{t-1}$
+* error is correlated (MA) across seasonal differences
+
+```{r fig.height=3}
+plot(diff(dat, lag=12), ylab="differenced data", main="seasonally differenced data")
+```
+
+##
+
+```{r echo=TRUE}
+fr <- forecast::forecast(fit, h=10)
+plot(fr)
+```
+
+
+## Summary for SARIMA models
+
+Basic steps for identifying a seasonal model.  **forecast** automates most of this.
+
+* Make your data into a ts object with frequency specified.
+
+* Plot your data.  Look for trend, seasonality and random walks.
+
+* Use differencing to remove season and trend.
+
+* Examine the ACF and PACF of the differenced data.
+    * Look for patterns (spikes) at seasonal lags
+
+* Estimate likely models and compare with model selection criteria (or cross-validation). Use `TRACE=TRUE`
+
+* Do residual checks 
+

@@ -13,7 +13,6 @@
 
 <title>2021 List of Lectures</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -424,16 +423,24 @@ $(document).ready(function () {
 )</code></pre>
 <pre class="r"><code>uni_ss &lt;- list(
   title = &quot;Univariate state-space models&quot;,
-  topics = c(&quot;Univariate state-space models&quot;,
+  topics = c(&quot;Seasonal ARIMA models&quot;, 
+             &quot;Univariate state-space models&quot;,
              &quot;Diagnostics for state-space models&quot;),
   pdf = &quot;&quot;,
   ppt = &quot;&quot;,
-  rmd = &quot;&quot;,
-  html = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 3/lec_05_box_jenkins_part2.Rmd&quot;),
+  html = c(&quot;Lectures/Week 3/lec_05_box_jenkins_part2.html&quot;),
   video = &quot;&quot;,
   youtube = &quot;&quot;,
   reading = &quot;&quot;,
-  #reading = c(&quot;[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;,&quot;[MARSS function](Lectures/Week 3/MARSS_function.html)&quot;,&quot;[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)&quot;, &quot;[uni_example_1.R](Lectures/Week 3/univariate_example_1.R)&quot;,&quot;[uni_example_2.R](Lectures/Week 3/univariate_example_2.R)&quot;,&quot;[uni_example_3.R](Lectures/Week 3/univariate_example_3.R)&quot;,&quot;[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)&quot;,&quot;[uni_example_lm.R](Lectures/Week 3/univariate_example_lm.R)&quot;,&quot;[uni_example_arima.R](Lectures/Week 3/univariate_example_arima.R)&quot;),
+  reading = c(&quot;[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;,
+              &quot;[HWSb: Chap 6](https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html)&quot;,
+              &quot;[MARSS function](Lectures/Week 3/MARSS_function.html)&quot;,&quot;[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)&quot;, &quot;[uni_example_1.R](Lectures/Week 3/univariate_example_1.R)&quot;,
+              &quot;[uni_example_2.R](Lectures/Week 3/univariate_example_2.R)&quot;,
+              &quot;[uni_example_3.R](Lectures/Week 3/univariate_example_3.R)&quot;,
+              &quot;[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)&quot;,
+              &quot;[uni_example_lm.R](Lectures/Week 3/univariate_example_lm.R)&quot;,
+              &quot;[uni_example_arima.R](Lectures/Week 3/univariate_example_arima.R)&quot;),
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>marss &lt;- list(
