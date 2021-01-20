@@ -113,7 +113,7 @@ uni_ss <- list(
           "Lectures/Week 3/lec_05_univariate_state_space.Rmd"),
   html = c("Lectures/Week 3/lec_05_box_jenkins_part2.html",
            "Lectures/Week 3/lec_05_univariate_state_space.html"),
-  video = "",
+  video = "https://washington.zoom.us/rec/share/x01GlPclIpkCoCalNUe7Q2WpWPis5L4UDf1kRlajFZcmZzdtqdI9QmOkxGMbVmda.UwWW5X-HK4FHjPni",
   youtube = "",
   reading = c("[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
               "[HWSb: Chap 6](https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html)",
@@ -212,7 +212,7 @@ dlm2 <- list(
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Dynamic factor analysis (DFA), Project Proposal due Fri 1/29 11:59 pm"),
+  topics = c("Dynamic factor analysis (DFA)<br>, Project Proposal due Fri 1/29 11:59 pm"),
   pdf = "",
   ppt = "",
   rmd = "",

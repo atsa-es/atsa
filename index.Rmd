@@ -12,6 +12,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<br>
+
 # Course overview
 
 This course is intended to give students an overview of the theory and practical aspects of fitting time series models to fisheries and environmental data. The course will cover topics ranging from autocorrelation and crosscorrelation, autoregressive (AR) and moving average (MA) models, univariate and multivariate state-space models, and estimating model parameters. This course also covers various aspects of assessing model performance and evaluating model diagnostics. The course is focused almost exclusively on problems and analyses in the time domain, and only briefly addresses methods for the frequency domain. In general, students will focus on conceptualizing analyses, implementing analyses, and making inference from the results.
@@ -29,6 +31,8 @@ This course is intended to give students an overview of the theory and practical
 * HW #6 Thurs Feb 25 11:59pm PST
 * [Final project](final_proj.html) due Fri Mar 12th 11:59pm PST
 * [Peer reviews](review_guide.html) due Fri Mar 19th 11:59pm PST
+
+<br>
 
 # Learning objectives
 
