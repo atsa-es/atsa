@@ -139,6 +139,7 @@ marss <- list(
               "[MARSS function](Lectures/Week 3/MARSS_function.html)",
               "[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)",
               "[uni_example_0.R](Lectures/Week 3/univariate_example_0.R)",
+              "[marss_example_0.R](Lectures/Week 3/marss_example_0.R)",
               "[marss_example_1.R](Lectures/Week 3/marss_example_1.R)",
               "[marss_example_2.R](Lectures/Week 3/marss_example_2.R)",
               "[marss_example_3.R](Lectures/Week 3/marss_example_3.R)",
