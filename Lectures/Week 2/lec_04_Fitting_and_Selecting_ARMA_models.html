@@ -3326,7 +3326,7 @@ letter-spacing: 0;
 
 <p>The <strong>null hypothesis</strong> is that the time series has a unit root, that is, it has a random walk component.</p>
 
-<p>The <strong>alternative hypothesis</strong> is some variation of stationarity. The test has three main verisons.</p>
+<p>The <strong>alternative hypothesis</strong> is some variation of stationarity. The test has three main versions.</p>
 
 </article></slide><slide class=""><hgroup><h2>Dickey-Fuller nulls and alternatives</h2></hgroup><article  id="dickey-fuller-nulls-and-alternatives">
 
@@ -3396,7 +3396,7 @@ test</pre>
 
 </article></slide><slide class=""><hgroup><h2>Dickey-Fuller test with &lsquo;ur.df&rsquo;</h2></hgroup><article  id="dickey-fuller-test-with-ur.df-1">
 
-<p>The test statistic and the critical value at \(\alpha = 0.05\) are</p>
+<p>The test statistics and the critical values at \(\alpha = 0.05\) are</p>
 
 <pre class = 'prettyprint lang-r'>attr(test, &quot;teststat&quot;)</pre>
 
@@ -3410,15 +3410,38 @@ test</pre>
 ## phi2  7.02  5.13  4.31
 ## phi3  9.31  6.73  5.61</pre>
 
-<p>The statistic is larger than the critical value and thus the null hypothesis of non-stationarity is not rejected. That’s not what we want.</p>
-
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-1">
 
-<p>The \(\tau_3\) is the one we want. This is the stationarity parameter.</p>
+<p>The <code>tau3</code> is the one we want. This is the test that \(\gamma=0\) which would mean that \(\phi=0\) (random walk).</p>
 
 <p>\(x_t = \phi x_{t-1} + \mu + a t + e_t\)</p>
 
-<p>\(x_t - x_{t-1} = \tau_3 x_{t-1} + \phi_2 + \phi_3 t + e_t\)</p>
+<p>\(x_t - x_{t-1} = \gamma x_{t-1} + \mu + a t + e_t\)</p>
+
+<p>The hypotheses reported in the output are</p>
+
+<ul>
+<li><code>tau</code> (or <code>tau2</code> or <code>tau3</code>): \(\gamma=0\)</li>
+<li><code>phi</code> reported values: are for the tests that \(\gamma=0\) and/or the other parameters \(a\) and \(\mu\) are also 0.</li>
+</ul>
+
+<p>Since we are focused on the random walk (non-stationary) test, we focus on the <code>tau</code> (or <code>tau2</code> or <code>tau3</code>) statistics and critical values</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-2">
+
+<pre class = 'prettyprint lang-r'>attr(test, &quot;teststat&quot;)</pre>
+
+<pre >##                tau3     phi2     phi3
+## statistic -3.455795 4.356764 5.980506</pre>
+
+<pre class = 'prettyprint lang-r'>attr(test,&quot;cval&quot;)</pre>
+
+<pre >##       1pct  5pct 10pct
+## tau3 -4.15 -3.50 -3.18
+## phi2  7.02  5.13  4.31
+## phi3  9.31  6.73  5.61</pre>
+
+<p>The <code>tau3</code> statistic is larger than the critical value and thus the null hypothesis of non-stationarity is not rejected. That’s not what we want.</p>
 
 <!--
 
@@ -3571,13 +3594,13 @@ kpss.test(diff.anchovy)</pre>
 ## 0.09558
 ## alternative hypothesis: stationary</pre>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-2">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-3">
 
 <p>The null hypothesis of non-stationarity is not rejected. That is not what we want. However, we differenced which removed the trend thus we are testing against a more general model than we need. Let’s test with an alternative hypothesis that has a non-zero mean and no trend. We can do this with <code>ur.df()</code> and <code>type=&#39;drift&#39;</code>.</p>
 
 <pre class = 'prettyprint lang-r'>test &lt;- ur.df(diff.anchovy, type=&quot;drift&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-3">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-4">
 
 <p>The test statistic and the critical values are</p>
 
@@ -3743,7 +3766,7 @@ for(i in 1:100){
   save.fits[i] = paste0(fit$arma[1], &quot;-&quot;, fit$arma[2])
 }</pre>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-4">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-5">
 
 <p>Overwhelmingly the correct type of model (AR) is selected, but usually a simpler model of AR(1) is chosen over AR(2).</p>
 
@@ -3895,7 +3918,7 @@ head(chinook)</pre>
 ## 5 1990   May Chinook        5.200705       181.4
 ## 6 1990   Jun Chinook        4.371976        79.2</pre>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-5">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-6">
 
 <p>The data are monthly and start in January 1990. To make this into a ts object do</p>
 
@@ -3922,7 +3945,7 @@ head(chinook)</pre>
 
 <p>seasonal differenced data = AR(seasonal) + AR(non-seasonal) + AR(p+season)</p>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-6">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-7">
 
 <p>For example, SARIMA model could capture this process</p>
 
@@ -3932,7 +3955,7 @@ head(chinook)</pre>
 <li>AR(p+season) appears because of 1 and 2</li>
 </ol>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-7">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-8">
 
 <p>\(z_t\) = AR(1) + AR(12) + AR(1+12)</p>
 
@@ -3964,7 +3987,7 @@ head(chinook)</pre>
 
 <p>\[w_t = e_t\]</p>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-8">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-9">
 
 <p>ARIMA (1,0,0)(1,1,0)[12]</p>
 
