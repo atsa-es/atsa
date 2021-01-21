@@ -6,6 +6,7 @@
 
 library(MARSS)
 library(MASS) #has mvrnorm
+set.seed(123)
 #x is the "hidden" trend we want to find
 #x(t)=x(t-1)+slope+w(t), w(t)~N(0,q)
 #x(0)=intercept

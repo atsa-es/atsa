@@ -3,9 +3,9 @@ title: "Fitting and Selecting ARIMA models"
 author: "Eli Holmes"
 date: "14 Jan 2021"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
+  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -366,22 +366,40 @@ test
 
 ## Dickey-Fuller test with 'ur.df'
 
-The test statistic and the critical value at $\alpha = 0.05$ are
+The test statistics and the critical values at $\alpha = 0.05$ are
 ```{r teststat}
 attr(test, "teststat")
 ```
 ```{r cval}
 attr(test,"cval")
 ```
-The statistic is larger than the critical value and thus the null hypothesis of non-stationarity is not rejected. That's not what we want.
 
 ##
 
-The $\tau_3$ is the one we want. This is the stationarity parameter.
+The `tau3` is the one we want. This is the test that $\gamma=0$ which would mean that $\phi=0$ (random walk).
 
 $x_t = \phi x_{t-1} + \mu + a t + e_t$
 
-$x_t - x_{t-1} = \tau_3 x_{t-1} + \phi_2 + \phi_3 t + e_t$
+$x_t - x_{t-1} = \gamma x_{t-1} + \mu + a t + e_t$
+
+The hypotheses reported in the output are
+
+* `tau` (or `tau2` or `tau3`): $\gamma=0$
+* `phi` reported values: are for the tests that $\gamma=0$ and/or the other parameters $a$ and $\mu$ are also 0.
+
+Since we are focused on the random walk (non-stationary) test, we focus on the `tau`  (or `tau2` or `tau3`) statistics and critical values
+
+##
+
+```{r teststat2}
+attr(test, "teststat")
+```
+```{r cval2}
+attr(test,"cval")
+```
+
+The `tau3` statistic is larger than the critical value and thus the null hypothesis of non-stationarity is not rejected. That's not what we want.
+
 
 <!--
 
