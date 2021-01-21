@@ -212,7 +212,7 @@ dlm2 <- list(
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Dynamic factor analysis (DFA)<br>, Project Proposal due Fri 1/29 11:59 pm"),
+  topics = c("Dynamic factor analysis (DFA)<br>**Project Proposal due Fri 1/29 11:59 PM**"),
   pdf = "",
   ppt = "",
   rmd = "",
