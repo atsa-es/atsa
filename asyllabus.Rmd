@@ -25,7 +25,7 @@ tues <- seq.Date(from = start_date, by = 7, length.out = 10)
 thur <- tues + 2
 ## all qtr
 qtr <- sort(c(tues, thur))
-qtr <- sub("0(\\d)", "\\1", format(qtr, "%d %B"))
+qtr <- sub("0(\\d)", "\\1", format(qtr, "%d %b"))
 ```
 
 ```{r weeks, include = FALSE}
