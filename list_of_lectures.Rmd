@@ -190,7 +190,7 @@ model_inf <- list(
 ```{r}
 dlm <- list(
   title = "Dynamic Linear Models",
-  topics = c("Regression with autocorrelated errors", "Dynamic linear models (DLMs)"),
+  topics = c("Dynamic linear models (DLMs)"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -221,7 +221,7 @@ dlm2 <- list(
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Dynamic factor analysis (DFA)"),
+  topics = c("Regression with autocorrelated errors", "Dynamic factor analysis (DFA)"),
   pdf = "",
   ppt = "",
   rmd = "",
