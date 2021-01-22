@@ -93,7 +93,7 @@ sslab2 <- list(
   pdf = "",
   rmd = "",
   html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html", "https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html"),
-  video = "",
+  video = "https://washington.zoom.us/rec/share/_EzxfSAEg40yJjDojbpQusfmqr0J_3xdWYsUSiC4P9fX2N3Bn1rBROi0Raw6TO8h.9tyoBEZqcX-alt1P",
   youtube = "",
   data = "",
   homework = "TBD",
