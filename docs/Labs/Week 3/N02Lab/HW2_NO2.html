@@ -372,7 +372,7 @@ summary {
 
 
 <h1 class="title toc-ignore">HW2 Analysis of NO2 data from the UK Environmental Change Network</h1>
-<h4 class="date">Due Fri Jan 29 11:59 PM PST; email to Eli</h4>
+<h4 class="date">Due Sat Jan 30 11:59 PM PST; email to Eli</h4>
 
 </div>
 
@@ -485,12 +485,14 @@ R=&quot;equalvarcov&quot;</code></pre>
 <li>What structure(s) did you assume for the <span class="math inline">\(\mathbf{Q}\)</span> matrix (process or state variance)? What does that imply about how the underlying NO<span class="math inline">\(_2\)</span> trends are related yearly? Your <code>MARSS()</code> model will look like so.</li>
 </ol>
 <pre><code>MARSS(datmat, model=list(R=..., Z=..., Q=...))</code></pre>
-<ol start="6" style="list-style-type: decimal">
-<li>OPTIONAL. Go back to question 1 and the model with 1 state. Instead of assuming that all <span class="math inline">\(y\)</span> observe the same <span class="math inline">\(x\)</span>, assume they can observed a ‘stretched’ <span class="math inline">\(x\)</span> so <span class="math inline">\(y_{i,t} = z_i x_t + v_t\)</span>. Fit that model and look at the estimated <span class="math inline">\(\mathbf{Z}\)</span> matrix. What does it say? Is it more supported than a model without ‘stretching’?</li>
-</ol>
-<p>Note you will need to remove the mean from the data and set <code>A=&quot;zero&quot;</code> to fit the model for question 6.</p>
+<p><strong>Some ideas for OPTIONAL extra analyses</strong></p>
+<ul>
+<li><p>OPTIONAL. Go back to question 1 and the model with 1 state. Instead of assuming that all <span class="math inline">\(y\)</span> observe the same <span class="math inline">\(x\)</span>, assume they can observed a ‘stretched’ <span class="math inline">\(x\)</span> so <span class="math inline">\(y_{i,t} = z_i x_t + v_t\)</span>. Fit that model and look at the estimated <span class="math inline">\(\mathbf{Z}\)</span> matrix. What does it say? Is it more supported than a model without ‘stretching’?</p>
+<p>Note you will need to remove the mean from the data and set <code>A=&quot;zero&quot;</code> to fit a model where you estimate <span class="math inline">\(\mathbf{Z}\)</span>.</p>
 <pre><code>newdat &lt;- zscore(datmat, mean.only=TRUE)
-MARSS(newdat, model=list(R=.., Z=..., A=&quot;zero&quot;))</code></pre>
+MARSS(newdat, model=list(R=.., Z=..., A=&quot;zero&quot;))</code></pre></li>
+<li><p>OPTIONAL. Try fitting with lm(), a Arima() or another linear non-state-space model with a polynomial trend in year to try to capture the time-varying trend. How are the results similar or different? You might be able to just include a year effect as a factor too.</p></li>
+</ul>
 </div>
 <div id="part-2" class="section level2">
 <h2>Part 2</h2>
@@ -511,7 +513,7 @@ datmat2[is.na(datmat2)] &lt;- NA
 datmat2[datmat2==0] &lt;- NA
 datmat2 &lt;- log(datmat2)
 rownames(datmat2) &lt;- datwide$SiteCode</code></pre>
-<ol start="7" style="list-style-type: decimal">
+<ol start="6" style="list-style-type: decimal">
 <li>Repeat question 1 (one underlying NO<span class="math inline">\(_2\)</span> trend) for the monthly data. <a href="https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html">Model seasonality as a Fourier series</a> where the seasonality is in the process errors (the <span class="math inline">\(x\)</span>). Your covariate will look like so.</li>
 </ol>
 <pre><code>TT &lt;- dim(datmat2)[2] # time steps
@@ -519,12 +521,16 @@ period &lt;- 12
 cos.t &lt;- cos(2 * pi * seq(TT)/period)
 sin.t &lt;- sin(2 * pi * seq(TT)/period)
 covariate &lt;- rbind(cos.t, sin.t)</code></pre>
-<ol start="8" style="list-style-type: decimal">
+<ol start="7" style="list-style-type: decimal">
 <li><p>Fit the same model but where the seasonality is in the observation errors. Allow the seasonality to be different for each site.</p></li>
 <li><p>Which one fits better (based on AICc)? How do these models treat seasonality differently?</p></li>
+</ol>
+<p><strong>Ideas for OPTIONAL extra analyses</strong></p>
+<ul>
 <li><p>OPTIONAL. Use the model from question 8. Adapt the code for <a href="https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html">Figure 8.2</a> in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?</p></li>
 <li><p>OPTIONAL. Use the model from question 8. Structure your <span class="math inline">\(\mathbf{D}\)</span> matrix into the 3 regions so that each region has the same seasonal effect (same <span class="math inline">\(\mathbf{D}\)</span> values).</p></li>
-</ol>
+<li><p>OPTIONAL. Try some other approaches for modeling seaonsality such as monthly factors or polynomials. Any difference in the seasonal pattern?</p></li>
+</ul>
 </div>
 </div>
 

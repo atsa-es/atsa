@@ -1,6 +1,6 @@
 ---
 title: "HW2 Analysis of NO2 data from the UK Environmental Change Network"
-date: "Due Fri Jan 29 11:59 PM PST; email to Eli"
+date: "Due Sat Jan 30 11:59 PM PST; email to Eli"
 output:
   html_document: default
   pdf_document: default
@@ -147,13 +147,18 @@ The key here is setting up the $\mathbf{Z}$ matrix (0s and 1s) and then making t
 MARSS(datmat, model=list(R=..., Z=..., Q=...))
 ```
 
-6. OPTIONAL. Go back to question 1 and the model with 1 state. Instead of assuming that all $y$ observe the same $x$, assume they can observed a 'stretched' $x$ so $y_{i,t} = z_i x_t + v_t$. Fit that model and look at the estimated $\mathbf{Z}$ matrix. What does it say? Is it more supported than a model without 'stretching'?
+**Some ideas for OPTIONAL extra analyses**
 
-Note you will need to remove the mean from the data and set `A="zero"` to fit the model for question 6.
-```
-newdat <- zscore(datmat, mean.only=TRUE)
-MARSS(newdat, model=list(R=.., Z=..., A="zero"))
-```
+* OPTIONAL. Go back to question 1 and the model with 1 state. Instead of assuming that all $y$ observe the same $x$, assume they can observed a 'stretched' $x$ so $y_{i,t} = z_i x_t + v_t$. Fit that model and look at the estimated $\mathbf{Z}$ matrix. What does it say? Is it more supported than a model without 'stretching'?
+
+    Note you will need to remove the mean from the data and set `A="zero"` to fit a model where you estimate $\mathbf{Z}$.
+    
+    ```
+    newdat <- zscore(datmat, mean.only=TRUE)
+    MARSS(newdat, model=list(R=.., Z=..., A="zero"))
+    ```
+
+* OPTIONAL. Try fitting with lm(), a Arima() or another linear non-state-space model with a polynomial trend in year to try to capture the time-varying trend. How are the results similar or different? You might be able to just include a year effect as a factor too.
 
 ## Part 2
 
@@ -177,7 +182,7 @@ datmat2 <- log(datmat2)
 rownames(datmat2) <- datwide$SiteCode
 ```
 
-7. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$). Your covariate will look like so.
+6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$). Your covariate will look like so.
 
 ```
 TT <- dim(datmat2)[2] # time steps
@@ -187,10 +192,14 @@ sin.t <- sin(2 * pi * seq(TT)/period)
 covariate <- rbind(cos.t, sin.t)
 ```
 
-8. Fit the same model but where the seasonality is in the observation errors. Allow the seasonality to be different for each site.
+7. Fit the same model but where the seasonality is in the observation errors. Allow the seasonality to be different for each site.
 
-9. Which one fits better (based on AICc)? How do these models treat seasonality differently?
+8. Which one fits better (based on AICc)? How do these models treat seasonality differently?
 
-10. OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
+**Ideas for OPTIONAL extra analyses**
 
-11. OPTIONAL. Use the model from question 8. Structure your $\mathbf{D}$ matrix into the 3 regions so that each region has the same seasonal effect (same $\mathbf{D}$ values).
+* OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
+
+* OPTIONAL. Use the model from question 8. Structure your $\mathbf{D}$ matrix into the 3 regions so that each region has the same seasonal effect (same $\mathbf{D}$ values).
+
+* OPTIONAL. Try some other approaches for modeling seaonsality such as monthly factors or polynomials. Any difference in the seasonal pattern?
