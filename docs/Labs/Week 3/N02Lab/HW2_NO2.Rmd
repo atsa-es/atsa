@@ -1,0 +1,196 @@
+---
+title: "HW2 Analysis of NO2 data from the UK Environmental Change Network"
+date: "Due Fri Jan 29 11:59 PM PST; email to Eli"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=FALSE, message = FALSE, warning = FALSE)
+```
+
+# Background
+
+[NO$_2$](https://www.epa.gov/no2-pollution) an air pollutant generated from burning of fuel by motor vehicles and power plants. In this exercise, you'll analyze NO$_2$ data from the [UK Environmental Change Network](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/ECN_data.pdf) to look for patterns in the yearly trends across the UK.
+
+Your goal is to understand any overall and regional patterns in yearly NO$_2$ using these data.
+
+## The data and packages
+
+Download `ECNNO2.RData` from [HERE](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData). and run the code below to prepare the data frame that you will work with.
+
+```{r}
+load("ECNNO2.RData")
+```
+
+Load the packages. The plots will use the ggplot2 package. If you are unfamiliar with `ggplot()`, there are many online tutorials. Here is my [1-hour intro](https://rverse-tutorials.github.io/RWorkflow-NWFSC-2020/week8-ggplot2.html) to the basics for those used to `plot()`.
+```{r}
+library(MARSS)
+library(ggplot2)
+library(ggmap)
+library(tidyr)
+library(dplyr)
+```
+
+These are the site locations and names. Note that the site numbers do not indicate how close the sites are to each other.
+
+```{r}
+library(ggmap)
+ylims=c(min(ECNmeta$Latitude)-1,max(ECNmeta$Latitude)+1)
+xlims=c(min(ECNmeta$Longitude)-2,max(ECNmeta$Longitude)+2.2)
+base = ggmap::get_map(location=c(xlims[1],ylims[1],xlims[2],ylims[2]), zoom=7, maptype="terrain-background")
+map1 = ggmap::ggmap(base)
+map1 + geom_point(data=ECNmeta, aes(x=Longitude, y=Latitude), color="blue", cex=2.5) +
+  labs(x="Latitude", y="Longitude", title="ECN sites") +
+  geom_text(data=ECNmeta, aes(Longitude, Latitude),
+    label=ECNmeta$SiteCode, 
+    nudge_x = 0.35, nudge_y = 0.35, size=2.75, angle=45,
+    check_overlap = FALSE
+  ) +
+  theme_bw()
+```
+
+There are 23 years of monthly data for each site and at each site there are 1-3 samples (tubes) taken.
+```{r}
+p <- ggplot(ECNNO2, aes(x=Date, y=Value)) +
+  geom_line(aes(color=TubeID)) +
+  facet_wrap(~SiteCode) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  xlab("") + ylab("NO2 (micrograms/m3)") +
+  ggtitle("N02 in UK")
+p
+```
+
+The winter NO$_2$ is higher and more variable than summer (coal plants?). You'll focus on the winter average data for the first part of the homework and the monthly data for the second part of the homework.
+
+```{r}
+p <- ggplot(subset(ECNNO2, TubeID=="E1" & Month%in%c("Jan", "Jul")), aes(Date, Value)) +
+  geom_line(aes(color=Month)) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("NO2 is higher in winter") +
+  facet_wrap(~SiteCode)
+p
+```
+
+# Part 1
+
+## Data for part 1
+
+For part 1 you will use the log of the yearly mean NO$_2$ for Nov-Jan. You'll just use the E1 tube data. The code below does the following take ECCNO2, subset the winter months, subset the E1 tube, tell R how to group the means (by year, site, TubeID), take the mean within those groups. Not familiar with data-wrangling with tidyverse? Many tutorials are on the web. Here is [my 1-hour intro](https://rverse-tutorials.github.io/RWorkflow-NWFSC-2020/week9-data-wrangling.html) to my favorite wrangling functions along with links to my favorite tutorials.
+```{r}
+dat = ECNNO2 %>% 
+  subset(Month %in% c("Nov", "Dec", "Jan")) %>% 
+  subset(TubeID=="E1") %>% 
+  group_by(Year, SiteCode, TubeID) %>% 
+  summarize(log.mean = log(mean(Value, na.rm=TRUE)))
+# replace NaN with NA
+dat[is.na(dat)] <- as.numeric(NA)
+```
+
+Now we need to make this into a matrix with each site a row and each year a column. `datmat` is what you will use with `MARSS()`.
+```{r}
+datwide <- pivot_wider( 
+    dat,
+    names_from = Year,
+    values_from = log.mean
+  )
+# make into a matrix
+datmat <- as.matrix(datwide[,3:23])
+rownames(datmat) <- datwide$SiteCode
+```
+
+## Questions for part 1
+
+1. Fit a stochastic level (random walk with drift) to estimate one regional NO$_2$ trend from the 11 observations. So 1 $x$ and 11 $y$. All $y$ are observing the same $x$. You will need to set Z and R. You can leave everything else at the default values. So your MARSS() call will look like
+```
+MARSS(datmat, model=list(R=..., Z=...))
+```
+
+The output you will use is the estimated smoothed states (estimate using all the data). You can get that from
+```
+fit$states #a matrix
+tsSmooth(fit, type="xtT") # a data frame ready for ggplot
+```
+where `fit` is output from `fit <- MARSS()`.
+
+You can see a plot of your states from
+```
+plot(x, plot.type = "xtT")
+```
+
+2. What structure(s) did you assume for the $\mathbf{R}$ matrix (the observation variance covariance matrix)? What do the different structures mean in terms of how the observation errors are related across sites.
+
+The following are shortcuts you will find useful
+```
+R="diagonal and equal"
+R="diagonal and unequal"
+R="unconstrained"
+R="equalvarcov"
+```
+
+3. Do basic diagnostics (ACF, normality tests) on the innovations residuals. Any obvious problems? You will find them here:
+```
+residuals(fit)
+```
+Note it is a data frame with a column for site. You will need to do your tests individuals for each site.
+
+4. Model the data as 3 regions, each with its own NO$_2$ trend. Those are the states or $x$.
+* Region 1 = T01, T05, T06, T08, T09, T10
+* Region 2 = T04, T07, T12
+* Region 3 = T03, T11
+
+The key here is setting up the $\mathbf{Z}$ matrix (0s and 1s) and then making that in R.
+
+5. What structure(s) did you assume for the $\mathbf{Q}$ matrix (process or state variance)? What does that imply about how the underlying NO$_2$ trends are related yearly? Your `MARSS()` model will look like so.
+```
+MARSS(datmat, model=list(R=..., Z=..., Q=...))
+```
+
+6. OPTIONAL. Go back to question 1 and the model with 1 state. Instead of assuming that all $y$ observe the same $x$, assume they can observed a 'stretched' $x$ so $y_{i,t} = z_i x_t + v_t$. Fit that model and look at the estimated $\mathbf{Z}$ matrix. What does it say? Is it more supported than a model without 'stretching'?
+
+Note you will need to remove the mean from the data and set `A="zero"` to fit the model for question 6.
+```
+newdat <- zscore(datmat, mean.only=TRUE)
+MARSS(newdat, model=list(R=.., Z=..., A="zero"))
+```
+
+## Part 2
+
+Data for part 2 is `datmat2` below. What the code is doing: take the ECNNO2 monthly data, get just tube E1, make a column with Year-Mon, remove the unneeded columns, pivot wider, make into a matrix.
+```{r}
+datwide <- ECNNO2 %>%
+  subset(TubeID=="E1") %>%
+  mutate(Year.Mon=paste(Year, Month, sep="-")) %>%
+  select(-Year, -Month, -TubeID, -Date) %>%
+  pivot_wider( 
+    names_from = Year.Mon,
+    values_from = Value
+  ) 
+# make into a matrix
+datmat2 <- as.matrix(datwide[,-1])
+# deal with NaN
+datmat2[is.na(datmat2)] <- NA
+# log the data
+datmat2[datmat2==0] <- NA
+datmat2 <- log(datmat2)
+rownames(datmat2) <- datwide$SiteCode
+```
+
+7. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$). Your covariate will look like so.
+
+```
+TT <- dim(datmat2)[2] # time steps
+period <- 12
+cos.t <- cos(2 * pi * seq(TT)/period)
+sin.t <- sin(2 * pi * seq(TT)/period)
+covariate <- rbind(cos.t, sin.t)
+```
+
+8. Fit the same model but where the seasonality is in the observation errors. Allow the seasonality to be different for each site.
+
+9. Which one fits better (based on AICc)? How do these models treat seasonality differently?
+
+10. OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
+
+11. OPTIONAL. Use the model from question 8. Structure your $\mathbf{D}$ matrix into the 3 regions so that each region has the same seasonal effect (same $\mathbf{D}$ values).
