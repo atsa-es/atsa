@@ -96,7 +96,7 @@ sslab2 <- list(
   video = "https://washington.zoom.us/rec/share/_EzxfSAEg40yJjDojbpQusfmqr0J_3xdWYsUSiC4P9fX2N3Bn1rBROi0Raw6TO8h.9tyoBEZqcX-alt1P",
   youtube = "",
   data = "",
-  homework = "HW questions and data: [Rmd](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/HW2_NO2.Rmd), [html](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/HW2_NO2.html), [data](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData).",
+  homework = "HW #2 questions and data: [Rmd](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/HW2_NO2.Rmd), [html](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/HW2_NO2.html), [data](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData).",
   key = "",
   #key = c("Labs/Week 3/HW_3_uss_Key.html", "Labs/Week 3/HW_3_Key.html"),
   instructor = "Eli",
