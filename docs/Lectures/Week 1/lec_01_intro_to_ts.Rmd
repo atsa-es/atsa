@@ -1,0 +1,634 @@
+---
+title: "Intro to time series analysis"
+subtitle: "FISH 507 – Applied Time Series Analysis"
+author: "Mark Scheuerell"
+date: "5 Jan 2021"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Topics for today
+
+### Characteristics of time series (ts)
+
+* What is a ts?
+
+* Classifying ts
+
+* Trends
+
+* Seasonality (periodicity)
+    
+### Classical decomposition
+
+
+## What is a time series?
+
+### A set of observations taken sequentially in time
+
+
+## What is a time series?  
+
+### A ts can be represented as a set
+
+$$
+\{ x_1,x_2,x_3,\dots,x_n \} 
+$$
+
+### For example,
+$$
+\{ 10,31,27,42,53,15 \}
+$$
+
+
+## {.flexbox .vcenter}
+
+![](https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/co2_data_mlo.png)
+
+
+## Classification of time series | By some _index set_
+
+Interval across real time; $x(t)$    
+
+* begin/end: $t \in [1.1,2.5]$    
+
+
+## Classification of time series | By some _index set_
+
+Discrete time; $x_t$    
+
+* Equally spaced: $t = \{1,2,3,4,5\}$  
+* Equally spaced w/ missing value: $t = \{1,2,4,5,6\}$  
+* Unequally spaced: $t = \{2,3,4,6,9\}$  
+
+
+## Classification of time series | By the _underlying process_    
+
+Discrete (eg, total # of fish caught per trawl)
+
+Continuous (eg, salinity, temperature)
+
+
+## Classification of time series | By the _number of values recorded_    
+
+Univariate/scalar (eg, total # of fish caught)    
+
+Multivariate/vector (eg, # of each spp of fish caught)
+
+
+## Classification of time series | By the _type of values recorded_    
+
+Integer (eg, # of fish in 5 min trawl = 2413)
+
+Rational (eg, fraction of unclipped fish = 47/951)
+
+Real (eg, fish mass = 10.2 g)
+
+Complex (eg, cos(2π2.43) + _i_ sin(2π2.43))
+
+
+## Classification of time series | We will focus on integers & real-values in discrete time
+
+Univariate $(x_t)$
+
+<br>
+
+Multivariate $\begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}_t$
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example, eval = FALSE, echo = TRUE}
+ts(data,
+   start, end,
+   frequency
+   )
+```
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_2, eval = FALSE, echo = TRUE}
+### <b>
+ts(data,
+   ### </b>
+   start, end,
+   frequency
+   )
+```
+
+`data` should be a vector (univariate)
+
+or a data frame or matrix (multivariate)
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_3, eval = FALSE, echo = TRUE}
+ts(data,
+   ### <b>
+   start, end,
+   ### </b>
+   frequency
+   )
+```
+
+`start` and `end` give the first and last time indices
+
+For monthly series, specify them as `c(year, month)`
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_4, eval = FALSE, echo = TRUE}
+ts(data,
+   start, end,
+   ### <b>
+   frequency
+   ### </b>
+   )
+```
+
+`frequency` is the number of observations per unit time
+
+For annual series, `frequency = 1`
+
+For monthly series, `frequency = 12`
+
+
+## Time series objects in R
+
+Time series objects have a special designation in R: `ts`
+
+```{r ts_example_5, eval = FALSE, echo = TRUE}
+ts(data,
+   start, end,
+   ### <b>
+   deltat
+   ### </b>
+   )
+```
+
+`deltat` is the fraction of the sampling period
+
+For annual series, `deltat = 1`
+
+For monthly series, `deltat = 1/12`
+
+
+## Time series objects in R
+
+```{r ts_example_6, eval = TRUE, echo = TRUE}
+set.seed(507)
+
+## annual data
+dat_1 <- rnorm(30)
+dat_yr <- ts(dat_1,
+             start = 1991, end = 2020,
+             frequency = 1)
+
+## monthly data
+dat_2 <- rnorm(30*12)
+dat_mo <- ts(dat_2,
+             start = c(1991, 1), end = c(2020, 12),
+             frequency = 12)
+```
+
+
+## Plotting time series objects in R
+
+There is a designated function for plotting `ts` objects: `plot.ts()`
+
+```{r plotts_example, eval = FALSE, echo = TRUE}
+plot.ts(ts_object)
+```
+
+
+## Plotting time series objects in R
+
+```{r plotts_example_2}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(dat_yr)
+```
+
+
+## Plotting time series objects in R
+
+We can specify some additional arguments to `plot.ts`
+
+```{r plotts_example_3, eval = FALSE, echo = TRUE}
+plot.ts(dat_yr,
+        ylab = expression(italic(x[t])),
+        las = 1, col = "blue", lwd = 2)
+```
+
+
+## Plotting time series objects in R
+
+```{r plotts_example_4}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(dat_yr,
+        ylab = expression(italic(x[t])), las = 1, col = "blue", lwd = 2)
+```
+
+# Analysis of time series
+
+
+## Statistical analyses of time series
+
+Most statistical analyses are concerned with estimating properties of a population from a sample
+
+For example, we use fish caught in a seine to infer the mean size of fish in a lake
+
+
+## Statistical analyses of time series
+
+Time series analysis, however, presents a different situation:
+
+* Although we could vary the _length_ of an observed time series, it is often impossible to make multiple observations at a _given_ point in time
+
+
+## Statistical analyses of time series
+
+Time series analysis, however, presents a different situation:
+
+* Although we could vary the _length_ of an observed time series, it is often impossible to make multiple observations at a _given_ point in time
+
+For example, one can’t observe today’s closing price of Microsoft stock more than once  
+
+Thus, conventional statistical procedures, based on large sample estimates, are inappropriate
+
+
+## Descriptions of time series
+
+```{r ex_ts_plot_www, fig.cap = "Number of users connected to the internet"}
+data(WWWusage)
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(WWWusage, ylab = "", las = 1, col = "blue", lwd = 2)
+```
+
+
+## Descriptions of time series
+
+```{r ex_ts_plot_lynx, fig.cap = "Number of lynx trapped in Canada from 1821-1934"}
+data(lynx)
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(lynx, ylab = "", las = 1, col = "blue", lwd = 2)
+```
+
+
+## What is a time series model?
+
+A _time series model_ for $\{x_t\}$ is a specification of the _joint distributions_ of a sequence of _random variables_ $\{X_t\}$, of which $\{x_t\}$ is thought to be a realization
+
+
+## Joint distributions of random variables
+
+```{r ex_ts_plot_joint_dist}
+set.seed(123)
+nn <- 50
+tt <- 40
+ww <- matrix(rnorm(nn*tt), tt, nn)
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+matplot(ww, type="l", lty="solid",  las = 1,
+        ylab = expression(italic(X[t])), xlab = "Time",
+        col = gray(0.5, 0.4))
+```
+
+
+## We have one realization
+
+```{r ex_ts_plot_joint_dist_2}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+matplot(ww, type="l", lty="solid",  las = 1,
+        ylab = expression(italic(X[t])), xlab = "Time",
+        col = gray(0.5, 0.4))
+lines(ww[,1], col = "blue", lwd = 2)
+```
+
+
+## Some simple time series models
+
+```{r ex_WN}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+matplot(ww, type="l", lty="solid",  las = 1,
+        ylab = expression(italic(x[t])), xlab = "Time",
+        col = gray(0.5, 0.4))
+```
+
+White noise: $x_t \sim N(0,1)$
+
+
+## Some simple time series models
+
+```{r ex_RW}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+matplot(apply(ww, 2, cumsum), type="l", lty="solid",  las = 1,
+        ylab = expression(italic(x[t])), xlab = "Time",
+        col = gray(0.5, 0.4))
+```
+
+Random walk: $x_t = x_{t-1} + w_t,~\text{with}~w_t \sim N(0,1)$
+
+
+## Classical decomposition
+
+### Model time series $\{x_t\}$ as a combination of
+
+1. trend ($m_t$)  
+2. seasonal component ($s_t$)  
+3. remainder ($e_t$)
+
+$x_t = m_t + s_t + e_t$
+
+
+## Classical decomposition | 1. The trend ($m_t$)
+
+We need a way to extract the so-called _signal_ from the _noise_
+
+One common method is via "linear filters"
+
+Linear filters can be thought of as "smoothing" the data
+
+
+## Classical decomposition | 1. The trend ($m_t$)
+
+Linear filters typically take the form
+
+$$
+\hat{m}_t = \sum_{i=-\infty}^{\infty} \lambda_i x_{t+1}
+$$
+
+
+## Classical decomposition | 1. The trend ($m_t$)
+
+For example, a moving average
+
+$$
+\hat{m}_t = \sum_{i=-a}^{a} \frac{1}{2a + 1} x_{t+i}
+$$
+
+
+## Classical decomposition | 1. The trend ($m_t$)
+
+For example, a moving average
+
+$$
+\hat{m}_t = \sum_{i=-a}^{a} \frac{1}{2a + 1} x_{t+i}
+$$
+
+If $a = 1$, then
+
+$$
+\hat{m}_t = \frac{1}{3}(x_{t-1} + x_t + x_{t+1})
+$$
+
+
+## Classical decomposition | 1. The trend ($m_t$)
+
+For example, a moving average
+
+$$
+\hat{m}_t = \sum_{i=-a}^{a} \frac{1}{2a + 1} x_{t+i}
+$$
+
+As $a$ increases, the estimated trend becomes more smooth
+
+
+## Example of linear filtering
+
+```{r plot_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
+xx <- AirPassengers
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(xx, las = 1, ylab = "")
+```
+
+
+## Example of linear filtering
+
+```{r plot_airpass_fltr1, fig.cap = "Monthly airline passengers from 1949-1960"}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(xx, las = 1, ylab = "")
+## weights for moving avg
+fltr <- c(1,1,1)/3
+trend <- filter(xx, filter=fltr, method="convo", sides=2)
+lines(trend, col = "blue", lwd = 2)
+text(x = 1949, y = max(trend, na.rm = TRUE),
+     labels = expression(paste("a = 1; ", lambda, " = 1/3")),
+     adj = c(0,0), col = "blue")
+```
+
+
+## Example of linear filtering
+
+```{r plot_airpass_fltr2, fig.cap = "Monthly airline passengers from 1949-1960"}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(xx, las = 1, ylab = "")
+## weights for moving avg
+fltr2 <- rep(1,9)/9
+trend2 <- filter(xx, filter=fltr2, method="convo", sides=2)
+lines(trend, col = "blue", lwd = 2)
+lines(trend2, col = "darkorange", lwd = 2)
+text(x = 1949, y = max(trend, na.rm = TRUE),
+     labels = expression(paste("a = 1; ", lambda, " = 1/3")),
+     adj = c(0,0), col = "blue")
+text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
+     labels = expression(paste("a = 4; ", lambda, " = 1/9")),
+     adj = c(0,0), col = "darkorange")
+```
+
+
+## Example of linear filtering
+
+```{r plot_airpass_fltr3, fig.cap = "Monthly airline passengers from 1949-1960"}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(xx, las = 1, ylab = "")
+## weights for moving avg
+fltr3 <- rep(1,27)/27
+trend3 <- filter(xx, filter=fltr3, method="convo", sides=2)
+lines(trend, col = "blue", lwd = 2)
+lines(trend2, col = "darkorange", lwd = 2)
+lines(trend3, col = "darkred", lwd = 2)
+text(x = 1949, y = max(trend, na.rm = TRUE),
+     labels = expression(paste("a = 1; ", lambda, " = 1/3")),
+     adj = c(0,0), col = "blue")
+text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
+     labels = expression(paste("a = 4; ", lambda, " = 1/9")),
+     adj = c(0,0), col = "darkorange")
+text(x = 1949, y = max(trend, na.rm = TRUE)*0.8,
+     labels = expression(paste("a = 13; ", lambda, " = 1/27")),
+     adj = c(0,0), col = "darkred")
+```
+
+
+## Classical decomposition | 2. Seasonal effect ($s_t$)
+
+Once we have an estimate of the trend $\hat{m}_t$, we can estimate $\hat{s}_t$ simply by subtraction:
+
+$$
+\hat{s}_t = x_t - \hat{m}_t
+$$
+
+
+## Classical decomposition
+
+```{r plot_airpass_decomp_seas, fig.cap = ""}
+seas <- trend2 - xx
+  
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(seas, las = 1, ylab = "")
+# text(x = 1949, y = max(trend, na.rm = TRUE)*0.9,
+#      labels = expression(paste(lambda, " = 1/9")),
+#      adj = c(0,0), col = "darkorange")
+```
+
+Seasonal effect ($\hat{s}_t$), assuming $\lambda = 1/9$
+
+
+## Classical decomposition | 2. Seasonal effect ($s_t$)
+
+But, $\hat{s}_t$ really includes the remainder $e_t$ as well
+
+$$
+\begin{align}
+\hat{s}_t &= x_t - \hat{m}_t \\
+(s_t + e_t) &= x_t - m_t
+\end{align}
+$$
+
+## Classical decomposition | 2. Seasonal effect ($s_t$)
+
+So we need to estimate the _mean_ seasonal effect as 
+
+$$
+\hat{s}_{Jan} = \sum \frac{1}{(N/12)} \{s_1, s_{13}, s_{25}, \dots \} \\
+\hat{s}_{Feb} = \sum \frac{1}{(N/12)} \{s_2, s_{14}, s_{26}, \dots \} \\
+\vdots \\
+\hat{s}_{Dec} = \sum \frac{1}{(N/12)} \{s_{12}, s_{24}, s_{36}, \dots \} \\
+$$
+
+
+## Mean seasonal effect ($s_t$)
+
+```{r mean_seasonal_effects}
+seas_2 <- decompose(xx)$seasonal
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(seas_2, las = 1, ylab = "")
+```
+
+
+## Classical decomposition | 3. Remainder ($e_t$)
+
+Now we can estimate $e_t$ via subtraction:
+
+$$
+\hat{e}_t = x_t - \hat{m}_t - \hat{s}_t
+$$
+
+
+## Remainder ($e_t$)
+
+```{r errors}
+ee <- decompose(xx)$random
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(ee, las = 1, ylab = "")
+```
+
+
+## Let's try a different model | With some other assumptions
+
+1. Log-transform data
+
+2. Linear trend
+
+
+## Log-transformed data
+
+```{r plot_ln_airpass, fig.cap = "Monthly airline passengers from 1949-1960"}
+lx <- log(AirPassengers)
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(lx, las = 1, ylab = "")
+```
+
+
+## The trend ($m_t$)
+
+```{r plot_lin_trend}
+tt <- as.vector(time(xx))
+cc <- coef(lm(lx ~ tt))
+pp <- cc[1] + cc[2] * tt
+  
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot(tt, lx, type="l", las = 1,
+     xlab = "Time", ylab = "")
+lines(tt, pp, col = "blue", lwd = 2)
+```
+
+
+## Seasonal effect ($s_t$) with error ($e_t$)
+
+```{r seas_ln_dat}
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(lx-pp)
+```
+
+
+## Mean seasonal effect ($s_t$)
+
+```{r mean_seas_effects}
+## length of ts
+ll <- length(lx)
+## frequency (ie, 12)
+ff <- frequency(lx)
+## number of periods (years); %/% is integer division
+periods <- ll %/% ff
+## index of cumulative month
+index <- seq(1,ll,by=ff) - 1
+## get mean by month
+mm <- numeric(ff)
+for(i in 1:ff) {
+  mm[i] <- mean(lx[index+i], na.rm=TRUE)
+}
+## subtract mean to make overall mean=0
+mm <- mm - mean(mm)
+seas_2 <- ts(rep(mm, periods+1)[seq(ll)],
+               start=start(lx), 
+               frequency=ff)
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(seas_2, las = 1, ylab = "")
+```
+
+
+## Remainder ($e_t$)
+
+```{r ln_errors}
+le <- lx - pp - seas_2
+par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+plot.ts(le, las = 1, ylab = "")
+```
+
+
+## Summary | Today's topics
+
+### Characteristics of time series (ts)
+* What is a ts?
+* Classifying ts
+* Trends
+* Seasonality (periodicity)
+    
+### Classical decomposition
+
+

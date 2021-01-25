@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ETS.utf8.md</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+---
+
+class: center, middle, inverse
+# Forecasting Time Series
+## Simple Exponential Smoothing
+
+.futnote[Eli Holmes, UW SAFS]
+
+.citation[eeholmes@uw.edu]
+
+---
+
+## Naive forecast
+
+For a naive forecast of the anchovy catch in 1988, we just use the 1987 catch.
+
+`$$\hat{x}_{1988} = x_{1987}$$`
+Which is the same as saying that we put 100% of the 'weight' on the most recent value and no weight on any value prior to that.
+
+`$$\hat{x}_{1988} = 1 \times x_{1987} + 0 \times x_{1986} + 0 \times x_{1985} + \dots$$`
+---
+
+Past values in the time series have information about the current state, but only the most recent past value.
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+That's a bit extreme.  Often the values prior to the last value also have some information about future states.  But the 'information content' should decrease the farther in the past that we go.
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+Simple exponential smoothing uses this type of weighting that falls off exponentially and the objective to estimate the best weighting ( `\(\alpha\)` ):
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Fitting exponential smoothing models
+
+The forecast package will fit a wide variety of exponential smoothing models.  The main fitting function is `ets()`:
+
+```
+ets(y, model = "ZZZ", &lt; + many other arguments &gt;)
+```
+
+* y : your data.  A time series of responses.
+
+* model: what type of exponential smoothing model.
+    * Z=choose, A=additive, M=muplicative
+    * first letter is for level 
+    * second letter is for trend
+    * third letter is for season
+
+---
+
+We are going to `ets()` to fit three simple types of exponential smoothing models:
+
+model  | "ZZZ" | alternate function |
+------------- | ------------- | --------- |
+exponential smoothing no trend | "ANN" | `ses()` |
+exponential smoothing with trend  | "AAN" | `holt()` |
+exponential smoothing choose trend  | "AZN" | NA |
+
+The alternate function does exactly the same fitting.  It is just a 'shortcut'.
+
+---
+
+## Fit exponential smoothing with no trend
+
+This is like the naive model that just uses the last value to make the forecast, but instead of only using the last value it will use values farther in the past also. The weighting fall off exponentially.
+
+Load the data and **forecast** package.
+
+
+```r
+data(greeklandings, package="FishForecast")
+anchovy &lt;- subset(greeklandings, 
+                  Species=="Anchovy" &amp; Year&lt;=1987)$log.metric.tons
+anchovy &lt;- ts(anchovy, start=1964)
+library(forecast)
+```
+
+
+```r
+fit &lt;- ets(anchovy, model="ANN")
+fr &lt;- forecast(fit, h=5)
+```
+
+---
+
+
+```r
+plot(fr)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Look at the estimates
+
+
+```r
+fit
+```
+
+```
+## ETS(A,N,N) 
+## 
+## Call:
+##  ets(y = anchovy, model = "ANN") 
+## 
+##   Smoothing parameters:
+##     alpha = 0.7065 
+## 
+##   Initial states:
+##     l = 8.5553 
+## 
+##   sigma:  0.2166
+## 
+##       AIC      AICc       BIC 
+##  6.764613  7.964613 10.298775
+```
+
+---
+
+## The weighting function
+
+&lt;img src="ETS_files/figure-html/ann.weighting-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Produce forecast with ets from a previous fit
+
+Say you want to estimate a forecasting model from one dataset and use that model to forecast another dataset or another area.  Here is how to do that.
+
+This is the fit to the 1964-1987 data:
+
+
+```r
+fit1 &lt;- ets(anchovy, model="ANN")
+```
+
+Use that model with the 2000-2007 data and produce a forecast:
+
+
+```r
+dat &lt;- subset(landings, Species=="Anchovy" &amp; Year&gt;=2000 &amp; Year&lt;=2007)
+dat &lt;- ts(dat$log.metric.tons, start=2000)
+fit2 &lt;- ets(dat, model=fit1)
+```
+
+```
+## Model is being refit with current smoothing parameters but initial states are being re-estimated.
+## Set 'use.initial.values=TRUE' if you want to re-use existing initial values.
+```
+
+```r
+fr2 &lt;- forecast(fit2, h=5)
+```
+
+---
+
+
+```r
+plot(fr2)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Naive model with drift
+
+Fit a model that uses the last observation as the forecast but includes a trend estimated from ALL the data.  This is what the naive model with drift does.
+
+
+```r
+fit.rwf &lt;- Arima(anchovy, order=c(0,1,0), include.drift=TRUE)
+fr.rwf &lt;- forecast(fit.rwf, h=5)
+plot(fr.rwf)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+The trend seen in the blue line is estimated from the overall trend in ALL the data.
+
+
+```r
+coef(fit.rwf)
+```
+
+```
+##      drift 
+## 0.06577281
+```
+
+The trend from all the data is (last-first)/(number of steps).
+
+
+```r
+mean(diff(anchovy))
+```
+
+```
+## [1] 0.06577281
+```
+
+So we only use the latest data to choose the level for our forecast but use all the data to choose the trend?  It would make more sense to weight the more recent trends more heavily.
+
+---
+
+## Exponential smoothing model with trend
+
+The exponential smoothing model with trend does this.  The one-year trend is 
+`$$x_t - x_{t-1}$$`
+That is how much the data increased or decreased.  
+
+---
+
+
+```r
+plot(diff(anchovy),ylim=c(-0.3,.3))
+abline(h=0, col="blue")
+abline(h=mean(diff(anchovy)),col="red")
+title("0 means no change")
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+If we take the average of all `\(x_t - x_{t-1}\)` we are using the average trend like the naive model with drift.  We put an equal weighting on all trends.
+
+But we could use a weighting that falls off exponentially so that we more recent trends affect the forecast more than trends in the distant past.  That is what an exponential smoothing model with trend does.
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Naive model with trend
+
+If your training data are length `\(T\)`, then a forecast for `\(T+h\)` is
+
+`$$\hat{x}_{T+h} = l_T + h \bar{b}$$`
+
+where `\(\hat{b}\)` is the mean of the the yearly changes in `\(x\)`, so the mean of `\(x_t - x_{t-1}\)`.
+
+`$$\hat{b} = \sum_{t=2}^T (x_t - x_{t-1})$$`
+
+## Exponential smoothing model with trend
+
+`$$\hat{x}_{T+h} = l_T + h b_T$$`
+
+where `\(b_T\)` is a weighted average with the more recent trends given more weight.
+
+`$$b_t = \sum_{t=2}^T \beta (1-\beta)^{t-2}(x_t - x_{t-1})$$`
+---
+ 
+## Fit exponential smoothing with trend
+
+
+```r
+fit &lt;- ets(anchovy, model="AAN")
+fr &lt;- forecast(fit, h=5)
+plot(fr)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Decomposing your model fit
+
+Sometimes you would like to see the smoothed level and smoothed trend that the model estimated. You can see that with `plot(fit)` or `autoplot(fit)`.
+
+
+```r
+autoplot(fit)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Validation
+
+---
+
+
+
+
+
+## Measures of forecast fit
+
+To measure the forecast fit, we fit a model to training data and test a forecast against data in a test set.  We 'held out' the test data and did not use it at all in our fitting.
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+We will fit to the training data and make a forecast.
+
+
+```r
+fit1 &lt;- auto.arima(traindat)
+fr &lt;- forecast(fit1, h=2)
+fr
+```
+
+```
+##    Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
+## 25       10.03216 9.789577 10.27475 9.661160 10.40317
+## 26       10.09625 9.832489 10.36001 9.692861 10.49964
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+How to we quantify the difference between the forecast and the actual values?
+
+
+```r
+fr.err &lt;- testdat - fr$mean
+fr.err
+```
+
+```
+## Time Series:
+## Start = 25 
+## End = 26 
+## Frequency = 1 
+## [1] -0.1704302 -0.4944778
+```
+
+There are many metrics.  The `accuracy()` function in forecast provides many different metrics: mean error, root mean square error, mean absolute error, mean percentage error, mean absolute percentage error.
+
+---
+
+### ME Mean err
+
+
+```r
+me &lt;- mean(fr.err)
+me
+```
+
+```
+## [1] -0.332454
+```
+
+### RMSE Root mean squared error
+
+
+```r
+rmse &lt;- sqrt(mean(fr.err^2))
+rmse
+```
+
+```
+## [1] 0.3698342
+```
+
+### MAE Mean absolute error
+
+
+```r
+mae &lt;- mean(abs(fr.err))
+mae
+```
+
+```
+## [1] 0.332454
+```
+
+---
+
+### MPE Mean percentage error
+
+
+```r
+fr.pe &lt;- 100*fr.err/testdat
+mpe &lt;- mean(fr.pe)
+mpe
+```
+
+```
+## [1] -3.439028
+```
+
+### MAPE Mean absolute percentage error
+
+
+```r
+mape &lt;- mean(abs(fr.pe))
+mape
+```
+
+```
+## [1] 3.439028
+```
+
+---
+
+
+```r
+accuracy(fr, testdat)[,1:5]
+```
+
+```
+##                       ME      RMSE       MAE        MPE     MAPE
+## Training set -0.00473511 0.1770653 0.1438523 -0.1102259 1.588409
+## Test set     -0.33245398 0.3698342 0.3324540 -3.4390277 3.439028
+```
+
+
+```r
+c(me, rmse, mae, mpe, mape)
+```
+
+```
+## [1] -0.3324540  0.3698342  0.3324540 -3.4390277  3.4390277
+```
+
+---
+
+## Test all the models in your candidate model
+
+Now that you have some metrics for forecast accuracy, you can compute these for all the models in your candidate set.
+
+
+```r
+# The model picked by auto.arima
+fit1 &lt;- Arima(traindat, order=c(0,1,1))
+fr1 &lt;- forecast(fit1, h=2)
+test1 &lt;- accuracy(fr1, testdat)[2,1:5]
+
+# AR-1
+fit2 &lt;- Arima(traindat, order=c(1,1,0))
+fr2 &lt;- forecast(fit2, h=2)
+test2 &lt;- accuracy(fr2, testdat)[2,1:5]
+
+# Naive model with drift
+fit3 &lt;- rwf(traindat, drift=TRUE)
+fr3 &lt;- forecast(fit3, h=2)
+test3 &lt;- accuracy(fr3, testdat)[2,1:5]
+```
+
+---
+
+## Show a summary
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; ME &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; RMSE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; MAE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; MPE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; MAPE &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (0,1,1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.293 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.320 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.293 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -3.024 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.024 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (1,1,0) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.309 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.341 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.309 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -3.200 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.200 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Naive &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.483 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.510 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.483 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -4.985 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.985 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Cross-Validation
+
+An alternate approach to testing a model's forecast accuracy is to use windows or shorter segments of the whole time series to make a series of single forecasts.  
+
+&lt;img src="ETS_files/figure-html/cv.sliding-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+Another approach uses a fixed window.  For example, a 10-year window.
+
+&lt;img src="ETS_files/figure-html/cv.fixed-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Time-series cross-validation with the forecast package
+
+
+```r
+far2 &lt;- function(x, h, order){
+  forecast(Arima(x, order=order), h=h)
+  }
+e &lt;- tsCV(traindat, far2, h=1, order=c(0,1,1))
+tscv1 &lt;- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(abs(e), na.rm=TRUE))
+tscv1
+```
+
+```
+##        ME      RMSE       MAE 
+## 0.1128788 0.2261706 0.1880392
+```
+
+Compare to RMSE from just the 2 test data points.
+
+```r
+test1[c("ME","RMSE","MAE")]
+```
+
+```
+##         ME       RMSE        MAE 
+## -0.2925326  0.3201093  0.2925326
+```
+
+---
+
+## Cross-validation farther in future
+
+&lt;img src="ETS_files/figure-html/cv.sliding.4plot-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+Compare accuracy of forecasts 1 year out versus 4 years out.  If `h` is greater than 1, then the errors are returned as a matrix with each `h` in a column.  Column 4 is the forecast, 4 years out.
+
+
+```r
+e &lt;- tsCV(traindat, far2, h=4, order=c(0,1,1))[,4]
+#RMSE
+tscv4 &lt;- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(abs(e), na.rm=TRUE))
+rbind(tscv1, tscv4)
+```
+
+```
+##              ME      RMSE       MAE
+## tscv1 0.1128788 0.2261706 0.1880392
+## tscv4 0.2839064 0.3812815 0.3359689
+```
+
+---
+
+Compare accuracy of forecasts with a fixed 10-year window and 1-year out forecasts.
+
+
+```r
+e &lt;- tsCV(traindat, far2, h=1, order=c(0,1,1), window=10)
+#RMSE
+tscvf1 &lt;- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(abs(e), na.rm=TRUE))
+tscvf1
+```
+
+```
+##        ME      RMSE       MAE 
+## 0.1387670 0.2286572 0.1942840
+```
+
+---
+
+
+```r
+comp.tab &lt;- rbind(test1=test1[c("ME","RMSE","MAE")],
+      slide1=tscv1,
+      slide4=tscv4,
+      fixed1=tscvf1)
+knitr::kable(comp.tab, format="html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; ME &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; RMSE &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; MAE &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; test1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.2925326 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3201093 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2925326 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; slide1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1128788 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2261706 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1880392 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; slide4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2839064 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3812815 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3359689 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; fixed1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1387670 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2286572 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1942840 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+## Forecast performance for ETS models
+
+We can evaluate the forecast performance with forecasts of our test data or we can use all the data and use time-series cross-validation.
+
+Let's start with the former.
+
+
+
+---
+
+## Test forecast performance against a test data set
+
+We will fit an an exponential smoothing model with trend to the training data and make a forecast for the years that we 'held out'. 
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+We can calculate a variety of forecast error metrics with
+
+
+```r
+accuracy(fr, testdat)
+```
+
+```
+##                      ME      RMSE       MAE        MPE     MAPE      MASE
+## Training set  0.0155561 0.1788989 0.1442712  0.1272938 1.600532 0.7720807
+## Test set     -0.5001701 0.5384355 0.5001701 -5.1678506 5.167851 2.6767060
+##                      ACF1 Theil's U
+## Training set -0.008371542        NA
+## Test set     -0.500000000  2.690911
+```
+
+We would now repeat this for all the models in our candidate set and choose the model with the best forecast performance.
+
+---
+
+## Forecast performance with time-series cross-validation
+
+We can use `tsCV()` as we did for ARIMA models.  We will redefine `traindat` as all our Anchovy data.
+
+
+
+---
+
+## tsCV() function
+
+We will use the `tsCV()` function.  We need to define a function that returns a forecast.
+
+
+```r
+far2 &lt;- function(x, h, model){
+  fit &lt;- ets(x, model=model)
+  forecast(fit, h=h)
+  }
+```
+
+---
+
+Now we can use `tsCV()` to run our `far2()` function to a series of training data sets.  We will specify that a NEW ets model be estimated for each training set.  We are not using the weighting estimated for the whole data set but estimating the weighting new for each set.
+
+The `e` are our forecast errors for all the forecasts that we did with the data.
+
+
+```r
+e &lt;- tsCV(traindat, far2, h=1, model="AAN")
+e
+```
+
+```
+## Time Series:
+## Start = 1 
+## End = 26 
+## Frequency = 1 
+##  [1] -0.245378390  0.366852341  0.419678595 -0.414861770 -0.152727933
+##  [6] -0.183775208 -0.013799590  0.308433377 -0.017680471 -0.329690537
+## [11] -0.353441463  0.266143346 -0.110848616 -0.005227309  0.157821831
+## [16]  0.196184446  0.008135667  0.326024067  0.085160559  0.312668447
+## [21]  0.246437781  0.117274740  0.292601670 -0.300814605 -0.406118961
+## [26]           NA
+```
+
+---
+
+Let's look at the first few `e` so we see exactly with `tsCV()` is doing.
+
+
+```r
+e[2]
+```
+
+```
+## [1] 0.3668523
+```
+
+This uses training data from `\(t=1\)` to `\(t=2\)` so fits an ets to the first two data points alone.  Then it creates a forecast for `\(t=3\)` and compares that forecast to the actual value observed for `\(t=3\)`.
+
+
+```r
+TT &lt;- 2 # end of the temp training data
+temp &lt;- traindat[1:TT]
+fit.temp &lt;- ets(temp, model="AAN")
+fr.temp &lt;- forecast(fit.temp, h=1)
+traindat[TT+1] - fr.temp$mean
+```
+
+```
+## Time Series:
+## Start = 3 
+## End = 3 
+## Frequency = 1 
+## [1] 0.3668523
+```
+
+---
+
+
+```r
+e[3]
+```
+
+```
+## [1] 0.4196786
+```
+
+This uses training data from `\(t=1\)` to `\(t=2\)` so fits an ets to the first two data points alone.  Then it creates a forecast for `\(t=3\)` and compares that forecast to the actual value observed for `\(t=3\)`.
+
+
+```r
+TT &lt;- 3 # end of the temp training data
+temp &lt;- traindat[1:TT]
+fit.temp &lt;- ets(temp, model="AAN")
+fr.temp &lt;- forecast(fit.temp, h=1)
+traindat[TT+1] - fr.temp$mean
+```
+
+```
+## Time Series:
+## Start = 4 
+## End = 4 
+## Frequency = 1 
+## [1] 0.4196786
+```
+
+---
+
+## Testing a specific ets model
+
+By specifying `model="AAN"`, we estimated a new ets model (meaning new weighting) for each training set used.  We might want to specify that we use only the weighting we estimated for the full data set.
+
+We do this by passing in a fit to `model`.
+
+The `e` are our forecast errors for all the forecasts that we did with the data. `fit1` below is the ets estimated from all the data 1964 to 1989.  Note, the code will produce a warning that it is estimating the initial value and just using the weighting.  That is what we want.
+
+
+```r
+fit1 &lt;- ets(traindat, model="AAN")
+e &lt;- tsCV(traindat, far2, h=1, model=fit1)
+e
+```
+
+```
+## Time Series:
+## Start = 1 
+## End = 26 
+## Frequency = 1 
+##  [1]           NA  0.576663901  1.031385937  0.897828249  1.033164616
+##  [6]  0.935274283  0.958914499  1.265427119 -0.017241938 -0.332751184
+## [11] -0.330473144  0.255886314 -0.103926617  0.031206730  0.154727479
+## [16]  0.198328366 -0.020605522  0.297475742  0.005297401  0.264939892
+## [21]  0.196256334  0.129798648  0.335887872 -0.074017535 -0.373267163
+## [26]           NA
+```
+
+---
+
+## Forecast accuracy metrics
+
+Now we can compute forecast accuracy metrics from the forecast errors (`e`).
+
+RMSE: root mean squared error
+
+```r
+rmse &lt;- sqrt(mean(e^2, na.rm=TRUE))
+```
+
+MAE: mean absolute error
+
+```r
+mae &lt;- mean(abs(e), na.rm=TRUE)
+```
+
+We would repeat this process for all models in our candidate set and compare forecast fits to choose our forecast model.
+
+---
+
+## Comparing performance in a candidate set
+
+Now you are ready to compare forecasts from a variety of models and choose a forecast model.  Note when you compare models, you can use both 'training data/test data' and use time-series cross-validation, but report the metrics in separate columns.  Example, 'RMSE from tsCV' and 'RMSE from test data'.
+
+---
+
+## Example candidate set for anchovy
+
+* Exponential smoothing model with trend
+```
+fit &lt;- ets(traindat, model="AAN")
+fr &lt;- forecast(fit, h=1)
+```
+* Exponential smoothing model no trend
+```
+fit &lt;- ets(traindat, model="ANN")
+fr &lt;- forecast(fit, h=1)
+```
+* ARIMA(0,1,1) with drift (best)
+```
+fit &lt;- Arima(traindat, order(0,1,1), include.drift=TRUE)
+fr &lt;- forecast(fit, h=1)
+```
+* ARIMA(2,1,0) with drift (within 2 AIC of best)
+```
+fit &lt;- Arima(traindat, order(2,1,0), include.drift=TRUE)
+fr &lt;- forecast(fr)
+```
+
+---
+
+## Candidata models continued
+
+* Time-varying regression with linear time
+```
+traindat$t &lt;- 1:24
+fit &lt;- lm(log.metric.tons ~ t, data=traindat)
+fr &lt;- forecast(fit, newdata=data.frame(t=25))
+```
+
+* Naive no trend
+```
+fit &lt;- Arima(traindat, order(0,1,0))
+fr &lt;- forecast(fit, h=1)
+# or simply
+fr &lt;- rwf(traindat)
+```
+* Naive with trend
+```
+fit &lt;- Arima(traindat, order(0,1,0), include.drift=TRUE)
+fr &lt;- forecast(fit)
+# or simply
+fr &lt;- rwf(traindat, drift=TRUE)
+```
+* Average or mean
+```
+fit &lt;- Arima(traindat, order(0,0,0))
+fr &lt;- forecast(fit)
+```
+
+---
+
+## Seasonal Exponential Smoothing Models
+
+
+```r
+load("chinook.RData")
+head(chinook)
+```
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 38.8888888888889%; margin-left: 0%; margin-right: auto; ">
+<col><col><col><col><col><tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Year</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Month</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Species</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">log.metric.tons</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">metric.tons</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">1990</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">Jan</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">Chinook</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">3.4&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">29.9</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">1990</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Feb</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Chinook</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt;">3.81</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;">45.1</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">1990</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">Mar</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">Chinook</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">3.51</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">33.5</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">1990</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Apr</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Chinook</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt;">4.25</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;">70&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">1990</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">May</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">Chinook</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">5.2&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">181&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">1990</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">Jun</td>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">Chinook</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">4.37</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">79.2</td>
+</tr>
+</table>
+
+
+---
+
+The data are monthly and start in January 1990.  To make this into a ts object do
+
+
+```r
+chinookts &lt;- ts(chinook$log.metric.tons, start=c(1990,1), frequency=12)
+```
+`start` is the year and month and frequency is the number of months in the year.  
+
+---
+
+## Plot seasonal data
+
+Now that we have specified our seasonal data as a ts object, it is easy to plot because R knows what the season is.
+
+
+```r
+plot(chinookts)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Seasonal Exponential Smoothing Model
+
+Now we add a few more lines to our ETS table of models:
+
+model  | "ZZZ" | alternate function |
+------------- | ------------- | --------- |
+exponential smoothing no trend | "ANN" | `ses()` |
+exponential smoothing with trend  | "AAN" | `holt()` |
+exponential smoothing with season no trend  | "ANA" | NA |
+exponential smoothing with season and trend  | "AAA" | NA |
+estimate best trend and season model | "ZZZ" | NA |
+
+Unfortunately `ets()` will not handle missing values and will find the longest continuous piece of our data and use that.
+
+---
+
+
+
+```r
+library(forecast)
+traindat &lt;- window(chinookts, c(1990,1), c(1999,12))
+fit &lt;- ets(traindat, model="AAA")
+```
+
+```
+## Warning in ets(traindat, model = "AAA"): Missing values encountered. Using
+## longest contiguous portion of time series
+```
+
+```r
+fr &lt;- forecast(fit, h=24)
+plot(fr)
+points(window(chinookts, c(1996,1), c(1996,12)))
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Decompose
+
+If we plot the decomposition, we see the the seasonal component is not changing over time, unlike the actual data.  The bar on the right, alerts us that the scale on the 3rd panel is much smaller.
+
+
+```r
+autoplot(fit)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Force seasonality to evolve more
+
+Pass in a high `gamma` (the season weighting) to force the seasonality to evolve.
+
+```r
+fit &lt;- ets(traindat, model="AAA", gamma=0.4)
+```
+
+```
+## Warning in ets(traindat, model = "AAA", gamma = 0.4): Missing values
+## encountered. Using longest contiguous portion of time series
+```
+
+```r
+autoplot(fit)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Compare to a seasonal ARIMA model
+
+`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data.  Let's use the data that `ets()` used.  This is shorter than our training data.  The data used by `ets()` is returned in `fit$x`.
+
+---
+
+
+```r
+no_miss_dat &lt;- fit$x
+fit &lt;- auto.arima(no_miss_dat)
+fr &lt;- forecast(fit, h=12)
+plot(fr)
+points(window(chinookts, c(1996,1), c(1996,12)))
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-46-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Missing values are ok when fitting a seasonal ARIMA model
+
+
+```r
+fit &lt;- auto.arima(traindat)
+fr &lt;- forecast(fit, h=12)
+plot(fr)
+```
+
+&lt;img src="ETS_files/figure-html/unnamed-chunk-47-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Forecast evaluation
+
+We can compute the forecast performance metrics as usual. 
+
+
+```r
+fit &lt;- ets(traindat, model="AAA", gamma=0.4)
+```
+
+```
+## Warning in ets(traindat, model = "AAA", gamma = 0.4): Missing values
+## encountered. Using longest contiguous portion of time series
+```
+
+```r
+fr &lt;- forecast(fit, h=12)
+```
+Look at the forecast so you know what years and months to include in your test data.  Pull those 12 months out of your data using the `window()` function.
+
+
+```r
+testdat &lt;- window(traindat, c(1996,1), c(1996,12))
+```
+Use `accuracy()` to get the forecast error metrics.
+
+```r
+accuracy(fr, testdat)
+```
+
+```
+##                       ME      RMSE       MAE        MPE      MAPE
+## Training set  0.01190635 0.6193794 0.4787154  -5.578132  30.03221
+## Test set     -0.08549288 0.5549696 0.4466604 106.497418 120.76501
+##                   MASE         ACF1 Theil's U
+## Training set 0.7939463  0.003452392        NA
+## Test set     0.7407832 -0.015140843 0.2057023
+```
+
+---
+
+We can do the same for the ARIMA model.
+
+
+```r
+no_miss_dat &lt;- fit$x
+fit &lt;- auto.arima(no_miss_dat)
+fr &lt;- forecast(fit, h=12)
+accuracy(fr, testdat)
+```
+
+```
+##                       ME      RMSE       MAE        MPE     MAPE      MASE
+## Training set 0.009977889 0.5677655 0.3965956  0.4645923 27.40975 0.6577511
+## Test set     0.819202544 0.9458134 0.8192025 22.0199537 55.91641 1.3586419
+##                     ACF1 Theil's U
+## Training set -0.06137508        NA
+## Test set     -0.02803914 0.6046339
+```
+
+---
+
+## Lab on Thursday
+
+Comparing candidates sets of models.
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
