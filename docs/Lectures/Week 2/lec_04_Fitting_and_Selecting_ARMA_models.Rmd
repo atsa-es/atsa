@@ -3,9 +3,9 @@ title: "Fitting and Selecting ARIMA models"
 author: "Eli Holmes"
 date: "14 Jan 2021"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -398,7 +398,7 @@ attr(test, "teststat")
 attr(test,"cval")
 ```
 
-The `tau3` statistic is larger than the critical value and thus the null hypothesis of non-stationarity is not rejected. That's not what we want.
+The `tau3` statistic is larger than the critical value and thus the null hypothesis of non-stationarity is not rejected. That's not what we want. Note, you can also get the test statistic and critical values at the bottom of the output from `urca::summary(test)`.
 
 
 <!--
