@@ -89,19 +89,19 @@ sslab1 <- list(
 ```{r}
 sslab2 <- list(
   title = "State-space models",
-  topics = c("Fitting mulitvariate state-space models"),
+  topics = c("Fitting univariate and mulitvariate state-space models"),
   pdf = "",
-  rmd = c("https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/HW2_NO2.Rmd"),
-  html = c("https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/HW2_NO2.html"),
-  video = "",
+  rmd = "",
+  html = c("https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html", "https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html"),
+  video = "https://washington.zoom.us/rec/share/_EzxfSAEg40yJjDojbpQusfmqr0J_3xdWYsUSiC4P9fX2N3Bn1rBROi0Raw6TO8h.9tyoBEZqcX-alt1P",
   youtube = "",
-  data = c("https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData"),
-  homework = "The questions are in the Rmd file. You can skip the OPTIONAL questions, but try to tackle all the others.",
+  data = "",
+  homework = "TBD",
   key = "",
   #key = c("Labs/Week 3/HW_3_uss_Key.html", "Labs/Week 3/HW_3_Key.html"),
   instructor = "Eli",
   hw_topics = c("State-space models"),
-  hw_duedate = "Due next Fri 11:59 PM PST; email to Eli"
+  hw_duedate = "Due next Thurs 11:59 PM PST; email to instructor(s) for lab"
 )
 ```
 

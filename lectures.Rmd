@@ -96,7 +96,7 @@ kable(syl_txt, format = "html", caption = " ",
   kable_styling(bootstrap_options = "striped",
                 full_width = F,
                 position = "left") %>%
-  column_spec(c(1,4), width = "8em")  %>%
+  column_spec(c(1,2), width = "4em")  %>%
   scroll_box(height = "700px", extra_css = "border-style: none;")
 ```
 
