@@ -151,6 +151,28 @@ marss <- list(
 ```
 
 ```{r}
+marss_covariates <- list(
+  title = "Covariates in MARSS models",
+  topics = c("MARSSX and ARMAX models",
+             "Seasonal effects",
+             "Missing covariates"),
+  pdf = "",
+  ppt = "",
+  rmd = c("Lectures/Week 4/lec_07_covariates.Rmd"),
+  html = c("Lectures/Week 4/lec_07_covariates.html"),
+  video = "",
+  youtube = "",
+  reading = c(
+    "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
+    "[MARSS Models HWS18a: Chap 8](https://nwfsc-timeseries.github.io/atsa-labs/chap-msscov.html)",
+    "[Missing Covariates HWS18a: Chap 11](https://nwfsc-timeseries.github.io/atsa-labs/chap-mssmiss.html)",
+    "[HA18: Chap 5](https://otexts.com/fpp2/regression.html)",
+    "[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)", 
+    "[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
+  instructor = "Eli"
+)
+```
+```{r}
 covariates <- list(
   title = "Covariates in time-series models",
   topics = c("Including covariates (predictors) in models",
