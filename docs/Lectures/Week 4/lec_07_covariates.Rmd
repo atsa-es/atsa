@@ -32,26 +32,18 @@ knitr::opts_chunk$set(fig.height=5, fig.align="center")
 
 ## Why include covariates in a model?
 
+* You want to forecast something using covariates
 * We are often interested in knowing the cause of variation
 * Covariates can explain the process that generated the patterns
+* Covariates can help deal with problematic observation errors
+* You are using covariates to model a changing system
 
+##
+
+Lake WA plankton and covariates
 
 ```{r covariates, echo=FALSE, out.width = '80%'}
 knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%204/msscov-plank-plot.png")
-```
-
-## Why include covariates in a model?
-
-* You want to forecast something using covariates
-
-```{r forecastsalmon, echo=FALSE, out.width = '100%'}
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/forecastsalmon.png")
-```
-
-## Covariates -> Forecast
-
-```{r out.width=c('300px', '350px'), out.extra='style="float:left; display:block; padding:30px"', echo=FALSE}
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/salmoncovariates.jpg")
 ```
 
 ## Covariates in time series models
