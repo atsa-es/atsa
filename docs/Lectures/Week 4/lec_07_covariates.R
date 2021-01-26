@@ -38,15 +38,21 @@ kem <- MARSS(dat, model = model.list)
 # Look at the state estimates
 plot(kem, plot.type="xtT")
 
+plot(kem$states[1,], type="l")
+points(dat[1,])
+
 # In this model, the changes in the state (stochastic trend) is 
 # being explained (or not) by the covariates.
 
 # Q1. Change the model to one where the effect of temperature
 # is the same for both blue green and green algae.
+C <- matrix(list("t", "t", "tp1", "tp2"),2,2)
 
 # Q2. Change the model to one where the effect of temperature
 # is the same for both blue green and green algae and the effect
 # of TP is the same.
+C <- matrix(list("t", "t", "tp", "tp"),2,2)
 
-# Q3. Change to a model where TP only affect blue green algae.
+# Q3. Change to a model where TP only affects blue green algae.
+C <- matrix(list("t1", "t2", 0, "tp2"),2,2)
 

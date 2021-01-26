@@ -156,7 +156,7 @@ marss_covariates <- list(
   topics = c("MARSSX and ARMAX models",
              "Seasonal effects",
              "Missing covariates"),
-  pdf = "",
+  pdf = c("Lectures/Week 4/lec_07_covariates.pdf"),
   ppt = "",
   rmd = c("Lectures/Week 4/lec_07_covariates.Rmd"),
   html = c("Lectures/Week 4/lec_07_covariates.html"),

@@ -1,11 +1,12 @@
 ---
 title: "Covariates in Time Series Models"
-subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Eli Holmes"
 date: "26 Jan 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
+  beamer_presentation: default
+subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
@@ -43,7 +44,7 @@ knitr::opts_chunk$set(fig.height=5, fig.align="center")
 Lake WA plankton and covariates
 
 ```{r covariates, echo=FALSE, out.width = '80%'}
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%204/msscov-plank-plot.png")
+knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%204/images/msscov-plank-plot.png")
 ```
 
 ## Covariates in time series models
@@ -148,7 +149,7 @@ $$\mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{u} +\mathbf{C} \mathbf{c}
 
 $$\mathbf{x}_t = \mathbf{x}_{t-1}+\mathbf{u}+\boxed{\mathbf{C}\mathbf{c}_t}+\mathbf{w}_t \\ \mathbf{y}_t = \mathbf{x}_{t} + \mathbf{v}_t$$
 
-$\boxed{\mathbf{C}\mathbf{c}_t}$ The covariate is in $\mathbf{c}_t$ and the effect is in matrix $\mathbf{C}$.  
+$\mathbf{C}\mathbf{c}_t$ The covariate is in $\mathbf{c}_t$ and the effect is in matrix $\mathbf{C}$.  
 
 Example. lat/lon movement data so $\mathbf{x}$ and $\mathbf{y}$ are 2 dimensional (our lat and lon values). 
 
@@ -165,11 +166,11 @@ There is an effect of the prior $x_t$ and an effect of temp and wind.
 
 The structure of $\mathbf{C}$ can model different effect structures
 
-**Effect of temp and wind is the same**
+**Effect of temp and TP is the same**
 
 $$\begin{bmatrix}C & C \\ C & C\end{bmatrix}\begin{bmatrix}Temp \\ TP\end{bmatrix}_t$$
 
-###  .
+##
 
 **Effect of temperature and TP is different but the same across sites, species, whatever the row in $\mathbf{x}$ is**
 
@@ -181,7 +182,7 @@ $$\begin{bmatrix}C_a & C_b \\ C_a & C_b\end{bmatrix}\begin{bmatrix}Temp \\ TP\en
 
 $$\begin{bmatrix}C_{a1} & C_{b1} \\ C_{a2} & C_{b2}\end{bmatrix}\begin{bmatrix}Temp \\ TP\end{bmatrix}_t$$
 
-###  .
+##
 
 **Effect of temperature is the same across sites but TP is not**
 
@@ -344,14 +345,14 @@ WA and OR have different month effects.
 
 ```{r}
 C <- matrix(paste0(month.abb,rep(1:2,each=12)), 2, 12, byrow = TRUE)
-C
+C[,1:6]
 ```
 
 WA and OR have same month effects.
 
 ```{r}
 C <- matrix(month.abb, 2, 12, byrow = TRUE)
-C
+C[,1:6]
 ```
 
 ## Season as a 3rd order polynomial
@@ -532,7 +533,7 @@ C
 
 **Seasonality of Lake WA plankton**
 
-![](msscov-mon-effects-1.png){width=75%}
+![](images/msscov-mon-effects-1.png){width=75%}
 
 ## Missing covariates
 
@@ -540,17 +541,17 @@ C
 
 https://nwfsc-timeseries.github.io/atsa-labs/example-snotel-data.html
 
-![](snotelsites.png){width=75%}
+![](images/snotelsites.png){width=70%}
 
 ## Snow Water Equivalent (snowpack)
 
 February snowpack estimates
 
-![](snoteldata.png){width=75%}
+![](images/snoteldata.png){width=75%}
 
 ## Use MARSS models Chapter 11
 
 * Accounts for correlation across sites and local variability
 
-![](snotelfits.png){width=75%}
+![](images/snotelfits.png){width=75%}
 
