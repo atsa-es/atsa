@@ -2,7 +2,7 @@
 title: "Dynamic Factor Analysis"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "31 Jan 2019"
+date: "28 January 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
