@@ -251,7 +251,7 @@ a = matrix("a")  ## intercept
 D = matrix("D")  ## slope
 d = covariate    ## [1 x T] matrix of measured covariate
 Z = matrix(1)    ## no multiplier on x 
-R = matrix(0)    ## v_t ~ N(0,R); want y_t = 0 for all t
+R = matrix(0)    ## v_t ~ N(0,R); want v_t = 0 for all t
 ```
 
 
@@ -443,7 +443,7 @@ for(i in 1:NN) {
 
 ## Environmental time series
 
-We often observe covariance among environmental time series, especially for those close to one another
+We often observe covariance among environmental time series, especially for those collected close to one another in space
 
 
 ##
@@ -482,6 +482,8 @@ $$
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
 $$
+
+We can make (test) assumptions by specifying different forms for $\mathbf{Z}$
 
 
 ## State-space model | Ex: Harbor seal population structure
@@ -869,12 +871,31 @@ We'll use model selection criteria to choose (eg, AICc)
 
 ## Fitting DFA models
 
-It turns out that there are an infinite number of combinations of $\mathbf{Z}$ and $\mathbf{x}$ that will equal $\mathbf{y}$
+Unless $\mathbf{Z}$ is unconstrained in some manner, there are an infinite number of combinations of $\mathbf{Z}$ and $\mathbf{x}$ that will equal $\mathbf{y}$
 
 Therefore we need to impose some constraints on the model
 
 
-## Constraints on DFA models | The offset $\mathbf{a}$
+## Constraints on DFA models | 1) The offset $\mathbf{a}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{a} =
+\begin{bmatrix}
+ a_1 \\
+ a_2 \\
+ a_3 \\
+ \vdots \\
+ a_n
+\end{bmatrix}
+$$
+
+
+## Constraints on DFA models | 1) The offset $\mathbf{a}$
 
 $$
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
@@ -895,7 +916,7 @@ $$
 We will set the first $m$ elements of $\mathbf{a}$ to 0
 
 
-## Constraints on DFA models | The offset $\mathbf{a}$
+## Constraints on DFA models | 1) The offset $\mathbf{a}$
 
 For example, if $n = 5$ and $m = 2$
 
@@ -920,7 +941,7 @@ $$
 $$
 
 
-## Constraints on DFA models | The offset $\mathbf{a}$
+## Constraints on DFA models | 1) The offset $\mathbf{a}$
 
 For example, if $n = 5$ and $m = 2$
 
@@ -956,7 +977,26 @@ $$
 Note, however, that this causes problems for the EM algorithm so we will often de-mean the data and set $a_i = 0$ for all $i$
 
 
-## Constraints on DFA models | The loadings $\mathbf{Z}$
+## Constraints on DFA models | 2) The loadings $\mathbf{Z}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+ z_{1,1} & z_{2,1} & \dots & z_{m,1} \\
+ z_{1,2} & z_{2,2} & \dots & z_{m,2} \\
+ z_{1,3} & z_{2,3} & \dots & z_{m,3} \\
+ \vdots & \vdots & \ddots & z_{m,4} \\
+ z_{1,n} & z_{2,n} & \dots & z_{m,n}
+\end{bmatrix}
+$$
+
+
+## Constraints on DFA models | 2) The loadings $\mathbf{Z}$
 
 $$
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
@@ -977,7 +1017,7 @@ $$
 We will set the upper right triangle of $\mathbf{Z}$ to 0
 
 
-## Constraints on DFA models | The loadings $\mathbf{Z}$
+## Constraints on DFA models | 2) The loadings $\mathbf{Z}$
 
 For example, if $n = 5$ and $m = 3$
 
@@ -995,7 +1035,7 @@ $$
 For the first $m - 1$ rows of $\mathbf{Z}$, $z_{i,j} = 0$ if $j > i$
 
 
-## Constraints on DFA models | The loadings $\mathbf{Z}$
+## Constraints on DFA models | 2) The loadings $\mathbf{Z}$
 
 An additional constraint is necessary in a Bayesian context
 
@@ -1013,7 +1053,19 @@ $$
 Diagonal of $\mathbf{Z}$ is positive: $z_{i,j} > 0$ if $i = j$
 
 
-## Constraints on DFA models | The state variance $\mathbf{Q}$
+## Constraints on DFA models | 3) The state variance $\mathbf{Q}$
+
+$$
+\mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+$$
+
+$$
+\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})
+$$
+
+
+## Constraints on DFA models | 3) The state variance $\mathbf{Q}$
 
 $$
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
@@ -1027,7 +1079,7 @@ $$
 We will set $\mathbf{Q}$ equal to the Identity matrix $\mathbf{I}$
 
 
-## Constraints on DFA models | The state variance $\mathbf{Q}$
+## Constraints on DFA models | 3) The state variance $\mathbf{Q}$
 
 For example, if $m = 4$
 
@@ -1082,7 +1134,7 @@ $$
  d_{\text{Temp}} & d_{\text{Salinity}} \\
 \end{bmatrix}
 }_{\text{effects same by site/species}}
-~ \text{or} ~
+~~~ \text{or} ~~~
 \mathbf{D} =
 \underbrace{
 \begin{bmatrix}
@@ -1104,24 +1156,144 @@ However, caution must be given when comparing models with and without covariates
 
 ## A note on model selection
 
-Think about the model form
+Think about the DFA model form
 
 $$
 \mathbf{y}_t = \mathbf{Z} \underline{\mathbf{x}_t} + \mathbf{a} + \mathbf{D} \underline{\mathbf{d}_t} + \mathbf{v}_t \\
 $$
 
-$\mathbf{x}_t$ is an _undetermined_ random walk
+$\mathbf{x}_t$ are _undetermined_ random walks
 
-$\mathbf{d}_t$ is a _predetermined_ covariate
-
-Unless $\mathbf{d}$ is highly correlated with $\mathbf{y}$, then the inclusion of a state $\mathbf{x}$ will be favored over $\mathbf{d}$
+$\mathbf{d}_t$ are _predetermined_ covariates
 
 
-## A note on model selection
+## An example with 3 times series
 
-Thus, work out fixed effects (covariates) while keeping the random effects (states) constant, and vice versa
+Model 1 has 2 trends and no covariates
 
-For example, compare data support for models with different combinations of covariates, only one state ($m$ = 1), and a "diagonal and equal" $\mathbf{R}$
+$$
+\begin{bmatrix}
+ y_1 \\
+ y_2 \\
+ y_3 
+\end{bmatrix}_t =
+\begin{bmatrix}
+ z_{1,1} & z_{2,1} \\
+ z_{1,2} & z_{2,2} \\
+ z_{1,3} & z_{2,3}
+\end{bmatrix}
+\begin{bmatrix}
+ x_1 \\
+ x_2 
+\end{bmatrix}_t +
+\begin{bmatrix}
+ v_1 \\
+ v_2 \\
+ v_3 
+\end{bmatrix}_t
+$$
+
+Model 2 has 1 trend and 1 covariate
+
+$$
+\begin{bmatrix}
+ y_1 \\
+ y_2 \\
+ y_3 
+\end{bmatrix}_t =
+\begin{bmatrix}
+ z_1 \\
+ z_2 \\
+ z_3 
+\end{bmatrix}
+\begin{bmatrix}
+ x
+\end{bmatrix}_t +
+\begin{bmatrix}
+ D_1 \\
+ D_2 \\
+ D_3 
+\end{bmatrix}
+\begin{bmatrix}
+ d
+\end{bmatrix}_t +
+\begin{bmatrix}
+ v_1 \\
+ v_2 \\
+ v_3 
+\end{bmatrix}_t
+$$
+
+
+## An example with 3 times series
+
+Model 1 has 2 trends and no covariates
+
+$$
+\begin{bmatrix}
+ y_1 \\
+ y_2 \\
+ y_3 
+\end{bmatrix}_t =
+\begin{bmatrix}
+ z_{1,1} & z_{2,1} \\
+ z_{1,2} & z_{2,2} \\
+ z_{1,3} & z_{2,3}
+\end{bmatrix}
+\begin{bmatrix}
+ x_1 \\
+ x_2 
+\end{bmatrix}_t +
+\begin{bmatrix}
+ v_1 \\
+ v_2 \\
+ v_3 
+\end{bmatrix}_t
+$$
+
+Model 2 has 1 trend and 1 covariate
+
+$$
+\begin{bmatrix}
+ y_1 \\
+ y_2 \\
+ y_3 
+\end{bmatrix}_t =
+\begin{bmatrix}
+ z_1 \\
+ z_2 \\
+ z_3 
+\end{bmatrix}
+\begin{bmatrix}
+ x
+\end{bmatrix}_t +
+\begin{bmatrix}
+ D_1 \\
+ D_2 \\
+ D_3 
+\end{bmatrix}
+\begin{bmatrix}
+ d
+\end{bmatrix}_t +
+\begin{bmatrix}
+ v_1 \\
+ v_2 \\
+ v_3 
+\end{bmatrix}_t
+$$
+
+Unless $\mathbf{d}$ is *highly correlated* with $\mathbf{y}$, Model 1 will be favored
+
+
+## A note on model selection | For models with covariates
+
+* fit the *most complex model you can envision* based on all of your possible covariates and random factors (states)
+
+* keep the covariates fixed and choose the number of trends (states) using AICc
+
+* keep the covariates & states fixed and choose the form for $\mathbf{R}$
+
+* sort out the covariates while keeping the states & $\mathbf{R}$ fixed
 
 
 ## Interpreting DFA results
