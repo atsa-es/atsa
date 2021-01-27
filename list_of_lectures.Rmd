@@ -160,7 +160,7 @@ marss_covariates <- list(
   ppt = "",
   rmd = c("Lectures/Week 4/lec_07_covariates.Rmd"),
   html = c("Lectures/Week 4/lec_07_covariates.html"),
-  video = "",
+  video = "https://washington.zoom.us/rec/share/WGy5VRovHvXoxx8Gv9FREu_GBqszSDGo_ha1W1pIYjR7XK1csHGjkHvIv5_4wCkS.vpW-yoEa-VgQpcmZ",
   youtube = "",
   reading = c(
     "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
@@ -244,14 +244,13 @@ dlm2 <- list(
 dfa <- list(
   title = "Dynamic Factor Analysis",
   topics = c("Regression with autocorrelated errors", "Dynamic factor analysis (DFA)"),
-  pdf = "",
+  pdf = "Lectures/Week 4/lec_08_intro_to_DFA.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
+  html = "Lectures/Week 4/lec_08_intro_to_DFA.html",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Goertler et al. 2016](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162121)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
+  reading = c("[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
   instructor = "Mark"
 )
 ```
