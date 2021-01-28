@@ -130,7 +130,7 @@ dfalab <- list(
   topics = c("Fitting DFA models"),
   pdf = "",
   rmd = "",
-  html = "Labs/Week 4/intro-to-DFA.html",
+  html = "Labs/Week 4/intro-to-dfa.html",
   video = "",
   youtube = "",
   data = "",

@@ -25,14 +25,14 @@ Then write out in a matrix math formula what your MARSS model looks like. Define
 How to make these equations in R markdown:
 
 $$
-x_t = x_{t-1} + u + w_t\\ w_t ~ N(0,q)
+x_t = x_{t-1} + u + w_t\\ w_t \sim N(0,q)
 $$
 $$
 \begin{bmatrix}y_1\\y_2\end{bmatrix} =
 \begin{bmatrix}1\\1\end{bmatrix}x_t + 
 \begin{bmatrix}0\\a\end{bmatrix} +
 \begin{bmatrix}v_1\\v_2\end{bmatrix}\\ 
-\begin{bmatrix}v_1\\v_2\end{bmatrix} ~ \text{MVN}(0,\mathbf{R})
+\begin{bmatrix}v_1\\v_2\end{bmatrix} \sim \text{MVN}(0,\mathbf{R})
 $$
 $$
 \mathbf{R} = \begin{bmatrix}r&0\\0&r\end{bmatrix}
@@ -42,7 +42,7 @@ Use this code:
 
 ```
 $$
-x_t = x_{t-1} + u + w_t\\ w_t ~ N(0,q)
+x_t = x_{t-1} + u + w_t\\ w_t \sim N(0,q)
 $$
 
 $$
@@ -50,7 +50,7 @@ $$
 \begin{bmatrix}1\\1\end{bmatrix}x_t + 
 \begin{bmatrix}0\\a\end{bmatrix} +
 \begin{bmatrix}v_1\\v_2\end{bmatrix}\\ 
-\begin{bmatrix}v_1\\v_2\end{bmatrix} ~ \text{MVN}(0,\mathbf{R})
+\begin{bmatrix}v_1\\v_2\end{bmatrix} \sim \text{MVN}(0,\mathbf{R})
 $$
 
 $$
