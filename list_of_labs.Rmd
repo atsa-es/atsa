@@ -60,8 +60,7 @@ forecastlab <- list(
   youtube = "",
   data = "",
   homework = "Intro to ts: problems at end of <a href='https://nwfsc-timeseries.github.io/atsa-labs/chap-tslab.html'>Chapter 4</a> in the ATSA lab book.<br>Fitting ARMA models: problems at end of <a href='https://nwfsc-timeseries.github.io/atsa-labs/chap-boxjenkins-.html'>Chapter 5</a> in the ATSA lab book.",
-  key = "",
-  #key = c("Labs/Week 2/HW_2_ts_Key.html","Labs/Week 2/HW_2_box-jenkins_Key.html"),
+  key = c("Labs/Week 2/HW_2_ts_Key.html","Labs/Week 2/HW_2_box-jenkins_Key.html"),
   instructor = "Mark & Eli",
   hw_topics = c("ARIMA models"),
   hw_duedate = "Due next Thurs 11:59 PM PST; email to instructor(s) for lab"
