@@ -1,0 +1,138 @@
+---
+title: "HW2 Analysis of NO2 data from the UK Environmental Change Network"
+date: "Due Sat Jan 30 11:59 PM PST; email to Eli"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=FALSE, message = FALSE, warning = FALSE)
+```
+
+# Tips
+
+For this analysis, you will use MARSS models and you can follow/copy [chapter 7 in the lab manual](https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html).
+
+On the first page of all chapters is a link where you can download the Rmd file for that lecture. That will show you how to set up the code and how all the figures were made.
+
+## Write out your models in matrix form
+
+Write out (for yourself) what you are trying to do in words.
+
+Then write out in a matrix math formula what your MARSS model looks like. Define the $x$ and $y$'s.  
+
+How to make these equations in R markdown:
+
+$$
+x_t = x_{t-1} + u + w_t\\ w_t ~ N(0,q)
+$$
+$$
+\begin{bmatrix}y_1\\y_2\end{bmatrix} =
+\begin{bmatrix}1\\1\end{bmatrix}x_t + 
+\begin{bmatrix}0\\a\end{bmatrix} +
+\begin{bmatrix}v_1\\v_2\end{bmatrix}\\ 
+\begin{bmatrix}v_1\\v_2\end{bmatrix} ~ \text{MVN}(0,\mathbf{R})
+$$
+$$
+\mathbf{R} = \begin{bmatrix}r&0\\0&r\end{bmatrix}
+$$
+
+Use this code:
+
+```
+$$
+x_t = x_{t-1} + u + w_t\\ w_t ~ N(0,q)
+$$
+
+$$
+\begin{bmatrix}y_1\\y_2\end{bmatrix} =
+\begin{bmatrix}1\\1\end{bmatrix}x_t + 
+\begin{bmatrix}0\\a\end{bmatrix} +
+\begin{bmatrix}v_1\\v_2\end{bmatrix}\\ 
+\begin{bmatrix}v_1\\v_2\end{bmatrix} ~ \text{MVN}(0,\mathbf{R})
+$$
+
+$$
+\mathbf{R} = \begin{bmatrix}r&0\\0&r\end{bmatrix}
+$$
+```
+
+## Fitting the models with MARSS
+
+The lectures tab on the course website has a link to a [MARSS reference sheet](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%203/MARSS_Reference_Sheet.pdf). Use that to help you when you set up your models.
+
+For this homework, you'll be setting the `Z` and `R` matrices in part 1, Q1 and the `Z`, `R` and `Q` in part 1, Q4. The default `B`, `tinitx`, `x0`, and `A` will be fine so you can ignore those. The `U` matrix is the drift term in a random walk. You may or may not want to accept the default `U` (which is all `U` allowed to be different).
+
+For part 2, you'll use the material in chapter 8, [section 8.6](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual.
+
+## Getting output from MARSS
+
+### plots
+
+```
+library(MARSS)
+?plot.marssMLE
+```
+will give you info on the plots. The main one you'll want is 
+```
+plot(fit, plot.type="xtT")
+```
+That's the estimated state with confidence intervals.
+
+### diagnostics
+
+There are 2 main plots that you want.
+```
+plot(fit, plot.type="model.resids")
+plot(fit, plot.type="acf.model.resids")
+```
+That's the estimated state with confidence intervals.
+
+If you need a data frame of the model innovations residuals, then use
+```
+residuals(fit)
+```
+
+### estimated parameter values and CIs
+
+```
+library(broom)
+tidy(fit)
+```
+
+The following code will make a plot with the CIs.
+```
+df <- tidy(fit)
+df$parameter <- sapply(df$term, function(x){ stringr::str_split(x, "[.]")[[1]][1]})
+ggplot(df, aes(x=estimate, y=term)) + geom_point() + 
+  geom_errorbar(aes(xmin=conf.low, xmax=conf.up), width=0.2) +
+  geom_vline(xintercept = 0) +
+  facet_wrap(~parameter, scales="free")
+```
+
+### model comparison
+
+For this homework, just use AIC (or AICc) if you compare models. If you decide to look at a number of models, you can compare those in a table with model weights (for example). Later we will discuss other approaches for model comparison.
+
+You'll find the AIC and AICc in the fitted object so
+```
+fit$AIC
+fit$AICc
+```
+
+### fitted values
+
+When you have a model where is $y$ is a function of multiple $x$ (like in a DFA model) or where you have covariates in the $y$ part of the equation, then you often don't want the smoothed $x$ (state) estimates but the smoothed $y$ (observation) estimates. For that you want
+
+```
+fitted(fit, type="ytT")
+```
+
+If you want the smoothed $x$ (states), you use
+
+```
+tsSmooth(fit, type="xtT")
+```
+
+Why the difference? `tsSmooth(type="xtT")` returns the expected value of the hidden state (that hidden trend) conditioned on all the data. `tsSmooth(type="ytT")`would return the expected value of the $y$ conditioned on all the data which would just be the data. You want the *fitted* $y$: $z x_t + a$.

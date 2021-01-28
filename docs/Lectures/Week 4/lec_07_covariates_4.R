@@ -1,31 +1,28 @@
 
 library(MARSS)
+library(atsalibrary)
 library(ggplot2)
 
 # Load data
-data(lakeWAplankton, package = "MARSS")
-lakeWA <- data.frame(lakeWAplanktonTrans)
+data(lakeWA, package = "atsalibrary")
 
-# lakeWA
-fulldat <- data.frame(lakeWAplanktonTrans)
-year1 <- 1975; year2 <- 1994
-years <- which(fulldat[, "Year"] >= year1 & 
-                 fulldat[, "Year"] < year2)
+# years to use
+year1 <- 1965; year2 <- 1975
 
 # Prep the response variables
-dat <- t(fulldat[years, c("Greens", "Diatoms")])
-dat <- zscore(dat)
+library(dplyr)
+dat <- lakeWA %>% 
+  subset(Year >= year1 & Year <= year2) %>%
+  select(Greens, Bluegreens) %>%
+  t
 
 # Prep the covariates
-covariates <- fulldat[years, c("Year", "Month", "Temp", "TP")]
-# remove the season
-covariates$Month <- as.factor(covariates$Month)
-covariates$Temp <- residuals(lm(Temp ~ Month, data=covariates))
-covariates$TP <- residuals(lm(TP ~ Month, data=covariates))
-# make into a matrix
-covariates <- t(covariates[, c("Temp","TP")])
-# Demean and standardize variance to 1
-covariates <- zscore(covariates)
+library(dplyr)
+covariates <- lakeWA %>% 
+  subset(Year >= year1 & Year <= year2) %>%
+  select(Temp.anom, TP.anom) %>%
+  t
+
 
 # Plot data
 LWA <- ts(cbind(t(dat), t(covariates)), 
@@ -34,6 +31,9 @@ plot(LWA, main="", yax.flip=TRUE)
 
 # Is there a seasonal cycle to the algae data?
 # A bit
+acf(dat[1,], na.action=na.pass)
+acf(dat[2,], na.action=na.pass)
+
 # Add seasonal covariate
 TT <- ncol(dat)
 covariates <- rbind(covariates, sin(2*pi*(1:TT)/12), cos(2*pi*(1:TT)/12))
