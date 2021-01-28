@@ -130,15 +130,15 @@ dfalab <- list(
   topics = c("Fitting DFA models"),
   pdf = "",
   rmd = "",
-  html = "https://nwfsc-timeseries.github.io/atsa-labs/sec-dfa.html",
+  html = "Labs/Week 4/intro-to-DFA.html",
   video = "",
   youtube = "",
   data = "",
-  homework = "Problems at end of lab",
+  homework = "Problems at end of Chap 10 of Lab Book",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due next Thurs 11:59 PM PST; email to instructor(s) for lab"
+  hw_duedate = "Due next Thurs 11:59 PM PST; email to Mark"
 )
 ```
 
