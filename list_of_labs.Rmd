@@ -106,6 +106,24 @@ sslab2 <- list(
 ```
 
 ```{r}
+dfalab <- list(
+  title = "DFA models",
+  topics = c("Fitting DFA models"),
+  pdf = "",
+  rmd = "",
+  html = "Labs/Week 4/intro-to-dfa.html",
+  video = "https://washington.zoom.us/rec/share/qD31qnwHquZsbIlaGKgQjT8fxldG6VojtCBUNFLe0TY-2basVH8_vlgYyUITmoR6._HawijuNOGHQ0W7I",
+  youtube = "",
+  data = "",
+  homework = "Problems at end of Chap 10 of Lab Book",
+  key = "",
+  instructor = "Mark",
+  hw_topics = c("Dynamic Factor Analysis"),
+  hw_duedate = "Due next Thurs 11:59 PM PST; email to Mark"
+)
+```
+
+```{r}
 dlmlab <- list(
   title = "Dynamic Linear Models",
   topics = c("Fitting DLMs"),
@@ -121,24 +139,6 @@ dlmlab <- list(
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
   hw_duedate = "Due next Thurs 11:59 PM PST; email to instructor(s) for lab"
-)
-```
-
-```{r}
-dfalab <- list(
-  title = "DFA models",
-  topics = c("Fitting DFA models"),
-  pdf = "",
-  rmd = "",
-  html = "Labs/Week 4/intro-to-dfa.html",
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "Problems at end of Chap 10 of Lab Book",
-  key = "",
-  instructor = "Mark",
-  hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due next Thurs 11:59 PM PST; email to Mark"
 )
 ```
 
