@@ -1,0 +1,4 @@
+Notes 2021
+
+Mark's intro to DFA lecture would be good to have as part of the intro to state-space models.
+
