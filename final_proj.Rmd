@@ -17,24 +17,18 @@ Students without data or a particular project in mind might consider taking part
 
 Other sources of public fisheries data sets are:
 
-* [RAM Legacy](http://ramlegacy.marinebiodiversity.ca/)
-
-* [RAM’s Stock-Recruitment Database](http://www.mscs.dal.ca/~myers/welcome.html)
-
+* [RAM Legacy](https://www.ramlegacy.org/)
 * [Global Population Dynamics Database](http://www3.imperial.ac.uk/cpb/databases/gpdd)
-
 * [NOAA NWFSC Salmon Population Summary](https://www.webapps.nwfsc.noaa.gov/apex/f?p=261:home:0)
-
 * [FAO Catch Databases](http://www.fao.org/fishery/statistics/collections/en)
-
 * [Ecomarres Global Catch database](https://ecomarres.com/?page_id=945); [paper on the Global Catch Database](https://www.nature.com/articles/sdata201739#Sec16)
-
 * [Sea Around Us databases](http://www.seaaroundus.org/)
-
 * [Global Fishing Watch data](https://globalfishingwatch.org/datasets-and-code/)
+* [fishR databases](http://derekogle.com/fishR/data/CompleteList)
 * SAFS (contact the instructors)
     - Alaska Salmon Program
     - Lake Washington plankton
+
 
 # Project Plan due Fri Jan 29th 11:59 pm PST
 
