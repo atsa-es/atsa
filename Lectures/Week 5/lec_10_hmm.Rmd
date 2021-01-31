@@ -3,9 +3,9 @@ title: "An introduction to hidden markov models for time series"
 author: "Eric Ward"
 date: "4 Feb 2021"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -45,6 +45,9 @@ For additional background, see
 
 * Visser and Speekenbrink (2010) "depmixS4: An R Package for Hidden Markov Models"
 
+* McClintock et al. (2020) "Uncovering ecological state dynamics with hidden Markov models"
+
+
 ## State space models 
 
 We've already discussed state space models. These models include
@@ -79,13 +82,15 @@ however they may not be able to explain some datasets very well.
 
 ![Example from Moore (2018), "Predicting tipping points in complex environmental systems"](Moore_2018.jpg){#id .class width=50% height=50%}
 
-## Regimes
+## Regimes / behavioral states
 
 Many examples of time series in ecology & fisheries may alternate between multiple states (2+)
 
 * Vert-pre et al. (2013) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3562848/
 
 * Francis et al. (2012) https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2486.2012.02702.x
+
+* Leos-Barajas et al. (2017) "Analysis of animal accelerometer data using hidden Markov models"
 
 ## Regimes
 
@@ -365,7 +370,7 @@ Forward-backward algorithm has 3 steps (sometimes 2/3 combined):
 
 1. Forward probabilities
 
-* from the last slide, this step calculates $P({ x }_{ t }|{ Y }_{ 1:t }$
+* from the last slide, this step calculates $P({ x }_{ t }|{ Y }_{ 1:t })$
 
 2. Backward probabilities
 
@@ -379,9 +384,10 @@ Forward-backward algorithm has 3 steps (sometimes 2/3 combined):
 
 As a first example, let's use an example of rainfall data in Seattle from the end of 2018 and beginning of 2019 (accessed from wunderground.com)
 
-```{r, echo=TRUE, results='markdown', fig.height=3}
+```{r, echo=FALSE, results='markdown', fig.height=3}
 rain = read.csv("seattle_rain.csv")
-ggplot(rain, aes(Time, Rainfall)) + geom_line(col="darkblue") + 
+ggplot(rain, aes(Time, Rainfall)) + 
+  geom_line(col="darkblue") + 
   xlab("Days since Nov 1") + ylab("Precip (in)") + 
   theme_bw()
 ```
@@ -390,8 +396,11 @@ ggplot(rain, aes(Time, Rainfall)) + geom_line(col="darkblue") +
 
 We could model rainfall directly, but for starters let's just model whether or not it rained on a given day (0/1). 
 
-```{r, echo=TRUE, results='markdown', fig.height=3}
+```{r, echo=TRUE, results='markdown'}
 rain$rained = ifelse(rain$Rainfall > 0, 1, 0)
+```
+
+```{r, echo=FALSE,fig.height=3}
 ggplot(rain, aes(Time, rained)) + geom_line(col="darkblue") + 
   xlab("Days since Nov 1") + ylab("Rained?") 
 ```
@@ -425,8 +434,8 @@ $$\frac { \# consecutive \quad rainy \quad days }{ \# rainy \quad days }$$
 For example, we can create a differenced variable to indicate no change (0), and compute
 ```{r echo=TRUE, eval=FALSE}
 rain$diff = c(diff(rain$rained), NA)
-p_rain_rain = length(which(rain$diff == 0 & rain$rained==1)) /
-  length(which(rain$rained==1))
+p_rain_rain = length(which(rain$diff == 0 & 
+    rain$rained==1)) / length(which(rain$rained==1))
 ```
 
 ## Examples of univariate HMMs in R
@@ -505,7 +514,7 @@ For a complete list, see
 
 ## Examples of univariate HMMs in R
 
-Ok, now that we've set up the model, we can do the estimation
+Ok, now that we've set up the model, we can do the estimation and look at the output
 
 ```{r}
 mod = depmix(rained ~ 1, 
@@ -519,9 +528,14 @@ mod = depmix(rained ~ 1,
 set.seed(123)
 fitmod = fit(mod)
 ```
-and look at the output
-```{r echo=TRUE, results='markdown'}
-summary(fitmod)
+
+```{r echo=FALSE, results='asis'}
+Gamma = matrix(0,2,2)
+Gamma[1,] = fitmod@transition[[1]]@parameters$coefficients
+Gamma[2,] = fitmod@transition[[2]]@parameters$coefficients
+rownames(Gamma) = c("From_1","From_2")
+colnames(Gamma) = c("To_1","To_2")
+knitr::kable(Gamma, digits=2)
 ```
 
 ## Examples of univariate HMMs in R
@@ -532,8 +546,13 @@ set.seed(121)
 fitmod = fit(mod)
 ```
 
-```{r echo=TRUE, results='markdown'}
-summary(fitmod)
+```{r echo=FALSE, results='markdown'}
+Gamma = matrix(0,2,2)
+Gamma[1,] = fitmod@transition[[1]]@parameters$coefficients
+Gamma[2,] = fitmod@transition[[2]]@parameters$coefficients
+rownames(Gamma) = c("From_1","From_2")
+colnames(Gamma) = c("To_1","To_2")
+knitr::kable(Gamma, digits=2)
 ```
 
 ## Examples of univariate HMMs in R
@@ -674,8 +693,9 @@ mu = summary(fitmod)[,1]
 ```
 
 ```{r echo=TRUE}
-pred = data.frame("year"=seq(min(calcofi$year), max(calcofi$year)),
-                  "fit" = mu[prstates])
+pred = data.frame("year"=seq(min(calcofi$year), 
+  max(calcofi$year)),
+  "fit" = mu[prstates])
 ```
 
 ```{r, fig.height=2.7}
@@ -705,7 +725,15 @@ This seems like increasing the states doesn't result in lower AIC
 AIC(fitmod)
 ```
 
+## Model selection & diagnostics
 
+* In comparing 2 vs 3 state HMM, we found lower AIC for 2-state model
+
+* However, opposite is often true -- more states fit better, and result in lower AIC
+
+* How to decide? Occam's razor & metrics of predictive ability
+
+* Pohle et al. 2017. "Selecting the Number of States in Hidden Markov Models: Pragmatic Solutions Illustrated Using Animal Movement"
 
 ## Examples of multivariate HMMs in R
 
@@ -722,7 +750,7 @@ In `depmix`, these arguments generally become lists
 
 We'll extend our CalCOFI example to include 2 species now
 
-```{r}
+```{r, fig.height=4}
 calcofi = read.csv("calcofi.csv", stringsAsFactors = FALSE)
 ggplot(calcofi, aes(year, m, group=species,col=species)) + geom_line() + ylab("CPUE") + xlab("Year")
 ```
@@ -769,6 +797,115 @@ Estimation of HMMs for time series in R generally done with ML methods
 Bayesian estimation generally beyond the scope of this class
 
 * Very straightforward to build these models in BUGS/JAGS
-* More complicated with newer sofware (Stan)
+* More complicated with newer sofware (Stan), though examples here:  https://mc-stan.org/docs/2_26/stan-users-guide/hmms-section.html
+
+## JAGS Examples
+
+* Why JAGS? Categorical samplers
+
+* Let's re-fit our CalCOFI example in JAGS. We'll step through this in small
+chunks to understand what's going on in JAGS syntax
+
+## JAGS model
+
+* First we need to specify the initial state. We don't know it, but assume each state (1/2) is 
+equally likely
+```{r eval=FALSE, echo=TRUE}
+model{
+for(i in 1:2){initp[i] <- 0.5}
+x[1] ~ dcat(initp)
+```
+
+## JAGS model
+
+* Next we can think about parameterizing the transition matrix. $\Gamma$ is 2 x 2, but only has 2 parameters
+* We'll specify uniform(0,1) priors on these
+```{r eval=FALSE, echo=TRUE}
+model{
+for(i in 1:2){initp[i] <- 0.5}
+x[1] ~ dcat(initp)
+p ~ dunif(0,1)
+q ~ dunif(0,1)
+```
+
+## JAGS model
+
+* Next we specify $\Gamma$
+```{r eval=FALSE, echo=TRUE}
+model{
+for(i in 1:2){initp[i] <- 0.5}
+x[1] ~ dcat(initp)
+gamma12 ~ dunif(0,1)
+gamma21 ~ dunif(0,1)
+Gamma[1,1] <- 1-gamma12
+Gamma[1,2] <- gamma12
+Gamma[2,1] <- gamma21
+Gamma[2,2] <- 1-gamm21
+```
+
+## JAGS model
+
+* Next, add in the transition model for the latent state x
+```{r eval=FALSE, echo=TRUE}
+model{
+for(i in 1:2){initp[i] <- 0.5}
+x[1] ~ dcat(initp)
+p ~ dunif(0,1)
+q ~ dunif(0,1)
+Gamma[1,1] <- 1-p
+Gamma[1,2] <- p
+Gamma[2,1] <- q
+Gamma[2,2] <- 1-q
+for(i in 2:n){x[i] ~ dcat(Gamma[x[i-1],])}
+}
+```
+
+## JAGS model
+
+* And finally the observation model for our observed data
+* We need to estimate 2 means (u) and a residual error variance term
+
+```{r eval=FALSE, echo=TRUE}
+model{
+for(i in 1:2){initp[i] <- 0.5}
+x[1] ~ dcat(initp)
+p ~ dunif(0,1)
+q ~ dunif(0,1)
+Gamma[1,1] <- 1-p
+Gamma[1,2] <- p
+Gamma[2,1] <- q
+Gamma[2,2] <- 1-q
+for(i in 2:n){x[i] ~ dcat(Gamma[x[i-1],])}
+resid_tau~dgamma(0.001,0.001)
+for(i in 1:2) {u[i] ~ dnorm(0,1)}
+for(i in 1:n){y[i] ~ dnorm(u[x[i]],resid_tau)}
+}
+```
+
+## JAGS model
+
+* To run the model, save it in a file, e.g. 'model.txt'
+
+* Create data list
+```{r echo=TRUE, eval=FALSE}
+n = nrow(calcofi)
+y = log(calcofi$m)
+jags_data = list("n","y")
+```
+
+* Create parameter list
+```{r echo=TRUE, eval=FALSE}
+jags_params = c("x","u","Gamma","resid_tau")
+```
+
+## JAGS model
+
+* Running the model 
+```{r echo=TRUE, eval=FALSE}
+jagsfit <- jags(data=jags_data, 
+parameters.to.save=jags_params,
+model.file="model.txt")
+```
+
 
 
