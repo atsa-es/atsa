@@ -2,7 +2,7 @@
 title: "Dynamic Linear Models"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "5 Feb 2019"
+date: "2 February 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -172,6 +172,15 @@ $$
 \boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
 $$
 
+
+## Constraining a DLM
+
+In practice, we often make $\mathbf{G}_t$ time invariant 
+
+$$
+\boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+$$
+
 or assume $\mathbf{G}_t$ is an $m \times m$ identity matrix $\mathbf{I}_m$
 
 $$
@@ -186,11 +195,13 @@ In the latter case, the parameters follow a random walk over time
 
 ## DLM in state-space form
 
-Observation model relates covariates to data
+Observation model relates the covariates $\mathbf{X}$ to the data
 
 $$
 y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t
 $$
+
+<br>
 
 State model determines how parameters "evolve" over time
 
@@ -209,18 +220,21 @@ y_t = \mathbf{Z}_t \mathbf{x}_t + v_t \\
 \mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t
 $$
 
+where
+
+$\mathbf{Z}_t = \mathbf{X}^{\top}_t, \mathbf{x}_t = \boldsymbol{\theta}_t, v_t = e_t, \mathbf{B} =\mathbf{G}$
 
 ## Contrast in covariate effects
 
 __Note__: DLMs include covariate effect in the observation eqn much differently than other forms of MARSS models
 
-DLM: $\mathbf{Z}$ is covariates, $\mathbf{x}$ is parameters 
+DLM: $\mathbf{Z}_t$ is covariates, $\mathbf{x}_t$ is parameters 
 
 $$
 y_t = \boxed{\mathbf{Z}_t \mathbf{x}_t} + v_t \\
 $$
 
-Others: $\mathbf{d}$ is covariates, $\mathbf{D}$ is parameters
+Others: $\mathbf{d}_t$ is covariates, $\mathbf{D}$ is parameters
 
 $$
 y_t = \mathbf{Z}_t \mathbf{x}_t + \boxed{\mathbf{D} \mathbf{d}_t} +v_t \\
@@ -328,9 +342,21 @@ $$
 Now the "growth" term $\eta_t$ evolves as well
 
 
-## Univariate DLM for level & growth
+## Univariate DLM for level & growth | Evolution of $\alpha_t$ and $\eta_t$
 
-Evolution of $\alpha_t$ and $\eta_t$
+$$
+\begin{align}
+  \alpha_t &= \alpha_{t-1} + \eta_{t-1} + w_{\alpha,t} \\
+  \eta_t &= \eta_{t-1} + w_{\eta,t}
+\end{align}
+$$
+
+<br>
+
+How do we make this work in practice?
+
+
+## Univariate DLM for level & growth | Evolution of $\alpha_t$ and $\eta_t$
 
 $$
 \begin{align}
@@ -342,10 +368,12 @@ $$
 \end{align}
 $$
 
+<br>
 
-## Univariate DLM for level & growth
+Rewrite the equations with explicit coefficients on $\alpha_{t-1}$ and $\eta_{t-1}$
 
-Evolution of $\alpha_t$ and $\eta_t$
+
+## Univariate DLM for level & growth | Evolution of $\alpha_t$ and $\eta_t$
 
 $$
 \begin{align}
@@ -375,9 +403,52 @@ $$
 $$
 
 
-## Univariate DLM for level & growth
+## Univariate DLM for level & growth | Evolution of $\alpha_t$ and $\eta_t$ in MARSS form
 
-Observation model for stochastic "level" & stochastic "growth"
+$$
+\begin{align}
+  x_{1,t} &= x_{1,t-1} + x_{2,t-1} + w_{1,t} \\
+  x_{2,t} &= x_{2,t-1} + w_{2,t} \\
+  & \Downarrow \\
+  x_{1,t} &= \underline{1} x_{1,t-1} + \underline{1} x_{2,t-1} + w_{1,t} \\
+  x_{2,t} &= \underline{0} x_{1,t-1} + \underline{1} x_{2,t-1} + w_{2,t} \\
+  & \Downarrow \\
+  \underbrace{\begin{bmatrix}
+    x_{1,t} \\
+    x_{2,t}
+  \end{bmatrix}}_{\mathbf{x}_t} &=
+  \underbrace{\begin{bmatrix}
+    \underline{1} & \underline{1} \\
+    \underline{0} & \underline{1}
+  \end{bmatrix}}_{\mathbf{B}}
+  \underbrace{\begin{bmatrix}
+    x_{1,t-1} \\
+    x_{2,t-1}
+  \end{bmatrix}}_{\mathbf{x}_{t-1}} +
+  \underbrace{\begin{bmatrix}
+    w_{1,t} \\
+    w_{2,t}
+  \end{bmatrix}}_{\mathbf{w}_t} 
+\end{align}
+$$
+
+
+## Univariate DLM for level & growth | Observation model for stochastic *level* & *growth*
+
+$$
+\begin{align}
+  y_t &= \alpha_t + v_t \\
+  & \Downarrow \\
+  y_t &= \underline{1} \alpha_t + \underline{0} \eta_t + v_t
+\end{align}
+$$
+
+<br>
+
+Again, rewrite equation with explicit coefficients on $\alpha_t$ and $\eta_t$
+
+
+## Univariate DLM for level & growth | Observation model for stochastic *level* & *growth*
 
 $$
 \begin{align}
@@ -397,9 +468,49 @@ $$
 $$
 
 
-## Univariate DLM for regression
+## Univariate DLM for level & growth | Obs model for stochastic *level* & *growth* in MARSS form
 
-Stochastic intercept and slope
+$$
+\begin{align}
+  y_t &= x_t + v_t \\
+  & \Downarrow \\
+  y_t &= \underline{1} x_{1,t} + \underline{0} x_{2,t} + v_t \\
+  & \Downarrow \\
+  y_t &= 
+  \underbrace{\begin{bmatrix}
+    \underline{1} & \underline{0}
+  \end{bmatrix}}_{\mathbf{Z}_t}
+  \underbrace{\begin{bmatrix}
+    x_{1,t} \\ x_{2,t} 
+  \end{bmatrix}}_{\mathbf{x}_t}
+  + v_t
+\end{align}
+$$
+
+
+## Univariate DLM for regression | Stochastic intercept and slope
+
+$$
+\begin{align}
+  y_t &= \alpha_t + \beta_t x_t + v_t
+\end{align}
+$$
+
+
+## Univariate DLM for regression | Stochastic intercept and slope
+
+$$
+\begin{align}
+  y_t &= \alpha_t + \beta_t x_t + v_t \\
+  & \Downarrow \\
+  y_t &= \underline{1} \alpha_t + \underline{x_t} \beta_t + v_t
+\end{align}
+$$
+
+Rewrite the equation with explicit coefficients for $\alpha_t$ & $\beta_t$
+
+
+## Univariate DLM for regression | Stochastic intercept and slope
 
 $$
 \begin{align}
@@ -419,9 +530,27 @@ $$
 $$
 
 
-## Univariate DLM for regression
+## Univariate DLM for regression | Stochastic intercept and slope in MARSS form
 
-Parameter evolution follows a random walk
+$$
+\begin{align}
+  y_t &= x_{1,t} + x_{1,t} z_{2,t} + v_t \\
+  & \Downarrow \\
+  y_t &= \underline{1} x_{1,t} + \underline{z_{2,t}} x_{2,t} + v_t \\
+  & \Downarrow \\
+  y_t &= 
+  \underbrace{\begin{bmatrix}
+    \underline{1} & \underline{z_{2,t}}
+  \end{bmatrix}}_{\mathbf{Z}_t}
+  \underbrace{\begin{bmatrix}
+    x_{1,t} \\ x_{2,t} 
+  \end{bmatrix}}_{\mathbf{x}_t}
+  + v_t
+\end{align}
+$$
+
+
+## Univariate DLM for regression | Parameter evolution follows a random walk
 
 $$
 \begin{align}
@@ -444,9 +573,30 @@ $$
 $$
 
 
-## Univariate DLM with seasonal effect
+## Univariate DLM for regression | Parameter evolution in MARSS form
 
-Dynamic linear regression with fixed seasonal effect
+$$
+\begin{align}
+  x_{1,t} &= x_{1,t-1} + w_{1,t} \\
+  x_{2,t} &= x_{2,t-1} + w_{2,t} \\
+  & \Downarrow \\
+  \underbrace{\begin{bmatrix}
+    x_{1,t} \\
+    x_{2,t}
+  \end{bmatrix}}_{\mathbf{x}_t} &=
+  \underbrace{\begin{bmatrix}
+    x_{1,t-1} \\
+    x_{2,t-1}
+  \end{bmatrix}}_{\mathbf{x}_{t-1}} +
+  \underbrace{\begin{bmatrix}
+    w_{1,t} \\
+    w_{2,t}
+  \end{bmatrix}}_{\mathbf{w}_t} 
+\end{align}
+$$
+
+
+## Univariate DLM with seasonal effect | Dynamic linear regression with fixed seasonal effect
 
 $$
 y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
@@ -460,7 +610,7 @@ y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
 $$
 
 
-## Univariate DLM with seasonal effect
+## Univariate DLM with seasonal effect | Dynamic linear regression with fixed seasonal effect
 
 $$
 y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
@@ -475,18 +625,14 @@ y_t =
 + e_t
 $$
 
+<br>
 
-## Univariate DLM with seasonal effect
+Rewrite the equation with explicit coefficients on parameters
+
+
+## Univariate DLM with seasonal effect | Evolution of parameters
 
 $$
-y_t = 
-\begin{bmatrix}
-  1 & x_t & 1
-\end{bmatrix}
-\begin{bmatrix}
-  \alpha_t \\ \beta_t \\ \gamma_{qtr}
-\end{bmatrix}
-+ e_t \\
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_{qtr}
 \end{bmatrix} =
@@ -498,20 +644,14 @@ y_t =
 \end{bmatrix}
 $$
 
+<br>
+
 How should we model the fixed effect of $\gamma_{qtr}$?
 
 
-## Univariate DLM with seasonal effect
+## Univariate DLM with seasonal effect | Evolution of parameters
 
 $$
-y_t = 
-\begin{bmatrix}
-  1 & x_t & 1
-\end{bmatrix}
-\begin{bmatrix}
-  \alpha_t \\ \beta_t \\ \gamma_{qtr}
-\end{bmatrix}
-+ e_t \\
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_{qtr}
 \end{bmatrix} =
@@ -523,20 +663,14 @@ y_t =
 \end{bmatrix}
 $$
 
-We don't want the effect of quarter to evolve
+<br>
+
+We don't want $\gamma_{qtr}$ to evolve as a function of the previous $t$
 
 
-## Univariate DLM with seasonal effect
+## Univariate DLM with seasonal effect | Evolution of parameters
 
 $$
-y_t = 
-\begin{bmatrix}
-  1 & x_t & 1
-\end{bmatrix}
-\begin{bmatrix}
-  \alpha_t \\ \beta_t \\ \gamma_{qtr}
-\end{bmatrix}
-+ e_t \\
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_{qtr}
 \end{bmatrix} =
@@ -548,12 +682,25 @@ y_t =
 \end{bmatrix}
 $$
 
-OK, but how do we select the right quarterly effect?
+<br>
+
+OK, so how do we select the right quarterly effect?
 
 
 ## Univariate DLM with seasonal effect
 
-Let's separate out the quarterly effects
+Separate out the quarterly effects
+
+$$
+y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
+\Downarrow \\
+y_t = \alpha_t + \beta_t x_t + \gamma_1 + \gamma_2 + \gamma_3 + \gamma_4 + e_t
+$$
+
+
+## Univariate DLM with seasonal effect
+
+Rewrite quarterly effects in matrix notation
 
 $$
 y_t = \alpha_t + \beta_t x_t + \gamma_1 + \gamma_2 + \gamma_3 + \gamma_4 + e_t \\
@@ -572,7 +719,7 @@ But how do we select only the current quarter?
 
 ## Univariate DLM with seasonal effect
 
-We can set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 1)
+We could set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 1)
 
 $$
 y_t = 
@@ -589,7 +736,7 @@ $$
 
 ## Univariate DLM with seasonal effect
 
-We can set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 2)
+We could set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 2)
 
 $$
 y_t = 
@@ -665,75 +812,100 @@ $$
 
 ## Example of non-diagonal $\mathbf{G}$
 
-We can use a non-diagonal $\mathbf{G}$ to get the correct quarter effect
+We can use a non-diagonal submatrix in the lower right of $\mathbf{G}$ to get the correct quarter effect
 
 $$
 \mathbf{G} = 
-\begin{bmatrix}
+\left[ \begin{array}{cc|cccc}
   1 & 0 & 0 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\ \hline
   0 & 0 & 0 & 1 & 0 & 0 \\
   0 & 0 & 0 & 0 & 1 & 0 \\
   0 & 0 & 0 & 0 & 0 & 1 \\
   0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}
+\end{array} \right]
 $$
 
 
-## Evolving parameters
+## Evolving parameters | Quarter 1
 
 $$
 \underbrace{\begin{bmatrix}
-  \alpha_t \\ \beta_t \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
+  \alpha_t \\ \beta_t \\ \hline \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
 \end{bmatrix}}_{\boldsymbol{\theta}_t} =
-\underbrace{\begin{bmatrix}
+\underbrace{
+\left[ \begin{array}{cc|cccc}
   1 & 0 & 0 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\ \hline
   0 & 0 & 0 & 1 & 0 & 0 \\
   0 & 0 & 0 & 0 & 1 & 0 \\
   0 & 0 & 0 & 0 & 0 & 1 \\
   0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}}_{\mathbf{G}}
+\end{array} \right]}_{\mathbf{G}}
 \underbrace{\begin{bmatrix}
-  \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
+  \alpha_{t-1} \\ \beta_{t-1} \\ \hline \gamma_4 \\ \gamma_1 \\ \gamma_2 \\ \gamma_3
 \end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} + 
 \underbrace{\begin{bmatrix}
-  w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
+  w_{\alpha,t} \\ w_{\beta,t}  \\ \hline 0  \\0 \\ 0 \\ 0
 \end{bmatrix}}_{\mathbf{w}_t}
 $$
 
 
-## Evolving parameters
+## Evolving parameters | Quarter 2
 
 $$
 \underbrace{\begin{bmatrix}
-  \alpha_t \\ \beta_t \\ \gamma_3 \\ \gamma_4 \\ \gamma_1 \\ \gamma_2
+  \alpha_t \\ \beta_t \\ \hline \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
 \end{bmatrix}}_{\boldsymbol{\theta}_t} =
-\underbrace{\begin{bmatrix}
+\underbrace{
+\left[ \begin{array}{cc|cccc}
   1 & 0 & 0 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\ \hline
   0 & 0 & 0 & 1 & 0 & 0 \\
   0 & 0 & 0 & 0 & 1 & 0 \\
   0 & 0 & 0 & 0 & 0 & 1 \\
   0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}}_{\mathbf{G}}
+\end{array} \right]}_{\mathbf{G}}
 \underbrace{\begin{bmatrix}
-  \alpha_{t-1} \\ \beta_{t-1} \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
+  \alpha_{t-1} \\ \beta_{t-1} \\ \hline \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
 \end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} + 
 \underbrace{\begin{bmatrix}
-  w_{\alpha,t} \\ w_{\beta,t}  \\ 0  \\0 \\ 0 \\ 0
+  w_{\alpha,t} \\ w_{\beta,t}  \\ \hline 0  \\0 \\ 0 \\ 0
 \end{bmatrix}}_{\mathbf{w}_t}
 $$
 
+
+## Evolving parameters | Quarter 3
+
+$$
+\underbrace{\begin{bmatrix}
+  \alpha_t \\ \beta_t \\ \hline \gamma_3 \\ \gamma_4 \\ \gamma_1 \\ \gamma_2
+\end{bmatrix}}_{\boldsymbol{\theta}_t} =
+\underbrace{
+\left[ \begin{array}{cc|cccc}
+  1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 \\ \hline
+  0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 & 0
+\end{array} \right]}_{\mathbf{G}}
+\underbrace{\begin{bmatrix}
+  \alpha_{t-1} \\ \beta_{t-1} \\ \hline \gamma_2 \\ \gamma_3 \\ \gamma_4 \\ \gamma_1
+\end{bmatrix}}_{\boldsymbol{\theta}_{t-1}} + 
+\underbrace{\begin{bmatrix}
+  w_{\alpha,t} \\ w_{\beta,t}  \\ \hline 0  \\0 \\ 0 \\ 0
+\end{bmatrix}}_{\mathbf{w}_t}
+$$
+
+# Forecasting with a DLM
 
 ## Forecasting with a DLM
 
 DLMs are often used in a forecasting context where we want a prediction for time $t$ based on the data up through time $t-1$
 
 
-## Forecasting with a DLM
-
-Pseudo-code
+## Forecasting with a DLM | Pseudo-code
 
 1. get estimate of today's parameters from yesterday's
 
@@ -746,7 +918,7 @@ Pseudo-code
 
 ## Forecasting with a DLM
 
-1. Define the parameters at time $t = 0$
+Step 1: Define the parameters at time $t = 0$
 
 $$
 \boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
@@ -755,12 +927,39 @@ $$
 
 ## Forecasting with a DLM
 
-1. Define the parameters at time $t = 0$
+Step 1: Define the parameters at time $t = 0$
+
+$$
+\boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+\Downarrow \\
+\text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi}
+$$
+
+
+## Forecasting with a DLM
+
+Step 1: Define the parameters at time $t = 0$
 
 $$
 \boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 \Downarrow \\
 \text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi} \\
+\text{and} \\
+\text{Var}(\boldsymbol{\theta}_0) = \text{Var}(\boldsymbol{\pi}) + \text{Var}(\mathbf{w}_1) \\
+\text{Var}(\boldsymbol{\theta}_0) = \mathbf{0} + \mathbf{\Lambda} \\
+\text{Var}(\boldsymbol{\theta}_0) = \mathbf{\Lambda}
+$$
+
+
+## Forecasting with a DLM
+
+Step 1: Define the parameters at time $t = 0$
+
+$$
+\boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
+\Downarrow \\
+\text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi} \\
+\text{and} \\
 \text{Var}(\boldsymbol{\theta}_0) = \mathbf{\Lambda} \\
 \Downarrow \\
 \boldsymbol{\theta}_0 | y_0 \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda})
@@ -769,7 +968,7 @@ $$
 
 ## Forecasting with a DLM
 
-2. Define the parameters at time $t = 1$
+Step 2: Define the parameters at time $t = 1$
 
 $$
 \boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
@@ -778,35 +977,82 @@ $$
 
 ## Forecasting with a DLM
 
-2. Define the parameters at time $t = 1$
+Step 2: Define the parameters at time $t = 1$
 
 $$
 \boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
 \Downarrow \\
-  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\theta}_0 \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \text{E}(\boldsymbol{\theta}_0) \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi}
+$$
+
+
+## Forecasting with a DLM
+
+Step 2: Define the parameters at time $t = 1$
+
+$$
+\boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
+\Downarrow \\
   \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi} \\
 \text{and} \\
-  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \text{Var}(\boldsymbol{\theta}_0) \mathbf{G}^{\top} + \mathbf{Q} \\
+  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \text{Var}(\boldsymbol{\theta}_0) \mathbf{G}^{\top} + \text{Var}(\mathbf{w}_1) \\
+  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} $$
+
+
+## Forecasting with a DLM
+
+Step 2: Define the parameters at time $t = 1$
+
+$$
+\boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
+\Downarrow \\
+  \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi} \\
+\text{and} \\
   \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} \\
 \Downarrow \\
-\boldsymbol{\theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
+\boldsymbol{\theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, ~ \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
 $$
 
 
 ## Forecasting with a DLM
 
-3. Make a forecast of $y_t$ at time $t = 1$
+Step 3: Make a forecast of $y_t$ at time $t = 1$
 
 $$
 y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
 \Downarrow \\
-\text{E}(y_1) = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 \\
-\text{E}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}] \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 \text{E}(\boldsymbol{\theta}_1) \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 \mathbf{G} \boldsymbol{\pi}
+$$
+
+
+## Forecasting with a DLM
+
+Step 3: Make a forecast of $y_t$ at time $t = 1$
+
+$$
+y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
+\Downarrow \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 \mathbf{G} \boldsymbol{\pi} \\
 \text{and} \\
-\text{Var}(y_1) = \mathbf{X}^{\top}_1 \text{Var}(\boldsymbol{\theta}_1) \mathbf{X}_1 + R \\
+\text{Var}(y_1) = \mathbf{X}^{\top}_1 \text{Var}(\boldsymbol{\theta}_1) \mathbf{X}_1 + \text{Var}(e_1) \\
+\text{Var}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R
+$$
+
+
+## Forecasting with a DLM
+
+Step 3: Make a forecast of $y_t$ at time $t = 1$
+
+$$
+y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
+\Downarrow \\
+\text{E}(y_1) = \mathbf{X}^{\top}_1 \mathbf{G} \boldsymbol{\pi} \\
+\text{and} \\
 \text{Var}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R \\
 \Downarrow \\
-y_1 | y_0 \sim \text{N}(\mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R)
+y_1 | y_0 \sim \text{N}(\mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}], ~ \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R)
 $$
 
 
@@ -834,6 +1080,8 @@ $$
 y_t | y_{t-1} & \sim \text{N}(\mathbf{X}^{\top}_t [\mathbf{G} \boldsymbol{\pi}], \mathbf{X}^{\top}_t [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_t + R)
 \end{align}
 $$
+
+<br>
 
 Using `MARSS()` will make this easy to do
 
@@ -858,9 +1106,12 @@ $$
 with a QQ-plot (1) and an ACF (2)
 
 
-## {.flexbox .vcenter}
+# Multivariate DLMs
 
-<font size="10">MULTIVARIATE DLMs</font>
+
+## Multivariate DLMs
+
+We can expand our DLM to have a multivariate response
 
 
 ## The most simple multivariate DLM | Multiple observations of a stochastic level
@@ -869,6 +1120,28 @@ $$
 \begin{matrix}
   \mathbf{y}_t = \mathbf{Z} \alpha_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
   \alpha_t = \alpha_{t-1} + w_t & ~~ \alpha_t ~ \text{is } 1 \times 1 
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\begin{bmatrix}
+  1 \\
+  1 \\
+  \vdots \\
+  1
+\end{bmatrix}
+$$
+
+
+## The most simple multivariate DLM | Multiple observations of a random walk
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} x_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  x_t = x_{t-1} + w_t & ~~ x_t ~ \text{is } 1 \times 1 
 \end{matrix}
 $$
 
@@ -908,6 +1181,29 @@ $$
 $$
 
 
+## Another simple multivariate DLM | Multiple observations of multiple random walks
+
+$$
+\begin{matrix}
+  \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{v}_t & ~~ \mathbf{y}_t ~ \text{is } n \times 1 \\
+  \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t & ~~ \mathbf{x}_t ~ \text{is } n \times 1 \\
+\end{matrix}
+$$
+
+with
+
+$$
+\mathbf{Z} =
+\mathbf{I}_n =
+\begin{bmatrix}
+  1 & 0 & \dots & 0 \\
+  0 & 1 & \ddots & 0 \\
+  \vdots & \ddots & \ddots & 0 \\
+  0 & \dots & 0 & 1 \\
+\end{bmatrix}
+$$
+
+
 ## Multivariate DLMs | Regression model
 
 Our univariate model 
@@ -921,6 +1217,10 @@ becomes
 $$
 \mathbf{y}_t = (\mathbf{X}^{\top}_t \otimes \mathbf{I}_n) \boldsymbol{\theta}_t + \mathbf{e}_t ~ \text{with} ~ \mathbf{e}_t \sim \text{MVN}(\mathbf{0},\mathbf{R})
 $$
+
+<br>
+
+where $\otimes$ is the *Kronecker product*
 
 
 ## Kronecker products
@@ -992,6 +1292,7 @@ $$
 $$
 \begin{align}
 \mathbf{y}_t &= (\mathbf{X}^{\top}_t \otimes \mathbf{I}_n) \boldsymbol{\theta}_t + \mathbf{e}_t \\
+&\Downarrow \\
 \begin{bmatrix}
  y_{1,t} \\
  y_{2,t}
@@ -1193,8 +1494,7 @@ $$
 \begin{align}
 \boldsymbol{\theta}_t  &=
 \left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
-\boldsymbol{\theta}_t  &=
-\left( \mathbf{I}_2 \otimes \mathbf{I}_2 \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
+&\Downarrow \\
 \begin{bmatrix}
   \alpha_{1,t} \\
   \alpha_{2,t} \\
@@ -1219,6 +1519,7 @@ $$
   w_{\beta_1,t} \\
   w_{\beta_2,t}
 \end{bmatrix} \\
+&\Downarrow \\
 \boldsymbol{\theta}_t  &=
  \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
 \end{align}
@@ -1230,6 +1531,8 @@ $$
 $$
 \boldsymbol{\theta}_t = \boldsymbol{\theta}_{t-1} + \mathbf{w}_t ~ \text{with} ~ \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \underline{\mathbf{Q}})
 $$
+
+<br>
 
 What form should we choose for $\mathbf{Q}$?
 
@@ -1348,6 +1651,8 @@ $$
 \end{bmatrix}
 \right)
 $$
+
+<br>
 
 In practice, keep $\mathbf{Q}$ as simple as possible
 

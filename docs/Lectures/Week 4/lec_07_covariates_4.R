@@ -2,26 +2,30 @@
 library(MARSS)
 library(atsalibrary)
 library(ggplot2)
+library(broom)
 
 # Load data
 data(lakeWA, package = "atsalibrary")
 
 # years to use
-year1 <- 1965; year2 <- 1975
+year1 <- 1975; year2 <- 1994
 
 # Prep the response variables
 library(dplyr)
+phytoplankton <- c("Diatoms", "Greens")
 dat <- lakeWA %>% 
   subset(Year >= year1 & Year <= year2) %>%
-  select(Greens, Bluegreens) %>%
-  t
+  select(all_of(phytoplankton)) %>%
+  t %>%
+  zscore
 
 # Prep the covariates
 library(dplyr)
 covariates <- lakeWA %>% 
   subset(Year >= year1 & Year <= year2) %>%
   select(Temp.anom, TP.anom) %>%
-  t
+  t %>%
+  zscore
 
 
 # Plot data
@@ -31,6 +35,7 @@ plot(LWA, main="", yax.flip=TRUE)
 
 # Is there a seasonal cycle to the algae data?
 # A bit
+par(mfrow=c(1,2))
 acf(dat[1,], na.action=na.pass)
 acf(dat[2,], na.action=na.pass)
 
@@ -40,21 +45,39 @@ covariates <- rbind(covariates, sin(2*pi*(1:TT)/12), cos(2*pi*(1:TT)/12))
 rownames(covariates) <- c("Temp","TP", "s","c")
 
 # Fit model with process and observation error
+# no covariates except season
 # https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-both-error.html
-D <- d <- A <- U <- "zero"
+D <- d <- C <- c <- A <- U <- "zero"
 Z <- "identity"
 B <- "identity"
-Q <- "diagonal and unequal"
-C <- matrix(list("t1", "t2", "tp1", "tp2"),2,2)
+Q <- "unconstrained"
+D <- "unconstrained"
+d <- covariates[3:4,]
+R <- "diagonal and unequal"
+x0 <- "unequal"
+tinitx <- 0
+model.list <- list(B = B, U = U, Q = Q, Z = Z, A = A, R = R, 
+                   D = D, d = d, C = C, c = c, x0 = x0, tinitx = tinitx)
+kem <- MARSS(dat, model = model.list)
+mods <- data.frame(name="Only season", AICc=kem$AICc)
+
+# Fit model with process and observation error
+# https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-both-error.html
+D <- d <- C <- c <- A <- U <- "zero"
+Z <- "identity"
+B <- "identity"
+Q <- "unconstrained"
+C <- "unconstrained"
 c <- covariates[1:2,]
 D <- "unconstrained"
 d <- covariates[3:4,]
-R <- "diagonal and equal"
+R <- "diagonal and unequal"
 x0 <- "unequal"
-tinitx <- 1
+tinitx <- 0
 model.list <- list(B = B, U = U, Q = Q, Z = Z, A = A, R = R, 
                    D = D, d = d, C = C, c = c, x0 = x0, tinitx = tinitx)
 kem <- MARSS(dat, model = model.list)
+mods <- rbind(mods, data.frame(name="Temp and TP in C", AICc=kem$AICc))
 
 df <- tidy(kem)
 df$parameter <- sapply(df$term, function(x){ stringr::str_split(x, "[.]")[[1]][1]})
@@ -65,18 +88,19 @@ ggplot(df, aes(x=estimate, y=term)) + geom_point() +
   facet_wrap(~parameter, scales="free")
 
 
-C <- c <- A <- U <- "zero"
+D <- d <- C <- c <- A <- U <- "zero"
 Z <- "identity"
 B <- "identity"
-Q <- "diagonal and unequal"
+Q <- "unconstrained"
 D <- "unconstrained"
 d <- covariates
-R <- "diagonal and equal"
+R <- "diagonal and unequal"
 x0 <- "unequal"
-tinitx <- 1
+tinitx <- 0
 model.list <- list(B = B, U = U, Q = Q, Z = Z, A = A, R = R, 
                    D = D, d = d, C = C, c = c, x0 = x0, tinitx = tinitx)
 kem <- MARSS(dat, model = model.list)
+mods <- rbind(mods, data.frame(name="Temp and TP in D", AICc=kem$AICc))
 
 df <- tidy(kem)
 df$parameter <- sapply(df$term, function(x){ stringr::str_split(x, "[.]")[[1]][1]})
@@ -86,18 +110,19 @@ ggplot(df, aes(x=estimate, y=term)) + geom_point() +
   ggtitle(paste("estimated parameters; AICc =", round(kem$AICc, digits=2))) +
   facet_wrap(~parameter, scales="free")
 
-C <- c <- A <- U <- "zero"
+D <- d <- C <- c <- A <- U <- "zero"
 Z <- "identity"
 B <- "identity"
-Q <- "diagonal and unequal"
+Q <- diag(0,2)
 D <- "unconstrained"
-d <- covariates[3:4,]
-R <- "diagonal and equal"
+d <- covariates
+R <- "diagonal and unequal"
 x0 <- "unequal"
-tinitx <- 1
+tinitx <- 0
 model.list <- list(B = B, U = U, Q = Q, Z = Z, A = A, R = R, 
                    D = D, d = d, C = C, c = c, x0 = x0, tinitx = tinitx)
 kem <- MARSS(dat, model = model.list)
+mods <- rbind(mods, data.frame(name="Only Temp and TP", AICc=kem$AICc))
 
 df <- tidy(kem)
 df$parameter <- sapply(df$term, function(x){ stringr::str_split(x, "[.]")[[1]][1]})
