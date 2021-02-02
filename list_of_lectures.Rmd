@@ -213,14 +213,13 @@ model_inf <- list(
 dlm <- list(
   title = "Dynamic Linear Models",
   topics = c("Dynamic linear models (DLMs)"),
-  pdf = "",
+  pdf = "Lectures/Week 5/lec_09_intro_to_DLMs.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
+  html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("Petris et al. (2009)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "Scheuerell & Williams (2005)"),
+  reading = c("Petris et al. (2009)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "Scheuerell & Williams (2005)"),
   instructor = "Mark"
 )
 ```
