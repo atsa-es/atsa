@@ -32,7 +32,7 @@ Other sources of public fisheries data sets are:
 
 # Project Plan due Fri Jan 29th 11:59 pm PST
 
-Write a 1-page description of your project idea that includes
+Write a 1-2 page description of your project idea that includes
 
 * the question(s) of interest
 * the data you will use
@@ -46,6 +46,12 @@ Things to consider:
 * covariates?
 * linear, non-linear, or non-parametric
 * Guassian or non-Gaussian
+
+# Project Methods due Thurs Feb 18th 11:59 pm PST
+
+1. Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.
+
+2. Show that you can fit a pilot version of your proposed model. In other words, show that you can fit your proposed model to some data.
 
 
 # Preparation of final papers due Fri Mar 12 11:59pm PST

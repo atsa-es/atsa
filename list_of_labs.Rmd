@@ -115,7 +115,7 @@ dfalab <- list(
   video = "https://washington.zoom.us/rec/share/qD31qnwHquZsbIlaGKgQjT8fxldG6VojtCBUNFLe0TY-2basVH8_vlgYyUITmoR6._HawijuNOGHQ0W7I",
   youtube = "",
   data = "",
-  homework = "Problems at end of Chap 10 of Lab Book",
+  homework = "HW #3 Problems at end of Chap 10 of Lab Book",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
@@ -133,7 +133,7 @@ dlmlab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "Problems end of lab",
+  homework = "HW #4 Problems end of lab",
   key = "",
   #key = "Labs/Week 5/HW_5_answer_key.pdf",
   instructor = "Mark",
@@ -171,11 +171,11 @@ bayeslab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "TBD",
+  homework = "HW # 5. Project Methods",
   key = "",
   instructor = "Eric",
   hw_topics = c("Fitting state-space models with STAN"),
-  hw_duedate = "Due next Thurs 11:59 PM PST; email to instructor(s) for lab"
+  hw_duedate = "Due next Thurs 11:59 PM PST; email to all instructors"
 )
 ```
 
