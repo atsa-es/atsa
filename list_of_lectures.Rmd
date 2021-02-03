@@ -217,7 +217,7 @@ dlm <- list(
   ppt = "",
   rmd = "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
   html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
-  video = "",
+  video = "https://washington.zoom.us/rec/share/7YVTi6WO_egI7eH6cy7bo5eKJ0t2h9FVGZcW1TGnVw7JTYVpOw7gNgzRQRma.LiQf8tzgZMH-_R7f",
   youtube = "",
   reading = c("Petris et al. (2009)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "Scheuerell & Williams (2005)"),
   instructor = "Mark"
