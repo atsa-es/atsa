@@ -90,7 +90,19 @@ Many examples of time series in ecology & fisheries may alternate between multip
 
 * Francis et al. (2012) https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2486.2012.02702.x
 
+
+
+## Additional ecological exmaples:
+
+* Mark recapture models with latent states 
+
+* Identifying changing behavior or habitat use:
+
+* Tennessen et al. (2019) "Hidden Markov models reveal temporal patterns and sex differences in killer whale behavior"
+
 * Leos-Barajas et al. (2017) "Analysis of animal accelerometer data using hidden Markov models"
+
+* momentuHMM: R package for analysis of telemetry data using generalized multivariate hidden Markov models of animal movement
 
 ## Regimes
 
@@ -907,5 +919,11 @@ parameters.to.save=jags_params,
 model.file="model.txt")
 ```
 
+## JAGS model
 
+* Next steps: thus far, we've only considered HMMs that are AR(1)
+
+* Homework: try to modify the example above for the CalCOFI data to be AR(2)
+
+* [hint: what are the dimensions of $\Gamma$?]
 
