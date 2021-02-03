@@ -13,13 +13,15 @@
 
 <title>Final Project</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -262,6 +264,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -269,6 +334,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -346,6 +421,15 @@ $(document).ready(function () {
 
 
 <p>As part of the class, each student will have to write a complete, publishable (&lt;20 page) paper using the time series analysis techniques learned in class. See below for details on the structure of the paper.</p>
+<div id="due-dates" class="section level3">
+<h3>Due Dates</h3>
+<ul>
+<li>Project proposal due Fri Jan 29th 11:59 pm PST</li>
+<li>Project methods due Thurs Feb 18th 11:59 pm PST</li>
+<li>Final paper due Fri Mar 12 11:59pm PST</li>
+<li>Presentations Mar 9th and 11th during class time</li>
+</ul>
+</div>
 <div id="data-sets" class="section level1">
 <h1>Data sets</h1>
 <p>Students are encouraged to use their own data and the paper may form a chapter for their thesis/dissertation. However some students might not have their own data. Students may also use data from the instructors, public datasets or datasets included in <strong>R</strong> libraries.</p>
@@ -367,8 +451,9 @@ $(document).ready(function () {
 </ul></li>
 </ul>
 </div>
-<div id="project-plan-due-fri-jan-29th-1159-pm-pst" class="section level1">
-<h1>Project Plan due Fri Jan 29th 11:59 pm PST</h1>
+<div id="project-plan" class="section level1">
+<h1>Project Plan</h1>
+<p><strong>due Fri Jan 29th 11:59 pm PST</strong></p>
 <p>Write a 1-2 page description of your project idea that includes</p>
 <ul>
 <li>the question(s) of interest</li>
@@ -385,15 +470,17 @@ $(document).ready(function () {
 <li>Guassian or non-Gaussian</li>
 </ul>
 </div>
-<div id="project-methods-due-thurs-feb-18th-1159-pm-pst" class="section level1">
-<h1>Project Methods due Thurs Feb 18th 11:59 pm PST</h1>
+<div id="project-methods" class="section level1">
+<h1>Project Methods</h1>
+<p><strong>due Thurs Feb 18th 11:59 pm PST</strong></p>
 <ol style="list-style-type: decimal">
 <li><p>Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.</p></li>
 <li><p>Show that you can fit a pilot version of your proposed model. In other words, show that you can fit your proposed model to some data.</p></li>
 </ol>
 </div>
-<div id="preparation-of-final-papers-due-fri-mar-12-1159pm-pst" class="section level1">
-<h1>Preparation of final papers due Fri Mar 12 11:59pm PST</h1>
+<div id="preparation-of-final-papers" class="section level1">
+<h1>Preparation of final papers</h1>
+<p><strong>due Fri Mar 12 11:59pm PST</strong></p>
 <div id="length" class="section level3">
 <h3>Length</h3>
 <p>Final papers should be no more than 20 pages total, including all figures, tables and references. Please submit the PDF or Word version of your paper via email.</p>
@@ -418,6 +505,8 @@ $(document).ready(function () {
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -450,6 +539,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

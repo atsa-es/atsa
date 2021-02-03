@@ -1,6 +1,10 @@
 ---
 title: "Final Project"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -8,6 +12,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 As part of the class, each student will have to write a complete, publishable (<20 page) paper using the time series analysis techniques learned in class. See below for details on the structure of the paper.
+
+### Due Dates
+
+* Project proposal due Fri Jan 29th 11:59 pm PST
+* Project methods due Thurs Feb 18th 11:59 pm PST
+* Final paper due Fri Mar 12 11:59pm PST
+* Presentations Mar 9th and 11th during class time
+
 
 # Data sets
 
@@ -30,7 +42,9 @@ Other sources of public fisheries data sets are:
     - Lake Washington plankton
 
 
-# Project Plan due Fri Jan 29th 11:59 pm PST
+# Project Plan
+
+**due Fri Jan 29th 11:59 pm PST**
 
 Write a 1-2 page description of your project idea that includes
 
@@ -47,14 +61,18 @@ Things to consider:
 * linear, non-linear, or non-parametric
 * Guassian or non-Gaussian
 
-# Project Methods due Thurs Feb 18th 11:59 pm PST
+# Project Methods
+
+**due Thurs Feb 18th 11:59 pm PST**
 
 1. Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.
 
 2. Show that you can fit a pilot version of your proposed model. In other words, show that you can fit your proposed model to some data.
 
 
-# Preparation of final papers due Fri Mar 12 11:59pm PST
+# Preparation of final papers
+
+**due Fri Mar 12 11:59pm PST**
 
 ### Length
 
