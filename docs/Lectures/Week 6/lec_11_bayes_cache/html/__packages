@@ -1,0 +1,9 @@
+base
+ggplot2
+StanHeaders
+rstan
+atsar
+broom.mixed
+MARSS
+dplyr
+bayesplot
