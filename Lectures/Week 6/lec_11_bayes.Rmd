@@ -44,6 +44,7 @@ library(dplyr)
     + Non-linear models
     + Hierarchical or shared parameters
     + Non-normal data
+    + Prior information
     
 * Inference: what’s the probability that the data are less than some threshold?   
 
@@ -55,7 +56,7 @@ library(dplyr)
 ### What is Stan?
 * Powerful, cross-platform and cross-language (R, Julia, Matlab, etc) that allows users to write custom code that can be called directly from R
 
-* Estimation can be fully or approximate Bayesian inference, or maximum likelihood optimization (BFGS)
+* Estimation can be fully or approximate Bayesian inference, or maximum a posterior optimization (BFGS)
 
 * Useful links:
     + [Stan homepage](https://mc-stan.org/)
@@ -100,7 +101,7 @@ brms::brm(y ~ x * z + (1|group), data=d)
 brms::brm(y01 ~ x * z + (1|group), data=d, family = binomial("logit"))
 brms::brm(bf(y ~ s(x)), data=d)
 ```
-
+* smooths can also be of 2-d models (e.g. spatial models)
 
 ## To install code for this class
 
@@ -114,7 +115,7 @@ install.packages("devtools", repos = "https://cloud.r-project.org")
 
 ```{r, eval=FALSE, echo=TRUE}
 devtools::install_github(repo="nwfsc-timeseries/atsar")
-install.packages("atsar")
+library("atsar")
 ```
 
 ## Working with Stan output
@@ -132,7 +133,6 @@ plot(Nile,ylab="Flow volume",xlab="Year")
 Fitting a regression model to this data doesn't make a lot of sense, but it will introduce us to the basic functionality of our wrapper functions in the `atsar` package. We'll start with a function named `fit_stan`
 
 ```{r, echo=TRUE, eval=TRUE, cache=TRUE}
-library(atsar)
 lm_intercept = fit_stan(y = as.numeric(Nile), 
                         x = rep(1, length(Nile)), 
                         model_name = "regression")
@@ -285,7 +285,8 @@ $$E\left[ { Y }_{ t } \right] =E\left[ { Y }_{ t-1 } \right] +{ e }_{ t-1 }$$
 * We’ll fit model to oxygen data from Lake Barco
 * Note that the use of the argument `model_name` and `est_drift`. By not estimating drift, we asssume the process is stationary with respect to the mean
 ```{r echo=TRUE, cache=TRUE}
-rw = fit_stan(y = neon$oxygen[-(1:799)], est_drift = FALSE, model_name = "rw") 
+rw = fit_stan(y = neon$oxygen[-(1:799)], 
+              est_drift = FALSE, model_name = "rw") 
 ```
 
 ## More time series models: random walk
@@ -314,26 +315,99 @@ $${ Y }_{ t } \sim Normal(x_{t}, r)$$
 
 We can first run the model with $\phi$,
 ```{r cache=TRUE, echo=TRUE}
-ss_ar = fit_stan(y = neon$oxygen[-(1:799)], est_drift=FALSE, model_name = "ss_ar")
+ss_ar = fit_stan(y = neon$oxygen[-(1:799)], 
+                 est_drift=FALSE, 
+                 model_name = "ss_ar")
 ```
 
 then without,
 
 ```{r cache=TRUE, echo=TRUE}
-ss_rw = fit_stan(y = neon$oxygen[-(1:799)], est_drift=FALSE, model_name = "ss_rw")
+ss_rw = fit_stan(y = neon$oxygen[-(1:799)], 
+                 est_drift=FALSE, 
+                 model_name = "ss_rw")
+```
+
+
+## More time series models: DLMs
+
+For comparison to MARSS, we'll use Mark's example of logit-transformed survival from the Columbia River. We can think about setting the DLM up in the slope or the intercept. For this first example, we'll do the latter. 
+
+```{r fig.height=1.5}
+ggplot(SalmonSurvCUI, aes(year, logit.s)) + geom_line() + geom_point() + 
+  theme_bw()
+```
+
+```{r cache=TRUE, echo=TRUE}
+mod = fit_stan(y = SalmonSurvCUI$logit.s, 
+               model_name="dlm-intercept")
+```
+
+## Fitting a DLM with time varying intercept
+```{r echo=TRUE, fig.height=2}
+df = data.frame("year"=1:42,
+"pred"=apply(extract(mod, "intercept", permuted=FALSE), 3, mean),
+"low"=apply(extract(mod, "intercept", permuted=FALSE), 3, quantile,0.025),
+"hi"=apply(extract(mod, "intercept", permuted=FALSE), 3, quantile,0.975))
+ggplot(df, aes(year,pred)) + 
+  geom_ribbon(aes(ymin=low,ymax=hi),fill="grey30",alpha=0.5) + 
+  geom_line() + ylab("Intercept") + xlab("Time") + 
+  theme_bw()
+```
+
+
+## Fitting a DLM with single intercept and time-varying slope
+
+```{r cache=TRUE, echo=TRUE, eval=FALSE}
+mod = fit_stan(y = SalmonSurvCUI$logit.s, 
+x = SalmonSurvCUI$CUI.apr, model_name="dlm-slope")
+```
+
+```{r, fig.height=2, eval=FALSE}
+df = data.frame("year"=1:42,
+"pred"=apply(extract(mod, "beta", permuted=FALSE), 3, mean),
+"low"=apply(extract(mod, "beta", permuted=FALSE), 3, quantile,0.025),
+"hi"=apply(extract(mod, "beta", permuted=FALSE), 3, quantile,0.975))
+ggplot(df, aes(year,pred)) + 
+  geom_ribbon(aes(ymin=low,ymax=hi),fill="grey30",alpha=0.5) + 
+  geom_line() + ylab("Beta[1]") + xlab("Time") + 
+  theme_bw()
+```
+
+
+## Fitting a DLM time-varying intercept and time-varying slope
+
+* Use model.matrix() to specify x
+```{r echo=TRUE, eval=FALSE}
+lmmod = lm(SalmonSurvCUI$logit.s ~ SalmonSurvCUI$CUI.apr)
+x = model.matrix(lmmod)
+```
+
+```{r echo=TRUE, eval=FALSE}
+lmmod = lm(SalmonSurvCUI$logit.s ~ SalmonSurvCUI$CUI.apr)
+mod = fit_stan(y = SalmonSurvCUI$logit.s, 
+               x = model.matrix(lmmod), 
+               model_name="dlm")
 ```
 
 ## More time series models: univariate state space models
 
 Estimates from the AR(1) state space model
-```{r}
+```{r echo=FALSE}
+ss_ar = fit_stan(y = SalmonSurvCUI$logit.s, 
+                 est_drift=FALSE, 
+                 model_name = "ss_ar")
+ss_rw = fit_stan(y = SalmonSurvCUI$logit.s, 
+                 est_drift=FALSE, 
+                 model_name = "ss_rw")
+
 pars_ar = broom.mixed::tidy(ss_ar)
 pars_ar = pars_ar[grep("pred",pars_ar$term),]
 pars_ar$low = pars_ar$estimate - 1.96*pars_ar$std.error
 pars_ar$hi = pars_ar$estimate + 1.96*pars_ar$std.error
 pars_ar$x = seq(1,nrow(pars_ar))
 
-df = data.frame("x"=pars_ar$x, "y" = neon$oxygen[-(1:799)], stringsAsFactors=FALSE)
+df = data.frame("x"=pars_ar$x, "y" = SalmonSurvCUI$logit.s, stringsAsFactors=FALSE)
 ggplot(pars_ar, aes(x, estimate)) + 
 geom_ribbon(aes(ymin=low,ymax=hi),fill="grey70") + 
 xlab("Time") + ylab("Estimate (AR)") + 
@@ -351,7 +425,7 @@ pars_rw$low = pars_rw$estimate - 1.96*pars_rw$std.error
 pars_rw$hi = pars_rw$estimate + 1.96*pars_rw$std.error
 pars_rw$x = seq(1,nrow(pars_rw))
 
-df = data.frame("x"=pars_rw$x, "y" = neon$oxygen[-(1:799)], stringsAsFactors=FALSE)
+df = data.frame("x"=pars_rw$x, "y" = SalmonSurvCUI$logit.s, stringsAsFactors=FALSE)
 ggplot(pars_rw, aes(x, estimate)) + 
 geom_ribbon(aes(ymin=low,ymax=hi),fill="grey70") + 
 xlab("Time") + ylab("Estimate (AR)") + 
@@ -366,7 +440,7 @@ Estimates from both models (note the difference in credible interval widths)
 pars_rw$model = "RW"
 pars_ar$model = "AR"
 pars = rbind(pars_rw,pars_ar)
-df = data.frame("x"=pars_rw$x, "y" = neon$oxygen[-(1:799)], stringsAsFactors=FALSE)
+df = data.frame("x"=pars_rw$x, "y" = SalmonSurvCUI$logit.s, stringsAsFactors=FALSE)
 ggplot(pars, aes(x, estimate, fill=model, group=model)) + 
 geom_ribbon(aes(ymin=low,ymax=hi,fill=model, alpha=0.3)) + 
 xlab("Time") + ylab("Estimate") + 
@@ -409,7 +483,6 @@ plankdat = dat[dat[,"Year"]>=1980 & dat[,"Year"]<1990,]
 phytoplankton = c("Cryptomonas", "Diatoms", "Greens",
                    "Unicells", "Other.algae")
 dat.spp.1980 = plankdat[,phytoplankton]
-
 ```
 
 ## Dynamic Factor Analysis (DFA)
@@ -426,14 +499,60 @@ ggplot(aes(Time, value)) +
 ## Running the model
 
 * The 'atsar' package includes a simple version of DFA
-* We've bundled these into a DFA package with more features, 
+* We've bundled these into a more flexible DFA package with more features, 
 
 ```{r}
-devtools::install_github("fate-ewi/bayesdfa")
+#devtools::install_github("fate-ewi/bayesdfa")
+pkgload::unload(package="atsar")
 library(bayesdfa)
 ```
 
-## Some additional features included
+## Additional features included
+
+* Replicate observations 
+
+```{r, fig.height=4}
+x = matrix(0, 2, 40)
+x[1,] = as.numeric(scale(cumsum(rnorm(ncol(x)))))
+x[2,] = as.numeric(scale(cumsum(rnorm(ncol(x)))))
+
+df = data.frame(Time = sample(1:ncol(x),size=100, replace=TRUE),
+  Pop = as.factor(sample(1:3, size=100, replace=TRUE)))
+df$x = 1
+df$x[which(df$Pop != "1")] = 2
+
+df$y = NA
+for(i in 1:nrow(df)) {
+  df$y[i] = rnorm(1, x[df$x[i], df$Time[i]], sd=0.1)
+}
+ggplot(df, aes(Time, y, col=Pop)) + 
+  geom_point() + xlab("Time") + 
+  ylab("Observation")
+```
+
+## Additional features included
+
+* Extreme deviations (modeled with Student-t instead of normal errors)
+
+```{r, fig.height=4}
+x = matrix(0, 2, 40)
+x[1,] = as.numeric(scale(cumsum(rnorm(ncol(x)))))
+
+set.seed(121)
+x[2,] = as.numeric(scale(cumsum( rt(ncol(x),2) )))
+
+df = data.frame(Time = c(1:ncol(x), 1:ncol(x)),
+                Pop = as.factor(c(rep(1,ncol(x)), rep(2,ncol(x)))),
+                y = c(x[1,], x[2,]))
+
+ggplot(df, aes(Time, y, col=Pop)) + 
+  geom_point() + 
+  geom_line() + 
+  xlab("Time") + 
+  ylab("Observation")
+```
+
+## Additional features included
 
 * Replicate observations 
 * Extreme deviations (modeled with Student-t instead of normal errors)
@@ -445,7 +564,7 @@ library(bayesdfa)
 For starters, we'll try a 3-trend model, 
 
 ```{r echo=TRUE, eval=FALSE}
-mod_3 = fit_dfa(y = t(dat.spp.1980), num_trends=3)
+mod_3 = bayesdfa::fit_dfa(y = t(dat.spp.1980), num_trends=3)
 ```
 
 ## Trends need to be rotated (like MARSS)
@@ -458,7 +577,7 @@ Why? Identifiability
 
 Use function we’ve written, rotate_trends
 ```{r echo=FALSE, eval=FALSE}
-rot = rotate_trends(mod_3)
+rot = bayesdfa::rotate_trends(mod_3)
 ```
 
 ## Attributes of rotated object
@@ -474,12 +593,15 @@ rot = rotate_trends(mod_3)
 
 By default, the structure is `diagonal and equal`
 ```{r echo=FALSE, eval=FALSE}
-mod_3 = fit_dfa(y = t(dat.spp.1980), num_trends=3)
+mod_3 = bayesdfa::fit_dfa(y = t(dat.spp.1980), 
+                          num_trends=3)
 ```
 
 Diagonal and unequal or shared variances can also be specified using `varIndx` argument. The diagonal and unequal structure would be called with 
 ```{r echo=TRUE, eval=FALSE}
-mod_3 = fit_dfa(y = t(dat.spp.1980), num_trends=3, varIndx = rep(1,5))
+mod_3 = bayesdfa::fit_dfa(y = t(dat.spp.1980), 
+                          num_trends=3, 
+                          varIndx = rep(1,5))
 ```
 
 ## Uncertainty intervals on states
@@ -496,15 +618,18 @@ data("harborSealWA")
 Assume single trend for the population
 
 ```{r}
-matplot(harborSealWA[,-1], type="l", lwd=3, ylab="Ln (abundance)")
+matplot(harborSealWA[,-1], 
+        type="l", 
+        lwd=3, 
+        ylab="Ln (abundance)")
 ```
-
 
 ## Extracting the predicted trend
 
 We'll extract predictions from the best model, 
-```{r echo=TRUE, cache=TRUE, fig.height=2, fig.align="center"}
-pars = extract(fit_dfa(y = t(harborSealWA[,-1]), num_trends = 1))
+```{r echo=TRUE, cache=TRUE, fig.height=2, fig.align="center",eval=TRUE}
+fit = bayesdfa::fit_dfa(y = t(harborSealWA[,-1]), num_trends = 1)
+pars = extract(fit$model)
 df = data.frame("time"=1:nrow(harborSealWA),
                 "pred"=apply(pars$x[,1,], 2, mean),
                 "low"=apply(pars$x[,1,], 2, quantile,0.025),
@@ -513,68 +638,6 @@ ggplot(df, aes(time, pred)) +
   geom_ribbon(aes(ymin=low,ymax=hi), fill="grey30", alpha=0.5)+
   geom_line() + 
   theme_bw()
-```
-
-## Fitting a DLM with time varying intercept
-
-For comparison to MARSS, we'll use Mark's example of logit-transformed survival from the Columbia River. We can think about setting the DLM up in the slope or the intercept. For this first example, we'll do the latter. 
-
-```{r fig.height=1.5}
-ggplot(SalmonSurvCUI, aes(year, logit.s)) + geom_line() + geom_point() + 
-  theme_bw()
-```
-
-```{r cache=TRUE, echo=TRUE}
-mod = fit_stan(y = SalmonSurvCUI$logit.s, 
-               model_name="dlm-intercept")
-```
-
-## Fitting a DLM with time varying intercept
-```{r echo=TRUE, fig.height=2}
-df = data.frame("year"=1:42,
-"pred"=apply(extract(mod, "intercept", permuted=FALSE), 3, mean),
-"low"=apply(extract(mod, "intercept", permuted=FALSE), 3, quantile,0.025),
-"hi"=apply(extract(mod, "intercept", permuted=FALSE), 3, quantile,0.975))
-ggplot(df, aes(year,pred)) + 
-  geom_ribbon(aes(ymin=low,ymax=hi),fill="grey30",alpha=0.5) + 
-  geom_line() + ylab("Intercept") + xlab("Time") + 
-  theme_bw()
-```
-
-
-
-## Fitting a DLM with single intercept and time-varying slope
-
-```{r cache=TRUE, echo=TRUE}
-mod = fit_stan(y = SalmonSurvCUI$logit.s, 
-x = SalmonSurvCUI$CUI.apr, model_name="dlm-slope")
-```
-
-```{r, fig.height=2}
-df = data.frame("year"=1:42,
-"pred"=apply(extract(mod, "beta", permuted=FALSE), 3, mean),
-"low"=apply(extract(mod, "beta", permuted=FALSE), 3, quantile,0.025),
-"hi"=apply(extract(mod, "beta", permuted=FALSE), 3, quantile,0.975))
-ggplot(df, aes(year,pred)) + 
-  geom_ribbon(aes(ymin=low,ymax=hi),fill="grey30",alpha=0.5) + 
-  geom_line() + ylab("Beta[1]") + xlab("Time") + 
-  theme_bw()
-```
-
-
-## Fitting a DLM time-varying intercept and time-varying slope
-
-* Use model.matrix() to specify x
-```{r echo=TRUE, eval=FALSE}
-lmmod = lm(SalmonSurvCUI$logit.s ~ SalmonSurvCUI$CUI.apr)
-x = model.matrix(lmmod)
-```
-
-```{r echo=TRUE, eval=FALSE}
-lmmod = lm(SalmonSurvCUI$logit.s ~ SalmonSurvCUI$CUI.apr)
-mod = fit_stan(y = SalmonSurvCUI$logit.s, 
-               x = model.matrix(lmmod), 
-               model_name="dlm")
 ```
 
 ## Summary

@@ -7,3 +7,5 @@ broom.mixed
 MARSS
 dplyr
 bayesplot
+Rcpp
+bayesdfa
