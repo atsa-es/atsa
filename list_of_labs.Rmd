@@ -133,7 +133,7 @@ dlmlab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "HW #5 Problems end of Chap 9 in lab book",
+  homework = "HW #4 Problems at end of Chap 9 in lab book",
   key = "",
   #key = "Labs/Week 5/HW_5_answer_key.pdf",
   instructor = "Mark",
