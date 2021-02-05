@@ -130,7 +130,7 @@ dlmlab <- list(
   pdf = "",
   rmd = "Labs/Week 5/intro-to-dlms.R",
   html = "Labs/Week 5/intro-to-dlms.html",
-  video = "",
+  video = "https://washington.zoom.us/rec/share/qMA7A0uw1eD6FJYL2wIsLEz5SDtipNgK5Qjw_bUEVSfcNh5IncOqFDF-x4AzGOte.U93oJTp68fzUkKLE",
   youtube = "",
   data = "",
   homework = "HW #4 Problems at end of Chap 9 in lab book",
