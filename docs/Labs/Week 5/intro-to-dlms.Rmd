@@ -579,7 +579,7 @@ Notice that we passed the DLM that was fit to all of the data to `MARSSkfss()`. 
 As with other time series models, evaluation of a DLM should include diagnostics. In a forecasting context, we are often interested in the forecast errors, which are simply the observed data minus the forecasts $e_t = y_t - \text{E}(y_t|y_{1:t-1})$. In particular, the following assumptions should hold true for $e_t$:
 
 1.  $e_t \sim \text{N}(0,\sigma^2)$;
-2.  $\cov(e_t,e_{t-k}) = 0$.
+2.  $\text{cov}(e_t,e_{t-k}) = 0$.
 
 In the literature on state-space models, the set of $e_t$ are commonly referred to as "innovations". `MARSS()` calculates the innovations as part of the Kalman filter algorithm---they are stored as ```Innov``` in the list produced by the ```MARSSkfss()``` function.
 
@@ -607,7 +607,7 @@ qqnorm(t(innov), main = "", pch = 16, col = "blue")
 qqline(t(innov))
 ```
  
-The Q-Q plot (Figure \@ref(fig:dlm-plotdlmQQ)) indicates that the innovations appear to be more-or-less normally distributed (i.e., most points fall on the line). Furthermore, it looks like the mean of the innovations is about 0, but we should use a more reliable test than simple visual inspection. We can formally test whether the mean of the innovations is significantly different from 0 by using a one-sample $t$-test.  based on a null hypothesis of $\E(e_t)=0$. To do so, we will use the function ```t.test()``` and base our inference on a significance value of $\alpha = 0.05$.
+The Q-Q plot indicates that the innovations appear to be more-or-less normally distributed (i.e., most points fall on the line). Furthermore, it looks like the mean of the innovations is about 0, but we should use a more reliable test than simple visual inspection. We can formally test whether the mean of the innovations is significantly different from 0 by using a one-sample $t$-test.  based on a null hypothesis of $\E(e_t)=0$. To do so, we will use the function `t.test()` and base our inference on a significance value of $\alpha = 0.05$.
 
 ```{r dlmInnovTtest, eval=TRUE, echo=TRUE}
 ## p-value for t-test of H0: E(innov) = 0
@@ -632,5 +632,5 @@ par(mai = c(0.8, 0.8, 0.2, 0.2), omi = c(0, 0, 0, 0))
 acf(t(innov), lwd = 2, lag.max = 10)
 ```
  
-The ACF plot (Figure \@ref(fig:dlm-plotdlmACF)) shows no significant autocorrelation in the innovations at lags 1--10, so it looks like both of our model assumptions have indeed been met.
+The ACF plot shows no significant autocorrelation in the innovations at lags 1--10, so it looks like both of our model assumptions have indeed been met.
 
