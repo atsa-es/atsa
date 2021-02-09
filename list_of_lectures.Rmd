@@ -264,8 +264,7 @@ bayes <- list(
   html = "",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)"),
+  reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)"),
   instructor = "Eric"
 )
 ```
