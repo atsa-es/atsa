@@ -258,9 +258,9 @@ dfa <- list(
 bayes <- list(
   title = "Bayesian estimation",
   topics = c("Bayesian estimation of time-series and state-space models","Stan"),
-  pdf = "",
-  ppt = "",
-  rmd = "",
+  pdf = "Lectures/Week 6/lec_11_bayes.pdf",
+  ppt = "Lectures/Week 6/lec_11_bayes.html",
+  rmd = "Lectures/Week 6/lec_11_bayes.Rmd",
   html = "",
   video = "",
   youtube = "",
