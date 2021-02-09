@@ -9,3 +9,5 @@ dplyr
 bayesplot
 Rcpp
 bayesdfa
+brms
+lubridate
