@@ -1,0 +1,218 @@
+---
+title: "Fitting univariate Bayesian time series models"
+author: "Eric Ward"
+date: "09 Feb 2021"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+  beamer_presentation: default
+subtitle: FISH 507 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+library(ggplot2)
+library(rstan)
+library(bayesdfa)
+library(atsar)
+library(broom.mixed)
+library(datasets)
+library(MARSS)
+library(dplyr)
+```
+
+## Overview of today's material
+
+* Using STAN for MAP estimation
+* Multivariate time series models
+* DFA models
+* Writing our own Stan code
+
+## MAP (maximum a posteriori) estimation
+
+* Point estimate of unknown parameters
+* Optimization algorithms: BFGS, Newton, etc
+* Estimates similar to maximum likelihood, but also incorporate prior
+* Quick for checking models, etc
+
+## MAP estimation in Stan
+
+* We left off with a Bayesian DLM with random walk in intercept
+```{r cache=TRUE, echo=TRUE, warning=FALSE, results=FALSE}
+bayes_fit = fit_stan(y = SalmonSurvCUI$logit.s, 
+               model_name="dlm-intercept")
+```
+
+## MAP estimation in Stan
+
+* Switching this to MAP estimation
+```{r cache=TRUE, echo=TRUE, warning=FALSE, results=FALSE}
+map_fit = fit_stan(y = SalmonSurvCUI$logit.s, 
+               model_name="dlm-intercept", map_estimation=TRUE)
+```
+
+## MAP estimation in Stan
+
+```{r echo=TRUE, results='markdown'}
+print(map_fit)
+```
+
+## MAP estimation in Stan
+
+* Check that model converged
+```{r echo=TRUE, results='markdown'}
+map_fit$return_code
+```
+
+* MAP value when converged
+```{r echo=TRUE, results='markdown'}
+map_fit$value
+```
+
+## MAP estimation in Stan
+
+* grep or other string matching functions needed
+```{r echo=TRUE, results='markdown'}
+grep("pred",names(map_fit$par))
+pred = map_fit$par[grep("pred",names(map_fit$par))]
+```
+
+## MAP estimation in Stan
+
+* grep or other string matching functions needed
+```{r echo=TRUE, results='markdown'}
+grep("pred",names(map_fit$par))
+pred = map_fit$par[grep("pred",names(map_fit$par))]
+```
+
+## MAP estimation in Stan
+
+* grep or other string matching functions needed
+```{r echo=TRUE, results='markdown'}
+grep("pred",names(map_fit$par))
+pred = map_fit$par[grep("pred",names(map_fit$par))]
+```
+
+## MAP estimation in Stan
+
+* include SEs of estimates, via Hessian
+```{r echo=TRUE, results='markdown', eval=FALSE}
+map_fit = fit_stan(y = SalmonSurvCUI$logit.s, 
+     model_name="dlm-intercept", 
+     map_estimation=TRUE, 
+     hessian=TRUE)
+```
+* or change algorithm ("LBFGS" default) to "BFGS" or "Newton"
+```{r echo=TRUE, results='markdown', eval=FALSE}
+map_fit = fit_stan(y = SalmonSurvCUI$logit.s, 
+     model_name="dlm-intercept", 
+     map_estimation=TRUE, 
+     hessian=TRUE, 
+     algorithm="BFGS")
+```
+
+## MAP estimation in Stan
+* Posterior means, 95% CIs
+```{r}
+pars = rstan::extract(bayes_fit)
+df = data.frame("Time"=1:42,
+                y = SalmonSurvCUI$logit.s,
+                pred = apply(pars$pred,2,mean),
+                lower=apply(pars$pred,2,quantile,0.025),
+                upper=apply(pars$pred,2,quantile,0.975))
+ggplot(df, aes(Time, pred)) + 
+  geom_ribbon(aes(ymin=lower, ymax=upper),alpha=0.3) +
+  theme_bw() + 
+  geom_line() + ylab("Estimate") + 
+  geom_point(aes(Time,y),col="red")
+```
+
+## MAP estimation in Stan
+* MAP estimates = posterior
+```{r}
+df$map = pred
+ggplot(df, aes(Time, pred)) + 
+  geom_ribbon(aes(ymin=lower, ymax=upper),alpha=0.3) +
+  theme_bw() + 
+  geom_line() + ylab("Estimate") + 
+  geom_point(aes(Time,y),col="red") + 
+  geom_line(aes(Time,pred),col="blue")
+```
+
+## Multivariate time series models
+
+* Multivariate state space models
+
+
+
+## Bayesian DFA models
+
+* DFA models from `atsar` bundled with other DFA code we've developed
+```{r echo=TRUE}
+devtools::install_github("fate-ewi/bayesdfa")
+```
+
+## Bayesian DFA models
+
+* DFA poses interesting identifiability challenges
+* Bayesian models generally involve > 1 MCMC chain
+* Direction of DFA loadings / trends don't have meaning
+
+## Bayesian DFA models
+
+```{r}
+df = data.frame("iter"=rep(1:1000,3), "chain" = sort(rep(as.factor(1:3),1000)),
+                "Parameter"=c(rnorm(1000,-3), rnorm(1000,-3), rnorm(1000,3)))
+ggplot(df, aes(iter,Parameter,group=chain,col=chain)) + 
+  geom_line(alpha=0.7) + theme_bw() + xlab("MCMC iteration")
+```
+
+## Bayesian DFA models
+
+* Solution 1: priors for identifiability
+
+* Solution 2: post-hoc 'chain flipping' before convergence tests run
+
+## Bayesian DFA models
+
+* Fitting DFA models will give very similar answers to using MARSS
+```{r echo=TRUE}
+data("harborSealWA")
+```
+```{r fig.height=4}
+matplot(harborSealWA[,-1], 
+        type="l", 
+        lwd=3, 
+        ylab="Ln (abundance)")
+```
+
+## Bayesian DFA models
+
+We'll extract predictions from the best model, 
+```{r echo=TRUE, cache=TRUE, fig.height=2, fig.align="center",eval=TRUE}
+fit = bayesdfa::fit_dfa(y = t(harborSealWA[,-1]), num_trends = 1)
+```
+And as an `stanfit` object, we can extract summaries of states `x`
+```{r echo=TRUE}
+pars = extract(fit$model)
+```
+
+
+## Bayesian DFA models
+```{r echo=TRUE}
+bayesdfa::plot_fitted(fit) + theme_bw()
+```
+
+## Bayesian DFA models
+
+* DFA extension 1: extreme events
+
+## Bayesian DFA models
+
+* DFA extension 2: increased flexibility in trends
+
+## Bayesian DFA models
+
+* DFA extension 3: alternate constraints on loadings matrix
