@@ -258,6 +258,7 @@ dfa <- list(
 bayes <- list(
   title = "Bayesian estimation: univariate models",
   topics = c("Bayesian estimation of time-series and state-space models","Stan"),
+  ppt = "",
   pdf = "Lectures/Week 6/lec_11_bayes.pdf",
   rmd = "Lectures/Week 6/lec_11_bayes.Rmd",
   html = "Lectures/Week 6/lec_11_bayes.html",
@@ -279,7 +280,6 @@ bayes2 <- list(
   video = "",
   youtube = "",
   reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
-  #reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
   instructor = "Eric"
 )
 ```
