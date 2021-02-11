@@ -256,7 +256,7 @@ dfa <- list(
 
 ```{r}
 bayes <- list(
-  title = "Bayesian estimation",
+  title = "Bayesian estimation: univariate models",
   topics = c("Bayesian estimation of time-series and state-space models","Stan"),
   pdf = "Lectures/Week 6/lec_11_bayes.pdf",
   rmd = "Lectures/Week 6/lec_11_bayes.Rmd",
@@ -270,15 +270,15 @@ bayes <- list(
 
 ```{r}
 bayes2 <- list(
-  title = "Bayesian estimation",
-  topics = c("Writing our own Bayesian models in Stan"),
-  pdf = "",
+  title = "Bayesian estimation: multivariate models",
+  topics = c("MAP estimation", "Multivariate models", "DFA", "Writing our own Bayesian models in Stan"),
+  pdf = "Lectures/Week 6/lec_12.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 6/lec_12.Rmd",
+  html = "Lectures/Week 6/lec_12_bayes.html",
   video = "",
   youtube = "",
-  reading = "",
+  reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
   #reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
   instructor = "Eric"
 )
