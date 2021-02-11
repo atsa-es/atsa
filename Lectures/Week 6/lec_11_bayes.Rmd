@@ -61,16 +61,21 @@ library(lubridate)
 
 $$P({\theta}|\textbf{y})P(\textbf{y})=P(\theta)P(\textbf{y}|\theta)$$  
 
-$$P({\theta}|\textbf{y})=\frac{P(\theta)P(\textbf{y}|\theta)}{P(\textbf{y})}$$   
+$$P({\theta}|\textbf{y})=\frac{P(\theta)P(\textbf{y}|\theta)}{P(\textbf{y})}$$ 
+
 * ${P(\textbf{y})}$ is a normalizing constant that we often don't have to worry about
 
 ## Bayesian logic
 * Parameters are random, data are fixed
 
-$$P({\theta}|\textbf{y})=P(\theta)P(\textbf{y}|\theta)$$  
-*$P({\theta}|\textbf{y})$ is the posterior  
-*$P(\textbf{y}|\theta)$ is the likelihood  
-*$P(\theta)$ is the prior    
+* $$P({\theta}|\textbf{y})=P(\theta)P(\textbf{y}|\theta)$$  
+
+* $P({\theta}|\textbf{y})$ is the posterior   
+
+* $P(\textbf{y}|\theta)$ is the likelihood  
+
+* $P(\theta)$ is the prior  
+
 
 ## Bayesian logic 
 
@@ -94,7 +99,7 @@ $$P({\theta}|\textbf{y})=P(\theta)P(\textbf{y}|\theta)$$
   
 ## Estimation 
 
-* Goal of Bayesian estimation in drawing samples from the posterior *$P({\theta}|\textbf{y})$
+* Goal of Bayesian estimation in drawing samples from the posterior $P({\theta}|\textbf{y})$
 
 * For very simple models, we can write the analytical solution for the posterior
 
