@@ -160,11 +160,10 @@ etsedmlab <- list(
 )
 ```
 
-```{r}
+```{r bayeslab}
 bayeslab <- list(
   title = "Fitting models with STAN",
-  topics = c("Bayesian estimation",
-              "STAN"),
+  topics = c("Bayesian estimation", "STAN"),
   pdf = "",
   rmd = c("Labs/Week 7/fitting-models-with-stan.Rmd"),
   html = "",
@@ -273,7 +272,7 @@ freqdomainlab <- list(
 ```
 
 
-```{r}
+```{r studentpresentation2}
 presentlab <- list(
   title = "Student presentations",
   topics = c("Student presentations"),

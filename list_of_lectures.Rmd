@@ -458,7 +458,7 @@ zeros <- list(
 )
 ```
 
-```{r}
+```{r perturb_lec}
 perturb <- list(
   title = "Perturbations and outliers",
   topics = c("Perturbations","interventions","outliers","standardized residuals"),
