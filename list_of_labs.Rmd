@@ -167,7 +167,7 @@ bayeslab <- list(
   pdf = "",
   rmd = c("Labs/Week 7/fitting-models-with-stan.Rmd"),
   html = "",
-  video = "",
+  video = "https://washington.zoom.us/rec/share/N49yDRIBvXImVvX8Hqm5QgM9gAt09Hkj41S-SKK8hfeSgwL0lgIKzdPvVFvn_Uff._edvMfOCxC8NorrV",
   youtube = "",
   data = "",
   homework = "HW # 5. Project Methods",
