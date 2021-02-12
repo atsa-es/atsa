@@ -167,7 +167,7 @@ bayeslab <- list(
   pdf = "",
   rmd = "https://nwfsc-timeseries.github.io/atsa-labs/Rmds/fitting-models-with-stan.Rmd",
   html = "https://nwfsc-timeseries.github.io/atsa-labs/chap-stan.html",
-  video = "",
+  video = "https://washington.zoom.us/rec/share/N49yDRIBvXImVvX8Hqm5QgM9gAt09Hkj41S-SKK8hfeSgwL0lgIKzdPvVFvn_Uff._edvMfOCxC8NorrV",
   youtube = "",
   data = "",
   homework = "HW # 5. Project Methods",
