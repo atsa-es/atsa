@@ -165,15 +165,15 @@ bayeslab <- list(
   title = "Fitting models with STAN",
   topics = c("Bayesian estimation", "STAN"),
   pdf = "",
-  rmd = c("Labs/Week 7/fitting-models-with-stan.Rmd"),
-  html = "",
+  rmd = "https://nwfsc-timeseries.github.io/atsa-labs/Rmds/fitting-models-with-stan.Rmd",
+  html = "https://nwfsc-timeseries.github.io/atsa-labs/chap-stan.html",
   video = "",
   youtube = "",
   data = "",
   homework = "HW # 5. Project Methods",
   key = "",
   instructor = "Eric",
-  hw_topics = c("Fitting state-space models with STAN"),
+  hw_topics = c(""),
   hw_duedate = "Due next Thurs 11:59 PM PST; email to all instructors"
 )
 ```
