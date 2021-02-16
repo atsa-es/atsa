@@ -3669,6 +3669,19 @@ for(k in 1:K) {
 <li><p>Often need to write code ourselves</p></li>
 </ul>
 
+</article></slide><slide class=""><hgroup><h2>Bayesian cross validation</h2></hgroup><article  id="bayesian-cross-validation-2">
+
+<ul>
+<li>ELPD (Expected log posterior density)</li>
+</ul>
+
+<p>\[log[p(y^*)]=log[\int p(y^*|\theta)p(\theta)d\theta]\]</p>
+
+<ul>
+<li><p>Useful for calculating predictive accuracy for out of sample point (LTOCV, LFOCV)</p></li>
+<li><p>Should act similar to AIC when posterior ~ MVN <a href='http://mc-stan.org/rstanarm/reference/loo.stanreg.html' title=''>(more here)</a></p></li>
+</ul>
+
 </article></slide><slide class=""><hgroup><h2>Prediction and forecast evaluations</h2></hgroup><article  id="prediction-and-forecast-evaluations">
 
 <ul>

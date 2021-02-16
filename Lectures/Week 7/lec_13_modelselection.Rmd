@@ -6,6 +6,7 @@ output:
   ioslides_presentation:
     css: lecture_slides.css
   beamer_presentation: default
+  slidy_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -522,6 +523,7 @@ https://cran.r-project.org/web/packages/loo/vignettes/loo2-example.html
 * ELPD (Expected log posterior density)
 
 $$log[p(y^*)]=log[\int p(y^*|\theta)p(\theta)d\theta]$$
+
 * Useful for calculating predictive accuracy for out of sample point (LTOCV, LFOCV)
 
 * Should act similar to AIC when posterior ~ MVN [(more here)](http://mc-stan.org/rstanarm/reference/loo.stanreg.html)
