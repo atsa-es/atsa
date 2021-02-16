@@ -197,14 +197,13 @@ model_inf <- list(
   topics = c("Multi-model inference and selection",
              "Information criteria",
              "Cross-validation & LOOIC"),
-  pdf = "",
+  pdf = "Lectures/Week 5/lec_13_modelselection.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 5/lec_13_modelselection.Rmd",
+  html = "Lectures/Week 5/lec_13_modelselection.html",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("See list of references in the lecture", "[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)", "[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)","[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
+  reading = c("See list of references in the lecture", "[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)", "[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)","[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
   instructor = "Eric"
 )
 ```
