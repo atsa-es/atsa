@@ -1,0 +1,332 @@
+---
+title: "HW2 Analysis of NO2 data Key"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=FALSE, message = FALSE, warning = FALSE)
+```
+
+# Grading
+
+This was a more open-ended homework. Grading was 3pts (out of 5) if you made a solid attempt at questions 1-8. 4pts (out of 5) if you did some of the optional questions. 5pts (out of 5) for many of the optional questions. 
+
+
+
+## The data and packages
+
+```{r}
+load("ECNNO2.RData")
+```
+
+Load the packages. 
+```{r}
+library(MARSS)
+library(ggplot2)
+library(ggmap)
+library(tidyr)
+library(dplyr)
+```
+
+These are the site locations and names. Note that the site numbers do not indicate how close the sites are to each other.
+
+```{r echo=FALSE}
+library(ggmap)
+ylims=c(min(ECNmeta$Latitude)-1,max(ECNmeta$Latitude)+1)
+xlims=c(min(ECNmeta$Longitude)-2,max(ECNmeta$Longitude)+2.2)
+base = ggmap::get_map(location=c(xlims[1],ylims[1],xlims[2],ylims[2]), zoom=7, maptype="terrain-background")
+map1 = ggmap::ggmap(base)
+map1 + geom_point(data=ECNmeta, aes(x=Longitude, y=Latitude), color="blue", cex=2.5) +
+  labs(x="Latitude", y="Longitude", title="ECN sites") +
+  geom_text(data=ECNmeta, aes(Longitude, Latitude),
+    label=ECNmeta$SiteCode, 
+    nudge_x = 0.35, nudge_y = 0.35, size=2.75, angle=45,
+    check_overlap = FALSE
+  ) +
+  theme_bw()
+```
+
+There are 23 years of monthly data for each site and at each site there are 1-3 samples (tubes) taken.
+```{r echo=FALSE}
+p <- ggplot(ECNNO2, aes(x=Date, y=Value)) +
+  geom_line(aes(color=TubeID)) +
+  facet_wrap(~SiteCode) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  xlab("") + ylab("NO2 (micrograms/m3)") +
+  ggtitle("N02 in UK")
+p
+```
+
+The winter NO$_2$ is higher and more variable than summer (coal plants?). You'll focus on the winter average data for the first part of the homework and the monthly data for the second part of the homework.
+
+```{r echo=FALSE}
+p <- ggplot(subset(ECNNO2, TubeID=="E1" & Month%in%c("Jan", "Jul")), aes(Date, Value)) +
+  geom_line(aes(color=Month)) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("NO2 is higher in winter") +
+  facet_wrap(~SiteCode)
+p
+```
+
+# Part 1
+
+## Data for part 1
+
+```{r}
+dat = ECNNO2 %>% 
+  subset(Month %in% c("Nov", "Dec", "Jan")) %>% 
+  subset(TubeID=="E1") %>% 
+  group_by(Year, SiteCode, TubeID) %>% 
+  summarize(log.mean = log(mean(Value, na.rm=TRUE)))
+# replace NaN with NA
+dat[is.na(dat)] <- as.numeric(NA)
+```
+
+Make this into a matrix.
+```{r}
+datwide <- pivot_wider( 
+    dat,
+    names_from = Year,
+    values_from = log.mean
+  )
+# make into a matrix
+datmat <- as.matrix(datwide[,3:23])
+rownames(datmat) <- datwide$SiteCode
+```
+
+## Questions for part 1
+
+1. Fit a stochastic level (random walk with drift) to estimate one regional NO$_2$ trend from the 11 observations. So 1 $x$ and 11 $y$. All $y$ are observing the same $x$. You will need to set Z and R. You can leave everything else at the default values. So your MARSS() call will look like
+
+```{r results="hide"}
+mod.list1 <- list(Z = matrix(1, 11, 1), 
+                     R = "diagonal and unequal")
+fit1 <- MARSS(datmat, model=mod.list1)
+```
+
+This model has an AICc value of `r fit1$AICc`. 
+
+```{r}
+autoplot(fit1, plot.type = "xtT")
+```
+
+2. What structure(s) did you assume for the $\mathbf{R}$ matrix (the observation variance covariance matrix)? What do the different structures mean in terms of how the observation errors are related across sites.
+
+* `R="diagonal and equal"` The observation errors independent with equal variance.
+* R="diagonal and unequal" The observation errors independent with different variances.
+* R="unconstrained" The observation errors can be correlated and have different variance and covariances.
+* R="equalvarcov" The observation errors can be correlated with equal variance and one covariance.
+
+
+3. Do basic diagnostics (ACF, normality tests) on the innovations residuals. Any obvious problems? You will find them here:
+```
+residuals(fit)
+```
+Note it is a data frame with a column for site. You will need to do your tests individuals for each site.
+
+
+
+4. Model the data as 3 regions, each with its own NO$_2$ trend. Those are the states or $x$.
+* Region 1 = T01, T05, T06, T08, T09, T10
+* Region 2 = T04, T07, T12
+* Region 3 = T03, T11
+
+The key here is setting up the $\mathbf{Z}$ matrix (0s and 1s) and then making that in R.
+
+The $\mathbf{Z}$ will look like
+
+$$ \mathbf{Z} = 
+\begin{matrix}
+T01 \\ 
+T03 \\ 
+T04 \\
+T05 \\
+T06 \\
+T07 \\
+T08 \\
+T09 \\
+T10 \\
+T11 \\
+T12
+\end{matrix}
+\begin{bmatrix}
+1&0&0 \\ 
+0&0&1 \\ 
+0&1&0 \\
+1&0&0 \\
+1&0&0 \\
+0&1&0 \\
+1&0&0 \\
+1&0&0 \\
+1&0&0 \\
+0&0&1 \\
+0&1&0
+\end{bmatrix} $$
+
+
+```{r}
+Z <- matrix(0, 11, 3)
+Z[c(1,4,5,7,8,9),1] <- 1
+Z[c(3, 6, 11),2] <- 1
+Z[c(2, 10),3] <- 1 
+```
+
+We have to decide what to assume about $\mathbf{Q}$. Let's start with independent with different variances.
+```{r results="hide"}
+mod.list2 <- list(Z = Z, 
+                     R = "diagonal and unequal")
+fit2 <- MARSS(datmat, model=mod.list2)
+```
+The AICc for this model is quite a bit larger: `r fit2$AICc`.
+
+Let's try an unconstrained $\mathbf{Q}$.
+```{r results="hide"}
+mod.list3 <- list(Z = Z, 
+                  R = "diagonal and unequal",
+                  Q = "unconstrained")
+fit3 <- MARSS(datmat, model=mod.list3)
+```
+The AICc for this model is smaller `r fit3$AICc`.
+
+If we look at the $\mathbf{Q}$ variance-covariance matrix we can see why the independent assumption was bad.
+```{r}
+require(corrplot)
+Qmat <- coef(fit3, type="matrix")$Q
+M <- cov2cor(Qmat)
+corrplot(M)
+```
+
+The states for this model are similar but have different trends.
+```{r}
+plot(fit3, type="xtT")
+```
+
+5. What structure(s) did you assume for the $\mathbf{Q}$ matrix (process or state variance)? What does that imply about how the underlying NO$_2$ trends are related yearly? Your `MARSS()` model will look like so.
+```
+MARSS(datmat, model=list(R=..., Z=..., Q=...))
+```
+
+See comments above.
+
+**Some ideas for OPTIONAL extra analyses**
+
+* OPTIONAL. Go back to question 1 and the model with 1 state. Instead of assuming that all $y$ observe the same $x$, assume they can observed a 'stretched' $x$ so $y_{i,t} = z_i x_t + v_t$. Fit that model and look at the estimated $\mathbf{Z}$ matrix. What does it say? Is it more supported than a model without 'stretching'?
+
+    Note you will need to remove the mean from the data and set `A="zero"` to fit a model where you estimate $\mathbf{Z}$.
+    
+    ```
+    newdat <- zscore(datmat, mean.only=TRUE)
+    MARSS(newdat, model=list(R=.., Z=..., A="zero"))
+    ```
+
+The idea here is that we have the $x$ scale 1 to 1 to one $y$ (let's say the first) and then use $z_i$ to scale the $x$ for the other $y$. This gets us $y_{i,t} = z_i x_t + v_{i,t}$.
+
+The $\mathbf{Z}$ matrix for this model is an 11-row, 1-column matrix as before, but now each entry is $z$, not 1, to model the "stretching".
+
+$$ \mathbf{Z} = \begin{bmatrix}
+1 \\
+z_3 \\
+z_4 \\
+z_5 \\
+z_6 \\
+z_7 \\
+z_8 \\
+z_9 \\
+z_{10} \\
+z_{11} \\
+z_{12} \\
+\end{bmatrix} $$
+
+```{r}
+Z2 <- matrix(list(1),11,1)
+Z2[2:11,] <- paste0("z",3:12)
+```
+
+```{r results="hide"}
+mod.list4 <- list(Z = Z2, 
+                  R = "diagonal and unequal",
+                  A = "zero")
+datmat2 <- zscore(datmat, only.mean=TRUE)
+fit4 <- MARSS(datmat2, model=mod.list4)
+```
+
+Note, we cannot compare AICcs because datmat2 and datmat are different. datmat2 has the mean subtracted off. But we can fit model 1 to datmat2 and then compare AICcs.
+
+```{r results="hide"}
+mod.list5 <- list(Z = matrix(1,11,1), 
+                  R = "diagonal and unequal",
+                  A = "zero")
+fit5 <- MARSS(datmat2, model=mod.list4)
+```
+
+* OPTIONAL. Try fitting with lm(), a Arima() or another linear non-state-space model with a polynomial trend in year to try to capture the time-varying trend. How are the results similar or different? You might be able to just include a year effect as a factor too.
+
+Instead of this, I just took the mean of the data and smoothed the data. It looks fairly similar to the state for fit1. The offset is because the MARSS model makes $x$ match $y_1$.
+
+```{r}
+df <- data.frame(y = apply(datmat, 2, mean, na.rm=TRUE),
+                 t = 1:21)
+plot(smooth.spline(df$y), type="l", ylim=c(1.5,3.2))
+lines(fit1$states[1,])
+points(df$y)
+```
+
+```{r}
+M <- cor(t(datmat), use="complete.obs")
+corrplot::corrplot(M, order = "hclust", addrect = 5)
+```
+
+```{r results="hide"}
+fit <- MARSS(datmat, model=list(R="diagonal and unequal", Q="unconstrained"))
+Qmat <- coef(fit, type="matrix")$Q
+rownames(Qmat) <- colnames(Qmat) <- rownames(datmat)
+M <- cov2cor(Qmat)
+corrplot(M, order = "hclust", addrect = 3)
+```
+
+
+## Part 2
+
+Data for part 2 is `datmat2` below. What the code is doing: take the ECNNO2 monthly data, get just tube E1, make a column with Year-Mon, remove the unneeded columns, pivot wider, make into a matrix.
+```{r}
+datwide <- ECNNO2 %>%
+  subset(TubeID=="E1") %>%
+  mutate(Year.Mon=paste(Year, Month, sep="-")) %>%
+  select(-Year, -Month, -TubeID, -Date) %>%
+  pivot_wider( 
+    names_from = Year.Mon,
+    values_from = Value
+  ) 
+# make into a matrix
+datmat2 <- as.matrix(datwide[,-1])
+# deal with NaN
+datmat2[is.na(datmat2)] <- NA
+# log the data
+datmat2[datmat2==0] <- NA
+datmat2 <- log(datmat2)
+rownames(datmat2) <- datwide$SiteCode
+```
+
+6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$). Your covariate will look like so.
+
+```
+TT <- dim(datmat2)[2] # time steps
+period <- 12
+cos.t <- cos(2 * pi * seq(TT)/period)
+sin.t <- sin(2 * pi * seq(TT)/period)
+covariate <- rbind(cos.t, sin.t)
+```
+
+7. Fit the same model but where the seasonality is in the observation errors. Allow the seasonality to be different for each site.
+
+8. Which one fits better (based on AICc)? How do these models treat seasonality differently?
+
+**Ideas for OPTIONAL extra analyses**
+
+* OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
+
+* OPTIONAL. Use the model from question 8. Structure your $\mathbf{D}$ matrix into the 3 regions so that each region has the same seasonal effect (same $\mathbf{D}$ values).
+
+* OPTIONAL. Try some other approaches for modeling seaonsality such as monthly factors or polynomials. Any difference in the seasonal pattern?
