@@ -258,6 +258,7 @@ dfa <- list(
 bayes <- list(
   title = "Bayesian estimation: univariate models",
   topics = c("Bayesian estimation of time-series and state-space models","Stan"),
+  ppt = "",
   pdf = "Lectures/Week 6/lec_11_bayes.pdf",
   rmd = "Lectures/Week 6/lec_11_bayes.Rmd",
   html = "Lectures/Week 6/lec_11_bayes.html",
@@ -272,14 +273,13 @@ bayes <- list(
 bayes2 <- list(
   title = "Bayesian estimation: multivariate models",
   topics = c("MAP estimation", "Multivariate models", "DFA", "Writing our own Bayesian models in Stan"),
-  pdf = "Lectures/Week 6/lec_12.pdf",
+  pdf = "Lectures/Week 6/lec_12_bayes2.pdf",
   ppt = "",
-  rmd = "Lectures/Week 6/lec_12.Rmd",
-  html = "Lectures/Week 6/lec_12_bayes.html",
-  video = "",
+  rmd = "Lectures/Week 6/lec_12_bayes2.Rmd",
+  html = "Lectures/Week 6/lec_12_bayes2.html",
+  video = "https://washington.zoom.us/rec/share/9pMPeZer8xuWiK7TAHeHvIfMdwLlhk-vj-TDEXPpbAcxHnBfOed72DpPi5faieGs.FxNfnqDsfVEd9DHc",
   youtube = "",
   reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
-  #reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
   instructor = "Eric"
 )
 ```
@@ -458,7 +458,7 @@ zeros <- list(
 )
 ```
 
-```{r}
+```{r perturb_lec}
 perturb <- list(
   title = "Perturbations and outliers",
   topics = c("Perturbations","interventions","outliers","standardized residuals"),

@@ -128,7 +128,7 @@ dlmlab <- list(
   title = "Dynamic Linear Models",
   topics = c("Fitting DLMs"),
   pdf = "",
-  rmd = "Labs/Week 5/intro-to-dlms.R",
+  rmd = "Labs/Week 5/intro-to-dlms.Rmd",
   html = "Labs/Week 5/intro-to-dlms.html",
   video = "https://washington.zoom.us/rec/share/qMA7A0uw1eD6FJYL2wIsLEz5SDtipNgK5Qjw_bUEVSfcNh5IncOqFDF-x4AzGOte.U93oJTp68fzUkKLE",
   youtube = "",
@@ -160,21 +160,20 @@ etsedmlab <- list(
 )
 ```
 
-```{r}
+```{r bayeslab}
 bayeslab <- list(
   title = "Fitting models with STAN",
-  topics = c("Bayesian estimation",
-              "STAN"),
+  topics = c("Bayesian estimation", "STAN"),
   pdf = "",
-  rmd = "",
+  rmd = "https://nwfsc-timeseries.github.io/atsa-labs/Rmds/fitting-models-with-stan.Rmd",
   html = "https://nwfsc-timeseries.github.io/atsa-labs/chap-stan.html",
-  video = "",
+  video = "https://washington.zoom.us/rec/share/N49yDRIBvXImVvX8Hqm5QgM9gAt09Hkj41S-SKK8hfeSgwL0lgIKzdPvVFvn_Uff._edvMfOCxC8NorrV",
   youtube = "",
   data = "",
   homework = "HW # 5. Project Methods",
   key = "",
   instructor = "Eric",
-  hw_topics = c("Fitting state-space models with STAN"),
+  hw_topics = c(""),
   hw_duedate = "Due next Thurs 11:59 PM PST; email to all instructors"
 )
 ```
@@ -273,7 +272,7 @@ freqdomainlab <- list(
 ```
 
 
-```{r}
+```{r studentpresentation2}
 presentlab <- list(
   title = "Student presentations",
   topics = c("Student presentations"),
