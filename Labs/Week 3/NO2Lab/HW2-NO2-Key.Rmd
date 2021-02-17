@@ -11,8 +11,7 @@ knitr::opts_chunk$set(echo = TRUE, cache=FALSE, message = FALSE, warning = FALSE
 
 # Grading
 
-This was a more open-ended homework. Grading was 3pts (out of 5) if you made a solid attempt at questions 1-8. 4pts (out of 5) if you did some of the optional questions. 5pts (out of 5) for many of the optional questions. 
-
+This was a more open-ended homework. Grading was 3/5 if you made a solid attempt at questions 1-8 but didn't do anything extra (extra plots, more analysis, tables, discussion of what is going on). Anything extra you did (including for question 1-8) added points. Most tried some of the optional questions and got 4/5 points. A couple students did did 4+ optional or additional analyses plus delved deeper into questions 1-8 (5/5 points). 
 
 
 ## The data and packages
@@ -32,8 +31,9 @@ library(dplyr)
 
 These are the site locations and names. Note that the site numbers do not indicate how close the sites are to each other.
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 library(ggmap)
+png(filename="N02.png")
 ylims=c(min(ECNmeta$Latitude)-1,max(ECNmeta$Latitude)+1)
 xlims=c(min(ECNmeta$Longitude)-2,max(ECNmeta$Longitude)+2.2)
 base = ggmap::get_map(location=c(xlims[1],ylims[1],xlims[2],ylims[2]), zoom=7, maptype="terrain-background")
@@ -46,7 +46,9 @@ map1 + geom_point(data=ECNmeta, aes(x=Longitude, y=Latitude), color="blue", cex=
     check_overlap = FALSE
   ) +
   theme_bw()
+dev.off()
 ```
+![](N02.png)
 
 There are 23 years of monthly data for each site and at each site there are 1-3 samples (tubes) taken.
 ```{r echo=FALSE}
@@ -119,16 +121,88 @@ autoplot(fit1, plot.type = "xtT")
 * R="unconstrained" The observation errors can be correlated and have different variance and covariances.
 * R="equalvarcov" The observation errors can be correlated with equal variance and one covariance.
 
-
-3. Do basic diagnostics (ACF, normality tests) on the innovations residuals. Any obvious problems? You will find them here:
+We can fit each and see which is most supported.
+```{r Q4, results="hide"}
+Z <- matrix(1, 11, 1)
+fit1b <- MARSS(datmat, model=list(Z=Z, R="diagonal and equal"))
+fit1c <- MARSS(datmat, model=list(Z=Z, R="unconstrained"))
+fit1d <- MARSS(datmat, model=list(Z=Z, R="equalvarcov"))
 ```
-residuals(fit)
+
+And then look at the table.
+```{r}
+df <- data.frame(
+  R=c("diagonal and unequal","diagonal and equal",
+      "unconstrained", "equalvarcov"), 
+  AICc=c(fit1$AICc, fit1b$AICc, fit1c$AICc, fit1d$AICc)
+)
+knitr::kable(df)
 ```
-Note it is a data frame with a column for site. You will need to do your tests individuals for each site.
 
 
+
+3. Do basic diagnostics (ACF, normality tests) on the innovations residuals. Any obvious problems? 
+
+Not too bad but T03 especially seems to have a trend issue (residuals are not temporally stationary). T11 has some outliers.
+
+```{r}
+resids <- residuals(fit1)
+```
+
+You can use `plot(fit1)` and get some basic residuals plots but let's make them ourselves.
+
+
+### Plot the residuals
+
+```{r}
+ggplot(resids, aes(x=t, y=.resids)) + geom_point() +
+  stat_smooth() + geom_hline(yintercept=0) +
+  facet_wrap(~.rownames)
+```
+
+### Plot the histograms
+
+```{r}
+ggplot(resids, aes(x=.resids)) +
+  geom_histogram() +
+  facet_wrap(~.rownames) +
+  ylab("") + xlab("Residuals") + 
+  geom_vline(xintercept = 0)
+```
+
+### Plot QQ plots
+
+```{r}
+par(mfrow = c(3,4), mar=c(2,2,2,2))
+sites <- rownames(datmat)
+for(i in sites){
+  tmp <- subset(resids, .rownames==i)$.resids
+  qqnorm(tmp, main = i, pch =16, xpd = NA, xlab="", ylab="")
+  qqline(tmp)
+}
+```
+
+### Plot ACFs
+
+```{r}
+par(mfrow = c(3,4), mar=c(2,2,3,2))
+sites <- rownames(datmat)
+for(i in sites){
+  tmp <- subset(resids, .rownames==i)$.resids
+  acf(tmp, na.action=na.pass, main=i)
+}
+```
+
+### Residuals versus Fitted
+
+```{r}
+ggplot(resids, aes(x = .fitted, y = .resids)) + geom_point() +
+  facet_wrap(~ .rownames, scales = "free") + xlab("Fitted values") + ylab("Residuals") +
+  geom_hline(yintercept=0)
+```
 
 4. Model the data as 3 regions, each with its own NO$_2$ trend. Those are the states or $x$.
+
 * Region 1 = T01, T05, T06, T08, T09, T10
 * Region 2 = T04, T07, T12
 * Region 3 = T03, T11
@@ -200,7 +274,7 @@ corrplot(M)
 
 The states for this model are similar but have different trends.
 ```{r}
-plot(fit3, type="xtT")
+plot(fit3, plot.type="xtT")
 ```
 
 5. What structure(s) did you assume for the $\mathbf{Q}$ matrix (process or state variance)? What does that imply about how the underlying NO$_2$ trends are related yearly? Your `MARSS()` model will look like so.
@@ -223,7 +297,7 @@ See comments above.
 
 The idea here is that we have the $x$ scale 1 to 1 to one $y$ (let's say the first) and then use $z_i$ to scale the $x$ for the other $y$. This gets us $y_{i,t} = z_i x_t + v_{i,t}$.
 
-The $\mathbf{Z}$ matrix for this model is an 11-row, 1-column matrix as before, but now each entry is $z$, not 1, to model the "stretching".
+The $\mathbf{Z}$ matrix for this model is an 11-row, 1-column matrix as before, but now each entry is $z$, not 1, to model the "stretching". Note you could have also fit this by estimating $z_1$. It would work but it's just that one of the $z$ is underdetermined and should be fixed.
 
 $$ \mathbf{Z} = \begin{bmatrix}
 1 \\
@@ -248,7 +322,7 @@ Z2[2:11,] <- paste0("z",3:12)
 mod.list4 <- list(Z = Z2, 
                   R = "diagonal and unequal",
                   A = "zero")
-datmat2 <- zscore(datmat, only.mean=TRUE)
+datmat2 <- zscore(datmat, mean.only=TRUE)
 fit4 <- MARSS(datmat2, model=mod.list4)
 ```
 
@@ -309,9 +383,10 @@ datmat2 <- log(datmat2)
 rownames(datmat2) <- datwide$SiteCode
 ```
 
-6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$). Your covariate will look like so.
+6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$).
 
-```
+Create covariate
+```{r}
 TT <- dim(datmat2)[2] # time steps
 period <- 12
 cos.t <- cos(2 * pi * seq(TT)/period)
@@ -319,14 +394,331 @@ sin.t <- sin(2 * pi * seq(TT)/period)
 covariate <- rbind(cos.t, sin.t)
 ```
 
+Fit model
+```{r results="hide"}
+fit.seas1 <- MARSS(datmat2, model=list(Z = matrix(1, 11, 1), 
+                                R = "diagonal and unequal",
+                                C = "unconstrained",
+                                c = covariate))
+```
+
+Let's look at the state. It is cyclic as we expect.
+```{r}
+plot(fit.seas1, plot.type="xtT")
+```
+
+Let's see if we have
+
+### Plot ACFs
+
+There are problems. This model is not capturing all the seasonality.
+
+```{r}
+par(mfrow = c(3,4), mar=c(2,2,3,2))
+resids <- residuals(fit.seas1)
+sites <- rownames(datmat)
+for(i in sites){
+  tmp <- subset(resids, .rownames==i)$.resids
+  acf(tmp, na.action=na.pass, main=i)
+}
+```
+
 7. Fit the same model but where the seasonality is in the observation errors. Allow the seasonality to be different for each site.
 
+```{r results="hide"}
+fit.seas2 <- MARSS(datmat2, model=list(Z = matrix(1, 11, 1), 
+                                R = "diagonal and unequal",
+                                D = "unconstrained",
+                                d = covariate))
+```
+
+### Plot ACFs
+
+Much better but we still see the 11-12 month signal in the residuals.
+
+```{r}
+par(mfrow = c(3,4), mar=c(2,2,3,2))
+resids <- residuals(fit.seas2)
+sites <- rownames(datmat)
+for(i in sites){
+  tmp <- subset(resids, .rownames==i)$.resids
+  acf(tmp, na.action=na.pass, main=i)
+  lines(c(12,12),c(.5,1), col=2)
+}
+```
+
+### Seasonality same
+
+Let's also try a model where the seasonality is in the observation but is the same across sites.
+
+The D will be
+
+$$
+\begin{bmatrix}
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c\\
+D_s&D_c
+\end{bmatrix}
+$$
+
+```{r results="hide"}
+fit.seas3 <- MARSS(datmat2, model=list(Z = matrix(1, 11, 1), 
+                                R = "diagonal and unequal",
+                                D = matrix(c("Ds", "Dc"), 11, 2, byrow=TRUE),
+                                d = covariate))
+```
+
+```{r}
+par(mfrow = c(3,4), mar=c(2,2,3,2))
+resids <- residuals(fit.seas3)
+sites <- rownames(datmat)
+for(i in sites){
+  tmp <- subset(resids, .rownames==i)$.resids
+  acf(tmp, na.action=na.pass, main=i)
+  lines(c(12,12),c(.5,1), col=2)
+}
+```
+
+### Each site unique
+
+Let's also try a model with the 3 regions and seasonality. 
+
+
+```{r results="hide"}
+fit.seas4 <- MARSS(datmat2, model=list(Z = Z, 
+                                R = "diagonal and unequal",
+                                Q = "unconstrained",
+                                D = "unconstrained",
+                                d = covariate))
+```
+
 8. Which one fits better (based on AICc)? How do these models treat seasonality differently?
+
+The first model has the seasonality in the underlying state and the seasonality is the same for each site. The second one has the seaonality in the observation and the seasonality is different for each site.
+
+
+And then look at the table.
+```{r}
+df <- data.frame(
+  model=c("season in one state", "season in observation. all different", "season in observation. one season", "season in observation. all different. 3 states"), 
+  AICc=c(fit.seas1$AICc, fit.seas2$AICc, fit.seas3$AICc, fit.seas4$AICc)
+)
+knitr::kable(df)
+```
+
 
 **Ideas for OPTIONAL extra analyses**
 
 * OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
 
+Make seasonal effects matrix
+```{r}
+D.est1 <- coef(fit.seas2, type="matrix")$D
+# The time series of net seasonal effects
+seasonality.1 <- D.est1 %*% covariate[,1:12]
+rownames(seasonality.1) <- rownames(datmat)
+colnames(seasonality.1) <- month.abb
+
+matplot(t(seasonality.1),type="l",bty="n",xaxt="n",ylab="Fourier", col=c(2:3,1,4:11), lwd=3, lty=c(2:3,1,4:11))
+axis(1,labels=month.abb, at=1:12,las=2,cex.axis=0.75)
+legend("top", legend=rownames(datmat), col=c(2:3,1,4:11), bty="n", lwd=3, cex=0.6, seg.len=4, lty=c(2:3,1,4:11))
+```
+The sites with the strongest winter versus summer difference are near London plus T04. T04 is quite odd since it is not near cities or coal plants. It is up north in the Lake District.
+
+```{r}
+par(mfrow=c(1,2))
+jan.jul.diff <- sort(seasonality.1[,1]-seasonality.1[,7])
+p <- barplot(jan.jul.diff, main="Jan - Jul Difference", ylim=c(0,1))
+locs <- which(names(jan.jul.diff) %in% c("T08","T10","T06","T09"))
+text(p[locs], rep(.3,4), rep("London",4), srt=90)
+locs <- which(names(jan.jul.diff) %in% c("T04"))
+text(p[locs], rep(.3,1), rep("Lake District",1), srt=90)
+
+mean.vals <- sort(apply(datmat, 1, mean, na.rm=TRUE))
+p <- barplot(mean.vals, main="Mean values")
+locs <- which(names(mean.vals) %in% c("T08","T10","T06","T09"))
+text(p[locs], rep(1.3,4), rep("London",4), srt=90)
+locs <- which(names(mean.vals) %in% c("T04"))
+text(p[locs], rep(.75,1), rep("Lake District",1), srt=90)
+```
+
+Make seasonal effects matrix
+```{r}
+D.est1 <- coef(fit.seas2, type="matrix")$D
+# The time series of net seasonal effects
+seasonality.1 <- D.est1 %*% covariate[,1:12]
+rownames(seasonality.1) <- rownames(datmat)
+colnames(seasonality.1) <- month.abb
+
+matplot(t(seasonality.1),type="l",bty="n",xaxt="n",ylab="Fourier", col=c(2:3,1,4:11), lwd=3, lty=c(2:3,1,4:11))
+axis(1,labels=month.abb, at=1:12,las=2,cex.axis=0.75)
+legend("top", legend=rownames(datmat), col=c(2:3,1,4:11), bty="n", lwd=3, cex=0.6, seg.len=4, lty=c(2:3,1,4:11))
+```
+
 * OPTIONAL. Use the model from question 8. Structure your $\mathbf{D}$ matrix into the 3 regions so that each region has the same seasonal effect (same $\mathbf{D}$ values).
 
+* Region 1 = T01, T05, T06, T08, T09, T10
+* Region 2 = T04, T07, T12
+* Region 3 = T03, T11
+
+In this case the D is
+$$
+\begin{bmatrix}
+D_{s,1}&D_{c,1}\\
+D_{s,3}&D_{c,3}\\
+D_{s,2}&D_{c,2}\\
+D_{s,1}&D_{c,1}\\
+D_{s,1}&D_{c,1}\\
+D_{s,2}&D_{c,2}\\
+D_{s,1}&D_{c,1}\\
+D_{s,1}&D_{c,1}\\
+D_{s,1}&D_{c,1}\\
+D_{s,3}&D_{c,3}\\
+D_{s,2}&D_{c,2}
+\end{bmatrix}
+$$
+Set up your D like so
+
+```{r}
+D <- matrix("", 11, 2)
+D[c(1,4,5,7,8,9),] <- c("Ds1", "Dc1")
+D[c(3, 6, 11),] <- c("Ds2", "Dc2")
+D[c(2, 10),] <- c("Ds3", "Dc3")
+```
+
+Fit the model
+```{r}
+fit.seas6 <- MARSS(datmat2, model=list(Z = matrix(1, 11, 1), 
+                                R = "diagonal and unequal",
+                                D = D,
+                                d = covariate))
+```
+
+Make seasonal effects matrix
+```{r}
+D.est <- matrix(coef(fit.seas6)$D, 3, 2)
+# The time series of net seasonal effects
+seasonality.2 <- D.est %*% covariate[,1:12]
+rownames(seasonality.2) <- c("Region 1", "Region 2", "Region 3")
+colnames(seasonality.2) <- month.abb
+
+matplot(t(seasonality.2),type="l",bty="n",xaxt="n",ylab="Fourier", lty=1:3, lwd=3, col=1:3)
+axis(1,labels=month.abb, at=1:12,las=2,cex.axis=0.75)
+legend("top", lty=1:3, legend=c("Region 1", "Region 2", "Region 3"), cex=1, col=1:3, bty="n", lwd=3)
+```
+
+
 * OPTIONAL. Try some other approaches for modeling seaonsality such as monthly factors or polynomials. Any difference in the seasonal pattern?
+
+### Month as factor
+
+We need to create a covariate matrix with a row for each month. If t=i in datmat is month j, then the j-th row, i-th column will be a 1. This is a little tricky since you would have had to guess that you need to set A equal to zero, just like you have to do in a linear regression with factors.
+
+```{r results="hide"}
+c.fac <- matrix(diag(1,12),12, ncol(datmat2))
+rownames(c.fac) <- month.abb
+mod.list <- list(Z = matrix(1, 11, 1), 
+                     R = "diagonal and unequal",
+                     D = "unconstrained",
+                     d = c.fac,
+                     A = "zero")
+fit.seas7 <- MARSS(datmat2, model=mod.list)
+```
+
+Make seasonal effects matrix. I will remove the mean so we can compare the seasonality without the mean of the data.
+```{r}
+D.est <- coef(fit.seas7, type="matrix")$D
+seasonality.7 <- D.est %*% c.fac[,1:12]
+seasonality.7 <- zscore(seasonality.7, mean.only=TRUE)
+rownames(seasonality.7) <- rownames(datmat2)
+colnames(seasonality.7) <- month.abb
+
+matplot(t(seasonality.7),type="l",bty="n",xaxt="n",ylab="Effect", col=c(2:3,1,4:11), lwd=3, lty=c(2:3,1,4:11))
+axis(1,labels=month.abb, at=1:12,las=2,cex.axis=0.75)
+title("Each month as a factor")
+legend("top", legend=rownames(datmat), col=c(2:3,1,4:11), bty="n", lwd=3, cex=0.6, seg.len=4, lty=c(2:3,1,4:11))
+```
+
+It doesn't substantially change our conclusions about seasonality.
+```{r echo=FALSE}
+par(mfrow=c(1,2))
+jan.jul.diff <- sort(seasonality.7[,1]-seasonality.7[,7])
+p <- barplot(jan.jul.diff, main="Jan - Jul Difference", ylim=c(0,1))
+locs <- which(names(jan.jul.diff) %in% c("T08","T10","T06","T09"))
+text(p[locs], rep(.3,4), rep("London",4), srt=90)
+locs <- which(names(jan.jul.diff) %in% c("T04"))
+text(p[locs], rep(.3,1), rep("Lake District",1), srt=90)
+
+mean.vals <- sort(apply(datmat, 1, mean, na.rm=TRUE))
+p <- barplot(mean.vals, main="Mean values")
+locs <- which(names(mean.vals) %in% c("T08","T10","T06","T09"))
+text(p[locs], rep(1.3,4), rep("London",4), srt=90)
+locs <- which(names(mean.vals) %in% c("T04"))
+text(p[locs], rep(.75,1), rep("Lake District",1), srt=90)
+```
+
+### Month as polynomial
+
+Let's try a 3rd order polynomial. We need to create a covariate matrix with a row for month, month$^2$ and month$^3$. However these would be correlated so I will use the `poly()` function to create 3rd polynomial covariates that are orthogonal.
+
+```{r results="hide"}
+mon <- rep(1:12, 23)
+c.poly <- t(poly(mon, 3))
+rownames(c.poly) <- c("m1", "m2", "m3")
+mod.list <- list(Z = matrix(1, 11, 1), 
+                     R = "diagonal and unequal",
+                     D = "unconstrained",
+                     d = c.poly)
+fit.seas8 <- MARSS(datmat2, model=mod.list)
+```
+
+Make seasonal effects matrix. 
+```{r}
+D.est <- coef(fit.seas8, type="matrix")$D
+seasonality.8 <- D.est %*% c.poly[,1:12]
+rownames(seasonality.8) <- rownames(datmat2)
+colnames(seasonality.8) <- month.abb
+
+matplot(t(seasonality.8),type="l",bty="n",xaxt="n",ylab="Effect", col=c(2:3,1,4:11), lwd=3, lty=c(2:3,1,4:11))
+axis(1,labels=month.abb, at=1:12,las=2,cex.axis=0.75)
+title("3rd order polynomial")
+legend("top", legend=rownames(datmat), col=c(2:3,1,4:11), bty="n", lwd=3, cex=0.6, seg.len=4, lty=c(2:3,1,4:11))
+```
+
+### Compare across models
+
+There are differences in our conclusions regarding the degree of seasonality (winter-summer percent difference). Percent difference because we are working on logged data.
+It doesn't substantially change our conclusions about seasonality.
+```{r echo=FALSE}
+par(mfrow=c(1,3))
+jan.jul.diff <- sort(seasonality.8[,1]-seasonality.8[,7])
+p <- barplot(jan.jul.diff, main="Polynomial", ylim=c(0,1))
+locs <- which(names(jan.jul.diff) %in% c("T08","T10","T06","T09"))
+text(p[locs], rep(.3,4), rep("London",4), srt=90)
+locs <- which(names(jan.jul.diff) %in% c("T04"))
+text(p[locs], rep(.3,1), rep("Lake District",1), srt=90)
+
+jan.jul.diff <- sort(seasonality.7[,1]-seasonality.7[,7])
+p <- barplot(jan.jul.diff, main="Factor", ylim=c(0,1))
+locs <- which(names(jan.jul.diff) %in% c("T08","T10","T06","T09"))
+text(p[locs], rep(.3,4), rep("London",4), srt=90)
+locs <- which(names(jan.jul.diff) %in% c("T04"))
+text(p[locs], rep(.3,1), rep("Lake District",1), srt=90)
+
+jan.jul.diff <- sort(seasonality.1[,1]-seasonality.1[,7])
+p <- barplot(jan.jul.diff, main="Fourier", ylim=c(0,1))
+locs <- which(names(jan.jul.diff) %in% c("T08","T10","T06","T09"))
+text(p[locs], rep(.3,4), rep("London",4), srt=90)
+locs <- which(names(jan.jul.diff) %in% c("T04"))
+text(p[locs], rep(.3,1), rep("Lake District",1), srt=90)
+
+
+```
