@@ -201,7 +201,7 @@ model_inf <- list(
   ppt = "",
   rmd = "Lectures/Week 7/lec_13_modelselection.Rmd",
   html = "Lectures/Week 7/lec_13_modelselection.html",
-  video = "",
+  video = "https://washington.zoom.us/rec/play/zfZiW5ojU0qYgxmAecEzEfkQk6oRy96wFP0v0hMPUh-1nUnm7fT97zumEDWj1eJQCiafFC41hfn9f_08.fhVBaxZzqT99HzmX?continueMode=true",
   youtube = "",
   reading = c("See list of references in the lecture", "[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)", "[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)","[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
   instructor = "Eric"
