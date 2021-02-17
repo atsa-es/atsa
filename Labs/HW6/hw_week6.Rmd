@@ -1,0 +1,54 @@
+---
+title: "Hidden Markov Models and Bayesian MARSS models"
+author: "Eli Holmes, Eric Ward"
+date: "17 February 2021"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r dlm-setup, include=FALSE, purl=FALSE}
+#in case you forget to add a chunk label
+knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
+```
+
+<br>
+
+# Hidden Markov Models {#sec-hmm}
+
+For the second part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rpdo` package. First, let's grab the data. 
+
+```{r read-data}
+library(dplyr)
+install.packages("rsoi")
+pdo <- rsoi::download_pdo()
+pdo$water_year = pdo$Year
+pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] = pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
+pdo = dplyr::group_by(pdo, water_year) %>%
+  dplyr::summarize(winter_pdo = mean(PDO[which(Month %in% c("Oct","Nov","Dec","Jan","Feb"))])) %>% 
+  dplyr::select(winter_pdo,water_year) %>% 
+  dplyr::rename(year=water_year)
+```
+
+1. Identifying regimes using Hidden Markov Models (HMMs)
+
+    a. Start by fitting a 2-state HMM to the annual indices of winter PDO. You're welcome to use any package / method you like ('depmixS4' would be a good choice if you're unsure). Assume Gaussian errors. 
+    
+    b. Try to fit the model 10-20 times. Does the likelihood seem reasonably stable?
+    
+    c. Change the model to a 3-state model. Using AIC as a model selection metric, does the 3-state model perform better (lower AIC) compared to the 2-state model? What about a 1-state model?
+    
+    d. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of being in the same state)?
+    
+    e. Plot the probability of being in the various states from your best model (e.g. probability of being in state 1 over time)
+    
+    f. Plot the time series of predicted values from the model
+    
+**Some ideas for OPTIONAL extra analyses**
+
+    g. If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
+    
