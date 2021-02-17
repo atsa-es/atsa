@@ -26,6 +26,7 @@ RMarkdown equation tips
 
 * `$$  $$` is a shortcut for `\begin{equation} \end{equation}`. Use one or the other but not both.
 * `bmatrix` in the amsmath package has a limit of 10 columns in matrices. You can change this by including a line in your YAML at the top of your document to change the default.
+
     ```
     ---
     title: "My Title"
