@@ -13,6 +13,31 @@ knitr::opts_chunk$set(echo = TRUE, cache=FALSE, message = FALSE, warning = FALSE
 
 This was a more open-ended homework. Grading was 3/5 if you made a solid attempt at questions 1-8 but didn't do anything extra (extra plots, more analysis, tables, discussion of what is going on). Anything extra you did (including for question 1-8) added points. Most tried some of the optional questions and got 4/5 points. A couple students did did 4+ optional or additional analyses plus delved deeper into questions 1-8 (5/5 points). 
 
+The following are examples of 'extra' analyses:
+
+* Trying the optional analyses
+* Coming up with your own additional analyses
+* Trying different model structures (like different R or Q) and comparing those with model selection criteria (AIC)
+* Adding tables of model comparisons (models w AIC)
+* Adding extra types of residual diagnostics besides residual plots, histograms and ACFs
+* More indepth discussion of your results in the main questions
+
+RMarkdown equation tips
+
+* `$$  $$` is a shortcut for `\begin{equation} \end{equation}`. Use one or the other but not both.
+* `bmatrix` in the amsmath package has a limit of 10 columns in matrices. You can change this by including a line in your YAML at the top of your document to change the default.
+    ```
+    ---
+    title: "My Title"
+    author: My Name
+    header-includes:
+       - \setcounter{MaxMatrixCols}{20}
+    output:
+       pdf_document: default
+       html_document: default
+    ---
+    ```
+
 
 ## The data and packages
 
