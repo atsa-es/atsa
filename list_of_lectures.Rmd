@@ -333,17 +333,16 @@ ets <- list(
 
 ```{r}
 interactions1 <- list(
-  title = "Species interactions I",
-  topics = c("Estimating interaction strengths",
+  title = "B Matrix",
+  topics = c("AR(p) Models", "Estimating interaction strengths",
              "Gompertz models", "Stability metrics"),
   pdf = "",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 9/Old interactions lectures/Lec_16.Rmd",
+  html = "Lectures/Week 9/Old interactions lectures/Lec_16.html",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
+  reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
   instructor = "Eli"
 )
 ```
