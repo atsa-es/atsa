@@ -342,7 +342,7 @@ interactions1 <- list(
   html = "Lectures/Week 9/Old interactions lectures/Lec_16/Lec_16.html",
   video = "",
   youtube = "",
-  reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
+  reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14 & 18](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[MAR Stability Metrics](https://github.com/mdscheuerell/marstab/blob/master/mar_stab_properties_text.pdf)","[AR(1) errors](https://nwfsc-timeseries.github.io/atsa-labs/chap-noisy-sensors-.html)"),
   instructor = "Eli"
 )
 ```
@@ -388,8 +388,7 @@ HMMs <- list(
   html = "Lectures/Week 5/lec_10_hmm.html",
   video = "https://washington.zoom.us/rec/play/b_oZunMhqfYSYwccynu0z31YqS9MbzyIdH7BGQMRyQTGazhJhHr73Exa9InofHq1BgGbmel4iCUgHvuR.8QqLdLKjIQKlEeq0?autoplay=true&continueMode=true&startTime=1612474828000",
   youtube = "",
-  reading = "",
-  #reading = c("[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
+  reading = c("[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
   instructor = "Eric"
 )
 ```
