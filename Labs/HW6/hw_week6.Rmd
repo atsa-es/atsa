@@ -54,11 +54,15 @@ Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS
 
 6. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)   
 
-7. Change the model to a 3-state model. Using AIC as a model selection metric, does the 3-state model perform better (lower AIC) compared to the 2-state model? What about a 1-state model?
-
+7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. The if $P$ is the transition matrix,
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
+Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
+That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each state.
 
 **Some ideas for OPTIONAL extra analyses**
 
+* Change the model to a 3-state model. Using AIC as a model selection metric, does the 3-state model perform better (lower AIC) compared to the 2-state model? What about a 1-state model?
 
 * If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
  
