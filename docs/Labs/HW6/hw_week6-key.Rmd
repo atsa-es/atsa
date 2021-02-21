@@ -18,66 +18,125 @@ knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
 
 <br>
 
-# Part 1. Hidden Markov Models {#sec-hmm}
+# Hidden Markov Models {#sec-hmm}
 
-**Identifying regimes using Hidden Markov Models (HMMs)**
-
-For the first part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rsoi` package. First, let's grab the data. 
+For the second part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rpdo` package. First, let's grab the data. 
 
 ```{r read-data}
 library(dplyr)
-install.packages("rsoi")
+#install.packages("rsoi")
 pdo <- rsoi::download_pdo()
-```
-We will look at the winter PDO only. We need to shift the year for Oct-Dec by 1 since Oct-Feb spans 2 calendar years.
-```{r read-data2}
-pdo$water_year <- pdo$Year
+pdo$water_year = pdo$Year
 pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] = pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
-pdo <- dplyr::group_by(pdo, water_year) %>%
+pdo = dplyr::group_by(pdo, water_year) %>%
   dplyr::summarize(winter_pdo = mean(PDO[which(Month %in% c("Oct","Nov","Dec","Jan","Feb"))])) %>% 
   dplyr::select(winter_pdo,water_year) %>% 
   dplyr::rename(year=water_year)
 ```
 
-Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS4` package discussed in the HMM lecture to answer the questions in in Part 1.
+1. Identifying regimes using Hidden Markov Models (HMMs)
 
-
-1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). 
+    a. Start by fitting a 2-state HMM to the annual indices of winter PDO. You're welcome to use any package / method you like ('depmixS4' would be a good choice if you're unsure). Assume Gaussian errors. 
     
-2. Try to fit the model 10-20 times. Does the likelihood seem reasonably stable?
+```{r}
+library("depmixS4")
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = 2, trstart = runif(4))
+fitmod <- fit(mod)
+```
+
+```{r}
+prstates = apply(posterior(fitmod)[,c("S1","S2")], 
+  1, which.max)
+plot(prstates, type="b", xlab="Time", ylab="State")
+```
     
-3. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of being in the same state)?
+    b. Try to fit the model 10-20 times. Does the likelihood seem reasonably stable?
     
-4. Using slide 15 of the HMM lecture as a template and the matrix in Q3, write out your fitted HMM model as equations.
+```{r}
+ll <- rep(NA,20)
+for(i in 1:20){
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = 2)
+fitmod <- fit(mod)
+ll[i] <- logLik(fitmod)
+}
+```
 
-5. Plot the predicted values versus year. See slide 50 of the HMM lecture for an example.
+```{r}
+hist(ll, main="logLik")
+```
+    
+    d. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of being in the same state)?
+    
+```{r}
+summary(fitmod, which="transition")
+```
 
-6. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)   
+d. Using slide 15 of the HMM lecture as a template, write out your fitted HMM model as equations.
 
-7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. The if $P$ is the transition matrix,
+    e. Plot the expected state versus year. See slide 50 of the HMM lecture for an example.
+    
+```{r}
+prstates = apply(posterior(fitmod)[,c("S1","S2")], 
+  1, which.max)
+plot(prstates, type="b", xlab="Time", ylab="State")
+```
+
+    e. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)
+    
+```{r}
+plot(pdo$year, posterior(fitmod)[,c("S1")], type="l")
+lines(pdo$year, posterior(fitmod)[,c("S2")], col="red", lty=2)
+```
+    
+    f. Plot the time series of predicted values from the model
+    
+```{r}
+mu <- summary(fitmod)[,1]
+prstates = apply(posterior(fitmod)[,c("S1","S2")], 
+  1, which.max)
+pred <- data.frame(year=pdo$year, fit= mu[prstates])
+plot(pdo$year, pdo$winter_pdo, ylab="pdo", xlab="year")
+lines(pdo$year, pred$fit, lwd=2)
+mu <- summary(fitmod3)[,1]
+prstates = apply(posterior(fitmod3)[,c("S1","S2","S3")], 
+  1, which.max)
+pred <- data.frame(year=pdo$year, fit= mu[prstates])
+lines(pdo$year, pred$fit, col="blue")
+abline(h=0, lty=3)
+```
+
+    c. Change the model to a 1-state, 3-state model and a 4-state model. Using AIC as a model selection metric, which model performs better (lower AIC): 1, 2, 3, or 4 state?
+    
+```{r}
+df <- data.frame(model=paste("State", 1:4), AIC=NA)
+for(i in 1:4){
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = i)
+fit <- fit(mod)
+df$AIC[i] <- AIC(fit)
+}
+knitr::kable(df)
+```
+
+* What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. The if $P$ is the transition matrix,
 $$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
 Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
 $$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
 That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each state.
 
+
 **Some ideas for OPTIONAL extra analyses**
 
-* Change the model to a 3-state model. Using AIC as a model selection metric, does the 3-state model perform better (lower AIC) compared to the 2-state model? What about a 1-state model?
 
-* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
- 
+    
+
 * If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
 
 * Run diagnostics on the best model. Any problems?
 
 * Compare the transition matrices for fits with different random starting conditions. Are the transition matrices stable?
 
-* What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. The if $P$ is the transition matrix,
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
-Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
-That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the stationary distribution.
-       
+
+    
 <br>
 
 
