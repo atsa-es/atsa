@@ -177,6 +177,24 @@ bayeslab <- list(
 )
 ```
 
+```{r hmmlab}
+hmmlab <- list(
+  title = "B Estimation Discussion",
+  topics = c("Interactions", "Stability", "B matrix"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "HW #6: HMM/State space models w Stan. [Rmd Part 1](https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6-part1.Rmd), [html Part 1](https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6-part1.html)",
+  key = "",
+  instructor = "Eli & Eric",
+  hw_topics = c(""),
+  hw_duedate = "Due Monday Mar 1 11:59 PM PST; email to Eric & Eli"
+)
+```
+
 
 ```{r}
 glmlab <- list(

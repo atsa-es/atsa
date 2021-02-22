@@ -26,12 +26,15 @@ For the second part of the homework, we'll use data from the Pacific Decadal Osc
 library(dplyr)
 #install.packages("rsoi")
 pdo <- rsoi::download_pdo()
-pdo$water_year = pdo$Year
-pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] = pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
-pdo = dplyr::group_by(pdo, water_year) %>%
+```
+We will look at the winter PDO only. We need to shift the year for Oct-Dec by +1 since Oct-Feb spans 2 calendar years. Then we need to remove the first year since that would only have Jan-Feb.
+```{r read-data2}
+pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] <- pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
+pdo <- dplyr::group_by(pdo, Year) %>%
   dplyr::summarize(winter_pdo = mean(PDO[which(Month %in% c("Oct","Nov","Dec","Jan","Feb"))])) %>% 
-  dplyr::select(winter_pdo,water_year) %>% 
-  dplyr::rename(year=water_year)
+  dplyr::select(winter_pdo, Year)
+# The first year will be missing Oct-Dec
+pdo <- pdo[-1,]
 ```
 
 1. Identifying regimes using Hidden Markov Models (HMMs)
@@ -145,15 +148,17 @@ That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each
 Building off what we did for lab last week, we're going to work with the NEON data from Barco Lake, doing simultaneous modeling of oxygen and temperature. For this exercise, we'll only work with the data from the first four months of 2020 (where there was consistent data for each of the responses).
 
 ```{r read-data-neon}
+library(dplyr)
 data(neon_barc, package = "atsalibrary")
-data <- neon_barc
 
 # we're going to just work with data from 2020
-data = dplyr::mutate(data,
-        year = lubridate::year(data$date),
-        yday = lubridate::yday(data$date),
-        month = lubridate::month(data$date)) %>%
-  dplyr::filter(year==2020, month < 5)
+barc <- neon_barc %>% 
+  dplyr::mutate(
+    year = lubridate::year(neon_barc$date),
+    yday = lubridate::yday(neon_barc$date),
+    month = lubridate::month(neon_barc$date)) %>%
+  dplyr::filter(year==2020, month < 5) %>%
+  dplyr::filter(row_number() %% 2 == 1)
 ```
 
 If you were to try to fit the temperature and oxygen data using MARSS, you'll notice that it's difficult to get the model to converge. Why? In the absence of covariates, it seems like there's some support for including moving average components. For oxygen in particular, we can see this with the PACF plot,

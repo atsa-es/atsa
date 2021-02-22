@@ -13,7 +13,8 @@ output:
 
 ```{r dlm-setup, include=FALSE, purl=FALSE}
 #in case you forget to add a chunk label
-knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
+knitr::opts_knit$set(unnamed.chunk.label = "hw6-",
+                     messages=FALSE)
 ```
 
 <br>
@@ -22,31 +23,31 @@ knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
 
 **Identifying regimes using Hidden Markov Models (HMMs)**
 
-For the first part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rsoi` package. First, let's grab the data. 
+For the first part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rsoi` package. First, let's grab the data. Run the `install.packages()` code if you need the `rsoi` package.
 
 ```{r read-data}
 library(dplyr)
-install.packages("rsoi")
+#install.packages("rsoi")
 pdo <- rsoi::download_pdo()
 ```
 We will look at the winter PDO only. We need to shift the year for Oct-Dec by 1 since Oct-Feb spans 2 calendar years.
 ```{r read-data2}
-pdo$water_year <- pdo$Year
-pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] = pdo$water_year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
-pdo <- dplyr::group_by(pdo, water_year) %>%
+pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] <- pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
+pdo <- dplyr::group_by(pdo, Year) %>%
   dplyr::summarize(winter_pdo = mean(PDO[which(Month %in% c("Oct","Nov","Dec","Jan","Feb"))])) %>% 
-  dplyr::select(winter_pdo,water_year) %>% 
-  dplyr::rename(year=water_year)
+  dplyr::select(winter_pdo, Year)
+# The first year will be missing Oct-Dec
+pdo <- pdo[-1,]
 ```
 
 Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS4` package discussed in the HMM lecture to answer the questions in in Part 1.
 
 
-1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). 
+1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). See the lecture on HMMs and/or section 3 in the [depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)
     
-2. Try to fit the model 10-20 times. Does the likelihood seem reasonably stable?
+2. Try fitting the model 10-20 times. Does the likelihood seem reasonably stable? (Note `logLik()` gets you the log-likelihood from model fits in R).
     
-3. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of being in the same state)?
+3. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of staying in the same state from step $t$ to $t+1$)?
     
 4. Using slide 15 of the HMM lecture as a template and the matrix in Q3, write out your fitted HMM model as equations.
 
@@ -54,10 +55,12 @@ Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS
 
 6. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)   
 
-7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. The if $P$ is the transition matrix,
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
-Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
+7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. Note $p_1 + p_2 = 1$. If $P$ is the transition matrix (in Q3),
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
+Note this is a 1x2 matrix times a 2x2 matrix on the right. Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
 That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each state.
 
 **Some ideas for OPTIONAL extra analyses**
@@ -72,35 +75,32 @@ That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each
 
 * Compare the transition matrices for fits with different random starting conditions. Are the transition matrices stable?
 
-* What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. The if $P$ is the transition matrix,
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
-Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
-That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the stationary distribution.
+
        
 <br>
 
 
 2. Bayesian MARSS modelling {#sec-bayes}
 
-Building off what we did for lab last week, we're going to work with the NEON data from Barco Lake, doing simultaneous modeling of oxygen and temperature. For this exercise, we'll only work with the data from the first four months of 2020 (where there was consistent data for each of the responses).
+Building off what we did for lab last week, we're going to work with the NEON data from Barco Lake, doing simultaneous modeling of oxygen and temperature. For this exercise, we'll only work with the data from the first four months of 2020 (where there was consistent data for each of the responses). We will subset the data to every 3rd day to remove the high level of smoothness (autocorrelation) in the data.
 
 ```{r read-data-neon}
 data(neon_barc, package = "atsalibrary")
-data <- neon_barc
 
 # we're going to just work with data from 2020
-data = dplyr::mutate(data,
-        year = lubridate::year(data$date),
-        yday = lubridate::yday(data$date),
-        month = lubridate::month(data$date)) %>%
-  dplyr::filter(year==2020, month < 5)
+barc <- neon_barc %>% 
+  dplyr::mutate(
+    year = lubridate::year(neon_barc$date),
+    yday = lubridate::yday(neon_barc$date),
+    month = lubridate::month(neon_barc$date)) %>%
+  dplyr::filter(year==2020, month < 5) %>%
+  dplyr::filter(row_number() %% 5 == 1)
 ```
 
 If you were to try to fit the temperature and oxygen data using MARSS, you'll notice that it's difficult to get the model to converge. Why? In the absence of covariates, it seems like there's some support for including moving average components. For oxygen in particular, we can see this with the PACF plot,
 
 ```{r pacf, echo=FALSE}
-pacf((data$oxygen),na.action = na.pass)
+pacf((neon_barc$oxygen),na.action = na.pass)
 ```
 
 So instead of fitting this model using a Bayesian version of MARSS, we're going to fit this using a moving average model. We've made a few other changes to the model that we can't do in a Bayesian setting. Most importantly we'll model the MA deviations as a random walk, generated from a multivariate Student-t distribution (if you examine the first differenced temperature or oxygen series, you'll see the data support a heavy tailed distribution). 
@@ -109,7 +109,7 @@ Here's the code, that will create a file called "model.stan" in your working dir
 
 ```{r create-model}
 model <- cat("data {
-  int<lower=0> n; // size of trainging set (with NAs)
+  int<lower=0> n; // size of training set (with NAs)
   int<lower=0> n_o2; // number of observations
   int o2_x[n_o2];
   real o2_y[n_o2];
@@ -203,28 +203,28 @@ model {
 Next we have to create the data. We'll use a similar version of the function that we gave you last week,
 
 ```{r}
-data$indx <- seq(1, nrow(data)) # dimension of data
+barc$indx <- seq(1, nrow(barc)) # dimension of data
 n_forecast <- 7 # forecast horizon
 n_lag_o2 <- 0 # lag for AR component
 n_lag_temp <- 0 # lag for AR component
-last_obs <- nrow(data)
+last_obs <- nrow(barc)
 
-create_stan_data <- function(data, last_obs, n_forecast, n_lag_o2, 
+create_stan_data <- function(barc, last_obs, n_forecast, n_lag_o2, 
     n_lag_temp) {
     # create test data
-    o2_test <- dplyr::filter(data, indx %in% seq(last_obs + 1, 
+    o2_test <- dplyr::filter(barc, indx %in% seq(last_obs + 1, 
         (last_obs + n_forecast)))
-    temp_test <- dplyr::filter(data, indx %in% seq(last_obs + 
+    temp_test <- dplyr::filter(barc, indx %in% seq(last_obs + 
         1, (last_obs + n_forecast)))
     
-    o2_train <- dplyr::filter(data, indx <= last_obs, !is.na(oxygen), !is.na(depth_oxygen))
+    o2_train <- dplyr::filter(barc, indx <= last_obs, !is.na(oxygen), !is.na(depth_oxygen))
     o2_x <- o2_train$indx
     o2_y <- o2_train$oxygen
     o2_z <- o2_train$depth_oxygen
     o2_sd <- o2_train$oxygen_sd
     n_o2 <- nrow(o2_train)
     
-    temp_train <- dplyr::filter(data, indx <= last_obs, !is.na(temperature))
+    temp_train <- dplyr::filter(barc, indx <= last_obs, !is.na(temperature))
     temp_x <- temp_train$indx
     temp_y <- temp_train$temperature
     temp_sd <- temp_train$temperature_sd
@@ -239,7 +239,7 @@ create_stan_data <- function(data, last_obs, n_forecast, n_lag_o2,
         stan_data = stan_data, o2_test = o2_test, temp_test = temp_test))
 }
 
-stan_data <- create_stan_data(data, last_obs, n_forecast, n_lag_o2, 
+stan_data <- create_stan_data(barc, last_obs, n_forecast, n_lag_o2, 
     n_lag_temp)
 ```
 
@@ -248,6 +248,7 @@ And finally, we can fit the model. The `pars` here includes a list of the initia
 
 You'll probably want to just do this once (it may take ~ 15 minutes) and save the object 
 ```{r eval=FALSE}
+library(rstan)
 fit <- stan(file="model.stan", data=stan_data$stan_data, 
             chains=3, 
             iter=3000,
