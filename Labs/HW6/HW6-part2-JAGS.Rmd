@@ -1,0 +1,101 @@
+---
+title: "Bayesian State-Space models JAGS"
+author: "Eli Holmes, Eric Ward"
+date: "Due March 1, 11:59pm 2021"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r dlm-setup, include=FALSE, purl=FALSE}
+#in case you forget to add a chunk label
+knitr::opts_knit$set(unnamed.chunk.label = "hw6-",
+                     messages=FALSE)
+```
+
+<br>
+
+
+## Part 2. Fitting Bayesian State-Space Models with JAGS
+
+In the first part, you will use the wild dogs data set in the MARSS package. You will fit a random walk with drift model. The drift term ($u$ or `mu` in the code) is the rate of population growth (or decline).
+
+```{r echo=FALSE}
+data(wilddogs, package="MARSS")
+plot(wilddogs[,1], wilddogs[,2])
+```
+
+Set up the data.
+```{r}
+data(wilddogs, package="MARSS")
+```
+
+Set up your JAGS model code for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is very similar to the  [univariate state-space model](https://nwfsc-timeseries.github.io/atsa-labs/sec-jags-uss.html) in the lab book except that we are not fitting a AR(1) model rather a random walk with drift. Note that in the code, $u$ is `mu`, $\sqrt{q}$ is `sd.q` and $\sqrt{r}$ is `sd.r`.
+
+```{r}
+model.loc = ("ss_model.txt")
+jagsscript = cat("
+model {  
+   # priors on parameters
+   mu ~ dnorm(0, 0.01); 
+   tau.pro ~ dgamma(0.001,0.001); 
+   sd.q <- 1/sqrt(tau.pro);
+   tau.obs ~ dgamma(0.001,0.001);
+   sd.r <- 1/sqrt(tau.obs); 
+   x0 ~ dnorm(0,1);
+   
+   X[1] <- x0;
+   predY[1] <- X[1];
+   Y[1] ~ dnorm(X[1], tau.obs);
+
+   for(i in 2:N) {
+      predX[i] <- X[i-1] + mu; 
+      X[i] ~ dnorm(predX[i],tau.pro); # Process variation
+      predY[i] <- X[i];
+      Y[i] ~ dnorm(X[i], tau.obs); # Observation variation
+   }
+}", file = model.loc)
+```
+
+Fit the model. JAGS is fine with NAs.
+```{r results="hide"}
+library(rjags)
+library(R2jags)
+library(MARSS)
+data(wilddogs, package="MARSS")
+y <- log(y <- wilddogs[,"Count"])
+N <- length(y) 
+jags.data = list(Y = y, N = N)
+jags.params = c("sd.q", "sd.r", "predY", "mu", "x0")
+mod_ss = jags(jags.data, parameters.to.save = jags.params, model.file = model.loc, 
+              n.chains = 3, n.burnin = 5000, n.thin = 1, n.iter = 10000, 
+              DIC = TRUE)
+```
+
+8. Evaluate whether the model converged using R-hat values. See slides 40 & 41 in the [Bayesian lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html). For a JAGS model, just look at `print(mod_ss)`.
+    
+9. Make a histogram of the posterior distribution of `mu` (population growth rate). You can attach the posterior draws using `attach.jags(mod_ss)`. Then you can directly access the posterior draws.
+See examples in [section 12.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-jags-lr-no-covariates.html) of the lab book.
+
+10. Using the posterior distribution of `mu`, what is the probability that the dog population is declining, i.e. the probability that `mu` is less than 0. Hint, you can use the fraction of the posterior draws that are less than 0. 
+
+10. Make a plot of the estimated wild dog population size with 95% credible intervals. The estimated population size is the estimated $x$, called `predY` in the code. This is a plot like [slide 49](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html#49) in the Bayesian lecture. If you are getting stuck, look at the code that produced the figure on slide 49 by looking at the [Rmd file](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.Rmd). You'll need to adapt that code a bit for the JAGS output.
+
+**Some ideas for optional extra analyses**
+
+* Using the coda package make some diagnostic plots. See [section 12.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-jags-lr-no-covariates.html) towards the end of the section for examples of how to do this.
+
+* The wild dog counts are discrete and the normality assumption for the observations errors for log of the counts is an approximation. Change the model code (`model.R`) to use a log linear poisson errors model. A few tips:
+    + You'll need to change the lines where `Y[i] ~ ` is defined so you use a poisson distribution. Careful. It is the expected value of $log(y)$ that is $x[i]$. 
+    + When you pass in `y` to `jags()`, you will pass in `wilddogs[,"Count"]` not the log of that.
+    
+* For the log linear poisson model, make a plot of the posterior of `mu`. Does your conclusions about the decline rate of the dogs change?
+    
+
+
+
+
