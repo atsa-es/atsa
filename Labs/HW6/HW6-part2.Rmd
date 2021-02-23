@@ -1,7 +1,7 @@
 ---
-title: "Hidden Markov Models and Bayesian MARSS models"
+title: "HMMs and Bayesian State-Space models"
 author: "Eli Holmes, Eric Ward"
-date: "17 February 2021"
+date: "Due March 1, 11:59pm 2021"
 output:
   html_document:
     theme: cosmo
@@ -19,251 +19,99 @@ knitr::opts_knit$set(unnamed.chunk.label = "hw6-",
 
 <br>
 
-# Part 1. Hidden Markov Models {#sec-hmm}
 
-**Identifying regimes using Hidden Markov Models (HMMs)**
+## Part 2. Fitting Bayesian State-Space Models with Stan
 
-For the first part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rsoi` package. First, let's grab the data. Run the `install.packages()` code if you need the `rsoi` package.
+In the first part, you will use the wild dogs data set in the MARSS package. You will fit a random walk with drift model. The drift term ($u$ or `mu` in the code) is the rate of population growth (or decline).
 
-```{r read-data}
-library(dplyr)
-#install.packages("rsoi")
-pdo <- rsoi::download_pdo()
-```
-We will look at the winter PDO only. We need to shift the year for Oct-Dec by 1 since Oct-Feb spans 2 calendar years.
-```{r read-data2}
-pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] <- pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
-pdo <- dplyr::group_by(pdo, Year) %>%
-  dplyr::summarize(winter_pdo = mean(PDO[which(Month %in% c("Oct","Nov","Dec","Jan","Feb"))])) %>% 
-  dplyr::select(winter_pdo, Year)
-# The first year will be missing Oct-Dec
-pdo <- pdo[-1,]
+```{r echo=FALSE}
+data(wilddogs, package="MARSS")
+plot(wilddogs[,1], wilddogs[,2])
 ```
 
-Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS4` package discussed in the HMM lecture to answer the questions in in Part 1.
-
-
-1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). See the lecture on HMMs and/or section 3 in the [depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)
-    
-2. Try fitting the model 10-20 times. Does the likelihood seem reasonably stable? (Note `logLik()` gets you the log-likelihood from model fits in R).
-    
-3. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of staying in the same state from step $t$ to $t+1$)?
-    
-4. Using slide 15 of the HMM lecture as a template and the matrix in Q3, write out your fitted HMM model as equations.
-
-5. Plot the predicted values versus year. See slide 50 of the HMM lecture for an example.
-
-6. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)   
-
-7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. Note $p_1 + p_2 = 1$. If $P$ is the transition matrix (in Q3),
-
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
-Note this is a 1x2 matrix times a 2x2 matrix on the right. Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
-
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
-That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each state.
-
-**Some ideas for OPTIONAL extra analyses**
-
-* Change the model to a 3-state model. Using AIC as a model selection metric, does the 3-state model perform better (lower AIC) compared to the 2-state model? What about a 1-state model?
-
-* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
- 
-* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
-
-* Run diagnostics on the best model. Any problems?
-
-* Compare the transition matrices for fits with different random starting conditions. Are the transition matrices stable?
-
-
-       
-<br>
-
-
-2. Bayesian MARSS modelling {#sec-bayes}
-
-Building off what we did for lab last week, we're going to work with the NEON data from Barco Lake, doing simultaneous modeling of oxygen and temperature. For this exercise, we'll only work with the data from the first four months of 2020 (where there was consistent data for each of the responses). We will subset the data to every 3rd day to remove the high level of smoothness (autocorrelation) in the data.
-
-```{r read-data-neon}
-data(neon_barc, package = "atsalibrary")
-
-# we're going to just work with data from 2020
-barc <- neon_barc %>% 
-  dplyr::mutate(
-    year = lubridate::year(neon_barc$date),
-    yday = lubridate::yday(neon_barc$date),
-    month = lubridate::month(neon_barc$date)) %>%
-  dplyr::filter(year==2020, month < 5) %>%
-  dplyr::filter(row_number() %% 5 == 1)
+Set up the data.
+```{r}
+data(wilddogs, package="MARSS")
 ```
 
-If you were to try to fit the temperature and oxygen data using MARSS, you'll notice that it's difficult to get the model to converge. Why? In the absence of covariates, it seems like there's some support for including moving average components. For oxygen in particular, we can see this with the PACF plot,
-
-```{r pacf, echo=FALSE}
-pacf((neon_barc$oxygen),na.action = na.pass)
-```
-
-So instead of fitting this model using a Bayesian version of MARSS, we're going to fit this using a moving average model. We've made a few other changes to the model that we can't do in a Bayesian setting. Most importantly we'll model the MA deviations as a random walk, generated from a multivariate Student-t distribution (if you examine the first differenced temperature or oxygen series, you'll see the data support a heavy tailed distribution). 
-
-Here's the code, that will create a file called "model.stan" in your working directory,
-
-```{r create-model}
-model <- cat("data {
-  int<lower=0> n; // size of training set (with NAs)
-  int<lower=0> n_o2; // number of observations
-  int o2_x[n_o2];
-  real o2_y[n_o2];
-  real o2_z[n_o2];  
-  real o2_sd[n_o2];
-  int<lower=0> n_temp; // number of observations
-  int temp_x[n_temp];
-  real temp_y[n_temp];
-  real temp_sd[n_temp];  
-  int n_forecast;
-  int n_lag_o2;
-  int n_lag_temp;
-}
-transformed data {
-  vector[2] zeros;
-  matrix[2,2] identity;
-  int lag_o2;
-  int lag_temp;  
-  zeros = rep_vector(0, 2);
-  identity = diag_matrix(rep_vector(1.0,2));
-
-  lag_o2 = 1;
-  lag_temp = 1;
-  if(n_lag_o2 > 1) lag_o2 = 1;
-  if(n_lag_temp > 1) lag_temp = 1;  
-}
-parameters {
-  vector[2] devs[n+n_forecast-1];
-  cov_matrix[2] Sigma;
-  real<lower=0> o2_est_sd;
-  real<lower=0> temp_est_sd;
-  real o2_x0[lag_o2]; // initial conditions
-  real temp_x0[lag_temp]; // initial conditions
-  real u_temp;
-  real u_o2;
-}
-transformed parameters {
-  vector[n+n_forecast] o2_pred;
-  vector[n_forecast] o2_forecast;
-  vector[n+n_forecast] temp_pred;
-  vector[n_forecast] temp_forecast;  
-  real rho;
-  // calc correlation
-  rho = Sigma[1,2]/(sqrt(Sigma[1,1])*sqrt(Sigma[2,2]));
-  // predictions for first states
-  for(t in 1:lag_o2) {
-    o2_pred[t] = o2_x0[t];
-  }
-  for(t in 1:lag_o2) {
-    temp_pred[t] = temp_x0[t];
-  }  
-
-  for(i in (1+lag_o2):(n+n_forecast)) {
-    o2_pred[i] = o2_pred[i-1] + devs[i-1,1];
-  }
-  for(i in (1+lag_temp):(n+n_forecast)) {
-    temp_pred[i] = temp_pred[i-1] + devs[i-1,2];
-  }
-
-  // this is redundant but easier to work with output -- creates object o2_forecast
-  // containing forecast n_forecast time steps ahead
-  for(t in 1:n_forecast) {
-    o2_forecast[t] = o2_pred[n_o2+t];
-    temp_forecast[t] = temp_pred[n_temp+t];
-  }
-    
-}
-model {
-  // initial conditions, centered on mean
-  o2_x0 ~ normal(7,3);
-  temp_x0 ~ normal(22,3);
-  o2_est_sd ~ student_t(3,0,2);
-  temp_est_sd ~ student_t(3,0,2);
-  // df parameter
-  devs[1] ~ multi_student_t(3, zeros, Sigma);
-  for(i in 2:(n+n_forecast-1)) {
-    devs[i] ~ multi_student_t(3, devs[i-1], Sigma);
-  }
-
-  // likelihood
-  for(t in 1:n_o2) {
-    o2_y[t] ~ normal(o2_pred[o2_x[t]], o2_est_sd);
-  }
-  for(t in 1:n_temp) {
-    temp_y[t] ~ normal(temp_pred[temp_x[t]], temp_est_sd);
-  }
-} 
-", file="model.stan")
-```
-
-Next we have to create the data. We'll use a similar version of the function that we gave you last week,
+Set up your Stan model code for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is [ss_rw_drift.stan](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/ss_rw_drift.stan) (with a small change in the `pos_indx` specification). Note that in the atsar code, $x$ is called `pred`, $u$ is `mu`, $\sqrt{q}$ is `sigma_process` and $\sqrt{r}$ is `sigma_obs`.
 
 ```{r}
-barc$indx <- seq(1, nrow(barc)) # dimension of data
-n_forecast <- 7 # forecast horizon
-n_lag_o2 <- 0 # lag for AR component
-n_lag_temp <- 0 # lag for AR component
-last_obs <- nrow(barc)
-
-create_stan_data <- function(barc, last_obs, n_forecast, n_lag_o2, 
-    n_lag_temp) {
-    # create test data
-    o2_test <- dplyr::filter(barc, indx %in% seq(last_obs + 1, 
-        (last_obs + n_forecast)))
-    temp_test <- dplyr::filter(barc, indx %in% seq(last_obs + 
-        1, (last_obs + n_forecast)))
-    
-    o2_train <- dplyr::filter(barc, indx <= last_obs, !is.na(oxygen), !is.na(depth_oxygen))
-    o2_x <- o2_train$indx
-    o2_y <- o2_train$oxygen
-    o2_z <- o2_train$depth_oxygen
-    o2_sd <- o2_train$oxygen_sd
-    n_o2 <- nrow(o2_train)
-    
-    temp_train <- dplyr::filter(barc, indx <= last_obs, !is.na(temperature))
-    temp_x <- temp_train$indx
-    temp_y <- temp_train$temperature
-    temp_sd <- temp_train$temperature_sd
-    n_temp <- nrow(temp_train)
-    
-    stan_data <- list(n = last_obs, n_lag_o2 = n_lag_o2, n_lag_temp = n_lag_temp, 
-        n_forecast = n_forecast, n_o2 = n_o2, o2_x = o2_x, o2_y = o2_y, o2_z = o2_z,
-        o2_sd = o2_sd, n_temp = n_temp, temp_x = temp_x, temp_y = temp_y, 
-        temp_sd = temp_sd)
-    
-    return(list(o2_train = o2_train, temp_train = temp_train, 
-        stan_data = stan_data, o2_test = o2_test, temp_test = temp_test))
+scode <- "
+data {
+  int<lower=0> N;
+  int<lower=0> n_pos;
+  vector[n_pos] y;
+  int pos_indx[n_pos];
 }
-
-stan_data <- create_stan_data(barc, last_obs, n_forecast, n_lag_o2, 
-    n_lag_temp)
+parameters {
+  real x0;
+  real mu;
+  vector[N-1] pro_dev;
+  real<lower=0> sigma_process;
+  real<lower=0> sigma_obs;
+}
+transformed parameters {
+  vector[N] pred;
+  pred[1] = x0;
+  for(i in 2:N) {
+    pred[i] = pred[i-1] + mu + sigma_process*pro_dev[i-1];
+  }
+}
+model {
+  x0 ~ normal(0,10);
+  mu ~ normal(0,2);
+  sigma_process ~ student_t(3,0,2);
+  sigma_obs ~ student_t(3,0,2);
+  pro_dev ~ std_normal();//normal(0, sigma_process);
+  for(i in 1:n_pos) {
+    y[i] ~ normal(pred[pos_indx[i]], sigma_obs);
+  }
+}
+generated quantities {
+  vector[n_pos] log_lik;
+  for (n in 1:n_pos) log_lik[n] = normal_lpdf(y[n] | pred[pos_indx[n]], sigma_obs);
+}
+"
 ```
 
-
-And finally, we can fit the model. The `pars` here includes a list of the initial conditions (`o2_x0`,`temp_x0`), the covariance matrix of the process deviations (`Sigma`), the correlation between oxygen and temperature deviations (as a derived parameter `rho`) and the predicted values of temperature (`temp_pred`) and oxygen (`o2_pred`). 
-
-You'll probably want to just do this once (it may take ~ 15 minutes) and save the object 
-```{r eval=FALSE}
-library(rstan)
-fit <- stan(file="model.stan", data=stan_data$stan_data, 
-            chains=3, 
-            iter=3000,
-            pars=c("o2_x0","temp_x0","Sigma","rho","temp_pred","o2_pred"))
-pars = extract(fit)
+Fit the model. Stan does not like NAs in the data thus we use the index trick in the code. You may get a number of warnings; ignore for the homework.
+```{r results="hide"}
+y <- log(y <- wilddogs[,"Count"])
+# We pass in the non-NA ys as vector
+ypos <- y[!is.na(y)]
+n_pos <- sum(!is.na(y))  # number on non-NA ys
+pos_indx <- which(!is.na(y))  # index on the non-NAs
+mod <- rstan::stan(model_code = scode, 
+                   data = list(y = ypos, N = length(y), n_pos = n_pos, 
+                               pos_indx = pos_indx), 
+                   pars = c("sigma_process", "sigma_obs", "mu", "pred"), 
+                   chains = 1, iter = 5000, thin = 10)
 ```
 
+8. Evaluate whether the model converged using R-hat values. See slides 40 & 41 in the [Bayesian lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html).
+    
+9. Make a histogram of the posterior distribution of `mu` (population growth rate). You can extract the posterior draws using `pars <- rstan::extract(mod, pars="mu")`. 
+10. Using the posterior distribution of `mu`, what is the probability that the dog population is declining, i.e. the probability that `mu` is less than 0. Hint, you can use the fraction of the posterior draws that are less than 0. 
 
-    a. Using the interactive 'shinystan', does it appear the model converged? You can be qualitative and brief, with a focus just on the initial conditions and variance parameters. 
+10. Make a plot of the estimated wild dog population size with 95% credible intervals. The estimated population size is the estimated $x$, called `pred` in the code. This is a plot like [slide 49](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html#49) in the Bayesian lecture. If you are getting stuck, look at the code that produced the figure on slide 49 by looking at the [Rmd file](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.Rmd).
+
+**Some ideas for optional extra analyses**
+
+* Use the bayesplot package to make a histogram of the posteriors. See the [bayesplot documentation for examples](https://mc-stan.org/bayesplot/).
+
+* Use the bayesplot package to make some diagnostic plots. 
+
+* Using the interactive 'shinystan' package, does it appear the model converged? You can be qualitative and brief, with a focus just on the mu and variance parameters. `shinystan::launch_shinystan(mod)` is the code to launch shinystan.`
+
+* The wild dog counts are discrete and the normality assumption for the observations errors for log of the counts is an approximation. Change the Stan code (the `scode` code above) to use a log linear poisson errors model. A few tips:
+    + Look at the code for [dlm models](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/dlm.stan) in the atsar package for an example.
+    + You will need to change the code in 4 places: The data, to make `y` an integer, the parameters to remove `sigma_obs`, the model to use `poisson_log()`, and the likelihood to use `poisson_lpmf()`
+    + When you pass in `y` to `stan()`, you will pass in `wilddogs[,"Count"]` not the log of that.
     
-    b. Similarly, are any of the R-hat values for the parameters from #1 > 1.1? You can see this in the table created by summary(fit)$summary
+* For the log linear poisson model, make a plot of the posterior of `mu`. Does your conclusions about the decline rate of the dogs change?
     
-    c. Make a posterior histogram, or density plot, of the derived correlation between oxygen and temperature. Is there support for them being negatively correlated, not correlated, or positively correlated?
-    
-    d. Make predictions of the estimated temperature and oxygen time series from the model, along with 95% CIs on each. Because of differing scales, these can be on different plots
+* For the log linear poisson model, what is the error model? Note, it's a little tricky.
 
 
 

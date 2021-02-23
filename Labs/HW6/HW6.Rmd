@@ -1,0 +1,181 @@
+---
+title: "Hidden Markov Models and Bayesian MARSS models"
+author: "Eli Holmes, Eric Ward"
+date: "Due March 1, 11:59pm 2021"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r hw6p1-setup, echo=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "hw6-",
+                     message=FALSE,
+                     warning=FALSE)
+```
+
+<br>
+
+# Part 1. Hidden Markov Models {#sec-hmm}
+
+**Identifying regimes using Hidden Markov Models (HMMs)**
+
+For the first part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rsoi` package. First, let's grab the data. Run the `install.packages()` code if you need the `rsoi` package.
+
+```{r read-data, message=FALSE, warning=FALSE}
+library(dplyr)
+#install.packages("rsoi")
+pdo <- rsoi::download_pdo()
+```
+We will look at the winter PDO only. We need to shift the year for Oct-Dec by 1 since Oct-Feb spans 2 calendar years.
+```{r read-data2}
+pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] <- pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
+pdo <- dplyr::group_by(pdo, Year) %>%
+  dplyr::summarize(winter_pdo = mean(PDO[which(Month %in% c("Oct","Nov","Dec","Jan","Feb"))])) %>% 
+  dplyr::select(winter_pdo, Year)
+# The first year will be missing Oct-Dec
+pdo <- pdo[-1,]
+```
+
+Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS4` package discussed in the [HMM lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1) to answer the questions in in Part 1.
+
+
+1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). See the lecture on HMMs and/or section 3 in the [depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)
+    
+2. Try fitting the model 10-20 times. Does the likelihood seem reasonably stable? (Note `logLik()` gets you the log-likelihood from model fits in R).
+    
+3. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of staying in the same state from step $t$ to $t+1$)?
+    
+4. Using slide 15 of the HMM lecture as a template and the matrix in Q3, write out your fitted HMM model as equations.
+
+5. Plot the predicted values versus year. See slide 50 of the HMM lecture for an example.
+
+6. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)   
+
+7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. Note $p_1 + p_2 = 1$. If $P$ is the transition matrix (in Q3),
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
+Note this is a 1x2 matrix times a 2x2 matrix on the right. Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
+That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each state.
+
+**Some ideas for optional extra analyses**
+
+* Change the model to a 3-state model. Using AIC as a model selection metric, does the 3-state model perform better (lower AIC) compared to the 2-state model? What about a 1-state model?
+
+* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
+ 
+* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
+
+* Run diagnostics on the best model. Any problems?
+
+* Compare the transition matrices for fits with different random starting conditions. Are the transition matrices stable?
+
+# Part 2. Fitting Bayesian State-Space Models with Stan
+
+In the first part, you will use the wild dogs data set in the MARSS package. You will fit a random walk with drift model. The drift term ($u$ or `mu` in the code) is the rate of population growth (or decline).
+
+```{r echo=FALSE}
+data(wilddogs, package="MARSS")
+plot(wilddogs[,1], wilddogs[,2])
+```
+
+Set up the data.
+```{r}
+data(wilddogs, package="MARSS")
+```
+
+You will use the rstan package for fitting the model. For the optional analyses you might use the atsar or brms packages. The following code will optimize stan on your machine.
+
+```{r install, eval=TRUE, warning=FALSE, message=FALSE, results='hide'}
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+Set up your Stan model code for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is [ss_rw_drift.stan](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/ss_rw_drift.stan) (with a small change in the `pos_indx` specification). Note that in the atsar code, $x$ is called `pred`, $u$ is `mu`, $\sqrt{q}$ is `sigma_process` and $\sqrt{r}$ is `sigma_obs`.
+
+```{r}
+scode <- "
+data {
+  int<lower=0> N;
+  int<lower=0> n_pos;
+  vector[n_pos] y;
+  int pos_indx[n_pos];
+}
+parameters {
+  real x0;
+  real mu;
+  vector[N-1] pro_dev;
+  real<lower=0> sigma_process;
+  real<lower=0> sigma_obs;
+}
+transformed parameters {
+  vector[N] pred;
+  pred[1] = x0;
+  for(i in 2:N) {
+    pred[i] = pred[i-1] + mu + sigma_process*pro_dev[i-1];
+  }
+}
+model {
+  x0 ~ normal(0,10);
+  mu ~ normal(0,2);
+  sigma_process ~ student_t(3,0,2);
+  sigma_obs ~ student_t(3,0,2);
+  pro_dev ~ std_normal();//normal(0, sigma_process);
+  for(i in 1:n_pos) {
+    y[i] ~ normal(pred[pos_indx[i]], sigma_obs);
+  }
+}
+generated quantities {
+  vector[n_pos] log_lik;
+  for (n in 1:n_pos) log_lik[n] = normal_lpdf(y[n] | pred[pos_indx[n]], sigma_obs);
+}
+"
+```
+
+Fit the model. Stan does not like NAs in the data thus we use the index trick in the code. You may get a number of warnings; ignore for the homework.
+```{r results="hide"}
+y <- log(y <- wilddogs[,"Count"])
+# We pass in the non-NA ys as vector
+ypos <- y[!is.na(y)]
+n_pos <- sum(!is.na(y))  # number on non-NA ys
+pos_indx <- which(!is.na(y))  # index on the non-NAs
+mod <- rstan::stan(model_code = scode, 
+                   data = list(y = ypos, N = length(y), n_pos = n_pos, 
+                               pos_indx = pos_indx), 
+                   pars = c("sigma_process", "sigma_obs", "mu", "pred"), 
+                   chains = 1, iter = 5000, thin = 10)
+```
+
+8. Evaluate whether the model converged using R-hat values. See slides 40 & 41 in the [Bayesian lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html).
+    
+9. Make a histogram of the posterior distribution of `mu` (population growth rate). You can extract the posterior draws using `pars <- rstan::extract(mod, pars="mu")`. 
+10. Using the posterior distribution of `mu`, what is the probability that the dog population is declining, i.e. the probability that `mu` is less than 0. Hint, you can use the fraction of the posterior draws that are less than 0. 
+
+11. Make a plot of the estimated wild dog population size with 95% credible intervals. The estimated population size is the estimated $x$, called `pred` in the code. This is a plot like [slide 49](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html#49) in the Bayesian lecture. If you are getting stuck, look at the code that produced the figure on slide 49 by looking at the [Rmd file](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.Rmd).
+
+**Some ideas for optional extra analyses**
+
+* Use the bayesplot package to make a histogram of the posteriors. See the [bayesplot documentation for examples](https://mc-stan.org/bayesplot/).
+
+* Use the bayesplot package to make some diagnostic plots. 
+
+* Using the interactive 'shinystan' package, does it appear the model converged? You can be qualitative and brief, with a focus just on the mu and variance parameters. `shinystan::launch_shinystan(mod)` is the code to launch shinystan.`
+
+* The wild dog counts are discrete and the normality assumption for the observations errors for log of the counts is an approximation. Change the Stan code (the `scode` code above) to use a log linear poisson errors model. A few tips:
+    + Look at the code for [dlm models](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/dlm.stan) in the atsar package for an example.
+    + You will need to change the code in 4 places: The data, to make `y` an integer, the parameters to remove `sigma_obs`, the model to use `poisson_log()`, and the likelihood to use `poisson_lpmf()`
+    + When you pass in `y` to `stan()`, you will pass in `wilddogs[,"Count"]` not the log of that.
+    
+* For the log linear poisson model, make a plot of the posterior of `mu`. Does your conclusions about the decline rate of the dogs change?
+    
+* For the log linear poisson model, what is the error model? Note, it's a little tricky.
+
+* Compare the random walk with drift model to a linear regression (against year 1 to 22) with autocorrelated errors. You can fit this with the brms used in class or the atsar package. Is the estimated linear trend different than the estimated `mu`?
+
+
