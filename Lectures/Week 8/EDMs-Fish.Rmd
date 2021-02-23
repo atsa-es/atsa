@@ -1,0 +1,29 @@
+---
+title: "EDMs and CalCOFI Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+EDMs have been used extensively to analyze CalCOFI fish larvae data. Here are some examples:
+
+* Chang, CW., Ushio, M. & Hsieh, Ch. Empirical dynamic modeling for beginners. Ecol Res 32, 785–796 (2017). https://doi.org/10.1007/s11284-017-1469-9
+
+* Ye H, Beamish RJ, Glaser SM, Grant SCH, Hsieh CH, Richards LJ, Schnute JT, Sugihara G (2015a) Equation-free mechanistic ecosystem forecasting using empirical dynamic modeling. Proc Natl Acad Sci USA 112:E1569–E1576. doi:10.1073/pnas.1417063112
+
+* Sugihara G, Beddington J, Hsieh CH, Deyle E, Fogarty M, Glaser SM, Hewitt R, Hollowed A, May RM, Munch SB, Perretti C, Rosenberg AA, Sandin S, Ye H (2011) Are exploited fish populations stable? Proc Natl Acad Sci USA 108:E1224–E1225. doi:10.1073/pnas.1112033108
+
+* Perretti CT, Munch SB, Sugihara G (2013) Model-free forecasting outperforms the correct mechanistic model for simulated and experimental data. Proc Natl Acad Sci USA 110:5253–5257. doi:10.1073/pnas.1216076110
+
+* Liu H, Fogarty MJ, Glaser SM, Altman I, Hsieh C, Kaufman L, Rosenberg AA, Sugihara G (2012) Nonlinear dynamic features and co-predictability of the Georges Bank fish community. Mar Ecol Prog Ser 464:195–207
+
+* Hsieh CH, Anderson C, Sugihara G (2008) Extending nonlinear analysis to short ecological time series. Am Nat 171:71–80
+
+* Glaser SM, Fogarty MJ, Liu H, Altman I, Hsieh C-H, Kaufman L, MacCall AD, Rosenberg AA, Ye H, Sugihara G (2014) Complex dynamics may limit prediction in marine fisheries. Fish Fish 15:616–633. doi:10.1111/faf.12037
+
+* Deyle ER, Fogarty M, Hsieh CH, Kaufman L, MacCall AD, Munch SB, Perretti CT, Ye H, Sugihara G (2013) Predicting climate effects on Pacific sardine. Proc Natl Acad Sci USA 110:6430–6435. doi:10.1073/pnas.1215506110
+
+
+
