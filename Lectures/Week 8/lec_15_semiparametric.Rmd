@@ -3,9 +3,9 @@ title: "Semi- and non-parametric time series models"
 author: "Eric Ward"
 date: "23 Feb 2021"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -411,6 +411,10 @@ $g(x) = f(b_{2}a_{1} + b_{2}a_{2} + b_{3}a_{3})$
 * f() is logistic/sigmoid function
 
 ## Neural network time series models
+* We can vary both the size of layers and number of hidden layers (1-2)
+![](nnfig.png)
+
+## Neural network time series models
 
 Implementation in R
 
@@ -451,7 +455,6 @@ mod = nnetar(y=dat$val, p=..., size=...)
 
 Each of these has defaults, but we'll do a couple sensitivities
 
-
 ## Neural network time series models
 
 First, let's look at varying the number of lagged predictors
@@ -465,26 +468,27 @@ mod_15 = nnetar(y=dat$val, p=15, size=1)
 
 ## Neural network time series models
 
-Even with embedding dimension = 1, predictions are pretty good
+Even with 1 node in hidden layer, predictions are pretty good
 
-```{r}
+```{r echo=FALSE}
 dat$pred = mod_1$fitted
-ggplot(dat, aes(dates,val)) + geom_point() + 
-  ylab("Flow") + 
-  geom_line(aes(dates,pred), col="blue")
+ggplot(dat, aes(dates,val)) + geom_line(aes(dates,pred),col="grey30") + 
+  geom_point(col="blue") + 
+  ylab("Flow") + theme_bw()
 ```
 
 ## Neural network time series models
 
-Only very slight differences here -- slight ones in Feb/March for example
+Only very slight differences here ($\rho=0.999$) -- slight ones in Feb/March for example
 
 ```{r echo=FALSE}
 dat$pred_1 = mod_1$fitted
 dat$pred_5 = mod_5$fitted
-ggplot(dat, aes(dates,val)) + geom_point() + 
+ggplot(dat, aes(dates,val)) + 
   ylab("Flow") + 
-  geom_line(aes(dates,pred_1), col="blue") +
-  geom_line(aes(dates,pred_5), col="purple")
+  geom_line(aes(dates,pred_1), col="red") +
+  geom_line(aes(dates,pred_5), col="purple") + 
+  geom_point(col="blue") + theme_bw()
 ```
 
 ## Neural network time series models
@@ -503,9 +507,9 @@ Again, the fit with 1 neuron looks pretty good
 
 ```{r echo=FALSE}
 dat$pred_1 = mod_1$fitted
-ggplot(dat, aes(dates,val)) + geom_point() + 
-  ylab("Flow") + 
-  geom_line(aes(dates,pred_1), col="blue")
+ggplot(dat, aes(dates,val)) + geom_line(aes(dates,pred),col="grey30") + 
+  geom_point(col="blue") + 
+  ylab("Flow") + theme_bw()
 ```
 
 ## Neural network time series models
@@ -515,10 +519,11 @@ And there only appear to be slight differences as we add more neurons
 ```{r echo=FALSE}
 dat$pred_1 = mod_1$fitted
 dat$pred_5 = mod_5$fitted
-ggplot(dat, aes(dates,val)) + geom_point() + 
+ggplot(dat, aes(dates,val)) + 
   ylab("Flow") + 
-  geom_line(aes(dates,pred_1), col="blue") +
-  geom_line(aes(dates,pred_5), col="purple")
+  geom_line(aes(dates,pred_1), col="red") +
+  geom_line(aes(dates,pred_5), col="purple") + 
+  geom_point(col="blue") + theme_bw()
 ```
 
 ## Neural network time series models
@@ -527,7 +532,7 @@ Selecting the size of the network and number of lags (embedding dimension) can b
 
 * nnetar will do this for you
 
-For our flow data for example, we can not specify *p* or *size*
+For our flow data for example, we can choose to not specify *p* or *size*
 
 ```{r echo=TRUE}
 mod = nnetar(y=dat$val)
@@ -574,9 +579,10 @@ S-Map [link](https://royalsocietypublishing.org/doi/10.1098/rsta.1994.0106)
 
 Convergent cross-mapping [link](http://science.sciencemag.org/content/338/6106/496)
 
-Hao Ye's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.html)
-Yair Daon's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-algorithms.pdf)
-Owen Petchey's Vignette [link](https://www.zora.uzh.ch/id/eprint/129395/1/Simplex_projection_walkthrough.pdf)
+Hao Ye's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.html)  
+Yair Daon's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-algorithms.pdf)  
+Owen Petchey's Vignette [link](https://www.zora.uzh.ch/id/eprint/129395/1/Simplex_projection_walkthrough.pdf)  
+Chang et al. 2017 [link](https://link.springer.com/article/10.1007/s11284-017-1469-9)  
 
 ## Empirical dynamic modeling for time series
 
@@ -588,14 +594,15 @@ These tools generally represent nearest neighbor forecasting (projecting) routin
 
 ## Empirical dynamic modeling for time series
 
-First, the embedding dimension. We'll start with a lag / embedding dimension of $E$ = 5
+* First, the embedding dimension. We'll start with a lag / embedding dimension of $E$ = 5
+* We think the 5 most recent points are a good predictor of the next value
 
-```{r}
+```{r fig.height=3}
 set.seed(123)
 r = rnorm(25)
 y = c(r,r,r,r,r[1])+rnorm(101,0,0.1)
 plot(y, type="l",
-     ylab="")
+     ylab="", xlab="Time")
 points(96:100,y[96:100],col="blue", pch=16,cex=1.2)
 ```
 
@@ -603,12 +610,12 @@ points(96:100,y[96:100],col="blue", pch=16,cex=1.2)
 
 Or we could use a value of $E$ = 3
 
-```{r}
+```{r fig.height=3}
 set.seed(123)
 r = rnorm(25)
 y = c(r,r,r,r,r[1])+rnorm(101,0,0.1)
 plot(y, type="l",
-     ylab="")
+     ylab="", xlab="Time")
 points(98:100,y[98:100],col="blue", pch=16,cex=1.2)
 ```
 
@@ -624,21 +631,32 @@ There's some optimal embedding dimension we can select
 
 ## Empirical dynamic modeling for time series
 
+* Using library of past dynamics to predict future
+
+```{r fig.height=3}
+set.seed(123)
+r = rnorm(25)
+y = c(r,r,r,r,r[1])+rnorm(101,0,0.1)
+plot(y, type="l",
+     ylab="", xlab="Time")
+points(21:25,y[21:25],col="blue", pch=21,cex=1.2)
+points(46:50,y[46:50],col="blue", pch=21,cex=1.2)
+points(71:75,y[71:75],col="blue", pch=21,cex=1.2)
+points(96:100,y[96:100],col="blue", pch=16,cex=1.2)
+```
+
+## Empirical dynamic modeling for time series
+
 Internally, forecasts will be made based on the library of predictors
 
 * This library is generated from previous dynamics that mirror the most recent time period
 * Forecasts are then averaged + validated (cross - validation)
 
-```{r, fig.height=3}
-set.seed(123)
-r = rnorm(25)
-y = c(r,r,r,r,r[1])+rnorm(101,0,0.1)
-plot(y, type="l",
-     ylab="")
-points(98:100,y[98:100],col="blue", pch=16,cex=1.2)
-```
-
 http://deepeco.ucsd.edu/simplex/
+
+[rEDM](https://cran.r-project.org/web/packages/rEDM/index.html)
+
+* Can predict > 1 time step ahead
 
 ## Empirical dynamic modeling for time series
 
@@ -665,7 +683,7 @@ Predictability increases a lot when E=2, but pretty flat after
 ```{r, echo=FALSE, fig.height=4, fig.width=4}
 ggplot(mod, aes(E,unlist(rho))) + 
   geom_line() + theme_bw() + geom_point() + 
-  xlab("E") + ylab("rho")
+  xlab("E") + ylab("rho = cor(obs,pred)")
 ```
 
 ## Empirical dynamic modeling for time series
@@ -731,3 +749,53 @@ Beyond Simplex: in the interest of time, we haven't talked about SMAP or Cross M
 
 * Cross mapping (rEDM::ccm) models causality in multiple time series, using information in lags
 
+## S-MAP
+
+* Autocorrelated red-noise may appear predictable
+* Distinguish red-noise from deterministic model with S-maps
+
+* Local linear 'maps', and adds non-linear parameter $\theta$  
+[rEDM Tutorial](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.pdf)
+
+## Empirical dynamic modeling for time series
+
+* S-MAP is applied with constant embedding dimension, $E$, but varies $\theta$
+
+```{r, echo=TRUE, fig.height=3, fig.width=3}
+mod = rEDM::s_map(as.numeric(lynx), E=2, stats_only=FALSE)
+```
+
+## Empirical dynamic modeling for time series
+
+* Simplex (non-linear) assumes $\theta$ = 0. Some evidence for non-linearity
+```{r echo=FALSE}
+ggplot(mod$stats, aes(theta, unlist(rho))) + geom_line() + geom_point() + 
+  xlab("Theta") + ylab("rho = cor(obs,pred)") + theme_bw()
+```
+
+## Empirical dynamic modeling for time series
+
+* Search across $\theta$ and $E$
+```{r echo=FALSE}
+mod = rEDM::s_map(as.numeric(lynx), E=1, stats_only=FALSE)
+df = mod$stats
+df$E = 1
+
+for(i in 2:5) {
+  mod = rEDM::s_map(as.numeric(lynx), E=i, stats_only=FALSE)
+temp = mod$stats
+temp$E = i
+df = rbind(df,temp)
+}
+df$E = as.factor(df$E)
+ggplot(df, aes(theta, unlist(rho), group=E,col=E)) + 
+  geom_line() + geom_point() + 
+  xlab("Theta") + ylab("rho = cor(obs,pred)") + theme_bw() + 
+  scale_color_viridis(discrete=TRUE,end=0.8)
+```
+
+## Discussion
+
+* Neural networks, simplex, S-Maps super powerful tools
+* Useful for non-linear relationships, non-parametric models
+* Question: what about noisy / gappy data?
