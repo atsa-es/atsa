@@ -90,8 +90,6 @@ Many examples of time series in ecology & fisheries may alternate between multip
 
 * Francis et al. (2012) https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2486.2012.02702.x
 
-
-
 ## Additional ecological exmaples:
 
 * Mark recapture models with latent states 
@@ -225,7 +223,7 @@ There are two general flavours of transition matrices:
 * Non-homogeneous
     + transition probabilities are time-varying
 
-* In this class, we'll only consider **homogeneous** cases
+* In this class, we'll mostly consider **homogeneous** cases
 
 ## HMM theory
 
@@ -414,7 +412,7 @@ rain$rained = ifelse(rain$Rainfall > 0, 1, 0)
 
 ```{r, echo=FALSE,fig.height=3}
 ggplot(rain, aes(Time, rained)) + geom_line(col="darkblue") + 
-  xlab("Days since Nov 1") + ylab("Rained?") 
+  xlab("Days since Nov 1") + ylab("Rained?") + theme_bw()
 ```
 
 ## Examples of univariate HMMs in R
@@ -659,7 +657,7 @@ write.csv(dat, file="calcofi.csv")
 calcofi = read.csv("calcofi.csv", stringsAsFactors = FALSE)
 calcofi = dplyr::filter(calcofi, species == "Leuroglossus stilbius")
 ggplot(calcofi, aes(year, m)) + geom_line() + xlab("Year") + ylab("Mean CPUE") + 
-  ggtitle("Leuroglossus stilbius")
+  ggtitle("Leuroglossus stilbius") + theme_bw()
 ```
 
 ## Examples of univariate HMMs in R
@@ -713,7 +711,7 @@ pred = data.frame("year"=seq(min(calcofi$year),
 ```{r, fig.height=2.7}
 ggplot(calcofi, aes(year, log(m))) + geom_point(col="blue", size=1.5) + 
   geom_line(data=pred, aes(year, fit)) + ggtitle("Leuroglossus stilbius - raw data and predictions") + 
-  ylab("Ln CPUE") + xlab("Year")
+  ylab("Ln CPUE") + xlab("Year") + theme_bw()
 ```
 
 ## Examples of univariate HMMs in R
@@ -764,7 +762,7 @@ We'll extend our CalCOFI example to include 2 species now
 
 ```{r, fig.height=4}
 calcofi = read.csv("calcofi.csv", stringsAsFactors = FALSE)
-ggplot(calcofi, aes(year, m, group=species,col=species)) + geom_line() + ylab("CPUE") + xlab("Year")
+ggplot(calcofi, aes(year, m, group=species,col=species)) + geom_line() + ylab("CPUE") + xlab("Year") + theme_bw()
 ```
 
 ## Examples of multivariate HMMs in R
