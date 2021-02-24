@@ -115,7 +115,7 @@ dfalab <- list(
   youtube = "",
   data = "",
   homework = "HW #3 Problems at end of Chap 10 of Lab Book",
-  key = "",
+  key = "Labs/Week 4/HW_4_answer_key.pdf",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
   hw_duedate = "Due next Thurs 11:59 PM PST; email to Mark"
@@ -133,8 +133,7 @@ dlmlab <- list(
   youtube = "",
   data = "",
   homework = "HW #4 Problems at end of Chap 9 in lab book",
-  key = "",
-  #key = "Labs/Week 5/HW_5_answer_key.pdf",
+  key = "Labs/Week 5/HW_5_answer_key.pdf",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
   hw_duedate = "Due next Thurs 11:59 PM PST; email to instructor(s) for lab"
