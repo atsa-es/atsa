@@ -27,10 +27,10 @@ SR_data <- KvichakSockeye
 head(SR_data)
 ```
 
-The first few years of the data set have `NA` for the spawners, so we should remove those from the analysis.
+The first few and last years of the data set have `NA` for the spawners, so we should remove those from the analysis.
 
 ```{r trim_spawners}
-SR_data <- subset(SR_data, brood_year >= 1956)
+SR_data <- subset(SR_data, brood_year >= 1956 & brood_year <= 1998)
 ```
 
 
