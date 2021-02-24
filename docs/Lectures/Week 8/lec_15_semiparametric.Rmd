@@ -91,7 +91,7 @@ gridExtra::grid.arrange(p1, p2)
 
 * $E[Y] = b_{0} \cdot \ \textbf{x} + \textbf{B}\cdot \textbf{b}$
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=3.5}
 set.seed(123)
 y = cumsum(rnorm(100))
 df = data.frame(x = 1:100, y = 0.3+ y / (1.5*max(y)),b=4)
@@ -104,7 +104,7 @@ p2 + geom_point(data=df, aes(x, y),col="red",alpha=0.7,size=2)
 fit = mgcv::gam(y ~ s(x,bs="bs",k=6), data=df)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=3.5}
 set.seed(123)
 y = cumsum(rnorm(100))
 df = data.frame(x = 1:100, y = 0.3+ y / (1.5*max(y)), b=NA)
@@ -124,7 +124,7 @@ ggplot(df, aes(x, pred)) + geom_line() + theme_bw() + xlab("x") +
 
 * Cubic spline (default) on the 'airmiles' dataset (n = 23), a function estimated at 10 equally spaced locations (grey vertical lines).
 
-```{r echo =FALSE, fig.height=3.5, fig.width=3.5}
+```{r echo =FALSE, fig.height=3, fig.width=3.5}
 data(airmiles)
 df = data.frame("y"=airmiles, "t"=1937:1960)
 gam_mod = mgcv::gam(y ~ s(t, bs='cr'), data=df)
@@ -144,7 +144,7 @@ ggplot(df, aes(t,y)) + geom_point(col="red") +
 * Knot locations no longer equally spaced - weighted more toward the locations of data points. 
 * Greater spacing between knots = less flexibility, more uncertainty (you can look at the 'se.fit' part of predict output)
 
-```{r echo =FALSE, fig.height=3.5, fig.width=3.5}
+```{r echo =FALSE, fig.height=3, fig.width=3.5}
 data(airmiles)
 df = data.frame("y"=airmiles, "t"=1937:1960)
 df = dplyr::filter(df,t %in% c(1950:1953,1955:1959)==FALSE)
@@ -184,7 +184,7 @@ Differences:
 ## Gaussian processes for time series
 
 We have some function we want to approximate
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=3.5}
 set.seed(123)
 df=data.frame(y = cumsum(rnorm(100)), x=1:100)
 g = mgcv::gam(y ~ s(x), data=df)
@@ -198,7 +198,7 @@ ggplot(df, aes(x, fitted)) + geom_line() +
 
 We could use GP to estimate the latent values at all observed locations
 * What are the downsides to this?
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=3.5}
 set.seed(123)
 df=data.frame(y = cumsum(rnorm(100)), x=1:100)
 g = mgcv::gam(y ~ s(x), data=df)
@@ -216,7 +216,7 @@ Instead, consider estimating them at a subset of points and extrapolating (aka K
 * these locations are called the *knots*
 * extrapolating to other locations = *predictive process model*
 
-```{r}
+```{r echo=FALSE, fig.height=3.5}
 set.seed(123)
 df=data.frame(y = cumsum(rnorm(100)), x=1:100)
 g = mgcv::gam(y ~ s(x), data=df)
@@ -583,6 +583,7 @@ Hao Ye's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/
 Yair Daon's Vignette [link](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-algorithms.pdf)  
 Owen Petchey's Vignette [link](https://www.zora.uzh.ch/id/eprint/129395/1/Simplex_projection_walkthrough.pdf)  
 Chang et al. 2017 [link](https://link.springer.com/article/10.1007/s11284-017-1469-9)  
+Kuriyama et al. 2020 [link](https://www.frontiersin.org/articles/10.3389/fmars.2020.557940/full)
 
 ## Empirical dynamic modeling for time series
 
@@ -701,7 +702,8 @@ ggplot(mod, aes(E,unlist(rmse))) +
 We can also pull out predictions (off by default) with the 'stats_only' argument,
 
 ```{r, echo=TRUE, fig.height=3, fig.width=3}
-mod = rEDM::simplex(as.numeric(lynx), E=1:10, stats_only=FALSE)
+mod = rEDM::simplex(as.numeric(lynx), 
+      E=1:10, stats_only=FALSE)
 ```
 
 ## Empirical dynamic modeling for time series
@@ -717,7 +719,8 @@ ggplot(mod[[2]]$E2, aes(Index,Predictions)) + geom_line() +
 We can also play with out of sample forecasting by specifiying the data to be used in the library ('lib') and data to be used for prediction ('pred'). For example, to forecast the last 14 data points of the lynx series, we could use
 
 ```{r echo=TRUE, eval=FALSE}
-mod = rEDM::simplex(as.numeric(lynx), E=1:10, stats_only=FALSE,
+mod = rEDM::simplex(as.numeric(lynx), 
+      E=1:10, stats_only=FALSE,
       lib=c(1,100), pred=c(101,114))
 ```
 
@@ -725,11 +728,15 @@ mod = rEDM::simplex(as.numeric(lynx), E=1:10, stats_only=FALSE,
 
 As a second example, let's fit this to the water data from the Cedar River.
 
-```{r echo=TRUE, fig.height=3}
+```{r echo=TRUE}
 mod = rEDM::simplex(dat$val, E=1:10)
+```
+
+```{r echo=FALSE, fig.height=3}
 ggplot(mod, aes(E,unlist(rho))) + geom_line() + 
   xlab("E") + ylab("rho") + theme_bw() + geom_point()
 ```
+
 
 ## Empirical dynamic modeling for time series
 
@@ -761,14 +768,15 @@ Beyond Simplex: in the interest of time, we haven't talked about SMAP or Cross M
 
 * S-MAP is applied with constant embedding dimension, $E$, but varies $\theta$
 
-```{r, echo=TRUE, fig.height=3, fig.width=3}
-mod = rEDM::s_map(as.numeric(lynx), E=2, stats_only=FALSE)
+```{r, echo=TRUE, fig.height=3.5, fig.width=3}
+mod = rEDM::s_map(as.numeric(lynx), 
+                  E=2, stats_only=FALSE)
 ```
 
 ## Empirical dynamic modeling for time series
 
 * Simplex (non-linear) assumes $\theta$ = 0. Some evidence for non-linearity
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=3.5}
 ggplot(mod$stats, aes(theta, unlist(rho))) + geom_line() + geom_point() + 
   xlab("Theta") + ylab("rho = cor(obs,pred)") + theme_bw()
 ```
@@ -776,7 +784,7 @@ ggplot(mod$stats, aes(theta, unlist(rho))) + geom_line() + geom_point() +
 ## Empirical dynamic modeling for time series
 
 * Search across $\theta$ and $E$
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=3.5}
 mod = rEDM::s_map(as.numeric(lynx), E=1, stats_only=FALSE)
 df = mod$stats
 df$E = 1
