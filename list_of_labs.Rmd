@@ -123,6 +123,24 @@ dfalab <- list(
 ```
 
 ```{r}
+edmlab <- list(
+  title = "EDM models",
+  topics = c("Fitting EDM models"),
+  pdf = "",
+  rmd = "Labs/EDM Lab/EDM-Lab.Rmd",
+  html = "Labs/EDM Lab/EDM-Lab.html",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "No Homework",
+  key = "",
+  instructor = "Eli",
+  hw_topics = c(""),
+  hw_duedate = ""
+)
+```
+
+```{r}
 dlmlab <- list(
   title = "Dynamic Linear Models",
   topics = c("Fitting DLMs"),
