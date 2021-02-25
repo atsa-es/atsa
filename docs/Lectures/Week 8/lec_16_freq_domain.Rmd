@@ -95,7 +95,7 @@ $k$ is the wave number (index)
 
 $a_k$ is the amplitude of wave $k$
 
-$f_0$ is the fundamental refrequency
+$f_0$ is the fundamental frequency
 
 $p_k$ is the phase shift
 
@@ -255,6 +255,9 @@ lines(Re(ift), col = "darkred", lwd = 1, lty = "dashed")
 ```
 
 
+# Spectral analysis
+
+
 ## Spectral analysis
 
 Spectral analysis refers to a _general_ way of decomposing time series into their constituent frequencies
@@ -335,11 +338,24 @@ Spectral analysis works well for
 
 2. identifying periodic signals corrupted by noise
 
+
+
+## Limits to spectral analysis
+
+Spectral analysis works well for
+
+1. stationary time series
+
+2. identifying periodic signals corrupted by noise
+
 But...
 
 1. it's an inconsistent estimator for most real data sets
 
 2. it's generally biased
+
+
+# Wavelets
 
 
 ## Shifting frequencies
@@ -382,19 +398,19 @@ abline(h = seq(10), col = "darkred")
 ## Graphical form for decomposition
 
 ```{r, fig.align = 'center'}
-par(mai = c(0.5,0.5,0.5,0.5), omi = c(1,1.5,0,1.5))
+par(mai = c(0.5,0.5,0.5,0.5), omi = c(0,0.5,0,0.5))
 nn <- 31
-plot(c(1,nn), c(1,7), type = "n",
+plot(c(1,nn), c(1,8), type = "n",
      xaxt = "n", yaxt = "n",
      ylab = "", xlab = "")
-mtext(side = 1, "Time", line = 0.5)
-mtext(side = 2, "Frequency", line = 0.5)
+mtext(side = 1, "Time", line = 0.5, cex = 1.5)
+mtext(side = 2, "Frequency", line = 0.5, cex = 1.5)
 mtext(side = 3, "Wavelet transform", line = 0.5,
-      adj = 0.5, cex = 1.5)
-abline(h = seq(7), col = "darkred")
+      adj = 0.5, cex = 2)
+abline(h = seq(8), col = "darkred")
 for(i in 1:6) {
-  segments(seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i,
-           seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i+1,
+  segments(seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i+1,
+           seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i+2,
            col = "blue")
 }
 ```
@@ -402,19 +418,47 @@ for(i in 1:6) {
 
 ## What is a wavelet?
 
-Formally, a wavelet $\psi$ is
+Formally, a wavelet $\psi$ is defined as
 
 $$
 \psi_{\sigma, \tau}(t) = \frac{1}{\sqrt{\vert \sigma \vert}} \psi \left( \frac{t - \tau}{\sigma} \right)
 $$
 
-such that it goes up __and__ down
+<br>
+
+where $\tau$ determines its position & $\sigma$ determines its frequency
+
+
+## Graphical form for decomposition
+
+```{r, fig.align = 'center'}
+par(mai = c(0.5,0.5,0.5,0.5), omi = c(0,0.5,0,0.5))
+nn <- 31
+plot(c(1,nn), c(1,8), type = "n",
+     xaxt = "n", yaxt = "n",
+     ylab = "", xlab = "")
+mtext(side = 1, "Time", line = 0.5, cex = 1.5)
+mtext(side = 2, "Frequency", line = 0.5, cex = 1.5)
+mtext(side = 3, "Wavelet transform", line = 0.5,
+      adj = 0.5, cex = 2)
+abline(h = seq(8), col = "darkred")
+for(i in 1:6) {
+  segments(seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i+1,
+           seq((nn+1)/(2^i), nn+1 - (nn+1)/(2^i), length.out = 2^i-1), i+2,
+           col = "blue")
+}
+```
+
+
+## Properties of wavelets
+
+It goes up __and__ down
 
 $$
 \int_{-\infty}^{\infty} \psi(t) ~ dt = 0
 $$
 
-and it has a finite sum
+It has a finite sum
 
 $$
 \int_{-\infty}^{\infty} \vert \psi(t) \vert ~ dt < \infty
@@ -637,7 +681,7 @@ There are many forms of wavelets, many of which were developed in the past 50 ye
 
 ## Who does this?
 
-Wavelet analysis is used widely in video compression
+Wavelet analysis is used widely in audio & video compression
 
 
 ## JPEG {data-background=JPEG2000_wavelet.png data-background-size='75%' data-background-position='90% 50%'}
@@ -662,7 +706,7 @@ dat <- data.frame(tmp = tmp)
 
 Use `analyze.wavelet()` to estimate the wavelet transform
 
-```{r, echo = TRUE, message=FALSE, warning=FALSE}
+```{r, echo = TRUE, progress = FALSE}
 w_est <- analyze.wavelet(dat, "tmp",        ## need both df & colname
                          loess.span = 0,    ## no de-trending
                          dt = 1/12,         ## monthly sampling
@@ -676,9 +720,12 @@ w_est <- analyze.wavelet(dat, "tmp",        ## need both df & colname
  
 ```{r, fig.align='center'}
 par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
-wt.image(w_est, color.key = "quantile", n.levels = 250,
+wt.image(w_est, color.key = "interval", n.levels = 100,
          color.palette = "viridis::plasma(n.levels, 1, 0.1, 0.9)",
-         legend.params = list(lab = "wavelet power levels"))
+         maximum.level = 24,
+         legend.params = list(n.ticks = 7,
+                              label.digits = 0,
+                              lab = "wavelet power levels"))
 ```
 
 Use `wt.image()` to plot the spectrum
