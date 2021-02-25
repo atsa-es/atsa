@@ -46,10 +46,9 @@ ggplot(sockeye, aes(x=brood_year, y=spawners, col=region)) + geom_line()
 
 All groups use 1960-2005 data
 
-Group 1: Kvichak
-Group 2: Igushik
-Group 3: Togiak
-Group 4: Naknek
+Group 1: Kvichak, Nushagak
+Group 2: Igushik, Igashik
+Group 3: Togiak, Egegik
 
 Example. If you were using Wood then
 ```{r}
