@@ -1,0 +1,194 @@
+---
+title: "EDM Lab"
+author: "Eli Holmes, Eric Ward"
+date: "23 Feb 2021"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+```
+
+Packages
+
+```{r}
+library(ggplot2)
+library(atsalibrary)
+library(dplyr)
+library(forecast)
+library(rEDM)
+```
+
+# Empirical dynamic modeling (EDM)
+
+[EDM section of the Tuesday lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#52)
+
+## Borrowing information from neighbors
+
+* Exponential smoothing usually borrows information from past data for forecasting
+* Generalized additive models (GAMs) usually borrow information from both future and past data
+* EDM borrows information from past history that was similar to current history
+
+## Sockeye data
+
+```{r}
+data(sockeye, package="atsalibrary")
+ggplot(sockeye, aes(x=brood_year, y=spawners, col=region)) + geom_line() 
+```
+
+All groups use 1960-2005 data
+
+Group 1: Kvichak
+Group 2: Igushik
+Group 3: Togiak
+Group 4: Naknek
+
+Example. If you were using Wood then
+```{r}
+dat <- sockeye %>% subset(region=="WOOD" & brood_year>=1960)
+```
+
+## Our training library, data 1960-2000.
+
+Spawners $t$ versus $t-1$
+
+```{r}
+tdat <- subset(dat, brood_year<=2000)$spawners
+n <- length(tdat)
+plot(tdat[2:n], tdat[1:(n-1)], xlab="t (forecast)", ylab="t-1 (observation)")
+```
+
+---------
+
+# Part 1 Simple Library Forecast (NN)
+
+Here you will make your own simple nearest 2 neighbors (NN) forecast using a library of past spawner counts.
+
+## Task 1
+
+Make a forecast for brood year 2001 by finding the most similar 2 years to brood year 2000. Then make a forecast by averaging the $t+1$ values for those 2 forecasts.
+
+1. Find the 2 years that are most similar to 2000. *similar* means the spawner count is the closest in value.
+
+2. Lets call those 2 years $t_a$ and $t_b$. Your forecast for 2001 is the average of spawners in $t_a + 1$ and $t_b + 1$.
+
+## Task 2
+
+1. Following that strategy, make forecasts for years 2001 to 2005.
+
+2. Plot the forecasts.
+
+3. Plot the actual spawner values.
+
+## Task 3
+
+1. Compute the RMSE (root mean square error) for your forecasts: mean of (forecast - true)$^2$
+
+2. Compare to a forecast that is just the prior year's spawner count. So forecast at time $t$ is the spawner count at time $t-1$.
+
+Ok that is the idea. Let's try the EDM algorithm in the rEDM package.
+
+--------
+
+# Part 2 Empirical dynamic modeling (EDM)
+
+Install the `rEDM` package if you don't have it. It is on CRAN.
+
+## Task 1
+
+Use the code on slide 59 to fit the training data `tdat` with the Simplex EDM model.
+
+https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#59
+
+## Task 2
+
+Use the code for slides [60](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#60) and [61](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#61) to choose an embedding dimension. Note above we use E=1, which was obviously bad.
+
+Here is the code that produced those plots.
+
+Correlation plot.
+```
+ggplot(mod, aes(E,unlist(rho))) + 
+  geom_line() + theme_bw() + geom_point() + 
+  xlab("E") + ylab("rho = cor(obs,pred)")
+```
+
+RMSE plot.
+```
+ggplot(mod, aes(E,unlist(rmse))) + 
+  geom_line() + theme_bw() + geom_point() + 
+  xlab("E") + ylab("RMSE")
+```
+
+## Task 4
+
+Use the code for slide [64](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#64) to use data 1960 to 1990 for your library (training data) and data 1991 to 2005 for your prediction (test data).
+
+Here was the code on that slide. You need to modify it for your data and the E that you chose.
+```
+mod = rEDM::simplex(as.numeric(lynx), 
+      E=1:10, stats_only=FALSE,
+      lib=c(1,100), pred=c(101,114))
+```     
+      
+Replace E by whatever value you chose. Let's say E=1, then the predictions are in 
+`mod$model_output$E1`.
+
+*Note above. I am not sure why it doesn't give a prediction for year 1 of the test data. I passed in `c(test.years[1],test.years[last])-1` to get the predictions for all my test years.
+
+
+## Task 5
+
+Compute RMSE for your Simplex predictions and compare to the RW and NN. Note this is an unfair comparison for the RW since the NN and EDM models only get data 1960-2000 and the RW gets the prior year.
+
+---------
+
+# Part 3 S-Map
+
+If you have time compare to S-Map.
+
+Smap (`rEDM::s_map`) is similar to Simplex, but also estimates a non linear parameter $\theta$ which determines the weighting of neighbors versus distance. It is similar to the idea of using local linear models. If the relationship is very linear, you can use distant neighbors. If the relationship is very wiggly, you should only use close neighbors.
+
+S-MAP is applied with constant embedding dimension, $E$, but varies $\theta$
+
+Here is code that you can modify to use S-Map on your training data.
+```
+mod = rEDM::s_map(as.numeric(lynx), 
+                  E=2, stats_only=FALSE)
+```
+
+Simplex (non-linear) assumes $\theta$ = 0. Some evidence for non-linearity. Here is the code for the plot on slide [70](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#70).
+
+Modify that to see if there is evidence of non-linearity in your data.
+```
+ggplot(mod$stats, aes(theta, unlist(rho))) + geom_line() + geom_point() + 
+  xlab("Theta") + ylab("rho = cor(obs,pred)") + theme_bw()
+```
+
+Here is the code that Eric used to search across $\theta$ and $E$.
+
+```
+mod = rEDM::s_map(as.numeric(lynx), E=1, stats_only=FALSE)
+df = mod$stats
+df$E = 1
+
+for(i in 2:5) {
+  mod = rEDM::s_map(as.numeric(lynx), E=i, stats_only=FALSE)
+temp = mod$stats
+temp$E = i
+df = rbind(df,temp)
+}
+df$E = as.factor(df$E)
+ggplot(df, aes(theta, unlist(rho), group=E,col=E)) + 
+  geom_line() + geom_point() + 
+  xlab("Theta") + ylab("rho = cor(obs,pred)") + theme_bw() + 
+  scale_color_viridis(discrete=TRUE,end=0.8)
+```
