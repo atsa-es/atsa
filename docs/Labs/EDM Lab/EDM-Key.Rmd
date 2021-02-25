@@ -1,0 +1,184 @@
+---
+title: "EDM Lab - WOOD example"
+author: "Eli Holmes, Eric Ward"
+date: "23 Feb 2021"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+```
+
+Packages
+
+```{r}
+library(ggplot2)
+library(atsalibrary)
+library(dplyr)
+library(forecast)
+library(rEDM)
+```
+
+Data
+
+```{r}
+data(sockeye, package="atsalibrary")
+dat <- sockeye %>% subset(region=="WOOD" & brood_year>=1960)
+```
+
+
+# PART 1 NN
+
+```{r}
+tdat <- subset(dat, brood_year<=1990)$spawners
+n <- length(tdat)
+plot(tdat[2:n], tdat[1:(n-1)], xlab="t (forecast)", ylab="t-1 (observation)")
+```
+
+# Task 1
+
+```{r}
+frnn <- function(yr, e=1, nn=2){
+  x <- subset(dat, brood_year==(yr-1))$spawners
+  idx <- sort(abs(x-tdat), index.return=TRUE)$ix[1:2]
+  if(any(idx==length(tdat))) idx <- min(idx)
+  fc <- tdat[idx+1]
+  mean(fc)
+}
+```
+
+The forecast for 2000 is `r frnn(2000)`.
+
+# Task 2
+
+Set up my testing data 1991-2005.
+```{r}
+testdat <- subset(dat, brood_year>=1991)
+```
+
+Make all my forecasts.
+```{r}
+fr <- c()
+for (yr in 1991:2005){
+  fr <- c(fr, frnn(yr))
+}
+df <- data.frame(brood_year=1991:2005, nn=fr)
+```
+
+Plot the forecasts. Hmm not so good since we have trend in our data.
+```{r}
+ggplot(df, aes(x=brood_year, y=nn)) + geom_line() +
+  geom_point(data=testdat, aes(x=brood_year, y=spawners)) +
+  ggtitle("NN forecasts")
+```
+
+# Task 3
+
+The RMSE for the NN forecasts is `r mean((testdat$spawners-df$nn)^2)`
+
+## random walk forecasts
+
+Function to get the forecasts
+```{r}
+frrw <- function(yr){
+  subset(dat, brood_year==(yr-1))$spawners
+}
+```
+
+Add the RW forecasts to my data frame.
+```{r}
+fr <- c()
+for (yr in 1991:2005){
+  fr <- c(fr, frrw(yr))
+}
+df$rw <- fr
+```
+
+Hmm, the NN forecasts are much worse than my RW forecasts. But my NN strategy was very crude and I didn't account for the trend in the data. I didn't even weight by distance.
+```{r}
+c(RW=mean((testdat$spawners-df$rw)^2),
+  NN=mean((testdat$spawners-df$nn)^2))
+```
+  
+Ok that is the idea. Let's try the EDM algorithm in the rEDM package.
+
+# Part 2 EDM
+
+Empirical dynamic modeling for time series
+
+## Task 1
+
+Use the code on slide 59 to fit the training data `tdat` with the Simplex EDM model.
+
+https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#59
+
+```{r, echo=TRUE}
+mod <- rEDM::simplex(as.numeric(tdat), E=1:10)
+```
+
+## Task 2
+
+Let's use `E=5`.
+
+Correlation plot.
+```{r}
+p1 <- ggplot(mod, aes(E,unlist(rho))) + 
+  geom_line() + theme_bw() + geom_point() + 
+  xlab("E (lags)") + ylab("rho = cor(obs,pred)")
+```
+
+RMSE plot.
+```{r, echo=FALSE, fig.height=4, fig.width=4}
+p2 <- ggplot(mod, aes(E,unlist(rmse))) + 
+  geom_line() + theme_bw() + geom_point() + 
+  xlab("E (lags)") + ylab("RMSE")
+```
+
+```{r}
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
+
+## Task 4
+
+Use the code for slide [64](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#64) to use data 1960 to 1990 for your library (training data) and data 1991 to 2005 for your prediction (test data).
+
+Here was the code on that slide. You need to modify it for your data and the E that you chose.
+```{r}
+train.years <- which(dat$brood_year <= 1990)
+test.years <- which(dat$brood_year > 1990)
+mod <- rEDM::simplex(as.numeric(dat$spawners), 
+      E=5, stats_only=FALSE,
+      lib=c(min(train.years), max(train.years)), 
+      pred=c(min(test.years), max(test.years))-1)
+``` 
+
+```{r}
+sim.pred <- mod$model_output$E5
+```
+
+```{r}
+plot(sim.pred$Observations, sim.pred$Predictions)
+```
+
+## Task 5
+
+```{r}
+df$simplex <- sim.pred$Predictions[sim.pred$Index %in% test.years]
+```
+
+Better! Still not as good as random walk though. But this is a very unfair comparison since the EDM models only get data well in the past and the RW gets last year.
+```{r}
+c(RW=mean((testdat$spawners-df$rw)^2),
+  NN=mean((testdat$spawners-df$nn)^2),
+  Simplex=mean((testdat$spawners-df$simplex)^2))
+```
+
+  
