@@ -11,11 +11,10 @@ output:
     toc_depth: 3
 ---
 
-Data
-
-```{r}
-data(sockeye, package="atsalibrary")
-dat <- sockeye %>% subset(region=="WOOD" & brood_year>=1960)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
 ```
 
 Packages
@@ -28,7 +27,15 @@ library(forecast)
 library(rEDM)
 ```
 
-# PART 1
+Data
+
+```{r}
+data(sockeye, package="atsalibrary")
+dat <- sockeye %>% subset(region=="WOOD" & brood_year>=1960)
+```
+
+
+# PART 1 NN
 
 ```{r}
 tdat <- subset(dat, brood_year<=1990)$spawners
@@ -103,10 +110,9 @@ c(RW=mean((testdat$spawners-df$rw)^2),
   
 Ok that is the idea. Let's try the EDM algorithm in the rEDM package.
 
-## Part 2 EDM
+# Part 2 EDM
 
-
-# Empirical dynamic modeling for time series
+Empirical dynamic modeling for time series
 
 ## Task 1
 
@@ -162,7 +168,7 @@ sim.pred <- mod$model_output$E5
 plot(sim.pred$Observations, sim.pred$Predictions)
 ```
 
-## Task 4
+## Task 5
 
 ```{r}
 df$simplex <- sim.pred$Predictions[sim.pred$Index %in% test.years]
