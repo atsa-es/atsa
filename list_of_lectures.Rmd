@@ -90,14 +90,13 @@ freqdomain <- list(
              "Fourier transforms",
              "Spectral analysis",
              "Wavelet analysis"),
-  pdf = "",
+  pdf = "Lectures/Week 8/lec_16_freq_domain.pdf",
   ppt = "",
-  rmd = "",
-  html = "",
+  rmd = "Lectures/Week 8/lec_16_freq_domain.Rmd",
+  html = "Lectures/Week 8/lec_16_freq_domain.html",
   video = "",
   youtube = "",
-  reading = "",
-  #reading = c("[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)", "[Percival & Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)"),
+  reading = c("[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)", "[Percival & Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)"),
   instructor = "Mark"
 )
 ```
