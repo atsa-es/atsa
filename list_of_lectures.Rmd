@@ -94,7 +94,7 @@ freqdomain <- list(
   ppt = "",
   rmd = "Lectures/Week 8/lec_16_freq_domain.Rmd",
   html = "Lectures/Week 8/lec_16_freq_domain.html",
-  video = "",
+  video = "https://washington.zoom.us/rec/share/-ik7bfT6R-XIz1F2TLScfhic0LwG0rZNkS1vb9TVAHliD-dco8g3gQrUjqOh_zbr.P2tyeHsNzVkmHH2H",
   youtube = "",
   reading = c("[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)", "[Percival & Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)"),
   instructor = "Mark"
