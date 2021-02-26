@@ -133,7 +133,7 @@ edmlab <- list(
   youtube = "",
   data = "",
   homework = "No Homework",
-  key = "",
+  key = "Labs/EDM Lab/EDM-Key.html",
   instructor = "Eli",
   hw_topics = c(""),
   hw_duedate = ""

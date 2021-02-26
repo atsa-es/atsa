@@ -1,7 +1,7 @@
 ---
 title: "EDM Lab - WOOD example"
 author: "Eli Holmes, Eric Ward"
-date: "23 Feb 2021"
+date: "25 Feb 2021"
 output:
   html_document:
     theme: cosmo
@@ -12,8 +12,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
-                      message=FALSE, results='hide',
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, 
+                      message=FALSE, 
                       fig.align = 'center')
 ```
 
@@ -22,7 +22,7 @@ Packages
 ```{r}
 library(ggplot2)
 library(atsalibrary)
-library(dplyr)
+library(tidyverse)
 library(forecast)
 library(rEDM)
 ```
@@ -32,57 +32,87 @@ Data
 ```{r}
 data(sockeye, package="atsalibrary")
 dat <- sockeye %>% subset(region=="WOOD" & brood_year>=1960)
+endtrain <- 2000
+train.idx <- which(dat$brood_year <= endtrain)
+test.idx <- which(dat$brood_year > endtrain)
+train.year <- dat$brood_year[train.idx]
+test.year <- dat$brood_year[test.idx]
 ```
 
 
-# PART 1 NN
+# Part 1 NN
 
+The forecast for $t$ is the spawners in $t-1$. If this was a good model, then it would be a line where for a given value on the y-axis there would be only one value on the x-axis. It's a bit of a cloud but let's use it anyhow.
 ```{r}
-tdat <- subset(dat, brood_year<=1990)$spawners
-n <- length(tdat)
-plot(tdat[2:n], tdat[1:(n-1)], xlab="t (forecast)", ylab="t-1 (observation)")
+tdat <- subset(dat, brood_year<=endtrain)
+n <- nrow(tdat)
+plot(tdat$spawners[2:n], 
+     tdat$spawners[1:(n-1)], 
+     xlab="t (forecast)", ylab="t-1 (observation)")
 ```
 
 # Task 1
 
-```{r}
-frnn <- function(yr, e=1, nn=2){
-  x <- subset(dat, brood_year==(yr-1))$spawners
-  idx <- sort(abs(x-tdat), index.return=TRUE)$ix[1:2]
-  if(any(idx==length(tdat))) idx <- min(idx)
-  fc <- tdat[idx+1]
-  mean(fc)
-}
-```
+a. Get the spawners in $2001$ ($t-1$). Call it `x`
 
-The forecast for 2000 is `r frnn(2000)`.
+    ```{r}
+    yr <- 2001
+    x <- subset(dat, brood_year==(yr-1))$spawners
+    ```
+
+b. Find the 2 years in the training data where spawners are closest to `x`. Since I will need to get the forecasts from my training data, I don't want to include the last year of the training data $n$. If I did that, then I wouldn't be able to get the forecast because $n+1$ is not in my training data.
+
+    You can use `sort(..., index.return=TRUE)`.
+    ```{r}
+    n <- nrow(tdat)
+    idx <- sort(abs(x-tdat$spawners[1:(n-1)]), index.return=TRUE)$ix[1:2]
+    tdat$brood_year[idx]
+    ```
+
+c. Take the mean of the spawners in the $t+1$ years to get your forecast. Note I will use `dat` here in case, the best matched year is the 
+
+    ```{r}
+    fc <- mean(tdat$spawners[idx+1])
+    fc
+    ```
+
+    I wrote a little function to do my forecast. I pass in the year and it gives me a forecast. It finds the 2 closest years in the training data by using `sort(..., index.return=TRUE)`. 
+    ```{r}
+    frnn <- function(yr, nn=2){
+      x <- subset(dat, brood_year==(yr-1))$spawners
+      idx <- sort(abs(x-tdat$spawners[1:(n-1)]), index.return=TRUE)$ix[1:nn]
+      fc <- tdat$spawners[idx+1]
+      mean(fc)
+    }
+    ```
+
+The forecast for 2002 is `r frnn(2002)`.
 
 # Task 2
-
-Set up my testing data 1991-2005.
-```{r}
-testdat <- subset(dat, brood_year>=1991)
-```
 
 Make all my forecasts.
 ```{r}
 fr <- c()
-for (yr in 1991:2005){
+for (yr in test.year){
   fr <- c(fr, frnn(yr))
 }
-df <- data.frame(brood_year=1991:2005, nn=fr)
+df <- data.frame(brood_year=(endtrain+1):2005, nn=fr)
+df$observed <- dat$spawners[test.idx]
 ```
 
 Plot the forecasts. Hmm not so good since we have trend in our data.
 ```{r}
 ggplot(df, aes(x=brood_year, y=nn)) + geom_line() +
-  geom_point(data=testdat, aes(x=brood_year, y=spawners)) +
+  geom_point(aes(x=brood_year, y=observed)) +
   ggtitle("NN forecasts")
 ```
 
 # Task 3
 
-The RMSE for the NN forecasts is `r mean((testdat$spawners-df$nn)^2)`
+The RMSE for the NN forecasts is 
+```{r}
+sqrt(mean((df$observed-df$nn)^2))
+```
 
 ## random walk forecasts
 
@@ -96,7 +126,7 @@ frrw <- function(yr){
 Add the RW forecasts to my data frame.
 ```{r}
 fr <- c()
-for (yr in 1991:2005){
+for (yr in test.year){
   fr <- c(fr, frrw(yr))
 }
 df$rw <- fr
@@ -104,8 +134,10 @@ df$rw <- fr
 
 Hmm, the NN forecasts are much worse than my RW forecasts. But my NN strategy was very crude and I didn't account for the trend in the data. I didn't even weight by distance.
 ```{r}
-c(RW=mean((testdat$spawners-df$rw)^2),
-  NN=mean((testdat$spawners-df$nn)^2))
+sqrt(
+  c(RW=mean((df$observed-df$rw)^2),
+  NN=mean((df$observed-df$nn)^2))
+  )
 ```
   
 Ok that is the idea. Let's try the EDM algorithm in the rEDM package.
@@ -121,7 +153,7 @@ Use the code on slide 59 to fit the training data `tdat` with the Simplex EDM mo
 https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#59
 
 ```{r, echo=TRUE}
-mod <- rEDM::simplex(as.numeric(tdat), E=1:10)
+mod <- rEDM::simplex(as.numeric(tdat$spawners), E=1:10)
 ```
 
 ## Task 2
@@ -148,37 +180,201 @@ gridExtra::grid.arrange(p1, p2, nrow = 1)
 
 ## Task 4
 
-Use the code for slide [64](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#64) to use data 1960 to 1990 for your library (training data) and data 1991 to 2005 for your prediction (test data).
+Use the code for slide [64](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#64) to use data 1960 to `r endtrain` for your library (training data) and data `r endtrain+1` to 2005 for your prediction (test data).
 
-Here was the code on that slide. You need to modify it for your data and the E that you chose.
+`lib` is your training data. The function wants the index. But we will leave off the last year in our training data because we need that for our $t+1$ forecast. The function will not return the prediction for the first year of our test data. I will pass in an extra year at the beginning of our test data.
+
 ```{r}
-train.years <- which(dat$brood_year <= 1990)
-test.years <- which(dat$brood_year > 1990)
 mod <- rEDM::simplex(as.numeric(dat$spawners), 
       E=5, stats_only=FALSE,
-      lib=c(min(train.years), max(train.years)), 
-      pred=c(min(test.years), max(test.years))-1)
+      lib=c(min(train.idx), max(train.idx)-1), 
+      pred=c(min(test.idx)-1, max(test.idx)))
 ``` 
 
 ```{r}
-sim.pred <- mod$model_output$E5
+# get rid of the extra years
+pred <- mod$model_output$E5
+pred <- pred[pred$Index %in% test.idx,]
+# add to my data frame
+df$simplex <- pred$Predictions
 ```
 
 ```{r}
-plot(sim.pred$Observations, sim.pred$Predictions)
+df2 <- pivot_longer(df, cols=-brood_year)
+ggplot(subset(df2, name!="observed"), aes(x=brood_year, y=value, col=name)) +
+  geom_point() +
+  geom_line(data=subset(df2, name=="observed"), aes(x=brood_year, y=value)) +
+  ggtitle("Observed vs forecasts")
 ```
 
 ## Task 5
 
-```{r}
-df$simplex <- sim.pred$Predictions[sim.pred$Index %in% test.years]
-```
 
 Better! Still not as good as random walk though. But this is a very unfair comparison since the EDM models only get data well in the past and the RW gets last year.
 ```{r}
-c(RW=mean((testdat$spawners-df$rw)^2),
-  NN=mean((testdat$spawners-df$nn)^2),
-  Simplex=mean((testdat$spawners-df$simplex)^2))
+sqrt(
+  c(RW=mean((df$observed-df$rw)^2),
+  NN=mean((df$observed-df$nn)^2),
+  Simplex=mean((df$observed-df$simplex)^2))
+)
 ```
 
-  
+# Part 3 S-Map
+
+Simplex needs a value for E. I will use `E=5` from the Simplex model.
+
+```{r}
+mod <- rEDM::s_map(as.numeric(tdat$spawners), 
+                  E=5, stats_only=FALSE)
+```
+
+Use the $\theta$ plot to look for non-linearity. There is evidence of non-linearity. Note that $\rho$ is not very big.
+```{r}
+ggplot(mod$stats, aes(theta, unlist(rho))) + geom_line() + geom_point() + 
+  xlab("Theta") + ylab("rho = cor(obs,pred)") + theme_bw()
+```
+
+Let's modify the code in the lecture to look at other E. It actually looks like E=1 is best.
+```{r}
+sdat <- as.numeric(tdat$spawners)
+mod <- rEDM::s_map(sdat, E=1, stats_only=FALSE)
+smap.df <- mod$stats
+smap.df$E <- 1
+
+for(i in 2:5) {
+  mod <- rEDM::s_map(sdat, E=i, stats_only=FALSE)
+  temp <- mod$stats
+  temp$E <- i
+  smap.df <- rbind(smap.df,temp)
+}
+smap.df$E <- as.factor(smap.df$E)
+p1 <- ggplot(smap.df, aes(theta, unlist(rho), group=E,col=E)) + 
+  geom_line() + geom_point() + 
+  xlab("Theta") + ylab("rho = cor(obs,pred)")
+
+p2 <- ggplot(smap.df, aes(theta, unlist(rmse), group=E,col=E)) + 
+  geom_line() + geom_point() + 
+  xlab("Theta") + ylab("RMSE")
+
+gridExtra::grid.arrange(p1, p2, nrow=1)
+```
+
+## S-Map predictions
+
+We can do predictions in the same way we did with Simplex. I will use `E=1` and `theta=1` here.
+
+```{r}
+mod <- rEDM::s_map(as.numeric(dat$spawners), 
+      E=1, theta=1, stats_only=FALSE,
+      lib=c(min(train.idx), max(train.idx)-1), 
+      pred=c(min(test.idx)-1, max(test.idx)))
+``` 
+
+Add the predictions to my data frame.
+```{r}
+# get rid of the extra years
+pred <- mod$model_output$theta1
+pred <- pred[pred$Index %in% test.idx,]
+# add to my data frame
+df$smap <- pred$Predictions
+```
+
+Make a plot.
+```{r}
+df2 <- pivot_longer(df, cols=-brood_year)
+ggplot(subset(df2, name!="observed"), aes(x=brood_year, y=value, col=name)) +
+  geom_point() +
+  geom_line(data=subset(df2, name=="observed"), aes(x=brood_year, y=value)) +
+  ggtitle("Observed vs forecasts")
+```
+
+
+Finally compared the RMSE. S-Map didn't do so well.
+
+```{r}
+sqrt(
+c(RW=mean((df$observed-df$rw)^2),
+  NN=mean((df$observed-df$nn)^2),
+  Simplex=mean((df$observed-df$simplex)^2),
+  SMap.E1=mean((df$observed-df$smap)^2))
+)
+```
+
+I will look at various E and $\theta$ and compare the RMSE for the predictions. It looks like for the predictions E=5, $\theta=2$ is good.
+```{r}
+sdat <- dat$spawners
+mod <- rEDM::s_map(sdat, 
+      E=1, stats_only=FALSE,
+      lib=c(min(train.idx), max(train.idx)-1), 
+      pred=c(min(test.idx)-1, max(test.idx)))
+smap.df <- mod$stats
+smap.df$E <- 1
+
+for(i in 2:5) {
+  mod <- rEDM::s_map(sdat, 
+      E=i, stats_only=FALSE,
+      lib=c(min(train.idx), max(train.idx)-1), 
+      pred=c(min(test.idx)-1, max(test.idx)))
+  temp <- mod$stats
+  temp$E <- i
+  smap.df <- rbind(smap.df,temp)
+}
+smap.df$E <- as.factor(smap.df$E)
+p1 <- ggplot(smap.df, aes(theta, unlist(rho), group=E,col=E)) + 
+  geom_line() + geom_point() + 
+  xlab("Theta") + ylab("rho = cor(obs,pred)")
+
+p2 <- ggplot(smap.df, aes(theta, unlist(rmse), group=E,col=E)) + 
+  geom_line() + geom_point() + 
+  xlab("Theta") + ylab("RMSE")
+
+gridExtra::grid.arrange(p1, p2, nrow=1)
+```
+
+I will add that to the model.
+```{r}
+mod <- rEDM::s_map(as.numeric(dat$spawners), 
+      E=5, theta=2, stats_only=FALSE,
+      lib=c(min(train.idx), max(train.idx)-1), 
+      pred=c(min(test.idx)-1, max(test.idx)))
+pred <- mod$model_output$theta2
+pred <- pred[pred$Index %in% test.idx,]
+# add to my data frame
+df$smap2 <- pred$Predictions
+```
+
+
+That was data-dredging on my part to pick the model based on how it performed in the test data. But the best S-Map model did perform best. Note, I didn't try the same thing with the Simplex data however.
+
+```{r}
+sqrt(
+c(RW=mean((df$observed-df$rw)^2),
+  NN=mean((df$observed-df$nn)^2),
+  Simplex=mean((df$observed-df$simplex)^2),
+  SMap.E1=mean((df$observed-df$smap)^2),
+  SMap.E15=mean((df$observed-df$smap2)^2))
+)
+```
+
+# Summary. Compare to ARIMA
+
+As an experiment, I will try an ARIMA model. 
+```{r}
+testdat <- dat[test.idx,]
+mod <- forecast::auto.arima(as.numeric(tdat$spawners))
+pred <- forecast::forecast(mod, h=5)
+df$arima <- as.data.frame(pred)[,1]
+```
+
+Best model selected by `auto.arima` is a random walk with autocorrelated error (ARIMA(0,1,1)). That model is considerably better than the others even though for the forecast I did not use the test data at all. The forecast is just 5 years past the training data.
+```{r}
+sqrt(
+c(RW=mean((df$observed-df$rw)^2),
+  NN=mean((df$observed-df$nn)^2),
+  Simplex=mean((df$observed-df$simplex)^2),
+  SMap.E1=mean((df$observed-df$smap)^2),
+  SMap.E15=mean((df$observed-df$smap2)^2),
+  ARIMA=mean((df$observed-df$arima)^2))
+)
+```
+

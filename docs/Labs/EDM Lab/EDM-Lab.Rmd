@@ -55,9 +55,12 @@ Example. If you were using Wood then
 dat <- sockeye %>% subset(region=="WOOD" & brood_year>=1960)
 ```
 
-## Our training library, data 1960-2000.
+## Your training and test data
 
-Spawners $t$ versus $t-1$
+* Training data will be 1960 to 2000
+* Testing data will be 2001 to 2005 (4 years)
+
+Using the training data plot spawners $t-1$ (observation) versus spawners $t$ (forecast).
 
 ```{r}
 tdat <- subset(dat, brood_year<=2000)$spawners
@@ -73,11 +76,15 @@ Here you will make your own simple nearest 2 neighbors (NN) forecast using a lib
 
 ## Task 1
 
-Make a forecast for brood year 2001 by finding the most similar 2 years to brood year 2000. Then make a forecast by averaging the $t+1$ values for those 2 forecasts.
+Make a forecast for brood year 2002 by finding the most similar 2 years in the training data that are most similar to the number of spawners in brood year 2001. Then make a forecast by averaging the $t+1$ values for those 2 forecasts.
 
-1. Find the 2 years that are most similar to 2000. *similar* means the spawner count is the closest in value.
+1. Find the 2 years that are most similar to 2001. *similar* means the spawner count is the closest in value.
 
-2. Lets call those 2 years $t_a$ and $t_b$. Your forecast for 2001 is the average of spawners in $t_a + 1$ and $t_b + 1$.
+    You can use 
+    ```sort((x-tdat), index.return=TRUE)$ix[1:2]```
+    to get the 2 most similar years.
+
+2. Lets call those 2 years $t_a$ and $t_b$. Your forecast for 2002 is the average of spawners in $t_a + 1$ and $t_b + 1$.
 
 ## Task 2
 
@@ -103,9 +110,12 @@ Install the `rEDM` package if you don't have it. It is on CRAN.
 
 ## Task 1
 
-Use the code on slide 59 to fit the training data `tdat` with the Simplex EDM model.
+Adapt the code on slide [59](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#59) to fit the training data `tdat` with the Simplex EDM model.
 
-https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#59
+Here is that code
+```
+mod = rEDM::simplex(as.numeric(lynx), E=1:10)
+```
 
 ## Task 2
 
@@ -138,7 +148,7 @@ mod = rEDM::simplex(as.numeric(lynx),
       lib=c(1,100), pred=c(101,114))
 ```     
       
-Replace E by whatever value you chose. Let's say E=1, then the predictions are in 
+Replace E by whatever value you chose. Let's say `E=1`, then the predictions are in 
 `mod$model_output$E1`.
 
 *Note above. I am not sure why it doesn't give a prediction for year 1 of the test data. I passed in `c(test.years[1],test.years[last])-1` to get the predictions for all my test years.
