@@ -46,7 +46,7 @@ week_lecs <- list(d1 = intro,
                    d17 = EDM,
                    d6 = freqdomain,
                    d14 = spatial,
-                   d18 = spatial,
+                   d18 = spatial2,
                    d19 = present1,
                    d20 = present1
 )

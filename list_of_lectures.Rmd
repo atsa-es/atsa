@@ -395,7 +395,7 @@ HMMs <- list(
 ```{r}
 present1 <- list(
   title = "Student presentations",
-  topics = c("Student presentations"),
+  topics = c("Gilman", "Buonanduci", "Min", "Fricke"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -410,7 +410,7 @@ present1 <- list(
 ```{r}
 present2 <- list(
   title = "Student presentations",
-  topics = c("Student presentations"),
+  topics = c( "Arnold", "Kwarta", "Diallo", "DuVall"),
   pdf = "",
   ppt = "",
   rmd = "",
