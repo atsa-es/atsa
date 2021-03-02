@@ -39,9 +39,11 @@ $$
 ## Let's simulate some data
 
 $$
+\begin{gathered}
 x_t = t \\
 f_t = \phi f_{t-1} + w_t, \, w_t \sim N(0,1)\\
 y_t = \beta x_t + f_t + v_t, \, v_t \sim N(0,\sqrt{0.2})
+\end{gathered}
 $$
 
 
@@ -144,3 +146,23 @@ fit.lr <- auto.arima(y, xreg=x)
 plot(y, main="arima fitted\nE[y|y(1:t-1]")
 lines(fitted(fit.lr), col="red")
 ```
+
+
+## Regression w ARMA errors vs ARMAX
+
+These are different models.
+
+Regression w AR1 errors
+
+$$
+\begin{gathered}
+e_t = \phi e_{t-1} + w_t \\
+y_t = \alpha + \beta x_t + e_t
+\end{gathered}
+$$
+
+ARMAX: In this case, AR(1)-X
+
+$$
+y_t = \phi y_{t-1} + \alpha + \beta x_t + w_t
+$$
