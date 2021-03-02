@@ -3,10 +3,10 @@ title: "Fitting spatial and spatiotemporal models"
 author: "Eric Ward"
 date: "2 Mar 2021"
 output:
+  beamer_presentation: default
+  slidy_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  slidy_presentation: default
-  beamer_presentation: default
 subtitle: FISH 507 – Applied Time Series Analysis
 ---
 
@@ -159,7 +159,12 @@ ${ \varepsilon  }_{ i }$ residual error term
 
 In matrix form, 
 
-$${ \phi\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
+$$
+\begin{gathered}
+\phi\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i }
+\end{gathered}
+$$
+
 * Implemented in 'spdep', 'CARBayes', etc 
 
 ## CAR models
@@ -172,11 +177,21 @@ $\phi_i \mid \phi_j, \sim \mathrm{N} \left( \sum_{j = 1}^n W_{ij} \phi_j, {\sigm
 
 * Simultaneous autoregressive model
 
-$${ \phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D } { \left( I-\rho W \right)  }^{ -1 } \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
+$$
+\begin{gathered}
+\phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D } { \left( I-\rho W \right)  }^{ -1 } \right) \\ 
+{ \widetilde { D }  }_{ ii }={ \sigma  }_{ i }
+\end{gathered}
+$$
 
 * Remember that the CAR was
 
-$${ \phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$  
+$$
+\begin{gathered}
+\phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ 
+{ \widetilde { D }  }_{ ii }={ \sigma  }_{ i }
+\end{gathered}
+$$  
   
   
 ## Example adjacency matrix
