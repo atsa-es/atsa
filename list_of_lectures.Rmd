@@ -354,7 +354,7 @@ spatial <- list(
   ppt = "",
   rmd = c("Lectures/Week 9/lec_17_spatiotemporal.Rmd", "Lectures/Week 9/lec_17_spatiotemporal.Rmd"),
   html = c("Lectures/Week 9/lec_17_spatiotemporal.html", "Lectures/Week 9/lec_17_spatiotemporal.html"),
-  video = "",
+  video = "https://washington.zoom.us/rec/share/hV8ipY56PTwJCnmvpdpP-Hq_zWgJhp7yjWN1ebIuf6tJJb2WM3dimBjtzOyWpt2H.5P7ftS8sYMyOPIWT",
   youtube = "",
   reading = "",
   #reading = c("[GitHub folder with code](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)"),
