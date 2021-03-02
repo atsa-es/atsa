@@ -1,7 +1,7 @@
 ---
 title: "Fitting spatial and spatiotemporal models"
 author: "Eric Ward"
-date: "07 Mar 2019"
+date: "2 Mar 2021"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -22,6 +22,10 @@ library(MARSS)
 library(fields)
 library(mgcv)
 library(glmmfields)
+library(viridis)
+library(tidyr)
+devtools::install_github("pbs-assess/sdmTMB")
+library(sdmTMB)
 ```
 
 ## What we’ve learned so far
@@ -36,17 +40,24 @@ library(glmmfields)
 
 ## Response generally the same variable (not separate species)
 
-* Making inference about population as a whole involves modeling 
-pink as well as blue time series
+* Making inference about population as a whole involves jointly modeling 
+both time series
 
 ```{r echo=FALSE, fig.height=4.2}
 set.seed(123)
 y = cumsum(rnorm(100))
-
-plot(y, type="l",col="blue1",lwd=3,ylim=c(-7,15),ylab="Response", xlab= "Time")
-y2 = y + 5 + rnorm(length(y),0,1)
-y2[sample(seq(1,length(y2)),size=65,replace=F)]=NA
-points(y2,col="tomato1",lwd=3)
+df = data.frame("Time"=1:100,
+    "y" = cumsum(rnorm(100)),
+    "Series"=1)
+df2 = data.frame("Time"=1:100,
+    "y" = df$y + 5 + rnorm(1:100,0,1),
+    "Series"=2)
+df = rbind(df,df2)
+df$Series = as.factor(df$Series)
+ggplot(df, aes(Time,y,group=Series,col=Series)) +
+  geom_line(size=2) + theme_bw() + 
+  scale_color_viridis(discrete=TRUE,end=0.8) + 
+  theme(legend.position = "none")
 
 ```
 
@@ -78,8 +89,12 @@ points(y2,col="tomato1",lwd=3)
 
 ```{r echo=FALSE, fig.height = 2.5}
 data(harborSealWA)
+harborSealWA = pivot_longer(data = as.data.frame(harborSealWA), 
+        !Year,names_to = "Region", values_to="Count")
 
-matplot(harborSealWA[,1], harborSealWA[,-1],type="b", xlab="Year", ylab="ln (count)")
+ggplot(harborSealWA, aes(Year,Count,group=Region,col=Region)) +
+  geom_line(size=2) + theme_bw() + 
+  scale_color_viridis(discrete=TRUE,end=0.8) + geom_point(size=4,alpha=0.6)
 ```
 
 ## Motivation of explicitly including spatial structure
@@ -104,6 +119,10 @@ Areal data
 
 * Locations occur in blocks
 * counties, management zones, etc.
+
+## Areal data: Seattle Council Districts
+
+![](DistrictsMap.jpeg)
 
 ## Computationally convenient approaches
 
@@ -140,7 +159,6 @@ ${ \varepsilon  }_{ i }$ residual error term
 In matrix form, 
 
 $${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
-
 * Implemented in 'spdep', 'CARBayes', etc 
 
 ## SAR models
@@ -152,7 +170,6 @@ $${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D } { \left(
 * Remember that the CAR was
 
 $${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
-
 ## Commonalities of both approaches
 
 * Adjacency matrix W can also instead be modified to include distance
@@ -162,7 +179,15 @@ $${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right)
 * Models don’t include time dimension in spatial field
     - One field estimated for all time steps
 
-## Problems with these approaches
+## brms() includes both approaches
+
+```{r eval = FALSE}
+?brms::sar
+?brms::car
+```
+
+
+## General challenge with CAR and SAR models
 
 Wall (2004) "A close look at the spatial structure implied by the CAR and SAR models". 
 
@@ -199,9 +224,38 @@ matplot(mat,type="l",col=tim.colors(10),lwd=2,xlim=c(0,40),ylab="Cov(dist)",xlab
 
 <div style="text-align: center"><img src="squared_exponential.png" width="550" height="550" />
 
-## Squared exponential covariance
+## Which covariance kernel to choose? 
 
-<div style="text-align: center"><img src="squared_exponential2.png" width="550" height="550" />
+```{r echo=FALSE}
+set.seed(123)
+s1 = sim_glmmfields(n_draws = 1, covariance="squared-exponential")
+set.seed(123)
+s2 = sim_glmmfields(n_draws = 1, covariance="exponential")
+set.seed(123)
+s3 = sim_glmmfields(n_draws = 1, covariance="matern", matern_kappa=2.5)
+
+p1 = s1$plot + theme_bw() + geom_point(size=5) + ggtitle("Gaussian")
+p2 = s2$plot + theme_bw() + geom_point(size=5) + ggtitle("Exponential")
+p3 = s3$plot + theme_bw() + geom_point(size=5) + ggtitle("Matern")
+gridExtra::grid.arrange(p1,p2,p3,nrow=2)
+```
+
+## Which covariance kernel to choose? 
+
+```{r}
+avg = (p1$data$y+p2$data$y+p3$data$y)/3
+
+s1$plot$data$y = s1$plot$data$y - avg
+s2$plot$data$y = s2$plot$data$y - avg
+s3$plot$data$y = s3$plot$data$y - avg
+
+p1 = s1$plot + theme_bw() + geom_point(size=5) + ggtitle("Gaussian")
+p2 = s2$plot + theme_bw() + geom_point(size=5) + ggtitle("Exponential")
+p3 = s3$plot + theme_bw() + geom_point(size=5) + ggtitle("Matern")
+gridExtra::grid.arrange(p1,p2,p3,nrow=2)
+
+```
+
 
 ## Considerations for time series models
 
@@ -224,7 +278,7 @@ If so, how to model it?
 
 4. Spatial GAMs
 
-5. VAST (TMB)
+5. TMB (VAST, sdmTMB)
 
 ## Method 1: using gls()
 
@@ -342,19 +396,23 @@ d$resid = resid(mod)
 First, residuals through time
 
 ```{r}
-ggplot(d, aes(Water.Year, resid)) + geom_point()+ geom_smooth()
+ggplot(d, aes(Water.Year, resid)) + geom_point(alpha = 0.5)+ 
+  geom_smooth() +
+  theme_bw() + 
+  ylab("Residuals, Y - E[Y]")
 ```
 
 ## Now residuals spatially
 
-We'll use a subset of years here 
+* We'll use a subset of years here 
 
 ```{r}
 ggplot(dplyr::filter(d, Water.Year %in% seq(1981,2013,4)), aes(Longitude, Latitude, col=resid)) + geom_point()+
-  facet_wrap(~Water.Year) + scale_colour_gradient2()
+  facet_wrap(~Water.Year) + scale_colour_gradient2() + theme_dark() + 
+  ylab("Residuals, Y - E[Y]")
 ```
 
-## Two ways to include spatial temporal interactions
+## Two ways to include spatio-temporal interactions
 
 * What do these interactions mean in the context of our SNOTEL data?
 
@@ -366,7 +424,7 @@ mod2 = gam(Feb ~ s(Water.Year) +
 d$resid = resid(mod2)
 ```
 
-## Two ways to include spatial temporal interactions
+## Two ways to include spatio-temporal interactions
 
 2. Spatial effect may be continuous and we can include space-time interaction
 
@@ -382,9 +440,9 @@ d$resid = resid(mod2)
 
 Quickly evolving features for spatio-temporal models
 
-* Random effects (gamm)
-* Interface with inla (g-inla)
-* Bayesian estimation (bam)
+* Random effects [gamm](https://www.rdocumentation.org/packages/mgcv/versions/1.8-34/topics/gamm)
+* Interface with inla [ginla](https://www.rdocumentation.org/packages/mgcv/versions/1.8-33/topics/ginla)
+* Bayesian estimation [bam](https://www.rdocumentation.org/packages/mgcv/versions/1.8-33/topics/bam)
 
 Lots of detailed examples and resources
 
@@ -451,7 +509,7 @@ Output is of class ‘mcmc’
 
 ## Method 3: glmmfields
 
-* New R package that implements these models using Stan
+* New R package that implements these models using Stan and Gaussian predictive process models
 
 * Easy to use formula syntax like gam() or spBayes()
 
@@ -481,7 +539,7 @@ Ok, now let's change the covariance function to matern, and estimate separate sp
 m <- glmmfields(Feb ~ 0, time = "Water.Year",
  lat = "Latitude", lon = "Longitude", covariance="matern",
   data = d, nknots = 6, iter = 100, chains = 2, seed = 1,
-  estimate_AR=FALSE)
+  estimate_ar=FALSE)
 ```
 
 ## glmmfields
@@ -505,8 +563,12 @@ GP spatial models are extremely powerful
 
 * Approaches to incorporate knots using sparse covariance matrices
 
-* Integrated Nested Laplace Approximation
-* install.packages("INLA")
+* Integrated Nested Laplace Approximation - not on CRAN
+```{r eval=FALSE}
+install.packages("INLA",repos=c(getOption("repos"),
+      INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+```
+
 
 ## Motivation of INLA
 
@@ -529,8 +591,11 @@ Doing all of the above in a Bayesian setting can be prohibitive, but we can use 
 ## INLA's approximation: SNOTEL data
 
 How many points fall on vertices? Is the boundary area large enough? Choosing this must be done very carefully! 
+```{r eval=FALSE, echo=TRUE}
+INLA::meshbuilder
+```
 
-<div style="text-align: center"><img src="INLA_snotel.png" width="500" height="500" />
+<div style="text-align: center"><img src="INLA_snotel.png" width="400" height="400" />
 
 ## Estimation done via maximum likelihood
 
@@ -548,6 +613,14 @@ How many points fall on vertices? Is the boundary area large enough? Choosing th
 ## Spatial SWE fields by year
 
 <div style="text-align: center"><img src="spatial_swe_by_year.png" width="500" height="500" />
+
+## Implementation in sdmTMB
+
+```{r}
+snow_spde <- make_mesh(d, c("Longitude", "Latitude"), n_knots=25)
+fit <- sdmTMB(Feb ~ 1, spde = snow_spde, data=d)
+```
+
 
 ## Modeling intervention effects with spatial models
 
