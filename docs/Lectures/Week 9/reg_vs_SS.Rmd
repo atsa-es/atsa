@@ -1,0 +1,146 @@
+---
+title: "Regression versus State-Space"
+author: "Eli Holmes"
+date: "2 Mar 2021"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+  beamer_presentation: default
+subtitle: FISH 507 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+```
+
+## Fixed & random effects
+
+Let's go back to Mark's [lecture on DFA](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%204/lec_08_intro_to_DFA.html#25)
+
+$$
+y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
+$$
+
+Regression (linear or non-linear) with correlated errors gets your the fixed effects while properly taking into account the correlated random effects.
+
+State-space model allows you to model the $f_t$.
+
+## Things to think about
+
+$$
+y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
+$$
+
+* What if your want $f_t$, the hidden random walk
+* What if you want $E[\alpha + \beta x_t + f_t]$
+* What if you want the $E[y_t | y_{1:t-1}]$
+* What if we want to forecast $y_t$?
+
+## Let's simulate some data
+
+$$
+x_t = t \\
+f_t = \phi f_{t-1} + w_t, \, w_t \sim N(0,1)\\
+y_t = \beta x_t + f_t + v_t, \, v_t \sim N(0,\sqrt{0.2})
+$$
+
+
+```{r sim.fun, echo=FALSE}
+sim.data <- function(N, phi = 1, theta = 1, beta = 0.2, intercept = 0,
+                     r = 0.2, h=50){
+x <- 1:N
+e <- rep(NA, N); e[1] <- 0
+iid.e <- 0
+if(r != 0) iid.e <- rnorm(N, 0, sqrt(r))
+for(t in 2:N) e[t] <- phi*e[t-1] + rnorm(1)
+y <- intercept + beta*x + theta*e + iid.e
+
+# forecasts
+y.fr <- matrix(NA, 1000, h)
+for(i in 1:1000){
+  e2 <- rep(NA, h); e2[1] <- e[N]/theta
+  for(t in 2:h) e2[t] <- phi*e2[t-1]+rnorm(1)
+  x2 <- (N+1):(N+h)
+  if(r != 0) iid.e <- rnorm(1, 0, sqrt(r))
+  y.fr[i,] <- intercept + beta*x2 + theta*e2 + iid.e
+}
+return(list(y=y, y.fr=y.fr))
+}
+```
+
+## Simulated data
+
+```{r, echo=TRUE}
+set.seed(123)
+N <- 100; h <- 100; x <- 1:N
+sim1 <- sim.data(N, h=h, phi=0.8)
+sim2 <- sim.data(N, h=h, phi=1)
+```
+
+```{r, echo=FALSE}
+par(mfrow=c(1,2))
+plot(sim1$y, main="phi=0.8")
+plot(sim2$y, main="phi=1")
+```
+
+## Fit with arima(y, xreg=x)
+
+Fits a linear regression with ARMA errors.
+
+```{r, echo=TRUE}
+library(forecast)
+fit <- auto.arima(sim1$y, xreg=x)
+fr1 <- forecast(fit, xreg=(N+1):(N+h))
+fit <- auto.arima(sim2$y, xreg=x)
+fr2 <- forecast(fit, xreg=(N+1):(N+h))
+```
+
+## Plot forecasts versus true
+
+I created simulations from the true process to get truth.
+
+Plot shows prediction intervals (future y). Red lines are true 80% intervals.
+
+```{r, echo=FALSE}
+par(mfrow=c(1,2))
+y <- sim1$y
+y.fr <- sim1$y.fr
+y.fr.lims <- apply(y.fr, 2, quantile, probs=c(.1, .9))
+fr <- fr1
+ymin <- min(fr$lower,y.fr.lims[1,], y)
+ymax <- max(fr$upper,y.fr.lims[2,], y)
+plot(fr, main="LR w corr errors\nphi=0.8", ylim=c(ymin, ymax))
+for(i in 1:2) lines((N+1):(N+h), y.fr.lims[i,], lty=2, col="red")
+
+y <- sim2$y
+y.fr <- sim2$y.fr
+y.fr.lims <- apply(y.fr, 2, quantile, probs=c(.1, .9))
+fr <- fr2
+ymin <- min(fr$lower,y.fr.lims[1,], y)
+ymax <- max(fr$upper,y.fr.lims[2,], y)
+plot(fr, main="LR w corr errors\nphi=1 (random walk)", ylim=c(ymin, ymax))
+for(i in 1:2) lines((N+1):(N+h), y.fr.lims[i,], lty=2, col="red")
+```
+
+## Fitted
+
+You need to be careful to think about what you mean by `fitted()`
+
+* `gls(y~x)` and similar would return $E[\alpha+\beta x_t]$
+* `arima(y, xreg=x)` returns $E[\alpha+\beta x_t + e_t|y_{1:t-1}]$
+* state-space model would get you $E[\alpha+\beta x_t + f_t|y_{1:N}]$
+
+##
+
+```{r, echo=FALSE}
+par(mfrow=c(1,2))
+library(nlme)
+y <- sim1$y
+fit.gls <- gls(y ~ x, correlation=corARMA(p=1, q=1))
+plot(y, main="gls fitted\nfixed effects")
+lines(fitted(fit.gls), col="red")
+
+fit.lr <- auto.arima(y, xreg=x)
+plot(y, main="arima fitted\nE[y|y(1:t-1]")
+lines(fitted(fit.lr), col="red")
+```

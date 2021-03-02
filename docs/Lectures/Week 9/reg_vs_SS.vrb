@@ -1,0 +1,15 @@
+\frametitle{Fitted}
+\protect\hypertarget{fitted}{}
+You need to be careful to think about what you mean by \texttt{fitted()}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{gls(y\textasciitilde{}x)} and similar would return
+  \(E[\alpha+\beta x_t]\)
+\item
+  \texttt{arima(y,\ xreg=x)} returns
+  \(E[\alpha+\beta x_t + e_t|y_{1:t-1}]\)
+\item
+  state-space model would get you \(E[\alpha+\beta x_t + f_t|y_{1:N}]\)
+\end{itemize}

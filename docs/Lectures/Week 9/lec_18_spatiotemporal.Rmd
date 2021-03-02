@@ -140,7 +140,7 @@ SAR (simultaneous autregressive models)
 
 ## CAR models (Besag 1991)
 
-$${ Y }_{ i }=B{ X }_{ i }+{ \phi  }_{ i }i+{ \varepsilon  }_{ i }$$
+$${ Y }_{ i }=B{ X }_{ i }+{ \phi  }_{ i }+{ \varepsilon  }_{ i }$$
 
 ${ X }_{ i }$ are predictors (regression) 
 ${ \phi  }_{ i }i$ spatial component, (aka markov random field)
@@ -149,6 +149,7 @@ ${ \varepsilon  }_{ i }$ residual error term
 * Create spatial adjacency matrix W, based on neighbors, e.g. 
 * W(i,j) = 1 if neighbors, 0 otherwise
 * W often row-normalized (rows sum to 1)
+* Diagonal elements W(i,i) are 0
 
 ## Adjacency matrix example
 
@@ -158,18 +159,62 @@ ${ \varepsilon  }_{ i }$ residual error term
 
 In matrix form, 
 
-$${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
+$${ \phi\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
 * Implemented in 'spdep', 'CARBayes', etc 
+
+## CAR models
+
+* Each element has conditional distribution dependent on others,  
+
+$\phi_i \mid \phi_j, \sim \mathrm{N} \left( \sum_{j = 1}^n W_{ij} \phi_j, {\sigma}^2 \right)$ for $j \neq i$
 
 ## SAR models
 
 * Simultaneous autoregressive model
 
-$${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D } { \left( I-\rho W \right)  }^{ -1 } \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
+$${ \phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D } { \left( I-\rho W \right)  }^{ -1 } \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
 
 * Remember that the CAR was
 
-$${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
+$${ \phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$  
+  
+  
+## Example adjacency matrix
+
+* $I-\rho W$
+
+* Example $W$ matrix,  
+
+```{r echo=FALSE, results='markdown'}
+W = matrix(0,3,3)
+W[1,2] <- W[2,1] <- 1
+W[2,3] <- W[3,2] <- 1
+print(W)
+```  
+
+## Example adjacency matrix
+
+* $(I-0.3 W)$, $\rho=0.3$
+
+```{r echo=FALSE, results='markdown'}
+W = matrix(0,3,3)
+W[1,2] <- W[2,1] <- 1
+W[2,3] <- W[3,2] <- 1
+print(diag(3)-0.3*W)
+```
+
+## Example adjacency matrix
+
+* $(I-0.3 W)\widetilde { D }$
+* Let's assume same variance ~ 0.1
+* D = diag(0.1,3)
+```{r echo=FALSE, results='markdown'}
+W = matrix(0,3,3)
+W[1,2] <- W[2,1] <- 1
+W[2,3] <- W[3,2] <- 1
+print((diag(3)-0.3*W)%*%diag(0.1,3))
+```
+
 ## Commonalities of both approaches
 
 * Adjacency matrix W can also instead be modified to include distance
@@ -178,14 +223,14 @@ $${ y\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right)
 
 * Models don’t include time dimension in spatial field
     - One field estimated for all time steps
+    - How could we do this? 
 
 ## brms() includes both approaches
 
-```{r eval = FALSE}
+```{r eval = FALSE, echo=TRUE}
 ?brms::sar
 ?brms::car
 ```
-
 
 ## General challenge with CAR and SAR models
 
@@ -215,7 +260,6 @@ for(i in 1:10) {
   mat[,i] = exp(-(i/10)*x)
 }
 matplot(mat,type="l",col=tim.colors(10),lwd=2,xlim=c(0,40),ylab="Cov(dist)",xlab="Distance",main="Squared exponential")
-
 ```
 
 <div style="text-align: center"><img src="sq_exp_cov.png" width="600" height="400" />
@@ -282,17 +326,17 @@ If so, how to model it?
 
 ## Method 1: using gls()
 
-Generalized least squares function
-    - similar syntax to lm, glm, etc.
+* Generalized least squares function
+  + similar syntax to lm, glm, etc.
 
-Flexible correlation structures
-    - corExp()
-    - corGaus()
-    - corLin()
-    - corSpher()
+* Flexible correlation structures
+  + corExp()
+  + corGaus()
+  + corLin()
+  + corSpher()
 
-Allows irregularly spaced data / NAs
-    - unlike Arima(), auto.arima(), etc.
+* Allows irregularly spaced data / NAs
+  + unlike Arima(), auto.arima(), etc.
 
 ## WA Snotel sites
 
@@ -366,7 +410,7 @@ Generalized additive mixed models
 
 ## Method 2: GAMs
 
-Previous approaches modeled errors as correlated
+Previous approaches modeled errors (or random effects) as correlated
 
 * Spatial GAMs generally model mean as spatially correlated
 
