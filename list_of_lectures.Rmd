@@ -350,10 +350,10 @@ interactions1 <- list(
 spatial <- list(
   title = "Spatial and spatio-temporal models I",
   topics = c("Spatial and spatio-temporal models"),
-  pdf = c("Lectures/Week 9/reg_vs_SS.pdf", "Lectures/Week 9/lec_18_spatiotemporal.pdf"),
+  pdf = c(""),
   ppt = "",
-  rmd = c("Lectures/Week 9/reg_vs_SS.Rmd", "Lectures/Week 9/lec_18_spatiotemporal.Rmd"),
-  html = c("Lectures/Week 9/reg_vs_SS.html", "Lectures/Week 9/lec_18_spatiotemporal.html"),
+  rmd = c("Lectures/Week 9/lec_17_spatiotemporal.Rmd", "Lectures/Week 9/lec_17_spatiotemporal.Rmd"),
+  html = c("Lectures/Week 9/lec_17_spatiotemporal.html", "Lectures/Week 9/lec_17_spatiotemporal.html"),
   video = "",
   youtube = "",
   reading = "",
