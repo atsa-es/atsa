@@ -48,7 +48,7 @@ week_lecs <- list(d1 = intro,
                    d14 = spatial,
                    d18 = spatial2,
                    d19 = present1,
-                   d20 = present1
+                   d20 = present2
 )
 ```
 
