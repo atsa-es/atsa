@@ -1,0 +1,208 @@
+---
+title: "Week 9 lab: Spatiotemporal modeling"
+author: "Eric"
+date: "3/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(lubridate)
+library(mgcv)
+```
+
+For this lab, we're going to be working off of a couple datasets from lecture. 
+
+## 1. Spatiotemporal modeling of tick presence absence
+
+The first exercise is based on the NEON dataset on tick counts, collected 
+throughout the US. We'll subset the data to the core sites, and years with the 
+most data, and only look at modeling a single genus (IXOSP2) and 
+life stage (larvae).
+
+### Loading and cleaning the tick data
+
+```{r tickdata}
+# this data is from the neon tick github repo, 
+# https://github.com/eco4cast/neon4cast-ticks
+dat.raw <- readRDS("tck_longform.Rdata")
+dat = dplyr::filter(dat.raw, Species_LifeStage == "IXOSP2_Larva") 
+# only use sites 
+dat = dplyr::filter(dat, decimalLongitude > -100, decimalLongitude < -80, 
+                    decimalLatitude > 30, decimalLatitude < 40)
+
+# sum up spp g
+dat_summary = dplyr::group_by(dat, plotID, collectDate) %>% 
+  dplyr::summarize(ticks = sum(IndividualCount),
+                   lon = decimalLongitude[1],
+                   lat = decimalLatitude[1])
+
+# add in date
+dat_summary$month = lubridate::month(dat_summary$collectDate)
+dat_summary$year = lubridate::year(dat_summary$collectDate)
+dat_summary$week = ceiling(lubridate::yday(dat_summary$collectDate)/7)
+
+# filter out years 2016-2018, with most data
+dat_summary = dplyr::filter(dat_summary, year %in% 2016:2018)
+# create a presence-absence variable
+dat_summary$presence <- ifelse(dat_summary$ticks > 0, 1, 0)
+```
+
+### Fitting Spatial GAMs to model occurrence
+
+Throughout the model fitting, it's a good idea to rememember some of our
+basic tools for diagnostics. Things to look at are using functions like
+
+```{r, eval=FALSE}
+acf(residuals(fit))
+pacf(residuals(fit))
+qqnorm(residuals(fit))
+```
+
+A non-spatial null model can be built for these data, using a simple GLM. 
+Ignoring site,
+
+```{r}
+null_fit <- glm(presence ~ as.factor(year), 
+                data = dat_summary, 
+                family = "binomial")
+```
+
+But this model ignores the seasonal variation (week) and spatial variation. 
+
+Next, we can try to add a non-spatial GAM that has a smooth term over the week 
+effects,
+
+```{r}
+fit <- gam(presence ~ as.factor(year) + s(week), 
+           data = dat_summary, 
+           family = "binomial")
+```
+
+Using AIC, does this model do any better than the null model? 
+
+How would you modify this code to test a hypothesis about changing seasonal 
+effects across years? [There's no right answer for this -- it depends in part 
+whether you want to model the effect as being linear, non-linear, and whether 
+or not random effects are included]
+
+With seasonality generally improving the predictions of tick occurrence, let's 
+try to implement a spatial model. Starting with a 2-d model, with a single 
+spatial field,
+
+```{r}
+spatial_fit <- gam(presence ~ as.factor(year) + s(week) + s(lon,lat), 
+           data = dat_summary, 
+           family = "binomial")
+```
+
+Next, we can try adding separate spatial fields by year -- we do this with the 
+'by' argument,
+```{r}
+spatial_fit2 <- gam(presence ~ as.factor(year) + s(week) + 
+                     s(lon,lat,by=as.factor(year)), 
+           data = dat_summary, 
+           family = "binomial", 
+           control=list(maxit=1000))
+```
+
+Is there evidence of the occurence varying by year? 
+
+A slight modification of the spatial fields by year is to include spatial fields
+by year and constrain the wiggliness of each be the same,
+
+```{r}
+spatial_fit3 <- gam(presence ~ as.factor(year) + s(week) + 
+                     s(lon,lat) + 
+                      s(lon,lat,as.factor(year),bs="fs",m=2), 
+           data = dat_summary, 
+           family = "binomial",
+           control=list(maxit=1000))
+```
+
+Question: how else can you improve the model to get a lower AIC value? 
+
+
+## 2. Spatiotemporal modeling of snow data in Washington state
+
+For this exercise, we're going to switch gears and try to develop a spatio-temporal 
+model using sdmTMB and INLA. 
+
+We'll be working with the SNOTEL data from lecture, and using only data from February.
+
+```{r}
+d = read.csv("SNOTEL_Washington_1981_2013.csv")
+d = d[,c("Station.Id","Station.Name","Water.Year","Feb")]
+meta = read.csv("SNOTEL_metadata.csv")
+d = dplyr::left_join(d, meta) %>% 
+  dplyr::filter(!is.na(Water.Year), !is.na(Feb))
+```
+
+To fit a model with sdmTMB, first we need to generate a mesh object
+
+```{r eval=FALSE}
+library(sdmTMB)
+mesh <- make_mesh(d, xy_cols = c("Longitude","Latitude"), n_knots = 50)
+```
+
+In practice, this may not be an ideal mesh -- but we'll use it for this lab
+```{r}
+plot(mesh)
+```
+
+### Fitting a spatiotemporal model with sdmTMB
+
+First, we'll start with a model that doesn't include a spatiotemporal effect
+
+```{r eval=FALSE}
+fit <- sdmTMB(Feb ~ 1, spde = mesh, time = NULL, data = d)
+```
+
+We can extend this model to include spatiotemporal processes -- first as an 
+independent process, 
+
+```{r eval=FALSE}
+fit <- sdmTMB(Feb ~ 1, spde = mesh, time = Water.Year, data = d)
+```
+
+Or secondly, as an autoregressive spatial process, 
+
+```{r eval=FALSE}
+fit <- sdmTMB(Feb ~ 1, spde = mesh, time = Water.Year, data = d, ar1_fields=TRUE)
+```
+
+Is there generally support for spatiotemporal effects in this model? What about the AR(1) parameter? 
+
+
+### Diagnostics
+
+Finally, we'll examine whether there's residual spatial autocorrelation in the residuals -- this may
+indicate a covariate that should have been included that wasn't. 
+
+We'll use a statistic called Moran's I to test for spatial autocorrelation,
+
+```{r eval=FALSE}
+install.packages("ape")
+library(ape)
+?Morans.I
+```
+
+So for our model of snowfall, the first thing we'd want to do is construct a matrix 'm' of distances (starting with data for
+just 1 year). It's important that the diagonal of this matrix be 0. The general form  may be something like this, where
+
+```{r eval=FALSE}
+d$resid = residuals(fit)
+df = dplyr::filter(d,Water.Year==2003)
+```
+
+And then our matrix of weights could be computed like this,
+
+```{r eval =FALSE}
+m <- as.matrix(dist(df[,c("Longitude","Latitude")]))
+m <- 1/m
+diag(m) <- 0
+Moran.I(df$resid, weight=m)
+```
+
+Taking a subset of years, e.g. 2002-2005, is there support for residual autocorrelation?
