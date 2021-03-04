@@ -147,7 +147,7 @@ mesh <- make_mesh(d, xy_cols = c("Longitude","Latitude"), n_knots = 50)
 ```
 
 In practice, this may not be an ideal mesh -- but we'll use it for this lab
-```{r}
+```{r eval = FALSE}
 plot(mesh)
 ```
 
