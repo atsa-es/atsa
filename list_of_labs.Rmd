@@ -305,6 +305,24 @@ freqdomainlab <- list(
 )
 ```
 
+```{r}
+spatiallab <- list(
+  title = "Spatio-temporal models",
+  topics = c("Spatio-temporal models"),
+  pdf = "",
+  rmd = "Labs/Week 9/lab.Rmd",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "No homework",
+  key = "",
+  instructor = "Eric",
+  hw_topics = c("No homework; Datasets for in class lab  [Data1](Labs/Week 9/SNOTEL_metadata.csv), [Data2](Labs/Week 9/SNOTEL_Washington_1981_2013.csv), [Data3](Labs/Week 9/tck_longform.Rdata)"),
+  hw_duedate = "work on projects"
+)
+```
+
 
 ```{r studentpresentation2}
 presentlab <- list(

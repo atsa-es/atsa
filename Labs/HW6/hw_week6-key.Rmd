@@ -18,9 +18,9 @@ knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
 
 <br>
 
-# Hidden Markov Models {#sec-hmm}
+# Part 1. Hidden Markov Models
 
-For the second part of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rpdo` package. First, let's grab the data. 
+For Part 1 of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rpdo` package. First, let's grab the data. 
 
 ```{r read-data}
 library(dplyr)
@@ -37,9 +37,7 @@ pdo <- dplyr::group_by(pdo, Year) %>%
 pdo <- pdo[-1,]
 ```
 
-1. Identifying regimes using Hidden Markov Models (HMMs)
-
-    a. Start by fitting a 2-state HMM to the annual indices of winter PDO. You're welcome to use any package / method you like ('depmixS4' would be a good choice if you're unsure). Assume Gaussian errors. 
+1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). 
     
 ```{r}
 library("depmixS4")
@@ -48,7 +46,7 @@ fitmod <- fit(mod)
 ```
 
 ```{r}
-prstates = apply(posterior(fitmod)[,c("S1","S2")], 
+prstates <- apply(posterior(fitmod)[,c("S1","S2")], 
   1, which.max)
 plot(prstates, type="b", xlab="Time", ylab="State")
 ```
