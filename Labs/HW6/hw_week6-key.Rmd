@@ -14,6 +14,7 @@ output:
 ```{r dlm-setup, include=FALSE, purl=FALSE}
 #in case you forget to add a chunk label
 knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 ```
 
 <br>
@@ -51,7 +52,7 @@ prstates <- apply(posterior(fitmod)[,c("S1","S2")],
 plot(prstates, type="b", xlab="Time", ylab="State")
 ```
     
-    b. Try to fit the model 10-20 times. Does the likelihood seem reasonably stable?
+2. Try fitting the model 10-20 times. Does the likelihood seem reasonably stable? (Note `logLik()` gets you the log-likelihood from model fits in R).
     
 ```{r}
 ll <- rep(NA,20)
@@ -62,19 +63,37 @@ ll[i] <- logLik(fitmod)
 }
 ```
 
+Looks good.
 ```{r}
 hist(ll, main="logLik")
 ```
     
-    d. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of being in the same state)?
+3. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of staying in the same state from step $t$ to $t+1$)?
     
 ```{r}
 summary(fitmod, which="transition")
 ```
 
-d. Using slide 15 of the HMM lecture as a template, write out your fitted HMM model as equations.
+Make a matrix.
+```{r}
+GAM <- matrix(getpars(fitmod)[3:6],2,2, byrow=TRUE)
+GAM
+```
+Persistence probabilites are `r GAM[1,1]` for staying in state 1 andd `r GAM[2,2]` for staying state 2.
 
-    e. Plot the expected state versus year. See slide 50 of the HMM lecture for an example.
+4. Using slide 15 of the HMM lecture as a template and the matrix in Q3, write out your fitted HMM model as equations.
+
+$$
+P[x_{t+1}=j|x_t=i] = \gamma_{i,j}
+$$
+
+The $\gamma_{i,j}$ matrix is $\Gamma$, where the rows are *from* so $i$ and the columns are *to* so $j$. So looks just like the matrix in Question 3.
+$$
+\Gamma = \begin{bmatrix}\gamma_{1,1}&\gamma_{1,2}\\
+\gamma_{2,1}&\gamma_{2,2}\end{bmatrix} = \begin{bmatrix}0.848&0.152\\0.116&0.884\end{bmatrix}
+$$
+
+5. Plot the predicted values versus year. See slide 50 of the HMM lecture for an example.
     
 ```{r}
 prstates = apply(posterior(fitmod)[,c("S1","S2")], 
@@ -82,32 +101,45 @@ prstates = apply(posterior(fitmod)[,c("S1","S2")],
 plot(prstates, type="b", xlab="Time", ylab="State")
 ```
 
-    e. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)
+6. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)   
     
 ```{r}
-plot(pdo$year, posterior(fitmod)[,c("S1")], type="l")
-lines(pdo$year, posterior(fitmod)[,c("S2")], col="red", lty=2)
+plot(pdo$Year, posterior(fitmod)[,c("S1")], type="l")
+lines(pdo$Year, posterior(fitmod)[,c("S2")], col="red", lty=2)
 ```
     
-    f. Plot the time series of predicted values from the model
-    
+7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. Note $p_1 + p_2 = 1$. If $P$ is the transition matrix (in Q3),
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
+Note this is a 1x2 matrix times a 2x2 matrix on the right. Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
+
 ```{r}
-mu <- summary(fitmod)[,1]
-prstates = apply(posterior(fitmod)[,c("S1","S2")], 
-  1, which.max)
-pred <- data.frame(year=pdo$year, fit= mu[prstates])
-plot(pdo$year, pdo$winter_pdo, ylab="pdo", xlab="year")
-lines(pdo$year, pred$fit, lwd=2)
-mu <- summary(fitmod3)[,1]
-prstates = apply(posterior(fitmod3)[,c("S1","S2","S3")], 
-  1, which.max)
-pred <- data.frame(year=pdo$year, fit= mu[prstates])
-lines(pdo$year, pred$fit, col="blue")
-abline(h=0, lty=3)
+x.stationary <- matrix(c(0,1), 1, 2)
+for(i in 1:1000) x.stationary <- x.stationary %*% GAM
+x.stationary
+```
+So about 43.4% of the time, the PDO will be in state 1.
+
+To get the analytical solution, find the stationary distribution of a Markov chain. Watch [this youtube video](https://www.youtube.com/watch?v=j93286JaPY8) for example. You solve this linear equation:
+$$
+\begin{bmatrix}p_1\\p_2\end{bmatrix} = P^\top \begin{bmatrix}p_1\\p_2\end{bmatrix}
+$$
+with the constraint that $p_1 + p_2 = 1$. One of the constraints from our transition equation is extra, so we remove that. That's the `-1` in the code.
+
+```{r}
+b <- matrix(c(0,1), ncol=1)
+A <- rbind(t(GAM)-diag(1,2), 1)
+solve(A[-1,], b)
 ```
 
-    c. Change the model to a 1-state, 3-state model and a 4-state model. Using AIC as a model selection metric, which model performs better (lower AIC): 1, 2, 3, or 4 state?
-    
+**Optional Analyses**
+
+* Change the model to a 1-state, 3-state model and a 4-state model. Using AIC as a model selection metric, which model performs better (lower AIC): 1, 2, 3, or 4 state?
+
+2-state is best via AIC.
+
 ```{r}
 df <- data.frame(model=paste("State", 1:4), AIC=NA)
 for(i in 1:4){
@@ -118,24 +150,23 @@ df$AIC[i] <- AIC(fit)
 knitr::kable(df)
 ```
 
-* What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. The if $P$ is the transition matrix,
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
-Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
-$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
-That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each state.
-
-
-**Some ideas for OPTIONAL extra analyses**
-
-
-    
-
-* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
-
-* Run diagnostics on the best model. Any problems?
-
 * Compare the transition matrices for fits with different random starting conditions. Are the transition matrices stable?
 
+Looks quite stable.
+```{r}
+pars <- c()
+for(i in 1:20){
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = 2)
+fitmod <- fit(mod)
+pars <- rbind(pars, data.frame(name=c("p11", "p12", "p21", "p22"), value=getpars(fitmod)[3:6]))
+}
+library(ggplot2)
+ggplot(pars, aes(x=value)) + geom_histogram() + xlim(c(0,1)) + facet_wrap(~name)
+```
+
+* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
+ 
+* Run diagnostics on the best model. Any problems?
 
     
 <br>
