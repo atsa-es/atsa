@@ -1,0 +1,234 @@
+---
+title: "Hidden Markov Models and Bayesian MARSS models"
+author: "Eli Holmes, Eric Ward"
+date: "17 February 2021"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r dlm-setup, include=FALSE, purl=FALSE}
+#in case you forget to add a chunk label
+knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+<br>
+
+# Part 1. Hidden Markov Models
+
+For Part 1 of the homework, we'll use data from the Pacific Decadal Oscillation (PDO) to ask questions about identifying regimes. This dataset can be accessed via the `rpdo` package. 
+
+## Data
+
+First, let's grab the data. 
+
+```{r read-data}
+library(dplyr)
+#install.packages("rsoi")
+pdo <- rsoi::download_pdo()
+```
+We will look at the winter PDO only. We need to shift the year for Oct-Dec by +1 since Oct-Feb spans 2 calendar years. Then we need to remove the first year since that would only have Jan-Feb.
+```{r read-data2}
+pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] <- pdo$Year[which(pdo$Month%in%c("Oct","Nov","Dec"))] + 1
+pdo <- dplyr::group_by(pdo, Year) %>%
+  dplyr::summarize(winter_pdo = mean(PDO[which(Month %in% c("Oct","Nov","Dec","Jan","Feb"))])) %>% 
+  dplyr::select(winter_pdo, Year)
+# The first year will be missing Oct-Dec
+pdo <- pdo[-1,]
+```
+
+Use the `depmixS4` package discussed in the [HMM lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1) to answer the questions in in Part 1.
+
+
+## Q1
+
+1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). 
+    
+```{r}
+library("depmixS4")
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = 2, trstart = runif(4))
+fitmod <- fit(mod)
+```
+
+```{r}
+prstates <- apply(posterior(fitmod)[,c("S1","S2")], 
+  1, which.max)
+plot(prstates, type="b", xlab="Time", ylab="State")
+```
+    
+## Q2
+
+2. Try fitting the model 10-20 times. Does the likelihood seem reasonably stable? (Note `logLik()` gets you the log-likelihood from model fits in R).
+    
+```{r results="hide"}
+ll <- rep(NA,20)
+for(i in 1:20){
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = 2)
+fitmod <- fit(mod)
+ll[i] <- logLik(fitmod)
+}
+```
+
+Looks good.
+```{r}
+hist(ll, main="logLik")
+```
+
+## Q3
+    
+3. What is the transition matrix for the best model? What are the persistence probabilities (e.g. probabilities of staying in the same state from step $t$ to $t+1$)?
+    
+```{r}
+summary(fitmod, which="transition")
+```
+
+Make a matrix.
+```{r}
+GAM <- matrix(getpars(fitmod)[3:6],2,2, byrow=TRUE)
+GAM
+```
+Persistence probabilites are `r GAM[1,1]` for staying in state 1 andd `r GAM[2,2]` for staying state 2.
+
+## Q4
+
+4. Using slide 15 of the HMM lecture as a template and the matrix in Q3, write out your fitted HMM model as equations.
+
+$$
+P[x_{t+1}=j|x_t=i] = \gamma_{i,j}
+$$
+
+The $\gamma_{i,j}$ matrix is $\Gamma$, where the rows are *from* so $i$ and the columns are *to* so $j$. So looks just like the matrix in Question 3.
+$$
+\Gamma = \begin{bmatrix}\gamma_{1,1}&\gamma_{1,2}\\
+\gamma_{2,1}&\gamma_{2,2}\end{bmatrix} = \begin{bmatrix}0.848&0.152\\0.116&0.884\end{bmatrix}
+$$
+
+## Q5
+
+5. Plot the predicted values versus year. See slide 50 of the HMM lecture for an example.
+    
+```{r}
+prstates = apply(posterior(fitmod)[,c("S1","S2")], 
+  1, which.max)
+plot(prstates, type="b", xlab="Time", ylab="State")
+```
+
+## Q6
+
+6. Plot the posterior probability of being in the various states from your best model (e.g. probability of being in state 1 over time)   
+    
+```{r}
+plot(pdo$Year, posterior(fitmod)[,c("S1")], type="l")
+lines(pdo$Year, posterior(fitmod)[,c("S2")], col="red", lty=2)
+```
+  
+  
+## Q7
+  
+7. What is the long-run probability that the PDO is in state 1 versus state 2? You can calculate this from the transition matrix. There is an analytical solution for this (a bit of googling will find it). Or you can run a `for` loop to find it. Let $p_1$ be the probability that PDO is in state 1 and $p_2$ be the probability that PDO is in state 2. Note $p_1 + p_2 = 1$. If $P$ is the transition matrix (in Q3),
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n = \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1} P$$
+Note this is a 1x2 matrix times a 2x2 matrix on the right. Start with $p_1=1$ and $p_2=0$, say. Run a `for` loop until 
+
+$$\begin{bmatrix}p_1&p_2\end{bmatrix}_n \approx \begin{bmatrix}p_1&p_2\end{bmatrix}_{n-1}$$
+
+```{r}
+x.stationary <- matrix(c(0,1), 1, 2)
+for(i in 1:1000) x.stationary <- x.stationary %*% GAM
+x.stationary
+```
+So about 43.4% of the time, the PDO will be in state 1.
+
+To get the analytical solution, find the stationary distribution of a Markov chain. Watch [this youtube video](https://www.youtube.com/watch?v=j93286JaPY8) for example. You solve this linear equation:
+$$
+\begin{bmatrix}p_1\\p_2\end{bmatrix} = P^\top \begin{bmatrix}p_1\\p_2\end{bmatrix}
+$$
+with the constraint that $p_1 + p_2 = 1$. One of the constraints from our transition equation is extra, so we remove that. That's the `-1` in the code.
+
+```{r}
+b <- matrix(c(0,1), ncol=1)
+A <- rbind(t(GAM)-diag(1,2), 1)
+solve(A[-1,], b)
+```
+
+## Optional Analyses
+
+* Change the model to a 1-state, 3-state model and a 4-state model. Using AIC as a model selection metric, which model performs better (lower AIC): 1, 2, 3, or 4 state?
+
+2-state is best via AIC.
+
+```{r results="hide"}
+df <- data.frame(model=paste("State", 1:4), AIC=NA)
+for(i in 1:4){
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = i)
+fit <- fit(mod)
+df$AIC[i] <- AIC(fit)
+}
+```
+
+```{r}
+knitr::kable(df)
+```
+
+* Compare the transition matrices for fits with different random starting conditions. Are the transition matrices stable?
+
+Looks quite stable.
+```{r results="hide"}
+pars <- c()
+for(i in 1:20){
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = 2)
+fitmod <- fit(mod)
+pars <- rbind(pars, data.frame(name=c("p11", "p12", "p21", "p22"), value=getpars(fitmod)[3:6]))
+}
+library(ggplot2)
+ggplot(pars, aes(x=value)) + geom_histogram() + xlim(c(0,1)) + facet_wrap(~name)
+```
+
+* Run diagnostics on the best model. Any problems?
+
+```{r}
+mod <- depmix(response = winter_pdo ~ 1, data = pdo, nstates = 2, trstart = runif(4))
+fitmod <- fit(mod)
+```
+
+Hmm, `depmixS4` does not appear to return the pseudo-residuals for HMMs.
+
+
+* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
+
+Let's include year in the response model. 
+```{r}
+library("depmixS4")
+mod <- depmix(
+  response = winter_pdo ~ 1 + Year, 
+  data = pdo, nstates = 2, trstart = runif(4))
+fitmod <- fit(mod)
+```
+
+This model has higher log likelihood and lower AIC.
+```{r echo=TRUE}
+logLik(fitmod)
+AIC(fitmod)
+```
+
+Let's include year in the transition model. This one is not better.
+```{r}
+library("depmixS4")
+mod <- depmix(
+  response = winter_pdo ~ 1, 
+  transition = ~ 1 + Year,
+  data = pdo, nstates = 2, 
+  pstart = runif(4))
+fitmod <- fit(mod)
+```
+
+This model has higher log likelihood and lower AIC.
+```{r echo=TRUE}
+logLik(fitmod)
+AIC(fitmod)
+```

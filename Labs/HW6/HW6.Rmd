@@ -69,8 +69,6 @@ That $\begin{bmatrix}p_1&p_2\end{bmatrix}_n$ is the long-run probability in each
 
 * If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
  
-* If you include time varying parameters (e.g. year) in the means of each state, or state transition probabilities, does the model do any better?
-
 * Run diagnostics on the best model. Any problems?
 
 * Compare the transition matrices for fits with different random starting conditions. Are the transition matrices stable?
