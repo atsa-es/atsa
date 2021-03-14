@@ -19,6 +19,7 @@ As part of the class, each student will have to write a complete, publishable (<
 * Project methods due Thurs Feb 18th 11:59 pm PST
 * Final paper due Fri Mar 12 11:59pm PST
 * Presentations Mar 9th and 11th during class time
+* Peer review due Fri Mar 19th 11:59pm PST
 
 
 # Data sets
@@ -101,3 +102,25 @@ CJFAS: http://www.nrcresearchpress.com/
 Ecology: http://esapubs.org/esapubs/preparation.htm
 
 Journal of Applied Ecology: http://www.journalofappliedecology.org/view/0/authorGuideline.html
+
+# Peer reviews
+
+## Advice on reviewing scientific papers
+
+If you are looking for some guidance on writing reviews of scientific papers, here are some links to various columns, blogs, etc, about reviewing scientific papers:
+
+[Arthropod Ecology](http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/)
+[Violent metaphors](http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/) (don't let the name scare you)
+[Duke Writing Lab](http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf)
+[Examples of good reviews from Peerage](http://www.peerageofscience.org/review/review-examples/)
+
+## Guidelines
+
+Final papers will be peer-reviewed and reviewed by instructors based on the following criteria.
+
+[Example of a manuscript review for Fish 507.docx](Files/MANUSCRIPT REVIEW FOR FISH 507.docx)
+
+[Review Template.docx](Files/review_template.docx)
+
+[Review Template.Rmd](Files/review_template.Rmd)
+
