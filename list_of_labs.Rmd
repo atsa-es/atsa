@@ -205,7 +205,7 @@ hmmlab <- list(
   youtube = "",
   data = "",
   homework = "HW #6: HMM/Bayesian State space models. [Rmd](https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6.Rmd), [html](https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6.html), [Rmd Part 2 JAGS](https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6-part2-JAGS.Rmd), [Part 2 Online](https://rstudio.cloud/project/2228346)",
-  key = "Labs/HW6/HW6-key-part1.html",
+  key = c("Labs/HW6/HW6-key-part1.html", "Labs/HW6/HW6-key-part2.html"),
   instructor = "Eli & Eric",
   hw_topics = c(""),
   hw_duedate = "Due Monday Mar 1 11:59 PM PST; email to Eric & Eli"

@@ -1,0 +1,285 @@
+---
+title: "HW6 Part 2: Bayesian MARSS models"
+author: "Eli Holmes, Eric Ward"
+date: "17 February 2021"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r hw6p2-setup, echo=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "hw6-")
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, cache=TRUE)
+set.seed(2021) #for reproducibility
+```
+
+# Part 2: Fitting Bayesian State-Space Models with Stan
+
+The following code optimizes stan:
+
+```{r install, eval=TRUE, warning=FALSE, message=FALSE, results='hide'}
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+The `wilddogs` data from the MARSS package will be used for this problem:
+
+```{r wilddogs data}
+data(wilddogs, package="MARSS")
+plot(wilddogs[,1], wilddogs[,2], xlab = "Year", ylab = "Count")
+```
+
+
+The code below sets up a Stan model for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is [ss_rw_drift.stan](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/ss_rw_drift.stan) (with a small change in the `pos_indx` specification). (Note that in the atsar code, $x$ is called `pred`, $u$ is `mu`, $\sqrt{q}$ is `sigma_process` and $\sqrt{r}$ is `sigma_obs`.)
+
+
+```{r}
+scode <- "
+data {
+  int<lower=0> N;
+  int<lower=0> n_pos;
+  vector[n_pos] y;
+  int pos_indx[n_pos];
+}
+parameters {
+  real x0;
+  real mu;
+  vector[N-1] pro_dev;
+  real<lower=0> sigma_process;
+  real<lower=0> sigma_obs;
+}
+transformed parameters {
+  vector[N] pred;
+  pred[1] = x0;
+  for(i in 2:N) {
+    pred[i] = pred[i-1] + mu + sigma_process*pro_dev[i-1];
+  }
+}
+model {
+  x0 ~ normal(0,10);
+  mu ~ normal(0,2);
+  sigma_process ~ student_t(3,0,2);
+  sigma_obs ~ student_t(3,0,2);
+  pro_dev ~ std_normal();//normal(0, sigma_process);
+  for(i in 1:n_pos) {
+    y[i] ~ normal(pred[pos_indx[i]], sigma_obs);
+  }
+}
+generated quantities {
+  vector[n_pos] log_lik;
+  for (n in 1:n_pos) log_lik[n] = normal_lpdf(y[n] | pred[pos_indx[n]], sigma_obs);
+}
+"
+```
+
+The code below fits the model. Stan does not like NAs in the data thus we use the index trick in the code. For the purpose of the homework, ignore warnings.
+
+```{r mod-fit, results='hide'}
+data(wilddogs, package="MARSS")
+y <- log(y <- wilddogs[,"Count"])
+
+ypos <- y[!is.na(y)]
+n_pos <- sum(!is.na(y))  # number on non-NA ys
+pos_indx <- which(!is.na(y))  # index on the non-NAs
+mod <- rstan::stan(model_code = scode, 
+                   data = list(y = ypos, N = length(y), n_pos = n_pos, 
+                               pos_indx = pos_indx), 
+                   pars = c("sigma_process", "sigma_obs", "mu", "pred"), 
+                   chains = 1, iter = 5000, thin = 10)
+```
+
+## Question 8
+
+Checks convergence of the model by evaluating the value of `Rhat`, which should be less than 1.05 (approximately). We want to look at the summary element of the output from `summary(mod)`. `prob=c()` is used so that the credible intervals are not shown since we are only interested in Rhat.
+
+```{r check model convergence}
+head(summary(mod, probs=c())$summary)
+```
+
+Make a histogram of all the Rhat values. Looks ok.
+```{r Rhat.hist}
+hist(summary(mod)$summary[,"Rhat"])
+```
+
+## Question 9
+
+The $\mu$ parameter in the model corresponds to the population growth rate. It is informative to view a histogram of the posterior of $\mu$ to get an idea for potential values of the population growth rate:
+
+```{r mu.hist}
+pars <- rstan::extract(mod, pars="mu")
+hist(pars$mu, xlab = "mu", main = "Histogram of mu (Population Growth Rate)")
+```
+
+## Question 10
+
+Determine the probability that the dog population is declining by calculating the fraction of the posterior draws that are less than 0.
+
+```{r prob.mu.neg}
+sum(pars$mu < 0)/length(pars$mu)
+```
+
+Thus, there is about an 82% chance the population is in decline ($\mu<0$).
+
+## Question 11
+
+The code below extracts the `pred` values from the mode, which correspond to the estimated $x$ (logged population size), and plots these values along with 95% credible intervals to compare to the observations. 
+
+```{r pop.size}
+pars = rstan::extract(mod)
+df = data.frame("Year"=wilddogs[,1],
+                y,
+                pred = apply(pars$pred,2,mean),
+                lower=apply(pars$pred,2,quantile,0.025),
+                upper=apply(pars$pred,2,quantile,0.975))
+ggplot(df, aes(Year, pred)) + 
+  geom_ribbon(aes(ymin=lower, ymax=upper),alpha=0.3) +
+  theme_bw() + 
+  geom_line() + 
+  geom_point(aes(Year,y),col="red") +
+  ylab("Logged Population Counts")
+```
+
+The black line is the predicted population state. The credible interval is for the uncertainty in that given PRODCESS error. That is the observation error is not in that. So it is a little surprising that all the observations fall within the credible intervals. 
+
+## Optional
+
+### `bayesplot`
+
+The code below plots a histogram of the posteriors for `sigma_process`, `sigma_obs`, and `mu` using the [bayesplot package](https://mc-stan.org/bayesplot/).
+
+```{r bayesplot posterior}
+library(bayesplot)
+color_scheme_set("red")
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(mod,c("sigma_process","sigma_obs","mu")) + plot_title
+```
+
+We can also look at model diagnostics with bayesplot.
+
+```{r}
+color_scheme_set("blue")
+mcmc_trace(mod, pars = c("sigma_process", "sigma_obs", "mu"))
+
+color_scheme_set("mix-blue-pink")
+np <- nuts_params(mod)
+mcmc_nuts_energy(np) + ggtitle("NUTS Energy Diagnostic")
+```
+
+
+### Log-Linear Poisson Errors Model
+
+The wild dog counts are discrete and the normality assumption for the observations errors for log of the counts is an approximation. The `scode` above can be modified to use a log-linear Poisson errors model. The following changes need to be made:
+
+* Make `y` an integer in the data section of the Stan code
+* Remove `sigma_obs` in the parameters section
+* Use `poisson_log()` in the model
+* Use `poisson_lpmf()` in the likelihood
+
+```{r}
+scode <- "
+data {
+  int<lower=0> N;
+  int<lower=0> n_pos;
+  int pos_indx[n_pos];
+  int y[n_pos];
+}
+parameters {
+  real x0;
+  real mu;
+  vector[N-1] pro_dev;
+  real<lower=0> sigma_process;
+}
+transformed parameters {
+  vector[N] pred;
+  pred[1] = x0;
+  for(i in 2:N) {
+    pred[i] = pred[i-1] + mu + sigma_process*pro_dev[i-1];
+  }
+}
+model {
+  x0 ~ normal(0,10);
+  mu ~ normal(0,2);
+  sigma_process ~ student_t(3,0,2);
+  pro_dev ~ std_normal();//normal(0, sigma_process);
+  for(i in 1:(n_pos)) {
+    y[i] ~ poisson_log(pred[pos_indx[i]]);
+  }
+}
+generated quantities {
+  vector[n_pos] log_lik;
+  for (n in 1:n_pos) log_lik[n] = poisson_lpmf(y[n] | exp(pred[pos_indx[n]]));
+}
+"
+```
+
+We also need to make a few changes in our call to `stan()` to fit the model
+
+* Pass in the counts rather than the log of the counts in your model fit call
+* Remove `sigma_obs` from the `pars` list
+
+    
+```{r mod2-fit, results='hide'}
+data(wilddogs, package="MARSS")
+y <- wilddogs[,"Count"]
+
+ypos <- y[!is.na(y)]
+n_pos <- sum(!is.na(y))  # number on non-NA ys
+pos_indx <- which(!is.na(y))  # index on the non-NAs
+mod.pois <- rstan::stan(model_code = scode, 
+                                data = list(y = ypos, N = length(y), 
+                                            n_pos = n_pos, 
+                                            pos_indx = pos_indx), 
+                                pars = c("sigma_process", "mu", "pred"), 
+                                chains = 1, iter = 5000, thin = 10)
+```
+
+The posterior plot of `mu` is below.
+
+```{r}
+library(bayesplot)
+pars.pois <- rstan::extract(mod.pois, pars="mu")
+color_scheme_set("red")
+plot_title <- ggtitle("Posterior distribution for Log-Linear Poisson Model",
+                      "with median and 80% interval")
+mcmc_areas(mod.pois,c("mu")) + plot_title
+```
+
+This looks very similar to the posterior for the original model. Accounting for the fact that the counts are integers didn't make much of a difference to our estimate of the rate of decline.
+
+### Linear Regression with AR errors
+
+In a linear regression model, there is only observation error but we could account for the autocorrelated errors in the residuals. Here is how Logan approached this. Thanks, Logan!
+
+Fit the random walk with drift model to a linear regression (against year 1 to 22) with autocorrelated errors, fitted using the **brms** package with the default options (warnings are ignored). 
+    
+```{r brms-mod-fit, results='hide'}
+library(brms)
+data(wilddogs, package="MARSS")
+wilddogs <- cbind(wilddogs, log(wilddogs[,"Count"]), 1:22)
+colnames(wilddogs)[3:4] <- c("logCount", "time")
+mod.brm <- brm(logCount ~ time + ar(time = Year, p = 1, cov = TRUE), data = wilddogs)
+```
+
+The fit and posterior predictive check of this model are plotted below:
+
+```{r}
+brm.fit <- mod.brm$fit
+brm.fit
+plot(mod.brm)
+pp_check(mod.brm)
+```
+
+The `Rhat` values of the parameters are all 1.00 or 1.01, suggesting convergence. The trace plots also look good. The mean value of the estimated linear trend is `r mean(brm.fit@sim$samples[[1]]$b_time)`, a bit lower than the mean estimate value for `mu`, `r mean(pars$mu)`. We can also compare the probability that the linear trend is below zero:
+
+```{r}
+sum(brm.fit@sim$samples[[1]]$b_time < 0)/length(brm.fit@sim$samples[[1]]$b_time)
+```
+
+Thus, the brms model suggests that there is a higher probability that the population is in decline. 
+    
