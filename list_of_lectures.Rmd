@@ -381,7 +381,7 @@ spatial2 <- list(
 HMMs <- list(
   title = "Hidden Markov models",
   topics = c("Hidden Markov models"),
-  pdf = "Lectures/Week 5/lec_10_hmm.pdf",
+  pdf = "",
   ppt = "",
   rmd = "Lectures/Week 5/lec_10_hmm.Rmd",
   html = "Lectures/Week 5/lec_10_hmm.html",

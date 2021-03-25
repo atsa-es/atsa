@@ -3,3 +3,5 @@ StanHeaders
 ggplot2
 rstan
 bayesplot
+Rcpp
+brms
