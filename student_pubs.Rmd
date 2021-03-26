@@ -11,7 +11,18 @@ Here are the independent projects from students who took the class in prior year
 
 # Presentation topics
 
-Here are some of the topics of the students' final projects from years past.
+Here are the topics of the students' final projects from years past.
+
+### 2021
+
+* "Heat-Related Mortality in the Greater Seattle Area (1980 - 2018)"
+* "Modeling spatio-temporal dynamics of mountain pine beetle activity in the Southern Rockies"
+* "Quantifying the success of invasive green sunfish eradication from McGee Wash, Arizona"
+* "Recovery of the California brown pelican following DDT contamination in the Southern California Bight"
+* "Mobile technologies reveal human activity across urban lakes"
+* "Population viability analysis of marbled murrelets reveal long-term decline in the Salish Sea"
+* "Using removal data to estimate rusty crayfish population growth and spread in the John Day River"
+* "Synchronous dynamics in marine fishes in the Southern California Bight"
 
 ### 2019
 
