@@ -1,5 +1,5 @@
 ---
-title: "2021 List of Labs"
+title: "List of Labs"
 output: html_document
 ---
 
