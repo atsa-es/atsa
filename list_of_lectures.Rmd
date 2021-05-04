@@ -94,7 +94,7 @@ freqdomain <- list(
   ppt = "",
   rmd = "Lectures/Week 8/lec_16_freq_domain.Rmd",
   html = "Lectures/Week 8/lec_16_freq_domain.html",
-  video = "https://washington.zoom.us/rec/share/-ik7bfT6R-XIz1F2TLScfhic0LwG0rZNkS1vb9TVAHliD-dco8g3gQrUjqOh_zbr.P2tyeHsNzVkmHH2H",
+  video = "https://youtu.be/XCnHQve-Tmk",
   youtube = "",
   reading = c("[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)", "[Percival & Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)"),
   instructor = "Mark"
@@ -197,7 +197,7 @@ model_inf <- list(
   ppt = "",
   rmd = "Lectures/Week 7/lec_13_modelselection.Rmd",
   html = "Lectures/Week 7/lec_13_modelselection.html",
-  video = "https://washington.zoom.us/rec/play/zfZiW5ojU0qYgxmAecEzEfkQk6oRy96wFP0v0hMPUh-1nUnm7fT97zumEDWj1eJQCiafFC41hfn9f_08.fhVBaxZzqT99HzmX?continueMode=true",
+  video = "https://youtu.be/Z-kIEMqGD-c",
   youtube = "",
   reading = c("See list of references in the lecture", "[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)", "[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)","[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
   instructor = "Eric"
@@ -257,7 +257,7 @@ bayes <- list(
   pdf = "Lectures/Week 6/lec_11_bayes.pdf",
   rmd = "Lectures/Week 6/lec_11_bayes.Rmd",
   html = "Lectures/Week 6/lec_11_bayes.html",
-  video = "https://washington.zoom.us/rec/share/_-57I0Rr8NdtUboU9RG_54MgKXAQuskB6m8NZmFHIK630O9RsgV9KioimyGj5hOd.2yB_dFMGP1X09do8",
+  video = "https://youtu.be/PzMFjO1sjEo",
   youtube = "",
   reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)", "[mcmc intro](https://livefreeordichotomize.com/2017/10/14/mcmc-and-the-case-of-the-spilled-seeds/)"),
   instructor = "Eric"
@@ -267,12 +267,12 @@ bayes <- list(
 ```{r}
 bayes2 <- list(
   title = "Bayesian estimation: multivariate models",
-  topics = c("MAP estimation", "Multivariate models", "DFA", "Writing our own Bayesian models in Stan"),
+  topics = c("MAP estimation", "Multivariate models", "DFA", "Writing Bayesian models in Stan"),
   pdf = "Lectures/Week 6/lec_12_bayes2.pdf",
   ppt = "",
   rmd = "Lectures/Week 6/lec_12_bayes2.Rmd",
   html = "Lectures/Week 6/lec_12_bayes2.html",
-  video = "https://washington.zoom.us/rec/share/9pMPeZer8xuWiK7TAHeHvIfMdwLlhk-vj-TDEXPpbAcxHnBfOed72DpPi5faieGs.FxNfnqDsfVEd9DHc",
+  video = "https://youtu.be/ZO_S7uo_nVg",
   youtube = "",
   reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
   instructor = "Eric"
@@ -336,7 +336,7 @@ interactions1 <- list(
   ppt = "",
   rmd = "Lectures/Week 9/Old interactions lectures/Lec_16/Lec_16.Rmd",
   html = "Lectures/Week 9/Old interactions lectures/Lec_16/Lec_16.html",
-  video = "https://washington.zoom.us/rec/share/mVed0HQfWxXTpUVFCfBSMZfAYpbibSe0LMUZYPUTPwY4pC5_NpWKn5IGTUe9bSz4.Drn0yA6_pMok7T3q",
+  video = "https://youtu.be/p06tdo9JyWk",
   youtube = "",
   reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14 & 18](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[MAR Stability Metrics](https://github.com/mdscheuerell/marstab/blob/master/mar_stab_properties_text.pdf)","[AR(1) errors](https://nwfsc-timeseries.github.io/atsa-labs/chap-noisy-sensors-.html)", "[Mark's B estimation talk](https://github.com/mdscheuerell/mar_sims/blob/master/presentation/open_sci_summit_2020.pdf)"),
   instructor = "Eli"
@@ -351,7 +351,7 @@ spatial <- list(
   ppt = "",
   rmd = c("Lectures/Week 9/lec_17_spatiotemporal.Rmd"),
   html = c("Lectures/Week 9/lec_17_spatiotemporal.html"),
-  video = "https://washington.zoom.us/rec/share/hV8ipY56PTwJCnmvpdpP-Hq_zWgJhp7yjWN1ebIuf6tJJb2WM3dimBjtzOyWpt2H.5P7ftS8sYMyOPIWT",
+  video = "https://youtu.be/i6YxN8qbrfg",
   youtube = "",
   reading = c("[River spatial models](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ele.12084)", "[River spatial 2](https://www.researchgate.net/profile/Jay-Ver-Hoef/publication/227369314_A_Moving_Average_Approach_for_Spatial_Statistical_Models_of_Stream_Networks/links/5f9820d6299bf1b53e49aa00/A-Moving-Average-Approach-for-Spatial-Statistical-Models-of-Stream-Networks.pdf)", "[River spatial 3](https://www.fs.fed.us/rm/pubs_other/rmrs_2014_issak_d001.pdf)"),
   #reading = c("[GitHub folder with code](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)"),
@@ -367,7 +367,7 @@ spatial2 <- list(
   ppt = "",
   rmd = c("Lectures/Week 9/lec_18_spatiotemporal.Rmd"),
   html = c("Lectures/Week 9/lec_18_spatiotemporal.html"),
-  video = "https://washington.zoom.us/rec/share/5RKayuoccb3ArVfXaQ12RfPeXk7Ha81kaEONEldAIBYFn5ps0XIkO8DaVp-U4q-t.DExgBgGJ_1Md78Fk",
+  video = "https://youtu.be/qalgyHoLumg",
   youtube = "",
   reading = c(""),
   instructor = "Eric"
@@ -390,9 +390,24 @@ HMMs <- list(
 ```
 
 ```{r}
+regvsss <- list(
+  title = "Regression versus State Space",
+  topics = c("Regression versus State Space"),
+  pdf = "",
+  ppt = "",
+  rmd = c("Lectures/Week 9/reg_vs_SS.Rmd"),
+  html = c("Lectures/Week 9/reg_vs_SS.html"),
+  video = "https://youtu.be/m8_RRHODC6A",
+  youtube = "",
+  reading = c(""),
+  instructor = "Eric"
+)
+```
+
+```{r}
 present1 <- list(
   title = "Student presentations",
-  topics = c("Gilman", "Buonanduci", "Min", "Fricke"),
+  topics = c("Student presentations"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -407,7 +422,7 @@ present1 <- list(
 ```{r}
 present2 <- list(
   title = "Student presentations",
-  topics = c( "Arnold", "Kwarta", "Diallo", "DuVall"),
+  topics = c( "Student presentations"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -427,7 +442,7 @@ EDM <- list(
   ppt = "",
   rmd = "Lectures/Week 8/lec_15_semiparametric.Rmd",
   html = "Lectures/Week 8/lec_15_semiparametric.html",
-  video = "https://washington.zoom.us/rec/share/8iX3w8NPmq0a2a-5pooE8JZMfzv4_aUTctCAgIn9raLjW64bijBd_oI8rjYqqcRk.d7w9XnEEiKSU2HCS",
+  video = "https://youtu.be/LN1XsC8DKPg",
   youtube = "",
   reading = c("[Chang et al. 2017](https://link.springer.com/epdf/10.1007/s11284-017-1469-9?shared_access_token=uo6dSpx2HhqFSdKklUb91ve4RwlQNchNByi7wbcMAY46qf1ru5YtibpRTA9bGJJXdv8wOCFEurjER4XMpGuPd-QPKglrjNFUFLLw1xY5KfAWa2Ln-vHCv747UBEe-04n2oRgCUyZ0dONF9fk2aRo8j07QNwfnwGIhi71df0wnXA%3D)", "[Sugihara and May](https://www.nature.com/articles/344734a0)", "[rEDM Vignette](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.html)","[Intro to EDM, video](https://www.youtube.com/watch?v=fevurdpiRYg)","[EDM lecture](https://www.youtube.com/watch?v=6yq0VAriUIQ)", "[EDM for beginners, review](https://link.springer.com/article/10.1007/s11284-017-1469-9)"),
   instructor = "Eric"
