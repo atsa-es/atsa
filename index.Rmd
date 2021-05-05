@@ -1,6 +1,6 @@
 ---
 title: "Applied Time Series Analysis"
-subtitle: "FISH 507 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Winter 2021"
+subtitle: "SAFS &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Winter Qtr odd years"
 output:
   html_document:
     toc: true
@@ -17,6 +17,12 @@ knitr::opts_chunk$set(echo = TRUE)
 # Course overview
 
 This course is intended to give students an overview of the theory and practical aspects of fitting time series models to fisheries and environmental data. The course will cover topics ranging from autocorrelation and crosscorrelation, autoregressive (AR) and moving average (MA) models, univariate and multivariate state-space models, and estimating model parameters. This course also covers various aspects of assessing model performance and evaluating model diagnostics. The course is focused almost exclusively on problems and analyses in the time domain, and only briefly addresses methods for the frequency domain. In general, students will focus on conceptualizing analyses, implementing analyses, and making inference from the results.
+
+<br>
+
+# Textbook
+
+Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
 
 <br>
 
@@ -77,10 +83,10 @@ Associate Professor, School of Aquatic & Fishery Sciences
 # Meeting times & locations
 
 ### Lectures 
-Tuesday & Thursday from 1:30-2:50 via [Zoom](https://washington.zoom.us/j/93874357621)
+Tuesday & Thursday from 1:30-2:50
 
 ### Computer Lab
-Thursday from 3:00-3:50 via [Zoom](https://washington.zoom.us/j/96843523832)
+Thursday from 3:00-3:50
 
 ### Office hours
 By appointment
@@ -139,18 +145,6 @@ All of the software we will be using is free and platform independent, meaning s
 
 Students will also be required to have a user account on [**GitHub**](https://github.com/), which we will be using for file hosting and communications via "issues". If you do not already have an account, you can sign up for a free one [here](https://github.com/join?source=header-home). The instructor will provide training on how to use the intended features in **GitHub**.
 
-### Zoom recordings
-
-This course is scheduled to run synchronously at our scheduled class time via [Zoom](https://itconnect.uw.edu/connect/phones/conferencing/zoom-video-conferencing/). These Zoom class sessions will be recorded. The recording will capture the presenter’s audio, video and computer screen. Student audio and video will be recorded if they share their computer audio and video during the recorded session. The recordings will only be accessible to students enrolled in the course to review materials. These recordings will not be shared with the public, and will be deleted after 90 days.
-
-UW-IT and Zoom have a Business Associates Agreement (BAA) to protect the security and privacy of UW Zoom accounts and is [FERPA](https://registrar.washington.edu/students/ferpa/) compliant. Students who **do not** wish to give consent to being recorded should:
-
-* Choose a Zoom username that does not include any personal identifying information like their name or UW NetID  
-* Never share their computer audio or video during their Zoom sessions  
-
-**By enrolling in this class, all students agree to never upload course recordings to other platforms**. 
-
-<br>
 
 # Teaching methodology
 
@@ -160,9 +154,9 @@ This course will introduce new material primarily through prepared slides and ha
 
 # Communication
 
-This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group Zoom calls as needed.
+This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group video calls as needed.
 
-In addition to email and Zoom, we will use the "Issues" feature in **GitHub** to ask questions and assist others. Specifically, questions and answers can be posted to the issues in the course repository [here](https://github.com/nwfsc-timeseries/safs-timeseries/issues).
+In addition to email and video, we will use the "Issues" feature in **GitHub** to ask questions and assist others. Specifically, questions and answers can be posted to the issues in the course repository [here](https://github.com/nwfsc-timeseries/safs-timeseries/issues).
 
 <br>
 

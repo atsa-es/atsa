@@ -1,5 +1,5 @@
 ---
-title: "Student Products"
+title: "Student Projects"
 output: html_document
 ---
 

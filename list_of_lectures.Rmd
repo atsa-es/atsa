@@ -400,7 +400,7 @@ regvsss <- list(
   video = "https://youtu.be/m8_RRHODC6A",
   youtube = "",
   reading = c(""),
-  instructor = "Eric"
+  instructor = "Eli"
 )
 ```
 

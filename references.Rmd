@@ -9,7 +9,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Textbooks & vignettes with specific `R` examples
 
-**We will use these as references for the class.**
+**The main class reference is the ATSA Lab Book**
+
+HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
+
+**In addition, we will use these as references for the class.**
 
 CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. [Available here](https://link.springer.com/book/10.1007%2F978-0-387-88698-5).
 
@@ -17,12 +21,10 @@ HWS18a: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time S
 
 HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook. [Available here](https://otexts.org/fpp2/)
 
-HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2018. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
-
 H18: Holmes, E. E. Fisheries Catch Forecasting with R. 2018. eBook. [Available here](https://fish-forecast.github.io/Fish-Forecast-Bookdown/) 
 
 
-## Some classic textbooks
+## Some classic textbooks that you may find helpful
 
 Box GEP, Jenkins GM, Reinsel GC. 2008. Time Series Analysis: Forecasting and Control. John Wiley & Sons, Hoboken, New Jersey.
 

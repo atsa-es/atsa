@@ -7,7 +7,7 @@ output: html_document
 
 ### Meeting days & times
 
-Tuesday & Thursday from 1:30-2:50 via [Zoom](https://washington.zoom.us/j/93874357621)
+Tuesday & Thursday from 1:30-2:50
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

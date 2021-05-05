@@ -7,7 +7,7 @@ output: html_document
 
 ### Meeting days & times
 
-Thursday from 3:00-3:50 via [Zoom](https://washington.zoom.us/j/96843523832)
+Thursday from 3:00-3:50
 
 ### Lab book
 
