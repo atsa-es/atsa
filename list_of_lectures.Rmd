@@ -351,7 +351,7 @@ spatial <- list(
   ppt = "",
   rmd = c("Lectures/Week 9/lec_17_spatiotemporal.Rmd"),
   html = c("Lectures/Week 9/lec_17_spatiotemporal.html"),
-  video = "https://youtu.be/i6YxN8qbrfg",
+  video = "https://youtu.be/5ODu7D9DbNw",
   youtube = "",
   reading = c("[River spatial models](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ele.12084)", "[River spatial 2](https://www.researchgate.net/profile/Jay-Ver-Hoef/publication/227369314_A_Moving_Average_Approach_for_Spatial_Statistical_Models_of_Stream_Networks/links/5f9820d6299bf1b53e49aa00/A-Moving-Average-Approach-for-Spatial-Statistical-Models-of-Stream-Networks.pdf)", "[River spatial 3](https://www.fs.fed.us/rm/pubs_other/rmrs_2014_issak_d001.pdf)"),
   #reading = c("[GitHub folder with code](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)"),
@@ -367,7 +367,7 @@ spatial2 <- list(
   ppt = "",
   rmd = c("Lectures/Week 9/lec_18_spatiotemporal.Rmd"),
   html = c("Lectures/Week 9/lec_18_spatiotemporal.html"),
-  video = "https://youtu.be/qalgyHoLumg",
+  video = "https://youtu.be/hnJnm-vCar8",
   youtube = "",
   reading = c(""),
   instructor = "Eric"
@@ -397,7 +397,7 @@ regvsss <- list(
   ppt = "",
   rmd = c("Lectures/Week 9/reg_vs_SS.Rmd"),
   html = c("Lectures/Week 9/reg_vs_SS.html"),
-  video = "https://youtu.be/m8_RRHODC6A",
+  video = "https://youtu.be/lLuPMheNJic",
   youtube = "",
   reading = c(""),
   instructor = "Eli"
