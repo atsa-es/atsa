@@ -1,6 +1,6 @@
 ---
 title: "Applied Time Series Analysis"
-subtitle: "SAFS &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Winter Qtr odd years"
+subtitle: "FISH 550 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Spring Qtr odd years"
 output:
   html_document:
     toc: true
@@ -23,20 +23,6 @@ This course is intended to give students an overview of the theory and practical
 # Textbook
 
 Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
-
-<br>
-
-# Key dates
-
-* HW #1 Thurs Jan 21 11:59pm PST
-* HW #2 Thurs Jan 28 11:59pm PST
-* [Project proposals](final_proj.html) due Fri Jan 29th 11:59pm PST
-* HW #3 Thurs Feb 4 11:59pm PST
-* HW #4 Thurs Feb 11 11:59pm PST
-* HW #5 Thurs Feb 18 11:59pm PST
-* HW #6 Thurs Feb 25 11:59pm PST
-* [Final project](final_proj.html) due Fri Mar 12th 11:59pm PST
-* [Peer reviews](review_guide.html) due Fri Mar 19th 11:59pm PST
 
 <br>
 

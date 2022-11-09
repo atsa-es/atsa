@@ -13,8 +13,8 @@
 
 <title>References</title>
 
-<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +84,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -235,7 +239,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -246,7 +250,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
     
   </a>
@@ -264,7 +268,7 @@ $(document).ready(function () {
   <a href="homework.html">Homework</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Final Project
      
     <span class="caret"></span>
@@ -304,49 +308,127 @@ $(document).ready(function () {
 </div>
 
 
-<div id="textbooks-vignettes-with-specific-r-examples" class="section level2">
+<div id="textbooks-vignettes-with-specific-r-examples"
+class="section level2">
 <h2>Textbooks &amp; vignettes with specific <code>R</code> examples</h2>
 <p><strong>The main class reference is the ATSA Lab Book</strong></p>
-<p>HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. <a href="https://nwfsc-timeseries.github.io/atsa-labs/">Available here</a></p>
-<p><strong>In addition, we will use these as references for the class.</strong></p>
-<p>CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series with R. Springer, New York. <a href="https://link.springer.com/book/10.1007%2F978-0-387-88698-5">Available here</a>.</p>
-<p>HWS18a: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of Multivariate Time Series Using the MARSS Package. <a href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">Available here</a></p>
-<p>HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and Practice. eBook. <a href="https://otexts.org/fpp2/">Available here</a></p>
-<p>H18: Holmes, E. E. Fisheries Catch Forecasting with R. 2018. eBook. <a href="https://fish-forecast.github.io/Fish-Forecast-Bookdown/">Available here</a></p>
+<p>HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time
+Series Analysis for Fisheries and Environmental data. eBook. <a
+href="https://nwfsc-timeseries.github.io/atsa-labs/">Available
+here</a></p>
+<p><strong>In addition, we will use these as references for the
+class.</strong></p>
+<p>CM09: Cowpertwait PSP, Metcalfe AV. 2009. Introductory Time Series
+with R. Springer, New York. <a
+href="https://link.springer.com/book/10.1007%2F978-0-387-88698-5">Available
+here</a>.</p>
+<p>HWS18a: Holmes EE, Ward EJ, Scheuerell MD. 2014. Analysis of
+Multivariate Time Series Using the MARSS Package. <a
+href="https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf">Available
+here</a></p>
+<p>HA18: Hyndman RJ, Athanasopoulos G. 2018. Forecasting: Principles and
+Practice. eBook. <a href="https://otexts.org/fpp2/">Available
+here</a></p>
+<p>H18: Holmes, E. E. Fisheries Catch Forecasting with R. 2018. eBook.
+<a
+href="https://fish-forecast.github.io/Fish-Forecast-Bookdown/">Available
+here</a></p>
 </div>
-<div id="some-classic-textbooks-that-you-may-find-helpful" class="section level2">
+<div id="some-classic-textbooks-that-you-may-find-helpful"
+class="section level2">
 <h2>Some classic textbooks that you may find helpful</h2>
-<p>Box GEP, Jenkins GM, Reinsel GC. 2008. Time Series Analysis: Forecasting and Control. John Wiley &amp; Sons, Hoboken, New Jersey.</p>
-<p>Brockwell PJ, Davis RA. 2010. Introduction to Time Series and Forecasting. Springer, New York.</p>
-<p>Durbin J, Koopman SJ. 2012. Time Series Analysis by State Space Methods. Oxford University Press, Oxford.</p>
-<p>Harvey AC. 1991. Forecasting, Structural Time Series Models and the Kalman Filter. Cambridge University Press, Cambridge.</p>
-<p>Pole A, West M, Harrison J. 1994. Applied Bayesian Forecasting and Time Series Analysis. Chapman &amp; Hall/CRC, Boca Raton, Florida.</p>
-<p>Shumway DH, Stoffer DS. 2006. Time Series Analysis and Its Applications: With R Examples. Springer, New York. R scripts and data here West M, Harrison J. 1997. Bayesian Forecasting and Dynamic Models. Springer, New York.</p>
-<p>Petris G, Petrone S, Campaginoli P. 2009. Dynamic Linear Models with R. Springer, New York.</p>
+<p>Box GEP, Jenkins GM, Reinsel GC. 2008. Time Series Analysis:
+Forecasting and Control. John Wiley &amp; Sons, Hoboken, New Jersey.</p>
+<p>Brockwell PJ, Davis RA. 2010. Introduction to Time Series and
+Forecasting. Springer, New York.</p>
+<p>Durbin J, Koopman SJ. 2012. Time Series Analysis by State Space
+Methods. Oxford University Press, Oxford.</p>
+<p>Harvey AC. 1991. Forecasting, Structural Time Series Models and the
+Kalman Filter. Cambridge University Press, Cambridge.</p>
+<p>Pole A, West M, Harrison J. 1994. Applied Bayesian Forecasting and
+Time Series Analysis. Chapman &amp; Hall/CRC, Boca Raton, Florida.</p>
+<p>Shumway DH, Stoffer DS. 2006. Time Series Analysis and Its
+Applications: With R Examples. Springer, New York. R scripts and data
+here West M, Harrison J. 1997. Bayesian Forecasting and Dynamic Models.
+Springer, New York.</p>
+<p>Petris G, Petrone S, Campaginoli P. 2009. Dynamic Linear Models with
+R. Springer, New York.</p>
 </div>
 <div id="papersvignettes" class="section level2">
 <h2>Papers/vignettes</h2>
-<p>Andrews, K.S., G.D. Williams, J.F. Samhouri, K.N. Marshall, V. Gertseva, and P.S. Levin. In press. The legacy of a crowded ocean: indicators, status, and trends of anthropogenic pressures in the California Current ecosystem. Environmental Conservation.</p>
-<p>Baudron, A.R., C.L. Needle, A.D. Rijnsdorp, and C.T. Marshall. 2014. Warming temperatures and smaller body sizes: synchronous changes in growth of North Sea fishes. Global Change Biology, 20(4):1023-1031.</p>
-<p>Britten, G.L., M. Dowd, C. Minto, F. Ferretti, F. Boero, and H.K. Lotze. 2014. Predator decline leads to decreased stability in a coastal fish community. Ecology Letters, 17: 1518–1525.</p>
-<p>Goertler, P.A.L., M.D. Scheuerell, C.A. Simenstad, and D.L. Bottom. 2016. Estimating common growth patterns in juvenile Chinook salmon (Oncorhynchus tshawytscha) from diverse genetic stocks and a large spatial extent. PLoS ONE 11:e0162121</p>
-<p>Hampton, S.E., E.E. Holmes, L.P. Scheef, M.D. Scheuerell, S.L. Katz, D.E. Pendleton, and E.J. Ward 2013. Quantifying effects of abiotic and biotic drivers on community dynamics with multivariate autoregressive (MAR) models. Ecology 94:2663–2669.</p>
-<p>Harrison, Philip J., Ilkka Hanski, and Otso Ovaskainen. 2011. Bayesian state-space modeling of metapopulation dynamics in the Glanville fritillary butterfly. Ecological Monographs 81:581–598.</p>
-<p>Holmes EE, Ward EJ, Wills K. 2012. MARSS: multivariate autoregressive state-space models for analyzing time-series data. The R Journal. 4(1): 11-19</p>
-<p>Hyndman RJ, Khandakar Y. 2008. Automatic time series forecasting: the forecast package for R. Journal of Statistical Software 27(3): 1-22</p>
-<p>Ives AR, Dennis B, Cottingham, KL, Carpenter SR. 2003. Estimating community stability and ecological interactions from time series data. Ecological Monographs 73:301–330.</p>
-<p>Maurer, B.A., J.R. Bence, and T.O. Brenden. 2014. Assessing Dynamics of Lake Huron Fish Communities using Dynamic Factor Analysis. QFC Technical Report T2014-01 prepared for Ontario Ministry of Natural Resources.</p>
-<p>Ohlberger, J., M.D. Scheuerell, and D.E. Schindler. 2016. Population coherence and environmental impacts across spatial scales: a case study of Chinook salmon. Ecosphere 7:e01333</p>
-<p>Rigot, T., A. Conte, M. Goffredo, E. Ducheyne, G. Hendrickx, and M. Gilbert. 2012. Predicting the spatio-temporal distribution of Culicoides imicola in Sardinia using a discrete-time population model. Parasites &amp; Vectors 2012, 5:270.</p>
-<p>Sandlund, O.T., K.Ø. Gjelland, T. Bøhn, R. Knudsen, P.-A. Amundsen. 2013. Contrasting Population and Life History Responses of a Young Morph-Pair of European Whitefish to the Invasion of a Specialised Coregonid Competitor, Vendace. PLoS ONE 8(7): e68156. doi: 10.1371/journal.pone.0068156.</p>
-<p>Scheuerell MD, Williams JG. 2005. Forecasting climate-induced changes in the survival of Snake River spring/summer Chinook salmon (Oncorhynchus tshawytscha). Fisheries Oceanography 14: 448-457</p>
-<p>See, K.E. and E.E. Holmes. 2015. Reducing bias and improving precision in species extinction forecasts. Ecological Applications 25: 1157-1165.</p>
-<p>Simonis, J.L. 2013. Predator ontogeny determines trophic cascade strength in freshwater rock pools. Ecosphere 4:art62.</p>
-<p>Sinclair, A.R.E., K.L. Metzger, J.M. Fryxell, C. Packer, A.E. Byrom, M.E. Craft, K. Hampson, T. Lembo, S. M. Durant, G.J. Forrester, J. Bukombe, J. Mchetto, J. Dempewolf, R. Hilborn, S. Cleaveland, A. Nkwabi, A. Mosser, and S.A.R. Mduma 2013. Asynchronous food-web pathways could buffer the response of Serengeti predators to El Niño Southern Oscillation. Ecology 94:1123–1130.</p>
-<p>Stachura, M.M., N. J. Mantua, and M. D. Scheuerell. 2014. Oceanographic influences on patterns in North Pacific salmon abundance. Canadian Journal of Fisheries and Aquatic Sciences, 71(2): 226-235. doi: 10.1139/cjfas-2013-0367</p>
-<p>Ward, E.J., H. Chirrakal, M. González-Suárez, D. Aurioles-Gamboa, E.E. Holmes, L. Gerber. 2010. Applying Multivariate-state-space Models to Detect Spatial clustering of California sea lions in the Gulf of California, Mexico. Journal of Applied Ecology, 47:47-56.</p>
-<p>Zuur AF, Tuck ID, Bailey N. 2003. Dynamic factor analysis to estimate common trends in fisheries time series. Can J Fish Aquat Sci 60: 542-552.</p>
-<p>Zuur, AF, Fryer RJ, Jolliffe IT, Beukema JJ. 2003. Estimating common trends in multivariate time series using dynamic factor analysis. Environmetrics 14: 665-685.</p>
+<p>Andrews, K.S., G.D. Williams, J.F. Samhouri, K.N. Marshall, V.
+Gertseva, and P.S. Levin. In press. The legacy of a crowded ocean:
+indicators, status, and trends of anthropogenic pressures in the
+California Current ecosystem. Environmental Conservation.</p>
+<p>Baudron, A.R., C.L. Needle, A.D. Rijnsdorp, and C.T. Marshall. 2014.
+Warming temperatures and smaller body sizes: synchronous changes in
+growth of North Sea fishes. Global Change Biology, 20(4):1023-1031.</p>
+<p>Britten, G.L., M. Dowd, C. Minto, F. Ferretti, F. Boero, and H.K.
+Lotze. 2014. Predator decline leads to decreased stability in a coastal
+fish community. Ecology Letters, 17: 1518–1525.</p>
+<p>Goertler, P.A.L., M.D. Scheuerell, C.A. Simenstad, and D.L. Bottom.
+2016. Estimating common growth patterns in juvenile Chinook salmon
+(Oncorhynchus tshawytscha) from diverse genetic stocks and a large
+spatial extent. PLoS ONE 11:e0162121</p>
+<p>Hampton, S.E., E.E. Holmes, L.P. Scheef, M.D. Scheuerell, S.L. Katz,
+D.E. Pendleton, and E.J. Ward 2013. Quantifying effects of abiotic and
+biotic drivers on community dynamics with multivariate autoregressive
+(MAR) models. Ecology 94:2663–2669.</p>
+<p>Harrison, Philip J., Ilkka Hanski, and Otso Ovaskainen. 2011.
+Bayesian state-space modeling of metapopulation dynamics in the
+Glanville fritillary butterfly. Ecological Monographs 81:581–598.</p>
+<p>Holmes EE, Ward EJ, Wills K. 2012. MARSS: multivariate autoregressive
+state-space models for analyzing time-series data. The R Journal. 4(1):
+11-19</p>
+<p>Hyndman RJ, Khandakar Y. 2008. Automatic time series forecasting: the
+forecast package for R. Journal of Statistical Software 27(3): 1-22</p>
+<p>Ives AR, Dennis B, Cottingham, KL, Carpenter SR. 2003. Estimating
+community stability and ecological interactions from time series data.
+Ecological Monographs 73:301–330.</p>
+<p>Maurer, B.A., J.R. Bence, and T.O. Brenden. 2014. Assessing Dynamics
+of Lake Huron Fish Communities using Dynamic Factor Analysis. QFC
+Technical Report T2014-01 prepared for Ontario Ministry of Natural
+Resources.</p>
+<p>Ohlberger, J., M.D. Scheuerell, and D.E. Schindler. 2016. Population
+coherence and environmental impacts across spatial scales: a case study
+of Chinook salmon. Ecosphere 7:e01333</p>
+<p>Rigot, T., A. Conte, M. Goffredo, E. Ducheyne, G. Hendrickx, and M.
+Gilbert. 2012. Predicting the spatio-temporal distribution of Culicoides
+imicola in Sardinia using a discrete-time population model. Parasites
+&amp; Vectors 2012, 5:270.</p>
+<p>Sandlund, O.T., K.Ø. Gjelland, T. Bøhn, R. Knudsen, P.-A. Amundsen.
+2013. Contrasting Population and Life History Responses of a Young
+Morph-Pair of European Whitefish to the Invasion of a Specialised
+Coregonid Competitor, Vendace. PLoS ONE 8(7): e68156. doi:
+10.1371/journal.pone.0068156.</p>
+<p>Scheuerell MD, Williams JG. 2005. Forecasting climate-induced changes
+in the survival of Snake River spring/summer Chinook salmon
+(Oncorhynchus tshawytscha). Fisheries Oceanography 14: 448-457</p>
+<p>See, K.E. and E.E. Holmes. 2015. Reducing bias and improving
+precision in species extinction forecasts. Ecological Applications 25:
+1157-1165.</p>
+<p>Simonis, J.L. 2013. Predator ontogeny determines trophic cascade
+strength in freshwater rock pools. Ecosphere 4:art62.</p>
+<p>Sinclair, A.R.E., K.L. Metzger, J.M. Fryxell, C. Packer, A.E. Byrom,
+M.E. Craft, K. Hampson, T. Lembo, S. M. Durant, G.J. Forrester, J.
+Bukombe, J. Mchetto, J. Dempewolf, R. Hilborn, S. Cleaveland, A. Nkwabi,
+A. Mosser, and S.A.R. Mduma 2013. Asynchronous food-web pathways could
+buffer the response of Serengeti predators to El Niño Southern
+Oscillation. Ecology 94:1123–1130.</p>
+<p>Stachura, M.M., N. J. Mantua, and M. D. Scheuerell. 2014.
+Oceanographic influences on patterns in North Pacific salmon abundance.
+Canadian Journal of Fisheries and Aquatic Sciences, 71(2): 226-235. doi:
+10.1139/cjfas-2013-0367</p>
+<p>Ward, E.J., H. Chirrakal, M. González-Suárez, D. Aurioles-Gamboa,
+E.E. Holmes, L. Gerber. 2010. Applying Multivariate-state-space Models
+to Detect Spatial clustering of California sea lions in the Gulf of
+California, Mexico. Journal of Applied Ecology, 47:47-56.</p>
+<p>Zuur AF, Tuck ID, Bailey N. 2003. Dynamic factor analysis to estimate
+common trends in fisheries time series. Can J Fish Aquat Sci 60:
+542-552.</p>
+<p>Zuur, AF, Fryer RJ, Jolliffe IT, Beukema JJ. 2003. Estimating common
+trends in multivariate time series using dynamic factor analysis.
+Environmetrics 14: 665-685.</p>
 </div>
 
 
