@@ -11,7 +11,7 @@ Thursday from 3:00-3:50
 
 ### Lab book
 
-You can find the electronic lab book [here](https://nwfsc-timeseries.github.io/atsa-labs).
+You can find the electronic lab book [here](https://atsa-es.github.io/atsa-labs/).
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
