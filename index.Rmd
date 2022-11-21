@@ -22,7 +22,7 @@ This course is intended to give students an overview of the theory and practical
 
 # Textbook
 
-Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
+Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://atsa-es.github.io/atsa-labs/)
 
 <br>
 
