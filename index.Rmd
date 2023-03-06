@@ -1,6 +1,6 @@
 ---
 title: "Applied Time Series Analysis"
-subtitle: "FISH 550 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Spring Qtr odd years"
+subtitle: "FISH 550 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Spring Qtr 2023"
 output:
   html_document:
     toc: true
@@ -69,10 +69,10 @@ Associate Professor, School of Aquatic & Fishery Sciences
 # Meeting times & locations
 
 ### Lectures 
-Tuesday & Thursday from 1:30-2:50
+Tuesday & Thursday from 10:00-11:20 in-person FSH 213, lectures will also be recorded
 
 ### Computer Lab
-Thursday from 3:00-3:50
+Thursday from 11:20-12:20 in-person FSH 213
 
 ### Office hours
 By appointment
@@ -81,7 +81,7 @@ By appointment
 
 # Pre-requisites
 
-Students should have a working knowledge of the [**R**](https://www.r-project.org/) computing software, such as that provided in FISH 552/553. Students should also have an understanding of basic probability and statistical inference.
+Students should have a working knowledge of the [**R**](https://www.r-project.org/) computing software, such as that provided in FISH 552/553/549. Students should also have an understanding of basic probability and statistical inference.
 
 <br>
 
