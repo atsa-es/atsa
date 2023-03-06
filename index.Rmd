@@ -24,6 +24,8 @@ This course is intended to give students an overview of the theory and practical
 
 Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://atsa-es.github.io/atsa-labs/)
 
+[YouTube Channel](https://www.youtube.com/@SAFSTimeSeries) with recorded lectures
+
 <br>
 
 # Learning objectives
@@ -134,15 +136,15 @@ Students will also be required to have a user account on [**GitHub**](https://gi
 
 # Teaching methodology
 
-This course will introduce new material primarily through prepared slides and hands-on demonstrations. Students will be expected to work both individually and collaboratively (to the extent possible given the current conditions); course content and evaluation will emphasize the communication of ideas and the ability to think critically more so than a specific pathway or method. Other areas of this website provide an overview of the topics to be covered, including links to weekly reading assignments, lecture materials, computer labs, and homework assignments.
+This course will introduce new material primarily through prepared slides and hands-on demonstrations. Students will be expected to work both individually and collaboratively. Course content and evaluation will emphasize the communication of ideas and the ability to think critically more so than a specific pathway or method. Other areas of this website provide an overview of the topics to be covered, including links to weekly reading assignments, lecture materials, computer labs, and the final project paper.
 
 <br>
 
 # Communication
 
-This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group video calls as needed.
+This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email or our GitHub discussion boards; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group video calls as needed.
 
-In addition to email and video, we will use the "Issues" feature in **GitHub** to ask questions and assist others. Specifically, questions and answers can be posted to the issues in the course repository [here](https://github.com/nwfsc-timeseries/safs-timeseries/issues).
+In addition to email and video, we will use the "Discussion" feature in our class **GitHub** repository to ask questions and assist others. Specifically, questions and answers can be posted to the discussion in the course repository [https://github.com/nwfsc-timeseries/safs-timeseries/issues](https://github.com/atsa-es/fish550-2023/discussions).
 
 <br>
 
@@ -150,23 +152,23 @@ In addition to email and video, we will use the "Issues" feature in **GitHub** t
 
 Students will be evaluated on their knowledge of course content and their ability to communicate their understanding of the material via individual homework assignments (30%), a final project (40%), peer reviews (20%), and class participation (10%). There will be 6 homework assignments, each of which will count toward 5% of the final grade. Please note, **all assignments must be turned in to achieve a passing grade**.
 
-### Homework (30%)
+### Lab Write-Ups (30%)
 
-Homework will be assigned each Thursday and is due by 11:59 PM PST on the following Thursday. It will consist of some short answers and __R__ code based on topics covered in lab. There will be 6 assignments worth 5% each.  Your learning in the class will be greatly enhanced by doing the homework which consist of applying the material you learn in each lecture to a data set.
+Each Thursday during lab, you will explore a dataset and prepare an analysis of the data using the techniques you learned in class that week. The lab write-up is due by 11:59 PM PST on the following Tuesday; you have 10 days to submit. It will consist of SHORT write-ups of an analysis of the data with analysis and diagnostics. We will supply a template for the lab. There will be 6 assignments worth 5% each.  You can work on the data as a group or solo. We will supply a data set, if you have a different data set that you or your group would like to use instead, you ask us if it will work. 
 
 ### Individual project (40%)  
 
-Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See [list of prior student projects](https://nwfsc-timeseries.github.io/atsa/student_pubs.html) for the types of projects done is prior years.
+Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See [list of prior student projects](https://nwfsc-timeseries.github.io/atsa/student_pubs.html) for the types of projects done in prior years.
 
-The techniques you will be learning would be appropriate for the [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) happening concurrently with the 2021 Fish 507 course. You are welcome to do one of the challenges as your individual project. You do not need to formally participate in the challenge (i.e. register as a team but you are welcome to do so). All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.
+The techniques you will be learning would be appropriate for the [EFI RCN NEON Ecological Forecast Challenge](https://ecoforecast.org/efi-rcn-forecast-challenges/) data. You are welcome to do one of the challenges as your individual project. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be most appropriate for the class.
 
 ### Peer reviews (20%)  
 
-Each student will have to provide 2 anonymous peer-reviews of their colleagues’ papers (10% each).
+Each student will have to provide 2 anonymous peer-reviews of their colleagues’ final papers (10% each).
 
 ### Participation (10%)  
 
-This is a graduate-level course and we expect a certain amount of engagement from each student, which includes attending and participating lectures and computer labs.
+This is a graduate-level course and we expect a certain amount of engagement from each student, which includes attending and participating lectures and computer labs. Participation is based on class attendance and participating in the GitHub Discussions.
 
 Students should discuss any potential schedule conflicts with the instructor during the first week of class.
 
@@ -175,6 +177,10 @@ Students should discuss any potential schedule conflicts with the instructor dur
 # Academic integrity
 
 Faculty and students at the University of Washington are expected to maintain the highest standards of academic conduct, professional honesty, and personal integrity. Plagiarism, cheating, and other academic misconduct are serious violations of the [Student Conduct Code](https://www.washington.edu/cssc/for-students/academic-misconduct/). we have no reason to believe that anyone will violate the Student Conduct Code, but *we will have no choice* but to refer any suspected violation(s) to the College of the Environment for a Student Conduct Process hearing. Students who have been guilty of a violation will receive zero points for the assignment in question.
+
+# chatGPT and co-pilot
+
+You are welcome to use these and they can be powerful coding assistants --- especially when you are not an expert in R, Stan or TMB etc. GitHub Copilot is an AI pair programmer, and is [free for students](https://docs.github.com/en/copilot/quickstart) (or you can get a 60 day trial). [What a video to learn how to use](https://www.youtube.com/watch?v=XQ4Negbmtk4). They can also be helpful for understanding material (personal AI tutor). If you use these for the lab text or paper text, please note this in your lab write-up so we can get a better understanding of how these tools help in the research process. You will not be downgraded for for using these; unless you use AI to simply generate large chunks of text! Use these tools to help you write better and faster and then go more indepth into your novel contribution.
 
 <br>
 
