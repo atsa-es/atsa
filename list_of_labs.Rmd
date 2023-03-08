@@ -68,24 +68,6 @@ arimalab <- list(
 ```
 
 ```{r}
-sslab1 <- list(
-  title = "Univariate state-space models",
-  topics = c("Fitting univariate state-space models", "Animal movement", "TMB", "Bayesian"),
-  pdf = "",
-  rmd = "",
-  html = "",
-  youtube = "",
-  video = "",
-  data = "",
-  homework = "HW #2",
-  key = "",
-  instructor = "Eli",
-  hw_topics = c("Univariate state-space models"),
-  hw_duedate = "Due Apr 25 Tues 11:59 PM PST; post to GitHub"
-)
-```
-
-```{r}
 sslab2 <- list(
   title = "Multivariate State-space models",
   topics = c("Fitting mulitvariate state-space models"),
@@ -95,12 +77,12 @@ sslab2 <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "HW #3",
+  homework = "HW #2",
   #homework = "HW #2 questions and data: [Rmd](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/HW2-NO2.Rmd), [html](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/HW2-NO2.html), [data](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData), [Tips](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/HW2-Tips.html)",
   key = "",
   instructor = "Eli",
   hw_topics = c("State-space models"),
-  hw_duedate = "Due May 2 Tues 11:59 PM PST; Post to GitHub"
+  hw_duedate = "Due April 25 Tues 11:59 PM PST; Post to GitHub"
 )
 ```
 
@@ -114,11 +96,29 @@ dfalab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "HW #4",
+  homework = "HW #3",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due May 9 Tues 11:59 PM PST; Post to GitHub"
+  hw_duedate = "Due May 2 Tues 11:59 PM PST; Post to GitHub"
+)
+```
+
+```{r hmmlab}
+hmmlab <- list(
+  title = "Hidden Markov Models",
+  topics = c("HMMs", "Mixed Models"),
+  pdf = "",
+  rmd = "",
+  html = "https://atsa-es.github.io/atsa/Labs/HW6/HW6.html",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "HW #4: HMM/Bayesian State space models. [Rmd](https://atsa-es.github.io/atsa/Labs/HW6/HW6.Rmd), [html](https://atsa-es.github.io/atsa/Labs/HW6/HW6.html), [Rmd Part 2 JAGS](https://atsa-es.github.io/atsa/Labs/HW6/HW6-part2-JAGS.Rmd), [Part 2 Online](https://rstudio.cloud/project/2228346)",
+  key = "",
+  instructor = "Eric",
+  hw_topics = c(""),
+  hw_duedate = "Due May 9 Thurs 11:59 PM PST; Post to GitHub"
 )
 ```
 
@@ -132,7 +132,7 @@ dlmlab <- list(
   video = "https://youtu.be/KpBgTqcsqNg",
   youtube = "",
   data = "",
-  homework = "HW #5",
+  homework = "",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
@@ -145,7 +145,7 @@ dlmlab <- list(
 ```{r bayeslab}
 bayeslab <- list(
   title = "Fitting models non-Gaussian errors",
-  topics = c("Generalized linear models",
+  topics = c("Fitting Bayesian state-space models",
               "Fitting zero-inflated models"),
   pdf = "",
   rmd = "https://atsa-es.github.io/atsa-labs/Rmds/fitting-models-with-stan.Rmd",
@@ -161,98 +161,6 @@ bayeslab <- list(
 )
 ```
 
-```{r hmmlab}
-hmmlab <- list(
-  title = "Hidden Markov Models",
-  topics = c("HMMs", "Mixed Models"),
-  pdf = "",
-  rmd = "",
-  html = "https://atsa-es.github.io/atsa/Labs/HW6/HW6.html",
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "HW #6: HMM/Bayesian State space models. [Rmd](https://atsa-es.github.io/atsa/Labs/HW6/HW6.Rmd), [html](https://atsa-es.github.io/atsa/Labs/HW6/HW6.html), [Rmd Part 2 JAGS](https://atsa-es.github.io/atsa/Labs/HW6/HW6-part2-JAGS.Rmd), [Part 2 Online](https://rstudio.cloud/project/2228346)",
-  key = "",
-  instructor = "Eric",
-  hw_topics = c(""),
-  hw_duedate = "Due May 23 Thurs 11:59 PM PST; Post to GitHub"
-)
-```
-
-
-```{r}
-glmlab <- list(
-  title = "Generalized models",
-  topics = c("Fitting models with non-Gaussian errors",
-              "Fitting zero-inflated models"),
-  pdf = "",
-  rmd = "",
-  html = "",
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "No homework",
-  key = "",
-  instructor = "Eric",
-  hw_topics = c("No homework"),
-  hw_duedate = "work on projects"
-)
-```
-
-```{r}
-intlab <- list(
-  title = "Species interactions",
-  topics = c("Fitting MARSS models for species interactions"),
-  pdf = "",
-  rmd = "",
-  html = "",
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "No homework",
-  key = "",
-  instructor = "Eli",
-  hw_topics = c("No homework"),
-  hw_duedate = "work on projects"
-)
-```
-
-```{r}
-perturblab <- list(
-  title = "Perturbation detection",
-  topics = c("Perturbation detection"),
-  pdf = "",
-  rmd = "",
-  html = "",
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "No homework",
-  key = "",
-  instructor = "Eric",
-  hw_topics = c("No homework"),
-  hw_duedate = "work on projects"
-)
-```
-
-```{r}
-hierlab <- list(
-  title = "Hierarchical models",
-  topics = c("Fitting hierarchical models"),
-  pdf = "",
-  rmd = "",
-  html = "",
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "No homework",
-  key = "",
-  instructor = "Eric",
-  hw_topics = c("No homework"),
-  hw_duedate = "work on projects"
-)
-```
-
 
 ```{r}
 freqdomainlab <- list(
@@ -264,11 +172,11 @@ freqdomainlab <- list(
   video = "",
   youtube = "",
   data = "",
-  homework = "No homework",
+  homework = "HW #6",
   key = "",
   instructor = "Mark",
-  hw_topics = c("No homework"),
-  hw_duedate = "work on projects"
+  hw_topics = c(""),
+  hw_duedate = "Due Tues May 23 11:59pm PST; Post to GitHub"
 )
 ```
 
@@ -287,6 +195,42 @@ spatiallab <- list(
   instructor = "Eric",
   hw_topics = c(""),
   hw_duedate = "work on projects"
+)
+```
+
+```{r help}
+helplab <- list(
+  title = "Help Desk",
+  topics = c("No Lab; Help for projects"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "No homework",
+  key = "",
+  instructor = "",
+  hw_topics = c("No homework"),
+  hw_duedate = ""
+)
+```
+
+```{r studentpresentation2}
+presentlab <- list(
+  title = "Student presentations",
+  topics = c("Student presentations"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "No homework",
+  key = "",
+  instructor = "",
+  hw_topics = c("No homework"),
+  hw_duedate = ""
 )
 ```
 
@@ -326,10 +270,10 @@ etsedmlab <- list(
 )
 ```
 
-```{r studentpresentation2}
-presentlab <- list(
-  title = "Student presentations",
-  topics = c("Student presentations"),
+```{r}
+perturblab <- list(
+  title = "Perturbation detection",
+  topics = c("Perturbation detection"),
   pdf = "",
   rmd = "",
   html = "",
@@ -338,7 +282,80 @@ presentlab <- list(
   data = "",
   homework = "No homework",
   key = "",
-  instructor = "",
+  instructor = "Eric",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
+)
+```
+
+```{r}
+hierlab <- list(
+  title = "Hierarchical models",
+  topics = c("Fitting hierarchical models"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "No homework",
+  key = "",
+  instructor = "Eric",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
+)
+```
+
+```{r}
+sslab1 <- list(
+  title = "Univariate state-space models",
+  topics = c("Fitting univariate state-space models", "Animal movement", "TMB", "Bayesian"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  youtube = "",
+  video = "",
+  data = "",
+  homework = "HW #2",
+  key = "",
+  instructor = "Eli",
+  hw_topics = c("Univariate state-space models"),
+  hw_duedate = "Due Apr 25 Tues 11:59 PM PST; post to GitHub"
+)
+```
+
+```{r}
+glmlab <- list(
+  title = "Generalized models",
+  topics = c("Fitting models with non-Gaussian errors",
+              "Fitting zero-inflated models"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "No homework",
+  key = "",
+  instructor = "Eric",
+  hw_topics = c("No homework"),
+  hw_duedate = "work on projects"
+)
+```
+
+```{r}
+intlab <- list(
+  title = "Species interactions",
+  topics = c("Fitting MARSS models for species interactions"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "No homework",
+  key = "",
+  instructor = "Eli",
   hw_topics = c("No homework"),
   hw_duedate = "work on projects"
 )
