@@ -7,11 +7,11 @@ output: html_document
 
 ### Meeting days & times
 
-Thursday from 3:00-3:50
+Thursday from 11:20-12:20 FISH 213
 
 ### Lab book
 
-You can find the electronic lab book [here](https://atsa-es.github.io/atsa-labs/).
+FISH 550 [lab book](https://atsa-es.github.io/atsa-labs/), [GitHub 2023 repo](https://github.com/atsa-es/fish550-2023), [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

@@ -13,7 +13,7 @@
 
 <title>Final Project</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -147,11 +147,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -180,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -189,16 +193,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -384,7 +381,10 @@ div.tocify {
 </div>
 
 
-<p>As part of the class, each student will have to write a complete, publishable (&lt;20 page) paper using the time series analysis techniques learned in class. See below for details on the structure of the paper.</p>
+<p>As part of the class, each student will have to write a complete,
+publishable (&lt;20 page) paper using the time series analysis
+techniques learned in class. See below for details on the structure of
+the paper.</p>
 <div id="due-dates" class="section level3">
 <h3>Due Dates</h3>
 <ul>
@@ -397,18 +397,40 @@ div.tocify {
 </div>
 <div id="data-sets" class="section level1">
 <h1>Data sets</h1>
-<p>Students are encouraged to use their own data and the paper may form a chapter for their thesis/dissertation. However some students might not have their own data. Students may also use data from the instructors, public datasets or datasets included in <strong>R</strong> libraries.</p>
-<p>Students without data or a particular project in mind might consider taking part in the <a href="The%20https://ecoforecast.org/efi-rcn-forecast-challenges/">EFI RCN NEON Ecological Forecast Challenge</a> happening concurrently with the 2021 Fish 507 course. You do not need to formally participate in the challenge (i.e. register as a team but you are welcome to do so). All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.</p>
+<p>Students are encouraged to use their own data and the paper may form
+a chapter for their thesis/dissertation. However some students might not
+have their own data. Students may also use data from the instructors,
+public datasets or datasets included in <strong>R</strong>
+libraries.</p>
+<p>Students without data or a particular project in mind might consider
+taking part in the <a
+href="The%20https://ecoforecast.org/efi-rcn-forecast-challenges/">EFI
+RCN NEON Ecological Forecast Challenge</a> happening concurrently with
+the 2021 Fish 507 course. You do not need to formally participate in the
+challenge (i.e. register as a team but you are welcome to do so). All
+the data are provided and the challenge lays out the goals (what to
+forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance,
+and Beetle Abundance challenges would be appropriate for the class.</p>
 <p>Other sources of public fisheries data sets are:</p>
 <ul>
 <li><a href="https://www.ramlegacy.org/">RAM Legacy</a></li>
-<li><a href="http://www3.imperial.ac.uk/cpb/databases/gpdd">Global Population Dynamics Database</a></li>
-<li><a href="https://www.webapps.nwfsc.noaa.gov/apex/f?p=261:home:0">NOAA NWFSC Salmon Population Summary</a></li>
-<li><a href="http://www.fao.org/fishery/statistics/collections/en">FAO Catch Databases</a></li>
-<li><a href="https://ecomarres.com/?page_id=945">Ecomarres Global Catch database</a>; <a href="https://www.nature.com/articles/sdata201739#Sec16">paper on the Global Catch Database</a></li>
-<li><a href="http://www.seaaroundus.org/">Sea Around Us databases</a></li>
-<li><a href="https://globalfishingwatch.org/datasets-and-code/">Global Fishing Watch data</a></li>
-<li><a href="http://derekogle.com/fishR/data/CompleteList">fishR databases</a></li>
+<li><a href="http://www3.imperial.ac.uk/cpb/databases/gpdd">Global
+Population Dynamics Database</a></li>
+<li><a
+href="https://www.webapps.nwfsc.noaa.gov/apex/f?p=261:home:0">NOAA NWFSC
+Salmon Population Summary</a></li>
+<li><a href="http://www.fao.org/fishery/statistics/collections/en">FAO
+Catch Databases</a></li>
+<li><a href="https://ecomarres.com/?page_id=945">Ecomarres Global Catch
+database</a>; <a
+href="https://www.nature.com/articles/sdata201739#Sec16">paper on the
+Global Catch Database</a></li>
+<li><a href="http://www.seaaroundus.org/">Sea Around Us
+databases</a></li>
+<li><a href="https://globalfishingwatch.org/datasets-and-code/">Global
+Fishing Watch data</a></li>
+<li><a href="http://derekogle.com/fishR/data/CompleteList">fishR
+databases</a></li>
 <li>SAFS (contact the instructors)
 <ul>
 <li>Alaska Salmon Program</li>
@@ -439,8 +461,12 @@ div.tocify {
 <h1>Project Methods</h1>
 <p><strong>due Thurs Feb 18th 11:59 pm PST</strong></p>
 <ol style="list-style-type: decimal">
-<li><p>Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.</p></li>
-<li><p>Show that you can fit a pilot version of your proposed model. In other words, show that you can fit your proposed model to some data.</p></li>
+<li><p>Write a draft methods section for your project. This is HW #5.
+The section should include a mathematical description of your model
+sufficient for someone else to understand and fit that model.</p></li>
+<li><p>Show that you can fit a pilot version of your proposed model. In
+other words, show that you can fit your proposed model to some
+data.</p></li>
 </ol>
 </div>
 <div id="preparation-of-final-papers" class="section level1">
@@ -448,36 +474,69 @@ div.tocify {
 <p><strong>due Fri Mar 12 11:59pm PST</strong></p>
 <div id="length" class="section level3">
 <h3>Length</h3>
-<p>Final papers should be no more than 20 pages total, including all figures, tables and references. Please submit the PDF or Word version of your paper via email.</p>
+<p>Final papers should be no more than 20 pages total, including all
+figures, tables and references. Please submit the PDF or Word version of
+your paper via email.</p>
 </div>
 <div id="components" class="section level3">
 <h3>Components</h3>
 <p>Each paper needs to have the following:</p>
-<p><strong>Title page</strong>: include the title, your name, and a “tweetable abstract” summarizing everything you’ve done in 140 characters or less. These won’t be launched into the twitterverse, but as a concise (and exciting!) summary.</p>
-<p><strong>Abstract page</strong>: Summarize briefly (ideally &lt; 250 words) the novelty of your analysis, key results, and implications for future work</p>
-<p><strong>Body / main text</strong>: Please include an Introduction / Methods / Results / Discussion section. You’re free to use any of the equations from the MARSS manual, or class material to provide equations, variables, descriptions, etc.</p>
-<p><strong>References</strong>: Please use some kind of bibliography manager (like Endnote) to format all references consistently.</p>
-<p><strong>Figures / Tables</strong>: Include figures and tables formatted for the journal of your choice. Examples you might want to include are: plots of your raw data, plots of underlying state estimates, plots of future projections, tables of parameter estimates, model selection (AICc) etc.</p>
+<p><strong>Title page</strong>: include the title, your name, and a
+“tweetable abstract” summarizing everything you’ve done in 140
+characters or less. These won’t be launched into the twitterverse, but
+as a concise (and exciting!) summary.</p>
+<p><strong>Abstract page</strong>: Summarize briefly (ideally &lt; 250
+words) the novelty of your analysis, key results, and implications for
+future work</p>
+<p><strong>Body / main text</strong>: Please include an Introduction /
+Methods / Results / Discussion section. You’re free to use any of the
+equations from the MARSS manual, or class material to provide equations,
+variables, descriptions, etc.</p>
+<p><strong>References</strong>: Please use some kind of bibliography
+manager (like Endnote) to format all references consistently.</p>
+<p><strong>Figures / Tables</strong>: Include figures and tables
+formatted for the journal of your choice. Examples you might want to
+include are: plots of your raw data, plots of underlying state
+estimates, plots of future projections, tables of parameter estimates,
+model selection (AICc) etc.</p>
 </div>
 <div id="style" class="section level3">
 <h3>Style</h3>
-<p>As long as you include page numbers and line numbers, you are free to use the general formatting guidelines for whichever journal you plan to eventually submit your paper to. For some examples, see</p>
-<p>CJFAS: <a href="http://www.nrcresearchpress.com/" class="uri">http://www.nrcresearchpress.com/</a></p>
-<p>Ecology: <a href="http://esapubs.org/esapubs/preparation.htm" class="uri">http://esapubs.org/esapubs/preparation.htm</a></p>
-<p>Journal of Applied Ecology: <a href="http://www.journalofappliedecology.org/view/0/authorGuideline.html" class="uri">http://www.journalofappliedecology.org/view/0/authorGuideline.html</a></p>
+<p>As long as you include page numbers and line numbers, you are free to
+use the general formatting guidelines for whichever journal you plan to
+eventually submit your paper to. For some examples, see</p>
+<p>CJFAS: <a href="http://www.nrcresearchpress.com/"
+class="uri">http://www.nrcresearchpress.com/</a></p>
+<p>Ecology: <a href="http://esapubs.org/esapubs/preparation.htm"
+class="uri">http://esapubs.org/esapubs/preparation.htm</a></p>
+<p>Journal of Applied Ecology: <a
+href="http://www.journalofappliedecology.org/view/0/authorGuideline.html"
+class="uri">http://www.journalofappliedecology.org/view/0/authorGuideline.html</a></p>
 </div>
 </div>
 <div id="peer-reviews" class="section level1">
 <h1>Peer reviews</h1>
 <div id="advice-on-reviewing-scientific-papers" class="section level2">
 <h2>Advice on reviewing scientific papers</h2>
-<p>If you are looking for some guidance on writing reviews of scientific papers, here are some links to various columns, blogs, etc, about reviewing scientific papers:</p>
-<p><a href="http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/">Arthropod Ecology</a> <a href="http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/">Violent metaphors</a> (don’t let the name scare you) <a href="http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf">Duke Writing Lab</a> <a href="http://www.peerageofscience.org/review/review-examples/">Examples of good reviews from Peerage</a></p>
+<p>If you are looking for some guidance on writing reviews of scientific
+papers, here are some links to various columns, blogs, etc, about
+reviewing scientific papers:</p>
+<p><a
+href="http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/">Arthropod
+Ecology</a> <a
+href="http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/">Violent
+metaphors</a> (don’t let the name scare you) <a
+href="http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf">Duke
+Writing Lab</a> <a
+href="http://www.peerageofscience.org/review/review-examples/">Examples
+of good reviews from Peerage</a></p>
 </div>
 <div id="guidelines" class="section level2">
 <h2>Guidelines</h2>
-<p>Final papers will be peer-reviewed and reviewed by instructors based on the following criteria.</p>
-<p><a href="Files/MANUSCRIPT%20REVIEW%20FOR%20FISH%20507.docx">Example of a manuscript review for Fish 507.docx</a></p>
+<p>Final papers will be peer-reviewed and reviewed by instructors based
+on the following criteria.</p>
+<p><a href="Files/MANUSCRIPT%20REVIEW%20FOR%20FISH%20507.docx">Example
+of a manuscript review for Fish 507.docx</a></p>
 <p><a href="Files/review_template.docx">Review Template.docx</a></p>
 <p><a href="Files/review_template.Rmd">Review Template.Rmd</a></p>
 </div>

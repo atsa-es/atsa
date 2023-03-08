@@ -13,7 +13,7 @@
 
 <title>Computer Labs</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -146,11 +146,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -179,8 +183,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -188,16 +192,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -317,9 +314,11 @@ $(document).ready(function () {
 </div>
 <div id="lab-book" class="section level3">
 <h3>Lab book</h3>
-<p>You can find the electronic lab book <a href="https://atsa-es.github.io/atsa-labs/">here</a>.</p>
+<p>You can find the electronic lab book <a
+href="https://atsa-es.github.io/atsa-labs/">here</a>.</p>
 <!-- first is PDF, 2nd PPT, 3rd Rmd -->
-<div style="border: 1px solid #ddd; padding: 0px; border-style: none;overflow-y: scroll; height:700px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; border-style: none;overflow-y: scroll; height:700px; ">
 <table class="table table-striped" style="width: auto !important; ">
 <caption>
 </caption>
@@ -354,7 +353,7 @@ Key
 <tbody>
 <tr>
 <td style="text-align:center;width: 8em; ">
-5 Jan
+28 Mar
 </td>
 <td style="text-align:center;">
 <br>
@@ -363,37 +362,51 @@ Key
 Matrices &amp; matrix algebra <br>(review on your own) <br>
 </td>
 <td style="text-align:center;">
-<a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-basicmat.html">html 1</a><br><a href="Labs/Week%200%20basic%20matrix/basic-matrix-math.pdf">PDF 1</a><br>
+<a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-basicmat.html">html
+1</a><br><a
+href="Labs/Week%200%20basic%20matrix/basic-matrix-math.pdf">PDF
+1</a><br>
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-Optional (not part of grade): Listed at end of <a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-basicmat.html">Chapter 1</a> in the ATSA lab book. <br>
+Optional: Listed at end of
+<a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-basicmat.html">Chapter
+1</a> in the ATSA lab book. <br>
 </td>
 <td style="text-align:center;">
 Optional <br>
 </td>
 <td style="text-align:center;">
-<a href="Labs/Week%200%20basic%20matrix/basic-matrix-math-key.pdf">Key</a>
+<a
+href="Labs/Week%200%20basic%20matrix/basic-matrix-math-key.pdf">Key</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-7 Jan
+30 Mar
 </td>
 <td style="text-align:center;">
-Eli/Mark <br>
+Mark <br>
 </td>
 <td style="text-align:left;">
-Writing models in matrix form (through section 2.5) <br>Basic time series functions <br>Autocorrelation <br>
+Writing models in matrix form (through section 2.5) <br>Basic time
+series functions <br>Autocorrelation <br>
 </td>
 <td style="text-align:center;">
-<a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html">html 1</a> <a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html">html 2</a><br><br>
+<a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html">html
+1</a> <a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html">html
+2</a><br><br>
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-Optional (but important to understand course material): End of <a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html">Chapter 2</a> in the ATSA lab book. <br>
+Optional (important to understand course material): End of
+<a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-mlr.html">Chapter
+2</a> in the ATSA lab book. <br>
 </td>
 <td style="text-align:center;">
 Optional <br>
@@ -404,7 +417,7 @@ Optional <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-12 Jan
+4 Apr
 </td>
 <td style="text-align:center;">
 <br>
@@ -428,32 +441,36 @@ Optional <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-14 Jan
+6 Apr
 </td>
 <td style="text-align:center;">
-Mark &amp; Eli <br>
+Eli <br>
 </td>
 <td style="text-align:left;">
-Simulating ARMA models <br>Fitting ARIMA models <br>Forecasting with ARIMA models <br>Box-Jenkins Methods <br>
+Simulating ARMA models <br>Fitting ARIMA models <br>Forecasting with
+ARIMA models <br>Box-Jenkins Methods <br>
 </td>
 <td style="text-align:center;">
-<a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-tslab.html">html 1</a> <a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-boxjenkins-.html">html 2</a><br><br>
+<a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-tslab.html">html
+1</a> <a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-boxjenkins-.html">html
+2</a><br><br>
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-Intro to ts: problems at end of <a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-tslab.html">Chapter 4</a> in the ATSA lab book.<br>Fitting ARMA models: problems at end of <a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-boxjenkins-.html">Chapter 5</a> in the ATSA lab book. <br>
+HW #1 <br>
 </td>
 <td style="text-align:center;">
-Due next Thurs 11:59 PM PST; email to instructor(s) for lab <br>
+Due Apr 18 Tues 11:59 PM PST; Post to GitHub. <br>
 </td>
 <td style="text-align:center;">
-<a href="Labs/Week%202/HW_2_ts_Key.html">Key 1</a> <a href="Labs/Week%202/HW_2_box-jenkins_Key.html">Key 2</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-19 Jan
+11 Apr
 </td>
 <td style="text-align:center;">
 <br>
@@ -477,7 +494,56 @@ Due next Thurs 11:59 PM PST; email to instructor(s) for lab <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-21 Jan
+13 Apr
+</td>
+<td style="text-align:center;">
+Eli <br>
+</td>
+<td style="text-align:left;">
+Simulating ARMA models <br>Fitting arima models <br>Fitting univariate
+state-space models <br>
+</td>
+<td style="text-align:center;">
+<br><br>
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+Intro to uniSS: problems at end of chapter; Due 11:49 pm next Thurs <br>
+</td>
+<td style="text-align:center;">
+Due next Tues 11:59 PM PST; post to GitHub <br>
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 8em; ">
+18 Apr
+</td>
+<td style="text-align:center;">
+<br>
+</td>
+<td style="text-align:left;">
+<br>
+</td>
+<td style="text-align:center;">
+<br><br>
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+<br>
+</td>
+<td style="text-align:center;">
+<br>
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 8em; ">
+20 Apr
 </td>
 <td style="text-align:center;">
 Eli <br>
@@ -486,23 +552,34 @@ Eli <br>
 Fitting univariate and mulitvariate state-space models <br>
 </td>
 <td style="text-align:center;">
-<a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html">html 1</a> <a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html">html 2</a><br><br>
+<a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html">html
+1</a> <a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html">html
+2</a><br><br>
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-HW #2 questions and data: <a href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/HW2-NO2.Rmd">Rmd</a>, <a href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/HW2-NO2.html">html</a>, <a href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/ECNNO2.RData">data</a>, <a href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/HW2-Tips.html">Tips</a> <br>
+HW #2 questions and data: <a
+href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/HW2-NO2.Rmd">Rmd</a>,
+<a
+href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/HW2-NO2.html">html</a>,
+<a
+href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/ECNNO2.RData">data</a>,
+<a
+href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/HW2-Tips.html">Tips</a>
+<br>
 </td>
 <td style="text-align:center;">
-Due Sat Jan 30 11:59 PM PST; email to Eli <br>
+Due Apr 25 Tues 11:59 PM PST; Post to GitHub <br>
 </td>
 <td style="text-align:center;">
-<a href="Labs/Week%203/NO2Lab/HW2-NO2-Key.html">Key</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-26 Jan
+25 Apr
 </td>
 <td style="text-align:center;">
 <br>
@@ -526,7 +603,7 @@ Due Sat Jan 30 11:59 PM PST; email to Eli <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-28 Jan
+27 Apr
 </td>
 <td style="text-align:center;">
 Mark <br>
@@ -540,18 +617,17 @@ Fitting DFA models <br>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-HW #3 Problems at end of Chap 10 of Lab Book <br>
+HW #3 <br>
 </td>
 <td style="text-align:center;">
-Due next Thurs 11:59 PM PST; email to Mark <br>
+Due May 2 Tues 11:59 PM PST; Post to GitHub <br>
 </td>
 <td style="text-align:center;">
-<a href="Labs/Week%204/HW_4_answer_key.pdf">Key</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-2 Feb
+2 May
 </td>
 <td style="text-align:center;">
 <br>
@@ -575,7 +651,7 @@ Due next Thurs 11:59 PM PST; email to Mark <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-4 Feb
+4 May
 </td>
 <td style="text-align:center;">
 Mark <br>
@@ -584,24 +660,24 @@ Mark <br>
 Fitting DLMs <br>
 </td>
 <td style="text-align:center;">
-<a href="Labs/Week%205/intro-to-dlms.html">html 1</a><br><br><a href="Labs/Week%205/intro-to-dlms.Rmd">Rmd 1</a>
+<a href="Labs/Week%205/intro-to-dlms.html">html 1</a><br><br><a
+href="Labs/Week%205/intro-to-dlms.Rmd">Rmd 1</a>
 </td>
 <td style="text-align:center;">
 <a href="https://youtu.be/KpBgTqcsqNg">Video</a>
 </td>
 <td style="text-align:center;">
-HW #4 Problems at end of Chap 9 in lab book <br>
+HW #4 <br>
 </td>
 <td style="text-align:center;">
-Due next Thurs 11:59 PM PST; email to instructor(s) for lab <br>
+Due May 9 Tues 11:59 PM PST; Post to GitHub <br>
 </td>
 <td style="text-align:center;">
-<a href="Labs/Week%205/HW_5_answer_key.pdf">Key</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-9 Feb
+9 May
 </td>
 <td style="text-align:center;">
 <br>
@@ -625,16 +701,76 @@ Due next Thurs 11:59 PM PST; email to instructor(s) for lab <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-11 Feb
+11 May
 </td>
 <td style="text-align:center;">
 Eric <br>
 </td>
 <td style="text-align:left;">
-Bayesian estimation <br>STAN <br>
+HMMs <br>Mixed Models <br>
 </td>
 <td style="text-align:center;">
-<a href="https://nwfsc-timeseries.github.io/atsa-labs/chap-stan.html">html 1</a><br><br><a href="https://nwfsc-timeseries.github.io/atsa-labs/Rmds/fitting-models-with-stan.Rmd">Rmd 1</a>
+<a href="https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6.html">html
+1</a><br><br>
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+HW #6: HMM/Bayesian State space models. <a
+href="https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6.Rmd">Rmd</a>,
+<a
+href="https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6.html">html</a>,
+<a
+href="https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6-part2-JAGS.Rmd">Rmd
+Part 2 JAGS</a>, <a href="https://rstudio.cloud/project/2228346">Part 2
+Online</a> <br>
+</td>
+<td style="text-align:center;">
+Due May 23 Thurs 11:59 PM PST; Post to GitHub <br>
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 8em; ">
+16 May
+</td>
+<td style="text-align:center;">
+<br>
+</td>
+<td style="text-align:left;">
+<br>
+</td>
+<td style="text-align:center;">
+<br><br>
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+<br>
+</td>
+<td style="text-align:center;">
+<br>
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 8em; ">
+18 May
+</td>
+<td style="text-align:center;">
+Eric <br>
+</td>
+<td style="text-align:left;">
+Generalized linear models <br>Fitting zero-inflated models <br>
+</td>
+<td style="text-align:center;">
+<a
+href="https://nwfsc-timeseries.github.io/atsa-labs/chap-stan.html">html
+1</a><br><br><a
+href="https://nwfsc-timeseries.github.io/atsa-labs/Rmds/fitting-models-with-stan.Rmd">Rmd
+1</a>
 </td>
 <td style="text-align:center;">
 </td>
@@ -642,14 +778,14 @@ Bayesian estimation <br>STAN <br>
 HW # 5. Project Methods <br>
 </td>
 <td style="text-align:center;">
-Due next Thurs 11:59 PM PST; email to all instructors <br>
+Due May 11 Thurs 11:59 PM PST; Post to GitHub <br>
 </td>
 <td style="text-align:center;">
 </td>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-16 Feb
+23 May
 </td>
 <td style="text-align:center;">
 <br>
@@ -673,105 +809,7 @@ Due next Thurs 11:59 PM PST; email to all instructors <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-18 Feb
-</td>
-<td style="text-align:center;">
-Eli &amp; Eric <br>
-</td>
-<td style="text-align:left;">
-Interactions <br>Stability <br>B matrix <br>
-</td>
-<td style="text-align:center;">
-<br><br>
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-HW #6: HMM/Bayesian State space models. <a href="https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6.Rmd">Rmd</a>, <a href="https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6.html">html</a>, <a href="https://nwfsc-timeseries.github.io/atsa/Labs/HW6/HW6-part2-JAGS.Rmd">Rmd Part 2 JAGS</a>, <a href="https://rstudio.cloud/project/2228346">Part 2 Online</a> <br>
-</td>
-<td style="text-align:center;">
-Due Monday Mar 1 11:59 PM PST; email to Eric &amp; Eli <br>
-</td>
-<td style="text-align:center;">
-<a href="Labs/HW6/HW6-key-part1.html">Key 1</a> <a href="Labs/HW6/HW6-key-part2.html">Key 2</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;width: 8em; ">
-23 Feb
-</td>
-<td style="text-align:center;">
-<br>
-</td>
-<td style="text-align:left;">
-<br>
-</td>
-<td style="text-align:center;">
-<br><br>
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-<br>
-</td>
-<td style="text-align:center;">
-<br>
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:center;width: 8em; ">
-25 Feb
-</td>
-<td style="text-align:center;">
-Eli <br>
-</td>
-<td style="text-align:left;">
-Fitting EDM models <br>
-</td>
-<td style="text-align:center;">
-<a href="Labs/EDM%20Lab/EDM-Lab.html">html 1</a><br><br><a href="Labs/EDM%20Lab/EDM-Lab.Rmd">Rmd 1</a>
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-No Homework <br>
-</td>
-<td style="text-align:center;">
-<br>
-</td>
-<td style="text-align:center;">
-<a href="Labs/EDM%20Lab/EDM-Key.html">Key</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;width: 8em; ">
-2 Mar
-</td>
-<td style="text-align:center;">
-<br>
-</td>
-<td style="text-align:left;">
-<br>
-</td>
-<td style="text-align:center;">
-<br><br>
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-<br>
-</td>
-<td style="text-align:center;">
-<br>
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:center;width: 8em; ">
-4 Mar
+25 May
 </td>
 <td style="text-align:center;">
 Eric <br>
@@ -785,7 +823,10 @@ Spatio-temporal models <br>
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-No homework; Datasets for in class lab <a href="Labs/Week%209/SNOTEL_metadata.csv">Data1</a>, <a href="Labs/Week%209/SNOTEL_Washington_1981_2013.csv">Data2</a>, <a href="Labs/Week%209/tck_longform.Rdata">Data3</a> <br>
+No homework; Datasets for in class lab <a
+href="Labs/Week%209/SNOTEL_metadata.csv">Data1</a>, <a
+href="Labs/Week%209/SNOTEL_Washington_1981_2013.csv">Data2</a>, <a
+href="Labs/Week%209/tck_longform.Rdata">Data3</a> <br>
 </td>
 <td style="text-align:center;">
 work on projects <br>
@@ -795,7 +836,7 @@ work on projects <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-9 Mar
+30 May
 </td>
 <td style="text-align:center;">
 <br>
@@ -819,7 +860,7 @@ work on projects <br>
 </tr>
 <tr>
 <td style="text-align:center;width: 8em; ">
-11 Mar
+1 Jun
 </td>
 <td style="text-align:center;">
 <br>

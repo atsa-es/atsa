@@ -18,7 +18,7 @@ library(kableExtra)
 
 ```{r generate_dates, include=FALSE}
 ## first day of class
-start_date <- as.Date("2021-01-05")
+start_date <- as.Date("2023-03-28")
 ## all tues
 tues <- seq.Date(from = start_date, by = 7, length.out = 10)
 ## all thur
@@ -34,6 +34,7 @@ week_lecs <- list(d1 = intro,
                    d3 = arma_basics,
                    d4 = forecast,
                    d7 = uni_ss,
+                   d17 = uni_ss_tmb,
                    d8 = marss,
                    d5 = marss_covariates,
                    d12 = dfa,
@@ -42,12 +43,11 @@ week_lecs <- list(d1 = intro,
                    d13 = bayes,
                    d16 = bayes2,
                    d9 = model_inf,
-                   d15 = interactions1,
-                   d17 = EDM,
                    d6 = freqdomain,
                    d14 = spatial,
                    d18 = spatial2,
-                   d19 = regvsss,
+                   d15 = tbd,
+                   d19 = present1,
                    d20 = present2
 )
 ```
@@ -56,19 +56,19 @@ week_lecs <- list(d1 = intro,
 week_labs <- list(d1 = matrixlab,
                    d2 = lmlab,
                    d3 = "",
-                   d4 = forecastlab,
+                   d4 = arimalab,
                    d5 = "",
-                   d6 = sslab2,
+                   d6 = sslab1,
                    d7 = "",
-                   d8 = dfalab,
+                   d8 = sslab2,
                    d9 = "",
-                   d10 = dlmlab,
+                   d10 = dfalab,
                    d11 = "",
-                   d12 = bayeslab,
+                   d12 = dlmlab,
                    d13 = "",
                    d14 = hmmlab,
                    d15 = "",
-                   d16 = edmlab,
+                   d16 = bayeslab,
                    d17 = "",
                    d18 = spatiallab,
                    d19 = "",

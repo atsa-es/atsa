@@ -13,7 +13,7 @@
 
 <title>2021 Schedule</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -146,11 +146,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -179,8 +183,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -188,16 +192,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -312,6 +309,8 @@ $(document).ready(function () {
 
 <hr />
 <!-- week_lecs is defined in asyllabus.Rmd -->
+<div id="not-used-in-2023" class="section level2">
+<h2>Not used in 2023</h2>
 <table class="table table-striped" style="width: auto !important; ">
 <caption>
 </caption>
@@ -334,10 +333,11 @@ Homework
 <tbody>
 <tr>
 <td style="text-align:left;width: 8em; ">
-5 Jan
+28 Mar
 </td>
 <td style="text-align:left;width: 27em; ">
-Course overview <br>Properties of time series <br>Data transformations <br>Time series decomposition <br>
+Course overview <br>Properties of time series <br>Data transformations
+<br>Time series decomposition <br>
 </td>
 <td style="text-align:left;">
 Matrices &amp; matrix algebra <br>(review on your own) <br>
@@ -348,49 +348,56 @@ Review of matrix math <br>Optional <br>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-7 Jan
+30 Mar
 </td>
 <td style="text-align:left;width: 27em; ">
-Covariance &amp; correlation <br>Autocorrelation &amp; Partial autocorrelation <br>Cross correlation <br>White noise <br>Random walks <br>Differencing <br>
+Covariance &amp; correlation <br>Autocorrelation &amp; Partial
+autocorrelation <br>Cross correlation <br>White noise <br>Random walks
+<br>Differencing <br>
 </td>
 <td style="text-align:left;">
-Writing models in matrix form (through section 2.5) <br>Basic time series functions <br>Autocorrelation <br>
+Writing models in matrix form (through section 2.5) <br>Basic time
+series functions <br>Autocorrelation <br>
 </td>
 <td style="text-align:left;">
-linear regression in matrix form <br>Optional <br>
+matrix models <br>Optional <br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-12 Jan
+4 Apr
 </td>
 <td style="text-align:left;width: 27em; ">
-Autoregressive (AR) models <br>Moving average (MA) models <br>Stationary AR models <br>Invertible MA models <br>Using ACF &amp; PACF for model ID <br>
-</td>
-<td style="text-align:left;">
+Autoregressive (AR) models <br>Moving average (MA) models <br>Stationary
+AR models <br>Invertible MA models <br>Using ACF &amp; PACF for model ID
 <br>
 </td>
 <td style="text-align:left;">
 <br>
 </td>
+<td style="text-align:left;">
+<br>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-14 Jan
+6 Apr
 </td>
 <td style="text-align:left;width: 27em; ">
-Box-Jenkins method <br>Fitting ARIMA models with R <br>Forecasting with ARIMA models <br>Seasonal ARIMA models <br>
+Box-Jenkins method <br>Fitting ARIMA models with R <br>Forecasting with
+ARIMA models <br>Seasonal ARIMA models <br>
 </td>
 <td style="text-align:left;">
-Simulating ARMA models <br>Fitting ARIMA models <br>Forecasting with ARIMA models <br>Box-Jenkins Methods <br>
+Simulating ARMA models <br>Fitting ARIMA models <br>Forecasting with
+ARIMA models <br>Box-Jenkins Methods <br>
 </td>
 <td style="text-align:left;">
-ARIMA models <br>Due next Thurs 11:59 PM PST; email to instructor(s) for lab <br>
+ARIMA models <br>Due Apr 18 Tues 11:59 PM PST; Post to GitHub. <br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-19 Jan
+11 Apr
 </td>
 <td style="text-align:left;width: 27em; ">
 Univariate state-space models <br>
@@ -404,108 +411,114 @@ Univariate state-space models <br>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-21 Jan
+13 Apr
+</td>
+<td style="text-align:left;width: 27em; ">
+Univariate state-space models <br>TMB <br>Bayesian <br>
+</td>
+<td style="text-align:left;">
+Simulating ARMA models <br>Fitting arima models <br>Fitting univariate
+state-space models <br>
+</td>
+<td style="text-align:left;">
+Univariate state-space models <br>Due next Tues 11:59 PM PST; post to
+GitHub <br>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 8em; ">
+18 Apr
 </td>
 <td style="text-align:left;width: 27em; ">
 Introduction to multivariate state-space models <br>
 </td>
 <td style="text-align:left;">
-Fitting univariate and mulitvariate state-space models <br>
+<br>
 </td>
 <td style="text-align:left;">
-State-space models <br>Due Sat Jan 30 11:59 PM PST; email to Eli <br>
+<br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-26 Jan
+20 Apr
 </td>
 <td style="text-align:left;width: 27em; ">
 MARSSX and ARMAX models <br>Seasonal effects <br>Missing covariates <br>
 </td>
 <td style="text-align:left;">
-<br>
+Fitting univariate and mulitvariate state-space models <br>
 </td>
 <td style="text-align:left;">
-<br>
+State-space models <br>Due Apr 25 Tues 11:59 PM PST; Post to GitHub <br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-28 Jan
+25 Apr
 </td>
 <td style="text-align:left;width: 27em; ">
-Regression with autocorrelated errors <br>Dynamic factor analysis (DFA) <br>
+Regression with autocorrelated errors <br>Dynamic factor analysis (DFA)
+<br>
 </td>
 <td style="text-align:left;">
-Fitting DFA models <br>
+<br>
 </td>
 <td style="text-align:left;">
-Dynamic Factor Analysis <br>Due next Thurs 11:59 PM PST; email to Mark <br>
+<br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-2 Feb
+27 Apr
 </td>
 <td style="text-align:left;width: 27em; ">
 Dynamic linear models (DLMs) <br>
 </td>
 <td style="text-align:left;">
-<br>
+Fitting DFA models <br>
 </td>
 <td style="text-align:left;">
+Dynamic Factor Analysis <br>Due May 2 Tues 11:59 PM PST; Post to GitHub
 <br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-4 Feb
+2 May
 </td>
 <td style="text-align:left;width: 27em; ">
 Hidden Markov models <br>
 </td>
 <td style="text-align:left;">
-Fitting DLMs <br>
+<br>
 </td>
 <td style="text-align:left;">
-Dynamic Linear Models <br>Due next Thurs 11:59 PM PST; email to instructor(s) for lab <br>
+<br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-9 Feb
+4 May
 </td>
 <td style="text-align:left;width: 27em; ">
 Bayesian estimation of time-series and state-space models <br>Stan <br>
 </td>
 <td style="text-align:left;">
-<br>
+Fitting DLMs <br>
 </td>
 <td style="text-align:left;">
+Dynamic Linear Models <br>Due May 9 Tues 11:59 PM PST; Post to GitHub
 <br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-11 Feb
+9 May
 </td>
 <td style="text-align:left;width: 27em; ">
-MAP estimation <br>Multivariate models <br>DFA <br>Writing Bayesian models in Stan <br>
-</td>
-<td style="text-align:left;">
-Bayesian estimation <br>STAN <br>
-</td>
-<td style="text-align:left;">
-<br>Due next Thurs 11:59 PM PST; email to all instructors <br>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 8em; ">
-16 Feb
-</td>
-<td style="text-align:left;width: 27em; ">
-Multi-model inference and selection <br>Information criteria <br>Cross-validation &amp; LOOIC <br>
+MAP estimation <br>Multivariate models <br>DFA <br>Writing Bayesian
+models in Stan <br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -516,24 +529,26 @@ Multi-model inference and selection <br>Information criteria <br>Cross-validatio
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-18 Feb
+11 May
 </td>
 <td style="text-align:left;width: 27em; ">
-AR(p) Models <br>Estimating interaction strengths <br>Gompertz models <br>Stability metrics <br>
+Multi-model inference and selection <br>Information criteria
+<br>Cross-validation &amp; LOOIC <br>
 </td>
 <td style="text-align:left;">
-Interactions <br>Stability <br>B matrix <br>
+HMMs <br>Mixed Models <br>
 </td>
 <td style="text-align:left;">
-<br>Due Monday Mar 1 11:59 PM PST; email to Eric &amp; Eli <br>
+<br>Due May 23 Thurs 11:59 PM PST; Post to GitHub <br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-23 Feb
+16 May
 </td>
 <td style="text-align:left;width: 27em; ">
-Semi- and non-parametric models <br>
+Frequency domain <br>Fourier transforms <br>Spectral analysis
+<br>Wavelet analysis <br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -544,21 +559,21 @@ Semi- and non-parametric models <br>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-25 Feb
+18 May
 </td>
 <td style="text-align:left;width: 27em; ">
-Frequency domain <br>Fourier transforms <br>Spectral analysis <br>Wavelet analysis <br>
+Spatial and spatio-temporal models <br>
 </td>
 <td style="text-align:left;">
-Fitting EDM models <br>
+Generalized linear models <br>Fitting zero-inflated models <br>
 </td>
 <td style="text-align:left;">
-<br> <br>
+<br>Due May 11 Thurs 11:59 PM PST; Post to GitHub <br>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-2 Mar
+23 May
 </td>
 <td style="text-align:left;width: 27em; ">
 Spatial and spatio-temporal models <br>
@@ -572,10 +587,10 @@ Spatial and spatio-temporal models <br>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-4 Mar
+25 May
 </td>
 <td style="text-align:left;width: 27em; ">
-Spatial and spatio-temporal models <br>
+<br>
 </td>
 <td style="text-align:left;">
 Spatio-temporal models <br>
@@ -586,10 +601,10 @@ Spatio-temporal models <br>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-9 Mar
+30 May
 </td>
 <td style="text-align:left;width: 27em; ">
-Regression versus State Space <br>
+Student presentations <br>
 </td>
 <td style="text-align:left;">
 <br>
@@ -600,7 +615,7 @@ Regression versus State Space <br>
 </tr>
 <tr>
 <td style="text-align:left;width: 8em; ">
-11 Mar
+1 Jun
 </td>
 <td style="text-align:left;width: 27em; ">
 Student presentations <br>
@@ -614,6 +629,7 @@ No homework <br>work on projects <br>
 </tr>
 </tbody>
 </table>
+</div>
 
 
 

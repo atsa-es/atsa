@@ -13,7 +13,7 @@
 
 <title>Review Guidelines</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -308,20 +305,36 @@ $(document).ready(function () {
 </div>
 
 
-<p>As part of your grade (20% total; 10% for each review), each student provide 2 anonymous peer-reviews of their colleagues’ papers. A template to use for your review is below.</p>
+<p>As part of your grade (20% total; 10% for each review), each student
+provide 2 anonymous peer-reviews of their colleagues’ papers. A template
+to use for your review is below.</p>
 <div id="advice-on-reviewing-scientific-papers" class="section level1">
 <h1>Advice on reviewing scientific papers</h1>
-<p>If you are looking for some guidance on writing reviews of scientific papers, here are some links to various columns, blogs, etc, about reviewing scientific papers:</p>
-<p><a href="http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/">Arthropod Ecology</a></p>
-<p><a href="http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/">Violent metaphors</a> (don’t let the name scare you)</p>
-<p><a href="http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf">Duke Writing Lab</a></p>
-<p><a href="http://www.peerageofscience.org/review/review-examples/">Examples of good reviews from Peerage</a></p>
+<p>If you are looking for some guidance on writing reviews of scientific
+papers, here are some links to various columns, blogs, etc, about
+reviewing scientific papers:</p>
+<p><a
+href="http://arthropodecology.com/2012/02/29/how-to-review-a-scientific-paper/">Arthropod
+Ecology</a></p>
+<p><a
+href="http://violentmetaphors.com/2013/12/13/how-to-become-good-at-peer-review-a-guide-for-young-scientists/">Violent
+metaphors</a> (don’t let the name scare you)</p>
+<p><a
+href="http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf">Duke
+Writing Lab</a></p>
+<p><a
+href="http://www.peerageofscience.org/review/review-examples/">Examples
+of good reviews from Peerage</a></p>
 </div>
 <div id="review-guidelines" class="section level1">
 <h1>Review Guidelines</h1>
-<p>Final papers will be peer-reviewed and reviewed by instructors based on the following criteria. Please read before you submit your final paper.</p>
-<p><a href="Files/MANUSCRIPT%20REVIEW%20FOR%20FISH%20507.docx">Example of a manuscript review for Fish 507.docx</a></p>
-<p>Review templates: <a href="Files/review_template.docx">MS Word</a> or <a href="Files/review_template.Rmd">R Markdown</a></p>
+<p>Final papers will be peer-reviewed and reviewed by instructors based
+on the following criteria. Please read before you submit your final
+paper.</p>
+<p><a href="Files/MANUSCRIPT%20REVIEW%20FOR%20FISH%20507.docx">Example
+of a manuscript review for Fish 507.docx</a></p>
+<p>Review templates: <a href="Files/review_template.docx">MS Word</a> or
+<a href="Files/review_template.Rmd">R Markdown</a></p>
 </div>
 
 

@@ -13,7 +13,7 @@
 
 <title>Homework</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -308,15 +305,27 @@ $(document).ready(function () {
 </div>
 
 
-<p>The homework for each week is listed with the <a href="comp_labs.html">Computer Labs</a>.</p>
+<p>The homework for each week is listed with the <a
+href="comp_labs.html">Computer Labs</a>.</p>
 <div id="homework-format" class="section level1">
 <h1>Homework format</h1>
-<p>Please submit your homework as an Rmarkdown document (.Rmd), which will allow you to combine text, equations, and R code into a pdf or html file. The easiest way to do so is to use the built-in capabilities of RStudio. For those unfamiliar with Rmarkdown, there is a nice introduction <a href="https://qerm514.github.io/website/comp_labs.html">here</a> on the first QERM 514 lab. There is also help available in RStudio. Please use the template below when submitting your homework. Email your file(s) to the instructor indicated for each week.</p>
+<p>Please submit your homework as an Rmarkdown document (.Rmd), which
+will allow you to combine text, equations, and R code into a pdf or html
+file. The easiest way to do so is to use the built-in capabilities of
+RStudio. For those unfamiliar with Rmarkdown, there is a nice
+introduction <a
+href="https://qerm514.github.io/website/comp_labs.html">here</a> on the
+first QERM 514 lab. There is also help available in RStudio. Please use
+the template below when submitting your homework. Email your file(s) to
+the instructor indicated for each week.</p>
 </div>
 <div id="homework-templates" class="section level1">
 <h1>Homework templates</h1>
-<p><a href="Labs/Homework%20Templates/rmarkdown_example.Rmd">rmarkdown homework template</a></p>
-<p><a href="Labs/Homework%20Templates/Rmarkdown%20screenshot.jpg">screenshot of Rmd and resulting html</a></p>
+<p><a href="Labs/Homework%20Templates/rmarkdown_example.Rmd">rmarkdown
+homework template</a></p>
+<p><a
+href="Labs/Homework%20Templates/Rmarkdown%20screenshot.jpg">screenshot
+of Rmd and resulting html</a></p>
 </div>
 
 
