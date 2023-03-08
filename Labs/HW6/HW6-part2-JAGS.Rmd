@@ -34,7 +34,7 @@ Set up the data.
 data(wilddogs, package="MARSS")
 ```
 
-Set up your JAGS model code for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is very similar to the  [univariate state-space model](https://nwfsc-timeseries.github.io/atsa-labs/sec-jags-uss.html) in the lab book except that we are not fitting a AR(1) model rather a random walk with drift. Note that in the code, $u$ is `mu`, $\sqrt{q}$ is `sd.q` and $\sqrt{r}$ is `sd.r`.
+Set up your JAGS model code for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is very similar to the  [univariate state-space model](https://atsa-es.github.io/atsa-labs/sec-jags-uss.html) in the lab book except that we are not fitting a AR(1) model rather a random walk with drift. Note that in the code, $u$ is `mu`, $\sqrt{q}$ is `sd.q` and $\sqrt{r}$ is `sd.r`.
 
 ```{r}
 model.loc = ("ss_model.txt")
@@ -76,18 +76,18 @@ mod_ss = jags(jags.data, parameters.to.save = jags.params, model.file = model.lo
               DIC = TRUE)
 ```
 
-8. Evaluate whether the model converged using R-hat values. See slides 40 & 41 in the [Bayesian lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html). For a JAGS model, just look at `print(mod_ss)`.
+8. Evaluate whether the model converged using R-hat values. See slides 40 & 41 in the [Bayesian lecture](https://atsa-es.github.io/atsa/Lectures/Week%206/lec_11_bayes.html). For a JAGS model, just look at `print(mod_ss)`.
     
 9. Make a histogram of the posterior distribution of `mu` (population growth rate). You can attach the posterior draws using `attach.jags(mod_ss)`. Then you can directly access the posterior draws.
-See examples in [section 12.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-jags-lr-no-covariates.html) of the lab book.
+See examples in [section 12.2](https://atsa-es.github.io/atsa-labs/sec-jags-lr-no-covariates.html) of the lab book.
 
 10. Using the posterior distribution of `mu`, what is the probability that the dog population is declining, i.e. the probability that `mu` is less than 0. Hint, you can use the fraction of the posterior draws that are less than 0. 
 
-10. Make a plot of the estimated wild dog population size with 95% credible intervals. The estimated population size is the estimated $x$, called `predY` in the code. This is a plot like [slide 49](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html#49) in the Bayesian lecture. If you are getting stuck, look at the code that produced the figure on slide 49 by looking at the [Rmd file](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.Rmd). You'll need to adapt that code a bit for the JAGS output.
+10. Make a plot of the estimated wild dog population size with 95% credible intervals. The estimated population size is the estimated $x$, called `predY` in the code. This is a plot like [slide 49](https://atsa-es.github.io/atsa/Lectures/Week%206/lec_11_bayes.html#49) in the Bayesian lecture. If you are getting stuck, look at the code that produced the figure on slide 49 by looking at the [Rmd file](https://atsa-es.github.io/atsa/Lectures/Week%206/lec_11_bayes.Rmd). You'll need to adapt that code a bit for the JAGS output.
 
 **Some ideas for optional extra analyses**
 
-* Using the coda package make some diagnostic plots. See [section 12.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-jags-lr-no-covariates.html) towards the end of the section for examples of how to do this.
+* Using the coda package make some diagnostic plots. See [section 12.2](https://atsa-es.github.io/atsa-labs/sec-jags-lr-no-covariates.html) towards the end of the section for examples of how to do this.
 
 * The wild dog counts are discrete and the normality assumption for the observations errors for log of the counts is an approximation. Change the model code (`model.R`) to use a log linear poisson errors model. A few tips:
     + You'll need to change the lines where `Y[i] ~ ` is defined so you use a poisson distribution. Careful. It is the expected value of $log(y)$ that is $x[i]$. 

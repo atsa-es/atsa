@@ -35,7 +35,7 @@ plot(wilddogs[,1], wilddogs[,2], xlab = "Year", ylab = "Count")
 ```
 
 
-The code below sets up a Stan model for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is [ss_rw_drift.stan](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/ss_rw_drift.stan) (with a small change in the `pos_indx` specification). (Note that in the atsar code, $x$ is called `pred`, $u$ is `mu`, $\sqrt{q}$ is `sigma_process` and $\sqrt{r}$ is `sigma_obs`.)
+The code below sets up a Stan model for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is [ss_rw_drift.stan](https://github.com/atsa-es/atsar/blob/master/inst/stan/ss_rw_drift.stan) (with a small change in the `pos_indx` specification). (Note that in the atsar code, $x$ is called `pred`, $u$ is `mu`, $\sqrt{q}$ is `sigma_process` and $\sqrt{r}$ is `sigma_obs`.)
 
 
 ```{r}

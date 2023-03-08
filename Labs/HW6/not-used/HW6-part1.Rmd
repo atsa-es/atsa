@@ -40,7 +40,7 @@ pdo <- dplyr::group_by(pdo, Year) %>%
 pdo <- pdo[-1,]
 ```
 
-Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS4` package discussed in the [HMM lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1) to answer the questions in in Part 1.
+Use `pdo` for your analyses. You will be modeling `winter_pdo`. Use the `depmixS4` package discussed in the [HMM lecture](https://atsa-es.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1) to answer the questions in in Part 1.
 
 
 1. Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). See the lecture on HMMs and/or section 3 in the [depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)

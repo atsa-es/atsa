@@ -18,7 +18,7 @@ knitr::opts_chunk$set(fig.align='center', out.width = '90%', cache=TRUE, warning
 # Solutions Chapter 7
 \chaptermark{Solutions Ch 7}
 
-Here are the answers for the homework problems based on the material in [Multivariate state-space models](https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html).  You can download the Rmd file for this key from [here](HW_3_Key.Rmd).
+Here are the answers for the homework problems based on the material in [Multivariate state-space models](https://atsa-es.github.io/atsa-labs/chap-mss.html).  You can download the Rmd file for this key from [here](HW_3_Key.Rmd).
 
 
 For these questions, use the `harborSealWA` data set in **MARSS**.  The data are already logged, but you will need to remove the year column and have time going across the columns not down the rows.

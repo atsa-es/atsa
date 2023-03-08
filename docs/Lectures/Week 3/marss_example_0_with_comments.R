@@ -1,4 +1,4 @@
-# https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html
+# https://atsa-es.github.io/atsa-labs/chap-mss.html
 
 # Set up
 library(MARSS)
@@ -21,7 +21,7 @@ n <- nrow(dat) - 1
 # Plot the data
 
 # Task Group 1
-# https://nwfsc-timeseries.github.io/atsa-labs/sec-mss-a-single-well-mixed-population.html
+# https://atsa-es.github.io/atsa-labs/sec-mss-a-single-well-mixed-population.html
 # Fit a model with one underlying state (population process)
 # All sites having different observation variance
 mod.list.0 <- list(B = matrix(1), U = matrix("u"), Q = matrix("q"), 
@@ -70,7 +70,7 @@ cov2cor(M) # Correlation matrix
 
 
 # Task Group 2
-# https://nwfsc-timeseries.github.io/atsa-labs/sec-mss-segind.html
+# https://atsa-es.github.io/atsa-labs/sec-mss-segind.html
 # Fit a model with four underlying state (population process)
 mod.list.1 <- list(B = diag(1,4), U = matrix("u",4,1), Q = "diagonal and equal", 
                    Z = diag(1,4), A = "scaling", R = "diagonal and unequal", 
@@ -93,7 +93,7 @@ autoplot(fit.1)
 # uncorrelated.
 
 # Task Group 3
-# https://nwfsc-timeseries.github.io/atsa-labs/sec-mss-segind.html
+# https://atsa-es.github.io/atsa-labs/sec-mss-segind.html
 # Fit a model with four underlying state (population process)
 mod.list.2 <- list(B = diag(1,4), U = matrix("u",4,1), Q = "equalvarcov", 
                    Z = diag(1,4), A = "scaling", R = "diagonal and equal", 

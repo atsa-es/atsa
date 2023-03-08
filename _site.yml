@@ -24,7 +24,7 @@ navbar:
     - text: "References"
       href: references.html
     - text: "Post questions"
-      href: https://github.com/nwfsc-timeseries/safs-timeseries/issues
+      href: https://github.com/atsa-es/fish550-2023/discussions
 
 output_dir: "docs"
 output:

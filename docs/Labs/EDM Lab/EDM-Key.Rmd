@@ -148,9 +148,7 @@ Empirical dynamic modeling for time series
 
 ## Task 1
 
-Use the code on slide 59 to fit the training data `tdat` with the Simplex EDM model.
-
-https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#59
+Use the code on [slide 59](Lectures/Week%208/lec_15_semiparametric.html#59) to fit the training data `tdat` with the Simplex EDM model.
 
 ```{r, echo=TRUE}
 mod <- rEDM::simplex(as.numeric(tdat$spawners), E=1:10)
@@ -180,7 +178,7 @@ gridExtra::grid.arrange(p1, p2, nrow = 1)
 
 ## Task 4
 
-Use the code for slide [64](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%208/lec_15_semiparametric.html#64) to use data 1960 to `r endtrain` for your library (training data) and data `r endtrain+1` to 2005 for your prediction (test data).
+Use the code for slide [64](Lectures/Week%208/lec_15_semiparametric.html#64) to use data 1960 to `r endtrain` for your library (training data) and data `r endtrain+1` to 2005 for your prediction (test data).
 
 `lib` is your training data. The function wants the index. But we will leave off the last year in our training data because we need that for our $t+1$ forecast. The function will not return the prediction for the first year of our test data. I will pass in an extra year at the beginning of our test data.
 

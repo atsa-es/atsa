@@ -308,7 +308,7 @@ install.packages("devtools", repos = "https://cloud.r-project.org")
 * And then we can install our custom package for the class with bundled Stan time series models
 
 ```{r, eval=FALSE, echo=TRUE}
-devtools::install_github(repo="nwfsc-timeseries/atsar")
+devtools::install_github(repo="atsa-es/atsar")
 library("atsar")
 ```
 

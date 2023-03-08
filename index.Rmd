@@ -28,7 +28,24 @@ This course is intended to give students an overview of the theory and practical
 
 [Class GitHub repo](https://github.com/atsa-es/fish550-2023), [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
 
+[atsalibrary](https://atsa-es.github.io/atsalibrary/) You will need to install for the course data.
+
 <br>
+
+# Key dates
+
+* HW #1 Tues April 18 11:59pm PST
+* [Project proposals](final_proj.html) due Fri April 21 11:59pm PST
+* HW #2 Tues April 25 11:59pm PST
+* HW #3 Tues May 2 11:59pm PST
+* HW #4 Tues May 9 11:59pm PST
+* HW #5 [Project Methods](final_proj.html#Project_Methods) Fri May 12 11:59pm PST
+* HW #6 Tues May 23 11:59pm PST
+* [Final project](final_proj.html) due Fri June 3th 11:59pm PST
+* [Peer reviews](review_guide.html) due Fri June 10th 11:59pm PST
+
+<br>
+
 
 # Learning objectives
 
@@ -146,7 +163,7 @@ This course will introduce new material primarily through prepared slides and ha
 
 This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email or our GitHub discussion boards; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group video calls as needed.
 
-In addition to email and video, we will use the "Discussion" feature in our class **GitHub** repository to ask questions and assist others. Specifically, questions and answers can be posted to the discussion in the course repository [https://github.com/nwfsc-timeseries/safs-timeseries/issues](https://github.com/atsa-es/fish550-2023/discussions).
+In addition to email and video, we will use the "Discussion" feature in our class **GitHub** repository to ask questions and assist others. Specifically, questions and answers can be posted to the discussion in the course repository [https://github.com/atsa-es/safs-timeseries/issues](https://github.com/atsa-es/fish550-2023/discussions).
 
 <br>
 
@@ -160,7 +177,7 @@ Each Thursday during lab, you will explore a dataset and prepare an analysis of 
 
 ### Individual project (40%)  
 
-Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See [list of prior student projects](https://nwfsc-timeseries.github.io/atsa/student_pubs.html) for the types of projects done in prior years.
+Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See [list of prior student projects](https://atsa-es.github.io/atsa/student_pubs.html) for the types of projects done in prior years.
 
 The techniques you will be learning would be appropriate for the [EFI RCN NEON Ecological Forecast Challenge](https://ecoforecast.org/efi-rcn-forecast-challenges/) data. You are welcome to do one of the challenges as your individual project. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be most appropriate for the class.
 

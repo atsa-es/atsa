@@ -46,7 +46,7 @@ rownames(covariates) <- c("Temp","TP", "s","c")
 
 # Fit model with process and observation error
 # no covariates except season
-# https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-both-error.html
+# https://atsa-es.github.io/atsa-labs/sec-msscov-both-error.html
 D <- d <- C <- c <- A <- U <- "zero"
 Z <- "identity"
 B <- "identity"
@@ -62,7 +62,7 @@ kem <- MARSS(dat, model = model.list)
 mods <- data.frame(name="Only season", AICc=kem$AICc)
 
 # Fit model with process and observation error
-# https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-both-error.html
+# https://atsa-es.github.io/atsa-labs/sec-msscov-both-error.html
 D <- d <- C <- c <- A <- U <- "zero"
 Z <- "identity"
 B <- "identity"

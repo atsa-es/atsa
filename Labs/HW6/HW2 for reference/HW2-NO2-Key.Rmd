@@ -382,7 +382,7 @@ datmat2 <- log(datmat2)
 rownames(datmat2) <- datwide$SiteCode
 ```
 
-6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$).
+6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://atsa-es.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$).
 
 Create covariate
 ```{r}
@@ -444,7 +444,7 @@ for(i in sites){
 
 **Ideas for OPTIONAL extra analyses**
 
-* OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
+* OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://atsa-es.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
 
 * OPTIONAL. Use the model from question 8. Structure your $\mathbf{D}$ matrix into the 3 regions so that each region has the same seasonal effect (same $\mathbf{D}$ values).
 

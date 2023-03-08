@@ -274,7 +274,7 @@ Any of these options for $\mathbf{R}$ (and other custom options as well) are ava
 
 For this exercise, we will use the Lake Washington phytoplankton data contained in the **MARSS** package. Let's begin by reading in the monthly values for all of the data, including metabolism, chemistry, and climate.
 
-**NOTE**: You can find an `.R` script that contains all of the code in this lab without all of the text [here](https://github.com/nwfsc-timeseries/atsa/blob/master/Labs/Week%204/intro-to-dfa.R).
+**NOTE**: You can find an `.R` script that contains all of the code in this lab without all of the text [here](https://github.com/atsa-es/atsa/blob/master/Labs/Week%204/intro-to-dfa.R).
 
 ```{r dfa-read-data}
 ## load MARSS

@@ -665,7 +665,7 @@ datmat2[datmat2==0] &lt;- NA
 datmat2 &lt;- log(datmat2)
 rownames(datmat2) &lt;- datwide$SiteCode</code></pre>
 <ol start="6" style="list-style-type: decimal">
-<li>Repeat question 1 (one underlying NO<span class="math inline">\(_2\)</span> trend) for the monthly data. <a href="https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html">Model seasonality as a Fourier series</a> where the seasonality is in the process errors (the <span class="math inline">\(x\)</span>).</li>
+<li>Repeat question 1 (one underlying NO<span class="math inline">\(_2\)</span> trend) for the monthly data. <a href="https://atsa-es.github.io/atsa-labs/sec-msscov-season.html">Model seasonality as a Fourier series</a> where the seasonality is in the process errors (the <span class="math inline">\(x\)</span>).</li>
 </ol>
 <p>Create covariate</p>
 <pre class="r"><code>TT &lt;- dim(datmat2)[2] # time steps
@@ -698,7 +698,7 @@ for(i in sites){
 </ol>
 <p><strong>Ideas for OPTIONAL extra analyses</strong></p>
 <ul>
-<li><p>OPTIONAL. Use the model from question 8. Adapt the code for <a href="https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html">Figure 8.2</a> in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?</p></li>
+<li><p>OPTIONAL. Use the model from question 8. Adapt the code for <a href="https://atsa-es.github.io/atsa-labs/sec-msscov-season.html">Figure 8.2</a> in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?</p></li>
 <li><p>OPTIONAL. Use the model from question 8. Structure your <span class="math inline">\(\mathbf{D}\)</span> matrix into the 3 regions so that each region has the same seasonal effect (same <span class="math inline">\(\mathbf{D}\)</span> values).</p></li>
 <li><p>OPTIONAL. Try some other approaches for modeling seaonsality such as monthly factors or polynomials. Any difference in the seasonal pattern?</p></li>
 </ul>

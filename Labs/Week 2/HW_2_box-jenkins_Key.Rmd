@@ -14,7 +14,7 @@ output:
 knitr::opts_knit$set(unnamed.chunk.label = "bjsolns-")
 ```
 
-Here are the answers for the homework problems based on the material in [Box-Jenkins method in R](https://nwfsc-timeseries.github.io/atsa-labs/chap-labboxjenkins-.html).  You can download the Rmd file for this key from [here](HW_2_box-jenkins_Key.Rmd).
+Here are the answers for the homework problems based on the material in [Box-Jenkins method in R](https://atsa-es.github.io/atsa-labs/chap-labboxjenkins-.html).  You can download the Rmd file for this key from [here](HW_2_box-jenkins_Key.Rmd).
 
 
 # Solutions Chapter 5

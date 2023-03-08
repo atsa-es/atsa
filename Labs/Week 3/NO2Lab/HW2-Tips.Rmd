@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE, cache=FALSE, message = FALSE, warning = FALSE
 
 # Tips
 
-For this analysis, you will use MARSS models and you can follow/copy [chapter 7 in the lab manual](https://nwfsc-timeseries.github.io/atsa-labs/chap-mss.html).
+For this analysis, you will use MARSS models and you can follow/copy [chapter 7 in the lab manual](https://atsa-es.github.io/atsa-labs/chap-mss.html).
 
 On the first page of all chapters is a link where you can download the Rmd file for that lecture. That will show you how to set up the code and how all the figures were made.
 
@@ -60,11 +60,11 @@ $$
 
 ## Fitting the models with MARSS
 
-The lectures tab on the course website has a link to a [MARSS reference sheet](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%203/MARSS_Reference_Sheet.pdf). Use that to help you when you set up your models.
+The lectures tab on the course website has a link to a [MARSS reference sheet](https://atsa-es.github.io/atsa/Lectures/Week%203/MARSS_Reference_Sheet.pdf). Use that to help you when you set up your models.
 
 For this homework, you'll be setting the `Z` and `R` matrices in part 1, Q1 and the `Z`, `R` and `Q` in part 1, Q4. The default `B`, `tinitx`, `x0`, and `A` will be fine so you can ignore those. The `U` matrix is the drift term in a random walk. You may or may not want to accept the default `U` (which is all `U` allowed to be different).
 
-For part 2, you'll use the material in chapter 8, [section 8.6](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual.
+For part 2, you'll use the material in chapter 8, [section 8.6](https://atsa-es.github.io/atsa-labs/sec-msscov-season.html) in the lab manual.
 
 ## Getting output from MARSS
 

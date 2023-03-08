@@ -12,13 +12,13 @@ knitr::opts_chunk$set(echo = TRUE, cache=FALSE, message = FALSE, warning = FALSE
 
 # Background
 
-[NO$_2$](https://www.epa.gov/no2-pollution) an air pollutant generated from burning of fuel by motor vehicles and power plants. In this exercise, you'll analyze NO$_2$ data from the [UK Environmental Change Network](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/ECN_data.pdf) to look for patterns in the yearly trends across the UK.
+[NO$_2$](https://www.epa.gov/no2-pollution) an air pollutant generated from burning of fuel by motor vehicles and power plants. In this exercise, you'll analyze NO$_2$ data from the [UK Environmental Change Network](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/ECN_data.pdf) to look for patterns in the yearly trends across the UK.
 
 Your goal is to understand any overall and regional patterns in yearly NO$_2$ using these data.
 
 ## The data and packages
 
-Download `ECNNO2.RData` from [HERE](https://nwfsc-timeseries.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData). and run the code below to prepare the data frame that you will work with.
+Download `ECNNO2.RData` from [HERE](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData). and run the code below to prepare the data frame that you will work with.
 
 ```{r}
 load("ECNNO2.RData")
@@ -182,7 +182,7 @@ datmat2 <- log(datmat2)
 rownames(datmat2) <- datwide$SiteCode
 ```
 
-6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$). Your covariate will look like so.
+6. Repeat question 1 (one underlying NO$_2$ trend) for the monthly data. [Model seasonality as a Fourier series](https://atsa-es.github.io/atsa-labs/sec-msscov-season.html) where the seasonality is in the process errors (the $x$). Your covariate will look like so.
 
 ```
 TT <- dim(datmat2)[2] # time steps
@@ -198,7 +198,7 @@ covariate <- rbind(cos.t, sin.t)
 
 **Ideas for OPTIONAL extra analyses**
 
-* OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
+* OPTIONAL. Use the model from question 8. Adapt the code for [Figure 8.2](https://atsa-es.github.io/atsa-labs/sec-msscov-season.html) in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?
 
 * OPTIONAL. Use the model from question 8. Structure your $\mathbf{D}$ matrix into the 3 regions so that each region has the same seasonal effect (same $\mathbf{D}$ values).
 

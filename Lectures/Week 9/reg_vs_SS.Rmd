@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 
 ## Fixed & random effects
 
-Let's go back to Mark's [lecture on DFA](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%204/lec_08_intro_to_DFA.html#25)
+Let's go back to Mark's [lecture on DFA](https://atsa-es.github.io/atsa/Lectures/Week%204/lec_08_intro_to_DFA.html#25)
 
 $$
 y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}

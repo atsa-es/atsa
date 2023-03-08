@@ -1571,7 +1571,7 @@ pdo &lt;- dplyr::group_by(pdo, Year) %&gt;%
   dplyr::select(winter_pdo, Year)
 # The first year will be missing Oct-Dec
 pdo &lt;- pdo[-1,]</code></pre>
-<p>Use <code>pdo</code> for your analyses. You will be modeling <code>winter_pdo</code>. Use the <code>depmixS4</code> package discussed in the <a href="https://nwfsc-timeseries.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1">HMM lecture</a> to answer the questions in in Part 1.</p>
+<p>Use <code>pdo</code> for your analyses. You will be modeling <code>winter_pdo</code>. Use the <code>depmixS4</code> package discussed in the <a href="https://atsa-es.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1">HMM lecture</a> to answer the questions in in Part 1.</p>
 <ol style="list-style-type: decimal">
 <li><p>Fit a 2-state HMM to the annual indices of winter PDO. Assume Gaussian errors (default). See the lecture on HMMs and/or section 3 in the <a href="https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf">depmixS4 vignette</a></p></li>
 <li><p>Try fitting the model 10-20 times. Does the likelihood seem reasonably stable? (Note <code>logLik()</code> gets you the log-likelihood from model fits in R).</p></li>

@@ -228,7 +228,7 @@ $$
 ## B matrix for AR(1) errors
 
 Detecting a signal from noisy sensors
-[Chapter 14 lab book]( https://nwfsc-timeseries.github.io/atsa-labs/chap-noisy-sensors-.html)
+[Chapter 14 lab book]( https://atsa-es.github.io/atsa-labs/chap-noisy-sensors-.html)
 
 $$\begin{bmatrix}x \\ e_1 \\ e_2 \\ e_3\end{bmatrix}_t = \begin{bmatrix}1&0&0&0\\0&b_1&0&0 \\ 0&0&b_2&0 \\ 0&0&0&b_3\end{bmatrix}\begin{bmatrix}x \\ e_1 \\ e_2 \\ e_3\end{bmatrix}_{t-1} + \begin{bmatrix}w_x \\ w_1 \\ w_2 \\ w_3\end{bmatrix}_t
 $$

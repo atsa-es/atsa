@@ -286,7 +286,7 @@ $(document).ready(function () {
   <a href="references.html">References</a>
 </li>
 <li>
-  <a href="https://github.com/nwfsc-timeseries/safs-timeseries/issues">Post questions</a>
+  <a href="https://github.com/atsa-es/fish550-2023/discussions">Post questions</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -318,7 +318,7 @@ $(document).ready(function () {
   html = c(&quot;Lectures/Week 1/lec_00_class_overview.html&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.html&quot;),
   video = &quot;https://youtu.be/XeAN-zYhqGw&quot;,
   youtube = &quot;&quot;,
-  reading = c(&quot;[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)&quot;, &quot;[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)&quot;,&quot;[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)&quot; ),
+  reading = c(&quot;[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)&quot;, &quot;[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)&quot;,&quot;[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)&quot; ),
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>ts_basics &lt;- list(
@@ -335,7 +335,7 @@ $(document).ready(function () {
   html = &quot;Lectures/Week 1/lec_02_covariance_stationarity.html&quot;,
   video = &quot;https://youtu.be/vwHqxe9eVMk&quot;,
   youtube = &quot;&quot;,
-  reading = c(&quot;[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)&quot;,&quot;[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)&quot;),
+  reading = c(&quot;[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)&quot;,&quot;[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)&quot;),
   instructor = &quot;Mark&quot;
 )</code></pre>
 <pre class="r"><code>arma_basics &lt;- list(
@@ -376,23 +376,11 @@ $(document).ready(function () {
   video = &quot;https://youtu.be/-G_ejXMzEWw&quot;,
   youtube = &quot;&quot;,
   reading = c(&quot;[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;,
-              &quot;[HWSb: Chap 6](https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html)&quot;,
+              &quot;[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)&quot;,
               &quot;[MARSS function](Lectures/Week 3/MARSS_function.html)&quot;,&quot;[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)&quot;, &quot;[uni_example_1.R](Lectures/Week 3/univariate_example_1.R)&quot;,
               &quot;[uni_example_2.R](Lectures/Week 3/univariate_example_2.R)&quot;,
               &quot;[uni_example_3.R](Lectures/Week 3/univariate_example_3.R)&quot;,
-              &quot;[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)&quot;),
-  instructor = &quot;Eli&quot;
-)</code></pre>
-<pre class="r"><code>uni_ss_tmb &lt;- list(
-  title = &quot;Univariate SS with Stan, Jags and TMB&quot;,
-  topics = c(&quot;Univariate state-space models&quot;, &quot;TMB&quot;, &quot;Bayesian&quot;),
-  pdf = &quot;&quot;,
-  ppt = &quot;&quot;,
-  rmd = &quot;&quot;,
-  html = &quot;&quot;,
-  video = &quot;&quot;,
-  youtube = &quot;&quot;,
-  reading = c(&quot;[HWSb: Chap 6](https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html)&quot;, &quot;[Stan manual](https://mc-stan.org/users/documentation/)&quot;, &quot;[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)&quot;),
+              &quot;[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)&quot;, &quot;[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)&quot;),
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>marss &lt;- list(
@@ -430,8 +418,8 @@ $(document).ready(function () {
   youtube = &quot;&quot;,
   reading = c(
     &quot;[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)&quot;,
-    &quot;[MARSS Models HWS18a: Chap 8](https://nwfsc-timeseries.github.io/atsa-labs/chap-msscov.html)&quot;,
-    &quot;[Missing Covariates HWS18a: Chap 11](https://nwfsc-timeseries.github.io/atsa-labs/chap-mssmiss.html)&quot;,
+    &quot;[MARSS Models HWS18a: Chap 8](https://atsa-es.github.io/atsa-labs/chap-msscov.html)&quot;,
+    &quot;[Missing Covariates HWS18a: Chap 11](https://atsa-es.github.io/atsa-labs/chap-mssmiss.html)&quot;,
     &quot;[HA18: Chap 5](https://otexts.com/fpp2/regression.html)&quot;,
     &quot;[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)&quot;, 
     &quot;[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)&quot;),
@@ -439,7 +427,7 @@ $(document).ready(function () {
 )</code></pre>
 <pre class="r"><code>dfa &lt;- list(
   title = &quot;Dynamic Factor Analysis&quot;,
-  topics = c(&quot;Regression with autocorrelated errors&quot;, &quot;Dynamic factor analysis (DFA)&quot;),
+  topics = &quot;Dynamic factor analysis (DFA)&quot;,
   pdf = &quot;Lectures/Week 4/lec_08_intro_to_DFA.pdf&quot;,
   ppt = &quot;&quot;,
   rmd = &quot;Lectures/Week 4/lec_08_intro_to_DFA.Rmd&quot;,
@@ -548,7 +536,7 @@ $(document).ready(function () {
   video = &quot;https://youtu.be/5ODu7D9DbNw&quot;,
   youtube = &quot;&quot;,
   reading = c(&quot;[River spatial models](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ele.12084)&quot;, &quot;[River spatial 2](https://www.researchgate.net/profile/Jay-Ver-Hoef/publication/227369314_A_Moving_Average_Approach_for_Spatial_Statistical_Models_of_Stream_Networks/links/5f9820d6299bf1b53e49aa00/A-Moving-Average-Approach-for-Spatial-Statistical-Models-of-Stream-Networks.pdf)&quot;, &quot;[River spatial 3](https://www.fs.fed.us/rm/pubs_other/rmrs_2014_issak_d001.pdf)&quot;),
-  #reading = c(&quot;[GitHub folder with code](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)&quot;),
+  #reading = c(&quot;[GitHub folder with code](https://github.com/atsa-es/atsa/tree/master/Lectures/Week%209)&quot;),
   instructor = &quot;Eric&quot;
 )</code></pre>
 <pre class="r"><code>spatial2 &lt;- list(
@@ -690,7 +678,7 @@ $(document).ready(function () {
   html = &quot;Lectures/Week 9/Old interactions lectures/Lec_16/Lec_16.html&quot;,
   video = &quot;https://youtu.be/p06tdo9JyWk&quot;,
   youtube = &quot;&quot;,
-  reading = c(&quot;[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)&quot;,&quot;[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)&quot;,&quot;[HWS18a: Chap 14 &amp; 18](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;, &quot;[MAR Stability Metrics](https://github.com/mdscheuerell/marstab/blob/master/mar_stab_properties_text.pdf)&quot;,&quot;[AR(1) errors](https://nwfsc-timeseries.github.io/atsa-labs/chap-noisy-sensors-.html)&quot;, &quot;[Mark&#39;s B estimation talk](https://github.com/mdscheuerell/mar_sims/blob/master/presentation/open_sci_summit_2020.pdf)&quot;),
+  reading = c(&quot;[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)&quot;,&quot;[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)&quot;,&quot;[HWS18a: Chap 14 &amp; 18](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;, &quot;[MAR Stability Metrics](https://github.com/mdscheuerell/marstab/blob/master/mar_stab_properties_text.pdf)&quot;,&quot;[AR(1) errors](https://atsa-es.github.io/atsa-labs/chap-noisy-sensors-.html)&quot;, &quot;[Mark&#39;s B estimation talk](https://github.com/mdscheuerell/mar_sims/blob/master/presentation/open_sci_summit_2020.pdf)&quot;),
   instructor = &quot;Eli&quot;
 )</code></pre>
 <pre class="r"><code>glm &lt;- list(
@@ -716,8 +704,20 @@ $(document).ready(function () {
   video = &quot;&quot;,
   youtube = &quot;&quot;,
   reading = &quot;&quot;,
-  #reading = c(&quot;[GitHub Lec 18 Files](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)&quot;),
+  #reading = c(&quot;[GitHub Lec 18 Files](https://github.com/atsa-es/atsa/tree/master/Lectures/Week%209)&quot;),
   instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>uni_ss_tmb &lt;- list(
+  title = &quot;Univariate SS with Stan, Jags and TMB&quot;,
+  topics = c(&quot;Univariate state-space models&quot;, &quot;TMB&quot;, &quot;Bayesian&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)&quot;, &quot;[Stan manual](https://mc-stan.org/users/documentation/)&quot;, &quot;[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)&quot;),
+  instructor = &quot;Eli&quot;
 )</code></pre>
 </div>
 

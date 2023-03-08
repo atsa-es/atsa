@@ -34,7 +34,7 @@ Set up the data.
 data(wilddogs, package="MARSS")
 ```
 
-Set up your Stan model code for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is [ss_rw_drift.stan](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/ss_rw_drift.stan) (with a small change in the `pos_indx` specification). Note that in the atsar code, $x$ is called `pred`, $u$ is `mu`, $\sqrt{q}$ is `sigma_process` and $\sqrt{r}$ is `sigma_obs`.
+Set up your Stan model code for a state-space random walk with drift $x_t = x_{t-1} + u + w_t$ where $w_t \sim N(0, q)$. The observation model is $y_t = x_t + v_t$ where $v_t \sim N(0, r)$. This is [ss_rw_drift.stan](https://github.com/atsa-es/atsar/blob/master/inst/stan/ss_rw_drift.stan) (with a small change in the `pos_indx` specification). Note that in the atsar code, $x$ is called `pred`, $u$ is `mu`, $\sqrt{q}$ is `sigma_process` and $\sqrt{r}$ is `sigma_obs`.
 
 ```{r}
 scode <- "
@@ -89,12 +89,12 @@ mod <- rstan::stan(model_code = scode,
                    chains = 1, iter = 5000, thin = 10)
 ```
 
-8. Evaluate whether the model converged using R-hat values. See slides 40 & 41 in the [Bayesian lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html).
+8. Evaluate whether the model converged using R-hat values. See slides 40 & 41 in the [Bayesian lecture](https://atsa-es.github.io/atsa/Lectures/Week%206/lec_11_bayes.html).
     
 9. Make a histogram of the posterior distribution of `mu` (population growth rate). You can extract the posterior draws using `pars <- rstan::extract(mod, pars="mu")`. 
 10. Using the posterior distribution of `mu`, what is the probability that the dog population is declining, i.e. the probability that `mu` is less than 0. Hint, you can use the fraction of the posterior draws that are less than 0. 
 
-10. Make a plot of the estimated wild dog population size with 95% credible intervals. The estimated population size is the estimated $x$, called `pred` in the code. This is a plot like [slide 49](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.html#49) in the Bayesian lecture. If you are getting stuck, look at the code that produced the figure on slide 49 by looking at the [Rmd file](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%206/lec_11_bayes.Rmd).
+10. Make a plot of the estimated wild dog population size with 95% credible intervals. The estimated population size is the estimated $x$, called `pred` in the code. This is a plot like [slide 49](https://atsa-es.github.io/atsa/Lectures/Week%206/lec_11_bayes.html#49) in the Bayesian lecture. If you are getting stuck, look at the code that produced the figure on slide 49 by looking at the [Rmd file](https://atsa-es.github.io/atsa/Lectures/Week%206/lec_11_bayes.Rmd).
 
 **Some ideas for optional extra analyses**
 
@@ -105,7 +105,7 @@ mod <- rstan::stan(model_code = scode,
 * Using the interactive 'shinystan' package, does it appear the model converged? You can be qualitative and brief, with a focus just on the mu and variance parameters. `shinystan::launch_shinystan(mod)` is the code to launch shinystan.`
 
 * The wild dog counts are discrete and the normality assumption for the observations errors for log of the counts is an approximation. Change the Stan code (the `scode` code above) to use a log linear poisson errors model. A few tips:
-    + Look at the code for [dlm models](https://github.com/nwfsc-timeseries/atsar/blob/master/inst/stan/dlm.stan) in the atsar package for an example.
+    + Look at the code for [dlm models](https://github.com/atsa-es/atsar/blob/master/inst/stan/dlm.stan) in the atsar package for an example.
     + You will need to change the code in 4 places: The data, to make `y` an integer, the parameters to remove `sigma_obs`, the model to use `poisson_log()`, and the likelihood to use `poisson_lpmf()`
     + When you pass in `y` to `stan()`, you will pass in `wilddogs[,"Count"]` not the log of that.
     

@@ -44,7 +44,7 @@ knitr::opts_chunk$set(fig.height=5, fig.align="center")
 Lake WA plankton and covariates
 
 ```{r covariates, echo=FALSE, out.width = '80%'}
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%204/images/msscov-plank-plot.png")
+knitr::include_graphics("https://atsa-es.github.io/atsa/Lectures/Week%204/images/msscov-plank-plot.png")
 ```
 
 ## Covariates in time series models
@@ -244,7 +244,7 @@ $$\begin{bmatrix}D_a & D_b \\ D_a & D_b \\ D_c & 0\end{bmatrix}\begin{bmatrix}te
 
 `lec_07_covariates.R`
 
-Follows Chapter 8: https://nwfsc-timeseries.github.io/atsa-labs
+Follows Chapter 8: https://atsa-es.github.io/atsa-labs
 
 
 ## Seasonality
@@ -539,7 +539,7 @@ C
 
 **SNOTEL Example Chapter 11**
 
-https://nwfsc-timeseries.github.io/atsa-labs/example-snotel-data.html
+https://atsa-es.github.io/atsa-labs/example-snotel-data.html
 
 ![](images/snotelsites.png){width=70%}
 

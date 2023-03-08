@@ -40,7 +40,7 @@ library(FishForecast)
 
 
 ```{r covariates, echo=FALSE, out.width = '80%'}
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/superbowl.png")
+knitr::include_graphics("https://atsa-es.github.io/atsa/Lectures/Week%207/images/superbowl.png")
 ```
 
 ## Why include covariates in a model?
@@ -48,14 +48,14 @@ knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%2
 * You want to forecast something using covariates
 
 ```{r forecastsalmon, echo=FALSE, out.width = '100%'}
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/forecastsalmon.png")
+knitr::include_graphics("https://atsa-es.github.io/atsa/Lectures/Week%207/images/forecastsalmon.png")
 ```
 
 ## Covariates -> Forecast
 
 ```{r out.width=c('300px', '350px'), out.extra='style="float:left; display:block; padding:30px"', echo=FALSE}
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/salmoncovariates.jpg")
-knitr::include_graphics("https://nwfsc-timeseries.github.io/atsa/Lectures/Week%207/images/redgreenyellowlight.png")
+knitr::include_graphics("https://atsa-es.github.io/atsa/Lectures/Week%207/images/salmoncovariates.jpg")
+knitr::include_graphics("https://atsa-es.github.io/atsa/Lectures/Week%207/images/redgreenyellowlight.png")
 ```
 
 ## Covariates in time series models

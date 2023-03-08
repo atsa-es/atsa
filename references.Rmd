@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **The main class reference is the ATSA Lab Book**
 
-HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://nwfsc-timeseries.github.io/atsa-labs/)
+HSW18b: Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://atsa-es.github.io/atsa-labs/)
 
 **In addition, we will use these as references for the class.**
 

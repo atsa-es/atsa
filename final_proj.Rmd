@@ -15,11 +15,11 @@ As part of the class, each student will have to write a complete, publishable (<
 
 ### Due Dates
 
-* Project proposal due Fri Jan 29th 11:59 pm PST
-* Project methods due Thurs Feb 18th 11:59 pm PST
-* Final paper due Fri Mar 12 11:59pm PST
-* Presentations Mar 9th and 11th during class time
-* Peer review due Fri Mar 19th 11:59pm PST
+* Project proposal due Fri April 21 11:59pm PST
+* Project methods due Thurs May 11 11:59pm PST
+* Final paper due Fri June 3th 11:59pm PST
+* Presentations May 30 and June 2 during class time
+* Peer review due Fri June 10th 11:59pm PST
 
 
 # Data sets
@@ -45,7 +45,7 @@ Other sources of public fisheries data sets are:
 
 # Project Plan
 
-**due Fri Jan 29th 11:59 pm PST**
+**due Fri April 21 11:59pm PST**
 
 Write a 1-2 page description of your project idea that includes
 
@@ -64,7 +64,7 @@ Things to consider:
 
 # Project Methods
 
-**due Thurs Feb 18th 11:59 pm PST**
+**due Thurs May 11 11:59pm PST**
 
 1. Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.
 
@@ -73,7 +73,7 @@ Things to consider:
 
 # Preparation of final papers
 
-**due Fri Mar 12 11:59pm PST**
+**due Fri June 3th 11:59pm PST**
 
 ### Length
 

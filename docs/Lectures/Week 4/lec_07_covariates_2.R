@@ -20,7 +20,7 @@ LWA <- ts(cbind(t(dat), t(covariates)),
 plot(LWA, main="", yax.flip=TRUE)
 
 # Fit model with process and observation error
-# https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-both-error.html
+# https://atsa-es.github.io/atsa-labs/sec-msscov-both-error.html
 D <- d <- A <- U <- "zero"
 Z <- "identity"
 B <- "identity"

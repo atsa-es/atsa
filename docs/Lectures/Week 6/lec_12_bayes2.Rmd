@@ -150,7 +150,7 @@ ggplot(df, aes(Time, pred)) +
 * Stan package for fitting models similar to MARSS
 
 ```{r echo=TRUE}
-devtools::install_github("nwfsc-timeseries/tvvarss")
+devtools::install_github("atsa-es/tvvarss")
 ```
 
 ## Multivariate time series models
@@ -599,7 +599,7 @@ ggplot(gme, aes(Date, Close)) + geom_point() + geom_line() +
 
 * Scripts for the `atsar` package linked below
 
-[https://github.com/nwfsc-timeseries/atsar/tree/master/inst/stan](https://github.com/nwfsc-timeseries/atsar/tree/master/inst/stan)
+[https://github.com/atsa-es/atsar/tree/master/inst/stan](https://github.com/atsa-es/atsar/tree/master/inst/stan)
 
 * We're just going to modify this code (ss_ar.stan) rather than start from scratch
 

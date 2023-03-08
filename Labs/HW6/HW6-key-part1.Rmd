@@ -42,7 +42,7 @@ pdo <- dplyr::group_by(pdo, Year) %>%
 pdo <- pdo[-1,]
 ```
 
-Use the `depmixS4` package discussed in the [HMM lecture](https://nwfsc-timeseries.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1) to answer the questions in in Part 1.
+Use the `depmixS4` package discussed in the [HMM lecture](https://atsa-es.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1) to answer the questions in in Part 1.
 
 
 ## Q1

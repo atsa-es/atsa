@@ -22,7 +22,7 @@ intro <- list(
   html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
   video = "https://youtu.be/XeAN-zYhqGw",
   youtube = "",
-  reading = c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)" ),
+  reading = c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)" ),
   instructor = "Mark"
 )
 ```
@@ -42,7 +42,7 @@ ts_basics <- list(
   html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
   video = "https://youtu.be/vwHqxe9eVMk",
   youtube = "",
-  reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://nwfsc-timeseries.github.io/atsa-labs/chap-ts.html)"),
+  reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)"),
   instructor = "Mark"
 )
 ```
@@ -94,26 +94,11 @@ uni_ss <- list(
   video = "https://youtu.be/-G_ejXMzEWw",
   youtube = "",
   reading = c("[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
-              "[HWSb: Chap 6](https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html)",
+              "[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)",
               "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[uni_example_1.R](Lectures/Week 3/univariate_example_1.R)",
               "[uni_example_2.R](Lectures/Week 3/univariate_example_2.R)",
               "[uni_example_3.R](Lectures/Week 3/univariate_example_3.R)",
-              "[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)"),
-  instructor = "Eli"
-)
-```
-
-```{r uni_ss_tmb_lec}
-uni_ss_tmb <- list(
-  title = "Univariate SS with Stan, Jags and TMB",
-  topics = c("Univariate state-space models", "TMB", "Bayesian"),
-  pdf = "",
-  ppt = "",
-  rmd = "",
-  html = "",
-  video = "",
-  youtube = "",
-  reading = c("[HWSb: Chap 6](https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html)", "[Stan manual](https://mc-stan.org/users/documentation/)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)"),
+              "[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)"),
   instructor = "Eli"
 )
 ```
@@ -159,8 +144,8 @@ marss_covariates <- list(
   youtube = "",
   reading = c(
     "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
-    "[MARSS Models HWS18a: Chap 8](https://nwfsc-timeseries.github.io/atsa-labs/chap-msscov.html)",
-    "[Missing Covariates HWS18a: Chap 11](https://nwfsc-timeseries.github.io/atsa-labs/chap-mssmiss.html)",
+    "[MARSS Models HWS18a: Chap 8](https://atsa-es.github.io/atsa-labs/chap-msscov.html)",
+    "[Missing Covariates HWS18a: Chap 11](https://atsa-es.github.io/atsa-labs/chap-mssmiss.html)",
     "[HA18: Chap 5](https://otexts.com/fpp2/regression.html)",
     "[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)", 
     "[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
@@ -171,7 +156,7 @@ marss_covariates <- list(
 ```{r}
 dfa <- list(
   title = "Dynamic Factor Analysis",
-  topics = c("Regression with autocorrelated errors", "Dynamic factor analysis (DFA)"),
+  topics = "Dynamic factor analysis (DFA)",
   pdf = "Lectures/Week 4/lec_08_intro_to_DFA.pdf",
   ppt = "",
   rmd = "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
@@ -304,7 +289,7 @@ spatial <- list(
   video = "https://youtu.be/5ODu7D9DbNw",
   youtube = "",
   reading = c("[River spatial models](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ele.12084)", "[River spatial 2](https://www.researchgate.net/profile/Jay-Ver-Hoef/publication/227369314_A_Moving_Average_Approach_for_Spatial_Statistical_Models_of_Stream_Networks/links/5f9820d6299bf1b53e49aa00/A-Moving-Average-Approach-for-Spatial-Statistical-Models-of-Stream-Networks.pdf)", "[River spatial 3](https://www.fs.fed.us/rm/pubs_other/rmrs_2014_issak_d001.pdf)"),
-  #reading = c("[GitHub folder with code](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)"),
+  #reading = c("[GitHub folder with code](https://github.com/atsa-es/atsa/tree/master/Lectures/Week%209)"),
   instructor = "Eric"
 )
 ```
@@ -484,7 +469,7 @@ interactions1 <- list(
   html = "Lectures/Week 9/Old interactions lectures/Lec_16/Lec_16.html",
   video = "https://youtu.be/p06tdo9JyWk",
   youtube = "",
-  reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14 & 18](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[MAR Stability Metrics](https://github.com/mdscheuerell/marstab/blob/master/mar_stab_properties_text.pdf)","[AR(1) errors](https://nwfsc-timeseries.github.io/atsa-labs/chap-noisy-sensors-.html)", "[Mark's B estimation talk](https://github.com/mdscheuerell/mar_sims/blob/master/presentation/open_sci_summit_2020.pdf)"),
+  reading = c("[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)","[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)","[HWS18a: Chap 14 & 18](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[MAR Stability Metrics](https://github.com/mdscheuerell/marstab/blob/master/mar_stab_properties_text.pdf)","[AR(1) errors](https://atsa-es.github.io/atsa-labs/chap-noisy-sensors-.html)", "[Mark's B estimation talk](https://github.com/mdscheuerell/mar_sims/blob/master/presentation/open_sci_summit_2020.pdf)"),
   instructor = "Eli"
 )
 ```
@@ -505,7 +490,6 @@ glm <- list(
 )
 ```
 
-
 ```{r}
 spat_cor <- list(
   title = "Spatial correlation",
@@ -517,7 +501,22 @@ spat_cor <- list(
   video = "",
   youtube = "",
   reading = "",
-  #reading = c("[GitHub Lec 18 Files](https://github.com/nwfsc-timeseries/atsa/tree/master/Lectures/Week%209)"),
+  #reading = c("[GitHub Lec 18 Files](https://github.com/atsa-es/atsa/tree/master/Lectures/Week%209)"),
   instructor = "Eric"
+)
+```
+
+```{r uni_ss_tmb_lec}
+uni_ss_tmb <- list(
+  title = "Univariate SS with Stan, Jags and TMB",
+  topics = c("Univariate state-space models", "TMB", "Bayesian"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  reading = c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", "[Stan manual](https://mc-stan.org/users/documentation/)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)"),
+  instructor = "Eli"
 )
 ```

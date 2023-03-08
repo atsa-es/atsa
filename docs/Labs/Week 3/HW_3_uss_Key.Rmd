@@ -18,7 +18,7 @@ knitr::opts_chunk$set(fig.align='center', out.width = '90%', cache=TRUE, warning
 # Solutions Chapter 6
 \chaptermark{Solutions Ch 6}
 
-Here are the answers for the homework problems based on the material in [Univariate state-space models](https://nwfsc-timeseries.github.io/atsa-labs/chap-univariate-state-space.html).  You can download the Rmd file for this key from [here](HW_3_uss_Key.Rmd).
+Here are the answers for the homework problems based on the material in [Univariate state-space models](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html).  You can download the Rmd file for this key from [here](HW_3_uss_Key.Rmd).
 
 ## Data Set Up
 

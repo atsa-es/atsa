@@ -115,6 +115,6 @@ The **Aquatic Ecosystems**, **Tick Abundance**, and **Beetle Abundance** challen
 ## {.flexbox .vcenter .bigger}
 
 <font size="10">
-[__Course topics__](https://nwfsc-timeseries.github.io/atsa/asyllabus.html) 
+[__Course topics__](https://atsa-es.github.io/atsa/asyllabus.html) 
 </font>
 

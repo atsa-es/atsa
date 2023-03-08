@@ -379,11 +379,11 @@ summary {
 
 <div id="background" class="section level1">
 <h1>Background</h1>
-<p><a href="https://www.epa.gov/no2-pollution">NO<span class="math inline">\(_2\)</span></a> an air pollutant generated from burning of fuel by motor vehicles and power plants. In this exercise, you’ll analyze NO<span class="math inline">\(_2\)</span> data from the <a href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/ECN_data.pdf">UK Environmental Change Network</a> to look for patterns in the yearly trends across the UK.</p>
+<p><a href="https://www.epa.gov/no2-pollution">NO<span class="math inline">\(_2\)</span></a> an air pollutant generated from burning of fuel by motor vehicles and power plants. In this exercise, you’ll analyze NO<span class="math inline">\(_2\)</span> data from the <a href="https://atsa-es.github.io/atsa/Labs/Week%203/NO2Lab/ECN_data.pdf">UK Environmental Change Network</a> to look for patterns in the yearly trends across the UK.</p>
 <p>Your goal is to understand any overall and regional patterns in yearly NO<span class="math inline">\(_2\)</span> using these data.</p>
 <div id="the-data-and-packages" class="section level2">
 <h2>The data and packages</h2>
-<p>Download <code>ECNNO2.RData</code> from <a href="https://nwfsc-timeseries.github.io/atsa/Labs/Week%203/NO2Lab/ECNNO2.RData">HERE</a>. and run the code below to prepare the data frame that you will work with.</p>
+<p>Download <code>ECNNO2.RData</code> from <a href="https://atsa-es.github.io/atsa/Labs/Week%203/NO2Lab/ECNNO2.RData">HERE</a>. and run the code below to prepare the data frame that you will work with.</p>
 <pre class="r"><code>load(&quot;ECNNO2.RData&quot;)</code></pre>
 <p>Load the packages. The plots will use the ggplot2 package. If you are unfamiliar with <code>ggplot()</code>, there are many online tutorials. Here is my <a href="https://rverse-tutorials.github.io/RWorkflow-NWFSC-2020/week8-ggplot2.html">1-hour intro</a> to the basics for those used to <code>plot()</code>.</p>
 <pre class="r"><code>library(MARSS)
@@ -514,7 +514,7 @@ datmat2[datmat2==0] &lt;- NA
 datmat2 &lt;- log(datmat2)
 rownames(datmat2) &lt;- datwide$SiteCode</code></pre>
 <ol start="6" style="list-style-type: decimal">
-<li>Repeat question 1 (one underlying NO<span class="math inline">\(_2\)</span> trend) for the monthly data. <a href="https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html">Model seasonality as a Fourier series</a> where the seasonality is in the process errors (the <span class="math inline">\(x\)</span>). Your covariate will look like so.</li>
+<li>Repeat question 1 (one underlying NO<span class="math inline">\(_2\)</span> trend) for the monthly data. <a href="https://atsa-es.github.io/atsa-labs/sec-msscov-season.html">Model seasonality as a Fourier series</a> where the seasonality is in the process errors (the <span class="math inline">\(x\)</span>). Your covariate will look like so.</li>
 </ol>
 <pre><code>TT &lt;- dim(datmat2)[2] # time steps
 period &lt;- 12
@@ -527,7 +527,7 @@ covariate &lt;- rbind(cos.t, sin.t)</code></pre>
 </ol>
 <p><strong>Ideas for OPTIONAL extra analyses</strong></p>
 <ul>
-<li><p>OPTIONAL. Use the model from question 8. Adapt the code for <a href="https://nwfsc-timeseries.github.io/atsa-labs/sec-msscov-season.html">Figure 8.2</a> in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?</p></li>
+<li><p>OPTIONAL. Use the model from question 8. Adapt the code for <a href="https://atsa-es.github.io/atsa-labs/sec-msscov-season.html">Figure 8.2</a> in the lab manual to look at the seasonal effects for each site. Where is the seasonality the strongest (biggest difference between winter and summer)?</p></li>
 <li><p>OPTIONAL. Use the model from question 8. Structure your <span class="math inline">\(\mathbf{D}\)</span> matrix into the 3 regions so that each region has the same seasonal effect (same <span class="math inline">\(\mathbf{D}\)</span> values).</p></li>
 <li><p>OPTIONAL. Try some other approaches for modeling seaonsality such as monthly factors or polynomials. Any difference in the seasonal pattern?</p></li>
 </ul>
