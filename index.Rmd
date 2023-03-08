@@ -20,11 +20,13 @@ This course is intended to give students an overview of the theory and practical
 
 <br>
 
-# Textbook
+# Resources
 
-Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. [Available here](https://atsa-es.github.io/atsa-labs/)
+[Textbook](https://atsa-es.github.io/atsa-labs/) Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. 
 
-[YouTube Channel](https://www.youtube.com/@SAFSTimeSeries) with recorded lectures
+[YouTube Channel](https://www.youtube.com/@SAFSTimeSeries) Recorded lectures
+
+[Class GitHub repo](https://github.com/atsa-es/fish550-2023), [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
 
 <br>
 

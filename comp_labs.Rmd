@@ -9,7 +9,7 @@ output: html_document
 
 Thursday from 11:20-12:20 FISH 213
 
-### Lab book
+### Resources
 
 FISH 550 [lab book](https://atsa-es.github.io/atsa-labs/), [GitHub 2023 repo](https://github.com/atsa-es/fish550-2023), [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
 

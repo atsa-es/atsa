@@ -7,7 +7,7 @@ output: html_document
 
 ### Meeting days & times
 
-Tuesday & Thursday from 1:30-2:50
+Tuesday & Thursday from 10:00-11:20 FISH 213
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
