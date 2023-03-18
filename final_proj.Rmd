@@ -26,21 +26,7 @@ As part of the class, each student will have to write a complete, publishable (<
 
 Students are encouraged to use their own data and the paper may form a chapter for their thesis/dissertation. However some students might not have their own data. Students may also use data from the instructors, public datasets or datasets included in __R__ libraries.
 
-Students without data or a particular project in mind might consider taking part in the [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) happening concurrently with the 2021 Fish 507 course. You do not need to formally participate in the challenge (i.e. register as a team but you are welcome to do so). All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.
-
-Other sources of public fisheries data sets are:
-
-* [RAM Legacy](https://www.ramlegacy.org/)
-* [Global Population Dynamics Database](http://www3.imperial.ac.uk/cpb/databases/gpdd)
-* [NOAA NWFSC Salmon Population Summary](https://www.webapps.nwfsc.noaa.gov/apex/f?p=261:home:0)
-* [FAO Catch Databases](http://www.fao.org/fishery/statistics/collections/en)
-* [Ecomarres Global Catch database](https://ecomarres.com/?page_id=945); [paper on the Global Catch Database](https://www.nature.com/articles/sdata201739#Sec16)
-* [Sea Around Us databases](http://www.seaaroundus.org/)
-* [Global Fishing Watch data](https://globalfishingwatch.org/datasets-and-code/)
-* [fishR databases](http://derekogle.com/fishR/data/CompleteList)
-* SAFS (contact the instructors)
-    - Alaska Salmon Program
-    - Lake Washington plankton
+Students without data or a particular project in mind should look at our [page of data sets](data_sets.html). You might also reach out to your advisor for data set suggestions.
 
 
 # Project Plan

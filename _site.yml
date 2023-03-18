@@ -17,6 +17,8 @@ navbar:
       menu:
       - text: "Project details"
         href: final_proj.html
+      - text: "Data sets"
+        href: data_sets.html
       - text: "Peer review details"
         href: review_guide.html
       - text: "Former projects"

@@ -1,0 +1,58 @@
+---
+title: "Public Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Other sources of public fisheries data sets are:
+
+* [RAM Legacy](https://www.ramlegacy.org/)
+* [Global Population Dynamics Database](http://www3.imperial.ac.uk/cpb/databases/gpdd)
+* [NOAA NWFSC Salmon Population Summary](https://www.webapps.nwfsc.noaa.gov/apex/f?p=261:home:0)
+* [FAO Catch Databases](http://www.fao.org/fishery/statistics/collections/en)
+* [Ecomarres Global Catch database](https://ecomarres.com/?page_id=945); [paper on the Global Catch Database](https://www.nature.com/articles/sdata201739#Sec16)
+* [Sea Around Us databases](http://www.seaaroundus.org/)
+* [Global Fishing Watch data](https://globalfishingwatch.org/datasets-and-code/)
+* [fishR databases](http://derekogle.com/fishR/data/CompleteList)
+* [Salmon fecundity trends in the PNW github repo](https://github.com/michaelmalick/chinook-fecundity-trends/tree/main/data). This is a large dataset provided in this [2023 paper](https://onlinelibrary.wiley.com/doi/10.1111/faf.12738). 
+* [FISHGLOB global trawl survey database 2023](https://pinsky.marine.rutgers.edu/fishglob-bottom-trawl-database-pre-print/)
+* [Moored bouy data from the Bering Sea](https://www.ecofoci.noaa.gov/)
+* [California Current survey data](https://calcofi.org/) oceanographic and biological
+* [PNW Zooplankton data](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.3040)
+* [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) data sets. Not fisheries. All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.
+
+
+Marine environmental data. Sound ideas
+
+* https://ecowatch.noaa.gov/ This doesn't have the data but will point you to the data and is a vetted source of good marine indicators
+* https://coastwatch.pfeg.noaa.gov/EDC/index.html This is a tool that can help you get remote-sensing data
+
+Climate data hubs
+
+* https://www.climatehubs.usda.gov/hubs/northwest. 
+* https://drought.climate.umt.edu/ 
+* https://wrcc.dri.edu/wwdt/ West Wide Drought Tracker.
+* https://climatetoolbox.org/ Links to a bunch of climate dashboards
+* https://waterwatch.usgs.gov/ Simple dashboard with water products. Streamflow one is here.
+* https://www.nwrfc.noaa.gov/rfc/ NW River Forecast
+* http://ncdc.noaa.gov/temp-and-precip Links to a bunch of products/tools for drought
+* https://www.nwrfc.noaa.gov/water_supply/wy_summary/wy_summary.php?tab=2.  Precip forecasts.
+* https://www.nwrfc.noaa.gov/snow/ Snow level status
+* https://www.nwrfc.noaa.gov/ws/ Water supply forecasts
+* https://www.nwrfc.noaa.gov/natural/plot/nat_forecasts.php?id=HWRI1 Water supply forecast for a specific location
+* https://www.cpc.ncep.noaa.gov/products/Soilmst_Monitoring/US/Soilmst/Soilmst.shtml Soil moisture products
+
+Movement data
+
+* [Polar bear argos and GPS data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.4qrfj6q96)
+* [High arctic argos and GPS data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.bt72k)
+* [Fin whale tracks](https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.4qrfj6qcg)
+* [Dryad.org](https://datadryad.org) Search for "argos" for more track data
+* [rerddap vignette](https://cran.r-project.org/web/packages/rerddapXtracto/vignettes/UsingrerddapXtracto.html) Vignette showing you how to plot and get marine data for locations of a movement track using the [rerddap R package](https://docs.ropensci.org/rerddap/)
+
+
+
+
