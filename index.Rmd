@@ -34,15 +34,15 @@ This course is intended to give students an overview of the theory and practical
 
 # Key dates
 
-* HW #1 Tues April 18 11:59pm PST
-* [Project proposals](final_proj.html) due Fri April 21 11:59pm PST
-* HW #2 Tues April 25 11:59pm PST
-* HW #3 Tues May 2 11:59pm PST
-* HW #4 Tues May 9 11:59pm PST
-* HW #5 [Project Methods](final_proj.html#Project_Methods) Fri May 12 11:59pm PST
-* HW #6 Tues May 23 11:59pm PST
-* [Final project](final_proj.html) due Fri June 3th 11:59pm PST
-* [Peer reviews](review_guide.html) due Fri June 10th 11:59pm PST
+* HW #1 Tues April 18 11:59pm PDT
+* [Project proposals](final_proj.html) due Fri April 21 11:59pm PDT
+* HW #2 Tues April 25 11:59pm PDT
+* HW #3 Tues May 2 11:59pm PDT
+* HW #4 Tues May 9 11:59pm PDT
+* HW #5 [Project Methods](final_proj.html#Project_Methods) Fri May 12 11:59pm PDT
+* HW #6 Tues May 23 11:59pm PDT
+* [Final project](final_proj.html) due Fri June 3th 11:59pm PDT
+* [Peer reviews](review_guide.html) due Fri June 10th 11:59pm PDT
 
 <br>
 

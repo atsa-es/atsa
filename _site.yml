@@ -11,7 +11,7 @@ navbar:
       href: lectures.html
     - text: "Computer Labs"
       href: comp_labs.html
-    - text: "Homework"
+    - text: "Lab Write-ups"
       href: homework.html
     - text: "Final Project"
       menu:

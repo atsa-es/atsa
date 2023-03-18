@@ -61,6 +61,14 @@ vid_links_html <- sapply(lapply(vid_links, function(x){
 names(vid_links_html) <- NULL
 ```
 
+```{r repo_links, include = FALSE}
+repo_links <- lapply(week_labs, function(x){if(is.list(x)){x$repo}else{""}})
+## topics formatted for html
+repo_links_html <- sapply(lapply(repo_links, function(x){
+  tmp1<-"[Repo folder]("; tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp,collapse="<br>"); tmp}), c)
+names(repo_links_html) <- NULL
+```
+
 ```{r youtube_links, include = FALSE}
 youtube_links <- lapply(week_labs, function(x){
   if(is.list(x)){x$youtube}else{""}})
@@ -71,8 +79,7 @@ names(youtube_links_html) <- NULL
 
 ```{r data_links, include = FALSE}
 data_links <- lapply(week_labs, function(x){if(is.list(x)){x$data}else{""}})
-## topics formatted for html
-data_links_html <- sapply(lapply(data_links, function(x){ tmp1<-paste("[",x,"]("); tmp2 <- rep(")",length(x)); tmp1[x==""]=""; tmp2[x==""]=""; tmp <- paste(tmp1,x,tmp2); tmp=paste(tmp,collapse="<br>"); tmp}), c)
+data_links_html <- sapply(lapply(data_links, paste, "<br>", collapse=""), c)
 names(data_links_html) <- NULL
 ```
 
@@ -114,14 +121,13 @@ syl_txt <- data.frame(
   lab_topics = lab_topics_html,
   lab_links = lab_links_html,
   data_links = data_links_html,
-  vid_links = vid_links_html,
-  #youtube_links = youtube_links_html,
+  repo_links = repo_links_html,
   hw_links = hw_links_html,
   duedate_links = dd_links_html
   #key_links = key_links_html,
 )
 colnames(syl_txt) <- c("Date", "Instructor", "Topics", "Lab Material",
-                       "Data", "Video", "Homework", "Due Date")
+                       "Data", "Repo", "Assignment", "Due Date")
 ## generate table
 kable(syl_txt, format = "html", caption = " ",
       align = "cclccccc", escape = FALSE) %>%

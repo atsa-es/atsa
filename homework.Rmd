@@ -1,5 +1,5 @@
 ---
-title: "Homework"
+title: "Labs and Lab Write-ups"
 output: html_document
 ---
 
@@ -7,14 +7,37 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The homework for each week is listed with the [Computer Labs](comp_labs.html).
+The labs for each week are listed on the [Computer Labs](comp_labs.html) tab. There are 6 labs with write-ups to turn in, listed below. The first lab on March 30 will get you oriented with GitHub, R, and RMarkdown that we will use during the course. There is an optional tutorial for you to work through on matrix math in R. You need to know how to work with matrices in R for the course material. The labs on May 18 & 25 will not have write-ups to turn in so that you can work on your final projects, and the last lab on June 1 is for student presentations.
 
-# Homework format
+* Lab #1 Modeling and forecasting salmon returns with ARIMA models. Due: Apr 18 Tues 11:59 PM PDT 
+* Lab #2 Multivariate state-space models. Due: April 25 Tues 11:59 PM PDT
+* Lab #3 Dynamic Factor Analysis. Due: May 2 Tues 11:59 PM PDT
+* Lab #4 Bayesian State Space Models. Due: May 9 Thurs 11:59 PM PDT
+* Lab #5 Turn in a draft of your [Project Methods](final_proj.html#Project_Methods). Due: Fri May 12 11:59pm PDT
+* Lab #6 Frequency domain methods. Due: Tues May 23 11:59pm PDT
 
-Please submit your homework as an Rmarkdown document (.Rmd), which will allow you to combine text, equations, and R code into a pdf or html file. The easiest way to do so is to use the built-in capabilities of RStudio. For those unfamiliar with Rmarkdown, there is a nice introduction [here](https://qerm514.github.io/website/comp_labs.html) on the first QERM 514 lab. There is also help available in RStudio. Please use the template below when submitting your homework.  Email your file(s) to the instructor indicated for each week.
+## Lab write-up structure
 
-# Homework templates
+We will share some data for your group to work with. You'll use those data and the techniques being studied that week to do an analysis of the data. The work on your lab write-up should not take more than **4 hours** total and you should be able to get it done with 2 joint work sessions with your team members. The lab template will guide you through the elements that your analysis should have, but beyond those elements, your group will come up with its own research question or objective.
 
-[rmarkdown homework template](Labs/Homework Templates/rmarkdown_example.Rmd)
+## Group work and collaboration
 
-[screenshot of Rmd and resulting html](Labs/Homework Templates/Rmarkdown screenshot.jpg)
+For each lab write-up, a team of 3-4 will be chosen randomly for each week. Each team will submit one lab write-up. 
+
+The lab write-ups are intended for you to learn techniques in the class by doing a real analysis. You are encouraged to share code with other groups and ask each other questions about how to approach an analysis. Feel free to share your work as you go along on the class GitHub repository. You are not competing with your classmates and can learn from seeing each others work.
+
+[Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
+
+## Lab write-up evaluation
+
+Each lab will have a template of elements to include and a minimal set of techniques and diagnostics to use for the analysis. Each lab will also have a section for lab members to discuss their contributions to the write-up and analysis. See the template for examples.
+
+Full marks if each element is addressed. Reach out to the instructors on the [discusssion board](https://github.com/atsa-es/fish550-2023/discussions) if you run into any trouble with the elements. The lab write-ups are intended to assist your learning of the material by doing a practical analysis. Extra credit for analyses that go above and beyond.
+
+## Lab write-up format
+
+Please submit your lab write-up as an Rmarkdown document (.Rmd) or Quarto document (.qmd), which will allow you to combine text, equations, and R code into a pdf or html file. The easiest way to do so is to use the built-in capabilities of RStudio; note for Quarto you need a recent version of RStudio. For those unfamiliar with Rmarkdown, there is a nice introduction [here](https://qerm514.github.io/website/comp_labs.html) on the first QERM 514 lab. There is also help available in RStudio. 
+
+**Lab template** The lab template along with the group names for each lab will be found in the [[Class GitHub repo](https://github.com/atsa-es/fish550-2023)] folder for the lab. You will find a link to the lab repo on the  [computer labs page](https://atsa-es.github.io/atsa/comp_labs.html) in the "repo" column.  Push your completed the [Class GitHub repo](https://github.com/atsa-es/fish550-2023) by the deadline.
+
+

@@ -12,35 +12,39 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r}
-matrixlab <- list(
-  title = "Matrix math in R",
-  topics = c("Matrices & matrix algebra","(review on your own)"),
-  pdf = "Labs/Week 0 basic matrix/basic-matrix-math.pdf",
-  rmd = "",
-  html = "https://atsa-es.github.io/atsa-labs/chap-basicmat.html",
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "Optional: Problems at end of <a href='https://atsa-es.github.io/atsa-labs/chap-basicmat.html'>Chapter 1</a>. <a href='Labs/Week 0 basic matrix/basic-matrix-math-key.pdf'>Key</a>",
-  key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf",
-  instructor = "",
-  hw_topics = "Review of matrix math",
-  hw_duedate = "Optional"
-)
+emptylist <- list(
+  title = "", topics ="", pdf = "", rmd = "",
+  html = "", video = "", youtube = "",
+  data = "", repo = "", homework = "", key = "",
+  instructor = "", hw_topics = "",
+  hw_duedate = "")
+fill.list <- function(...){
+  inputlist <- list(...)
+  x <- emptylist
+  for(i in names(inputlist)){x[[i]] <- inputlist[[i]]}
+  return(x)
+}
 ```
 
 ```{r}
-lmlab <- list(
+matrixlab <- fill.list(
+ title = "Matrix math in R",
+ topics = c("Matrices & matrix algebra","(review on your own)"),
+ pdf = "Labs/Week 0 basic matrix/basic-matrix-math.pdf",
+ html = "https://atsa-es.github.io/atsa-labs/chap-basicmat.html",
+ homework = "Optional: Problems at end of <a href='https://atsa-es.github.io/atsa-labs/chap-basicmat.html'>Chapter 1</a>. <a href='Labs/Week 0 basic matrix/basic-matrix-math-key.pdf'>Key</a>",
+ key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf",
+ hw_topics = "Review of matrix math",
+ hw_duedate = "Optional")
+```
+
+```{r}
+lmlab <- fill.list(
   title = "Writing models in matrix form",
   topics = c("Writing models in matrix form (through section 2.5)",
                "Basic time series functions",
                "Autocorrelation"),
-  pdf = "",
-  rmd = "",
   html = c("https://atsa-es.github.io/atsa-labs/chap-mlr.html","https://atsa-es.github.io/atsa-labs/chap-ts.html"),
-  video = c(""),
-  youtube = "",
-  data = "",
   homework = "Optional (important to understand course material): Questions at end of <a href='https://atsa-es.github.io/atsa-labs/chap-mlr.html'>Chapter 2</a>. <a href='Labs/Week 1/HW_1_Key.html'>Key</a>",
   key = "Labs/Week 1/HW_1_Key.html",
   instructor = c("Mark"),
@@ -50,25 +54,22 @@ lmlab <- list(
 ```
 
 ```{r}
-arimalab <- list(
+arimalab <- fill.list(
   title = "Box-Jenkins Methods",
   topics = c("Simulating ARMA models", "Fitting ARIMA models", "Forecasting with ARIMA models","Box-Jenkins Methods"),
-  pdf = "",
-  rmd = "",
   html = c("https://atsa-es.github.io/atsa-labs/chap-tslab.html", "https://atsa-es.github.io/atsa-labs/chap-boxjenkins-.html"),
-  video = "",
-  youtube = "",
-  data = "",
-  homework = "HW #1",
+  data = "See repo",
+  repo = "https://github.com/atsa-es/fish550-2023/tree/main/Lab-1",
+  homework = "Lab write-up #1",
   key = "",
   instructor = "Eli",
   hw_topics = c("ARIMA models"),
-  hw_duedate = "Due Apr 18 Tues 11:59 PM PST; Post to GitHub."
+  hw_duedate = "Due Apr 18 Tues 11:59 PM PDT; Post to GitHub."
 )
 ```
 
 ```{r}
-sslab2 <- list(
+sslab2 <- fill.list(
   title = "Multivariate State-space models",
   topics = c("Fitting mulitvariate state-space models"),
   pdf = "",
@@ -82,12 +83,12 @@ sslab2 <- list(
   key = "",
   instructor = "Eli",
   hw_topics = c("State-space models"),
-  hw_duedate = "Due April 25 Tues 11:59 PM PST; Post to GitHub"
+  hw_duedate = "Due April 25 Tues 11:59 PM PDT; Post to GitHub"
 )
 ```
 
 ```{r}
-dfalab <- list(
+dfalab <- fill.list(
   title = "DFA models",
   topics = c("Fitting DFA models"),
   pdf = "",
@@ -100,12 +101,12 @@ dfalab <- list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due May 2 Tues 11:59 PM PST; Post to GitHub"
+  hw_duedate = "Due May 2 Tues 11:59 PM PDT; Post to GitHub"
 )
 ```
 
 ```{r hmmlab}
-hmmlab <- list(
+hmmlab <- fill.list(
   title = "Hidden Markov Models",
   topics = c("HMMs", "Mixed Models"),
   pdf = "",
@@ -118,12 +119,12 @@ hmmlab <- list(
   key = "",
   instructor = "Eric",
   hw_topics = c(""),
-  hw_duedate = "Due May 9 Thurs 11:59 PM PST; Post to GitHub"
+  hw_duedate = "Due May 9 Thurs 11:59 PM PDT; Post to GitHub"
 )
 ```
 
 ```{r}
-dlmlab <- list(
+dlmlab <- fill.list(
   title = "Dynamic Linear Models",
   topics = c("Fitting DLMs"),
   pdf = "",
@@ -136,14 +137,14 @@ dlmlab <- list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "Due May 16 Tues 11:59 PM PST; Post to GitHub"
+  hw_duedate = "Due May 16 Tues 11:59 PM PDT; Post to GitHub"
 )
 ```
 
 
 
 ```{r bayeslab}
-bayeslab <- list(
+bayeslab <- fill.list(
   title = "Fitting models non-Gaussian errors",
   topics = c("Fitting Bayesian state-space models",
               "Fitting zero-inflated models"),
@@ -157,13 +158,13 @@ bayeslab <- list(
   key = "",
   instructor = "Eric",
   hw_topics = c(""),
-  hw_duedate = "Due Fri May 12 11:59pm PST; Post to GitHub"
+  hw_duedate = "Due Fri May 12 11:59pm PDT; Post to GitHub"
 )
 ```
 
 
 ```{r}
-freqdomainlab <- list(
+freqdomainlab <- fill.list(
   title = "Frequency Domain",
   topics = c("Frequency domain methods", "wavelet analysis", "Stochastic volatility"),
   pdf = "",
@@ -176,12 +177,12 @@ freqdomainlab <- list(
   key = "",
   instructor = "Mark",
   hw_topics = c(""),
-  hw_duedate = "Due Tues May 23 11:59pm PST; Post to GitHub"
+  hw_duedate = "Due Tues May 23 11:59pm PDT; Post to GitHub"
 )
 ```
 
 ```{r}
-spatiallab <- list(
+spatiallab <- fill.list(
   title = "Spatio-temporal models",
   topics = c("Spatio-temporal models"),
   pdf = "",
@@ -189,8 +190,8 @@ spatiallab <- list(
   html = "",
   video = "",
   youtube = "",
-  data = "",
-  homework = "No homework; Datasets for in class lab  [Data1](Labs/Week 9/SNOTEL_metadata.csv), [Data2](Labs/Week 9/SNOTEL_Washington_1981_2013.csv), [Data3](Labs/Week 9/tck_longform.Rdata)",
+  data = c("[Data1](Labs/Week 9/SNOTEL_metadata.csv)", "[Data2](Labs/Week 9/SNOTEL_Washington_1981_2013.csv)", "[Data3](Labs/Week 9/tck_longform.Rdata)"),
+  homework = "No homework",
   key = "",
   instructor = "Eric",
   hw_topics = c(""),
@@ -199,7 +200,7 @@ spatiallab <- list(
 ```
 
 ```{r help}
-helplab <- list(
+helplab <- fill.list(
   title = "Help Desk",
   topics = c("No Lab; Help for projects"),
   pdf = "",
@@ -217,7 +218,7 @@ helplab <- list(
 ```
 
 ```{r studentpresentation2}
-presentlab <- list(
+presentlab <- fill.list(
   title = "Student presentations",
   topics = c("Student presentations"),
   pdf = "",
@@ -235,7 +236,7 @@ presentlab <- list(
 ```
 
 ```{r}
-edmlab <- list(
+edmlab <- fill.list(
   title = "EDM models",
   topics = c("Fitting EDM models"),
   pdf = "",
@@ -253,7 +254,7 @@ edmlab <- list(
 ```
 
 ```{r}
-etsedmlab <- list(
+etsedmlab <- fill.list(
   title = "Forecasting with ETS models",
   topics = c("Forecasting with ETS models, Model comparison, Covariates in MARSS models"),
   pdf = "",
@@ -266,12 +267,12 @@ etsedmlab <- list(
   key = "",
   instructor = c("Eli"),
   hw_topics = c("Covariates in MARSS models"),
-  hw_duedate = "Due next Thurs 11:59 PM PST; email to instructor(s) for lab"
+  hw_duedate = "Due next Thurs 11:59 PM PDT; email to instructor(s) for lab"
 )
 ```
 
 ```{r}
-perturblab <- list(
+perturblab <- fill.list(
   title = "Perturbation detection",
   topics = c("Perturbation detection"),
   pdf = "",
@@ -289,7 +290,7 @@ perturblab <- list(
 ```
 
 ```{r}
-hierlab <- list(
+hierlab <- fill.list(
   title = "Hierarchical models",
   topics = c("Fitting hierarchical models"),
   pdf = "",
@@ -307,7 +308,7 @@ hierlab <- list(
 ```
 
 ```{r}
-sslab1 <- list(
+sslab1 <- fill.list(
   title = "Univariate state-space models",
   topics = c("Fitting univariate state-space models", "Animal movement", "TMB", "Bayesian"),
   pdf = "",
@@ -320,12 +321,12 @@ sslab1 <- list(
   key = "",
   instructor = "Eli",
   hw_topics = c("Univariate state-space models"),
-  hw_duedate = "Due Apr 25 Tues 11:59 PM PST; post to GitHub"
+  hw_duedate = "Due Apr 25 Tues 11:59 PM PDT; post to GitHub"
 )
 ```
 
 ```{r}
-glmlab <- list(
+glmlab <- fill.list(
   title = "Generalized models",
   topics = c("Fitting models with non-Gaussian errors",
               "Fitting zero-inflated models"),
@@ -344,7 +345,7 @@ glmlab <- list(
 ```
 
 ```{r}
-intlab <- list(
+intlab <- fill.list(
   title = "Species interactions",
   topics = c("Fitting MARSS models for species interactions"),
   pdf = "",
