@@ -15,7 +15,8 @@ knitr::opts_chunk$set(echo = FALSE)
 emptylist <- list(
   title = "", topics ="", pdf = "", rmd = "",
   html = "", video = "", youtube = "",
-  data = "", repo = "", homework = "", key = "",
+  data = "", repo = "", 
+  homework = "", key = "",
   instructor = "", hw_topics = "",
   hw_duedate = "")
 fill.list <- function(...){
