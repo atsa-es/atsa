@@ -31,24 +31,21 @@ fill.list <- function(...){
 matrixlab <- fill.list(
  title = "Matrix math in R",
  topics = c("Matrices & matrix algebra","(review on your own)"),
- pdf = "Labs/Week 0 basic matrix/basic-matrix-math.pdf",
+ pdf = "",
  html = "https://atsa-es.github.io/atsa-labs/chap-basicmat.html",
- homework = "Optional: Problems at end of <a href='https://atsa-es.github.io/atsa-labs/chap-basicmat.html'>Chapter 1</a>. <a href='Labs/Week 0 basic matrix/basic-matrix-math-key.pdf'>Key</a>",
- key = "Labs/Week 0 basic matrix/basic-matrix-math-key.pdf",
- hw_topics = "Review of matrix math",
+ homework = "Optional: online tutorial <a href='https://atsa.shinyapps.io/matrix/'>Matrix tutorial</a>",
+ key = "",
+ hw_topics = "matrix math",
  hw_duedate = "Optional")
 ```
 
 ```{r}
 lmlab <- fill.list(
   title = "Writing models in matrix form",
-  topics = c("Writing models in matrix form (through section 2.5)",
-               "Basic time series functions",
-               "Autocorrelation"),
-  html = c("https://atsa-es.github.io/atsa-labs/chap-mlr.html","https://atsa-es.github.io/atsa-labs/chap-ts.html"),
+  topics = c("Writing models in matrix form (through section 2.5)"),
+  html = c("https://atsa-es.github.io/atsa-labs/chap-mlr.html"),
   homework = "Optional (important to understand course material): Questions at end of <a href='https://atsa-es.github.io/atsa-labs/chap-mlr.html'>Chapter 2</a>. <a href='Labs/Week 1/HW_1_Key.html'>Key</a>",
   key = "Labs/Week 1/HW_1_Key.html",
-  instructor = c("Mark"),
   hw_topics = c("matrix models"),
   hw_duedate = "Optional"
 )
@@ -57,8 +54,8 @@ lmlab <- fill.list(
 ```{r}
 arimalab <- fill.list(
   title = "Box-Jenkins Methods",
-  topics = c("Simulating ARMA models", "Fitting ARIMA models", "Forecasting with ARIMA models","Box-Jenkins Methods"),
-  html = c("https://atsa-es.github.io/atsa-labs/chap-tslab.html", "https://atsa-es.github.io/atsa-labs/chap-boxjenkins-.html"),
+  topics = c("Fitting ARIMA models", "Forecasting with ARIMA models"),
+  html = c("https://atsa-es.github.io/fish550-2023/Lab-1/Lab1-ARIMA.html"),
   data = "See repo",
   repo = "https://github.com/atsa-es/fish550-2023/tree/main/Lab-1",
   homework = "Lab write-up #1",

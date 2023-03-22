@@ -23,6 +23,7 @@ Other sources of public fisheries data sets are:
 * [California Current survey data](https://calcofi.org/) oceanographic and biological
 * [PNW Zooplankton data](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.3040)
 * [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) data sets. Not fisheries. All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.
+* Greg Ruggerone and Jim Irvine, entitled "Numbers and biomass of natural- and hatchery-origin Pink, Chum, and Sockeye Salmon in the North Pacific Ocean, 1925-2015" in Marine and Coastal Fisheries: Dynamics, Management, and Ecosystem Science 10. DOI: 10.1002/mcf2.10023. [Excel file of the data](https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx)
 
 
 Marine environmental data. Sound ideas
