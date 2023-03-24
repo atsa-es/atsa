@@ -375,7 +375,7 @@ zeros <- list(
 
 
 
-## Not used in 2023
+<!-- Not used in 2023 -->
 
 ```{r}
 covariates <- list(
