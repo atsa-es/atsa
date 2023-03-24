@@ -1,6 +1,10 @@
 ---
 title: "Labs and Lab Write-ups"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
