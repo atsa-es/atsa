@@ -1,242 +1,43 @@
 ---
-title: "Applied Time Series Analysis"
-subtitle: "FISH 550 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Spring Qtr 2023"
-output:
-  html_document:
-    toc: true
-    toc_float: true
-    toc_depth: 3
+title: "Applied Time Series Analysis<br>in Fisheries and Environmental Science"
+output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+<style>
+h1 {
+  font-size: 34px;
+  text-align: center;
+}
 
-<br>
+h1.title {
+  font-size: 50px;
+  text-align: center;
+}
 
-# Course overview
+h2 {
+  font-size: 30px;
+  text-align: center;
+}
 
-This course is intended to give students an overview of the theory and practical aspects of fitting time series models to fisheries and environmental data. The course will cover topics ranging from autocorrelation and crosscorrelation, autoregressive (AR) and moving average (MA) models, univariate and multivariate state-space models, and estimating model parameters. This course also covers various aspects of assessing model performance and evaluating model diagnostics. The course is focused almost exclusively on problems and analyses in the time domain, and only briefly addresses methods for the frequency domain. In general, students will focus on conceptualizing analyses, implementing analyses, and making inference from the results.
+h3 {
+  font-size: 24px;
+  text-align: center;
+}
+</style>
 
-<br>
 
-# Resources
-
-[Textbook](https://atsa-es.github.io/atsa-labs/) Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. eBook. 
-
-[YouTube Channel](https://www.youtube.com/@SAFSTimeSeries) Recorded lectures
-
-[Class GitHub repo](https://github.com/atsa-es/fish550-2023), [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
-
-[atsalibrary](https://atsa-es.github.io/atsalibrary/) You will need to install for the course data.
-
-<br>
-
-# Key dates
-
-* HW #1 Tues April 18 11:59pm PDT
-* [Project proposals](final_proj.html) due Fri April 21 11:59pm PDT
-* HW #2 Tues April 25 11:59pm PDT
-* HW #3 Tues May 2 11:59pm PDT
-* HW #4 Tues May 9 11:59pm PDT
-* HW #5 [Project Methods](final_proj.html#Project_Methods) Fri May 12 11:59pm PDT
-* HW #6 Tues May 23 11:59pm PDT
-* [Final project](final_proj.html) due Fri June 2nd 11:59pm PDT
-* [Peer reviews](review_guide.html) due Fri June 9th 11:59pm PDT
+<h2>FISH 550 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Spring Qtr 2023</h2>
 
 <br>
 
 
-# Learning objectives
-
-By the end of the quarter, students should be able to:
-
-* Understand the elements to classical decomposition
-
-* Understand how to use ACF and PACF to identify orders of ARMA(*p*,*q*) models for time series data
-
-* Apply appropriate diagnostic measures to identify any shortcomings in model assumptions
-
-* Understand how to use information theoretic methods and cross validation for model selection
-
-* Understand how to combine state and observation models into a state-space model
-
-* Use multivariate time series models with covariates to identify influential explanatory variables and do perturbation analyses
-
-* Use Dynamic Factor Analysis to identify common patterns among many time series
-
-* Use Dynamic Linear Models to allow for changing relationships between a response variable and any explanatory variable(s)
-
-* Prepare forecasts with uncertainty using time series models
+<p align="center">
+    <img width="400" height="400" src="atsa-logo.png">
+</p>
 
 <br>
 
-# Instructors
-
-[__Eli Holmes__](https://faculty.washington.edu/eeholmes/)  
-Research Fish Biologist, NOAA Fisheries  
-[eeholmes@uw.edu](mailto:eeholmes@uw.edu)
-
-[__Eric Ward__](https://faculty.washington.edu/warde/)  
-Statistician, NOAA Fisheries  
-[warde@uw.edu](mailto:warde@uw.edu)
-
-[__Mark Scheuerell__](https://faculty.washington.edu/scheuerl/)  
-Associate Professor, School of Aquatic & Fishery Sciences  
-[scheuerl@uw.edu](mailto:scheuerl@uw.edu)
-
-<br>
-
-# Meeting times & locations
-
-### Lectures 
-Tuesday & Thursday from 10:00-11:20 in-person FSH 213, lectures will also be recorded
-
-### Computer Lab
-Thursday from 11:20-12:20 in-person FSH 213
-
-### Office hours
-By appointment
-
-<br>
-
-# Pre-requisites
-
-Students should have a working knowledge of the [**R**](https://www.r-project.org/) computing software, such as that provided in FISH 552/553/549. Students should also have an understanding of basic probability and statistical inference.
-
-<br>
-
-# Classroom conduct
-
-We are dedicated to providing a welcoming and supportive learning environment for all students, regardless of their background, identity, physical appearance, or manner of communication. Any form of language or behavior used to exclude, intimidate, or cause discomfort will not be tolerated. This applies to all course participants (instructor, students, guests). In order to foster a positive and professional learning environment, we ask the following:
-
-* Please let us know if you have a name or set of preferred pronouns that you would like us to use
-
-* Please let us know if *anyone* in class says something that makes you feel uncomfortable<sup>[[1](#endnotes)]</sup>
-
-In addition, we encourage the following kinds of behaviors:
-
-* Use welcoming and inclusive language
-
-* Show courtesy and respect towards others
-
-* Acknowledge different viewpoints and experiences
-
-* Gracefully accept constructive criticism
-
-Although we strive to create and use inclusive materials in this course, there may be overt or covert biases in the course material due to the lens with which it was written. Your suggestions about how to improve the value of diversity in this course are encouraged and appreciated.  
-
-**Please note**: If you believe you have been a victim of an alleged violation of the [Student Conduct Code](https://www.washington.edu/admin/rules/policies/WAC/478-121TOC.html) or you are aware of an alleged violation of the [Student Conduct Code](https://www.washington.edu/admin/rules/policies/WAC/478-121TOC.html), you have the right to [report it to the University](https://www.washington.edu/cssc/for-students-2/).
-
-<br>
-
-# Access & accommodations
-
-All students deserve access to the full range of learning experiences, and the University of Washington is committed to creating inclusive and accessible learning environments consistent with federal and state laws. If you feel like your performance in class is being impacted by your experiences outside of class, please talk with us.
-
-### Disabilities
-
-If you have already established accommodations with Disability Resources for Students (DRS), please communicate your approved accommodations to us at your earliest convenience so we can discuss your needs in this course. If you have not yet established services through DRS, but have a temporary health condition or permanent disability that requires accommodations (*e.g.*, mental health, learning, vision, hearing, physical impacts), you are welcome to contact DRS at 206-543-8924 or via [email](mailto:uwdrs@uw.edu) or their [website](https://depts.washington.edu/uwdrs/). DRS offers resources and coordinates reasonable accommodations for students with disabilities and/or temporary health conditions.  Reasonable accommodations are established through an interactive process between you, your instructor(s) and DRS.
-
-### Religious observances
-
-Students who expect to miss class or assignments as a consequence of their religious observance will be provided with a reasonable accommodation to fulfill their academic responsibilities. Absence from class for religious reasons does not relieve students from responsibility for the course work required during the period of absence. It is the responsibility of the student to provide the instructor with advance notice of the dates of religious holidays on which they will be absent. Students who are absent will be offered an opportunity to make up the work, without penalty, within a reasonable time, as long as the student has made prior arrangements.
-
-<br>
-
-# Technology
-
-This course will revolve around hands-on computing exercises that demonstrate the topics of interest. Therefore, students are strongly recommended to bring their own laptop to class, although students are certainly free to work with one another. **For students without access to a personal laptop**: it is possible to check out UW laptops for an entire quarter (see the [Student Services office](https://education.uw.edu/admissions/office-of-student-services) for details).
-
-All of the software we will be using is free and platform independent, meaning students may use macOS, Linux, or Windows operating systems. In addition to a web browser, we will be using the free [**R**](https://www.r-project.org/) software and the desktop version of the [**R Studio**](https://www.rstudio.com/products/rstudio-desktop/) integrated development environment (IDE). We will also be using various packages not contained in the base installation of **R**, but we will wait and install them at the necessary time. The instructor will be available during the first week of class to help students troubleshoot any software installation problems.
-
-Students will also be required to have a user account on [**GitHub**](https://github.com/), which we will be using for file hosting and communications via "issues". If you do not already have an account, you can sign up for a free one [here](https://github.com/join?source=header-home). The instructor will provide training on how to use the intended features in **GitHub**.
-
-
-# Teaching methodology
-
-This course will introduce new material primarily through prepared slides and hands-on demonstrations. Students will be expected to work both individually and collaboratively. Course content and evaluation will emphasize the communication of ideas and the ability to think critically more so than a specific pathway or method. Other areas of this website provide an overview of the topics to be covered, including links to weekly reading assignments, lecture materials, computer labs, and the final project paper.
-
-<br>
-
-# Communication
-
-This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email or our GitHub discussion boards; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group video calls as needed.
-
-In addition to email and video, we will use the "Discussion" feature in our class **GitHub** repository to ask questions and assist others. Specifically, questions and answers can be posted to the discussion in the course repository [https://github.com/atsa-es/safs-timeseries/issues](https://github.com/atsa-es/fish550-2023/discussions).
-
-<br>
-
-# Evaluation
-
-Students will be evaluated on their knowledge of course content and their ability to communicate their understanding of the material via individual homework assignments (30%), a final project (40%), peer reviews (20%), and class participation (10%). There will be 6 homework assignments, each of which will count toward 5% of the final grade. Please note, **all assignments must be turned in to achieve a passing grade**.
-
-### Lab Write-Ups (30%)
-
-Each Thursday during lab, you will explore a dataset and prepare an analysis of the data using the techniques you learned in class that week. The lab write-up is due by 11:59 PM PST on the following Tuesday; you have 10 days to submit. It will consist of SHORT write-ups of an analysis of the data with analysis and diagnostics. We will supply a template for the lab. There will be 6 assignments worth 5% each.  You can work on the data as a group or solo. We will supply a data set, if you have a different data set that you or your group would like to use instead, you ask us if it will work. 
-
-### Individual project (40%)  
-
-Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See [list of prior student projects](https://atsa-es.github.io/atsa/student_pubs.html) for the types of projects done in prior years.
-
-The techniques you will be learning would be appropriate for the [EFI RCN NEON Ecological Forecast Challenge](https://ecoforecast.org/efi-rcn-forecast-challenges/) data. You are welcome to do one of the challenges as your individual project. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be most appropriate for the class.
-
-### Peer reviews (20%)  
-
-Each student will have to provide 2 anonymous peer-reviews of their colleagues’ final papers (10% each).
-
-### Participation (10%)  
-
-This is a graduate-level course and we expect a certain amount of engagement from each student, which includes attending and participating lectures and computer labs. Participation is based on class attendance and participating in the GitHub Discussions.
-
-Students should discuss any potential schedule conflicts with the instructor during the first week of class.
-
-<br>
-
-# Academic integrity
-
-Faculty and students at the University of Washington are expected to maintain the highest standards of academic conduct, professional honesty, and personal integrity. Plagiarism, cheating, and other academic misconduct are serious violations of the [Student Conduct Code](https://www.washington.edu/cssc/for-students/academic-misconduct/). we have no reason to believe that anyone will violate the Student Conduct Code, but *we will have no choice* but to refer any suspected violation(s) to the College of the Environment for a Student Conduct Process hearing. Students who have been guilty of a violation will receive zero points for the assignment in question.
-
-# chatGPT and co-pilot
-
-You are welcome to use these and they can be powerful coding assistants --- especially when you are not an expert in R, Stan or TMB etc. GitHub Copilot is an AI pair programmer, and is [free for students](https://docs.github.com/en/copilot/quickstart) (or you can get a 60 day trial). [What a video to learn how to use](https://www.youtube.com/watch?v=XQ4Negbmtk4). [chatGPT](https://openai.com/) is free and is a bit different. You can describe what you want to do, paste in code and ask it to analyse, or describe tasks you want do with code or a described data set. chatGPT and Bing AI can also be helpful for understanding material (personal AI tutor). If you use these for the lab text or paper text, please note this in your lab write-up so we can get a better understanding of how these tools help in the research process. Use these tools to help you write better and faster and then go more indepth into your novel contributions.
-
-<br>
-
-# Mental health
-
-We are in the midst of an historic pandemic that is creating a variety of challenges for everyone. If you should feel like you need some help, please consider the following resources available to students.
-
-**If you are experiencing a life-threatening emergency, please dial 911**.  
-
-[**Crisis Clinic**](http://www.crisisclinic.org/)  
-Phone: 206-461-3222 or toll-free at 1-866-427-4747   
-
-[**UW Counseling Center**](https://www.washington.edu/counseling/services)  
-Phone: 206-543-1240  
-[Immediate assistance](https://www.washington.edu/counseling/services/crisis/)
-
-[**Let’s Talk**](https://wellbeing.uw.edu/virtual-lets-talk/)
-
-[**Hall Health Mental Health**](https://wellbeing.uw.edu/unit/hall-health)
-
-<br>
-
-# Safety
-
-If you feel unsafe or at-risk in any way while taking any course, contact [SafeCampus](https://www.washington.edu/safecampus/) (206-685-7233) anytime&ndash;no matter where you work or study&ndash;to anonymously discuss safety and well-being concerns for yourself or others. SafeCampus can provide individualized support, discuss short- and long-term solutions, and connect you with additional resources when requested. For a broader range of resources and assistance see the [Husky Health & Well-Being website](https://wellbeing.uw.edu/).
-
-<br>
-
-# Food Pantry
-
-No student should ever have to choose between buying food or textbooks. The UW Food Pantry helps mitigate the social and academic effects of campus food insecurity. They aim to lessen the financial burden of purchasing food by providing students access to shelf-stable groceries, seasonal fresh produce, and hygiene products at **no cost**. Students can expect to receive 4 to 5 days' worth of supplemental food support when they visit the Pantry, located on the north side of Poplar Hall at the corner of NE 41<sup>st</sup> St and Brooklyn Ave NE. Visit the [Any Hungry Husky website](https://uw.edu/anyhungryhusky) for additional information, including operating hours and additional food support resources.
-
-<br>
-
-# Endnotes
-
-[1] If the instructor should be the one to say or do something that makes a student uncomfortable, the student should feel free to contact the Director of the School of Aquatic and Fishery Sciences.
+<center>&copy; EE Holmes, EJ Ward & MD Scheuerell 2023</center>
 
 <br>
 

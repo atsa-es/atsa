@@ -1,0 +1,16 @@
+---
+title: "2021 Schedule"
+output: html_document
+---
+
+```{r generate_dates, include=FALSE}
+## first day of class
+start_date <- as.Date("2023-03-28")
+## all tues
+tues <- seq.Date(from = start_date, by = 7, length.out = 10)
+## all thur
+thur <- tues + 2
+## all qtr
+qtr <- sort(c(tues, thur))
+qtr <- sub("0(\\d)", "\\1", format(qtr, "%d %b"))
+```

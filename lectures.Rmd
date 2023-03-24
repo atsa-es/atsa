@@ -9,10 +9,52 @@ output: html_document
 
 Tuesday & Thursday from 10:00-11:20 FISH 213
 
+<br>
+
+#### Navigating through a slide deck
+
+Here are some navigation tricks for slide decks in `.html` format.
+
+* Use the arrow keys (&#8592;/&#8594;) on your keyboard to go forward or backward
+
+* Press the "o" key on any slide to show you an overview of the slide deck
+
+* In overview mode, click on a slide or press "esc" to zoom in on it
+
+
+```{r child = "_timeline.Rmd", include = FALSE}
+```
+
+```{r child = "_list_of_lectures.Rmd", include = FALSE}
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(kableExtra)
-load("syllabus.RData")
+```
+
+```{r weeks, include = FALSE}
+week_lecs <- list(d1 = intro,
+                  d2 = ts_basics,
+                  d3 = arma_basics,
+                  d4 = forecast, # lab
+                  d7 = uni_ss,
+                  d8 = marss, # lab
+                  d5 = marss_covariates,
+                  d12 = dfa, # lab
+                  d10 = dlm,
+                  d11 = HMMs, # lab
+                  d13 = bayes,
+                  d16 = bayes2, # project methods
+                  d9 = model_inf,
+                  d6 = freqdomain, # lab
+                  d14 = spatial,
+                  d18 = spatial2, # lab no hw
+                  d17 = interactions1,
+                  d15 = tbd,
+                  d19 = present1,
+                  d20 = present2
+)
 ```
 
 ```{r lecture_topics, include = FALSE}
