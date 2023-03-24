@@ -10,22 +10,13 @@ library(kableExtra)
 
 ---
 
-```{r child="list_of_labs.Rmd", include=FALSE}
+```{r child = "_timeline.Rmd", include = FALSE}
 ```
 
-```{r child="list_of_lectures.Rmd", include=FALSE}
+```{r child = "_list_of_labs.Rmd", include = FALSE}
 ```
 
-```{r generate_dates, include=FALSE}
-## first day of class
-start_date <- as.Date("2023-03-28")
-## all tues
-tues <- seq.Date(from = start_date, by = 7, length.out = 10)
-## all thur
-thur <- tues + 2
-## all qtr
-qtr <- sort(c(tues, thur))
-qtr <- sub("0(\\d)", "\\1", format(qtr, "%d %b"))
+```{r child = "_list_of_lectures.Rmd", include = FALSE}
 ```
 
 ```{r weeks, include = FALSE}
@@ -116,5 +107,5 @@ kable(syl_txt, format = "html", caption = " ", escape = FALSE) %>%
 ```
 
 ```{r echo=FALSE}
-save(qtr, week_lecs, week_labs,  file="syllabus.RData")
+# save(qtr, week_lecs, week_labs,  file="syllabus.RData")
 ```
