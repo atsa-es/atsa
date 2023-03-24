@@ -1,12 +1,14 @@
 ---
 title: "Forecasting with ARIMA models"
 author: "Eli Holmes"
-date: "14 Jan 2021"
+date: "6 Apr 2023"
 output:
   beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-subtitle: FISH 507 – Applied Time Series Analysis
+subtitle: |
+  FISH 550 – Applied Time Series Analysis \ 
+  [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd)
 ---
 
 ```{r setup, include=FALSE}

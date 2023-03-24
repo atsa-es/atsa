@@ -58,6 +58,8 @@ xt=mt+et
 plot(xt[1:100],type="l")
 ```
 
+##
+
 When we take the first difference, we get
 $$\Delta x_t = \mu (t - (t-1)) + w_t - w_{t-1} = \mu + w_t - w_{t-1}$$
 So you expect that we should estimate a ARIMA(0,1,1) with drift.  For some reason `auto.arima()` is returning Inf for the AICc for ARIMA(0,1,1) with drift although `Arima()` returns it.  Turn on `trace=TRUE` to see the problem.
@@ -87,10 +89,14 @@ xt=mt+et
 plot(xt[1:100],type="l")
 ```
 
+##
+
 When we take the first difference, we get
 $$\Delta x_t = \mu (t^2 - (t-1)^2) + w_t - w_{t-1} = \mu(2t-1) + w_t - w_{t-1}$$
 When we take another difference, and we get
 $$\Delta^2 x_t =  2\mu(2t-1-2(t-1)+1) + w_t - 2w_{t-1} + w_{t-2}$$
+##
+
 So you expect that we should estimate a ARIMA(0,2,2) with drift.  Because `Arima()` will not estimate the drift term if we have a 2nd difference, I will fit to the first difference. And we recover the terms as expected.
 ```{r}
 forecast::Arima(diff(xt),order=c(0,1,2), include.drift=TRUE)
@@ -118,10 +124,14 @@ $$x_t = \mu t+ s_t + w_t$$
 Let's imagine that the seasonal term is just a constant based on month and doesn't change with time.
 
 $$s_t = f(month)$$
+##
+
 We want to remove the $s_t$ with differencing so that we can model $e_t$.  We can solve for $x_{t+1}$ by using $x_{t-s}$ where $s$ is the seasonal length (e.g. 12 if season is yearly).
 
 When we take the first seasonal difference, we get
 $$\Delta_s x_t = \mu(t-(t-s)) + s_t - s_{t-s} + w_t - w_{t-s} = \mu s + w_t - w_{t-s}$$
+##
+
 The $s_t-s_{t-s}$ disappears because $s_t = s_{t-s}$ when the seasonal effect is just a function of the month.  Depending on what $m_t$ is, we might be done or we might have to do a first difference.  Notice that the error term is a moving average in the seasonal part.
 
 ```{r, echo=FALSE}

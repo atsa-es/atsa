@@ -1,12 +1,14 @@
 ---
 title: "Fitting and Selecting ARIMA models"
 author: "Eli Holmes"
-date: "14 Jan 2021"
+date: "6 Apr 2023"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-subtitle: FISH 507 – Applied Time Series Analysis
+  beamer_presentation: default
+subtitle: |
+  FISH 550 – Applied Time Series Analysis \ 
+  [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd)
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +31,7 @@ library(urca)
 ```
 
 
-## Today's topic: Box-Jenkins method
+## Box-Jenkins method
 
 A. Model form selection
 
@@ -177,7 +179,7 @@ grid.arrange(p1, p2, ncol = 1)
 
 ## Random walk with $\mu$ and $at$ added
 
-Similar to the way we added an intecept and linear trend to the stationarity process equations, we can do the same to the random walk equation.
+Similar to the way we added an intercept and linear trend to stationary process equations, we can do the same to the random walk equation.
 
 1. Non-zero mean or intercept: $x_t = \mu + x_{t-1} + e_t$
 
@@ -185,7 +187,7 @@ Similar to the way we added an intecept and linear trend to the stationarity pro
 
 ## Random walk with $\mu$ and $at$ added
 
-The effects are fundamentally different however.  The addition of $\mu$ leads to a upward mean linear trend while the addition of $at$ leads to exponential growth (or decline).
+The effects are fundamentally different however.  The addition of $\mu$ leads to a upward trend while the addition of $at$ leads to exponential growth (or decline). All of these are "unit root" processes.
 
 ```{r fig.stationarity4, fig.height = 4, fig.width = 7, fig.align = "center", echo=FALSE}
 require(ggplot2)
@@ -204,17 +206,17 @@ grid.arrange(p1, p2, p3, ncol = 1)
 
 Why is evaluating stationarity important? 
 
-- Many AR models have a flat level or trend and time-constant variance.  If your data do not have those properties, you are fitting a model that is fundamentally inconsistent with your data.
-- Many standard algorithms for fitting ARIMA models assume stationarity.  Note, you can fit ARIMA models without making this assumption, but you need to use the appropriate algorithm.
-- Many time-series models used in environmental science are random walk models, thus are non-stationary, e.g. movement, population growth, genetic drift. One must be careful to either deal with non-stationarity via transformation (differencing or covariates) OR use an algorithm which doesn't assume stationarity. We will do mainly the latter in this class.
+- Many AR models are stationary.  If your data are not, you are fitting a model that is fundamentally inconsistent with your data.
+- Many standard algorithms for fitting ARIMA models assume stationarity.  You can fit ARIMA models without this assumption, but you need to use the appropriate algorithm.
+- Many processes in environmental science are fundamentally random walks, i.e. non-stationary, e.g. movement, population growth, genetic drift. One must be careful to either deal with non-stationarity via transformation  OR use an algorithm which doesn't assume stationarity.
 
 ## Testing for stationarity
 
 We will discuss three common approaches to evaluating stationarity:
 
 - Visual test
-- (Augmented) Dickey-Fuller test
-- KPSS test
+- (Augmented) Dickey-Fuller test 
+- KPSS test 
 
 
 ## Visual test
