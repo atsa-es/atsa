@@ -79,7 +79,7 @@ By the end of the quarter, students should be able to:
 
 # Instructors
 
-[__Eli Holmes__](https://faculty.washington.edu/eeholmes/)  
+[__Eli Holmes__](https://eeholmes.github.io)  
 Research Fish Biologist, NOAA Fisheries  
 [eeholmes@uw.edu](mailto:eeholmes@uw.edu)
 
