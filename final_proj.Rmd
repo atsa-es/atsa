@@ -29,9 +29,9 @@ Students are encouraged to use their own data and the paper may form a chapter f
 Students without data or a particular project in mind should look at our [page of data sets](data_sets.html). You might also reach out to your advisor for data set suggestions.
 
 
-# Project Plan
+# Project Proposal
 
-**due Fri April 21 11:59pm PST**
+**due Fri April 21 11:59pm PDT**
 
 Write a 1-2 page description of your project idea that includes
 
@@ -50,7 +50,7 @@ Things to consider:
 
 # Project Methods
 
-**due Thurs May 11 11:59pm PST**
+**due Fri May 12 11:59pm PDT**
 
 1. Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.
 
@@ -59,7 +59,7 @@ Things to consider:
 
 # Preparation of final papers
 
-**due Fri June 3th 11:59pm PST**
+**due Fri June 2nd 11:59pm PDT**
 
 ### Length
 
@@ -90,6 +90,8 @@ Ecology: http://esapubs.org/esapubs/preparation.htm
 Journal of Applied Ecology: http://www.journalofappliedecology.org/view/0/authorGuideline.html
 
 # Peer reviews
+
+**due Fri June 9 11:59pm PDT**
 
 ## Advice on reviewing scientific papers
 
