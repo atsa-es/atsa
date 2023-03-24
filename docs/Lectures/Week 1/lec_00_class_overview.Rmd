@@ -1,8 +1,8 @@
 ---
 title: "Course overview"
-subtitle: "FISH 507 – Applied Time Series Analysis"
+subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
-date: "5 Jan 2021"
+date: "28 March 2023"
 output: ioslides_presentation
 ---
 
@@ -35,6 +35,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### We encourage lots of questions during class
 
+### Use the GitHub [Discussion board](https://github.com/atsa-es/fish550-2023/discussions)
+
 ### Feel free to email any of the instructors outside of class
 
 ### We will respond within 24 hours
@@ -46,7 +48,7 @@ __Weekly homework__ (30% of total)
 
 * Assigned Thurs at the end of computer lab  
 
-* Due by 11:59 PM the following Thurs  
+* Due by 11:59 PM on the Tues 12 days later  
 
 * Based on material from lectures & computer labs  
 
@@ -115,6 +117,6 @@ The **Aquatic Ecosystems**, **Tick Abundance**, and **Beetle Abundance** challen
 ## {.flexbox .vcenter .bigger}
 
 <font size="10">
-[__Course topics__](https://atsa-es.github.io/atsa/asyllabus.html) 
+[__Course topics__](https://atsa-es.github.io/atsa) 
 </font>
 
