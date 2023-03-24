@@ -75,3 +75,5 @@ Linder, H.L., Horne, J.K. and E.J. Ward. 2017. Modeling baseline conditions of e
 Ecological Indicators, Volume 83: 178-191 [Link to article](https://doi.org/10.1016/j.ecolind.2017.07.015)
 
 Gonzalez, S., Horne, J. K., & Ward, E.J. 2019. Does temporal variability limit standardized biological monitoring at wave and tidal energy sites?. International Marine Energy Journal, 2(1 (Nov), 15–28. [Link to article](https://doi.org/10.36688/imej.2.15-28)
+
+Arnold, L., Scheuerell , M.D., Busch Isaksen 2022. T. Mortality Associated with Extreme Heat in Washington State: The Historical and Projected Public Health Burden. Atmosphere, 13, 1392. [Link to article](https://doi.org/10.3390/atmos13091392)
