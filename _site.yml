@@ -5,8 +5,8 @@ navbar:
     - text: ""
       icon: fa-home fa-lg
       href: index.html
-    - text: "Schedule"
-      href: asyllabus.html
+    - text: "Syllabus"
+      href: syllabus.html
     - text: "Lectures"
       href: lectures.html
     - text: "Computer Labs"
