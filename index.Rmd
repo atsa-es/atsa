@@ -41,8 +41,8 @@ This course is intended to give students an overview of the theory and practical
 * HW #4 Tues May 9 11:59pm PDT
 * HW #5 [Project Methods](final_proj.html#Project_Methods) Fri May 12 11:59pm PDT
 * HW #6 Tues May 23 11:59pm PDT
-* [Final project](final_proj.html) due Fri June 3th 11:59pm PDT
-* [Peer reviews](review_guide.html) due Fri June 10th 11:59pm PDT
+* [Final project](final_proj.html) due Fri June 2nd 11:59pm PDT
+* [Peer reviews](review_guide.html) due Fri June 9th 11:59pm PDT
 
 <br>
 

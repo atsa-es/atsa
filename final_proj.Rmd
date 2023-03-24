@@ -15,11 +15,11 @@ As part of the class, each student will have to write a complete, publishable (<
 
 ### Due Dates
 
-* Project proposal due Fri April 21 11:59pm PST
-* Project methods due Thurs May 11 11:59pm PST
-* Final paper due Fri June 3th 11:59pm PST
-* Presentations May 30 and June 2 during class time
-* Peer review due Fri June 10th 11:59pm PST
+* Project proposal due Fri April 21 11:59pm PDT
+* Project methods due Fri May 12 11:59pm PDT
+* Final paper due Fri June 2nd 11:59pm PDT
+* Presentations May 30 and June 1 during class time and lab time
+* Peer review due Fri June 9th 11:59pm PDT
 
 
 # Data sets
