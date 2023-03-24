@@ -11,9 +11,9 @@
 
 
 
-<title>Applied Time Series Analysis</title>
+<title>Applied Time Series Analysis in Fisheries and Environmental Science</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20.1/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -29,9 +29,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -225,69 +222,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -295,16 +229,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -329,7 +253,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="asyllabus.html">Schedule</a>
+  <a href="syllabus.html">Syllabus</a>
 </li>
 <li>
   <a href="lectures.html">Lectures</a>
@@ -379,413 +303,51 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Applied Time Series Analysis</h1>
-<h3 class="subtitle">FISH 550     University of Washington     Spring
-Qtr 2023</h3>
+<h1 class="title toc-ignore">Applied Time Series Analysis<br>in
+Fisheries and Environmental Science</h1>
 
 </div>
 
 
+<style>
+h1 {
+  font-size: 34px;
+  text-align: center;
+}
+
+h1.title {
+  font-size: 50px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 30px;
+  text-align: center;
+}
+
+h3 {
+  font-size: 24px;
+  text-align: center;
+}
+</style>
+<h2>
+FISH 550     University of Washington     Spring Qtr 2023
+</h2>
 <p><br></p>
-<div id="course-overview" class="section level1">
-<h1>Course overview</h1>
-<p>This course is intended to give students an overview of the theory
-and practical aspects of fitting time series models to fisheries and
-environmental data. The course will cover topics ranging from
-autocorrelation and crosscorrelation, autoregressive (AR) and moving
-average (MA) models, univariate and multivariate state-space models, and
-estimating model parameters. This course also covers various aspects of
-assessing model performance and evaluating model diagnostics. The course
-is focused almost exclusively on problems and analyses in the time
-domain, and only briefly addresses methods for the frequency domain. In
-general, students will focus on conceptualizing analyses, implementing
-analyses, and making inference from the results.</p>
-<p><br></p>
-</div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p><a href="https://atsa-es.github.io/atsa-labs/">Textbook</a> Holmes,
-E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis
-for Fisheries and Environmental data. eBook.</p>
-<p><a href="https://www.youtube.com/@SAFSTimeSeries">YouTube Channel</a>
-Recorded lectures</p>
-<p><a href="https://github.com/atsa-es/fish550-2023">Class GitHub
-repo</a>, <a
-href="https://github.com/atsa-es/fish550-2023/discussions">Discusssion
-board</a></p>
-<p><a href="https://atsa-es.github.io/atsalibrary/">atsalibrary</a> You
-will need to install for the course data.</p>
-<p><br></p>
-</div>
-<div id="key-dates" class="section level1">
-<h1>Key dates</h1>
-<ul>
-<li>HW #1 Tues April 18 11:59pm PDT</li>
-<li><a href="final_proj.html">Project proposals</a> due Fri April 21
-11:59pm PDT</li>
-<li>HW #2 Tues April 25 11:59pm PDT</li>
-<li>HW #3 Tues May 2 11:59pm PDT</li>
-<li>HW #4 Tues May 9 11:59pm PDT</li>
-<li>HW #5 <a href="final_proj.html#Project_Methods">Project Methods</a>
-Fri May 12 11:59pm PDT</li>
-<li>HW #6 Tues May 23 11:59pm PDT</li>
-<li><a href="final_proj.html">Final project</a> due Fri June 2nd 11:59pm
-PDT</li>
-<li><a href="review_guide.html">Peer reviews</a> due Fri June 9th
-11:59pm PDT</li>
-</ul>
-<p><br></p>
-</div>
-<div id="learning-objectives" class="section level1">
-<h1>Learning objectives</h1>
-<p>By the end of the quarter, students should be able to:</p>
-<ul>
-<li><p>Understand the elements to classical decomposition</p></li>
-<li><p>Understand how to use ACF and PACF to identify orders of
-ARMA(<em>p</em>,<em>q</em>) models for time series data</p></li>
-<li><p>Apply appropriate diagnostic measures to identify any
-shortcomings in model assumptions</p></li>
-<li><p>Understand how to use information theoretic methods and cross
-validation for model selection</p></li>
-<li><p>Understand how to combine state and observation models into a
-state-space model</p></li>
-<li><p>Use multivariate time series models with covariates to identify
-influential explanatory variables and do perturbation analyses</p></li>
-<li><p>Use Dynamic Factor Analysis to identify common patterns among
-many time series</p></li>
-<li><p>Use Dynamic Linear Models to allow for changing relationships
-between a response variable and any explanatory variable(s)</p></li>
-<li><p>Prepare forecasts with uncertainty using time series
-models</p></li>
-</ul>
-<p><br></p>
-</div>
-<div id="instructors" class="section level1">
-<h1>Instructors</h1>
-<p><a href="https://faculty.washington.edu/eeholmes/"><strong>Eli
-Holmes</strong></a><br />
-Research Fish Biologist, NOAA Fisheries<br />
-<a href="mailto:eeholmes@uw.edu">eeholmes@uw.edu</a></p>
-<p><a href="https://faculty.washington.edu/warde/"><strong>Eric
-Ward</strong></a><br />
-Statistician, NOAA Fisheries<br />
-<a href="mailto:warde@uw.edu">warde@uw.edu</a></p>
-<p><a href="https://faculty.washington.edu/scheuerl/"><strong>Mark
-Scheuerell</strong></a><br />
-Associate Professor, School of Aquatic &amp; Fishery Sciences<br />
-<a href="mailto:scheuerl@uw.edu">scheuerl@uw.edu</a></p>
-<p><br></p>
-</div>
-<div id="meeting-times-locations" class="section level1">
-<h1>Meeting times &amp; locations</h1>
-<div id="lectures" class="section level3">
-<h3>Lectures</h3>
-<p>Tuesday &amp; Thursday from 10:00-11:20 in-person FSH 213, lectures
-will also be recorded</p>
-</div>
-<div id="computer-lab" class="section level3">
-<h3>Computer Lab</h3>
-<p>Thursday from 11:20-12:20 in-person FSH 213</p>
-</div>
-<div id="office-hours" class="section level3">
-<h3>Office hours</h3>
-<p>By appointment</p>
-<p><br></p>
-</div>
-</div>
-<div id="pre-requisites" class="section level1">
-<h1>Pre-requisites</h1>
-<p>Students should have a working knowledge of the <a
-href="https://www.r-project.org/"><strong>R</strong></a> computing
-software, such as that provided in FISH 552/553/549. Students should
-also have an understanding of basic probability and statistical
-inference.</p>
-<p><br></p>
-</div>
-<div id="classroom-conduct" class="section level1">
-<h1>Classroom conduct</h1>
-<p>We are dedicated to providing a welcoming and supportive learning
-environment for all students, regardless of their background, identity,
-physical appearance, or manner of communication. Any form of language or
-behavior used to exclude, intimidate, or cause discomfort will not be
-tolerated. This applies to all course participants (instructor,
-students, guests). In order to foster a positive and professional
-learning environment, we ask the following:</p>
-<ul>
-<li><p>Please let us know if you have a name or set of preferred
-pronouns that you would like us to use</p></li>
-<li><p>Please let us know if <em>anyone</em> in class says something
-that makes you feel uncomfortable<sup>[<a
-href="#endnotes">1</a>]</sup></p></li>
-</ul>
-<p>In addition, we encourage the following kinds of behaviors:</p>
-<ul>
-<li><p>Use welcoming and inclusive language</p></li>
-<li><p>Show courtesy and respect towards others</p></li>
-<li><p>Acknowledge different viewpoints and experiences</p></li>
-<li><p>Gracefully accept constructive criticism</p></li>
-</ul>
-<p>Although we strive to create and use inclusive materials in this
-course, there may be overt or covert biases in the course material due
-to the lens with which it was written. Your suggestions about how to
-improve the value of diversity in this course are encouraged and
-appreciated.</p>
-<p><strong>Please note</strong>: If you believe you have been a victim
-of an alleged violation of the <a
-href="https://www.washington.edu/admin/rules/policies/WAC/478-121TOC.html">Student
-Conduct Code</a> or you are aware of an alleged violation of the <a
-href="https://www.washington.edu/admin/rules/policies/WAC/478-121TOC.html">Student
-Conduct Code</a>, you have the right to <a
-href="https://www.washington.edu/cssc/for-students-2/">report it to the
-University</a>.</p>
-<p><br></p>
-</div>
-<div id="access-accommodations" class="section level1">
-<h1>Access &amp; accommodations</h1>
-<p>All students deserve access to the full range of learning
-experiences, and the University of Washington is committed to creating
-inclusive and accessible learning environments consistent with federal
-and state laws. If you feel like your performance in class is being
-impacted by your experiences outside of class, please talk with us.</p>
-<div id="disabilities" class="section level3">
-<h3>Disabilities</h3>
-<p>If you have already established accommodations with Disability
-Resources for Students (DRS), please communicate your approved
-accommodations to us at your earliest convenience so we can discuss your
-needs in this course. If you have not yet established services through
-DRS, but have a temporary health condition or permanent disability that
-requires accommodations (<em>e.g.</em>, mental health, learning, vision,
-hearing, physical impacts), you are welcome to contact DRS at
-206-543-8924 or via <a href="mailto:uwdrs@uw.edu">email</a> or their <a
-href="https://depts.washington.edu/uwdrs/">website</a>. DRS offers
-resources and coordinates reasonable accommodations for students with
-disabilities and/or temporary health conditions. Reasonable
-accommodations are established through an interactive process between
-you, your instructor(s) and DRS.</p>
-</div>
-<div id="religious-observances" class="section level3">
-<h3>Religious observances</h3>
-<p>Students who expect to miss class or assignments as a consequence of
-their religious observance will be provided with a reasonable
-accommodation to fulfill their academic responsibilities. Absence from
-class for religious reasons does not relieve students from
-responsibility for the course work required during the period of
-absence. It is the responsibility of the student to provide the
-instructor with advance notice of the dates of religious holidays on
-which they will be absent. Students who are absent will be offered an
-opportunity to make up the work, without penalty, within a reasonable
-time, as long as the student has made prior arrangements.</p>
-<p><br></p>
-</div>
-</div>
-<div id="technology" class="section level1">
-<h1>Technology</h1>
-<p>This course will revolve around hands-on computing exercises that
-demonstrate the topics of interest. Therefore, students are strongly
-recommended to bring their own laptop to class, although students are
-certainly free to work with one another. <strong>For students without
-access to a personal laptop</strong>: it is possible to check out UW
-laptops for an entire quarter (see the <a
-href="https://education.uw.edu/admissions/office-of-student-services">Student
-Services office</a> for details).</p>
-<p>All of the software we will be using is free and platform
-independent, meaning students may use macOS, Linux, or Windows operating
-systems. In addition to a web browser, we will be using the free <a
-href="https://www.r-project.org/"><strong>R</strong></a> software and
-the desktop version of the <a
-href="https://www.rstudio.com/products/rstudio-desktop/"><strong>R
-Studio</strong></a> integrated development environment (IDE). We will
-also be using various packages not contained in the base installation of
-<strong>R</strong>, but we will wait and install them at the necessary
-time. The instructor will be available during the first week of class to
-help students troubleshoot any software installation problems.</p>
-<p>Students will also be required to have a user account on <a
-href="https://github.com/"><strong>GitHub</strong></a>, which we will be
-using for file hosting and communications via “issues”. If you do not
-already have an account, you can sign up for a free one <a
-href="https://github.com/join?source=header-home">here</a>. The
-instructor will provide training on how to use the intended features in
-<strong>GitHub</strong>.</p>
-</div>
-<div id="teaching-methodology" class="section level1">
-<h1>Teaching methodology</h1>
-<p>This course will introduce new material primarily through prepared
-slides and hands-on demonstrations. Students will be expected to work
-both individually and collaboratively. Course content and evaluation
-will emphasize the communication of ideas and the ability to think
-critically more so than a specific pathway or method. Other areas of
-this website provide an overview of the topics to be covered, including
-links to weekly reading assignments, lecture materials, computer labs,
-and the final project paper.</p>
-<p><br></p>
-</div>
-<div id="communication" class="section level1">
-<h1>Communication</h1>
-<p>This course will involve a <em>lot</em> of communication between and
-among students and the instructor. Short questions should be addressed
-to us via email or our GitHub discussion boards; we will try my best to
-respond to your message within 24 hours. Under more normal
-circumstances, detailed questions would be addressed to us in
-person–either after class or during a scheduled meeting. In this case,
-however, we will schedule one-on-one or group video calls as needed.</p>
-<p>In addition to email and video, we will use the “Discussion” feature
-in our class <strong>GitHub</strong> repository to ask questions and
-assist others. Specifically, questions and answers can be posted to the
-discussion in the course repository <a
-href="https://github.com/atsa-es/fish550-2023/discussions">https://github.com/atsa-es/safs-timeseries/issues</a>.</p>
-<p><br></p>
-</div>
-<div id="evaluation" class="section level1">
-<h1>Evaluation</h1>
-<p>Students will be evaluated on their knowledge of course content and
-their ability to communicate their understanding of the material via
-individual homework assignments (30%), a final project (40%), peer
-reviews (20%), and class participation (10%). There will be 6 homework
-assignments, each of which will count toward 5% of the final grade.
-Please note, <strong>all assignments must be turned in to achieve a
-passing grade</strong>.</p>
-<div id="lab-write-ups-30" class="section level3">
-<h3>Lab Write-Ups (30%)</h3>
-<p>Each Thursday during lab, you will explore a dataset and prepare an
-analysis of the data using the techniques you learned in class that
-week. The lab write-up is due by 11:59 PM PST on the following Tuesday;
-you have 10 days to submit. It will consist of SHORT write-ups of an
-analysis of the data with analysis and diagnostics. We will supply a
-template for the lab. There will be 6 assignments worth 5% each. You can
-work on the data as a group or solo. We will supply a data set, if you
-have a different data set that you or your group would like to use
-instead, you ask us if it will work.</p>
-</div>
-<div id="individual-project-40" class="section level3">
-<h3>Individual project (40%)</h3>
-<p>Each student will have to write a complete, publishable (&lt;20 page)
-paper that may, or may not, serve as a component of their
-thesis/dissertation. Given that some students might not have their own
-data, students may also use data from the instructors, public datasets
-or datasets included in <strong>R</strong> libraries. See <a
-href="https://atsa-es.github.io/atsa/student_pubs.html">list of prior
-student projects</a> for the types of projects done in prior years.</p>
-<p>The techniques you will be learning would be appropriate for the <a
-href="https://ecoforecast.org/efi-rcn-forecast-challenges/">EFI RCN NEON
-Ecological Forecast Challenge</a> data. You are welcome to do one of the
-challenges as your individual project. The Aquatic Ecosystems, Tick
-Abundance, and Beetle Abundance challenges would be most appropriate for
-the class.</p>
-</div>
-<div id="peer-reviews-20" class="section level3">
-<h3>Peer reviews (20%)</h3>
-<p>Each student will have to provide 2 anonymous peer-reviews of their
-colleagues’ final papers (10% each).</p>
-</div>
-<div id="participation-10" class="section level3">
-<h3>Participation (10%)</h3>
-<p>This is a graduate-level course and we expect a certain amount of
-engagement from each student, which includes attending and participating
-lectures and computer labs. Participation is based on class attendance
-and participating in the GitHub Discussions.</p>
-<p>Students should discuss any potential schedule conflicts with the
-instructor during the first week of class.</p>
-<p><br></p>
-</div>
-</div>
-<div id="academic-integrity" class="section level1">
-<h1>Academic integrity</h1>
-<p>Faculty and students at the University of Washington are expected to
-maintain the highest standards of academic conduct, professional
-honesty, and personal integrity. Plagiarism, cheating, and other
-academic misconduct are serious violations of the <a
-href="https://www.washington.edu/cssc/for-students/academic-misconduct/">Student
-Conduct Code</a>. we have no reason to believe that anyone will violate
-the Student Conduct Code, but <em>we will have no choice</em> but to
-refer any suspected violation(s) to the College of the Environment for a
-Student Conduct Process hearing. Students who have been guilty of a
-violation will receive zero points for the assignment in question.</p>
-</div>
-<div id="chatgpt-and-co-pilot" class="section level1">
-<h1>chatGPT and co-pilot</h1>
-<p>You are welcome to use these and they can be powerful coding
-assistants — especially when you are not an expert in R, Stan or TMB
-etc. GitHub Copilot is an AI pair programmer, and is <a
-href="https://docs.github.com/en/copilot/quickstart">free for
-students</a> (or you can get a 60 day trial). <a
-href="https://www.youtube.com/watch?v=XQ4Negbmtk4">What a video to learn
-how to use</a>. <a href="https://openai.com/">chatGPT</a> is free and is
-a bit different. You can describe what you want to do, paste in code and
-ask it to analyse, or describe tasks you want do with code or a
-described data set. chatGPT and Bing AI can also be helpful for
-understanding material (personal AI tutor). If you use these for the lab
-text or paper text, please note this in your lab write-up so we can get
-a better understanding of how these tools help in the research process.
-Use these tools to help you write better and faster and then go more
-indepth into your novel contributions.</p>
-<p><br></p>
-</div>
-<div id="mental-health" class="section level1">
-<h1>Mental health</h1>
-<p>We are in the midst of an historic pandemic that is creating a
-variety of challenges for everyone. If you should feel like you need
-some help, please consider the following resources available to
-students.</p>
-<p><strong>If you are experiencing a life-threatening emergency, please
-dial 911</strong>.</p>
-<p><a href="http://www.crisisclinic.org/"><strong>Crisis
-Clinic</strong></a><br />
-Phone: 206-461-3222 or toll-free at 1-866-427-4747</p>
-<p><a href="https://www.washington.edu/counseling/services"><strong>UW
-Counseling Center</strong></a><br />
-Phone: 206-543-1240<br />
-<a
-href="https://www.washington.edu/counseling/services/crisis/">Immediate
-assistance</a></p>
-<p><a href="https://wellbeing.uw.edu/virtual-lets-talk/"><strong>Let’s
-Talk</strong></a></p>
-<p><a href="https://wellbeing.uw.edu/unit/hall-health"><strong>Hall
-Health Mental Health</strong></a></p>
-<p><br></p>
-</div>
-<div id="safety" class="section level1">
-<h1>Safety</h1>
-<p>If you feel unsafe or at-risk in any way while taking any course,
-contact <a href="https://www.washington.edu/safecampus/">SafeCampus</a>
-(206-685-7233) anytime–no matter where you work or study–to anonymously
-discuss safety and well-being concerns for yourself or others.
-SafeCampus can provide individualized support, discuss short- and
-long-term solutions, and connect you with additional resources when
-requested. For a broader range of resources and assistance see the <a
-href="https://wellbeing.uw.edu/">Husky Health &amp; Well-Being
-website</a>.</p>
-<p><br></p>
-</div>
-<div id="food-pantry" class="section level1">
-<h1>Food Pantry</h1>
-<p>No student should ever have to choose between buying food or
-textbooks. The UW Food Pantry helps mitigate the social and academic
-effects of campus food insecurity. They aim to lessen the financial
-burden of purchasing food by providing students access to shelf-stable
-groceries, seasonal fresh produce, and hygiene products at <strong>no
-cost</strong>. Students can expect to receive 4 to 5 days’ worth of
-supplemental food support when they visit the Pantry, located on the
-north side of Poplar Hall at the corner of NE 41<sup>st</sup> St and
-Brooklyn Ave NE. Visit the <a href="https://uw.edu/anyhungryhusky">Any
-Hungry Husky website</a> for additional information, including operating
-hours and additional food support resources.</p>
-<p><br></p>
-</div>
-<div id="endnotes" class="section level1">
-<h1>Endnotes</h1>
-<p>[1] If the instructor should be the one to say or do something that
-makes a student uncomfortable, the student should feel free to contact
-the Director of the School of Aquatic and Fishery Sciences.</p>
+<p align="center">
+<img width="400" height="400" src="atsa-logo.png">
+</p>
 <p><br></p>
 <center>
-<em>This site was last updated at 10:01 on 24 Mar 2023</em>
+© EE Holmes, EJ Ward &amp; MD Scheuerell 2023
 </center>
-</div>
+<p><br></p>
+<center>
+<em>This site was last updated at 12:24 on 24 Mar 2023</em>
+</center>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -818,35 +380,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
