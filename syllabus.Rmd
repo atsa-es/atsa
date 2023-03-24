@@ -205,13 +205,13 @@ Faculty and students at the University of Washington are expected to maintain th
 
 # chatGPT and co-pilot
 
-You are welcome to use these and they can be powerful coding assistants --- especially when you are not an expert in R, Stan or TMB etc. GitHub Copilot is an AI pair programmer, and is [free for students](https://docs.github.com/en/copilot/quickstart) (or you can get a 60 day trial). [What a video to learn how to use](https://www.youtube.com/watch?v=XQ4Negbmtk4). [chatGPT](https://openai.com/) is free and is a bit different. You can describe what you want to do, paste in code and ask it to analyse, or describe tasks you want do with code or a described data set. chatGPT and Bing AI can also be helpful for understanding material (personal AI tutor). If you use these for the lab text or paper text, please note this in your lab write-up so we can get a better understanding of how these tools help in the research process. Use these tools to help you write better and faster and then go more indepth into your novel contributions.
+You are welcome to use these and they can be powerful coding assistants --- especially when you are not an expert in R, Stan or TMB etc. GitHub Copilot is an AI pair programmer, and is [free for students](https://docs.github.com/en/copilot/quickstart) (or you can get a 60 day trial). [chatGPT](https://openai.com/) is free and is a bit different. You can describe what you want to do, paste in code and ask it to analyse, or describe tasks you want do with code or a described data set. chatGPT and Bing AI can also be helpful for understanding material (personal AI tutor). If you use these for the lab text or paper text, please note this in your lab write-up so we can get a better understanding of how these tools help in the research process. Use these tools to help you write better and faster and then go more indepth into your novel contributions. Click [here](https://www.youtube.com/watch?v=XQ4Negbmtk4) to see an instructional seminar with demonstrations. 
 
 <br>
 
 # Mental health
 
-We are in the midst of an historic pandemic that is creating a variety of challenges for everyone. If you should feel like you need some help, please consider the following resources available to students.
+Maintaining good mental health is important for everyone. If you should feel like you need some help, please consider the following resources available to students.
 
 **If you are experiencing a life-threatening emergency, please dial 911**.  
 
