@@ -3,15 +3,27 @@ title: "Computer Labs"
 output: html_document
 ---
 
+```{r child = "_timeline.Rmd", include=FALSE}
+```
+
+```{r child = "_list_of_labs.Rmd", include=FALSE}
+```
+
 <br>
 
 ### Meeting days & times
 
 Thursday from 11:20-12:20 FISH 213
 
+<br>
+
 ### Resources
 
-FISH 550 [lab book](https://atsa-es.github.io/atsa-labs/), [GitHub 2023 repo](https://github.com/atsa-es/fish550-2023), [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
+* [FISH 550 lab book](https://atsa-es.github.io/atsa-labs/)
+
+* [GitHub repo for assignments](https://github.com/atsa-es/fish550-2023)
+
+* [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -19,7 +31,30 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r include=FALSE}
 library(kableExtra)
-load("syllabus.RData")
+```
+
+```{r week_labs, include = FALSE}
+week_labs <- list(d1 = matrixlab,
+                   d2 = lmlab,
+                   # d3 = "",
+                   d4 = arimalab,
+                   # d5 = "",
+                   d6 = sslab2,
+                   # d7 = "",
+                   d8 = dfalab,
+                   # d9 = "",
+                   d10 = hmmlab,
+                   # d11 = "",
+                   d12 = bayeslab,
+                   # d13 = "",
+                   d14 = freqdomainlab,
+                   # d15 = "",
+                   d16 = spatiallab,
+                   # d17 = "",
+                   d18 = helplab,
+                   # d19 = "",
+                   d20 = presentlab
+)
 ```
 
 ```{r topics, include = FALSE}
@@ -116,7 +151,7 @@ names(instructor_html) <- NULL
 ```{r generate_table, echo=FALSE}
 ## data frame with dates & topics
 syl_txt <- data.frame(
-  date = qtr,
+  date = qtr[c(1, seq(2, 20, 2))],
   instructor = instructor_html,
   lab_topics = lab_topics_html,
   lab_links = lab_links_html,
