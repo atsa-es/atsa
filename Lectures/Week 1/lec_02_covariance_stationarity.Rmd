@@ -1,8 +1,8 @@
 ---
 title: "Stationarity & introductory functions"
-subtitle: "FISH 507 – Applied Time Series Analysis"
+subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "7 Jan 2021"
+date: "30 March 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
