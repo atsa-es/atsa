@@ -3,8 +3,8 @@ title: "Course overview"
 author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
 date: "28 March 2023"
 output:
-  beamer_presentation: default
   ioslides_presentation: default
+  beamer_presentation: default
 subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
@@ -61,7 +61,7 @@ __Six group lab write-ups__ (30% of total)
 
 * Based on material from lectures & computer labs
 
-* Group write-up in RMarkdown. A template will be provided.
+* Group write-up in RMarkdown or Quarto. A template will be provided.
 
 
 ## Grading
@@ -112,6 +112,17 @@ __Participation__ (10%)
 Lots of datasets on the class webpage: [DATASETS](https://atsa-es.github.io/atsa/data_sets.html)
 
 Or talk with the instructors (or your advisor)
+
+## Tech preliminaries
+
+* You will need a GitHub account and accept the invite to join [ATSA-Spring-2023](https://github.com/orgs/atsa-es/teams/atsa-spring-2023)
+* Our class repo: [fish550-2023](https://github.com/atsa-es/fish550-2023) with [issues](https://github.com/atsa-es/fish550-2023/issues) and [discussions](https://github.com/atsa-es/fish550-2023/discussions)
+* We will use RStudio as our IDE.
+* Interacting with GitHub:
+  - Option 1: Download GitHub Desktop. Very easy to use platform.
+  - Option 2: Connect RStudio to GitHub. 
+  - Option 3: Working directly on GitHub.
+  - We will help you with these steps on Thursday and will post videos.
 
 
 ## {.flexbox .vcenter .bigger}
