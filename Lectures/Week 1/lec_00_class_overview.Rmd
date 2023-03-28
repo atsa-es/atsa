@@ -1,9 +1,11 @@
 ---
 title: "Course overview"
-subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
 date: "28 March 2023"
-output: ioslides_presentation
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
@@ -26,9 +28,16 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Course format
 
-### Combination of lectures and labs
+### Flipped lecture format
 
-### Hands-on exercises and R coding
+* Videos posted of the material on the [Lecture tab](https://atsa-es.github.io/atsa/lectures.html). **Watch before class**
+* In class time will be devoted to working through hands-on exercises, R coding examples and discussing the content.
+
+### Labs
+
+* Group projects with teams assigned semi-randomly each week
+* You will be given a dataset(s) and will come up with a group analysis to do based on the week's material
+* Collaborative! Please use the discussion thread on GitHub to ask questions and share solutions with your classmates.
 
 
 ## Communications
@@ -44,28 +53,30 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Grading
 
-__Weekly homework__ (30% of total)  
+__Six group lab write-ups__ (30% of total)  
 
 * Assigned Thurs at the end of computer lab  
 
 * Due by 11:59 PM on the Tues 12 days later  
 
-* Based on material from lectures & computer labs  
+* Based on material from lectures & computer labs
+
+* Group write-up in RMarkdown. A template will be provided.
 
 
 ## Grading
 
-__Research project & paper__ (40% of total)
+__Research project & paper__ (40% of total)  Must involve some form of time series model(s)
 
-* Must involve some form of time series model(s)
+__Two anonymous peer-reviews__ (20% of total) One review each for 2 of your colleague’s papers
 
-* Due by 11:59 PM PST on March 14
+### Due Dates
 
-__Two anonymous peer-reviews__ (20% of total)
-
-* One review each for 2 of your colleague’s papers
-
-* Due by 11:59 PM PST on March 18
+* Project proposal due Fri April 21 11:59pm PDT
+* Project methods due Fri May 12 11:59pm PDT
+* Final paper due Fri June 2nd 11:59pm PDT
+* Presentations May 30 and June 1 during class time and lab time
+* Peer review due Fri June 9th 11:59pm PDT
 
 
 ## Grading
@@ -75,6 +86,14 @@ __Participation__ (10%)
 * We expect you to show up and interact
 
 * Please contact one of the instructors if you have any conflicts
+
+## chatGPT and Copilot
+
+* You are welcome to use these and they can be powerful coding assistants
+* GitHub Copilot is free for students but you need to use VSCode not RStudio
+* chatGPT is free if you use on the OpenAI platform
+* To use in RStudio, you need to use the API and that cost $
+* See the [class website page](https://atsa-es.github.io/atsa/syllabus.html#chatGPT_and_co-pilot) for more info
     
 
 ## Expectations for final project
@@ -90,28 +109,9 @@ __Participation__ (10%)
 
 ## Don't have time series data?
 
-* [RAM Legacy](http://ramlegacy.marinebiodiversity.ca/)
+Lots of datasets on the class webpage: [DATASETS](https://atsa-es.github.io/atsa/data_sets.html)
 
-* [RAM’s Stock-Recruitment Database](http://www.mscs.dal.ca/~myers/welcome.html)
-
-* [Global Population Dynamics Database](http://www3.imperial.ac.uk/cpb/databases/gpdd)
-
-* [NOAA NWFSC Salmon Population Summary](https://www.webapps.nwfsc.noaa.gov/apex/f?p=261:home:0)
-
-* SAFS
-    - Alaska Salmon Program
-    - Lake Washington plankton
-
-
-## Ecological Forecast Challenge
-
-The [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) is happening concurrently this course
-
-You are welcome to do one of the challenges as your individual project (but you don't need to formally participate in the challenge)
-
-All the data are provided and the challenge lays out the goals (what to forecast) for each challenge
-
-The **Aquatic Ecosystems**, **Tick Abundance**, and **Beetle Abundance** challenges would be appropriate
+Or talk with the instructors (or your advisor)
 
 
 ## {.flexbox .vcenter .bigger}
