@@ -77,7 +77,7 @@ forecast <- list(
   html = c(Intro="Lectures/Week 2/lec_04_Intro_ARIMA.html", Fitting="Lectures/Week 2/lec_04_Fitting_and_Selecting_ARMA_models.html", Forecasting="Lectures/Week 2/lec_04_Forecasting_ARIMA.html"),
   video = c("https://youtu.be/ML1l4Zk_5Vo", "https://youtu.be/HOVDmx_juMk"),
   youtube = "",
-  reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)"),
+  reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)", "[CM09: Chap 7.1-7.2](Files/Introductory_Time_Series_With_R.pdf)", "CM not as useful this week"),
   instructor = "Eli"
 )
 ```
