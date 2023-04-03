@@ -1,8 +1,8 @@
 ---
 title: "Dynamic Linear Models"
-subtitle: "FISH 507 – Applied Time Series Analysis"
+subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "2 February 2021"
+date: "25 April 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -18,7 +18,6 @@ mod_list <- list(B = "identity", U = "zero", Q = matrix("q"),
                  Z = "identity", A = matrix("a"), R = matrix("r"))
 
 fit <- MARSS(matrix(Nile, nrow = 1), mod_list)
-
 ```
 
 ## Topics for today
@@ -37,6 +36,10 @@ Univariate response
 
 Multivariate response
 
+
+## Code for today
+
+You can find the R code for these lecture notes and other related exercises [here](lec_09_intro_to_DLMs.R).
 
 
 ## Simple linear regression
@@ -273,9 +276,9 @@ x_t = x_{t-1} + w_t
 $$
 
 
-## Ex of stochastic level model
+## Example of stochastic level model
 
-```{r}
+```{r ex_Nile_flow}
 data("Nile")
 
 par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
@@ -285,10 +288,10 @@ plot.ts(Nile, las = 1,
 ```
 
 
-## Ex of stochastic level model
+## Example of stochastic level model
 
 
-```{r}
+```{r ex_Nile_DLM}
 par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
 
 plot.ts(Nile, las = 1, lwd = 2,
