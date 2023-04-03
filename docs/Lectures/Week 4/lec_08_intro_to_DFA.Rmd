@@ -1,8 +1,8 @@
 ---
 title: "Dynamic Factor Analysis"
-subtitle: "FISH 507 – Applied Time Series Analysis"
+subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "28 January 2021"
+date: "20 April 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -10,7 +10,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(kableExtra)
 set.seed(123)
 ```
 
@@ -29,6 +28,11 @@ Dynamic Factor Analysis (DFA)
 * Constraints for model fitting
 
 * Interpretation of results
+
+
+## Code for today
+
+You can find the R code for these lecture notes and other related exercises [here](lec_08_intro_to_DFA.R).
 
 
 ## A very simple model
@@ -130,7 +134,7 @@ xx <- rnorm(tt) + 2
 
 yy <- aa + bb * xx + ee
 
-par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+par(mai = c(0.9, 0.9, 0.3, 0.1), omi = c(0, 0, 0, 0))
 
 plot.ts(yy, ylim = c(min(xx,yy), max(xx, yy)), las = 1,
         col = "dodgerblue", lwd = 2,
@@ -147,7 +151,7 @@ mtext(side = 3, expression(italic(y[t]) == 1~+~5~italic(x[t])~+~italic(e[t])),
 
 ```{r model_residuals}
 
-par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+par(mai = c(0.9, 0.9, 0.3, 0.1), omi = c(0, 0, 0, 0))
 
 plot.ts(ee, col = "darkred", lwd = 2,
         ylab = expression(italic(e[t])))
@@ -160,7 +164,7 @@ These do _not_ look like white noise!
 
 ```{r ACF_model_residuals}
 
-par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+par(mai = c(0.9, 0.9, 0.3, 0.1), omi = c(0, 0, 0, 0))
 
 acf(ee)
 ```
@@ -245,7 +249,7 @@ y_t = a + D d_t + x_t \\
 y_t = Z x_t + a + D d_t + v_t
 $$
 
-```{r, echo=TRUE, eval=FALSE}
+```{r MARSS_DFA_setup, echo = TRUE, eval = FALSE}
 y = data         ## [1 x T] matrix of data
 a = matrix("a")  ## intercept
 D = matrix("D")  ## slope
@@ -263,7 +267,7 @@ x_t = B x_t + w_t \\
 x_t = B x_t + u + C c_t + w_t
 $$
 
-```{r, echo=TRUE, eval=FALSE}
+```{r MARSS_AR1_setup, echo = TRUE, eval = FALSE}
 B = matrix("b")  ## AR(1) coefficient for model errors
 Q = matrix("q")  ## w_t ~ N(0,Q); var for model errors
 u = matrix(0)    ## u = 0
@@ -403,19 +407,19 @@ $\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$
 
 ##
 
-```{r plot_many_ts, echo=FALSE, fig.align='center'}
+```{r plot_many_ts, echo = FALSE, fig.align = 'center'}
 NN <- 25
 TT <- 30
 MM <- 3
  
 ## MM x TT matrix of innovations
-ww <- matrix(rnorm(MM*TT, 0, 1), MM, TT)
+ww <- matrix(rnorm(MM * TT, 0, 1), MM, TT)
 ww[,1] <- rnorm(MM, 0, sqrt(5))
 ## MM x TT matrix of scaled latent trends
-xx <- t(scale(apply(ww,1,cumsum)))
+xx <- t(scale(apply(ww, 1, cumsum)))
 
 ## loadings matrix
-ZZ <- matrix(runif(NN*MM, -1, 1), NN, MM)
+ZZ <- matrix(runif(NN * MM, -1, 1), NN, MM)
 diag(ZZ) <- rev(sort(abs(diag(ZZ))))
 ZZ[upper.tri(ZZ)] <- 0
 ZZ <- round(ZZ, 2)
@@ -423,20 +427,20 @@ ZZ <- round(ZZ, 2)
 ## obs var
 obs_var <- 0.2^2
 ## obs errors
-ee <- t(MASS::mvrnorm(TT, matrix(0,NN,1), diag(obs_var,NN,NN)))
+ee <- t(MASS::mvrnorm(TT, matrix(0, NN, 1), diag(obs_var, NN, NN)))
 ## NN x TT matrix of observed data
 yy <- ZZ %*% xx + ee
 
-clr <- viridis::plasma(NN, alpha=0.7, end=0.8)
+clr <- viridis::plasma(NN, alpha = 0.7, end = 0.8)
 
 vv <- sample(seq(NN), NN)
 
-par(mfrow=c(5,5), mai=c(0.1,0.1,0,0), omi=c(0,0,0,0)) 
+par(mfrow = c(5, 5), mai = c(0.1, 0.1, 0, 0), omi = c(0, 0, 0, 0)) 
 
 for(i in 1:NN) {
-	plot.ts(yy[vv[i],], lwd=2,
-	        xlab="", xaxt="n", ylab="", yaxt="n",
-	        col=clr[i], bty="n")
+	plot.ts(yy[vv[i],], lwd = 2,
+	        xlab = "", xaxt = "n", ylab = "", yaxt = "n",
+	        col = clr[i], bty = "n")
 }
 ```
 
@@ -448,15 +452,14 @@ We often observe covariance among environmental time series, especially for thos
 
 ##
 
-```{r, echo=FALSE, fig.align='center'}
-par(mfrow=c(5,5), mai=c(0.1,0.1,0,0), omi=c(0,0,0,0)) 
+```{r plot_many_ts_2, echo = FALSE, fig.align='center'}
+par(mfrow = c(5,5), mai = c(0.1,0.1,0,0), omi = c(0, 0, 0, 0)) 
 
 for(i in 1:NN) {
-	plot.ts(yy[vv[i],], lwd=2,
-	        xlab="", xaxt="n", ylab="", yaxt="n",
-	        col=clr[i], bty="n")
+	plot.ts(yy[vv[i],], lwd = 2,
+	        xlab = "", xaxt = "n", ylab = "", yaxt = "n",
+	        col = clr[i], bty = "n")
 }
-
 ```
 
 Are there some common patterns here?
@@ -466,12 +469,12 @@ Are there some common patterns here?
 
 ```{r plot_dfa_trends, fig.align="center"}
 ## plot the trends
-par(mfrow=c(1,3), mai=c(1.2,0,0,0), omi=rep(0.1,4))
-clr <- viridis::plasma(MM, end=0.8)
+par(mfrow = c(1,3), mai = c(1.2, 0, 0, 0), omi = rep(0.1, 4))
+clr <- viridis::plasma(MM, end = 0.8)
 for(i in 1:3) {
-	plot.ts(xx[i,], lwd=3,
-	        xlab="", xaxt="n", ylab="", yaxt="n",
-	        col=clr[i], bty="n")
+	plot.ts(xx[i,], lwd = 3,
+	        xlab = "", xaxt = "n", ylab = "", yaxt = "n",
+	        col = clr[i], bty = "n")
 }
 ```
 
@@ -660,32 +663,32 @@ We reduce the dimension by selecting a subset of the components that explain muc
 
 ## Principal Components Analysis (PCA)
 
-```{r}
+```{r ex_corr_ts}
 nn <- 100
-xx <- rnorm(nn,10,1)
+xx <- rnorm(nn, 10, 1)
 yy <- xx + rnorm(nn, 5)
 xx <- xx - mean(xx)
 yy <- yy - mean(yy)
 
-par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
 
 plot(xx, yy, pch = 16, las = 1,
-     ylab ="Y", xlab = "X")
+     ylab = "Y", xlab = "X")
 
-text(-2.5, 3,
-     substitute(rho==x, list(x = round(cor(cbind(xx,yy))[2,1], 2))))
+text(-2, 2,
+     substitute(rho == x, list(x = round(cor(cbind(xx, yy))[2,1], 2))))
 ```
 
 
 ## Principal Components Analysis (PCA)
 
-```{r}
-pca <- prcomp(cbind(xx,yy))
+```{r ex_PCA}
+pca <- prcomp(cbind(xx, yy))
 
 pc1 <- pca$rotation[,1]
-pc2 <- matrix(c(0,-1,1,0), 2, 2) %*% matrix(pc1, 2, 1)
+pc2 <- matrix(c(0, -1, 1, 0), 2, 2) %*% matrix(pc1, 2, 1)
 
-par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
 
 plot(xx, yy, pch = 16, las = 1,
      ylab ="Y", xlab = "X")
@@ -702,14 +705,14 @@ text(pc2[1], pc2[2], "PC2",
 
 ## Principal Components Analysis (PCA)
 
-```{r}
-par(mai = c(0.9,0.9,0.1,0.1), omi = c(0,0,0,0))
+```{r ex_PCA_rotated}
+par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
 
 plot(pca$x[,1], pca$x[,2], pch = 16, las = 1,
-     ylab ="PC2", xlab = "PC1")
+     ylab = "PC2", xlab = "PC1")
 
-text(-3, 1.2,
-     substitute(rho==x, list(x = round(cor(pca$x)[2,1], 2))))
+text(-4, 1.2,
+     substitute(rho == x, list(x = round(cor(pca$x)[2,1], 2))))
 ```
 
 
@@ -1341,7 +1344,7 @@ A _varimax_ rotation will maximize the variance of the loadings in $\mathbf{Z}$ 
 
 ## PCA of 5 wines with 8 attributes
 
-```{r}
+```{r ex_PCA_wines}
 dat <- read.csv("wine_data_for_PCA.csv")
 colnames(dat)[2:3] <- c("For meat", "For dessert")
 
@@ -1375,12 +1378,12 @@ text(min(load1) * 1.05, 0, "X1", pos = 2, xpd = NA, col = "darkgray")
 
 ## Rotated loadings
 
-```{r}
+```{r ex_PCA_wines_rotated}
 theta <- 165 * pi / 180
 basis_rot <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), 2, 2)
   
-new_x <- t(basis_rot %*% matrix(c(1,0,-1,0),2,2))
-new_y <- t(basis_rot %*% matrix(c(0,1,0,-1),2,2))
+new_x <- t(basis_rot %*% matrix(c(1, 0, -1, 0), 2, 2))
+new_y <- t(basis_rot %*% matrix(c(0, 1, 0, -1), 2, 2))
 
 par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 1.5, 0, 1.5))
 
@@ -1415,7 +1418,7 @@ text(min(load1) * 1.05, (basis_rot %*% matrix(c(par()$usr[1],0),2,1))[2],
 
 ## Rotated loadings
 
-```{r}
+```{r ex_PCA_loadings}
 theta <- 15 * pi / 180
 basis_rot <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), 2, 2)
   
