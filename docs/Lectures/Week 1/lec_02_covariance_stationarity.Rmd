@@ -30,6 +30,11 @@ Random walks
 Backshift & difference operators
 
 
+## Code for today
+
+You can find the R code for these lecture notes and other related exercises [here](lec_02_covariance_stationarity.R).
+
+
 ## Expectation & the mean
 
 The expectation ($E$) of a variable is its mean value in the population
