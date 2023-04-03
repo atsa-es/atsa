@@ -10,7 +10,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(kableExtra)
 set.seed(123)
 ```
 
@@ -31,6 +30,11 @@ Autoregressive moving average (ARMA) models
 Using ACF & PACF for model ID
 
 
+## Code for today
+
+You can find the R code for these lecture notes and other related exercises [here](lec_03_ARMA_models.R).
+
+
 ## White noise (WN)
 
 A time series $\{w_t\}$ is discrete white noise if its values are
@@ -44,7 +48,7 @@ The distributional form for $\{w_t\}$ is flexible
 
 ## White noise (WN)
 
-```{r, fig.cap="$w_t = 2e_t - 1; e_t \\sim \\text{Bernoulli}(0.5)$"}
+```{r white_noise, fig.cap="$w_t = 2e_t - 1; e_t \\sim \\text{Bernoulli}(0.5)$"}
 par(mfrow = c(1,2), mai = c(1.5,0.9,0.1,0.1), omi = c(0,0,0,0))
 tt <- rbinom(100, 1, 0.5) * 2 - 1
 plot.ts(tt, ylab = expression(italic(w[t])))
@@ -208,8 +212,7 @@ $x_t = -0.2 x_{t-1} + 0.4 x_{t-2} + w_t$
 
 ## Examples of AR(_p_) models
 
-```{r}
-set.seed(123)
+```{r ex_AR_models}
 ## the 4 AR coefficients
 ARp <- c(0.7, 0.2, -0.1, -0.3)
 ## empty list for storing models
@@ -470,7 +473,6 @@ Thus, AR(1) models are stationary if and only if $\lvert \phi \rvert < 1$
 ## Coefficients of AR(1) models
 
 ```{r ar_comp_pos_neg, fig.height=4}
-set.seed(123)
 ## list description for AR(1) model with small coef
 AR_pos <- list(order=c(1,0,0), ar=0.7, sd=0.1)
 ## list description for AR(1) model with large coef
@@ -503,7 +505,6 @@ Same value, but different sign
 ## Coefficients of AR(1) models
 
 ```{r ar_comp_sm_big, fig.height=4}
-set.seed(123)
 ## list description for AR(1) model with small coef
 AR_bg <- list(order=c(1,0,0), ar=0.9, sd=0.1)
 ## list description for AR(1) model with large coef
@@ -540,7 +541,7 @@ Recall that the _autocorrelation function_ ($\rho_k$) measures the correlation b
 
 ## ACF for AR(1) models
 
-```{r}
+```{r ex_acf_AR}
 ## set the margins & text size
 par(mfrow=c(2,2), mai=c(0.8,0.8,0.3,0.2), oma=c(0,0,0,0))
 ## plot the ts
@@ -562,7 +563,7 @@ ACF oscillates for model with $-\phi$
 
 ## ACF for AR(1) models
 
-```{r}
+```{r ex_acf_AR_long}
 ## set the margins & text size
 par(mfrow = c(2,2), mai = c(0.8,0.8,0.3,0.2), oma = c(0,0,0,0))
 ## plot the ts
@@ -589,7 +590,7 @@ Recall that the _partial autocorrelation function_ ($\phi_k$) measures the corre
 
 ## ACF & PACF for AR(_p_) models
 
-```{r}
+```{r ex_acf_AR3}
 ## set 3 AR coefficients
 ARp3 <- list(c(0.7, 0.2, -0.1), c(-0.7, 0.2, 0.1))
 
@@ -620,7 +621,7 @@ for(p in 1:2) {
 
 ## PACF for AR(_p_) models
 
-```{r}
+```{r ex_pacf_AR3}
 ## empty list for storing models
 pacf_mods <- vector("list", 4L)
 
@@ -681,7 +682,7 @@ Thus, _all_ MA processes are stationary because they are finite sums of stationa
 
 ## Examples of MA(_q_) models
 
-```{r}
+```{r ex_acf_MA}
 ## compare MA(1) & MA(2) with similar structure
 MA1 <- arima.sim(n=50, list(ma=c(0.7)))
 MA2 <- arima.sim(n=50, list(ma=c(-1, 0.7)))
@@ -704,7 +705,7 @@ mtext(side = 3,
 
 ## ACF & PACF for MA(_q_) models
 
-```{r}
+```{r ex_pacf_MA}
 ## set 3 AR coefficients
 MAp3 <- list(c(0.7), c(-0.7, 0.2, 0.1))
 
@@ -734,7 +735,7 @@ for(p in 1:2) {
 
 ## ACF for MA(_q_) models
 
-```{r}
+```{r ex_acf_MAq}
 ## the 4 MA coefficients
 MAq <- c(0.7, 0.2, -0.1, -0.3)
 
@@ -1006,7 +1007,7 @@ ARMA models are _invertible_ if all roots of $\theta_q (\mathbf{B}) > 1$
 
 ## Examples of ARMA(_p_,_q_) models
 
-```{r}
+```{r ex_ARMA}
 arma_mods <- vector("list", 4L)
 
 ## ARMA(3,1): phi[1] = 0.7, phi[2] = 0.2, phi[3] = -0.1, theta[1]= 0.5
@@ -1039,7 +1040,7 @@ for(i in 1:4) {
 
 ## ACF for ARMA(_p_,_q_) models
 
-```{r}
+```{r ex_acf_ARMA}
 par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
 ## loop over orders of p
 for(i in 1:4) {
@@ -1054,7 +1055,7 @@ for(i in 1:4) {
 
 ## PACF for ARMA(_p_,_q_) models
 
-```{r}
+```{r ex_pacf_ARMA}
 par(mfrow = c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
 ## loop over orders of p
 for(i in 1:4) {
@@ -1123,7 +1124,7 @@ So ${x_t}$ is indeed an ARIMA(1,1,0) process
 
 ## ARIMA(_p_,_d_,_q_) models
 
-```{r}
+```{r ex_ARIMA}
 xx <- arima.sim(model=list(ar=0.5, sd=0.1), n=100)
 
 yy <- cumsum(xx)
@@ -1139,7 +1140,7 @@ acf(yy)
 
 ## ARIMA(_p_,_d_,_q_) models
 
-```{r}
+```{r ex_ARIMA_diff}
 par(mfrow=c(2,2), mai = c(0.7,0.7,0.3,0.1), omi = c(0,0,0,0))
 
 plot.ts(yy, las = 1,
