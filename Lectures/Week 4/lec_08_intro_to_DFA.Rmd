@@ -1,8 +1,8 @@
 ---
 title: "Dynamic Factor Analysis"
-subtitle: "FISH 507 – Applied Time Series Analysis"
+subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "28 January 2021"
+date: "20 April 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -10,7 +10,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(kableExtra)
 set.seed(123)
 ```
 
@@ -29,6 +28,11 @@ Dynamic Factor Analysis (DFA)
 * Constraints for model fitting
 
 * Interpretation of results
+
+
+## Code for today
+
+You can find the R code for these lecture notes and other related exercises [here](lec_08_intro_to_DFA.R).
 
 
 ## A very simple model
