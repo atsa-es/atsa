@@ -27,6 +27,11 @@ navbar:
       href: references.html
     - text: "Post questions"
       href: https://github.com/atsa-es/fish550-2023/discussions
+  right:
+    - text: ""
+      icon: fa-brands fa-github
+      href: https://github.com/atsa-es/atsa
+
 
 output_dir: "docs"
 output:
