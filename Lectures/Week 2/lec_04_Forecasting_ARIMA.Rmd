@@ -3,9 +3,9 @@ title: "Forecasting with ARIMA models"
 author: "Eli Holmes"
 date: "6 Apr 2023"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
+  beamer_presentation: default
 subtitle: |
   FISH 550 – Applied Time Series Analysis \ 
   [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd)
@@ -96,13 +96,13 @@ plot(fr, xlab="Year")
 
 ## Missing values
 
-Missing values are allowed for `Arima()` and `arima()`. We can produce forecasts with the same code.
+Missing values are allowed for `forecast::Arima()`. We can produce forecasts with the same code.
 
 ```{r fig.show=FALSE}
 anchovy.miss <- anchovyts
 anchovy.miss[10:11] <- NA
 anchovy.miss[20:21] <- NA
-fit <- forecast::auto.arima(anchovy.miss)
+fit <- forecast::Arima(anchovy.miss, order=c(2,1,0), include.constant=TRUE)
 fr <- forecast::forecast(fit, h=5)
 fr
 ```
@@ -113,6 +113,23 @@ fr
 plot(fr)
 ```
 
+## Using auto.arima()
+
+We can let forecast to select the ARIMA model:
+
+```{r fig.show=FALSE}
+anchovy.miss <- anchovyts
+anchovy.miss[10:11] <- NA
+anchovy.miss[20:21] <- NA
+fit <- forecast::auto.arima(anchovy.miss)
+fit
+```
+##
+
+```{r}
+fr <- forecast::forecast(fit, h=5)
+plot(fr)
+```
 
 ## Forecasting with a Seasonal model
 
