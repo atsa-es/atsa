@@ -141,12 +141,12 @@ grid.arrange(p1, p4, p2, p5, p3, p6, ncol = 2)
 
 ## Mathematically it looks like this
 
-AR-1
+AR-1 (-1 < $\phi$ < 1)
 
 1. Non-zero mean adds $\mu$: $x_t = \mu + \phi x_{t-1} + e_t$
 2. Linear trend adds $at$: $x_t = \mu + at + \phi x_{t-1} + e_t$
 
-White noise ($b=0$)
+White noise ($\phi=0$)
 
 1. Non-zero mean: $x_t = \mu + e_t$
 2. Linear trend: $x_t = \mu + at + e_t$
@@ -199,16 +199,20 @@ p1 = ggplot(dat, aes(x=t, y=y)) + geom_line() + ggtitle("Random Walk")
 p2 = ggplot(dat, aes(x=t, y=yi)) + geom_line() + ggtitle("with non-zero mean added")
 p3 = ggplot(dat, aes(x=t, y=yti)) + geom_line() + ggtitle("with linear trend added")
 
-grid.arrange(p1, p2, p3, ncol = 1)
+grid.arrange(p1, p4, p2, p5, p3, p6, ncol = 2)
 ```
 
 ## Testing for stationarity
 
 Why is evaluating stationarity important? 
 
+For this lecture, we are using the Box-Jenkins method for forecasting. Step 1 is to create a transformed stationary time series that we can fit an ARMA model to (Wold Decomposition).
+
+In a real data analysis, there are other reasons:
+
+- Many standard algorithms for fitting ARMA models assume stationarity. 
 - Many AR models are stationary.  If your data are not, you are fitting a model that is fundamentally inconsistent with your data.
-- Many standard algorithms for fitting ARIMA models assume stationarity.  You can fit ARIMA models without this assumption, but you need to use the appropriate algorithm.
-- Many processes in environmental science are fundamentally random walks, i.e. non-stationary, e.g. movement, population growth, genetic drift. One must be careful to either deal with non-stationarity via transformation  OR use an algorithm which doesn't assume stationarity.
+- Many processes in environmental science are fundamentally random walks, i.e. non-stationary, e.g. movement, population growth, genetic drift.
 
 ## Testing for stationarity
 
