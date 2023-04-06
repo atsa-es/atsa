@@ -3,9 +3,9 @@ title: "Fitting and Selecting ARIMA models"
 author: "Eli Holmes"
 date: "6 Apr 2023"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: |
   FISH 550 – Applied Time Series Analysis \ 
   [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd)
@@ -33,10 +33,10 @@ library(urca)
 
 ## Box-Jenkins method
 
-A. Model form selection
+A. ARIMA(p,d,q) Model selection
 
   1. Evaluate stationarity
-  2. Fix stationarity problems - Selection of the differencing level (d)
+  2. Fix stationarity problems - Select the differencing level (d)
   3. Selection of the AR level (p)
   4. Selection of the MA level (q)
 
@@ -50,9 +50,8 @@ C. Model checking
 
 ## 
 
-* For ARIMA models, much of the Box-Jenkins method will be automated with the **forecast** package functions, which we will use in the lab.
+* For ARIMA models, much of the Box-Jenkins method will be automated with the **forecast** package functions, which you will use in the lab.
 
-* When you work on state-space models (so ARMA with observation error), you will follow a 'Box-Jenkins' workflow though the process will not be so automated.
 
 ## Stationarity
 
@@ -85,7 +84,7 @@ grid.arrange(p1, p2, ncol = 1)
 
 ## Example
 
-An AR-1 process with $-1<b<1$
+An AR-1 process with $-1< \phi <1$
 $$x_t = \phi x_{t-1} + e_t$$
 is also stationary.
 
@@ -554,7 +553,7 @@ The test statistic for $\tau_2$ is less than the critical at $\alpha$ equal 0.05
 
 ## `forecast::ndiffs()` function
 
-As an alternative to trying many different differences, you can use the `ndiffs()` function in the forecast package.  This automates finding the number of differences needed.
+As an alternative to trying many different differences, you can use the `ndiffs()` function in the forecast package.  This automates finding the number of differences needed. `ndiff(x, test="adf")` also "knows" to use a different Augmented Dickey Fuller test after differencing.
 
 ```{r ndiff}
 forecast::ndiffs(anchovyts, test="kpss")
