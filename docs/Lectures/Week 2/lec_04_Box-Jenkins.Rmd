@@ -12,10 +12,10 @@ set.seed(123)
 
 We'll be going over the first three lectures but skip the lecture on Seasonality. I kept that in in case you want to try these methods on seasonal data.
 
-* [Intro to ARIMA Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.html#1) ([Video](https://youtu.be/xnwkWkS6rJE) [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.Rmd))
-* [Fitting ARIMA models Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd))
-* [Forecasting Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd))
-* [Seasonal ARIMA models](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.Rmd))
+* [Intro to ARIMA Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.html#1) ([Video](https://youtu.be/xnwkWkS6rJE) -- [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.pdf) -- [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.Rmd))
+* [Fitting ARIMA models Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.html) ([Video](https://youtu.be/ZpWQ_03QGUU) -- [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.pdf) -- [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd))
+* [Forecasting Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.html) ([Video](https://youtu.be/6yhVagr2hJc) -- [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf) --  [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd))
+* [Seasonal ARIMA models](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.pdf) --  [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.Rmd))
 
 # Lab
 

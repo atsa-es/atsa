@@ -20,7 +20,7 @@
       // Slide settings
       settings: {
                 title: 'Forecasting with ARIMA models',
-                        subtitle: '<p>FISH 550 – Applied Time Series Analysis   <a href="https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd">Download Rmd</a></p>',
+                        subtitle: '<p>FISH 550 – Applied Time Series Analysis   Download <a href="https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd">Rmd</a> <a href="https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf">pdf</a></p>',
                 useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -3213,9 +3213,9 @@ letter-spacing: 0;
 
 <p>The basic idea of forecasting with an ARIMA model to estimate the parameters and forecast forward.</p>
 
-<p>For example, let’s say we want to forecast with this ARIMA(2,1,0) model: \[y_t = \mu + \beta_1 y_{t-1} + \beta_2 y_{t-2} + e_t\] where \(y_t = x_t - x_{t-1}\), the first difference.</p>
+<p>For example, let’s say we want to forecast with a ARIMA(2,1,0) model with drift: \[z_t = \mu + \beta_1 z_{t-1} + \beta_2 z_{t-2} + e_t\] where \(z_t = x_t - x_{t-1}\), the first difference.</p>
 
-<p><code>Arima()</code> would write this model: \[(y_t-m) = \beta_1 (y_{t-1}-m) + \beta_2 (y_{t-2}-m) + e_t\] The relationship between \(\mu\) and \(m\) is \(\mu = m(1 - \beta_1 - \beta_2)\).</p>
+<p><code>Arima()</code> would write this model: \[(z_t-m) = \beta_1 (z_{t-1}-m) + \beta_2 (z_{t-2}-m) + e_t\] The relationship between \(\mu\) and \(m\) is \(\mu = m(1 - \beta_1 - \beta_2)\).</p>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section">
 
@@ -3237,7 +3237,7 @@ mu</pre>
 
 <p>So we will forecast with this model:</p>
 
-<p>\[y_t = 0.1065807-0.53850433 y_{t-1} - 0.44732522 y_{t-2} + e_t\]</p>
+<p>\[z_t = 0.1065807-0.53850433 z_{t-1} - 0.44732522 z_{t-2} + e_t\]</p>
 
 <p>To get our forecast for 1990, we do this</p>
 

@@ -3,12 +3,12 @@ title: "Fitting and Selecting ARIMA models"
 author: "Eli Holmes"
 date: "6 Apr 2023"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: |
   FISH 550 – Applied Time Series Analysis \ 
-  [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd)
+  Download [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd) [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.pdf)
 ---
 
 ```{r setup, include=FALSE}
