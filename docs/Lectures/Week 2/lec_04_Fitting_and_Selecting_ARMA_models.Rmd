@@ -3,9 +3,9 @@ title: "Fitting and Selecting ARIMA models"
 author: "Eli Holmes"
 date: "6 Apr 2023"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: |
   FISH 550 – Applied Time Series Analysis \ 
   [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd)
@@ -33,10 +33,10 @@ library(urca)
 
 ## Box-Jenkins method
 
-A. Model form selection
+A. ARIMA(p,d,q) Model selection
 
   1. Evaluate stationarity
-  2. Fix stationarity problems - Selection of the differencing level (d)
+  2. Fix stationarity problems - Select the differencing level (d)
   3. Selection of the AR level (p)
   4. Selection of the MA level (q)
 
@@ -50,9 +50,8 @@ C. Model checking
 
 ## 
 
-* For ARIMA models, much of the Box-Jenkins method will be automated with the **forecast** package functions, which we will use in the lab.
+* For ARIMA models, much of the Box-Jenkins method will be automated with the **forecast** package functions, which you will use in the lab.
 
-* When you work on state-space models (so ARMA with observation error), you will follow a 'Box-Jenkins' workflow though the process will not be so automated.
 
 ## Stationarity
 
@@ -85,7 +84,7 @@ grid.arrange(p1, p2, ncol = 1)
 
 ## Example
 
-An AR-1 process with $-1<b<1$
+An AR-1 process with $-1< \phi <1$
 $$x_t = \phi x_{t-1} + e_t$$
 is also stationary.
 
@@ -141,12 +140,12 @@ grid.arrange(p1, p4, p2, p5, p3, p6, ncol = 2)
 
 ## Mathematically it looks like this
 
-AR-1
+AR-1 (-1 < $\phi$ < 1)
 
 1. Non-zero mean adds $\mu$: $x_t = \mu + \phi x_{t-1} + e_t$
 2. Linear trend adds $at$: $x_t = \mu + at + \phi x_{t-1} + e_t$
 
-White noise ($b=0$)
+White noise ($\phi=0$)
 
 1. Non-zero mean: $x_t = \mu + e_t$
 2. Linear trend: $x_t = \mu + at + e_t$
@@ -199,16 +198,20 @@ p1 = ggplot(dat, aes(x=t, y=y)) + geom_line() + ggtitle("Random Walk")
 p2 = ggplot(dat, aes(x=t, y=yi)) + geom_line() + ggtitle("with non-zero mean added")
 p3 = ggplot(dat, aes(x=t, y=yti)) + geom_line() + ggtitle("with linear trend added")
 
-grid.arrange(p1, p2, p3, ncol = 1)
+grid.arrange(p1, p4, p2, p5, p3, p6, ncol = 2)
 ```
 
 ## Testing for stationarity
 
 Why is evaluating stationarity important? 
 
+For this lecture, we are using the Box-Jenkins method for forecasting. Step 1 is to create a transformed stationary time series that we can fit an ARMA model to (Wold Decomposition).
+
+In a real data analysis, there are other reasons:
+
+- Many standard algorithms for fitting ARMA models assume stationarity. 
 - Many AR models are stationary.  If your data are not, you are fitting a model that is fundamentally inconsistent with your data.
-- Many standard algorithms for fitting ARIMA models assume stationarity.  You can fit ARIMA models without this assumption, but you need to use the appropriate algorithm.
-- Many processes in environmental science are fundamentally random walks, i.e. non-stationary, e.g. movement, population growth, genetic drift. One must be careful to either deal with non-stationarity via transformation  OR use an algorithm which doesn't assume stationarity.
+- Many processes in environmental science are fundamentally random walks, i.e. non-stationary, e.g. movement, population growth, genetic drift.
 
 ## Testing for stationarity
 
@@ -550,7 +553,7 @@ The test statistic for $\tau_2$ is less than the critical at $\alpha$ equal 0.05
 
 ## `forecast::ndiffs()` function
 
-As an alternative to trying many different differences, you can use the `ndiffs()` function in the forecast package.  This automates finding the number of differences needed.
+As an alternative to trying many different differences, you can use the `ndiffs()` function in the forecast package.  This automates finding the number of differences needed. `ndiff(x, test="adf")` also "knows" to use a different Augmented Dickey Fuller test after differencing.
 
 ```{r ndiff}
 forecast::ndiffs(anchovyts, test="kpss")
