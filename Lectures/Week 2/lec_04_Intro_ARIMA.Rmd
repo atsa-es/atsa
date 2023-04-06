@@ -8,7 +8,7 @@ output:
     css: lecture_slides.css
 subtitle: |
   FISH 550 – Applied Time Series Analysis \ 
-  [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.Rmd)
+  Download [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.Rmd) or [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.pdf)
 ---
 
 ```{r setup, include=FALSE}

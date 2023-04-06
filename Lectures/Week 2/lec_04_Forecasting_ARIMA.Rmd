@@ -3,9 +3,9 @@ title: "Forecasting with ARIMA models"
 author: "Eli Holmes"
 date: "6 Apr 2023"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-  beamer_presentation: default
 subtitle: |
   FISH 550 – Applied Time Series Analysis \ 
   [Download Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd)
@@ -128,72 +128,5 @@ fit
 
 ```{r}
 fr <- forecast::forecast(fit, h=5)
-plot(fr)
-```
-
-## Forecasting with a Seasonal model
-
-### Load the chinook salmon data
-
-```{r}
-load("chinook.RData")
-chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
-                frequency=12)
-```
-
-## Plot seasonal data
-
-```{r}
-plot(chinookts)
-```
-
-## Seasonal ARIMA model
-
-Seasonally differenced data, e.g. chinook data January 1990 - chinook data January 1989.
-
-$$z_t = x_t - x_{t+s} - m$$
-
-Basic structure of a seasonal AR model
-
-$z_t$ = AR(p) + AR(season) + AR(p+season)
-
-e.g. $z_t$ = AR(1) + AR(12) + AR(1+12)
-
-
-Example AR(1) non-seasonal part + AR(1) seasonal part
-
-$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \phi_1\Phi_1 z_{t-13}$$
-
-## Notation
-
-ARIMA (p,d,q)(ps,ds,qs)S
-
-
-ARIMA (1,0,0)(1,1,0)[12]
-
-## `auto.arima()` for seasonal ts
-
-`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data by default.  We will define the training data up to 1998 and use 1999 as the test data.
-
-```{r}
-traindat <- window(chinookts, c(1990,10), c(1998,12))
-testdat <- window(chinookts, c(1999,1), c(1999,12))
-fit <- forecast::auto.arima(traindat)
-fit
-```
-
-## Forecast using seasonal model
-
-```{r}
-fr <- forecast::forecast(fit, h=12)
-plot(fr)
-points(testdat)
-```
-
-## Missing values
-
-Missing values are ok when fitting a seasonal ARIMA model
-
-```{r echo=FALSE}
 plot(fr)
 ```

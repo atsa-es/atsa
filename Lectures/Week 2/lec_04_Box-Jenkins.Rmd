@@ -1,0 +1,24 @@
+---
+title: "Intro to ARIMA models and Box-Jenkins Method"
+date: "6 Apr 2023"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(R.options=list(width=60))
+set.seed(123)
+```
+
+# Lectures
+
+We'll be going over the first three lectures but skip the lecture on Seasonality. I kept that in in case you want to try these methods on seasonal data.
+
+* [Intro to ARIMA Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.html#1) ([Video](https://youtu.be/xnwkWkS6rJE) [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.Rmd))
+* [Fitting ARIMA models Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd))
+* [Forecasting Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd))
+* [Seasonal ARIMA models](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.pdf) [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.Rmd))
+
+# Lab
+
+For the lab we'll be working with salmon data in the North Pacific.
+
+* [Lab 1 Write-up](https://github.com/atsa-es/fish550-2023/blob/main/Lab-1/Readme.md)
