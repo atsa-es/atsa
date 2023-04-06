@@ -16,6 +16,7 @@ We'll be going over the first three lectures but skip the lecture on Seasonality
 * [Fitting ARIMA models Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.html) ([Video](https://youtu.be/ZpWQ_03QGUU) -- [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.pdf) -- [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd))
 * [Forecasting Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.html) ([Video](https://youtu.be/6yhVagr2hJc) -- [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf) --  [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd))
 * [Seasonal ARIMA models](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.pdf) --  [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.Rmd))
+* [Homework key chapter 5](https://atsa-es.github.io/atsa/Labs/Week%202/HW_2_box-jenkins_Key.html#Solutions_Chapter_5) that I went through in class
 
 # Lab
 
