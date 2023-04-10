@@ -2,7 +2,7 @@
 title: "Intro to Univariate State-Space Models"
 subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Eli Holmes"
-date: "19 Jan 2021"
+date: "11 April 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -16,9 +16,11 @@ set.seed(123)
 
 ## Week 3: State-Space Models
 
-Weeks 1-3: building blocks for analysis of multivariate time-series data with observation error, structure, and missing values
+We are now starting a 5 lecture block on Gaussian state-space models.
 
-Week 4: putting this all together to start analyzing ecological data sets
+Lectures 1 & 2: building blocks for analysis of multivariate time-series data with observation error, structure, and missing values
+
+Lectures 3-5: Specific applications: covariates, dynamic factor analysis, dynamic linear models
 
 <hr>
 
@@ -347,8 +349,6 @@ title("Both observation and process error")
 
 ```
 
-<!--
-
 ## How can we separate process and non-process variance?
 
 Wouldn’t these two variances be impossible to separate?
@@ -374,13 +374,12 @@ for(i in 1:3){
 }
 ```
 
--->
-
 ## Nile River example
 
 ```{r nile, echo=FALSE,out.width = '60%',fig.align="center"}
 knitr::include_graphics("images/Nile.png")
 ```
+
 ## Kalman filter and smoother
 
 The Kalman filter and smoother is an algorithm for computing the expected value of the $x_t$ from the data and the model parameters.
@@ -391,7 +390,7 @@ $$y_t = x_t + v_t, \,\,\, v_t \sim N(0,r)$$
 
 ## Diagnostics
 
-**Innovations residuals** = 
+**Innovations residuals** aka, one-step ahead residuals, same ones we used for ARMA models
 
 data at time $t$ minus model predictions given data up to $t-1$
 
@@ -452,3 +451,10 @@ mod.list <- list(
 ```
 
 ## Let's see some examples
+
+We will go through these in class
+
+* [example 1](https://atsa-es.github.io/atsa/Lectures/Week%203/univariate_example_1.R)
+* [example 2](https://atsa-es.github.io/atsa/Lectures/Week%203/univariate_example_2.R)
+* [example 3](https://atsa-es.github.io/atsa/Lectures/Week%203/univariate_example_3.R)
+* [example 4](https://atsa-es.github.io/atsa/Lectures/Week%203/univariate_example_4.R)
