@@ -87,18 +87,16 @@ forecast <- list(
 uni_ss <- list(
   title = "Univariate state-space models",
   topics = c("Univariate state-space models"),
-  pdf = "",
+  pdf = c("Lectures/Week 3/lec_05_univariate_state_space.pdf"),
   ppt = "",
   rmd = c("Lectures/Week 3/lec_05_univariate_state_space.Rmd"),
   html = c("Lectures/Week 3/lec_05_univariate_state_space.html"),
   video = "https://youtu.be/-G_ejXMzEWw",
   youtube = "",
-  reading = c("[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
-              "[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)",
-              "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[uni_example_1.R](Lectures/Week 3/univariate_example_1.R)",
-              "[uni_example_2.R](Lectures/Week 3/univariate_example_2.R)",
-              "[uni_example_3.R](Lectures/Week 3/univariate_example_3.R)",
-              "[uni_example_4.R](Lectures/Week 3/univariate_example_4.R)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)"),
+  reading = c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", 
+            "Additional background resources",
+              "[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
+              "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)", "Scripts are in the class repo"),
   instructor = "Eli"
 )
 ```
