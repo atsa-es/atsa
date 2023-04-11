@@ -1,0 +1,273 @@
+---
+title: Lab 1 Forecasting with ARIMA models
+author: E Holmes
+date: March 22, 2023
+output: 
+  html_document:
+    code-folding: true
+    toc: true
+    toc_float: true
+---
+
+```{r include=FALSE}
+library(tidyverse)
+options(dplyr.summarise.inform = FALSE)
+```
+
+For this lab you will use the material you have learned in the first 3 lectures to explore features of time series of salmon in the North Pacific (Alaska and E Asia). Then you will use ARIMA models to create forecasts and ask a research question with those forecasts.
+
+You will find this Rmd file in the [Fish550-2023 repository](https://github.com/atsa-es/fish550-2023/tree/main/Lab-1). Clone the repository and then make sure you can Knit the `Lab1-ARIMA.Rmd` file on your computer. Install any packages that it complains about.
+
+## Teams
+
+1. Bristol Bay Data: Nick Chambers (SAFS), Liz Elmstrom (SAFS), Maria Kuruvilla (QERM)
+2. Bristol Bay Data: Eric French (Civil), Dylan Hubl (ESRM), Miranda Mudge (Molecular & Cell Bio)
+3. Ruggerone & Irvine Data: Zoe Rand (QERM), Madison Shipley (SAFS), Emma Timmins-Schiffman (Genome Sci)
+4. Ruggerone & Irvine Data: Terrance Wang (SAFS), Josh Zahner (SAFS), Karl Veggerby (SAFS)
+
+## References
+
+Holmes, E. E. (2020) Fisheries Catch Forecasting <https://fish-forecast.github.io/Fish-Forecast-Bookdown>
+
+Hyndman, R.J., & Athanasopoulos, G. (2018) Forecasting: principles and practice, 2nd edition, OTexts: Melbourne, Australia. <https://otexts.com/fpp2/>.
+
+Plus the lecture material on the ATSA website.
+
+## Type of questions you might ask
+
+"Compare the accuracy of forecasts using best fit ARIMA models for pink salmon using the different regions in the Ruggerone & Irvine data. Is forecast accuracy is different for different regions?"
+
+"Compare the accuracy of total abundance forecasts using ARIMA models for Bristol Bay sockeye rivers and compare to the AKFW and UW FRI forecasts."
+
+"Compare the accuracy of age-group forecasts using ARIMA models for Bristol Bay sockeye and compare to the AKFW and UW FRI forecasts."
+
+"Use the Ruggerone & Irvine data and ARIMA models to study the autoregressive structure of pink, chum and sockeye. Are there differences by region (AK verus E Asia)?"
+
+"Compare the forecasts of total North Pacific pink and chum using 5, 10, 15, and 20 years of training data. Does forecast accuracy increase with more training data?"
+
+"Create 1-year forecasts of total North Pacific pink salmon using 20 years of training data for all of the Ruggerone and Irvine data. Is forecast error correlated with the PDO?"
+
+## Bristol Bay Sockeye data
+
+The `bristol_bay_data_plus_covariates.rds` file has Bristol Bay sockeye abundance for 9 rivers for 4 age-groups. The data are from Ovando et al 2021 Improving forecasts of sockeye salmon (Oncorhynchus nerka) with parametric and nonparametric models DOI: 10.1139/cjfas-2021-0287. You'll find a copy in the lab folder. The data file also has the covariates for year that the smolts enter the ocean as used in Ovando et al. 
+
+Load the data.
+```{r}
+bb_data <- readRDS(file.path("Data_Images", "bristol_bay_data_plus_covariates.rds"))
+```
+
+The data you will most likely want are
+
+* `ret_yr` The year the spawners return to the spawning grounds
+* `ret` The returns (number of fish in 1000s)
+* `system` The river name
+* `age_group` The age_group
+* `forecast.adfw` The forecast from AK Fish and Wildlife
+* `forecast.fri` The forecast from UW Fisheries Research Institute
+* `env_*` are some covariates at the year the age group entered the ocean
+
+In the data file, the age group designation is "a.b" where "a" is number of years in freshwater and "b" is number of years in the ocean. The age of the spawners in then `a+b`.  
+
+![](Data_Images/BB_sockeye_rivers_inset.png){width="50%"}
+
+The data
+
+```{r echo=FALSE}
+cat("colnames: ", colnames(bb_data), "\n")
+cat("system (river): ", unique(bb_data$system), "\n")
+cat("age groups: ", unique(bb_data$age_groups), "\n")
+```
+
+Some plots of the Bristol Bay data. Hmm there is a NA that was replaced with 0 it looks like.
+
+```{r fig.cap="plotted by age group"}
+bb_data %>% 
+  filter(system=="Kvichak") %>% 
+  ggplot(aes(x=ret_yr, y=log(ret))) + 
+    geom_line() + 
+    ggtitle("log abundance by age group") +
+    facet_wrap(~age_group)
+```
+
+```{r fig.cap="total across all 4 ages"}
+bb_data %>% 
+  group_by(system, ret_yr) %>%
+  summarize(total = sum(ret, na.rm=TRUE)) %>%
+  ggplot(aes(x=ret_yr, y=log(total))) + 
+    geom_line() + 
+    ggtitle("log abundance by river") +
+    facet_wrap(~system)
+```
+### Some subsets of the data
+
+Here are some subsets of the data that you might want to use.
+
+Log total by age group
+```{r}
+subdata <- bb_data %>% 
+  group_by(age_group, ret_yr) %>%
+  summarize(lntotal = log(sum(ret, na.rm=TRUE)))
+head(subdata)
+```
+
+Log total by river
+```{r}
+subdata <- bb_data %>% 
+  group_by(system, ret_yr) %>%
+  summarize(lntotal = log(sum(ret, na.rm=TRUE)))
+head(subdata)
+```
+
+Compare fish that spend 2 years in ocean versus those that spend 3 years.
+```{r}
+subdata <- bb_data %>% 
+  mutate(
+    ocean_years = case_match(
+      age_group, 
+      c("2.3", "1.3") ~ "3-yr-ocean",
+      c("1.2", "2.2") ~ "2-yr-ocean",
+      .default = age_group
+    )) %>%
+  group_by(system, ocean_years, ret_yr) %>%
+  summarize(lntotal = log(sum(ret, na.rm=TRUE)))
+head(subdata)
+```
+
+Get one time series and split into train and test. Each with 10 years.
+```{r}
+dat <- bb_data %>%
+  filter(system == "Kvichak", age_group == "1.3") %>%
+  mutate(lnreturns = log(ret),
+         year = ret_yr) %>%
+  select(year, lnreturns)
+datts <- ts(dat$lnreturns, start=dat$year[1])
+train <- window(datts, dat$year[1], dat$year[1]+9)
+test <- window(datts, dat$year[1]+10, dat$year[1]+10+9)
+```
+
+## Ruggerone & Irvine: Salmon in the North Pacific
+
+The data set `Data_Images/ruggerone_data.rds` has total abundance of natural spawners (not hatchery) from 15 regions in the N Pacific. These are data provided with Ruggerone, G. and Irvine, J. 2018. Numbers and biomass of natural- and hatchery-origin Pink, Chum, and Sockeye Salmon in the North Pacific Ocean, 1925-2015. Marine and Coastal Fisheries: Dynamics, Management, and Ecosystem Science 10. DOI: [10.1002/mcf2.10023](https://afspubs.onlinelibrary.wiley.com/doi/10.1002/mcf2.10023). Open Access.
+
+Load the data
+```{r}
+ruggerone_data <- readRDS(file.path("Data_Images", "ruggerone_data.rds"))
+```
+
+![Figure 1. The approximate geographic locations of regional stock groups. Region 1, Washington State, including the Columbia River. Region 2, Southern British Columbia (BC) south of the central coast of British Columbia (\~51°N). . Region 3, Northern BC including central and northern British Columbia. Region 4, Southeast Alaska (AK) including the Yakutat coast. The Central Alaska region extends from the Bering River (\~60°N), near Prince William Sound in Region 5, westward to Unimak Island (\~166°W), thereby including Regions 5 through 8. Western Alaska includes Regions 9 through 12, i.e., all North American drainages flowing into the Bering Sea from Unimak Island to Kotzebue. Data for eastern and western Kamchatka (Regions 14 and 15) are separated from data for the Russian mainland and islands (called "Mainland & Islands" here, which includes the Okhotsk coast, Amur River, Primorye, Sakhalin and Kurile Islands, and relatively small runs to the Anadyr). Region 20, Japan, includes the islands of Hokkaido and Honshu. South Korea (Region 21) not shown.](Data_Images/NPacific_map.jpg){width="50%"}
+
+| region in data file    | desciption                  | regions in map    |
+|------------------------|-----------------------------|-------------------|
+| japan                  |  Japan & South Korea        | 20 and 21         |
+| m_i                    | Russian Mainland & Islands  | 13, 16, 17 18, 19 |
+| w_kam                  | Western Kamchatka           | 15                |
+| e_kam                  | Eastern Kamchatka           | 14                |
+| wak                    | Western Alaska              | 9, 10, 11, 12     |
+| s_pen                  | Southern Alaska Peninsula   | 8                 |
+| kod                    | Kodiak                      | 7                 |
+| ci                     | Cook Inlet                  | 6                 |
+| pws                    | Prince William Sound        | 5                 |
+| seak                   | Southeast Alaska            | 4                 |
+| nbc                    | Northern British Columbia   | 3                 |
+| sbc                    | Southern British Columbia   | 2                 |
+| wa                     | Washington State            | 1                 |
+| wc                     | West Coast USA              | mislabeled on map |
+| cak (not in data file) | Central Alaska              | 5, 6, 7, 8        |
+
+### Ruggerone and Irvine data
+
+```{r echo=FALSE}
+cat("colnames: ", colnames(ruggerone_data), "\n")
+cat("species: ", unique(ruggerone_data$species), "\n")
+cat("regions: ", unique(ruggerone_data$region), "\n")
+```
+
+### Some plots of the Ruggerone and Irvine data.
+
+```{r fig.cap="pink salmon by regions"}
+ruggerone_data %>% 
+  filter(species=="pink") %>% 
+  ggplot(aes(x=year, y=log(returns))) + 
+    geom_line() + 
+    ggtitle("pink salmon log abundance") +
+    facet_wrap(~region)
+```
+
+```{r fig.cap="total by species"}
+ruggerone_data %>% 
+  group_by(species, year) %>%
+  summarize(total = sum(returns, na.rm=TRUE)) %>%
+  ggplot(aes(x=year, y=log(total))) + 
+    geom_line() + 
+    ggtitle("log abundance by species") +
+    facet_wrap(~species)
+```
+
+### Some subsets of the data
+
+Here are some subsets of the data that you might want to use.
+
+Log total North Pacific pink, chum, sockeye
+```{r}
+subdata <- ruggerone_data %>% 
+  group_by(species, year) %>%
+  summarize(lntotal = log(sum(returns, na.rm=TRUE)))
+head(subdata)
+```
+
+Log North Pacific pink
+```{r}
+subdata <- ruggerone_data %>% 
+  filter(species == "pink") %>%
+ mutate(lnreturns = log(returns))
+head(subdata)
+```
+
+Total in some bigger areas
+```{r}
+subdata <- ruggerone_data %>% 
+  mutate(
+    area = case_match(
+      region, 
+      c("japan", "korea", "m_i", "e_kam", "w_kam") ~ "East_Asia",
+      c("wak", "s_pen", "kod", "ci", "pws", "seak") ~ "Alaska",
+      c("nbc", "sbc", "wa", "wc") ~ "WC",
+      .default = region
+    )) %>%
+  group_by(area, species, year) %>%
+  summarize(lntotal = log(sum(returns, na.rm=TRUE)))
+head(subdata)
+```
+
+## Example analysis
+
+Get one time series out of `ruggerone_data`
+```{r}
+dat <- ruggerone_data %>%
+  filter(region == "wak", species == "pink") %>%
+  mutate(lnreturns = log(returns)) %>%
+  select(year, lnreturns)
+head(dat)
+```
+
+Make a time series object and divide into train and test data.
+```{r}
+datts <- ts(dat$lnreturns, start=dat$year[1])
+train <- window(datts, 1952, 1971)
+test <- window(datts, 1972, 2001)
+```
+
+
+Fit a model with `auto.arima()` in the forecast package.
+```{r message=FALSE}
+library(forecast)
+mod <- auto.arima(train)
+mod
+```
+
+Plot a 30-year forecast against the test data.
+```{r}
+library(zoo)
+fr <- forecast(mod, h=30)
+autoplot(fr) + geom_point(aes(x=x, y=y), data=fortify(test))
+```

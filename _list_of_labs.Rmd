@@ -55,7 +55,7 @@ lmlab <- fill.list(
 arimalab <- fill.list(
   title = "Box-Jenkins Methods",
   topics = c("Fitting ARIMA models", "Forecasting with ARIMA models"),
-  html = c("https://atsa-es.github.io/fish550-2023/Lab-1/Lab1-ARIMA.html"),
+  html = c("https://atsa-es.github.io/Labs/Week 2/Lab1-ARIMA-2023.html"),
   data = "See repo",
   repo = "https://github.com/atsa-es/fish550-2023/tree/main/Lab-1",
   homework = "Lab write-up #1",
