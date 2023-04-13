@@ -21,14 +21,14 @@ For this lab you will use multivariate auto-regressive state-space (MARSS) to an
 1. Lower Columbia River Chinook: Zoe Rand (QERM), Emma Timmins-Schiffman (Genome Sci), Maria Kuruvilla (QERM)
 2. Lower Columbia River Steelhead: Eric French (Civil), Liz Elmstrom (SAFS), Terrance Wang (SAFS)
 3. Lower Columbia River Coho: Nick Chambers (SAFS), Karl Veggerby (SAFS), Miranda Mudge (Molecular & Cellular)
-4. Middle Columbia River Steelhead: Madison Shipley (SAFS), Josh Zahner (SAFS), Dylan Hubl (Env & Forest Sci)
+4. Middle Columbia River Steelhead: Madison Shipley (SAFS), Dylan Hubl (Env & Forest Sci)
 
 ## Lower Columbia River salmon spawner data
 
 These data are from the [Coordinated Assessments Partnership (CAP) ](https://www.streamnet.org/cap/about-cap/) and downloaded using the [rCAX R client](https://nwfsc-math-bio.github.io/rCAX/) for the CAX (the CAP database) API. The data are saved in `Lab-2/Data_Images/columbia-river.rda`.
 
 ```{r}
-load(here::here("Lab-2", "Data_Images", "columbia-river.rda"))
+load(file.path("Data_Images", "columbia-river.rda"))
 ```
 
 The data set has data for fi endangered and threatened ESU (Evolutionary Significant Units) in the Lower Columbia River.
@@ -39,10 +39,6 @@ esu
 
 ```{r echo=FALSE, out.width="50%", fig.cap="Figure from ESA recovery plan for Lower Columbia River Coho salmon, Lower Columbia River Chinook salmon, Columbia River Chum salmon, and Lower Columbia River steelhead. 2013. NMFS NW Region.  https://repository.library.noaa.gov/view/noaa/16002"}
 knitr::include_graphics("Data_Images/LCR-chinook-regions.png")
-```
-
-```{r echo=FALSE, out.width="50%", fig.cap="Figure from 2022 5-Year Review: Summary & Evaluation of Upper Columbia River Spring-run Chinook Salmon and Upper Columbia River Steelhead. NMFS. West Coast Region. https://doi.org/10.25923/p4w5-dp31"}
-knitr::include_graphics("Data_Images/UCR-Steelhead-regions.png")
 ```
 
 ### Data structure
@@ -155,6 +151,12 @@ autoplot(fit, plot.type="residuals")
 * Do your estimates differ depending on the assumptions you make about the structure of the data, i.e. you assumptions about the x's, Q, and U.
 
 ## Sample code
+
+Here I show how I might analyze the Upper Columbia Steelhead data.
+
+```{r echo=FALSE, out.width="50%", fig.cap="Figure from 2022 5-Year Review: Summary & Evaluation of Upper Columbia River Spring-run Chinook Salmon and Upper Columbia River Steelhead. NMFS. West Coast Region. https://doi.org/10.25923/p4w5-dp31"}
+knitr::include_graphics("Data_Images/UCR-Steelhead-regions.png")
+```
 
 Set up the data. We need the time series in a matrix with time across the columns.
 
