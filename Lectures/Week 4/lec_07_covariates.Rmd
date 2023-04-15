@@ -1,12 +1,12 @@
 ---
 title: "Covariates in Time Series Models"
 author: "Eli Holmes"
-date: "26 Jan 2021"
+date: "18 Apr 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
   beamer_presentation: default
-subtitle: FISH 507 – Applied Time Series Analysis
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
@@ -39,12 +39,11 @@ knitr::opts_chunk$set(fig.height=5, fig.align="center")
 * Covariates can help deal with problematic observation errors
 * You are using covariates to model a changing system
 
-##
-
-Lake WA plankton and covariates
+## Lake WA plankton and covariates
 
 ```{r covariates, echo=FALSE, out.width = '80%'}
-knitr::include_graphics("https://atsa-es.github.io/atsa/Lectures/Week%204/images/msscov-plank-plot.png")
+#url <- "https://atsa-es.github.io/atsa/Lectures/Week%204/images/msscov-plank-plot.png"
+knitr::include_graphics(here::here("Lectures", "Week 4", "images", "msscov-plank-plot.png"))
 ```
 
 ## Covariates in time series models
@@ -64,13 +63,41 @@ Can you do a linear regression with time series data (response and predictors)? 
     * Residuals are not correlated with the predictor variables
 * Be careful regarding spurious correlation if both response and predictor variables have trends
 
+## Autocorrelated response and predictor variables
+
+Imagine that your data looked like so where the line is the data and the color represents your covariate.  
+
+```{r echo=FALSE, fig.height=4}
+colfunc<-colorRampPalette(c("red","yellow","springgreen","royalblue"))
+plot(rep(1,20),col=(colfunc(50)), pch=19,cex=2,ylim=c(0,10))
+dat <- sin((10:30)*pi/20)*3+5
+lines(dat)
+points(dat)
+```
+
+## Both response and predictors have a seasonal trend
+
+Why are the data correlated? It is only because of the covariate?
+
+```{r echo=FALSE, out.width="70%"}
+TT <- 10*12
+sc <- sin(2*pi*(1:TT)/12) + cos(2*pi*(1:TT)/12)
+plot(1:TT, sc+rnorm(TT,0,0.5), type="l", ylab="values", xlab="t", ylim=c(-3,10))
+lines(-sc+rnorm(TT,0,0.5)+6, col="red")
+title("both covariate and response are seasonal")
+```
+
 ## Linear regression with autocorrelated errors
 
 The `xreg` argument in `Arima()` and `arima()` allows you to fit linear regressions with autocorrelated errors.  Read Chapter 9 in [Hyndman and Athanasopoulos 2018](https://otexts.com/fpp2/dynamic.html) on Dynamic Regression.
 
 A linear regression with autocorrelated errors is for example:
 
-$$y_t = \alpha + \mathbf{D} \mathbf{d}_t + \nu_t \\ \nu_t = \theta_1 \nu_{t-1} + \theta_2 \nu_{t-2} + e_t$$
+\begin{equation*}
+\begin{gathered}
+    y_t = \alpha + \mathbf{D} \mathbf{d}_t + \nu_t \\ \nu_t = \theta_1 \nu_{t-1} + \theta_2 \nu_{t-2} + e_t
+\end{gathered}
+\end{equation*}
 
 ## Fitting in R
 
@@ -104,12 +131,24 @@ fit <- lm(y~d)
 checkresiduals(fit)
 ```
 
-## Let `auto.arima()` find best ARMA model
+## Let `auto.arima()` find best model
 
 ```{r}
 fit <- auto.arima(y, xreg=d) # It finds a ARMA(1,0,2) is best.
 checkresiduals(fit)
 ```
+
+## Collinearity
+
+This a big issue.  If you are thinking about stepwise variable selection, do a literature search on the issue.  Read the chapter in [Holmes 2018: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html) on catch forecasting models using multivariate regression for a discussion of
+
+* Stepwise variable regression in R
+* Cross-validation for regression models
+* Penalized regression in R
+    * Lasso
+    * Ridge
+    * Elastic Net
+* Diagnostics
 
 ## ARMAX
 
@@ -118,20 +157,34 @@ where $w_t$ can be moving average process. $w_t = e_t + \theta e_{t-1}$.
 
 ## Covariates in univariate state-space models
 
-$$x_t = b x_{t-1}+ \mathbf{C} \mathbf{c}_t + w_t\\y_t = x_t + \mathbf{D} \mathbf{d}_t + v_t$$
+\begin{equation*}
+\begin{gathered}
+    x_t = b x_{t-1}+ \mathbf{C} \mathbf{c}_t + w_t\\y_t = x_t + \mathbf{D} \mathbf{d}_t + v_t
+\end{gathered}
+\end{equation*}
 
 Now we can model how covariates affect the hidden process.
 
 ## Covariates in univariate state-space models
 
-$$x_t = x_{t-1} + u + \boxed{\mathbf{C} \mathbf{c}_t} + w_t\\y_t = x_t + v_t$$
+\begin{equation*}
+\begin{gathered}
+    x_t = x_{t-1} + u + \boxed{\mathbf{C} \mathbf{c}_t} + w_t\\y_t = x_t + v_t
+\end{gathered}
+\end{equation*}
+
 Random walk with drift. How does covariate affect the drift term?
 
 Example. You have tag data on movement of animals in the ocean. How does water temperature affect the speed (jump length) of the movement.
 
 ## Covariates in univariate state-space models
 
-$$x_t = x_{t-1}+ u + w_t\\y_t = x_t + \boxed{\mathbf{D} \mathbf{d}_t + v_t}$$
+\begin{equation*}
+\begin{gathered}
+    x_t = x_{t-1}+ u + w_t\\y_t = x_t + \boxed{\mathbf{D} \mathbf{d}_t + v_t}
+\end{gathered}
+\end{equation*}
+
 
 How does covariate affect observation error relative to our stochastic trend. 
 
@@ -139,15 +192,24 @@ Example. You are tracking population size using stream surveys. Turbidity affect
 
 ## Covariates in MARSS models
 
+\begin{equation*}
+\begin{gathered}
+    \mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{u} +\mathbf{C} \mathbf{c}_t + \mathbf{w}_t \\ \mathbf{y}_t = \mathbf{Z} \mathbf{x}_{t} + \mathbf{a} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t
+\end{gathered}
+\end{equation*}
 
-$$\mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{u} +\mathbf{C} \mathbf{c}_t + \mathbf{w}_t \\ \mathbf{y}_t = \mathbf{Z} \mathbf{x}_{t} + \mathbf{a} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t$$
 
 
 
 
 ## Covariates in state process
 
-$$\mathbf{x}_t = \mathbf{x}_{t-1}+\mathbf{u}+\boxed{\mathbf{C}\mathbf{c}_t}+\mathbf{w}_t \\ \mathbf{y}_t = \mathbf{x}_{t} + \mathbf{v}_t$$
+\begin{equation*}
+\begin{gathered}
+    \mathbf{x}_t = \mathbf{x}_{t-1}+\mathbf{u}+\boxed{\mathbf{C}\mathbf{c}_t}+\mathbf{w}_t \\ \mathbf{y}_t = \mathbf{x}_{t} + \mathbf{v}_t
+\end{gathered}
+\end{equation*}
+
 
 $\mathbf{C}\mathbf{c}_t$ The covariate is in $\mathbf{c}_t$ and the effect is in matrix $\mathbf{C}$.  
 
@@ -157,6 +219,7 @@ Example. lat/lon movement data so $\mathbf{x}$ and $\mathbf{y}$ are 2 dimensiona
 ## Covariates in the state process
 
 $$\begin{bmatrix}x_1 \\ x_2\end{bmatrix}_t = \begin{bmatrix}x_1 \\ x_2\end{bmatrix}_{t-1} + \begin{bmatrix}C_a & C_b \\ C_a & C_b\end{bmatrix}\begin{bmatrix}Temp \\ TP\end{bmatrix}_t + \begin{bmatrix}w_1 \\ w_2\end{bmatrix}_t$$
+
 The model for $x_t$ in site 1 (or species 1) is:
 
 $$x_{1,t}=x_{1,t-1}+C_a \times Temp_t + C_b \times TP_t + w_{1,t}$$
@@ -554,4 +617,3 @@ February snowpack estimates
 * Accounts for correlation across sites and local variability
 
 ![](images/snotelfits.png){width=75%}
-

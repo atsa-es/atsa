@@ -1,11 +1,11 @@
 ---
 title: "Dynamic Linear Models"
-subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
 date: "25 April 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
@@ -57,7 +57,8 @@ The index $i$ has no explicit meaning in that shuffling ($y_i,x_i$) pairs has no
 
 We can write the model in matrix form
 
-$$
+\begin{equation*}
+\begin{gathered}
 y_i = \alpha + \beta x_i + e_i \\
 \Downarrow \\
 y_i = 
@@ -69,14 +70,16 @@ y_i =
   \beta
 \end{bmatrix} +
 e_i
-$$
+\end{gathered}
+\end{equation*}
 
 
 ## Simple linear regression
 
 We can write the model in matrix form
 
-$$
+\begin{equation*}
+\begin{gathered}
 y_i = \alpha + \beta x_i + e_i \\
 \Downarrow \\
 y_i = 
@@ -90,7 +93,8 @@ y_i =
 e_i \\
 \Downarrow \\
 y_i = \mathbf{X}^{\top}_i \boldsymbol{\theta} + e_i
-$$
+\end{gathered}
+\end{equation*}
 
 with
 
@@ -100,7 +104,6 @@ $\mathbf{X}^{\top}_i = \begin{bmatrix} 1 & x_i \end{bmatrix}$ and $\boldsymbol{\
 ## Dynamic linear model (DLM)
 
 In a _dynamic_ linear model, the regression parameters change over time, so we write
-
 $$
 y_i = \mathbf{X}^{\top}_i \boldsymbol{\theta} + e_i ~~~~~~~ \text{(static)}
 $$
@@ -215,13 +218,15 @@ $$
 
 ## DLM in MARSS notation | Full state-space form
 
-$$
+\begin{equation*}
+\begin{gathered}
 y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t \\
 \boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
 \Downarrow \\
 y_t = \mathbf{Z}_t \mathbf{x}_t + v_t \\
 \mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t
-$$
+\end{gathered}
+\end{equation*}
 
 where
 
@@ -1675,4 +1680,3 @@ Univariate response
 * Model diagnostics
 
 Multivariate response
-

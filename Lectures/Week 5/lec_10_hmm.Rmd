@@ -1,12 +1,12 @@
 ---
 title: "An introduction to hidden markov models for time series"
 author: "Eric Ward"
-date: "4 Feb 2021"
+date: "27 Apr 2023"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-subtitle: FISH 507 – Applied Time Series Analysis
+  beamer_presentation: default
+subtitle: FISH 555 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}

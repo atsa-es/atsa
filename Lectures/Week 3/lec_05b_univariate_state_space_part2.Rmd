@@ -3,10 +3,10 @@ title: "Intro to Univariate State-Space Models"
 author: "Eli Holmes"
 date: "19 Jan 2021"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-subtitle: FISH 507 – Applied Time Series Analysis
+  beamer_presentation: default
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=TRUE, echo=FALSE}
