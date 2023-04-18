@@ -396,12 +396,13 @@ $$y_t = x_t + v_t, \,\,\, v_t \sim N(0,r)$$
 data at time $t$ minus model predictions given data up to $t-1$
 
 $$\hat{y_t} = E[Y_{t}|y_{t-1}]$$
-
+In the MARSS package, the one-step ahead residuals are returned by
 ```
 residuals(fit)
 ```
+This is fairly standard for models that fit state-space models.
 
-Standard diagnostics
+**Standard diagnostics**
 
 * ACF
 * Normality
@@ -450,6 +451,28 @@ mod.list <- list(
   tinitx = 0
 )
 ```
+
+## Diagnostics and plotting
+
+Use
+```
+autoplot(fit)
+```
+where `fit` is returned by `MARSS()` to see the standard diagnostics.
+
+## Output
+
+```
+fit <- MARSS()
+```
+
+* `coef(fit)` to get the estimated parameters
+* `tidy(fit)` to get estimated parameters with CIs
+* `tsSmooth()` to get the estimates states or use `fit$states`
+* `fitted()` to get the model estimates of mean y
+* `fr <- forecast(fit, h=5, interval="prediction")` predictions
+* `autoplot(fr)` plot the forecast
+
 
 ## Let's see some examples
 

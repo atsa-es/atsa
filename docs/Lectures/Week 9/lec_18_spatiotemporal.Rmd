@@ -1,13 +1,12 @@
 ---
 title: "Fitting spatial and spatiotemporal models - continued"
 author: "Eric Ward"
-date: "4 Mar 2021"
+date: "18 May 2023"
 output:
-  beamer_presentation: default
-  slidy_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
-subtitle: FISH 507 – Applied Time Series Analysis
+  slidy_presentation: default
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
@@ -24,13 +23,15 @@ library(mgcv)
 library(glmmfields)
 library(viridis)
 library(tidyr)
-devtools::install_github("pbs-assess/sdmTMB")
+# install sdmTMB and INLA
+#devtools::install_github("pbs-assess/sdmTMB")
+#install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
 library(sdmTMB)
 
-d = read.csv("SNOTEL_Washington_1981_2013.csv")
-d = d[,c("Station.Id","Station.Name","Water.Year","Feb")]
-meta = read.csv("SNOTEL_metadata.csv")
-d = dplyr::left_join(d, meta) %>% 
+d <- read.csv("SNOTEL_Washington_1981_2013.csv")
+d <- d[, c("Station.Id", "Station.Name", "Water.Year", "Feb")]
+meta <- read.csv("SNOTEL_metadata.csv")
+d <- dplyr::left_join(d, meta) %>%
   dplyr::filter(!is.na(Water.Year), !is.na(Feb))
 ```
 
@@ -183,16 +184,16 @@ plot(snow_spde)
 
 * This would fit a model with static spatial field
 ```{r eval=FALSE, echo=TRUE}
-fit <- sdmTMB(Feb ~ 1, spde = snow_spde, data=d)
+fit <- sdmTMB(Feb ~ 1, mesh = snow_spde, data=d)
 ```
 * Versus this one, where the field is independent by year
 ```{r eval=FALSE, echo=TRUE}
-fit <- sdmTMB(Feb ~ 1, spde = snow_spde, time="Water.Year",data=d)
+fit <- sdmTMB(Feb ~ 1, mesh = snow_spde, time="Water.Year", data=d)
 ```
 
 ## Diagnostics: residuals for a given time slice
 ```{r echo=TRUE}
-fit <- sdmTMB(Feb ~ 1, spde = snow_spde, data=d)
+fit <- sdmTMB(Feb ~ 1, mesh = snow_spde, data=d)
 qqnorm(residuals(fit))
 ```
 

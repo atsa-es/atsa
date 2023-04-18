@@ -88,7 +88,10 @@ names(lec_links_html) <- NULL
 vid_links <- lapply(week_lecs, function(x){if(is.list(x)){x$video}else{""}})
 ## topics formatted for html
 vid_links_html <- sapply(lapply(vid_links, function(x){
-  tmp1<-"[Video]("; tmp2 <- ")"; tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""; tmp=paste(tmp,collapse="<br>"); tmp}), c)
+if(length(x>1)) tmp1 <- paste0("[Video ",1:length(x),"](") else tmp1 <- "[Video](" 
+tmp2 <- ")"
+tmp <- paste(tmp1,x,tmp2); tmp[x==""]=""
+tmp=paste(tmp,collapse="<br>"); tmp}), c)
 names(vid_links_html) <- NULL
 ```
 

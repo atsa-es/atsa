@@ -14,6 +14,8 @@ subtitle: |
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(R.options=list(width=60))
 set.seed(123)
+# ref
+# https://tsmatz.wordpress.com/2017/08/04/time-series-arima-r-tutorial-02-unit-root-seasonal-arima/
 ```
 
 

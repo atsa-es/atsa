@@ -1,11 +1,13 @@
 ---
 title: "Simple Exponential Smoothing"
-subtitle: "FISH 507 – Applied Time Series Analysis"
 author: "Eli Holmes"
 date: "19 Feb 2019"
 output:
   ioslides_presentation:
     css: lecture_slides.css
+    smaller: yes
+  beamer_presentation: default
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
@@ -47,7 +49,7 @@ title("more weight put on more recent values\nfor 1988 forecast")
 
 ##
 
-Simple exponential smoothing uses this type of weighting that falls off exponentially and the objective to estimate the best weighting ( $\alpha$ ):
+Simple exponential smoothing uses this type of weighting that falls off exponentially and the objective is to estimate the best weighting ( $\alpha$ ):
 
 ```{r echo=FALSE}
 alpha <- 1
@@ -63,9 +65,9 @@ legend("topleft", c("alpha=1 like naive","alpha=0.5","alpha=0.05 like mean"),lwd
 title("more weight put on more recent values\nfor 1988 forecast")
 ```
 
-## Fitting exponential smoothing models
+## Fitting exponential smoothing (ETS) models
 
-The forecast package will fit a wide variety of exponential smoothing models.  The main fitting function is `ets()`:
+The forecast package will fit a wide variety of ETS models.  The main fitting function is `ets()`:
 
 ```
 ets(y, model = "ZZZ", < + many other arguments >)
@@ -73,21 +75,21 @@ ets(y, model = "ZZZ", < + many other arguments >)
 
 * y : your data.  A time series of responses.
 
-* model: what type of exponential smoothing model.
-    * Z=choose, A=additive, M=muplicative
+* model: what type of ETS model.
+    * Z=choose, A=additive, M=multiplicative
     * first letter is for level 
     * second letter is for trend
     * third letter is for season
 
 ##
 
-We are going to `ets()` to fit three simple types of exponential smoothing models:
+We are going to `ets()` to fit three simple types of ETS models:
 
 model  | "ZZZ" | alternate function |
 ------------- | ------------- | --------- |
-exponential smoothing no trend | "ANN" | `ses()` |
-exponential smoothing with trend  | "AAN" | `holt()` |
-exponential smoothing choose trend  | "AZN" | NA |
+ETS no trend | "ANN" | `ses()` |
+ETS with trend  | "AAN" | `holt()` |
+ETS choose trend  | "AZN" | NA |
 
 The alternate function does exactly the same fitting.  It is just a 'shortcut'.
 
@@ -98,7 +100,7 @@ This is like the naive model that just uses the last value to make the forecast,
 Load the data and **forecast** package.
 
 ```{r load_data_exp_smoothing}
-data(greeklandings, package="FishForecast")
+data(greeklandings, package="atsalibrary")
 anchovy <- subset(greeklandings, 
                   Species=="Anchovy" & Year<=1987)$log.metric.tons
 anchovy <- ts(anchovy, start=1964)
@@ -131,7 +133,7 @@ plot(1987:1964, wts/sum(wts), lwd=2, ylab="weight", xlab="", type="l")
 title("Weighting for simple exp. smooth of anchovy")
 ```
 
-## Produce forecast with ets from a previous fit
+## Produce forecast with ETS from a previous fit
 
 Say you want to estimate a forecasting model from one dataset and use that model to forecast another dataset or another area.  Here is how to do that.
 
@@ -158,9 +160,9 @@ fr2 <- forecast(fit2, h=5)
 plot(fr2)
 ```
 
-## Naive model with trend
+## Naive model with trend (drift)
 
-Fit a model that uses the last observation as the forecast but includes a trend estimated from ALL the data.  This is what the naive model with trend (or drift) does.
+Fit a model that uses the last observation as the forecast but includes a trend (or drift) estimated from ALL the data.  This is what the naive model with trend  does.
 
 ```{r}
 fit.rwf <- Arima(anchovy, order=c(0,1,0), include.drift=TRUE)
@@ -191,13 +193,13 @@ So we only use the latest data to choose the level for our forecast but use all 
 
 ## ETS model with trend
 
-The exponential smoothing model with trend does this.  The one-year trend is 
+The ETS model with trend does this.  The one-year trend is 
 $$x_t - x_{t-1}$$
 That is how much the data increased or decreased.  
 
 ##
 
-```{r}
+```{r out.width="70%"}
 plot(diff(anchovy),ylim=c(-0.3,.3))
 abline(h=0, col="blue")
 abline(h=mean(diff(anchovy)),col="red")
@@ -206,9 +208,9 @@ title("0 means no change")
 
 ##
 
-If we take the average of all $x_t - x_{t-1}$ we are using the average trend like the naive model with drift.  We put an equal weighting on all trends.
+If we take the average of all one-step changes ($\Delta x_t = x_t - x_{t-1}$ we are using the average trend like the naive model with drift.  We put an equal weighting on all the $\Delta x_t$ in the data.
 
-But we could use a weighting that falls off exponentially so that we more recent trends affect the forecast more than trends in the distant past.  That is what an exponential smoothing model with trend does.
+But we could use a weighting that falls off exponentially so that we more recent $\Delta x_t$ affect the forecast more than $\Delta x_t$ in the distant past.  That is what an ETS model with trend does.
 
 ##
 
@@ -226,29 +228,29 @@ legend("topleft", c("beta=1","beta=0.5","beta=0.05 like rw with drift"),lwd=2, c
 title("more weight put on more recent values\nfor 1988 forecast")
 ```
 
-## Naive model with trend
+## Naive model with level and trend
 
 If your training data are length $T$, then a forecast for $T+h$ is
 
 $$\hat{x}_{T+h} = l_T + h \hat{b}$$
 
-where $\hat{b}$ is the mean of the the yearly changes in $x$, so the mean of $x_t - x_{t-1}$.
+where $\hat{b}$ is the mean of the the one-step changes in $x$, so the mean of $\Delta x_t = x_t - x_{t-1}$.
 
 $$\hat{b} = \sum_{t=2}^T (x_t - x_{t-1})$$
 
-## ETS model with trend
+## ETS model with level and trend
 
-The ETS model puts more weight on the recent trends.
+The ETS model puts more weight on the recent $\Delta x_t$ (one-step trends in the data).
 
 $$\hat{x}_{T+h} = l_T + h b_T$$
 
-where $b_T$ is a weighted average with the more recent trends given more weight.
+where $b_T$ is a weighted average with the more recent $\Delta x_t$ (trends) given more weight.
 
 $$b_t = \sum_{t=2}^T \beta (1-\beta)^{t-2}(x_t - x_{t-1})$$
 
 ## Fit using `ets()`
 
-```{r}
+```{r, out.width="70%"}
 fit <- ets(anchovy, model="AAN")
 fr <- forecast(fit, h=5)
 plot(fr)
@@ -258,9 +260,94 @@ plot(fr)
 
 Sometimes you would like to see the smoothed level and smoothed trend that the model estimated. You can see that with `plot(fit)` or `autoplot(fit)`.
 
-```{r fig.height=4}
+```{r out.width="70%"}
 autoplot(fit)
 ```
+
+## Simulated data with level and trend
+
+Let's imagine that our data look like so:
+```{r out.width="70%"}
+dat <- sin((1:12)*pi/12)
+plot(dat)
+```
+
+##
+
+It is quite smooth (no noise).  Let's fit an ETS with level and trend.  
+
+What should the level be?  The one-step ahead ($h=1$) prediction model for an ETS is
+
+$$\hat{y}_{t+1|1:t} = l_t + b_t$$
+where $l_t$ is the level to use in our prediction. $l_t$ is where to "start" our prediction and then we'll add our estimated trend $b_t$.
+
+Since there is no error in the data and it is smooth, $l_t$ should be $y_t$!
+
+##
+
+The estimated level for the ETS is in `fit$states`:
+
+```{r echo=TRUE, out.width="70%"}
+library(forecast)
+fit <- ets(dat, model="AAN", damped=FALSE)
+plot(dat, type="p",pch=2)
+points(fit$states[2:13,1],pch=3)
+legend("topright",c("data","l(t)"),pch=c(2,3))
+```
+
+##
+
+The estimated trend to use depends on the $\beta$ (weighting). In this case, it is a weighted average of past trends (`diff(dat)`) which make sense as the trend keeps changing.
+
+```{r, echo=TRUE, out.width="70%"}
+plot(diff(dat), type="p",pch=2)
+points(fit$states[3:13,2],pch=3)
+legend("topright",c("data","b(t)"),pch=c(2,3))
+```
+
+## Estimated ETS with level and trend
+
+```{r out.width="70%"}
+autoplot(fit)
+```
+
+
+## Let's look at longer data
+
+
+```{r out.width="70%"}
+dat <- sin((1:100)*pi/12)
+fit <- ets(dat, model="AAN", damped=FALSE)
+autoplot(fit)
+```
+
+## Add error
+
+Now the best level (line through the data) is smoothed.
+
+Let's imagine that our data look like so:
+```{r echo=FALSE, out.width="70%"}
+set.seed(123)
+n <- 20
+dat <- arima.sim(n,model=list(ar=c(0.5, -0.2)),sd=1)+rnorm(n,0,.2)
+fit <- ets(dat, model="AAN", damped=FALSE)
+plot(dat, type="p",pch=2)
+lines(fit$states[2:(n+1),1],pch=3)
+legend("topright",c("data","l(t)"),pch=c(2,NA), lty=c(0,1))
+```
+
+## Estimated trend
+
+$$\hat{y}_{t+1|1:t} = l_t + b_t$$
+
+The best trend $b_t$ will take into account the estimated level and will be a smoothed value of the `diff(dat)`.
+
+```{r echo=FALSE, fig.height=4}
+plot(diff(dat), type="p",pch=2)
+lines(fit$states[3:(n+1),2])
+legend("topright",c("diff(dat)","b(t)"),pch=c(2,NA),lty=c(0,1))
+```
+
 
 ## Validation
 
@@ -272,21 +359,22 @@ library(tseries)
 library(forecast)
 ```
 
-```{r load_data2, message=FALSE, warning=FALSE, echo=FALSE}
+Once we have a model(s), we will want to evaluate the performance of the model. We'll see examples using the anchovy landings.
+
+```{r load_data2, message=FALSE, warning=FALSE}
 load("landings.RData")
+spp <- "Anchovy"
+training = subset(landings, Year <= 1987)
+test = subset(landings, Year >= 1988 & Year <= 1989)
+traindat <- subset(training, Species==spp)$log.metric.tons
+testdat <- subset(test, Species==spp)$log.metric.tons
 ```
 
 ## Measures of forecast fit
 
 To measure the forecast fit, we fit a model to training data and test a forecast against data in a test set.  We 'held out' the test data and did not use it at all in our fitting.
 
-```{r echo=FALSE}
-spp <- "Anchovy"
-training = subset(landings, Year <= 1987)
-test = subset(landings, Year >= 1988 & Year <= 1989)
-
-traindat <- subset(training, Species==spp)$log.metric.tons
-testdat <- subset(test, Species==spp)$log.metric.tons
+```{r echo=FALSE, out.width="70%"}
 plot(1964:1987, traindat, xlim=c(1964,1989))
 points(1988:1989, testdat, pch=2, col="red")
 legend("topleft", c("Training data","Test data"), pch=c(1,2), col=c("black", "red"))
@@ -297,12 +385,11 @@ legend("topleft", c("Training data","Test data"), pch=c(1,2), col=c("black", "re
 We will fit to the training data and make a forecast.
 
 ```{r}
-fit1 <- auto.arima(traindat)
-fr <- forecast(fit1, h=2)
+fr <- forecast(auto.arima(traindat), h=2)
 fr
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="70%"}
 plot(fr)
 points(25:26, testdat, pch=2, col="red")
 legend("topleft", c("forecast","actual"), pch=c(20,2), col=c("blue","red"))
@@ -324,22 +411,19 @@ There are many metrics.  The `accuracy()` function in forecast provides many dif
 ### ME Mean error
 
 ```{r}
-me <- mean(fr.err)
-me
+me <- mean(fr.err); me
 ```
 
 ### RMSE Root mean squared error
 
 ```{r}
-rmse <- sqrt(mean(fr.err^2))
-rmse
+rmse <- sqrt(mean(fr.err^2)); rmse
 ```
 
 ### MAE Mean absolute error
 
 ```{r}
-mae <- mean(abs(fr.err))
-mae
+mae <- mean(abs(fr.err)); mae
 ```
 
 ##
@@ -348,15 +432,13 @@ mae
 
 ```{r}
 fr.pe <- 100*fr.err/testdat
-mpe <- mean(fr.pe)
-mpe
+mpe <- mean(fr.pe); mpe
 ```
 
 ### MAPE Mean absolute percentage error
 
 ```{r}
-mape <- mean(abs(fr.pe))
-mape
+mape <- mean(abs(fr.pe)); mape
 ```
 
 ##
@@ -403,7 +485,7 @@ knitr::kable(sum.tests, format="html")
 
 An alternate approach to testing a model's forecast accuracy is to use windows or shorter segments of the whole time series to make a series of single forecasts.  
 
-```{r cv.sliding, echo=FALSE}
+```{r cv.sliding, echo=FALSE, out.width="70%"}
 p <- list()
 for(i in 1:9){
   p[[i]]<-ggplot(subset(landings, Species=="Anchovy"&Year<1974+i), aes(x=Year, y=log.metric.tons))+geom_point()+ylab("landings")+xlab("")+xlim(1964,1990)+ylim(8,12)+
@@ -420,7 +502,7 @@ gridExtra::grid.arrange(
 
 Another approach uses a fixed window.  For example, a 10-year window.
 
-```{r cv.fixed, echo=FALSE}
+```{r cv.fixed, echo=FALSE, out.width="70%"}
 p <- list()
 for(i in 1:9){
   p[[i]]<-ggplot(subset(landings, Species=="Anchovy"&Year>=1964+i-1&Year<1974+i), aes(x=Year, y=log.metric.tons))+geom_point()+ylab("landings")+xlab("")+xlim(1964,1990)+ylim(8,12)+
@@ -440,7 +522,8 @@ far2 <- function(x, h, order){
   forecast(Arima(x, order=order), h=h)
   }
 e <- tsCV(traindat, far2, h=1, order=c(0,1,1))
-tscv1 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(abs(e), na.rm=TRUE))
+tscv1 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), 
+           MAE=mean(abs(e), na.rm=TRUE))
 tscv1
 ```
 
@@ -451,7 +534,7 @@ test1[c("ME","RMSE","MAE")]
 
 ## Cross-validation farther in future
 
-```{r cv.sliding.4plot, echo=FALSE}
+```{r cv.sliding.4plot, echo=FALSE, out.width="70%"}
 p <- list()
 for(i in 1:9){
   p[[i]]<-ggplot(subset(landings, Species=="Anchovy"&Year<1974+i), aes(x=Year, y=log.metric.tons))+geom_point()+ylab("landings")+xlab("")+xlim(1964,1990)+ylim(8,12)+
@@ -471,7 +554,8 @@ Compare accuracy of forecasts 1 year out versus 4 years out.  If `h` is greater 
 ```{r cv.sliding.4}
 e <- tsCV(traindat, far2, h=4, order=c(0,1,1))[,4]
 #RMSE
-tscv4 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(abs(e), na.rm=TRUE))
+tscv4 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), 
+           MAE=mean(abs(e), na.rm=TRUE))
 rbind(tscv1, tscv4)
 ```
 
@@ -482,7 +566,8 @@ Compare accuracy of forecasts with a fixed 10-year window and 1-year out forecas
 ```{r fixed.cv.1}
 e <- tsCV(traindat, far2, h=1, order=c(0,1,1), window=10)
 #RMSE
-tscvf1 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), MAE=mean(abs(e), na.rm=TRUE))
+tscvf1 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), 
+            MAE=mean(abs(e), na.rm=TRUE))
 tscvf1
 ```
 
@@ -513,7 +598,7 @@ testdat <- ts(subset(test, Species==spp)$log.metric.tons, start=1988)
 
 ## Test forecast performance against a test data set
 
-We will fit an an exponential smoothing model with trend to the training data and make a forecast for the years that we 'held out'. 
+We will fit an an ETS model with trend to the training data and make a forecast for the years that we 'held out'. 
 
 ```{r fig.height=4, echo=FALSE}
 fit1 <- ets(traindat, model="AAN")
@@ -608,6 +693,8 @@ We do this by passing in a fit to `model`.
 
 The `e` are our forecast errors for all the forecasts that we did with the data. `fit1` below is the ets estimated from all the data 1964 to 1989.  Note, the code will produce a warning that it is estimating the initial value and just using the weighting.  That is what we want.
 
+##
+
 ```{r, message=FALSE, warning=FALSE}
 fit1 <- ets(traindat, model="AAN")
 e <- tsCV(traindat, far2, h=1, model=fit1)
@@ -636,12 +723,12 @@ Now you are ready to compare forecasts from a variety of models and choose a for
 
 ## Example candidate set for anchovy
 
-* Exponential smoothing model with trend
+* ETS model with trend
 ```
 fit <- ets(traindat, model="AAN")
 fr <- forecast(fit, h=1)
 ```
-* Exponential smoothing model no trend
+* ETS model no trend
 ```
 fit <- ets(traindat, model="ANN")
 fr <- forecast(fit, h=1)
@@ -680,17 +767,20 @@ fr <- forecast(fit)
 # or simply
 fr <- rwf(traindat, drift=TRUE)
 ```
+
+## Candidate models continued
+
 * Average or mean
 ```
 fit <- Arima(traindat, order(0,0,0))
 fr <- forecast(fit)
 ```
 
-## Seasonal exponential smoothing models
+## Seasonal ETS models
 
 ```{r}
-load("chinook.RData")
-head(chinook)
+data("chinook", package="atsalibrary")
+head(chinook.month)
 ```
 
 ##
@@ -698,7 +788,9 @@ head(chinook)
 The data are monthly and start in January 1990.  To make this into a ts object do
 
 ```{r}
-chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), frequency=12)
+
+df <- chinook.month %>% subset(State == "WA")
+chinookts <- ts(df$log.metric.tons, start=c(1990,1), frequency=12)
 ```
 `start` is the year and month and frequency is the number of months in the year.  
 
@@ -706,7 +798,7 @@ chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), frequency=12)
 
 Now that we have specified our seasonal data as a ts object, it is easy to plot because R knows what the season is.
 
-```{r}
+```{r out.width="70%"}
 plot(chinookts)
 ```
 
@@ -716,10 +808,10 @@ Now we add a few more lines to our ETS table of models:
 
 model  | "ZZZ" | alternate function |
 ------------- | ------------- | --------- |
-exponential smoothing no trend | "ANN" | `ses()` |
-exponential smoothing with trend  | "AAN" | `holt()` |
-exponential smoothing with season no trend  | "ANA" | NA |
-exponential smoothing with season and trend  | "AAA" | NA |
+ETS no trend | "ANN" | `ses()` |
+ETS with trend  | "AAN" | `holt()` |
+ETS with season no trend  | "ANA" | NA |
+ETS with season and trend  | "AAA" | NA |
 estimate best trend and season model | "ZZZ" | NA |
 
 Unfortunately `ets()` will not handle missing values and will find the longest continuous piece of our data and use that.
@@ -730,6 +822,11 @@ Unfortunately `ets()` will not handle missing values and will find the longest c
 library(forecast)
 traindat <- window(chinookts, c(1990,1), c(1999,12))
 fit <- ets(traindat, model="AAA")
+```
+
+##
+
+```{r}
 fr <- forecast(fit, h=24)
 plot(fr)
 points(window(chinookts, c(1996,1), c(1996,12)))
@@ -739,7 +836,7 @@ points(window(chinookts, c(1996,1), c(1996,12)))
 
 If we plot the decomposition, we see the the seasonal component is not changing over time, unlike the actual data.  The bar on the right, alerts us that the scale on the 3rd panel is much smaller.
 
-```{r fig.height=4}
+```{r out.width="70%"}
 autoplot(fit)
 ```
 
@@ -748,6 +845,11 @@ autoplot(fit)
 Pass in a high `gamma` (the season weighting) to force the seasonality to evolve.
 ```{r fig.height=4}
 fit <- ets(traindat, model="AAA", gamma=0.4)
+```
+
+##
+
+```{r}
 autoplot(fit)
 ```
 
@@ -757,7 +859,7 @@ autoplot(fit)
 
 ##
 
-```{r}
+```{r out.width="70%"}
 no_miss_dat <- fit$x
 fit <- auto.arima(no_miss_dat)
 fr <- forecast(fit, h=12)
@@ -769,7 +871,7 @@ points(window(chinookts, c(1996,1), c(1996,12)))
 
 Missing values are ok when fitting a seasonal ARIMA model, unlike an ETS model.
 
-```{r}
+```{r out.width="70%"}
 fit <- auto.arima(traindat)
 fr <- forecast(fit, h=12)
 plot(fr)
@@ -788,6 +890,9 @@ Look at the forecast so you know what years and months to include in your test d
 ```{r}
 testdat <- window(traindat, c(1996,1), c(1996,12))
 ```
+
+##
+
 Use `accuracy()` to get the forecast error metrics.
 ```{r}
 accuracy(fr, testdat)
@@ -803,8 +908,4 @@ fit <- auto.arima(no_miss_dat)
 fr <- forecast(fit, h=12)
 accuracy(fr, testdat)
 ```
-
-## Lab on Thursday
-
-Comparing candidates sets of models.
 

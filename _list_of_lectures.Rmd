@@ -105,10 +105,10 @@ uni_ss <- list(
 marss <- list(
   title = "Multivariate state-space models",
   topics = c("Introduction to multivariate state-space models"),
-  pdf = c("Lectures/Week 3/lec_05b_univariate_state_space_part2.pdf", "Lectures/Week 3/lec_06_marss.pdf"),
+  pdf = c("Lectures/Week 3/lec_06_marss.pdf"),
   ppt = "Lectures/Week 3/lec_06_marss.ppt",
-  rmd = c("Lectures/Week 3/lec_05b_univariate_state_space_part2.Rmd"),
-  html = c("Lectures/Week 3/lec_05b_univariate_state_space_part2.html"),
+  rmd = c(""),
+  html = c(""),
   video = "https://youtu.be/4nrZZGMY1bc",
   youtube = "",
   reading = c("[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",

@@ -1,17 +1,17 @@
 ---
 title: "Model selection, cross validation, and performance of time series models"
 author: "Eric Ward, warde@uw.edu"
-date: "16 Feb 2021"
+date: "9 May 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
   beamer_presentation: default
   slidy_presentation: default
-subtitle: FISH 507 – Applied Time Series Analysis
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, cache = TRUE,
                       message=FALSE, results='hide',
                       fig.align = 'center')
 library(ggplot2)
@@ -605,11 +605,6 @@ ggplot(df, aes(Year, Abundance, group=Population, color=Population)) +
   theme_bw()
 ```
 
-## 
-
-```{r, out.width = "800px", results="markdown"}
-knitr::include_graphics(path="wing_sales.jpg")
-```
 
 ## Percent Error Statistics
 
