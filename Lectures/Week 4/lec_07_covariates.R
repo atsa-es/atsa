@@ -26,8 +26,8 @@ D <- d <- A <- U <- "zero"
 Z <- "identity"
 B <- "identity"
 Q <- "equalvarcov"
-C <- matrix(list("t1", "t2", "tp1", "tp2", "p1", "p2"),2,2)
-c <- covariates
+C <- matrix(list("t1", "t2", "tp1", "tp2"),2,2)
+c <- covariates[1:2,]
 R <- "diagonal and unequal"
 x0 <- "unequal"
 tinitx <- 1
@@ -38,8 +38,7 @@ kem <- MARSS(dat, model = model.list)
 # Look at the state estimates
 plot(kem, plot.type="xtT")
 
-plot(kem$states[1,], type="l")
-points(dat[1,])
+autoplot(kem$states[1,], type="l")
 
 # In this model, the changes in the state (stochastic trend) is 
 # being explained (or not) by the covariates.

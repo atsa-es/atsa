@@ -110,8 +110,7 @@ ggplot(df, aes(x=estimate, y=term)) + geom_point() +
 # Look at the state estimates
 plot(kem, plot.type="xtT")
 
-plot(kem$states[1,], type="l")
-points(dat[1,])
+autoplot(kem)
 
 # In this model, the changes in the state (stochastic trend) is 
 # being explained (or not) by the covariates.
