@@ -1518,27 +1518,28 @@ using linear combinations of a set of <span class="math inline">\(m\)</span> hid
 MARSS model with the following structure:</p>
 <p><span class="math display">\[\begin{equation}
 \begin{gathered}
-\mathbf{y}_t = \mathbf{Z}\mathbf{x}_t+\mathbf{a}+\mathbf{v}_t \text{
-where } \mathbf{v}_t \sim \text{MVN}(0,\mathbf{R}) \\
+\mathbf{y}_t = \mathbf{Z}\mathbf{x}_t + \mathbf{a} +
+\mathbf{D}\mathbf{d}_t + \mathbf{v}_t \text{ where } \mathbf{v}_t \sim
+\text{MVN}(0,\mathbf{R}) \\
 \mathbf{x}_t = \mathbf{x}_{t-1}+\mathbf{w}_t \text{ where } \mathbf{w}_t
 \sim \text{MVN}(0,\mathbf{Q}) \\
 \end{gathered}
 \end{equation}\]</span></p>
 <p>This equation should look rather familiar as it is exactly the same
 form we used for estimating varying number of processes from a set of
-observations in Lesson II. The difference with DFA is that rather than
-fixing the elements within <span class="math inline">\(\mathbf{Z}\)</span> at 1 or 0 to indicate whether
+observations in earlier lessons. The difference with DFA is that rather
+than fixing the elements within <span class="math inline">\(\mathbf{Z}\)</span> at 1 or 0 to indicate whether
 an observation does or does not correspond to a trend, we will instead
 estimate them as “loadings” on each of the states/processes.</p>
 </div>
 <div id="sec-dfa-example1" class="section level1">
 <h1>Example of a DFA model</h1>
 <p>The general idea is that the observations <span class="math inline">\(\mathbf{y}\)</span> are modeled as a linear
-combination of hidden processes <span class="math inline">\(\mathbf{x}\)</span> and factor loadings <span class="math inline">\(\mathbf{Z}\)</span> plus some offsets <span class="math inline">\(\mathbf{a}\)</span>. Imagine a case where we had a
-data set with five observed time series (<span class="math inline">\(n =
-5\)</span>) and we want to fit a model with three hidden processes
-(<span class="math inline">\(m = 3\)</span>). If we write out our DFA
-model in MARSS matrix form, the observation equation would look like</p>
+combination of covariates <span class="math inline">\(\mathbf{Dd}_t\)</span>, hidden processes <span class="math inline">\(\mathbf{x}\)</span> and factor loadings <span class="math inline">\(\mathbf{Z}\)</span>, and some offsets <span class="math inline">\(\mathbf{a}\)</span>. Ignoring for now the
+effect(s) of covariates, imagine a case where we had a data set with
+five observed time series (<span class="math inline">\(n = 5\)</span>)
+and we want to fit a model with three hidden processes (<span class="math inline">\(m = 3\)</span>). If we write out our DFA model in
+MARSS matrix form, the observation equation would look like</p>
 <p><span class="math display">\[\begin{equation}
 \begin{bmatrix}
     y_{1} \\
