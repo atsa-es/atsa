@@ -176,7 +176,7 @@ dlm <- list(
   html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
   video = "https://youtu.be/Uxx2jK7heNE",
   youtube = "",
-  reading = c("Petris et al. (2009)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "Scheuerell & Williams (2005)"),
+  reading = c("[Petris et al. (2009)](Files/Petris_2009_DLMs_in_R.pdf)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[Scheuerell & Williams (2005)](Files/Scheuerell_2005_forecasting_SARs.pdf)"),
   instructor = "Mark"
 )
 ```
