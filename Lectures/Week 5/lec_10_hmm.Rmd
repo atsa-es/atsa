@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE,
                       message=FALSE, results='hide',
                       fig.align = 'center')
 library(ggplot2)
-library(atsar)
+#library(atsar)
 library(datasets)
 library(MARSS)
 library(dplyr)
