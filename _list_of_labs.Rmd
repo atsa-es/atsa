@@ -113,7 +113,7 @@ hmmlab <- fill.list(
   html = "https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.html",
   video = "",
   youtube = "",
-  data = "",
+  data = "[stoplight](https://atsa-es.github.io/atsa/Labs/Week%205/stoplight.csv)",
   homework = "Lab write-up #4: Hidden Markov Models. [Rmd](https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.Rmd), [html](https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.html)",
   key = "",
   instructor = "Eric",
