@@ -107,14 +107,14 @@ dfalab <- fill.list(
 ```{r hmmlab}
 hmmlab <- fill.list(
   title = "Hidden Markov Models",
-  topics = c("HMMs", "Mixed Models"),
+  topics = c("HMMs"),
   pdf = "",
   rmd = "",
-  html = "https://atsa-es.github.io/atsa/Labs/Week%204/Lab4_hmm.html",
+  html = "https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.html",
   video = "",
   youtube = "",
   data = "",
-  homework = "Lab write-up #4: Hidden Markov Models. [Rmd](https://atsa-es.github.io/atsa/Labs/Week 4/Lab4_hmm.Rmd), [html](https://atsa-es.github.io/atsa/Labs/Week%204/Lab4_hmm.html)",
+  homework = "Lab write-up #4: Hidden Markov Models. [Rmd](https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.Rmd), [html](https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.html)",
   key = "",
   instructor = "Eric",
   hw_topics = c(""),
