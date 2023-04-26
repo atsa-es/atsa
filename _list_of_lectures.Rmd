@@ -202,7 +202,7 @@ HMMs <- list(
   topics = c("Hidden Markov models"),
   pdf = "",
   ppt = "",
-  rmd = "Lectures/Week 5/lec_10_hmm.Rmd",
+  rmd = c("Lectures/Week 5/lec_10_hmm.Rmd", "Lectures/Week 5/lec_10_hmm_inclass.Rmd"),
   html = "Lectures/Week 5/lec_10_hmm.html",
   video = "https://youtu.be/CqmAs3aPf_k",
   youtube = "",
