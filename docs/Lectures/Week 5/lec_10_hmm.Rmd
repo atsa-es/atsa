@@ -181,9 +181,9 @@ $$\Gamma =\left[ \begin{matrix} { \gamma  }_{ 11 } & { \gamma  }_{ 12 } & { \gam
 # initial state
 x <- sample(1:2, size=1)
 # transition matrix
-Gamma = matrix(c(0.9,0.1,0.2,0.8),2,2)
+Gamma <- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
-  x[t] <- sample(1:2, size=1,prob = Gamma[x[t-1],])
+  x[t] <- sample(1:2, size = 1, prob = Gamma[x[t-1],])
 }
 ```
 
