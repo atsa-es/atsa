@@ -21,7 +21,7 @@
       // Slide settings
       settings: {
                 title: 'An introduction to hidden markov models for time series',
-                        subtitle: 'FISH 555 – Applied Time Series Analysis',
+                        subtitle: 'FISH 550 – Applied Time Series Analysis',
                 useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -3358,9 +3358,9 @@ letter-spacing: 0;
 <pre class = 'prettyprint lang-r'># initial state
 x &lt;- sample(1:2, size=1)
 # transition matrix
-Gamma = matrix(c(0.9,0.1,0.2,0.8),2,2)
+Gamma &lt;- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
-  x[t] &lt;- sample(1:2, size=1,prob = Gamma[x[t-1],])
+  x[t] &lt;- sample(1:2, size = 1, prob = Gamma[x[t-1],])
 }</pre>
 
 </article></slide><slide class=""><hgroup><h2>HMMs theory</h2></hgroup><article  id="hmms-theory-1">
