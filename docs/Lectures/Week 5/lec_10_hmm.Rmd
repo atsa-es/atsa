@@ -119,7 +119,7 @@ Lots of non-HMM approaches for detecting regimes
 ```{r}
 set.seed(123)
 state = 1
-probs = matrix(c(0.95,0.05,0.05,0.95),2,2)
+probs = matrix(c(0.95, 0.05, 0.05, 0.95), 2, 2)
 for(i in 2:100) {
   state[i] = sample(c(1,2), prob = probs[state[i-1],])
 }
@@ -179,7 +179,7 @@ $$\Gamma =\left[ \begin{matrix} { \gamma  }_{ 11 } & { \gamma  }_{ 12 } & { \gam
 
 ```{r echo=TRUE, eval=FALSE}
 # initial state
-x <- sample(1:2, size=1)
+x <- sample(1:2, size = 1)
 # transition matrix
 Gamma <- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
@@ -191,13 +191,13 @@ for(t in 2:100) {
 
 ```{r echo=FALSE}
 # initial state
-x <- sample(1:2, size=1)
+x <- sample(1:2, size = 1)
 # transition matrix
-Gamma = matrix(c(0.9,0.1,0.2,0.8),2,2)
+Gamma <- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
-  x[t] <- sample(1:2, size=1,prob = Gamma[x[t-1],])
+  x[t] <- sample(1:2, size = 1, prob = Gamma[x[t-1],])
 }
-df = data.frame("Time"=1:100, "x"=x)
+df <- data.frame("Time" = 1:100, "x" = x)
 
 ggplot(df, aes(Time, x)) + geom_line(col="darkblue") + 
   geom_point(col="darkblue") + 
@@ -257,15 +257,15 @@ ggplot(df, aes(time,y,group=par,col=par)) + geom_line() + ylab("Gamma") + xlab("
 
 ```{r echo=TRUE, eval=FALSE}
 # initial state
-x <- sample(1:2, size=1)
+x <- sample(1:2, size = 1)
 # transition matrix
-Gamma = matrix(c(0.9,0.1,0.2,0.8),2,2)
+Gamma <- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
   Gamma[1,2] = plogis(logit(0.1) + 0.015*t)
   Gamma[1,1] = 1 - Gamma[1,2]
   Gamma[2,1] = plogis(logit(0.2) + 0.015*t)
   Gamma[2,2] = 1 - Gamma[2,1]
-  x[t] <- sample(1:2, size=1,prob = Gamma[x[t-1],])
+  x[t] <- sample(1:2, size = 1,prob = Gamma[x[t-1],])
 }
 ```
 
@@ -274,17 +274,17 @@ for(t in 2:100) {
 ```{r echo=FALSE}
 
 # initial state
-x <- sample(1:2, size=1)
+x <- sample(1:2, size = 1)
 # transition matrix
-Gamma = matrix(c(0.9,0.1,0.2,0.8),2,2)
+Gamma <- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
   Gamma[1,2] = plogis(logit(0.1) + 0.015*t)
   Gamma[1,1] = 1 - Gamma[1,2]
   Gamma[2,1] = plogis(logit(0.2) + 0.015*t)
   Gamma[2,2] = 1 - Gamma[2,1]
-  x[t] <- sample(1:2, size=1,prob = Gamma[x[t-1],])
+  x[t] <- sample(1:2, size = 1, prob = Gamma[x[t-1],])
 }
-df = data.frame("Time"=1:100, "x"=x)
+df = data.frame("Time" = 1:100, "x" = x)
 ggplot(df, aes(Time, x)) + geom_line(col="darkblue") + 
   geom_point(col="darkblue") + 
   theme_bw()
@@ -313,9 +313,9 @@ ggplot(df, aes(Time, x)) + geom_line(col="darkblue") +
 # initial state
 x <- sample(1:2, size=1)
 # transition matrix
-Gamma = matrix(c(0.9,0.1,0.2,0.8),2,2)
+Gamma <- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
-  x[t] <- sample(1:2, size=1,prob = Gamma[x[t-1],])
+  x[t] <- sample(1:2, size = 1, prob = Gamma[x[t-1],])
 }
 
 u = c(1.2, 5.4)
@@ -326,11 +326,11 @@ y = rnorm(length(x), u[x], 1)
 
 ```{r echo=FALSE}
 # initial state
-x <- sample(1:2, size=1)
+x <- sample(1:2, size = 1)
 # transition matrix
-Gamma = matrix(c(0.9,0.1,0.2,0.8),2,2)
+Gamma <- matrix(c(0.9, 0.1, 0.2, 0.8), 2, 2, byrow = TRUE)
 for(t in 2:100) {
-  x[t] <- sample(1:2, size=1,prob = Gamma[x[t-1],])
+  x[t] <- sample(1:2, size = 1,prob = Gamma[x[t-1],])
 }
 
 u = c(1.2, 5.4)
@@ -540,7 +540,7 @@ fitmod = fit(mod)
 ```
 
 ```{r echo=FALSE, results='asis'}
-Gamma = matrix(0,2,2)
+Gamma = matrix(0, 2, 2)
 Gamma[1,] = fitmod@transition[[1]]@parameters$coefficients
 Gamma[2,] = fitmod@transition[[2]]@parameters$coefficients
 rownames(Gamma) = c("From_1","From_2")
@@ -557,7 +557,7 @@ fitmod = fit(mod)
 ```
 
 ```{r echo=FALSE, results='markdown'}
-Gamma = matrix(0,2,2)
+Gamma = matrix(0, 2, 2)
 Gamma[1,] = fitmod@transition[[1]]@parameters$coefficients
 Gamma[2,] = fitmod@transition[[2]]@parameters$coefficients
 rownames(Gamma) = c("From_1","From_2")
