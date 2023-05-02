@@ -202,7 +202,8 @@ non-linear smooths (GAMs), etc.
 
 ```{r, echo=TRUE, eval=FALSE}
 brms::brm(y ~ x * z + (1|group), data=d)
-brms::brm(y01 ~ x * z + (1|group), data=d, family = binomial("logit"))
+brms::brm(y01 ~ x * z + (1|group), data=d, 
+          family = binomial("logit"))
 brms::brm(bf(y ~ s(x)), data=d)
 ```
 * smooths can also be of 2-d models (e.g. spatial models)
@@ -214,7 +215,8 @@ brms::brm(bf(y ~ s(x)), data=d)
 ```{r, echo=TRUE, eval=FALSE}
 data("LakeHuron")
 LakeHuron <- as.data.frame(LakeHuron)
-fit <- brm(x ~ arma(p = 2, q = 1), data = LakeHuron)
+fit <- brm(x ~ arma(p = 2, q = 1), 
+           data = LakeHuron)
 ```
 * also includes spatial models (car, sar)
 * does not include these in the context of state space models
@@ -243,7 +245,8 @@ lm_fit = brms::brm(log(airmiles) ~ year, data=df)
 * Question: how would we change the code to be an AR(1) model?
 
 ```{r echo=TRUE, warning=FALSE, message=FALSE, results="hide", cache=TRUE}
-lm_ar= brms::brm(log(airmiles) ~ arma(p = 1, q = 0), data=df)
+lm_ar= brms::brm(log(airmiles) ~ arma(p = 1, q = 0), 
+                 data=df)
 ```
 
 * Defaults to 4 MCMC chains, 2000 iterations, 1000 burn-in
@@ -301,8 +304,10 @@ These plots only the tip of the iceberg for plotting. For more great examples of
 
 * We'll need to install these packages to run Stan,  
 ```{r, eval=FALSE, echo=TRUE}
-install.packages("rstan", repos = "https://cloud.r-project.org")
-install.packages("devtools", repos = "https://cloud.r-project.org")
+install.packages("rstan", 
+                 repos = "https://cloud.r-project.org")
+install.packages("devtools", 
+                 repos = "https://cloud.r-project.org")
 ```
 
 * And then we can install our custom package for the class with bundled Stan time series models
@@ -362,8 +367,10 @@ rw = fit_stan(y = neon$oxygen,
 rw = fit_stan(y = neon$oxygen, 
               est_drift = FALSE, 
               model_name = "rw",
-              mcmc_list = list(n_mcmc = 2000, n_burn = 500, 
-                               n_chain = 3, n_thin = 1)) 
+              mcmc_list = list(n_mcmc = 2000, 
+              n_burn = 500, 
+              n_chain = 3, 
+              n_thin = 1)) 
 ```
 
 ## 'atsar' package: univariate state space models
@@ -383,7 +390,8 @@ We can first run the model with $\phi$,
 ```{r cache=TRUE, echo=TRUE}
 ss_ar = fit_stan(y = neon$oxygen, 
         est_drift=FALSE, model_name = "ss_ar",
-        mcmc_list = list(n_mcmc = 2000, n_chain = 1, n_thin = 1,n_burn=1000))
+        mcmc_list = list(n_mcmc = 2000, n_chain = 1, 
+                         n_thin = 1,n_burn=1000))
 ```
 
 then without,
@@ -391,7 +399,8 @@ then without,
 ```{r cache=TRUE, echo=TRUE}
 ss_rw = fit_stan(y = neon$oxygen, 
         est_drift=FALSE, model_name = "ss_rw",
-        mcmc_list = list(n_mcmc = 2000, n_chain = 1, n_thin = 1,n_burn=1000))
+        mcmc_list = list(n_mcmc = 2000, n_chain = 1, 
+                         n_thin = 1,n_burn=1000))
 ```
 
 
