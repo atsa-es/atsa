@@ -1,0 +1,161 @@
+---
+title: "Bayesian stan exercises"
+output:
+  html_document: default
+  pdf_document: default
+date: "2023-05-02"
+---
+
+## Fitting a univariate model in Stan
+
+The `atsar` package contains a bunch of bundled Stan files for fitting univariate state space models in Stan, for those who want to try those methods. There's also a bunch of options that we didn't talk about in class, but can explore those in more detail here.
+
+As a first example, we'll use the MARSS gray whale dataset.
+
+```{r}
+library(ggplot2)
+library(shinystan)
+library(rstan)
+library(broom.mixed)
+library(bayesplot)
+```
+
+```{r}
+whale <- as.data.frame(MARSS::graywhales)
+
+ggplot(whale, aes(Year,Count)) + 
+  geom_point() + geom_smooth()
+```
+
+An interesting question might be whether we can fit a Gompertz a population model and estimate the long term trend. To do this, we'll use the `atsar` package.
+
+```{r warning=FALSE, message=FALSE}
+remotes::install_github("atsa-es/atsar")
+```
+
+It might be helpful to look at the documentation to see what kind of univariate models are available,
+
+```{r}
+?atsar::fit_stan
+```
+
+For the whale example, let's start with the `ss_rw` model, a state space univariate model. We will fit the model in log-space and estimate drift.
+
+```{r}
+library(atsar)
+```
+
+We will start with a few hundred samples (normally you want the burn in period to be 1000-2000)
+
+```{r message=FALSE, warning=FALSE, results='hide'}
+set.seed(123)
+fit <- fit_stan(y = log(whale$Count),
+                model_name = "ss_rw",
+                est_drift = TRUE,
+                list(n_mcmc = 500, 
+                     n_burn = 100, 
+                     n_chain = 3))
+```
+
+Now let's look at the R-hat values. Generally we want these to be \< 1.1. Does it look like the model converges ok?
+
+```{r}
+fit
+```
+
+It might be good to look at the posterior plots with ShinyStan. Specifically, let's look at the posterior distributions and trace plots of the two variance parameters. Ask:
+
+-   are posterior distributions multi-modal?
+
+-   do MCMC trace plots look stationary?
+
+```{r}
+library(shinystan)
+shinystan::launch_shinystan(fit)
+```
+
+Let's try to look at the posterior of the trend -- is it generally overlapping 0? Do you think the drift term should be kept in the model or not?
+
+```{r}
+pars <- as.data.frame(rstan::extract(fit))
+
+ggplot(pars, aes(mu)) + 
+  geom_histogram()
+```
+
+### Can we estimate density dependence?
+
+Density dependence is commonly interpreted as the autoregression term,
+
+$$
+x_t = \phi*x_{t-1}+\mu+d_t; d_t \sim N(0,\sigma)
+$$
+
+We can estimate the autoregression term by changing our model to `ss_ar` ,
+
+```{r message=FALSE, warning=FALSE}
+set.seed(123)
+```
+
+```{r message=FALSE, warning=FALSE, results='hide'}
+fit2 <- fit_stan(y = log(whale$Count),
+                model_name = "ss_ar",
+                est_drift = TRUE,
+                list(n_mcmc = 500, 
+                     n_burn = 100, 
+                     n_chain = 3))
+```
+
+Questions:
+
+-   Did this model appear to converge? Why or why not?
+
+-   Does the `phi` parameter appear well estimated?
+
+-   Extract the states, and plot them with the original data. For bonus points, include 95% Credible intervals
+
+### Changing the family
+
+In the above model(s) and all of MARSS, we have been modeling log-transformed data. Instead, the Stan code allows us to easily change the family. Given that the original whale dataset consists of counts, let's try to change the family
+
+-   <div>
+
+    ```{r message=FALSE, warning=FALSE, results='hide'}
+    set.seed(123)
+    fit3 <- fit_stan(y = log(whale$Count),
+                    model_name = "ss_rw",
+                    est_drift = TRUE,
+                    list(n_mcmc = 500, 
+                         n_burn = 100, 
+                         n_chain = 3),
+                    family="poisson")
+    ```
+
+    </div>
+
+Questions:
+
+-   How do the estimates of the trend differ between this approach
+
+-   Calculate the correlation between the mean state estimates in this model, versus the model we used initially (`fit`). The Poisson model uses a log-link -- and so the predicted states are in log-space. Is this relationship expected?
+
+### Bonus
+
+1.  If you want to look at the source code (in Stan) for any of the above models, you can do something like this
+
+```{r}
+cat( get_stancode(fit) ) # cat makes this readable
+
+```
+
+2.  Play with broom.mixed -- this is often a more efficient way to extract things like predicted values or parameter estimates,
+
+```{r}
+broom.mixed::tidy(fit, pars="pred")
+```
+
+3.  Make some alternative plots of distributions and traceplots using `bayesplot`. For example,
+
+```{r}
+bayesplot::mcmc_hist_by_chain(fit, pars = "sigma_obs")
+```
