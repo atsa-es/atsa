@@ -141,13 +141,11 @@ Questions:
 
 ### Bonus
 
-1.  If you want to look at the source code (in Stan) for any of the above models, you can do something like this
+1.  Fit MARSS models to any of the above, and plot the state estimates versus the estimates from the Stan models. How similar are they?
 
-```{r}
-cat( get_stancode(fit) ) # cat makes this readable
-
+```{=html}
+<!-- -->
 ```
-
 2.  Play with broom.mixed -- this is often a more efficient way to extract things like predicted values or parameter estimates,
 
 ```{r}
@@ -159,3 +157,12 @@ broom.mixed::tidy(fit, pars="pred")
 ```{r}
 bayesplot::mcmc_hist_by_chain(fit, pars = "sigma_obs")
 ```
+
+4.  If you want to look at the source code (in Stan) for any of the above models, you can do something like this
+
+```{r}
+cat( get_stancode(fit) ) # cat makes this readable
+
+```
+
+2.  
