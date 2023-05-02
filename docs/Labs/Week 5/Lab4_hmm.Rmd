@@ -3,15 +3,15 @@ title: "Hidden Markov Models"
 author: "Eric Ward"
 date: "Due Tues May 9 11:59 PM PDT"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
   html_document:
     theme: cosmo
     highlight: textmate
     toc: yes
     toc_float: yes
     toc_depth: 3
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
 editor_options: 
   markdown: 
     wrap: 72
