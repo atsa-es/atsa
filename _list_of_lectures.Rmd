@@ -236,7 +236,7 @@ bayes2 <- list(
   html = c("Lectures/Week 6/lec_12_bayes2.html","Lectures/Week 6/lec_12_inclass.html"),
   video = "https://youtu.be/ZO_S7uo_nVg",
   youtube = "",
-  reading = "[Stan manual](https://mc-stan.org/users/documentation/)",
+  reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[bayesdfa example](https://fate-ewi.github.io/bayesdfa/articles/a1_bayesdfa.html)"),
   instructor = "Eric"
 )
 ```
