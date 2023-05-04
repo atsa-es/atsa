@@ -1,7 +1,7 @@
 ---
 title: "Fitting multivariate Bayesian time series models"
 author: "Eric Ward"
-date: "4 May 202"
+date: "4 May 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
