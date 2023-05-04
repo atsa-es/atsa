@@ -1,0 +1,119 @@
+---
+title: "Bayesian stan exercises"
+output:
+  html_document: default
+  pdf_document: default
+date: "2023-05-02"
+---
+
+## Fitting a Bayesian DFA model
+
+We are going to work with the `bayesdfa` package (<https://fate-ewi.github.io/bayesdfa/>) and practice fitting some Bayesian models. We'll work with the stoplight chart data that we used in lab.
+
+```{r}
+devtools::install_github("fate-ewi/bayesdfa")
+library(bayesdfa)
+```
+
+1. Practice simulating data
+
+```{r}
+set.seed(1)
+sim_dat <- sim_dfa(
+  num_trends = 1,
+  num_years = 20,
+  num_ts = 3
+)
+```
+
+The resulting object has the states in `x`, predicted values in `pred`, loadings in `Z` and simulated data with observation error in `y_sim`. 
+
+There's a number of arguments you can play with in `?sim_dfa`, but one we can manipulate is the loadings matrix (`loadings_matrix`), which is dimensioned as number of time series by number of trends. 
+
+```{r}
+loadings <- matrix(c(1.1, 0.0, 0.2, 0.03, -0.5, 0.1), nrow = 3, ncol = 2)
+set.seed(1)
+sim_dat <- sim_dfa(
+  num_trends = 2,
+  num_years = 20,
+  num_ts = 3,
+  loadings_matrix = loadings
+)
+```
+
+Plot the states and predicted time series -- do these results make sense?  
+
+2. We'll return to using the `stoplight` dataset from our lab this week. Please pick a subset of time series to use, and fit a DFA model using the `fit_dfa` function. You're certainly welcome to use all time series -- but for simplicity, it might be better to restrict your choice to a smaller subset (3-5, maybe from the same group?). Initially let's fit a model with just a single trend
+
+```{r eval = FALSE}
+fit <- fit_dfa(...,
+               num_trends = 1,
+               iter=1000,
+               chains=1,
+               ...)
+```
+
+
+Some things to consider are:
+- are your data being passed in in `wide` or `long` format? (this is the `data_shape` argument)
+- did the model appear to converge? [Hint: you can look at the Rhat statistics, or use shinystan::launch_shinystan(fit)]
+
+3. Let's consider adding extreme events. We can do this by letting the trends be modeled as a random walk with Student-t, rather than Gaussian deviations. We turn on the estimation of `nu` from the Student-t with
+
+```{r eval = FALSE}
+fit <- fit_dfa(...,
+               num_trends = 1,
+               iter=1000,
+               chains=1,
+               estimate_nu = TRUE,
+               ...)
+```
+
+Did the model converge? Are you able to estimate the `nu` parameter well? If not, one trick is to manually fix `nu` and still fit the model with Student-t extremes, e.g.  
+
+```{r eval = FALSE}
+fit <- fit_dfa(...,
+               num_trends = 1,
+               iter=1000,
+               chains=1,
+               estimate_nu = FALSE,
+               nu_fixed = 5,
+               ...)
+```
+
+
+4. Next, we'll explore fitting smooth models that don't model trends as random walks. Let's try changing the `trend_model` argument to `ps` for penalized regression spline. This is also available in `mgcv::gam()` or `brms`. Other options are `bs` (B-splines) or `gp` (Gaussian process) models -- the `ps` and `bs` options tend to be quite a bit faster than the Gaussian process models.  
+
+```{r eval = FALSE}
+fit <- fit_dfa(...,
+               num_trends = 1,
+               iter=1000,
+               chains=1,
+               trend_model = "ps",
+               ...)
+```
+
+5. Increase the number of trends, and try to fit models with 1-3 trends. Do any of these appear to have convergence problems? 
+
+## Fitting a DFA model with marssTMB
+
+```{r}
+install.packages('marssTMB', repos = c('https://atsa-es.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Using your `stoplight` dataset above, fit a DFA model with marssTMB, https://atsa-es.github.io/marssTMB/reference/MARSS_tmb.html
+
+The basic function is just like MARSS,  
+
+```{r eval=FALSE}
+marssTMB::MARSStmb(...)
+```
+
+If you need help, you can look at the documentation
+
+```{r eval=FALSE}
+?MARSStmb
+```
+
+
+
