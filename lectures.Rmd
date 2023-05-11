@@ -47,11 +47,11 @@ week_lecs <- list(d1 = intro,
                   d13 = bayes,
                   d16 = bayes2, # project methods
                   d9 = model_inf,
-                  d6 = freqdomain, # lab
+                  d6 = review_session, # lab
                   d14 = spatial,
                   d18 = spatial2, # lab no hw
                   d17 = interactions1,
-                  d15 = tbd,
+                  d15 = freqdomain,
                   d19 = present1,
                   d20 = present2
 )

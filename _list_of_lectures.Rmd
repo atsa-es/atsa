@@ -518,3 +518,19 @@ uni_ss_tmb <- list(
   instructor = "Eli"
 )
 ```
+
+```{r review_session}
+review_session <- list(
+  title = "Review session",
+  topics = c("Review session"),
+  pdf = "",
+  ppt = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  reading = "",
+  instructor = "Mark & Eli"
+)
+```
+
