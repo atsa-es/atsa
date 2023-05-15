@@ -136,7 +136,7 @@ dlmlab <- fill.list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "Due May 16 Tues 11:59 PM PDT; Post to GitHub"
+  hw_duedate = "Due May 23 Tues 11:59 PM PDT; Post to GitHub"
 )
 ```
 
