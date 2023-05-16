@@ -2,7 +2,7 @@
 title: "Time series analysis in the frequency domain"
 subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "11 May 2023"
+date: "25 May 2023"
 output:
   ioslides_presentation:
     css: lecture_slides.css
