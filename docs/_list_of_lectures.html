@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>List of Lectures</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
+<link rel="shortcut icon" href="favicon16x16.ico" type="image/x-icon">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="syllabus.html">Syllabus</a>
+</li>
+<li>
+  <a href="lectures.html">Lectures</a>
+</li>
+<li>
+  <a href="comp_labs.html">Computer Labs</a>
+</li>
+<li>
+  <a href="homework.html">Lab Write-ups</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Final Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="final_proj.html">Project details</a>
+    </li>
+    <li>
+      <a href="data_sets.html">Data sets</a>
+    </li>
+    <li>
+      <a href="review_guide.html">Peer review details</a>
+    </li>
+    <li>
+      <a href="student_pubs.html">Former projects</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="references.html">References</a>
+</li>
+<li>
+  <a href="https://github.com/atsa-es/fish550-2023/discussions">Post questions</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/atsa-es/atsa">
+    <span class="fa fa-brands fa-github"></span>
+     
+    
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">List of Lectures</h1>
+
+</div>
+
+
+<!-- week_lecs is defined in asyllabus.Rmd -->
+<pre class="r"><code>intro &lt;- list(
+  title = &quot;Intro to time series analysis&quot;,
+  topics = c(&quot;Course overview&quot;,
+             &quot;Properties of time series&quot;,
+             &quot;Data transformations&quot;,
+             &quot;Time series decomposition&quot;),
+  pdf = c(&quot;Lectures/Week 1/lec_00_class_overview.pdf&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.pdf&quot;),
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 1/lec_00_class_overview.Rmd&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.Rmd&quot;),
+  html = c(&quot;Lectures/Week 1/lec_00_class_overview.html&quot;, &quot;Lectures/Week 1/lec_01_intro_to_ts.html&quot;),
+  video = &quot;https://youtu.be/XeAN-zYhqGw&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)&quot;, &quot;[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)&quot;,&quot;[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)&quot; ),
+  instructor = &quot;Mark&quot;
+)</code></pre>
+<pre class="r"><code>ts_basics &lt;- list(
+  title = &quot;Stationarity &amp; introductory functions&quot;,
+  topics = c(&quot;Covariance &amp; correlation&quot;,
+             &quot;Autocorrelation &amp; Partial autocorrelation&quot;,
+             &quot;Cross correlation&quot;,
+             &quot;White noise&quot;,
+             &quot;Random walks&quot;,
+             &quot;Differencing&quot;),
+  pdf = &quot;Lectures/Week 1/lec_02_covariance_stationarity.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 1/lec_02_covariance_stationarity.Rmd&quot;,
+  html = &quot;Lectures/Week 1/lec_02_covariance_stationarity.html&quot;,
+  video = &quot;https://youtu.be/vwHqxe9eVMk&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)&quot;,&quot;[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)&quot;, &quot;[R script for class](lec_02_covariance_stationarity.R)&quot;),
+  instructor = &quot;Mark&quot;
+)</code></pre>
+<pre class="r"><code>arma_basics &lt;- list(
+  title = &quot;Intro to ARMA models&quot;,
+  topics = c(&quot;Autoregressive (AR) models&quot;,
+             &quot;Moving average (MA) models&quot;,
+             &quot;Stationary AR models&quot;,
+             &quot;Invertible MA models&quot;,
+             &quot;Using ACF &amp; PACF for model ID&quot;),
+  pdf = &quot;Lectures/Week 2/lec_03_ARMA_models.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 2/lec_03_ARMA_models.Rmd&quot;,
+  html = &quot;Lectures/Week 2/lec_03_ARMA_models.html&quot;,
+  video = &quot;https://youtu.be/IgX9Bpu3ggc&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)&quot;,&quot;[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)&quot;, &quot;[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)&quot;),
+  instructor = &quot;Mark&quot;
+)</code></pre>
+<pre class="r"><code>forecast &lt;- list(
+  title = &quot;Box-Jenkins Method&quot;,
+  topics = c(&quot;Box-Jenkins method&quot;, &quot;Forecasting with ARIMA models&quot;, &quot;Seasonal ARIMA models&quot;),
+  pdf = c(&quot;Lectures/Week 2/lec_04_Box-Jenkins.html&quot;),
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 2/lec_04_Box-Jenkins.html&quot;),
+  html = c(&quot;Lectures/Week 2/lec_04_Box-Jenkins.html&quot;),
+  video = c(&quot;https://youtu.be/xnwkWkS6rJE&quot;, &quot;https://youtu.be/ZpWQ_03QGUU&quot;, &quot;https://youtu.be/6yhVagr2hJc&quot;),
+  youtube = &quot;&quot;,
+  reading = c(&quot;[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)&quot;,&quot;[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)&quot;, &quot;[CM09: Chap 7.1-7.2](Files/Introductory_Time_Series_With_R.pdf)&quot;, &quot;CM not as useful this week&quot;, &quot;[Video 1 2021](https://youtu.be/ML1l4Zk_5Vo)&quot;, &quot;[Video 2 2021](https://youtu.be/HOVDmx_juMk)&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>uni_ss &lt;- list(
+  title = &quot;Univariate state-space models&quot;,
+  topics = c(&quot;Univariate state-space models&quot;),
+  pdf = c(&quot;Lectures/Week 3/lec_05_univariate_state_space.pdf&quot;),
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 3/lec_05_univariate_state_space.Rmd&quot;),
+  html = c(&quot;Lectures/Week 3/lec_05_univariate_state_space.html&quot;),
+  video = &quot;https://youtu.be/-G_ejXMzEWw&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)&quot;, 
+            &quot;Additional background resources&quot;,
+              &quot;[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;,
+              &quot;[MARSS function](Lectures/Week 3/MARSS_function.html)&quot;,&quot;[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)&quot;, &quot;[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)&quot;, &quot;Scripts are in the class repo&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>marss &lt;- list(
+  title = &quot;Multivariate state-space models&quot;,
+  topics = c(&quot;Introduction to multivariate state-space models&quot;),
+  pdf = c(&quot;Lectures/Week 3/lec_06_marss.pdf&quot;),
+  ppt = &quot;Lectures/Week 3/lec_06_marss.ppt&quot;,
+  rmd = c(&quot;&quot;),
+  html = c(&quot;&quot;),
+  video = &quot;https://youtu.be/4nrZZGMY1bc&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;,
+              &quot;[MARSS function](Lectures/Week 3/MARSS_function.html)&quot;,
+              &quot;[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)&quot;,
+              &quot;[uni_example_0.R](Lectures/Week 3/univariate_example_0.R)&quot;,
+              &quot;[marss_example_0.R](Lectures/Week 3/marss_example_0.R)&quot;,
+              &quot;[marss_example_0_with_comments.R](Lectures/Week 3/marss_example_0_with_comments.R)&quot;,
+              &quot;[marss_example_1.R](Lectures/Week 3/marss_example_1.R)&quot;,
+              &quot;[marss_example_2.R](Lectures/Week 3/marss_example_2.R)&quot;,
+              &quot;[marss_example_3.R](Lectures/Week 3/marss_example_3.R)&quot;,
+              &quot;[marss_example_4.R](Lectures/Week 3/marss_example_4.R)&quot;,
+              &quot;[marss_example_5.R](Lectures/Week 3/marss_example_5.R)&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>marss_covariates &lt;- list(
+  title = &quot;Covariates in MARSS models&quot;,
+  topics = c(&quot;MARSSX and ARMAX models&quot;,
+             &quot;Seasonal effects&quot;,
+             &quot;Missing covariates&quot;),
+  pdf = c(&quot;Lectures/Week 4/lec_07_covariates.pdf&quot;),
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 4/lec_07_covariates.Rmd&quot;),
+  html = c(&quot;Lectures/Week 4/lec_07_covariates.html&quot;),
+  video = &quot;https://youtu.be/2Jb5pzgtuH0&quot;,
+  youtube = &quot;&quot;,
+  reading = c(
+    &quot;[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)&quot;,
+    &quot;[MARSS Models HWS18a: Chap 8](https://atsa-es.github.io/atsa-labs/chap-msscov.html)&quot;,
+    &quot;[Missing Covariates HWS18a: Chap 11](https://atsa-es.github.io/atsa-labs/chap-mssmiss.html)&quot;,
+    &quot;[HA18: Chap 5](https://otexts.com/fpp2/regression.html)&quot;,
+    &quot;[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)&quot;, 
+    &quot;[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>dfa &lt;- list(
+  title = &quot;Dynamic Factor Analysis&quot;,
+  topics = &quot;Dynamic factor analysis (DFA)&quot;,
+  pdf = &quot;Lectures/Week 4/lec_08_intro_to_DFA.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 4/lec_08_intro_to_DFA.Rmd&quot;,
+  html = &quot;Lectures/Week 4/lec_08_intro_to_DFA.html&quot;,
+  video = &quot;https://youtu.be/LVlo8I0PdPA&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)&quot;, &quot;[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)&quot;, &quot;[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)&quot;, &quot;[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;),
+  instructor = &quot;Mark&quot;
+)</code></pre>
+<pre class="r"><code>dlm &lt;- list(
+  title = &quot;Dynamic Linear Models&quot;,
+  topics = c(&quot;Dynamic linear models (DLMs)&quot;),
+  pdf = &quot;Lectures/Week 5/lec_09_intro_to_DLMs.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 5/lec_09_intro_to_DLMs.Rmd&quot;,
+  html = &quot;Lectures/Week 5/lec_09_intro_to_DLMs.html&quot;,
+  video = &quot;https://youtu.be/Uxx2jK7heNE&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Petris et al. (2009)](Files/Petris_2009_DLMs_in_R.pdf)&quot;, &quot;[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;, &quot;[Scheuerell &amp; Williams (2005)](Files/Scheuerell_2005_forecasting_SARs.pdf)&quot;),
+  instructor = &quot;Mark&quot;
+)</code></pre>
+<pre class="r"><code>dlm2 &lt;- list(
+  title = &quot;Multivariate dynamic linear models&quot;,
+  topics = c(&quot;Multivariate dynamic linear models (DLMs)&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
+  instructor = &quot;Mark&quot;
+)</code></pre>
+<pre class="r"><code>HMMs &lt;- list(
+  title = &quot;Hidden Markov models&quot;,
+  topics = c(&quot;Hidden Markov models&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 5/lec_10_hmm.Rmd&quot;, &quot;Lectures/Week 5/lec_10_hmm_inclass.Rmd&quot;),
+  html = &quot;Lectures/Week 5/lec_10_hmm.html&quot;,
+  video = &quot;https://youtu.be/CqmAs3aPf_k&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)&quot;, &quot;[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>bayes &lt;- list(
+  title = &quot;Bayesian estimation: univariate models&quot;,
+  topics = c(&quot;Bayesian estimation of time-series and state-space models&quot;,&quot;Stan&quot;),
+  ppt = &quot;&quot;,
+  pdf = &quot;Lectures/Week 6/lec_11_bayes.pdf&quot;,
+  rmd = c(&quot;Lectures/Week 6/lec_11_bayes.Rmd&quot;, &quot;Lectures/Week 6/lec_11_inclass.Rmd&quot;),
+  html = c(&quot;Lectures/Week 6/lec_11_bayes.html&quot;, &quot;Lectures/Week 6/lec_11_inclass.html&quot;),
+  video = &quot;https://youtu.be/PzMFjO1sjEo&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Stan manual](https://mc-stan.org/users/documentation/)&quot;, &quot;[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)&quot;, &quot;[mcmc intro](https://livefreeordichotomize.com/2017/10/14/mcmc-and-the-case-of-the-spilled-seeds/)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>bayes2 &lt;- list(
+  title = &quot;Bayesian estimation: multivariate models&quot;,
+  topics = c(&quot;MAP estimation&quot;, &quot;Multivariate models&quot;, &quot;DFA&quot;, &quot;Writing Bayesian models in Stan&quot;),
+  pdf = &quot;Lectures/Week 6/lec_12_bayes2.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 6/lec_12_bayes2.Rmd&quot;,&quot;Lectures/Week 6/lec_12_inclass.Rmd&quot;),
+  html = c(&quot;Lectures/Week 6/lec_12_bayes2.html&quot;,&quot;Lectures/Week 6/lec_12_inclass.html&quot;),
+  video = &quot;https://youtu.be/ZO_S7uo_nVg&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Stan manual](https://mc-stan.org/users/documentation/)&quot;, &quot;[bayesdfa example](https://fate-ewi.github.io/bayesdfa/articles/a1_bayesdfa.html)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>model_inf &lt;- list(
+  title = &quot;Multi-model inference&quot;,
+  topics = c(&quot;Multi-model inference and selection&quot;,
+             &quot;Information criteria&quot;,
+             &quot;Cross-validation &amp; LOOIC&quot;),
+  pdf = &quot;Lectures/Week 7/lec_13_modelselection.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 7/lec_13_modelselection.Rmd&quot;,
+  html = &quot;Lectures/Week 7/lec_13_modelselection.html&quot;,
+  video = &quot;https://youtu.be/Z-kIEMqGD-c&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;See list of references in the lecture&quot;, &quot;[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)&quot;, &quot;[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)&quot;,&quot;[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>freqdomain &lt;- list(
+  title = &quot;Frequency domain methods&quot;,
+  topics = c(&quot;Frequency domain&quot;,
+             &quot;Fourier transforms&quot;,
+             &quot;Spectral analysis&quot;,
+             &quot;Wavelet analysis&quot;),
+  pdf = &quot;Lectures/Week 8/lec_16_freq_domain.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 8/lec_16_freq_domain.Rmd&quot;,
+  html = &quot;Lectures/Week 8/lec_16_freq_domain.html&quot;,
+  video = &quot;https://youtu.be/XCnHQve-Tmk&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)&quot;, &quot;[Percival &amp; Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)&quot;),
+  instructor = &quot;Mark&quot;
+)</code></pre>
+<pre class="r"><code>spatial &lt;- list(
+  title = &quot;Spatial and spatio-temporal models I&quot;,
+  topics = c(&quot;Spatial and spatio-temporal models&quot;),
+  pdf = c(&quot;&quot;),
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 9/lec_17_spatiotemporal.Rmd&quot;),
+  html = c(&quot;Lectures/Week 9/lec_17_spatiotemporal.html&quot;),
+  video = &quot;https://youtu.be/5ODu7D9DbNw&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[River spatial models](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ele.12084)&quot;, &quot;[River spatial 2](https://www.researchgate.net/profile/Jay-Ver-Hoef/publication/227369314_A_Moving_Average_Approach_for_Spatial_Statistical_Models_of_Stream_Networks/links/5f9820d6299bf1b53e49aa00/A-Moving-Average-Approach-for-Spatial-Statistical-Models-of-Stream-Networks.pdf)&quot;, &quot;[River spatial 3](https://www.fs.fed.us/rm/pubs_other/rmrs_2014_issak_d001.pdf)&quot;),
+  #reading = c(&quot;[GitHub folder with code](https://github.com/atsa-es/atsa/tree/master/Lectures/Week%209)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>spatial2 &lt;- list(
+  title = &quot;Spatial and spatio-temporal models II&quot;,
+  topics = c(&quot;Spatial and spatio-temporal models&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 9/lec_18_spatiotemporal.Rmd&quot;, &quot;Lectures/Week 9/lec_19_sdmtmb.Rmd&quot;, &quot;Lectures/Week 9/lec_19_exercise.Rmd&quot;),
+  html = c(&quot;Lectures/Week 9/lec_18_spatiotemporal.html&quot;,
+           &quot;Lectures/Week 9/lec_19_sdmtmb.html&quot;,
+           &quot;Lectures/Week 9/lec_19_exercise.html&quot;),
+  video = &quot;https://youtu.be/hnJnm-vCar8&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>tbd &lt;- list(
+  title = &quot;TBD&quot;,
+  topics = c(&quot;&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  instructor = &quot;TBD&quot;
+)</code></pre>
+<pre class="r"><code>present1 &lt;- list(
+  title = &quot;Student presentations&quot;,
+  topics = c(&quot;Student presentations&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
+  instructor = &quot;&quot;
+)</code></pre>
+<pre class="r"><code>present2 &lt;- list(
+  title = &quot;Student presentations&quot;,
+  topics = c( &quot;Student presentations&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
+  instructor = &quot;&quot;
+)</code></pre>
+<pre class="r"><code>zeros &lt;- list(
+  title = &quot;Zero-inflated data&quot;,
+  topics = c(&quot;Zero-inflated data&quot;,&quot;Perturbation analysis&quot;,&quot;outliers&quot;,&quot;standardized residuals&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = &quot;&quot;,
+  #reading = c(&quot;[O&#39;hara and Kotze 2010](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.2041-210X.2010.00021.x)&quot;,&quot;[Ekwaru et al. 2017](https://amstat.tandfonline.com/doi/abs/10.1080/19466315.2017.1369900?journalCode=usbr20#.XIe-RBNKiM4)&quot;,&quot;[HWS18a: Chap 12](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<!-- Not used in 2023 -->
+<pre class="r"><code>covariates &lt;- list(
+  title = &quot;Covariates in time-series models&quot;,
+  topics = c(&quot;Including covariates (predictors) in models&quot;,
+             &quot;Seasonal effects&quot;,
+             &quot;Missing covariates&quot;,
+             &quot;Colinearity&quot;, &quot;MARSSX and ARMAX&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = &quot;&quot;,
+  #reading = c(&quot;[HA18: Chap 5](https://otexts.com/fpp2/regression.html)&quot;,&quot;[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)&quot;, &quot;[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>perturb &lt;- list(
+  title = &quot;Perturbations and outliers&quot;,
+  topics = c(&quot;Perturbations&quot;,&quot;interventions&quot;,&quot;outliers&quot;,&quot;standardized residuals&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = &quot;&quot;,
+  #reading = &quot;[HWS18a: Chap 12](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;,
+  instructor = &quot;Eric/Eli&quot;
+)</code></pre>
+<pre class="r"><code>EDM &lt;- list(
+  title = &quot;Semi- and non-parametric models&quot;,
+  topics = c(&quot;Semi- and non-parametric models&quot;),
+  pdf = &quot;Lectures/Week 8/lec_15_semiparametric.pdf&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 8/lec_15_semiparametric.Rmd&quot;,
+  html = &quot;Lectures/Week 8/lec_15_semiparametric.html&quot;,
+  video = &quot;https://youtu.be/LN1XsC8DKPg&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Chang et al. 2017](https://link.springer.com/epdf/10.1007/s11284-017-1469-9?shared_access_token=uo6dSpx2HhqFSdKklUb91ve4RwlQNchNByi7wbcMAY46qf1ru5YtibpRTA9bGJJXdv8wOCFEurjER4XMpGuPd-QPKglrjNFUFLLw1xY5KfAWa2Ln-vHCv747UBEe-04n2oRgCUyZ0dONF9fk2aRo8j07QNwfnwGIhi71df0wnXA%3D)&quot;, &quot;[Sugihara and May](https://www.nature.com/articles/344734a0)&quot;, &quot;[rEDM Vignette](https://cran.r-project.org/web/packages/rEDM/vignettes/rEDM-tutorial.html)&quot;,&quot;[Intro to EDM, video](https://www.youtube.com/watch?v=fevurdpiRYg)&quot;,&quot;[EDM lecture](https://www.youtube.com/watch?v=6yq0VAriUIQ)&quot;, &quot;[EDM for beginners, review](https://link.springer.com/article/10.1007/s11284-017-1469-9)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>regvsss &lt;- list(
+  title = &quot;Regression versus State Space&quot;,
+  topics = c(&quot;Regression versus State Space&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = c(&quot;Lectures/Week 9/reg_vs_SS.Rmd&quot;),
+  html = c(&quot;Lectures/Week 9/reg_vs_SS.html&quot;),
+  video = &quot;https://youtu.be/lLuPMheNJic&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>ets &lt;- list(
+  title = &quot;Exponential smoothing models&quot;,
+  topics = c(&quot;Exponential smoothing models (ETS)&quot;, &quot;Crossvalidation tests&quot;, &quot;Forecasting with ETS models&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = &quot;&quot;,
+  #reading = c(&quot;[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)&quot;,&quot;[H18: Chap 4](https://fish-forecast.github.io/Fish-Forecast-Bookdown/4-exponential-smoothing-models.html)&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>interactions1 &lt;- list(
+  title = &quot;B Matrix&quot;,
+  topics = c(&quot;AR(p) Models&quot;, &quot;Estimating interaction strengths&quot;,
+             &quot;Gompertz models&quot;, &quot;Stability metrics&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;Lectures/Week 9/Old interactions lectures/Lec_16/Lec_16.Rmd&quot;,
+  html = &quot;Lectures/Week 9/Old interactions lectures/Lec_16/Lec_16.html&quot;,
+  video = &quot;https://youtu.be/p06tdo9JyWk&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[Hampton et al 2013](https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1890/13-0996.1)&quot;,&quot;[Ives et al 2003](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/0012-9615%282003%29073%5B0301%3AECSAEI%5D2.0.CO%3B2)&quot;,&quot;[HWS18a: Chap 14 &amp; 18](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)&quot;, &quot;[MAR Stability Metrics](https://github.com/mdscheuerell/marstab/blob/master/mar_stab_properties_text.pdf)&quot;,&quot;[AR(1) errors](https://atsa-es.github.io/atsa-labs/chap-noisy-sensors-.html)&quot;, &quot;[Mark&#39;s B estimation talk](https://github.com/mdscheuerell/mar_sims/blob/master/presentation/open_sci_summit_2020.pdf)&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>glm &lt;- list(
+  title = &quot;Generalized TS models&quot;,
+  topics = c(&quot;Time series models with non-Gaussian errors&quot;,
+             &quot;Non-normal response variables&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  reading = c(&quot;&quot;),
+  youtube = &quot;&quot;,
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>spat_cor &lt;- list(
+  title = &quot;Spatial correlation&quot;,
+  topics = c(&quot;Time series models with spatial autocorrelation&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = &quot;&quot;,
+  #reading = c(&quot;[GitHub Lec 18 Files](https://github.com/atsa-es/atsa/tree/master/Lectures/Week%209)&quot;),
+  instructor = &quot;Eric&quot;
+)</code></pre>
+<pre class="r"><code>uni_ss_tmb &lt;- list(
+  title = &quot;Univariate SS with Stan, Jags and TMB&quot;,
+  topics = c(&quot;Univariate state-space models&quot;, &quot;TMB&quot;, &quot;Bayesian&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = c(&quot;[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)&quot;, &quot;[Stan manual](https://mc-stan.org/users/documentation/)&quot;, &quot;[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)&quot;),
+  instructor = &quot;Eli&quot;
+)</code></pre>
+<pre class="r"><code>review_session &lt;- list(
+  title = &quot;Review session&quot;,
+  topics = c(&quot;Review session&quot;),
+  pdf = &quot;&quot;,
+  ppt = &quot;&quot;,
+  rmd = &quot;&quot;,
+  html = &quot;&quot;,
+  video = &quot;&quot;,
+  youtube = &quot;&quot;,
+  reading = &quot;&quot;,
+  instructor = &quot;Mark &amp; Eli&quot;
+)</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

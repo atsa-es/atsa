@@ -18,7 +18,7 @@ The labs for each week are listed on the [Computer Labs](comp_labs.html) tab. Th
 * Lab #3 Dynamic Factor Analysis. Due: May 2 Tues 11:59 PM PDT
 * Lab #4 Hidden Markov Models. Due: May 9 Tues 11:59 PM PDT
 * Lab #5 Turn in a draft of your [Project Methods](final_proj.html#Project_Methods). Due: Fri May 12 11:59pm PDT
-* Lab #6 Frequency domain methods. Due: Tues May 23 11:59pm PDT
+* Lab #6 Dynamic Linear Models. Due: Tues May 23 11:59pm PDT
 
 ## Lab write-up structure
 

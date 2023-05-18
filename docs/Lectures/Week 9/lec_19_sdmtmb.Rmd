@@ -1,0 +1,1005 @@
+---
+title: "Fitting spatial and spatiotemporal models"
+author: "Eric Ward"
+date: "16 May 2023"
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: FISH 550 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(tidyr)
+devtools::install_github("pbs-assess/sdmTMB")
+library(sdmTMB)
+```
+
+## Motivating questions
+
+* Data often have spatial attributes
+
+* Ideal world:
+  * Plug spatial covariates into a GLM / GLMM
+  * Residuals are uncorrelated  
+  
+```{r sim-rf-intro, echo=FALSE, fig.asp=0.4}
+set.seed(123)
+predictor_dat <- data.frame(
+  X = runif(300), Y = runif(300),
+  year = 1
+)
+mesh <- make_mesh(predictor_dat,
+  xy_cols = c("X", "Y"),
+  cutoff = 0.1
+)
+sim_dat <- sdmTMB_simulate(
+  formula = ~1,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh,
+  family = gaussian(link = "identity"),
+  range = 0.00001,
+  sigma_E = 0.1,
+  phi = 0.01,
+  sigma_O = 0.2,
+  seed = 3542,
+  B = c(0) # B0 = intercept
+)
+
+ggplot(sim_dat, aes(X, Y, col = observed)) +
+  geom_point(alpha = 0.7, size = 3) +
+  guides(col = guide_legend(title = "Residuals")) +
+  scale_color_gradient2()
+```
+
+## Reality
+  
+* Residual spatial autocorrelation
+
+```{r sim-rf-intro-cor, echo=FALSE, fig.asp=0.4}
+set.seed(123)
+predictor_dat <- data.frame(
+  X = runif(300), Y = runif(300),
+  year = 1
+)
+mesh <- make_mesh(predictor_dat,
+  xy_cols = c("X", "Y"),
+  cutoff = 0.1
+)
+sim_dat <- sdmTMB_simulate(
+  formula = ~1,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh,
+  family = gaussian(link = "identity"),
+  range = 0.25,
+  sigma_E = 0.1,
+  phi = 0.01,
+  sigma_O = 0.1,
+  seed = 3542,
+  B = c(0) # B0 = intercept
+)
+
+ggplot(sim_dat, aes(X, Y, col = observed)) +
+  geom_point(alpha=0.7, size=3) + 
+  guides(col=guide_legend(title="Residuals")) +
+  scale_color_gradient2()
+```
+
+## Modeling spatial autocorrelation
+
+* Need 'wiggly'/smooth surface for approximating all spatial variables missing from model ('latent' variables)
+
+* Several approaches exist
+  * 2D smooths in mgcv
+  * Random fields and the Stochastic Partial Differential Equation (SPDE)
+
+## Spatial smoothing with GAMs (mgcv)
+
+```{r gam-examples, eval=FALSE, echo=TRUE}
+gam(y ~ s(lon, lat) + s(time), ...)
+
+gam(y ~ s(lon, lat) + s(time) + 
+      ti(lon, lat, time, d=c(2,1)), ...)
+
+gam(y ~ s(lon, lat, by = "time") + 
+      s(time), ...)
+```
+
+## Spatial smoothing with SPDE (INLA, inlabru)
+
+* SPDE differs in that it explicitly estimates meaningful parameters for spatial covariance function
+
+* SPDE and GAMs can produce the identical results
+
+* Miller, D.L., Glennie, R. & Seaton, A.E. Understanding the Stochastic Partial Differential Equation Approach to Smoothing. JABES 25, 1–16 (2020)
+
+## Matérn covariance
+
+Flexible, can be exponential or Gaussian shape
+
+```{r matern-plot}
+x <- seq(from = 0, to = 1, length.out = 100)
+df <- data.frame(
+  x = rep(x, 4),
+  "nu" = sort(rep(c(0.5, 1.5, 2.5, 10), 100))
+)
+df$row <- seq(1, nrow(df))
+df <- dplyr::group_by(df, row) %>%
+  dplyr::mutate(
+    cov =
+      rSPDE::matern.covariance(h = x, kappa = 5, nu = nu, sigma = 1)
+  )
+df$nu <- as.factor(df$nu)
+# TODO INLA is fixed at...
+ggplot(df, aes(x, cov, col = nu, group = nu)) +
+  geom_line(size = 1.3, alpha = 0.8) +
+  theme_bw() +
+  xlab("Distance") +
+  ylab("Covariance") +
+  ggtitle("Matérn covariance") +
+  guides(col = guide_legend(title = expression(nu))) +
+  theme(text = element_text(size = 21)) +
+  coord_cartesian(expand = FALSE)
+```
+
+## Predictive process models 
+
+* Estimate spatial field as random effects 
+
+* High dimensional datasets computationally challenging
+
+* Gaussian process predictive process models:
+  * Estimate values at a subset of locations in the time series
+  *   'knots', 'vertices', or 'control points'
+  * Use covariance function to interpolate from knots to locations of observations
+
+## Predictive process models 
+
+* More knots (vertical dashed lines) = more wiggliness & parameters to estimate
+
+```{r show-gp, fig.height=4}
+x <- seq(1, 50)
+d <- as.matrix(dist(x, diag = TRUE))
+set.seed(123)
+df <- data.frame(
+  x = x,
+  true = c(spam::rmvnorm(1, mu = 0, Sigma = 1 * exp(-0.05 * d)))
+)
+df$y <- rnorm(df$true, df$true, 0.1)
+
+f1 <- mgcv::gam(y ~ s(x, k = 25, bs = "bs"), data = df)
+
+knots <- data.frame("x" = f1$smooth[[1]]$knots, ymin = 0, ymax = 1.0e10)
+g1 <- ggplot(df, aes(x, y)) +
+  geom_vline(data = knots, aes(xintercept = x), col = "grey20", size = 0.3, linetype = "dashed") +
+  geom_point(col = "red", alpha = 0.7) +
+  theme(panel.grid = element_blank()) +
+  xlab("") +
+  ylab("Observations") +
+  geom_smooth(
+    method = "gam",
+    formula = y ~ s(x, bs = "bs", k = 25)
+  ) +
+  coord_cartesian(xlim = c(0, 50))
+
+f2 <- mgcv::gam(y ~ s(x, k = 7, bs = "bs"), data = df)
+knots <- data.frame("x" = f2$smooth[[1]]$knots, ymin = 0, ymax = 1.0e10)
+
+g2 <- ggplot(df, aes(x, y)) +
+  geom_vline(data = knots, aes(xintercept = x), col = "grey20", size = 0.3, linetype = "dashed") +
+  geom_point(col = "red", alpha = 0.7) +
+  theme(panel.grid = element_blank()) +
+  xlab("") +
+  ylab("Observations") +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "gp", k = 7)) +
+  coord_cartesian(xlim = c(0, 50))
+gridExtra::grid.arrange(g1, g2, ncol = 1)
+```
+
+## Spatial data types
+
+* Lattice: gridded data, e.g. interpolated SST from satellite observations 
+
+--
+
+* Areal: data collected in neighboring spatial areas, e.g. commercial catch records by state / county
+
+--
+
+* Georeferenced: data where observations are associated with latitude and longitude 
+  * Locations may be unique or repeated (stations)
+
+
+## Why is space important? 
+
+* Data covary spatially (data that are closer are more similar)
+
+* Relationship between distance and covariance can be described with a spatial covariance function
+
+* Covariance function in 2D may be
+  * isotropic (same covariance in each direction)
+  * anisotropic (different in each direction)
+
+## What is a random field?
+
+```{r sim-rf-dat, message=FALSE, warning=FALSE}
+predictor_dat <- expand.grid(
+  x = seq(0, 1, length.out = 100),
+  y = seq(0, 1, length.out = 100),
+  year = seq_len(6)
+)
+mesh <- make_mesh(predictor_dat, xy_cols = c("x", "y"), cutoff = 0.05)
+sim_dat <- sdmTMB_simulate(
+  formula = ~1,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh,
+  family = gaussian(),
+  range = 0.5,
+  sigma_E = 0.2,
+  phi = 0.1,
+  sigma_O = NULL,
+  seed = 1,
+  B = 0
+)
+```
+
+```{r random-field-demo}
+ggplot(sim_dat, aes(x, y, fill = mu)) +
+  facet_wrap(vars(year)) +
+  geom_raster() +
+  scale_fill_gradient2() +
+  coord_fixed(expand = FALSE)
+```
+
+## Random field
+
+* A 2 dimensional "Gaussian Process"
+
+* A realization from a multivariate normal distribution with some covariance function
+
+## Random field
+
+* A way of estimating a wiggly surface to account for spatial and/or spatiotemporal correlation in data.
+
+* Alternatively, a way of estimating a wiggly surface to account for "latent" or unobserved variables.
+
+* As a bonus, it provides useful covariance parameter estimates: spatial variance and the distance at data points are effectively uncorrelated ("range")
+
+## Many ways to simulate random fields
+
+* `RandomFields::RFsimulate()` simulates univariate / multivariate fields
+* `fields::sim.rf()` simulates random fields on a grid
+* `geoR::grf()` simulates random fields with irregular observations
+* `glmmfields::sim_glmmfields()` simulates random fields with/without extreme values
+* `sdmTMB::sdmTMB_simulate()` simulates univariate fields with `sdmTMB`
+
+???
+Homework: try to work through some of these yourself. Make some plots, and see how changing the covariance affects the smoothness of these fields.
+
+## Effects of changing variance and range
+
+```{r sim-rf-grid, echo=FALSE, fig.asp=0.7}
+set.seed(123)
+predictor_dat <- data.frame(
+  X = runif(300), Y = runif(300),
+  year = 1
+)
+mesh <- make_mesh(predictor_dat,
+  xy_cols = c("X", "Y"),
+  cutoff = 0.1
+)
+
+grid_pars = expand.grid("range"=c(0.1, 0.5),
+                        "sigma_O" = c(0.05, 0.1))
+
+for(i in 1:nrow(grid_pars)) {
+  s <- sdmTMB_simulate(
+    formula = ~1,
+    data = predictor_dat,
+    time = "year",
+    mesh = mesh,
+    family = gaussian(link = "identity"),
+    range = grid_pars$range[i],
+    sigma_E = NULL,
+    phi = 0.01,
+    sigma_O = grid_pars$sigma_O[i],
+    seed = 3542,
+    B = c(0) # B0 = intercept
+  )
+  s$range = grid_pars$range[i]
+  s$sigma_O = grid_pars$sigma_O[i]
+  if(i == 1) {
+    sim_dat = s
+  } else sim_dat = rbind(s, sim_dat)
+}
+
+sim_dat$sigma_O = paste0("sigma_O = ", sim_dat$sigma_O)
+sim_dat$range = paste0("range = ", sim_dat$range)
+ggplot(sim_dat, aes(X, Y, col = observed)) +
+  geom_point(size=1) + 
+  scale_color_gradient2() + 
+  facet_wrap(range ~ sigma_O)
+```
+
+## Effects of adding noise 
+
+* Large observation error looks like noise
+
+* $\sigma_{obs}$ >> $\sigma_{O}$, $\sigma_{E}$
+
+```{r sim-rf-large_phi, echo=FALSE, fig.asp=0.5}
+set.seed(123)
+predictor_dat <- data.frame(
+  X = runif(300), Y = runif(300),
+  year = 1
+)
+mesh <- make_mesh(predictor_dat,
+  xy_cols = c("X", "Y"),
+  cutoff = 0.1
+)
+
+sim_dat <- sdmTMB_simulate(
+  formula = ~1,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh,
+  family = gaussian(link = "identity"),
+  range = 0.5,
+  sigma_E = 0.1,
+  phi = 1.0,
+  sigma_O = 0.1,
+  seed = 3542,
+  B = c(0.2) # B0 = intercept
+)
+
+ggplot(sim_dat, aes(X, Y, col = observed)) +
+  geom_point(alpha=0.7, size=3) + 
+  scale_color_gradient2()
+```
+  
+## Moderate observation errors
+
+* $\sigma_{obs}$ = $\sigma_{O}$ = $\sigma_{E}$
+    
+```{r sim-rf-med_phi, echo = FALSE, fig.asp=0.5}
+sim_dat <- sdmTMB_simulate(
+  formula = ~1,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh,
+  family = gaussian(link = "identity"),
+  range = 0.5,
+  sigma_E = 0.1,
+  phi = 0.1,
+  sigma_O = 0.1,
+  seed = 3542,
+  B = 0.2 # B0 = intercept
+)
+
+ggplot(sim_dat, aes(X, Y, col = observed)) +
+  geom_point(alpha=0.7, size=3) + 
+  scale_color_gradient2()
+```
+  
+  
+## Small observation errors  
+    
+* $\sigma_{obs}$ << $\sigma_{O}$, $\sigma_{E}$
+    
+```{r sim-rf-small_phi, echo = FALSE, fig.asp=0.5}
+sim_dat <- sdmTMB_simulate(
+  formula = ~ 1 ,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh,
+  family = gaussian(),
+  range = 0.5,
+  sigma_E = 0.1,
+  phi = 0.01,
+  sigma_O = 0.1,
+  seed = 3542,
+  B = 0.2
+)
+
+ggplot(sim_dat, aes(X, Y, col = observed)) +
+  geom_point(alpha=0.7, size=3) + 
+  scale_color_gradient2()
+```
+
+## Estimating random fields 
+
+* Georeferenced data often involve 1000s or more points
+
+* Like in the 1-D setting, we need to approximate the spatial field 
+  * Options include nearest neighbor methods, covariance tapering, etc.
+
+* sdmTMB uses an approach from INLA
+  * for VAST users, this is the same
+  * INLA books:  
+    <https://www.r-inla.org/learnmore/books>
+
+## INLA and the SPDE approach
+
+* SPDE: stochastic partial differential equation
+
+* The solution to a specific SPDE is a Gaussian random field (GRF) with Matérn covariance
+
+* This, and sparse precision matrices, let us efficiently fit approximations to GRFs to large spatial datasets
+
+* INLA is software that performs data wrangling for SPDE estimation
+  * INLA also performs approximate Bayesian estimation
+  * sdmTMB uses INLA to wrangle matrices, but uses TMB for maximum likelihood estimation
+
+## Introducing meshes
+
+Implementing the SPDE with INLA requires constructing a 'mesh'
+
+```{r mesh-example, fig.width=6.5}
+mesh <- make_mesh(pcod, xy_cols = c("X", "Y"), cutoff = 10)
+ggplot() +
+  inlabru::gg(mesh$mesh) +
+  geom_point(data = pcod, aes(x = X, y = Y), alpha = 0.1, pch = 20) +
+  coord_equal()
+```
+
+## Mesh construction
+
+* A unique mesh is generally made for each dataset
+* Rules of thumb:
+  * More triangles = more computation time
+  * More triangles = more fine-scale spatial predictions
+  * Borders with coarser resolution reduce number of triangles
+  * Use minimum edge size to avoid meshes becoming too fine
+  * Want fewer vertices than data points
+  * Triangle edge size needs to be smaller than spatial range
+
+* "How to make a bad mesh?" [Haakon Bakka's book](https://haakonbakkagit.github.io/btopic114.html)
+
+## Building your own mesh
+
+* `INLA::inla.mesh.2d()`: lets many arguments be customized
+
+* `INLA::meshbuilder()`: Shiny app for constructing a mesh, provides R code
+
+* Meshes can include barriers / islands / coastlines with shapefiles
+
+* INLA books
+<https://www.r-inla.org/learnmore/books>
+
+## Simplifying mesh construction in sdmTMB
+
+sdmTMB has a function `make_mesh()` to quickly construct a basic mesh
+
+Details in next set of slides
+
+## Example: cutoff = 50km
+
+```{r mesh-example4, fig.width=6.5}
+mesh <- make_mesh(pcod, xy_cols = c("X", "Y"), cutoff = 50)
+ggplot() +
+  inlabru::gg(mesh$mesh) +
+  geom_point(data = pcod, aes(x = X, y = Y), alpha = 0.1, pch = 20) +
+  coord_equal()
+```
+
+## Example: cutoff = 25km
+
+```{r mesh-example3, fig.width=6.5}
+mesh <- make_mesh(pcod, xy_cols = c("X", "Y"), cutoff = 25)
+ggplot() +
+  inlabru::gg(mesh$mesh) +
+  geom_point(data = pcod, aes(x = X, y = Y), alpha = 0.1, pch = 20) +
+  coord_equal()
+```
+
+## Example: cutoff = 10km
+
+```{r mesh-example2, fig.width=6.5}
+mesh <- make_mesh(pcod, xy_cols = c("X", "Y"), cutoff = 10)
+ggplot() +
+  inlabru::gg(mesh$mesh) +
+  geom_point(data = pcod, aes(x = X, y = Y), alpha = 0.1, pch = 20) +
+  coord_equal()
+```
+
+## sdmTMB highlights
+
+sdmTMB is a user-friendly R package for modeling spatial processes
+
+* Familiar syntax to widely used functions/packages; `glm()`, mgcv, glmmTMB, etc.
+  
+* Performs fast (marginal) maximum likelihood estimation via TMB
+  
+* Widely applicable to species distribution modelling, stock assessment inputs, bycatch models, etc. that include spatially referenced data
+
+## Installing sdmTMB
+
+From CRAN:
+
+```{r, eval=FALSE, echo=TRUE}
+install.packages("sdmTMB", dependencies = TRUE)
+```
+
+From source on GitHub:
+
+* Install a C++ compiler
+  * e.g., [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools40.html) on Windows
+  * e.g., Xcode command line tools on a Mac:  
+  `xcode-select --install`
+
+## Installing sdmTMB
+
+Warning: The INLA package is large, not on CRAN, and can be slow to install. If you run into problems, try installing it separately first:
+
+<https://www.r-inla.org/download-install>
+
+## General sdmTMB workflow
+
+1. Prepare data (convert to UTMs, scale covariates, ...)
+
+2. Construct a mesh
+
+3. Fit the model
+
+4. Inspect the model (and possibly refit the model)
+
+5. Predict from the model
+
+6. Calculate any derived quantities
+
+## General sdmTMB workflow
+
+1. Prepare data: `add_utm_columns()`
+
+2. Construct a mesh: `make_mesh()`
+
+3. Fit the model: `sdmTMB()`
+
+4. Inspect the model: `print()`, `sanity()`, `tidy()`, `residuals()`
+
+5. Predict from the model: `predict()`
+
+6. Get derived quantities: `get_index()`
+
+## Preparing the data
+
+Prepare the data in wide format (i.e. row = observation)
+
+Make sure there is no **NA** in the used covariates
+
+**NA** in the response value is OK (internally checked)
+
+## Preparing the "space": the use of UTMs
+
+Need a projection that preserves constant distance
+
+UTMs work well for regional analyses
+
+Helper function: `sdmTMB::add_utm_columns()`
+
+Internally, guesses at UTM zone and uses the sf package:  
+`sf::st_as_sf()`, `sf::st_transform()`, and `sf::st_coordinates()`
+
+Or use the sf or sp packages yourself
+
+## Example of adding UTM columns
+
+```{r, echo=TRUE, message=TRUE}
+d <- data.frame(
+  lat = c(52.1, 53.4), 
+  lon = c(-130.0, -131.4)
+)
+d <- sdmTMB::add_utm_columns(d, c("lon", "lat"))
+d
+```
+
+* Note default `units = "km"`
+* Why? Range parameter estimated in units of X and Y
+* Should be not too big or small for estimation
+
+## Constructing a mesh
+
+`make_mesh()` has 2 shortcuts to mesh construction
+
+1. K-means algorithm: used to cluster points (e.g., `n_knots = 100`); approach taken in VAST; sensitive to random `seed` argument! 
+
+2. Cutoff: minimum allowed distance between vertices (e.g., `cutoff = 10`) - **_the preferred option_**
+  
+Alternatively, build any INLA mesh and supply it to the `mesh` argument in `make_mesh()`
+
+## Constructing a mesh
+
+Size of mesh has the single largest impact on fitting speed
+
+`cutoff` is in units of x and y (minimum triangle size)
+
+```{r make-mesh, echo=TRUE, fig.asp=1, out.width='280px', fig.width=5.5}
+d <- data.frame(x = runif(500), y = runif(500))
+mesh <- make_mesh(d, xy_cols = c("x", "y"), cutoff = 0.1)
+mesh$mesh$n
+plot(mesh)
+```
+
+## Fitting the model: sdmTMB()
+
+Set up is similar to `glmmTMB()`. Common arguments:
+
+```{r, echo=TRUE, eval=FALSE}
+fit <- sdmTMB(
+  formula,
+  data,
+  mesh,
+  time = NULL,
+  family = gaussian(link = "identity"),
+  spatial = c("on", "off"),
+  spatiotemporal = c("iid", "ar1", "rw", "off"),
+  silent = TRUE,
+  ...
+)
+```
+
+See `?sdmTMB`
+
+## Formula interface
+
+sdmTMB uses a similar formula interface to widely used R packages  
+
+A formula is used to specify fixed effects and (optionally) random intercepts
+
+```{r formulas1, echo=TRUE, eval=FALSE}
+# linear effect of x1:
+formula = y ~ x1
+
+# add smoother effect of x2:
+formula = y ~ x1 + s(x2)
+
+# add random intercept by group g:
+formula = y ~ x1 + s(x2) + (1 | g)
+```
+
+## Smoothers (as in mgcv)
+
+```{r formulas-smoothers, echo=TRUE, eval=FALSE}
+# smoother effect of x:
+formula = y ~ s(x)
+
+# basis dimension of 5:
+formula = y ~ s(x, k = 5)
+
+# bivariate smoother effect of x & y:
+formula = y ~ s(x, y)
+
+# smoother effect of x1 varying by x2:
+formula = y ~ s(x1, by = x2)
+
+# other kinds of mgcv smoothers:
+formula = ~ s(month, bs = "cc", k = 12)
+```
+
+Smoothers are penalized ('p-splines'), i.e. data determine 'wiggliness'
+
+## Other common R formula options
+
+Polynomials and omitting the intercept:
+
+```{r formulas-other, echo=TRUE, eval=FALSE}
+# transformations using `I()` notation
+y ~ depth + I(depth^2)
+
+# polynomial functions using `poly`
+y ~ poly(depth, degree = 2)
+
+# omit intercept
+y ~ -1 + as.factor(year)
+y ~ 0 + as.factor(year)
+```
+
+## Breakpoint functions for threshold analyses
+
+```{r breakpt, echo=TRUE, eval=FALSE}
+cpue ~ breakpt(temperature)
+```
+
+```{r make-breakpt, out.width='400px', fig.width=5}
+df <- data.frame(x = seq(1, 100))
+slope <- 0.1
+df$y <- ifelse(df$x < 50, slope * df$x, slope * 50)
+ggplot(df, aes(x, y)) +
+  geom_line(col = "blue") +
+  xlab("Temperature") +
+  ylab("CPUE") +
+  ggtitle("Breakpoint function")
+```
+
+## Logistic functions for threshold analyses
+
+```{r logistic, echo=TRUE, eval=FALSE}
+cpue ~ logistic(temperature)
+```
+
+```{r make-logistic, out.width='500px', fig.width=5}
+df <- data.frame(x = seq(1, 100))
+slope <- 0.1
+df$y <- 3.0 / (1 + exp(-0.1 * (df$x - 50)))
+ggplot(df, aes(x, y)) +
+  geom_line(col = "blue") +
+  xlab("Temperature") +
+  ylab("CPUE") +
+  ggtitle("Logistic function")
+```
+
+## Syntax: families and links
+
+Many of the same families used in `glm()`, `glmmTMB()`, `mgcv::gam()` can be used here
+
+Includes:
+  `gaussian()`, `Gamma()`, 
+  `binomial()`, `poisson()`, `Beta()`, 
+  `student()`, `tweedie()`, 
+  `nbinom1()`, `nbinom2()`,
+  `truncated_nbinom1()`, `truncated_nbinom2()`,
+  `delta_gamma()`, `delta_lognormal()`, `delta_beta()`, and more...
+  
+All have `link` arguments
+  
+See `?sdmTMB::Families`
+
+## An aside on the Tweedie
+
+Useful for positive continuous data with zeros (e.g., biomass density per unit effort) 
+
+Dispersion ( $\phi$ ) and power ( $p$ ) parameters allow for a wide variety of shapes including many zeros
+
+Also known as compound Poisson-Gamma distribution
+
+```{r sim-tweedie, fig.width=4, out.width='400px'}
+set.seed(123)
+r1 <- fishMod::rTweedie(20000, mu = 3, phi = 0.1, p = 1.3)
+r2 <- fishMod::rTweedie(20000, mu = 3, phi = 1.5, p = 1.3)
+df <- data.frame(y = c(r1, r2), phi = sort(rep(c("0.1", "1.5"), length(r1))))
+df$phi <- paste("Dispersion (phi) =", df$phi)
+ggplot(df, aes(y)) +
+  geom_histogram(bins = 200) +
+  ylab("Density") +
+  facet_wrap(~phi, ncol = 1, scale = "free_y") +
+  coord_cartesian(xlim = c(0, 20))
+```
+
+## An aside on the student-t 
+
+Useful for continuous data with extreme values. 
+
+Can also be used to deal with positive data when using _log_ `link`  
+
+`df` parameters controls for the amount of tail in the distribution i.e. degree of "extreme" values
+
+P.S: beware when df << 3. All noise is assimilated in the "observation error"
+
+## An aside on delta models  
+
+* Delta/hurdle model has 2 sub-models:
+- presence/absence (binomial, logit link)  
+- positive model (link varies by family)  
+
+* `family` argument to sdmTMB can be a list()  
+- for convenience, many delta- families implemented: `delta_gamma`, `delta_lognormal`, `delta_truncated_nbinom2` etc  
+
+## An aside on mixture models
+
+Positive components may be modeled as a mixture of 2 distributions
+
+* Finite mixture model (2 components)  
+
+* Also referred to as "ECE" (extreme catch event) model, Thorson et al. (2012)  
+
+* Mechanisms: shoaling, etc.  
+
+* See `gamma_mix()` and `lognormal_mix()`
+
+* But requires data 
+
+## Spatial vs. spatiotemporal fields -  notion
+
+* A spatial field can be thought of as a spatial intercept
+
+  * a wiggly spatial process that is constant in time.
+  e.g. areas that has on average a higher/lower animal density, constant "hot/cold-spot" 
+  
+* Spatiotemporal variation represents separate fields estimated for each time
+  slice (possibly correlated)
+  
+  * wiggly spatial processes that change through time.
+  e.g. inter-annual variability in "hot/cold-spot" locations
+
+## Spatial fields can be turned on/off
+
+* By default `sdmTMB()` estimates a spatial field  
+
+```{r echo=TRUE, eval=FALSE}
+fit <- sdmTMB(
+  y ~ x,
+  family = gaussian(),
+  data = dat,
+  mesh = mesh,
+  spatial = "on", #<<
+  ...
+)
+```
+
+## Why *not* estimate a spatial field?
+
+* If shared process across time slices isn't of interest
+
+* If magnitude of spatiotemporal variability >> spatial variation
+
+* If confounded with other parameters (more later)
+
+## Spatiotemporal fields can be turned on/off
+
+* By default `sdmTMB()` estimates a spatiotemporal field if the `time` argument is specified
+
+```{r echo=TRUE, eval=FALSE}
+fit <- sdmTMB(
+  y ~ x,
+  family = gaussian(),
+  data = dat,
+  mesh = mesh,
+  time = "year", # column in `data` #<<
+  spatiotemporal = "iid", #<<
+  ...
+)
+```
+
+## Types of spatiotemporal fields
+
+* None (`spatiotemporal = "off"`)
+
+* Independent (`spatiotemporal = "iid"`)
+
+* Random walk (`spatiotemporal = "rw"`)
+
+* Autoregressive (`spatiotemporal = "ar1"`)
+
+## Independent (IID) spatiotemporal fields
+
+
+* Useful if pattern changes much between years
+
+```{r iid-demo}
+predictor_dat <- expand.grid(
+  x = seq(0, 1, length.out = 100),
+  y = seq(0, 1, length.out = 100),
+  year = seq_len(6)
+)
+mesh2 <- make_mesh(predictor_dat, xy_cols = c("x", "y"), cutoff = 0.05)
+sim_dat <- sdmTMB_simulate(
+  formula = ~ 1,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh2,
+  family = gaussian(),
+  range = 0.5,
+  sigma_E = 0.2,
+  phi = 0.1,
+  sigma_O = NULL,
+  seed = 1,
+  B = 0
+)
+ggplot(sim_dat, aes(x, y, fill = mu)) +
+  facet_wrap(vars(year)) +
+  geom_raster() +
+  scale_fill_gradient2() +
+  coord_fixed(expand = FALSE) +
+  guides(fill = "none")
+```
+
+## AR1 spatiotemporal fields
+
+* Useful if pattern are related between years.            
+P.S: Random walk = AR1 with 1.0 correlation
+
+```{r ar1-demo}
+sim_dat <- sdmTMB_simulate(
+  formula = ~ 1,
+  data = predictor_dat,
+  time = "year",
+  mesh = mesh2,
+  family = gaussian(),
+  range = 0.5,
+  sigma_E = 0.2,
+  rho = 0.85,
+  phi = 0.1,
+  sigma_O = NULL,
+  seed = 1,
+  B = 0
+)
+ggplot(sim_dat, aes(x, y, fill = mu)) +
+  facet_wrap(vars(year)) +
+  geom_raster() +
+  scale_fill_gradient2() +
+  coord_fixed(expand = FALSE) +
+  guides(fill = "none")
+```
+
+
+## Spatiotemporal fields
+
+* Why include spatiotemporal fields?
+
+  * If the data are collected in both space and time *and* 
+    there are 'latent' spatial processes that vary through time
+  * E.g., effect of water temperature on abundance if temperature wasn't in the model
+  * Represents all the missing variables that vary through time
+  * Why would a field be IID vs RW/AR1?
+  * Do we expect hotspots to be independent with each time slice or adapt slowly over time?
+
+
+## After model fitting
+
+Inspecting, summarizing, predicting, etc.
+
+Covered in examples in next slides.
+
+* `predict()`: `?predict.sdmTMB`
+* `residuals()`: `?residuals.sdmTMB`
+* `tidy()`: `?tidy.sdmTMB`
+* `print()`
+* `sanity()`
+* `get_index()`
+*  `...`
+
+## Examples of workflow / other functions
+
+```{r fit-demo, echo=TRUE}
+data("pcod")
+mesh <- make_mesh(pcod, c("X", "Y"), cutoff = 20)
+pcod$fyear <- as.factor(pcod$year)
+
+fit <- sdmTMB(
+  density ~ fyear,
+  time_varying = NULL,
+  data = pcod, 
+  mesh = mesh,
+  time = "year",
+  spatiotemporal = "iid",
+  family = tweedie(link = "log")
+)
+```
+
+## Did the model converge?
+
+```{r echo = TRUE}
+sanity(fit)
+```
+
+## Generating an index of abundance
+
+* First predict to some regular grid
+
+```{r grid-demo, echo=TRUE}
+nd <- replicate_df(qcs_grid, "year", unique(pcod$year))
+nd$fyear <- as.factor(nd$year)
+predictions <- predict(fit, 
+               newdata = nd, 
+               return_tmb_object = TRUE)
+
+```
+
+## Call `get_index` to derive annual estimates
+
+```{r index-demo, echo=TRUE}
+indx <- get_index(predictions)
+
+head(indx)
+```
+
