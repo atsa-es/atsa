@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Using sdmTMB for spatiotemporal modelling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="lec_19_exercise_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec_19_exercise_files/libs/quarto-html/quarto.js"></script>
+<script src="lec_19_exercise_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec_19_exercise_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lec_19_exercise_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lec_19_exercise_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec_19_exercise_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lec_19_exercise_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lec_19_exercise_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lec_19_exercise_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Using sdmTMB for spatiotemporal modelling</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="understanding-spatial-and-spatiotemporal-models" class="level1">
+<h1>Understanding spatial and spatiotemporal models:</h1>
+<ul>
+<li>Understand the spatial range.</li>
+<li>Become familiar with spatial random fields through simulation.</li>
+<li>Become familiar with spatiotemporal random fields and how they can combine with spatial random fields.</li>
+<li>Understand how correlation in spatiotemporal random fields looks.</li>
+</ul>
+<div class="cell">
+
+</div>
+</section>
+<section id="understanding-the-spatial-range" class="level1">
+<h1>Understanding the spatial range</h1>
+<p>The spatial range is the distance at which two data points are effectively independent. Technically, this is the distance at which correlation declines to approximately 0.13.</p>
+<p>We can visualize the Matérn correlation function for various range values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>range <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="co">#&lt; try changing this</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>kappa <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">8</span>) <span class="sc">/</span> range</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>correlation <span class="ot">&lt;-</span> kappa <span class="sc">*</span> distance <span class="sc">*</span> <span class="fu">besselK</span>(kappa <span class="sc">*</span> distance, <span class="at">nu =</span> <span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(distance, correlation, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.13</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="co"># 0.13 correlation</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> range, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here we have a unitless distance from 0 to 1. In real situations these would be in something like m or km and so the range would be units of m or km.</p>
+<section id="exercise" class="level3">
+<h3 class="anchored" data-anchor-id="exercise">Exercise:</h3>
+<ol type="1">
+<li>Try running the previous chunk over and over with various <code>range</code> values. Note how the correlation function changes.</li>
+</ol>
+</section>
+</section>
+<section id="spatial-simulation" class="level1">
+<h1>Spatial simulation</h1>
+<p>Next we will simulate some spatial random fields to understand what they look like and how their parameters control them.</p>
+<p>First, this chunk creates a set of X and Y spatial coordinates and constructs a mesh using a minimum triangle edge length cutoff distance of 0.05. We need this for the internal random field calculations with the SPDE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A grid of X and Y values:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>predictor_dat <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>), <span class="at">Y =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>mesh <span class="ot">&lt;-</span> <span class="fu">make_mesh</span>(predictor_dat, <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>), <span class="at">cutoff =</span> <span class="fl">0.05</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mesh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The basic function for simulating random fields in sdmTMB is <code>sdmTMB_simulate()</code>.</p>
+<ul>
+<li><p>The formula here contains only an intercept but could include covariates.</p></li>
+<li><p>The family is Gaussian to specify that we simulate a normally distributed response.</p></li>
+<li><p>The range (see above) is 0.6.</p></li>
+<li><p>The two important standard deviation parameters are <code>sigma_O</code> (controlling the marginal standard deviation of <code>omega</code>, the spatial random field) and <code>phi</code> (controlling the observation error standard deviation).</p></li>
+<li><p>We are plotting <code>observed</code> (observed values: the expected value plus observation error).</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sim_dat <span class="ot">&lt;-</span> <span class="fu">sdmTMB_simulate</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> predictor_dat,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesh =</span> mesh,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fl">0.6</span>, <span class="co">#&lt; try changing this (spatial range)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_O =</span> <span class="fl">0.2</span>, <span class="co">#&lt; try changing this (spatial standard deviation)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi =</span> <span class="fl">0.001</span>, <span class="co">#&lt; try changing this observation error standard deviation</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="dv">0</span> <span class="co"># intercept</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in checkMatrixPackageVersion(): Package version inconsistency detected.
+TMB was built with Matrix version 1.5.4
+Current Matrix version is 1.5.3
+Please re-install 'TMB' from source using install.packages('TMB', type = 'source') or ask CRAN for a binary version of 'TMB' matching CRAN's 'Matrix' package</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in checkDepPackageVersion(dep_pkg = "TMB"): Package version inconsistency detected.
+glmmTMB was built with TMB version 1.9.3
+Current TMB version is 1.9.4
+Please re-install glmmTMB from source or restore original 'TMB' package (see '?reinstalling' for more information)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># head(sim_dat)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> observed)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1">Exercise:</h3>
+<ol type="1">
+<li>Try running the previous chunk over and over. Try changing the <code>range</code> and <code>sigma_O</code> values. What do you observe?</li>
+<li>Try increasing the observation error standard deviation <code>phi</code> and re-running it many times. Try making it equal to <code>sigma_O</code> and twice its size. What happens when observation error is much larger than <code>sigma_O</code>?</li>
+</ol>
+<p>Note that the colour scale may be changing between runs!</p>
+</section>
+</section>
+<section id="spatiotemporal-simulation" class="level1">
+<h1>Spatiotemporal simulation</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>predictor_dat2 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>), <span class="at">Y =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>), <span class="at">year =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>mesh2 <span class="ot">&lt;-</span> <span class="fu">make_mesh</span>(predictor_dat2, <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>), <span class="at">cutoff =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sim_dat2 <span class="ot">&lt;-</span> <span class="fu">sdmTMB_simulate</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> predictor_dat2,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="st">"year"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesh =</span> mesh2,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fl">0.5</span>, <span class="co">#&lt; spatial/spatiotemporal range</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_O =</span> <span class="fl">0.2</span>, <span class="co">#&lt; spatial SD</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_E =</span> <span class="fl">0.1</span>, <span class="co">#&lt; spatiotemporal SD</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi =</span> <span class="fl">0.001</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="dv">0</span> <span class="co"># intercept</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># head(sim_dat2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat2, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> omega_s)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/spatial-fields-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat2, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> epsilon_st)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/spatiotemporal-fields-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat2, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> observed)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/simulated-observations-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2">Exercise:</h3>
+<ol type="1">
+<li>Try running the previous 4 chunks over and over and observe the various components.</li>
+<li>What do you notice about <code>omega_s</code> (spatial random field) across the time slices? Conversely, what do you notice about <code>epsilon_st</code> (spatiotemporal random fields) across time?</li>
+<li>Try increasing <code>sigma_E</code> (spatiotemporal SD) to be larger than <code>sigma_O</code> (spatial SD). How do the observations change?</li>
+</ol>
+</section>
+</section>
+<section id="correlated-spatiotemporal-fields" class="level1">
+<h1>Correlated spatiotemporal fields</h1>
+<p>The above spatiotemporal fields were left as their default: independent across years (<code>spatiotemporal = "iid"</code>). They can also be correlated. Here we will simulate and plot spatiotemporal fields with various levels of correlation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sim_dat3 <span class="ot">&lt;-</span> <span class="fu">sdmTMB_simulate</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> predictor_dat2,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="st">"year"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesh =</span> mesh2,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fl">0.5</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_O =</span> <span class="dv">0</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_E =</span> <span class="fl">0.1</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">spatiotemporal =</span> <span class="st">"ar1"</span>, <span class="co">#&lt; field type</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">rho =</span> <span class="fl">0.6</span>, <span class="co">#&lt; AR(1) field correlation</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi =</span> <span class="fl">0.001</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="dv">0</span> <span class="co"># intercept</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat3, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> epsilon_st)) <span class="sc">+</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3">Exercise:</h3>
+<ol type="1">
+<li>In the previous chunk, try setting the AR(1) random field correlation (<code>rho</code>) to values ranging from 0 to near 1 (e.g., 0.99). What do you observe?</li>
+<li>When might you observe a process that resembles the above?</li>
+<li>What happens when <code>rho</code> is &lt; 0? Is <code>rho</code> more likely to be &gt; or &lt; than 0 in ecological systems? Can you think of a situation where <code>rho &lt; 0</code>?</li>
+</ol>
+</section>
+</section>
+<section id="fitting-a-geostatistical-spatial-model" class="level1">
+<h1>Fitting a geostatistical spatial model</h1>
+<p>Let’s fit a basic spatial model to some simulated data. We’ll simulate on a grid and then down-sample from that grid. (We’ll do it this way so we can plot a smooth known random field in the end for comparison.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>predictor_dat <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>), </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19201</span>) <span class="co"># for consistency</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>predictor_dat<span class="sc">$</span>covariate <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="fu">nrow</span>(predictor_dat))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mesh <span class="ot">&lt;-</span> <span class="fu">make_mesh</span>(predictor_dat, <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>), <span class="at">cutoff =</span> <span class="fl">0.05</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mesh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sim_dat4 <span class="ot">&lt;-</span> <span class="fu">sdmTMB_simulate</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> covariate,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> predictor_dat,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesh =</span> mesh,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fl">0.5</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_O =</span> <span class="fl">0.4</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi =</span> <span class="fl">0.3</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.2</span>), <span class="co"># intercept and covariate coefficient</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">98259</span> <span class="co"># for consistency</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sim_dat4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           X Y    omega_s        mu       eta  observed (Intercept)  covariate
+1 0.00000000 0 0.20377670 0.6369297 0.6369297 0.4566973           1  0.1657648
+2 0.01010101 0 0.17837392 0.6613120 0.6613120 0.9819005           1  0.4146902
+3 0.02020202 0 0.15297114 0.3625643 0.3625643 0.4087907           1 -0.9520340
+4 0.03030303 0 0.12756836 0.3930963 0.3930963 0.9683649           1 -0.6723601
+5 0.04040404 0 0.10216557 0.6080553 0.6080553 0.9007784           1  0.5294488
+6 0.05050505 0 0.07676279 0.3461807 0.3461807 0.2452402           1 -0.6529106</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat4, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> omega_s)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat4, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> mu)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sim_dat4, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> observed)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-4" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4">Exercise:</h3>
+<ol type="1">
+<li>What did we just simulate above? What is the one addition from the first spatial simulation?</li>
+<li>What do the last 3 plots represent? Why do they get increasingly noisy?</li>
+</ol>
+<p>Now we’ll down-sample to simulate sampling/observing only 300 locations:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1098</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>to_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(sim_dat4)), <span class="at">size =</span> <span class="dv">300</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>obs_dat <span class="ot">&lt;-</span> sim_dat4[to_sample, ]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(obs_dat, <span class="fu">aes</span>(X, Y, <span class="at">colour =</span> observed)) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Start by fitting a regular GLM:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fit_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(observed <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> covariate, <span class="at">family =</span> <span class="fu">gaussian</span>(), <span class="at">data =</span> obs_dat)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = observed ~ 1 + covariate, family = gaussian(), 
+    data = obs_dat)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-1.48113  -0.36757   0.00013   0.31924   1.33303  
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.81382    0.02850   28.55  &lt; 2e-16 ***
+covariate    0.19316    0.02721    7.10  9.2e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 0.243673)
+
+    Null deviance: 84.897  on 299  degrees of freedom
+Residual deviance: 72.615  on 298  degrees of freedom
+AIC: 431.78
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+<p>We can calculate and plot the residuals spatially:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>obs_dat<span class="sc">$</span>resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_glm)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(obs_dat, <span class="fu">aes</span>(X, Y, <span class="at">colour =</span> resid)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>And plot predictions spatially on the full grid:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sim_dat4<span class="sc">$</span>pred_glm <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_glm, <span class="at">newdata =</span> sim_dat4)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>lims <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(sim_dat4<span class="sc">$</span>mu, sim_dat4<span class="sc">$</span>pred_glm))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sim_dat4, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> mu)) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Truth"</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">limits =</span> lims)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sim_dat4, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> pred_glm)) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Estimated"</span>) <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">limits =</span> lims)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(g1, g2, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="exercise-5" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5">Exercise:</h3>
+<ol type="1">
+<li>Do you see spatial correlation in the residuals?</li>
+<li>What are at least 2 problems this creates?</li>
+<li>How good do those predictions look compared to the known truth?</li>
+<li>In the context of this workshop, what is a solution to this?</li>
+</ol>
+<p>First, let’s convince ourselves that we can fit the exact same model with sdmTMB. All we have to do is turn off the spatial random fields:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit_glm2 <span class="ot">&lt;-</span> <span class="fu">sdmTMB</span>(observed <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> covariate, <span class="at">family =</span> <span class="fu">gaussian</span>(), </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> obs_dat, <span class="at">spatial =</span> <span class="st">"off"</span>) <span class="co"># default is spatial = "on"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_glm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model fit by ML ['sdmTMB']
+Formula: observed ~ 1 + covariate
+Mesh: NULL (isotropic covariance)
+Data: obs_dat
+Family: gaussian(link = 'identity')
+ 
+            coef.est coef.se
+(Intercept)     0.81    0.03
+covariate       0.19    0.03
+
+Dispersion parameter: 0.49
+ML criterion at convergence: 212.889
+
+See ?tidy.sdmTMB to extract these values as a data frame.</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-6" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6">Exercise:</h3>
+<ol type="1">
+<li>Check if <code>fit_glm</code> and <code>fit_glm2</code> match and represent the same model.</li>
+</ol>
+<p>Now, try fitting a GLM with Gaussian random fields:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fitting_mesh <span class="ot">&lt;-</span> <span class="fu">make_mesh</span>(obs_dat, <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>), <span class="at">cutoff =</span> <span class="fl">0.05</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fitting_mesh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fit_sdmTMB <span class="ot">&lt;-</span> <span class="fu">sdmTMB</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  observed <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> covariate, </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(), </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> obs_dat, </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">spatial =</span> <span class="st">"on"</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesh =</span> fitting_mesh</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sanity</span>(fit_sdmTMB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Non-linear minimizer suggests successful convergence</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Hessian matrix is positive definite</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No extreme or very small eigenvalues detected</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No gradients with respect to fixed effects are &gt;= 0.001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No fixed-effect standard errors are NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No standard errors look unreasonably large</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &lt; 0.01</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &gt; 100</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range parameter doesn't look unreasonably large</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sdmTMB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatial model fit by ML ['sdmTMB']
+Formula: observed ~ 1 + covariate
+Mesh: fitting_mesh (isotropic covariance)
+Data: obs_dat
+Family: gaussian(link = 'identity')
+ 
+            coef.est coef.se
+(Intercept)     0.81    0.19
+covariate       0.20    0.02
+
+Dispersion parameter: 0.29
+Matérn range: 0.54
+Spatial SD: 0.34
+ML criterion at convergence: 104.334
+
+See ?tidy.sdmTMB to extract these values as a data frame.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_sdmTMB, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    0.811    0.192     0.435     1.19 
+2 covariate      0.199    0.0176    0.164     0.233</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_sdmTMB, <span class="st">"ran_pars"</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Standard errors intentionally omitted because they have been calculated in log
+space.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term    estimate std.error conf.low conf.high
+  &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+1 range      0.540 NA           0.309     0.943
+2 phi        0.295 NA           0.268     0.325
+3 sigma_O    0.344 NA           0.245     0.483</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_glm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model fit by ML ['sdmTMB']
+Formula: observed ~ 1 + covariate
+Mesh: NULL (isotropic covariance)
+Data: obs_dat
+Family: gaussian(link = 'identity')
+ 
+            coef.est coef.se
+(Intercept)     0.81    0.03
+covariate       0.19    0.03
+
+Dispersion parameter: 0.49
+ML criterion at convergence: 212.889
+
+See ?tidy.sdmTMB to extract these values as a data frame.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sdmTMB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatial model fit by ML ['sdmTMB']
+Formula: observed ~ 1 + covariate
+Mesh: fitting_mesh (isotropic covariance)
+Data: obs_dat
+Family: gaussian(link = 'identity')
+ 
+            coef.est coef.se
+(Intercept)     0.81    0.19
+covariate       0.20    0.02
+
+Dispersion parameter: 0.29
+Matérn range: 0.54
+Spatial SD: 0.34
+ML criterion at convergence: 104.334
+
+See ?tidy.sdmTMB to extract these values as a data frame.</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-7" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7">Exercise:</h3>
+<ol type="1">
+<li>How did the dispersion parameter (Gaussian SD) differ between <code>fit_glm2</code> and <code>fit_sdmTMB</code>? Why?</li>
+<li>How close are the estimated values to the truth? Is that about what you expected?</li>
+</ol>
+<p>Now let’s calculate and plot residuals for the random field model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>obs_dat<span class="sc">$</span>resid_sdmTMB <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_sdmTMB)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(obs_dat, <span class="fu">aes</span>(X, Y, <span class="at">colour =</span> resid_sdmTMB)) <span class="sc">+</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>And make predictions on the full grid:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_sdmTMB, <span class="at">newdata =</span> sim_dat4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>lims <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(sim_dat4<span class="sc">$</span>mu, p<span class="sc">$</span>est))</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sim_dat4, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> mu)) <span class="sc">+</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"True mean"</span>) <span class="sc">+</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">limits =</span> lims)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(p, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> est)) <span class="sc">+</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Estimated value"</span>) <span class="sc">+</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">limits =</span> lims)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(g1, g2, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>lims <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(sim_dat4<span class="sc">$</span>omega_s, p<span class="sc">$</span>omega_s))</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sim_dat4, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> omega_s)) <span class="sc">+</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"True random field"</span>) <span class="sc">+</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">limits =</span> lims)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(p, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> omega_s)) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Estimated random field"</span>) <span class="sc">+</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">limits =</span> lims)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(g1, g2, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Predicted vs.&nbsp;true for the two models:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sim_dat4<span class="sc">$</span>mu, sim_dat4<span class="sc">$</span>pred_glm, <span class="at">main =</span> <span class="st">"GLM"</span>, </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"True"</span>, <span class="at">ylab =</span> <span class="st">"Predicted"</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sim_dat4<span class="sc">$</span>mu, p<span class="sc">$</span>est, <span class="at">main =</span> <span class="st">"GLM with random fields"</span>, </span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"True"</span>, <span class="at">ylab =</span> <span class="st">"Predicted"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="exercise-8" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8">Exercise:</h3>
+<ol type="1">
+<li>How do the residuals look now? Why?</li>
+<li>How do the predictions look compared to before? Why?</li>
+<li>How do the random fields look? Is this as good as you expected? What would make these easier/harder to estimate?</li>
+</ol>
+</section>
+</section>
+<section id="goals" class="level1">
+<h1>Goals:</h1>
+<ul>
+<li>Practice fitting a basic spatiotemporal model.</li>
+<li>Gain experience using cross validation for model selection.</li>
+<li>Understand how to inspect the model output.</li>
+<li>Practice predicting from the model on new data and making visualizations of those predictions.</li>
+<li>Gain familiarity with fitting and interpreting different random field structures.</li>
+</ul>
+<div class="cell">
+
+</div>
+</section>
+<section id="the-data" class="level1">
+<h1>The data</h1>
+<p>We will work with data representing Pacific Cod in the West Coast Vancouver Island synoptic trawl survey.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> pcod</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 12
+   year     X     Y depth density present   lat   lon depth_mean depth_sd
+  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+1  2003  446. 5793.   201   113.        1  52.3 -130.       5.16    0.445
+2  2003  446. 5800.   212    41.7       1  52.3 -130.       5.16    0.445
+3  2003  449. 5802.   220     0         0  52.4 -130.       5.16    0.445
+4  2003  437. 5802.   197    15.7       1  52.4 -130.       5.16    0.445
+5  2003  421. 5771.   256     0         0  52.1 -130.       5.16    0.445
+6  2003  418. 5772.   293     0         0  52.1 -130.       5.16    0.445
+# ℹ 2 more variables: depth_scaled &lt;dbl&gt;, depth_scaled2 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>The dataset contains sampling locations (X and Y) and <code>year</code>. It also contains sampling <code>depth</code> in meters and sample density <code>density</code> (CPUE) in units of tonnes/km<sup>2</sup>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(X,Y, <span class="at">size =</span> density)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>And check to make sure that looks right:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(X, Y, <span class="at">size =</span> density)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can also plot the data by year:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(X, Y, <span class="at">size =</span> density, <span class="at">colour =</span> <span class="fu">log</span>(density <span class="sc">+</span> <span class="dv">1</span>))) <span class="sc">+</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We will create these new columns to use later:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>log_depth <span class="ot">&lt;-</span> <span class="fu">log</span>(dat<span class="sc">$</span>depth)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>year_factor <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dat<span class="sc">$</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="constructing-a-mesh" class="level1">
+<h1>Constructing a mesh</h1>
+<p>We start by constructing an SPDE mesh with INLA. This creates some matrices that are used internally when fitting the model. We will use the shortcut function <code>make_mesh()</code> and use a cutoff (minimum triangle length of 10 km). Note: this is the only parameter that can be changed in <code>make_mesh()</code> but more control over mesh arguments can be done with INLA (<code>inla.mesh.2d()</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>mesh <span class="ot">&lt;-</span> <span class="fu">make_mesh</span>(dat, <span class="at">xy_cols =</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>), <span class="at">cutoff =</span> <span class="dv">10</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mesh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>mesh<span class="sc">$</span>mesh<span class="sc">$</span>n <span class="co"># number of vertices or knots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 205</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot alternative:</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> inlabru<span class="sc">::</span><span class="fu">gg</span>(mesh<span class="sc">$</span>mesh) <span class="sc">+</span> <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(X, Y), <span class="at">data =</span> dat, <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-28-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-9" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-9">Exercise:</h3>
+<ol type="1">
+<li>Try adjusting the size of the cutoff distance to explore the effects of decreasing the mesh resolution. Make sure to reset the <code>cutoff</code> value to <code>10</code> in the end so the rest of the exercise behaves as intended, because model convergence issues can be caused by meshes that are either too fine or too coarse.</li>
+</ol>
+</section>
+</section>
+<section id="fitting-a-spatial-model" class="level1">
+<h1>Fitting a spatial model</h1>
+<p>The most basic model we could fit would be a model with a single spatial random field, and no covariates. Using <code>silent = FALSE</code> lets us see what is happening, but it’s awkward when running code in Rmd/Quarto chunks (with the default RStudio setting to ‘Show output inline for all R Markdown document’) so we will comment it out in most cases here. But it is a good idea to use it if models are running slowly or not converging to monitor progress.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>fit_spatial <span class="ot">&lt;-</span> <span class="fu">sdmTMB</span>(</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  density <span class="sc">~</span> <span class="dv">1</span>, <span class="co"># intercept only</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,  </span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">tweedie</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesh =</span> mesh,</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">spatial =</span> <span class="st">"on"</span>,</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># silent = FALSE</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sanity</span>(fit_spatial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Non-linear minimizer suggests successful convergence</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Hessian matrix is positive definite</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No extreme or very small eigenvalues detected</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No gradients with respect to fixed effects are &gt;= 0.001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No fixed-effect standard errors are NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No standard errors look unreasonably large</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &lt; 0.01</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &gt; 100</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range parameter doesn't look unreasonably large</code></pre>
+</div>
+</div>
+<p>Did it have trouble? If so, try an extra optimization run and see if that’s sufficient:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>fit_spatial <span class="ot">&lt;-</span> <span class="fu">run_extra_optimization</span>(fit_spatial)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sanity</span>(fit_spatial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Non-linear minimizer suggests successful convergence</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Hessian matrix is positive definite</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No extreme or very small eigenvalues detected</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No gradients with respect to fixed effects are &gt;= 0.001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No fixed-effect standard errors are NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No standard errors look unreasonably large</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &lt; 0.01</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &gt; 100</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range parameter doesn't look unreasonably large</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>fit_spatial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatial model fit by ML ['sdmTMB']
+Formula: density ~ 1
+Mesh: mesh (isotropic covariance)
+Data: dat
+Family: tweedie(link = 'log')
+ 
+            coef.est coef.se
+(Intercept)     2.74    0.35
+
+Dispersion parameter: 13.72
+Tweedie p: 1.60
+Matérn range: 20.65
+Spatial SD: 2.65
+ML criterion at convergence: 6566.570
+
+See ?tidy.sdmTMB to extract these values as a data frame.</code></pre>
+</div>
+</div>
+<section id="exercise-10" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-10">Exercise:</h3>
+<p>A refresher:</p>
+<ol type="1">
+<li>What is the ‘Matern range’ in the output?</li>
+<li>What is the ‘Spatial SD’ in the output?</li>
+<li>What is the ‘Dispersion parameter’ in the output?</li>
+</ol>
+</section>
+</section>
+<section id="fitting-a-model-with-spatial-spatiotemporal-fields" class="level1">
+<h1>Fitting a model with spatial + spatiotemporal fields</h1>
+<p>This first model includes a quadratic effect of log depth (<code>poly(log_depth, 2)</code>), a factor effect for each year, and models total density using a Tweedie distribution and a log link. The spatial field and spatiotemporal fields are estimated.</p>
+<p>The year factors give each year its own mean (this is generally the approach used in fisheries stock assessment). The <code>0 +</code> omits the intercept such that each year’s estimate represents a mean as opposed to a difference from the intercept. This part is arbitrary and chosen for the sake of this exercise.</p>
+<p>The choice to use log depth helps the model fit because we have fewer samples from the deeper depths.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sdmTMB</span>(</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  density <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> year_factor <span class="sc">+</span> <span class="fu">poly</span>(log_depth, <span class="dv">2</span>),</span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">tweedie</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mesh =</span> mesh,</span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">spatial =</span> <span class="st">"on"</span>,</span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">spatiotemporal =</span> <span class="st">"iid"</span>, <span class="co">#&lt; new</span></span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="st">"year"</span>, <span class="co">#&lt; new</span></span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># silent = FALSE</span></span>
+<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="exercise-11" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-11">Exercise:</h3>
+<ol type="1">
+<li>Skim the help file (<code>?sdmTMB</code>). What are the other options for <code>spatiotemporal</code>?</li>
+</ol>
+<p>Print the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatiotemporal model fit by ML ['sdmTMB']
+Formula: density ~ 0 + year_factor + poly(log_depth, 2)
+Mesh: mesh (isotropic covariance)
+Time column: year
+Data: dat
+Family: tweedie(link = 'log')
+ 
+                    coef.est coef.se
+year_factor2003         1.83    0.29
+year_factor2004         2.39    0.27
+year_factor2005         2.17    0.27
+year_factor2007         0.98    0.29
+year_factor2009         1.49    0.28
+year_factor2011         1.96    0.28
+year_factor2013         2.31    0.27
+year_factor2015         2.12    0.27
+year_factor2017         1.39    0.29
+poly(log_depth, 2)1   -63.66    6.10
+poly(log_depth, 2)2   -95.54    5.87
+
+Dispersion parameter: 11.01
+Tweedie p: 1.50
+Matérn range: 14.70
+Spatial SD: 1.54
+Spatiotemporal SD: 1.65
+ML criterion at convergence: 6262.261
+
+See ?tidy.sdmTMB to extract these values as a data frame.</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-12" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-12">Exercise:</h3>
+<ol type="1">
+<li>What is new in the output of <code>fit</code> compared to <code>fit_spatial</code>?</li>
+</ol>
+<p>Run a basic sanity check on the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sanity</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Non-linear minimizer suggests successful convergence</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Hessian matrix is positive definite</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No extreme or very small eigenvalues detected</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No gradients with respect to fixed effects are &gt;= 0.001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No fixed-effect standard errors are NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No standard errors look unreasonably large</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &lt; 0.01</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &gt; 100</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range parameter doesn't look unreasonably large</code></pre>
+</div>
+</div>
+<p>We can use the tidy function to get the coefficients for the fixed effects:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 5
+   term                estimate std.error conf.low conf.high
+   &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+ 1 year_factor2003        1.83      0.285    1.28       2.39
+ 2 year_factor2004        2.39      0.267    1.87       2.92
+ 3 year_factor2005        2.17      0.270    1.64       2.70
+ 4 year_factor2007        0.983     0.289    0.416      1.55
+ 5 year_factor2009        1.49      0.283    0.932      2.04
+ 6 year_factor2011        1.96      0.276    1.42       2.50
+ 7 year_factor2013        2.31      0.266    1.79       2.83
+ 8 year_factor2015        2.12      0.274    1.59       2.66
+ 9 year_factor2017        1.39      0.287    0.823      1.95
+10 poly(log_depth, 2)1  -63.7       6.10   -75.6      -51.7 
+11 poly(log_depth, 2)2  -95.5       5.87  -107.       -84.0 </code></pre>
+</div>
+</div>
+<p>and by setting <code>effects = "ran_pars"</code>, we can extract the variance and random effect components:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">effects =</span> <span class="st">"ran_pars"</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Standard errors intentionally omitted because they have been calculated in log
+space.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  term      estimate std.error conf.low conf.high
+  &lt;chr&gt;        &lt;dbl&gt; &lt;lgl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+1 range        14.7  NA           10.0      21.5 
+2 phi          11.0  NA           10.3      11.8 
+3 sigma_O       1.54 NA            1.18      2.01
+4 sigma_E       1.65 NA            1.31      2.07
+5 tweedie_p     1.50 NA            1.48      1.52</code></pre>
+</div>
+</div>
+<p>There are multiple ways we can plot the depth effect on density. First, we can create a new data frame of all potential values, setting the other predictors (here year) to a fixed value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">log_depth =</span> <span class="fu">seq</span>(<span class="fu">log</span>(<span class="dv">50</span>), <span class="fu">log</span>(<span class="dv">700</span>), <span class="at">length.out =</span> <span class="dv">100</span>), <span class="at">year =</span> <span class="dv">2004</span>)</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (picking any one year)</span></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>nd<span class="sc">$</span>year_factor <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(nd<span class="sc">$</span>year)</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>  fit,</span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> nd,</span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">re_form =</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="co"># means only include the fixed effects (not the default)</span></span>
+<span id="cb105-9"><a href="#cb105-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_fit =</span> <span class="cn">TRUE</span> <span class="co"># means calculate standard errors (not the default)</span></span>
+<span id="cb105-10"><a href="#cb105-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb105-11"><a href="#cb105-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-12"><a href="#cb105-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(p, <span class="fu">aes</span>(log_depth, <span class="fu">exp</span>(est),</span>
+<span id="cb105-13"><a href="#cb105-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymin =</span> <span class="fu">exp</span>(est <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> est_se), <span class="at">ymax =</span> <span class="fu">exp</span>(est <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> est_se))) <span class="sc">+</span></span>
+<span id="cb105-14"><a href="#cb105-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_ribbon</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The second approach is to pass the sdmTMB object to the visreg package. This shows the conditional effect, where all values other than depth are held at a particular value. Note the default visreg plot is in link (here, log) space and the dots are randomized quantile residuals.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>visreg<span class="sc">::</span><span class="fu">visreg</span>(fit, <span class="at">xvar =</span> <span class="st">"log_depth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>visreg<span class="sc">::</span><span class="fu">visreg</span>(fit, <span class="at">xvar =</span> <span class="st">"log_depth"</span>, <span class="at">scale =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-39-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Third, we could use the <code>ggeffects</code> package, which can be used to show the marginal effects of predictors (averaging over all other covariates rather than using a single fixed value). For more details see the <a href="https://pbs-assess.github.io/sdmTMB/articles/ggeffects.html">visualizing marginal effects vignette</a>. <em>Note that won’t yet work with smoother <code>s()</code> terms</em>, but will soon work with the similar <code>ggeffects::ggpredict()</code> .</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> ggeffects<span class="sc">::</span><span class="fu">ggeffect</span>(fit, <span class="st">"log_depth [3.5:6.7 by=0.05]"</span>)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="prediction" class="level1">
+<h1>Prediction</h1>
+<p>Let’s now predict on a grid that covers the entire survey (<code>wcvi_grid</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">replicate_df</span>(qcs_grid, <span class="st">"year"</span>, <span class="fu">unique</span>(pcod<span class="sc">$</span>year))</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>log_depth <span class="ot">&lt;-</span> <span class="fu">log</span>(grid<span class="sc">$</span>depth)</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>year_factor <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(grid<span class="sc">$</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can predict on the original data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To predict on a new data frame, we can specify <code>newdata</code>. Here, we will predict on the survey grid. (1) This makes it easy to make visualizations. (2) This will be useful if we wanted to generate an area-weighted standardized population index later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can plot each of the components of the prediction data frame spatially:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Depth and year effect contribution:</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (Everything not a random field)</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(p, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> <span class="fu">exp</span>(est_non_rf))) <span class="sc">+</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial random field:</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(p, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> omega_s)) <span class="sc">+</span></span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>() <span class="sc">+</span></span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-44-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial-temporal random field:</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(p, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> epsilon_st)) <span class="sc">+</span></span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>() <span class="sc">+</span></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-44-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall estimate of density in link (log) space:</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(p, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> est)) <span class="sc">+</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-44-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall estimate of density: (with log-distributed colour)</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(p, <span class="fu">aes</span>(X, Y, <span class="at">fill =</span> <span class="fu">exp</span>(est))) <span class="sc">+</span></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">trans =</span> <span class="st">"log10"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-44-5.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-13" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-13">Exercise:</h2>
+<ol type="1">
+<li>Step through each of the plots above and discuss what each represents.</li>
+</ol>
+</section>
+</section>
+<section id="residual-checking" class="level1">
+<h1>Residual checking</h1>
+<p>We can calculate randomized quantile residuals with the <code>residuals.sdmTMB()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can plot those residuals spatially:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(X, Y, <span class="at">colour =</span> resid)) <span class="sc">+</span></span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) <span class="sc">+</span></span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-14" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-14">Exercise:</h2>
+<ol type="1">
+<li>What are you looking for in the above? Does it look OK?</li>
+<li>Usually visual inspection is fine but what kind of formal test could you use for spatial correlation?</li>
+</ol>
+<p>We can check the distribution of the residuals with a QQ plot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(dat<span class="sc">$</span>resid)</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(dat<span class="sc">$</span>resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These don’t look great, <em>but</em>, this is largely a function of error from the Laplace approximation on the random effects (see <a href="https://doi.org/10.1007/s10651-017-0372-4">Thygesen et al.&nbsp;2017</a>). MCMC-based are a better approach, but are slower. The following line of code will take a while to run and will require rstan and tmbstan. You may <em>not</em> want to run it. There’s a whole vignette on residual checking with sdmTMB here: <a href="https://pbs-assess.github.io/sdmTMB/articles/residual-checking.html" class="uri">https://pbs-assess.github.io/sdmTMB/articles/residual-checking.html</a> It’s an active area of research.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># warning: will take a couple minutes and requires rstan!</span></span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="co"># see ?residuals.sdmTMB</span></span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>resid_mcmc <span class="ot">&lt;-</span> <span class="fu">residuals</span>(</span>
+<span id="cb120-5"><a href="#cb120-5" aria-hidden="true" tabindex="-1"></a>  fit, </span>
+<span id="cb120-6"><a href="#cb120-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"mle-mcmc"</span>, </span>
+<span id="cb120-7"><a href="#cb120-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mcmc_iter =</span> <span class="dv">201</span>, </span>
+<span id="cb120-8"><a href="#cb120-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">mcmc_warmup =</span> <span class="dv">200</span></span>
+<span id="cb120-9"><a href="#cb120-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb120-10"><a href="#cb120-10" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(dat<span class="sc">$</span>resid_mcmc)</span>
+<span id="cb120-11"><a href="#cb120-11" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(dat<span class="sc">$</span>resid_mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can simulate new observations from the model and check properties of the simulation compared to the observed data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">simulate</span>(fit, <span class="at">nsim =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(s <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.555063</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>density <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5380308</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>), <span class="at">breaks =</span> <span class="dv">200</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dat<span class="sc">$</span>density, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>), <span class="at">breaks =</span> <span class="dv">200</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec_19_exercise_files/figure-html/unnamed-chunk-51-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="exercise-15" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-15">Exercise:</h2>
+<ol type="1">
+<li>What is the difference between <code>sdmTMB_simulate()</code> and <code>simulate.sdmTMB()</code>?</li>
+</ol>
+</section>
+</section>
+<section id="fitting-an-ar1-fields-model" class="level1">
+<h1>Fitting an AR(1) fields model</h1>
+<p>An alternative model would use AR(1) (first order autoregressive) correlated fields with or without spatial fields. We’ll fit a version without spatial fields.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>fit_ar1 <span class="ot">&lt;-</span> <span class="fu">update</span>(fit, <span class="at">spatial =</span> <span class="st">"off"</span>, <span class="at">spatiotemporal =</span> <span class="st">"ar1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sanity</span>(fit_ar1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Non-linear minimizer suggests successful convergence</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Hessian matrix is positive definite</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No extreme or very small eigenvalues detected</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No gradients with respect to fixed effects are &gt;= 0.001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No fixed-effect standard errors are NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No standard errors look unreasonably large</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &lt; 0.01</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ No sigma parameters are &gt; 100</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range parameter doesn't look unreasonably large</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>fit_ar1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatiotemporal model fit by ML ['sdmTMB']
+Formula: density ~ 0 + year_factor + poly(log_depth, 2)
+Mesh: mesh (isotropic covariance)
+Time column: year
+Data: dat
+Family: tweedie(link = 'log')
+ 
+                    coef.est coef.se
+year_factor2003         1.97    0.28
+year_factor2004         2.53    0.26
+year_factor2005         2.29    0.27
+year_factor2007         1.07    0.29
+year_factor2009         1.56    0.28
+year_factor2011         2.04    0.27
+year_factor2013         2.32    0.26
+year_factor2015         2.13    0.27
+year_factor2017         1.42    0.29
+poly(log_depth, 2)1   -60.21    5.60
+poly(log_depth, 2)2   -93.85    5.73
+
+Dispersion parameter: 11.24
+Tweedie p: 1.50
+Spatiotemporal AR1 correlation (rho): 0.62
+Matérn range: 15.53
+Spatiotemporal SD: 2.11
+ML criterion at convergence: 6284.092
+
+See ?tidy.sdmTMB to extract these values as a data frame.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fit, fit_ar1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        df      AIC
+fit     16 12556.52
+fit_ar1 16 12600.18</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_ar1, <span class="st">"ran_pars"</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Standard errors intentionally omitted because they have been calculated in log
+space.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  term      estimate std.error conf.low conf.high
+  &lt;chr&gt;        &lt;dbl&gt; &lt;lgl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+1 range       15.5   NA          10.7      22.6  
+2 phi         11.2   NA          10.5      12.0  
+3 sigma_E      2.11  NA           1.74      2.56 
+4 tweedie_p    1.50  NA           1.48      1.53 
+5 rho          0.618 NA           0.456     0.740</code></pre>
+</div>
+</div>
+<section id="exercise-16" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-16">Exercise:</h2>
+<ol type="1">
+<li>What is the estimated random field AR(1) correlation value (<code>rho</code>)? (Hint: see <code>print(fit_ar1)</code> and the <code>tidy()</code> line above.)</li>
+<li>What does this mean? Does this make sense ecologically?</li>
+<li>What is a subtle reason why you might want to include spatial fields if you’re using AR(1) fields? (Hint: think about the first time step and what the random field SD represents in the AR(1) process.)</li>
+</ol>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
