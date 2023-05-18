@@ -25,9 +25,9 @@ This course is intended to give students an overview of the theory and practical
 
 * Previously recorded lectures on our [YouTube Channel](https://www.youtube.com/@SAFSTimeSeries) 
 
-* FISH 550 [GitHub repo](https://github.com/atsa-es/fish550-2023)  & [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
+* FISH 550 [GitHub repo](https://github.com/atsa-es/fish550-2023)  & [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions) & [Team Lab Write-ups](https://atsa-es.github.io/fish550-2023/)
 
-* R package [{atsalibrary}](https://atsa-es.github.io/atsalibrary/) containing course data.
+* R package [{atsalibrary}](https://atsa-es.github.io/atsalibrary/) containing course data. The [atsa-es package repository](https://atsa-es.r-universe.dev/packages)
 
 <br>
 

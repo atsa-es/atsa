@@ -19,9 +19,9 @@ Thursday from 11:20-12:20 FISH 213
 
 ### Resources
 
-* [FISH 550 lab book](https://atsa-es.github.io/atsa-labs/)
+* [FISH 550 lab book](https://atsa-es.github.io/atsa-labs/) &  [atsa-es package repository](https://atsa-es.r-universe.dev/packages)
 
-* [GitHub repo for assignments](https://github.com/atsa-es/fish550-2023)
+* [GitHub repo for assignments](https://github.com/atsa-es/fish550-2023) & [Team Lab Write-ups](https://atsa-es.github.io/fish550-2023/)
 
 * [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions)
 
