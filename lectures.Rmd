@@ -50,8 +50,8 @@ week_lecs <- list(d1 = intro,
                   d6 = review_session, # lab
                   d14 = spatial,
                   d18 = spatial2, # lab no hw
-                  d17 = interactions1,
                   d15 = freqdomain,
+                  d17 = interactions1,
                   d19 = present1,
                   d20 = present2
 )
