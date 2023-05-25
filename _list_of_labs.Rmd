@@ -200,10 +200,10 @@ spatiallab <- fill.list(
 
 ```{r help}
 helplab <- fill.list(
-  title = "Help Desk",
-  topics = c("No Lab; Help for projects"),
+  title = "TMB/C++ in R",
+  topics = c(""),
   pdf = "",
-  rmd = "",
+  rmd = "https://github.com/atsa-es/fish550-2023/tree/main/Lab-6",
   html = "",
   video = "",
   youtube = "",
