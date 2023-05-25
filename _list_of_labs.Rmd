@@ -201,7 +201,7 @@ spatiallab <- fill.list(
 ```{r help}
 helplab <- fill.list(
   title = "TMB/C++ in R",
-  topics = c(""),
+  topics = c("TMB", "C++"),
   pdf = "",
   rmd = "https://github.com/atsa-es/fish550-2023/tree/main/Lab-6",
   html = "",
@@ -210,7 +210,7 @@ helplab <- fill.list(
   data = "",
   homework = "No homework",
   key = "",
-  instructor = "",
+  instructor = "Eli",
   hw_topics = c("No homework"),
   hw_duedate = ""
 )
