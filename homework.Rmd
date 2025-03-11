@@ -11,14 +11,35 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The labs for each week are listed on the [Computer Labs](comp_labs.html) tab. There are 6 labs with write-ups to turn in, listed below. The first lab on March 30 will get you oriented with GitHub, R, and RMarkdown that we will use during the course. There is an optional tutorial for you to work through on matrix math in R. You need to know how to work with matrices in R for the course material. The labs on May 18 & 25 will not have write-ups to turn in so that you can work on your final projects, and the last lab on June 1 is for student presentations.
+The labs for each week are listed on the [Computer Labs](comp_labs.html) tab. There are 6 labs with write-ups to turn in, listed below. The first lab on April 3 will get you oriented with GitHub, R, and RMarkdown that we will use during the course. There is an optional tutorial for you to work through on matrix math in R. You need to know how to work with matrices in R for the course material. The labs on May 22 & 29 will not have write-ups to turn in so that you can work on your final projects, and the last lab on June 5 is for student presentations.
 
-* Lab #1 Modeling and forecasting salmon returns with ARIMA models. Due: Apr 18 Tues 11:59 PM PDT 
-* Lab #2 Multivariate state-space models. Due: April 25 Tues 11:59 PM PDT
-* Lab #3 Dynamic Factor Analysis. Due: May 2 Tues 11:59 PM PDT
-* Lab #4 Hidden Markov Models. Due: May 9 Tues 11:59 PM PDT
-* Lab #5 Turn in a draft of your [Project Methods](final_proj.html#Project_Methods). Due: Fri May 12 11:59pm PDT
-* Lab #6 Dynamic Linear Models. Due: Tues May 23 11:59pm PDT
+```{r generate_hw_table, echo=FALSE}
+## data frame with dates & topics
+hw_txt <- data.frame(
+  lab = seq(6),
+  lab_topics = c("Modeling and forecasting with ARIMA models",
+                 "Multivariate state-space models",
+                 "Dynamic Factor Analysis",
+                 "Turn in a draft of your [Project Methods](final_proj.html#Project_Methods)",
+                 "Hidden Markov Models",
+                 "Dynamic Linear Models"),
+  due_dates = c("April 22",
+                "April 29",
+                "May 6",
+                "May 9",
+                "May 13",
+                "May 27")
+)
+colnames(hw_txt) <- c("Lab", "Topic", "Due date")
+## generate table
+kable(hw_txt, format = "html", align = "ccc", caption = " ", escape = FALSE) %>%
+  kable_styling(bootstrap_options = "striped",
+                full_width = F,
+                position = "left") %>%
+  column_spec(1, width = "6em") %>%
+  column_spec(2, width = "25em") %>%
+  column_spec(3, width = "6em")
+```
 
 ## Lab write-up structure
 
