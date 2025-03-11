@@ -31,28 +31,6 @@ This course is intended to give students an overview of the theory and practical
 
 <br>
 
-# Key dates
-
-## Homework
-
-* HW #1 due Tues April 18 11:59pm PDT
-* HW #2 due Tues April 25 11:59pm PDT
-* HW #3 due Tues May 2 11:59pm PDT
-* HW #4 due Tues May 9 11:59pm PDT
-* HW #5 due Fri May 12 11:59pm PDT (Note different timeline)
-* HW #6 due Tues May 23 11:59pm PDT
-
-## Final project
-
-* [Project proposals](final_proj.html) due Fri April 21 11:59pm PDT
-* [Project Methods](final_proj.html#Project_Methods) due Fri May 12 11:59pm PDT
-* Project presentations on Tues May 30 & Thurs June 1 
-* [Final report](final_proj.html) due Fri June 2 11:59pm PDT
-* [Peer reviews](review_guide.html) due Fri June 9 11:59pm PDT
-
-<br>
-
-
 # Learning objectives
 
 By the end of the quarter, students should be able to:
@@ -96,24 +74,24 @@ Associate Professor, School of Aquatic & Fishery Sciences
 # Meeting times & locations
 
 ### Lectures 
-Tuesday & Thursday from 10:00-11:20 in-person FSH 213, lectures will also be recorded
+Tuesday & Thursday from 1:30-3:00 in FSH 203
 
 ### Computer Lab
-Thursday from 11:20-12:20 in-person FSH 213
+Thursday from 3:00-4:00 in FSH 203
 
 ### Office hours
 
-Eli: Tuesday from 11:30-12:30 in FSH 213
+Eli: TBD
 
-Mark: Friday from 11:00-12:00 in FSH 220A
+Eric: TBD
 
-Eric: TBD from 8:00-9:00 via Zoom
+Mark: Thursdays from 12:00-1:00 in FSH 220A
 
 <br>
 
 # Pre-requisites
 
-Students should have a working knowledge of the [**R**](https://www.r-project.org/) computing software, such as that provided in FISH 552/553/549. Students should also have an understanding of basic probability and statistical inference.
+Students should have a working knowledge of the [**R**](https://www.r-project.org/) computing software, such as that provided in FISH 552/553 and FISH 549. Students should also have an understanding of basic probability and statistical inference.
 
 <br>
 
@@ -123,7 +101,7 @@ We are dedicated to providing a welcoming and supportive learning environment fo
 
 * Please let us know if you have a name or set of preferred pronouns that you would like us to use
 
-* Please let us know if *anyone* in class says something that makes you feel uncomfortable<sup>[[1](#endnotes)]</sup>
+* Please let us know if *anyone* in class says something that makes you feel uncomfortable^[If the instructor should be the one to say or do something that makes a student uncomfortable, the student should feel free to contact the Director of the School of Aquatic and Fishery Sciences.]
 
 In addition, we encourage the following kinds of behaviors:
 
@@ -184,13 +162,18 @@ Students will be evaluated on their knowledge of course content and their abilit
 
 ### Lab Write-Ups (30%)
 
-Each Thursday during lab, you will explore a dataset and prepare an analysis of the data using the techniques you learned in class that week. The lab write-up is due by 11:59 PM PST on the following Tuesday; you have 10 days to submit. It will consist of SHORT write-ups of an analysis of the data with analysis and diagnostics. We will supply a template for the lab. There will be 6 assignments worth 5% each.  You can work on the data as a group or solo. We will supply a data set, if you have a different data set that you or your group would like to use instead, you ask us if it will work. 
+Each Thursday during lab, you will explore a dataset and prepare an analysis of the data using the techniques you learned in class that week. The lab write-up is due by 11:59 PM PDT on the Tuesday 10 days later. It will consist of SHORT write-ups of an analysis of the data with analysis and diagnostics. We will supply a template for the lab. You can work on the data as a group or solo. We will supply a data set, if you have a different data set that you or your group would like to use instead, you ask us if it will work. 
+
+**Please refer to the [Lab Write-ups page](homework.html) for details and due dates.**
 
 ### Individual project (40%)  
 
-Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See [list of prior student projects](https://atsa-es.github.io/atsa/student_pubs.html) for the types of projects done in prior years.
+Each student will have to write a complete, publishable (<20 page) paper that may, or may not, serve as a component of their thesis/dissertation. Given that some students might not have their own data, students may also use data from the instructors, public datasets or datasets included in __R__ libraries. See the [list of prior student projects](final_proj.html#student_pubs.html) for the types of projects completed in prior years.
 
 The techniques you will be learning would be appropriate for the [EFI RCN NEON Ecological Forecast Challenge](https://ecoforecast.org/efi-rcn-forecast-challenges/) data. You are welcome to do one of the challenges as your individual project. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be most appropriate for the class.
+
+**Please refer to the [Final Project page](final_proj.html) for details and due dates.**
+
 
 ### Peer reviews (20%)  
 
@@ -249,6 +232,4 @@ No student should ever have to choose between buying food or textbooks. The UW F
 
 [1] If the instructor should be the one to say or do something that makes a student uncomfortable, the student should feel free to contact the Director of the School of Aquatic and Fishery Sciences.
 
-<br>
 
-<center>*This site was last updated at `r format(Sys.time(), "%H:%M")` on `r format(Sys.Date(), "%d %b %Y")`*</center>
