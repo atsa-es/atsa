@@ -62,7 +62,7 @@ arimalab <- fill.list(
   key = "",
   instructor = "Eli",
   hw_topics = c("ARIMA models"),
-  hw_duedate = "Due Tues Apr 18 11:59 PM PDT; Post to GitHub."
+  hw_duedate = "22 Apr"
 )
 ```
 
@@ -82,7 +82,7 @@ sslab2 <- fill.list(
   key = "",
   instructor = "Eli",
   hw_topics = c("State-space models"),
-  hw_duedate = "Due Tues April 25 11:59 PM PDT; Post to GitHub"
+  hw_duedate = "29 Apr"
 )
 ```
 
@@ -100,7 +100,7 @@ dfalab <- fill.list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Factor Analysis"),
-  hw_duedate = "Due Tues May 2 11:59 PM PDT; Post to GitHub"
+  hw_duedate = "6 May"
 )
 ```
 
@@ -118,7 +118,7 @@ hmmlab <- fill.list(
   key = "",
   instructor = "Eric",
   hw_topics = c(""),
-  hw_duedate = "Due Tues May 9 11:59 PM PDT; Post to GitHub"
+  hw_duedate = "13 May"
 )
 ```
 
@@ -136,7 +136,7 @@ dlmlab <- fill.list(
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "Due May 23 Tues 11:59 PM PDT; Post to GitHub"
+  hw_duedate = "27 May"
 )
 ```
 
@@ -157,7 +157,7 @@ bayeslab <- fill.list(
   key = "",
   instructor = "Eric",
   hw_topics = c(""),
-  hw_duedate = "Due Fri May 12 11:59pm PDT; Post to GitHub"
+  hw_duedate = "9 May"
 )
 ```
 
@@ -176,7 +176,7 @@ freqdomainlab <- fill.list(
   key = "",
   instructor = "Mark",
   hw_topics = c(""),
-  hw_duedate = "Due Tues May 23 11:59pm PDT; Post to GitHub"
+  hw_duedate = ""
 )
 ```
 
@@ -212,7 +212,7 @@ helplab <- fill.list(
   key = "",
   instructor = "Eli",
   hw_topics = c("No homework"),
-  hw_duedate = ""
+  hw_duedate = "work on projects"
 )
 ```
 
@@ -266,7 +266,7 @@ etsedmlab <- fill.list(
   key = "",
   instructor = c("Eli"),
   hw_topics = c("Covariates in MARSS models"),
-  hw_duedate = "Due next Thurs 11:59 PM PDT; email to instructor(s) for lab"
+  hw_duedate = ""
 )
 ```
 
@@ -320,7 +320,7 @@ sslab1 <- fill.list(
   key = "",
   instructor = "Eli",
   hw_topics = c("Univariate state-space models"),
-  hw_duedate = "Due Apr 25 Tues 11:59 PM PDT; post to GitHub"
+  hw_duedate = ""
 )
 ```
 
