@@ -26,7 +26,7 @@ h3 {
 </style>
 
 
-<h2>FISH 550 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Spring Qtr 2023</h2>
+<h2>FISH 550 &nbsp; &nbsp; University of Washington &nbsp; &nbsp; Spring 2025</h2>
 
 <br>
 
@@ -37,7 +37,7 @@ h3 {
 
 <br>
 
-<center>&copy; EE Holmes, EJ Ward & MD Scheuerell 2023</center>
+<center>&copy; EE Holmes, EJ Ward & MD Scheuerell 2025</center>
 
 <br>
 
