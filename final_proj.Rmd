@@ -15,11 +15,11 @@ As part of the class, each student will have to write a complete, publishable (<
 
 ### Due Dates
 
-* Project proposal due Fri April 21 11:59pm PDT
-* Project methods due Fri May 12 11:59pm PDT
-* Final paper due Fri June 2nd 11:59pm PDT
-* Presentations May 30 and June 1 during class time and lab time
-* Peer review due Fri June 9th 11:59pm PDT
+* Project proposal: April 18
+* Project methods: May 9
+* Project presentations: June 3 & 5 (during class and lab time)
+* Final paper: June 6
+* Peer review: June 13
 
 
 # Data sets
@@ -31,7 +31,7 @@ Students without data or a particular project in mind should look at our [page o
 
 # Project Proposal
 
-**due Fri April 21 11:59pm PDT**
+**Due no later than 11:59pm PDT on Friday, April 18**
 
 Write a 1-2 page description of your project idea that includes
 
@@ -50,7 +50,7 @@ Things to consider:
 
 # Project Methods
 
-**due Fri May 12 11:59pm PDT**
+**due no later than 11:59pm PDT on Friday, May 9**
 
 1. Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.
 
@@ -59,7 +59,7 @@ Things to consider:
 
 # Preparation of final papers
 
-**due Fri June 2nd 11:59pm PDT**
+**Due no later than 11:59pm PDT on Friday, June 6**
 
 ### Length
 
