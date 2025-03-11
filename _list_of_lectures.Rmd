@@ -328,7 +328,7 @@ tbd <- list(
 ```{r}
 present1 <- list(
   title = "Student presentations",
-  topics = c("Nick: Repeat spawning of steelhead", "Dylan: Analyzing mountain lion movement data", "Zoe: Model-based stoplight chart for seabird indicators", "Emma: Ocean microbiome community drivers"),
+  topics = c("Student presentations"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -343,7 +343,7 @@ present1 <- list(
 ```{r}
 present2 <- list(
   title = "Student presentations",
-  topics = c( "Student presentations"),
+  topics = c("Student presentations"),
   pdf = "",
   ppt = "",
   rmd = "",
