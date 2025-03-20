@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 As part of the class, each student will have to write a complete, publishable (<20 page) paper using the time series analysis techniques learned in class. See below for details on the structure of the paper.
 
-### Due Dates
+### Due dates
 
 * Project proposal: April 18
 * Project methods: May 9
@@ -28,6 +28,7 @@ Students are encouraged to use their own data and the paper may form a chapter f
 
 Students without data or a particular project in mind should look at our [page of data sets](data_sets.html). You might also reach out to your advisor for data set suggestions.
 
+***
 
 # Project Proposal
 
@@ -48,14 +49,17 @@ Things to consider:
 * linear, non-linear, or non-parametric
 * Guassian or non-Gaussian
 
+***
+
 # Project Methods
 
-**due no later than 11:59pm PDT on Friday, May 9**
+**Due no later than 11:59pm PDT on Friday, May 9**
 
 1. Write a draft methods section for your project. This is HW #5. The section should include a mathematical description of your model sufficient for someone else to understand and fit that model.
 
 2. Show that you can fit a pilot version of your proposed model. In other words, show that you can fit your proposed model to some data.
 
+***
 
 # Preparation of final papers
 
@@ -89,11 +93,13 @@ Ecology: http://esapubs.org/esapubs/preparation.htm
 
 Journal of Applied Ecology: http://www.journalofappliedecology.org/view/0/authorGuideline.html
 
+***
+
 # Peer reviews
 
-**due Fri June 9 11:59pm PDT**
+**Due no later than 11:59pm PDT on Friday, June 13**
 
-## Advice on reviewing scientific papers
+### Advice on reviewing scientific papers
 
 If you are looking for some guidance on writing reviews of scientific papers, here are some links to various columns, blogs, etc, about reviewing scientific papers:
 
@@ -102,7 +108,7 @@ If you are looking for some guidance on writing reviews of scientific papers, he
 [Duke Writing Lab](http://twp.duke.edu/uploads/media_items/scientificarticlereview.original.pdf)
 [Examples of good reviews from Peerage](http://www.peerageofscience.org/review/review-examples/)
 
-## Guidelines
+### Guidelines
 
 Final papers will be peer-reviewed and reviewed by instructors based on the following criteria.
 

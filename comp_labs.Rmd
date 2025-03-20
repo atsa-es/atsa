@@ -13,7 +13,7 @@ output: html_document
 
 ### Meeting days & times
 
-Thursday from 11:20-12:20 FISH 213
+Thursday from 3:00-4:00 FISH 203
 
 <br>
 
