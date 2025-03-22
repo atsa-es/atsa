@@ -25,7 +25,7 @@ This course is intended to give students an overview of the theory and practical
 
 * Previously recorded lectures on our [YouTube Channel](https://www.youtube.com/@SAFSTimeSeries) 
 
-* FISH 550 [GitHub repo](https://github.com/atsa-es/fish550-2023)  & [Discusssion board](https://github.com/atsa-es/fish550-2023/discussions) & [Team Lab Write-ups](https://atsa-es.github.io/fish550-2023/)
+* FISH 550 [GitHub repo](https://github.com/atsa-es/fish550-2025)  & [Discusssion board](https://github.com/atsa-es/fish550-2025/discussions) & [Team Lab Write-ups](https://atsa-es.github.io/fish550-2025/)
 
 * R package [{atsalibrary}](https://atsa-es.github.io/atsalibrary/) containing course data. The [atsa-es package repository](https://atsa-es.r-universe.dev/packages)
 
@@ -153,7 +153,7 @@ This course will introduce new material primarily through prepared slides and ha
 
 This course will involve a *lot* of communication between and among students and the instructor. Short questions should be addressed to us via email or our GitHub discussion boards; we will try my best to respond to your message within 24 hours. Under more normal circumstances, detailed questions would be addressed to us in person--either after class or during a scheduled meeting. In this case, however, we will schedule one-on-one or group video calls as needed.
 
-In addition to email and video, we will use the "Discussion" feature in our class **GitHub** repository to ask questions and assist others. Specifically, questions and answers can be posted to the discussion in the course repository [https://github.com/atsa-es/safs-timeseries/issues](https://github.com/atsa-es/fish550-2023/discussions).
+In addition to email and video, we will use the "Discussion" feature in our class **GitHub** repository to ask questions and assist others. Specifically, questions and answers can be posted to the discussion in the course repository [https://github.com/atsa-es/safs-timeseries/issues](https://github.com/atsa-es/fish550-2025/discussions).
 
 ***
 

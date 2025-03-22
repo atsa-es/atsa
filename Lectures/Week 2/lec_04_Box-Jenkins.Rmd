@@ -22,4 +22,4 @@ We'll be going over the first three lectures but skip the lecture on Seasonality
 
 For the lab we'll be working with salmon data in the North Pacific.
 
-* [Lab 1 Write-up](https://github.com/atsa-es/fish550-2023/blob/main/Lab-1/Readme.md)
+* [Lab 1 Write-up](https://github.com/atsa-es/fish550-2025/blob/main/Lab-1/Readme.md)
