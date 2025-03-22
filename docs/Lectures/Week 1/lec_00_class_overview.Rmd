@@ -44,7 +44,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### We encourage lots of questions during class
 
-### Use the GitHub [Discussion board](https://github.com/atsa-es/fish550-2023/discussions)
+### Use the GitHub [Discussion board](https://github.com/atsa-es/fish550-2025/discussions)
 
 ### Feel free to email any of the instructors outside of class
 
@@ -115,8 +115,8 @@ Or talk with the instructors (or your advisor)
 
 ## Tech preliminaries
 
-* You will need a GitHub account and accept the invite to join [ATSA-Spring-2023](https://github.com/orgs/atsa-es/teams/atsa-spring-2023)
-* Our class repo: [fish550-2023](https://github.com/atsa-es/fish550-2023) with [issues](https://github.com/atsa-es/fish550-2023/issues) and [discussions](https://github.com/atsa-es/fish550-2023/discussions)
+* You will need a GitHub account and accept the invite to join [ATSA-Spring-2025](https://github.com/orgs/atsa-es/teams/atsa-spring-2025)
+* Our class repo: [fish550-2025](https://github.com/atsa-es/fish550-2025) with [issues](https://github.com/atsa-es/fish550-2025/issues) and [discussions](https://github.com/atsa-es/fish550-2025/discussions)
 * We will use RStudio as our IDE.
 * Interacting with GitHub:
   - Option 1: Download GitHub Desktop. Very easy to use platform.
