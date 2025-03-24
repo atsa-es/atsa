@@ -2,7 +2,7 @@
 title: "An introduction to hidden markov models for time series"
 subtitle: FISH 550 – Applied Time Series Analysis
 author: "Eric Ward"
-date: "27 Apr 2023"
+date: ""
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -18,11 +18,12 @@ library(ggplot2)
 library(datasets)
 library(MARSS)
 library(dplyr)
-library(depmixS4)
+library(hmmTMB)
 library(rerddap)
 library(lubridate)
 library(reshape2)
 library(gtools)
+library(viridisLite)
 ```
 
 ## Overview of today's material
@@ -47,6 +48,7 @@ For additional background, see
 
 * McClintock et al. (2020) "Uncovering ecological state dynamics with hidden Markov models"
 
+* Michelot (2022) "hmmTMB: Hidden Markov models with exible covariate effects in R"
 
 ## State space models 
 
@@ -125,7 +127,14 @@ for(i in 2:100) {
 }
 mu = c(1,3)
 y = rnorm(length(state), mu[state], 0.5)
-plot(1:100, y, xlab="Time", ylab = "Simulated data", type="b")
+df = data.frame(x = 1:100, y = y)
+
+ggplot(df, aes(x, y)) + 
+  geom_point(col = viridis(1), size = 2, alpha = 0.7) + 
+  #geom_line(col = viridis(1)) + 
+  xlab("Time") + 
+  ylab("Simulated data") + 
+  theme_bw()
 ```
 
 ## Fitting these data with state space models
@@ -134,10 +143,13 @@ They can actually fit the data from a regime model quite well.
 
 * Via MARSS()
 ```{r}
-
-plot(1:100, y, xlab="Time", ylab = "Simulated data", type="b")
-lines(MARSS(y)$states[1,], col="blue")
-
+df$marss <- MARSS(df$y)$states[1,]
+ggplot(df, aes(x, y)) + 
+  geom_point(col = viridis(1), size = 2, alpha = 0.7) + 
+  geom_line(data = df, aes(x, marss), col = viridis(2, begin = 0.2, end = 0.4)[2]) + 
+  xlab("Time") + 
+  ylab("Simulated data") + 
+  theme_bw()
 ```
 
 ## Limitations of state space models with continuous states
@@ -199,8 +211,8 @@ for(t in 2:100) {
 }
 df <- data.frame("Time" = 1:100, "x" = x)
 
-ggplot(df, aes(Time, x)) + geom_line(col="darkblue") + 
-  geom_point(col="darkblue") + 
+ggplot(df, aes(Time, x)) + geom_line(col = viridis(1)) + 
+  geom_point(col = viridis(1)) + 
   theme_bw()
 ```
 
@@ -250,7 +262,8 @@ plogis(logit(0.1) + 0.015*1:100)
 ```{r echo=FALSE, fig.width=5,fig.height=2}
 df = rbind(data.frame("time"=1:100, "y"=plogis(logit(0.1) + 0.015*1:100),"par"="gamma_12"),
   data.frame("time"=1:100, "y"=plogis(logit(0.2) + 0.015*1:100),"par"="gamma_21"))
-ggplot(df, aes(time,y,group=par,col=par)) + geom_line() + ylab("Gamma") + xlab("Time") + theme_bw()
+ggplot(df, aes(time,y,group=par,col=par)) + geom_line(linewidth=1.2) + ylab("Gamma") + xlab("Time") + theme_bw() + 
+  scale_color_viridis_d(option = "magma", begin = 0.2, end = 0.8)
 ```
 
 ## HMMs theory
@@ -285,8 +298,8 @@ for(t in 2:100) {
   x[t] <- sample(1:2, size = 1, prob = Gamma[x[t-1],])
 }
 df = data.frame("Time" = 1:100, "x" = x)
-ggplot(df, aes(Time, x)) + geom_line(col="darkblue") + 
-  geom_point(col="darkblue") + 
+ggplot(df, aes(Time, x)) + geom_line(col = viridis(1)) + 
+  geom_point(col = viridis(1)) + 
   theme_bw()
 ```
 
@@ -337,7 +350,7 @@ u = c(1.2, 5.4)
 y = rnorm(length(x), u[x], 1)
 df = data.frame("Time"=1:100, "x"=x)
 ggplot(df, aes(Time, y)) + 
-  geom_point(col="darkblue") + 
+  geom_point(col = viridis(1)) + 
   theme_bw() + ylab("Observed Y")
 ```
 
@@ -397,7 +410,7 @@ As a first example, let's use an example of rainfall data in Seattle from the en
 ```{r, echo=FALSE, results='markdown', fig.height=3}
 rain = read.csv("seattle_rain.csv")
 ggplot(rain, aes(Time, Rainfall)) + 
-  geom_line(col="darkblue") + 
+  geom_line(col = viridis(1)) + 
   xlab("Days since Nov 1") + ylab("Precip (in)") + 
   theme_bw()
 ```
@@ -411,7 +424,7 @@ rain$rained = ifelse(rain$Rainfall > 0, 1, 0)
 ```
 
 ```{r, echo=FALSE,fig.height=3}
-ggplot(rain, aes(Time, rained)) + geom_line(col="darkblue") + 
+ggplot(rain, aes(Time, rained)) + geom_line(col = viridis(1)) + 
   xlab("Days since Nov 1") + ylab("Rained?") + theme_bw()
 ```
 
