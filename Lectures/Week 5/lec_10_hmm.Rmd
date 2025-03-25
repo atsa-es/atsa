@@ -7,9 +7,6 @@ output:
   ioslides_presentation:
     css: lecture_slides.css
   beamer_presentation: default
-editor_options: 
-  markdown: 
-    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -17,8 +14,6 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE,
                       message=FALSE, results='hide',
                       fig.align = 'center')
 library(ggplot2)
-#library(atsar)
-library(depmixS4)
 library(datasets)
 library(MARSS)
 library(dplyr)
@@ -549,7 +544,7 @@ HMM$...
 First we need to specify the number of latent / hidden states, and will
 start with 2 (rained / didn't rain)
 
-```{r echo=TRUE, eval=FALSE}
+```{r echo=TRUE, eval=TRUE}
 hidden <- MarkovChain$new(data = rain, n_states = 2)
 ```
 
@@ -559,7 +554,7 @@ The observation model family represents the distribution of responses
 conditioned on the states. For this example, we're modeling rainfall as
 a binary response
 
-```{r echo=TRUE, eval=FALSE}
+```{r echo=TRUE, eval=TRUE}
 # options for other families in vignette
 dists <- list(rained = "binom") 
 # named list of starting values -- varies by family
@@ -576,7 +571,7 @@ obs_model <- Observation$new(data = rain,
 Next we can construct the model, bringing the hidden and observation
 models together
 
-```{r echo=TRUE, eval=FALSE}
+```{r echo=TRUE, eval=TRUE}
 hmm <- HMM$new(obs = obs_model, 
                hid = hidden)
 ```
@@ -584,7 +579,7 @@ hmm <- HMM$new(obs = obs_model,
 Fitting the model can be done by calling fit (without assigning a new
 object)
 
-```{r echo=TRUE, eval=FALSE}
+```{r echo=TRUE, eval=TRUE}
 hmm$fit(silent=TRUE)
 ```
 
@@ -615,7 +610,7 @@ If we color observations by the most likely state sequence (Viterbi
 algorithm), it looks like the observations are being perfectly
 classified
 
-```{r echo=TRUE}
+```{r echo=TRUE, fig.height = 3}
 rain$est_state <- factor(paste0("State", hmm$viterbi()))
 ggplot(rain, aes(Time, rained, col = est_state)) + 
   geom_point() + ylab("Rained?") + theme_bw()
@@ -623,12 +618,20 @@ ggplot(rain, aes(Time, rained, col = est_state)) +
 
 ## Examples of univariate HMMs in R
 
+`viterbi()` returns the most likely state sequence over the time series
+
+`state_probs()` returns a matrix time steps x states, with the estimated probabilities of each
+
+`sample_states()` returns posterior samples of states, with uncertainty
+
+## Examples of univariate HMMs in R
+
 The transition matrices (`tpm`) are also easily accessible
 
 ```{r echo=FALSE, results='markdown'}
 Gamma = hmm$par()$tpm[,,1]
-rownames(Gamma) = c("From_1","From_2")
-colnames(Gamma) = c("To_1","To_2")
+rownames(Gamma) = c("From State 1","From State 2")
+colnames(Gamma) = c("To State 1","To State 2")
 knitr::kable(Gamma, digits=2)
 ```
 
@@ -643,23 +646,21 @@ model might be sensitive to
 
 ## Examples of univariate HMMs in R
 
-There's a couple practical ways to try to overcome this seed issue.
-
--   First, we can change the control parameters
-
+There's a couple practical ways to try to overcome these issues.
 Pseudocode:
 
 ```{r echo=TRUE, eval=FALSE}
 best = 1.0e10
 best_model = NA
 for(i in 1:iter) {
-  # fit the model
-  fitmod = fit(mod)
-  
-  # check to see if this is the best solution?
-  if(AIC(fitmod) < best) {
-    best_model = fitmod
-    best = AIC(fitmod)
+  set.seed(i)
+  p <- runif(1)# randomize initial values
+  par0 <- list(rained = list(size = c(1, 1), 
+                             prob = c(p, 1-p)))
+  [re-fit the model here]
+  if(hmm$AIC_conditional() < best) {
+    best_model = fitmod #? best solution?
+    best = hmm$AIC_conditional()
   }
 }
 ```
@@ -695,12 +696,12 @@ raw_dat = tabledap(out, fields = c("station", "line", "latitude",
 raw_dat$year = lubridate::year(raw_dat$time)
 raw_dat$month = lubridate::month(raw_dat$time)
 
-raw_dat = dplyr::filter(raw_dat, scientific_name == calcofi$Species[i]) %>% 
-  dplyr::filter(month %in% c(4,5)) %>% 
-  dplyr::group_by(station) %>%
-  dplyr::mutate(n = n()) %>% 
-  dplyr::filter(n >= 20) %>%
-  dplyr::group_by(year) %>% 
+raw_dat = dplyr::filter(raw_dat, scientific_name == calcofi$Species[i]) |> 
+  dplyr::filter(month %in% c(4,5)) |> 
+  dplyr::group_by(station) |>
+  dplyr::mutate(n = n()) |> 
+  dplyr::filter(n >= 20) |>
+  dplyr::group_by(year) |> 
   summarize(m = mean(as.numeric(larvae_10m2), na.rm=T))
 
 raw_dat$species = calcofi$Species[i]
@@ -726,101 +727,46 @@ simplicty, we're just taking the mean abundance across stations in
 April-May.
 
 ```{r, fig.height=3.5}
-calcofi = read.csv("calcofi.csv", stringsAsFactors = FALSE)
-calcofi = dplyr::filter(calcofi, species == "Leuroglossus stilbius")
+calcofi <- read.csv("calcofi.csv", stringsAsFactors = FALSE)
+calcofi <- dplyr::filter(calcofi, species == "Leuroglossus stilbius")
 ggplot(calcofi, aes(year, m)) + geom_line() + xlab("Year") + ylab("Mean CPUE") + 
   ggtitle("Leuroglossus stilbius") + theme_bw()
 ```
 
 ## Examples of univariate HMMs in R
 
-We'll start with fitting a 2-state model with `depmix`. Assumptions:
+We'll start with fitting a 2-state model with. Assumptions:
 
--   Model fit to ln transformed data, assumed Gaussian
-
-```{r echo=TRUE}
-set.seed(123)
-calcofi$ln = log(calcofi$m)
-mod = depmix(ln ~ 1, 
-             nstates = 2, 
-             data=calcofi)
-fitmod = fit(mod)
-```
-
-## Examples of univariate HMMs in R
-
-First let's look at how to get predictions out of a `depmix.fitted`
-object
-
-We'll start with the state probabilities. Remember we could work with
-either
-
--   Most probable state trajectory - via the `viterbi` function
--   Marginals of $P(x_{t})$ - via the `posterior` function
-
-## Examples of univariate HMMs in R
-
-The most probable states are
-
-```{r echo=TRUE}
-prstates = apply(posterior(fitmod)[,c("S1","S2")], 
-  1, which.max)
-```
-
-```{r echo=TRUE, fig.height=3}
-plot(prstates, type="b", xlab="Time", ylab="State")
-```
-
-## Examples of univariate HMMs in R
-
-`depmixS4` doesn't have a `predict()` or `forecast()` function, but
-creating estimated data is pretty straightforward. We can get the means
-out with
-
-```{r echo=TRUE}
-mu = summary(fitmod)[,1]
-```
-
-```{r echo=TRUE}
-pred = data.frame("year"=seq(min(calcofi$year), 
-  max(calcofi$year)),
-  "fit" = mu[prstates])
-```
-
-```{r, fig.height=2.7}
-ggplot(calcofi, aes(year, log(m))) + geom_point(col="blue", size=1.5) + 
-  geom_line(data=pred, aes(year, fit)) + ggtitle("Leuroglossus stilbius - raw data and predictions") + 
-  ylab("Ln CPUE") + xlab("Year") + theme_bw()
-```
-
-## Examples of univariate HMMs in R
-
-Some diagnostics (like autocorrelation) may not look great. What if we
-compared the previous model to one with 3 states? AIC from the 2-state
-model was
-
-```{r results='markdown'}
-AIC(fitmod)
-```
+-   Model fit to ln transformed CPUE data, assumed Gaussian
 
 ```{r echo=TRUE}
 set.seed(123)
-calcofi$ln = log(calcofi$m)
-mod = depmix(ln ~ 1, 
-             nstates = 3, 
-             data=calcofi)
-fitmod = fit(mod)
+calcofi$ln_abund <- log(calcofi$m)
+hidden <- MarkovChain$new(data = calcofi, n_states = 2)
+dists <- list(ln_abund = "norm") 
+par0 <- list(ln_abund = list(mean = c(0,3), sd = c(0.1, 0.1)))
+obs_model <- Observation$new(data = calcofi,
+                             dists = dists,
+                             n_states = 2,
+                             par = par0)
+hmm <- HMM$new(obs = obs_model, 
+               hid = hidden)
+hmm$fit(silent=TRUE)
 ```
 
-This seems like increasing the states doesn't result in lower AIC
+## Examples of univariate HMMs in R
 
-```{r results='markdown'}
-AIC(fitmod)
+This ends up being a case where 2+ states aren't supported -- most observations are classified to a single state 
+
+```{r echo=TRUE, fig.height = 3}
+calcofi$est_state <- factor(paste0("State", hmm$viterbi()))
+ggplot(calcofi, aes(year, ln_abund, col = est_state)) + 
+  geom_point() + ylab("Ln CPUE") + xlab("Year") + theme_bw()
 ```
 
 ## Model selection & diagnostics
 
--   In comparing 2 vs 3 state HMM, we found lower AIC for 2-state model
+-   In comparing 2 vs 3 state HMM, one could compare AIC with `hmm$AIC_marginal()` or `hmm$conditional()`
 
 -   However, opposite is often true -- more states fit better, and
     result in lower AIC
@@ -829,6 +775,20 @@ AIC(fitmod)
 
 -   Pohle et al. 2017. "Selecting the Number of States in Hidden Markov
     Models: Pragmatic Solutions Illustrated Using Animal Movement"
+
+## Model selection & diagnostics
+
+We can also look at residual QQ plots as a goodness of fit metric (as you would do with `DHARMa` or other packages). With `hmmTMB`
+
+```{r echo = TRUE, eval = TRUE, fig.height = 3, fig.width = 4}
+pseudo <- hmm$pseudores()
+ggplot(as.data.frame(pseudo), aes(sample = ln_abund)) +
+  geom_qq() +
+  geom_qq_line(col="red") +
+  ggtitle("QQ Plot")
+```
+
+
 
 ## Examples of multivariate HMMs in R
 
@@ -843,13 +803,16 @@ same for all time series, though the time series may differ
 
 ## Examples of multivariate HMMs in R
 
-In `depmix`, these arguments generally become lists
-
 We'll extend our CalCOFI example to include 2 species now
 
 ```{r, fig.height=4}
 calcofi = read.csv("calcofi.csv", stringsAsFactors = FALSE)
-ggplot(calcofi, aes(year, m, group=species,col=species)) + geom_line() + ylab("CPUE") + xlab("Year") + theme_bw()
+ggplot(calcofi, aes(year, m, group=species,col=species)) + 
+  geom_line() + 
+  scale_color_viridis_d(option="magma", begin = 0.2, end = 0.8) +
+  ylab("CPUE") + 
+  xlab("Year") + 
+  theme_bw()
 ```
 
 ## Examples of multivariate HMMs in R
@@ -868,25 +831,21 @@ head(calcofi)
 
 ## Examples of multivariate HMMs in R
 
-```{r echo=TRUE}
+*Note* the only thing we have to change are the named family list `dists` and the initial parameters `par0`
+```{r echo=TRUE, eval = FALSE}
 set.seed(123)
-mod = depmix(list(L_stilbius ~ 1, L_ochotensis~1), 
-             nstates = 2, 
-             family = list(gaussian(),gaussian()),
-             data=calcofi)
-fitmod = fit(mod)
+hidden <- MarkovChain$new(data = calcofi, n_states = 2)
+dists <- list(L_stilbius = "norm", L_ochotensis = "norm") 
+par0 <- list(L_stilbius = list(mean = c(0,3), sd = c(0.1, 0.1)),
+             L_ochotensis = list(mean = c(0,3), sd = c(0.1, 0.1)))
+obs_model <- Observation$new(data = calcofi,
+                             dists = dists,
+                             n_states = 2,
+                             par = par0)
+hmm <- HMM$new(obs = obs_model, 
+               hid = hidden)
+hmm$fit(silent=TRUE)
 ```
-
-## Examples of multivariate HMMs in R
-
-We could also have situations where the time series are of different
-length.
-
--   For example, if L_ochotensis time series was missing first half of
-    values
-
--   The argument `ntimes` is a list that becomes particularly valuable
-    here - representing the length of each time series
 
 ## Summary
 
@@ -1024,7 +983,7 @@ model.file="model.txt")
 
 -   Next steps: thus far, we've only considered HMMs that are AR(1)
 
--   Homework: try to modify the example above for the CalCOFI data to be
+-   Challenge: try to modify the example above for the CalCOFI data to be
     AR(2)
 
 -   [hint: what are the dimensions of $\Gamma$?]
