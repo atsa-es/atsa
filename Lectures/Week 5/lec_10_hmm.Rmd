@@ -23,6 +23,7 @@ library(lubridate)
 library(reshape2)
 library(gtools)
 library(viridisLite)
+library(here)
 ```
 
 ## Overview of today's material
@@ -51,7 +52,7 @@ For additional background, see
 -   McClintock et al. (2020) "Uncovering ecological state dynamics with
     hidden Markov models"
 
--   Michelot (2022) "hmmTMB: Hidden Markov models with exible covariate
+-   Michelot (2022) "hmmTMB: Hidden Markov models with flexible covariate
     effects in R"
 
 ## State space models
@@ -89,9 +90,13 @@ however they may not be able to explain some datasets very well.
 
 ## Regimes
 
-![Example from Moore (2018), "Predicting tipping points in complex
-environmental systems"](Moore_2018.jpg){#id .class width="50%"
+Example from Moore (2018): "Predicting tipping points in complex
+environmental systems"
+
+<center>
+![](Moore_2018.jpg){#id .class width="50%"
 height="50%"}
+</center>
 
 ## Regimes / behavioral states
 
