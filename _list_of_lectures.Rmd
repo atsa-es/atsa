@@ -16,13 +16,13 @@ intro <- list(
              "Properties of time series",
              "Data transformations",
              "Time series decomposition"),
-  pdf = "",# c("Lectures/Week 1/lec_00_class_overview.pdf", "Lectures/Week 1/lec_01_intro_to_ts.pdf"),
+  pdf = "", #c("Lectures/Week 1/lec_00_class_overview.pdf", "Lectures/Week 1/lec_01_intro_to_ts.pdf"),
   ppt = "",
-  rmd = "",# c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
-  html = "",# c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
-  video = "",# "https://youtu.be/XeAN-zYhqGw",
+  rmd = c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
+  html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
+  video = "https://youtu.be/XeAN-zYhqGw",
   youtube = "",
-  reading = "",# c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)" ),
+  reading = c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)" ),
   instructor = "Mark"
 )
 ```
@@ -36,13 +36,13 @@ ts_basics <- list(
              "White noise",
              "Random walks",
              "Differencing"),
-  pdf = "",# "Lectures/Week 1/lec_02_covariance_stationarity.pdf",
+  pdf = "", #"Lectures/Week 1/lec_02_covariance_stationarity.pdf",
   ppt = "",
-  rmd = "",# "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
-  html = "",# "Lectures/Week 1/lec_02_covariance_stationarity.html",
-  video = "",# "https://youtu.be/vwHqxe9eVMk",
+  rmd = "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
+  html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
+  video = "https://youtu.be/vwHqxe9eVMk",
   youtube = "",
-  reading = "",# c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)", "[R script for class](lec_02_covariance_stationarity.R)"),
+  reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)", "[R script for class](lec_02_covariance_stationarity.R)"),
   instructor = "Mark"
 )
 ```
@@ -55,13 +55,13 @@ arma_basics <- list(
              "Stationary AR models",
              "Invertible MA models",
              "Using ACF & PACF for model ID"),
-  pdf = "",# "Lectures/Week 2/lec_03_ARMA_models.pdf",
+  pdf = "", #"Lectures/Week 2/lec_03_ARMA_models.pdf",
   ppt = "",
-  rmd = "",# "Lectures/Week 2/lec_03_ARMA_models.Rmd",
-  html = "",# "Lectures/Week 2/lec_03_ARMA_models.html",
-  video = "",# "https://youtu.be/IgX9Bpu3ggc",
+  rmd = "Lectures/Week 2/lec_03_ARMA_models.Rmd",
+  html = "Lectures/Week 2/lec_03_ARMA_models.html",
+  video = "https://youtu.be/IgX9Bpu3ggc",
   youtube = "",
-  reading = "",# c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)", "[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)"),
+  reading = c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)", "[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)"),
   instructor = "Mark"
 )
 ```
