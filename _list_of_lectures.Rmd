@@ -16,13 +16,13 @@ intro <- list(
              "Properties of time series",
              "Data transformations",
              "Time series decomposition"),
-  pdf = c("Lectures/Week 1/lec_00_class_overview.pdf", "Lectures/Week 1/lec_01_intro_to_ts.pdf"),
+  pdf = "",# c("Lectures/Week 1/lec_00_class_overview.pdf", "Lectures/Week 1/lec_01_intro_to_ts.pdf"),
   ppt = "",
-  rmd = c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
-  html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
-  video = "https://youtu.be/XeAN-zYhqGw",
+  rmd = "",# c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
+  html = "",# c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
+  video = "",# "https://youtu.be/XeAN-zYhqGw",
   youtube = "",
-  reading = c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)" ),
+  reading = "",# c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)" ),
   instructor = "Mark"
 )
 ```
@@ -36,13 +36,13 @@ ts_basics <- list(
              "White noise",
              "Random walks",
              "Differencing"),
-  pdf = "Lectures/Week 1/lec_02_covariance_stationarity.pdf",
+  pdf = "",# "Lectures/Week 1/lec_02_covariance_stationarity.pdf",
   ppt = "",
-  rmd = "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
-  html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
-  video = "https://youtu.be/vwHqxe9eVMk",
+  rmd = "",# "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
+  html = "",# "Lectures/Week 1/lec_02_covariance_stationarity.html",
+  video = "",# "https://youtu.be/vwHqxe9eVMk",
   youtube = "",
-  reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)", "[R script for class](lec_02_covariance_stationarity.R)"),
+  reading = "",# c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)", "[R script for class](lec_02_covariance_stationarity.R)"),
   instructor = "Mark"
 )
 ```
@@ -55,13 +55,13 @@ arma_basics <- list(
              "Stationary AR models",
              "Invertible MA models",
              "Using ACF & PACF for model ID"),
-  pdf = "Lectures/Week 2/lec_03_ARMA_models.pdf",
+  pdf = "",# "Lectures/Week 2/lec_03_ARMA_models.pdf",
   ppt = "",
-  rmd = "Lectures/Week 2/lec_03_ARMA_models.Rmd",
-  html = "Lectures/Week 2/lec_03_ARMA_models.html",
-  video = "https://youtu.be/IgX9Bpu3ggc",
+  rmd = "",# "Lectures/Week 2/lec_03_ARMA_models.Rmd",
+  html = "",# "Lectures/Week 2/lec_03_ARMA_models.html",
+  video = "",# "https://youtu.be/IgX9Bpu3ggc",
   youtube = "",
-  reading = c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)", "[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)"),
+  reading = "",# c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)", "[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)"),
   instructor = "Mark"
 )
 ```
@@ -86,13 +86,13 @@ forecast <- list(
 forecast <- list(
   title = "Box-Jenkins Method",
   topics = c("Box-Jenkins method", "Forecasting with ARIMA models", "Seasonal ARIMA models"),
-  pdf = c("Lectures/Week 2/lec_04_Box-Jenkins.html"),
+  pdf = "",# c("Lectures/Week 2/lec_04_Box-Jenkins.html"),
   ppt = "",
-  rmd = c("Lectures/Week 2/lec_04_Box-Jenkins.html"),
-  html = c("Lectures/Week 2/lec_04_Box-Jenkins.html"),
-  video = c("https://youtu.be/xnwkWkS6rJE", "https://youtu.be/ZpWQ_03QGUU", "https://youtu.be/6yhVagr2hJc"),
+  rmd = "",# c("Lectures/Week 2/lec_04_Box-Jenkins.html"),
+  html = "",# c("Lectures/Week 2/lec_04_Box-Jenkins.html"),
+  video = "",# c("https://youtu.be/xnwkWkS6rJE", "https://youtu.be/ZpWQ_03QGUU", "https://youtu.be/6yhVagr2hJc"),
   youtube = "",
-  reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)", "[CM09: Chap 7.1-7.2](Files/Introductory_Time_Series_With_R.pdf)", "CM not as useful this week", "[Video 1 2021](https://youtu.be/ML1l4Zk_5Vo)", "[Video 2 2021](https://youtu.be/HOVDmx_juMk)"),
+  reading = "",# c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)","[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)", "[CM09: Chap 7.1-7.2](Files/Introductory_Time_Series_With_R.pdf)", "CM not as useful this week", "[Video 1 2021](https://youtu.be/ML1l4Zk_5Vo)", "[Video 2 2021](https://youtu.be/HOVDmx_juMk)"),
   instructor = "Eli"
 )
 ```
@@ -101,6 +101,7 @@ forecast <- list(
 ```{r uni-ss}
 uni_ss <- list(
   title = "Univariate state-space models",
+<<<<<<< HEAD
   topics = c("Linear Gaussian state space models", "Kalman filter"),
   pdf = c(""),
   ppt = "",
@@ -119,14 +120,14 @@ uni_ss <- list(
 # 2023
 uni_ss <- list(
   title = "Univariate state-space models",
-  topics = c("Linear Gaussian state space models", "Kalman filter"),
-  pdf = c("Lectures/Week 3/lec_05_univariate_state_space.pdf"),
+  topics = c("Univariate state-space models"),
+  pdf = "",# c("Lectures/Week 3/lec_05_univariate_state_space.pdf"),
   ppt = "",
-  rmd = c("Lectures/Week 3/lec_05_univariate_state_space.Rmd"),
-  html = c("Lectures/Week 3/lec_05_univariate_state_space.html"),
-  video = "https://youtu.be/-G_ejXMzEWw",
+  rmd = "",# c("Lectures/Week 3/lec_05_univariate_state_space.Rmd"),
+  html = "",# c("Lectures/Week 3/lec_05_univariate_state_space.html"),
+  video = "",# "https://youtu.be/-G_ejXMzEWw",
   youtube = "",
-  reading = c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", 
+  reading = "",# c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", 
             "Additional background resources",
               "[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
               "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)", "Scripts are in the class repo"),
@@ -138,13 +139,13 @@ uni_ss <- list(
 marss <- list(
   title = "Multivariate state-space models",
   topics = c("Introduction to multivariate state-space models"),
-  pdf = c("Lectures/Week 3/lec_06_marss.pdf"),
-  ppt = "Lectures/Week 3/lec_06_marss.ppt",
+  pdf = "",# c("Lectures/Week 3/lec_06_marss.pdf"),
+  ppt = "",# "Lectures/Week 3/lec_06_marss.ppt",
   rmd = c(""),
   html = c(""),
-  video = "https://youtu.be/4nrZZGMY1bc",
+  video = "",# "https://youtu.be/4nrZZGMY1bc",
   youtube = "",
-  reading = c("[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
+  reading = "",# c("[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
               "[MARSS function](Lectures/Week 3/MARSS_function.html)",
               "[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)",
               "[uni_example_0.R](Lectures/Week 3/univariate_example_0.R)",
@@ -192,13 +193,13 @@ marss_covariates <- list(
   topics = c("MARSSX and ARMAX models",
              "Seasonal effects",
              "Missing covariates"),
-  pdf = c("Lectures/Week 4/lec_07_covariates.pdf"),
+  pdf = "",# c("Lectures/Week 4/lec_07_covariates.pdf"),
   ppt = "",
-  rmd = c("Lectures/Week 4/lec_07_covariates.Rmd"),
-  html = c("Lectures/Week 4/lec_07_covariates.html"),
-  video = "https://youtu.be/2Jb5pzgtuH0",
+  rmd = "",# c("Lectures/Week 4/lec_07_covariates.Rmd"),
+  html = "",# c("Lectures/Week 4/lec_07_covariates.html"),
+  video = "",# "https://youtu.be/2Jb5pzgtuH0",
   youtube = "",
-  reading = c(
+  reading = "",# c(
     "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
     "[MARSS Models HWS18a: Chap 8](https://atsa-es.github.io/atsa-labs/chap-msscov.html)",
     "[Missing Covariates HWS18a: Chap 11](https://atsa-es.github.io/atsa-labs/chap-mssmiss.html)",
@@ -213,13 +214,13 @@ marss_covariates <- list(
 dfa <- list(
   title = "Dynamic Factor Analysis",
   topics = "Dynamic factor analysis (DFA)",
-  pdf = "Lectures/Week 4/lec_08_intro_to_DFA.pdf",
+  pdf = "",# "Lectures/Week 4/lec_08_intro_to_DFA.pdf",
   ppt = "",
-  rmd = "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
-  html = "Lectures/Week 4/lec_08_intro_to_DFA.html",
-  video = "https://youtu.be/LVlo8I0PdPA",
+  rmd = "",# "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
+  html = "",# "Lectures/Week 4/lec_08_intro_to_DFA.html",
+  video = "",# "https://youtu.be/LVlo8I0PdPA",
   youtube = "",
-  reading = c("[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
+  reading = "",# c("[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
   instructor = "Mark"
 )
 ```
@@ -228,13 +229,13 @@ dfa <- list(
 dlm <- list(
   title = "Dynamic Linear Models",
   topics = c("Dynamic linear models (DLMs)"),
-  pdf = "Lectures/Week 5/lec_09_intro_to_DLMs.pdf",
+  pdf = "",# "Lectures/Week 5/lec_09_intro_to_DLMs.pdf",
   ppt = "",
-  rmd = "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
-  html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
-  video = "https://youtu.be/Uxx2jK7heNE",
+  rmd = "",# "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
+  html = "",# "Lectures/Week 5/lec_09_intro_to_DLMs.html",
+  video = "",# "https://youtu.be/Uxx2jK7heNE",
   youtube = "",
-  reading = c("[Petris et al. (2009)](Files/Petris_2009_DLMs_in_R.pdf)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[Scheuerell & Williams (2005)](Files/Scheuerell_2005_forecasting_SARs.pdf)"),
+  reading = "",# c("[Petris et al. (2009)](Files/Petris_2009_DLMs_in_R.pdf)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[Scheuerell & Williams (2005)](Files/Scheuerell_2005_forecasting_SARs.pdf)"),
   instructor = "Mark"
 )
 ```
@@ -260,11 +261,11 @@ HMMs <- list(
   topics = c("Hidden Markov models"),
   pdf = "",
   ppt = "",
-  rmd = c("Lectures/Week 5/lec_10_hmm.Rmd", "Lectures/Week 5/lec_10_hmm_inclass.Rmd"),
-  html = "Lectures/Week 5/lec_10_hmm.html",
-  video = "https://youtu.be/CqmAs3aPf_k",
+  rmd = "",# c("Lectures/Week 5/lec_10_hmm.Rmd", "Lectures/Week 5/lec_10_hmm_inclass.Rmd"),
+  html = "",# "Lectures/Week 5/lec_10_hmm.html",
+  video = "",# "https://youtu.be/CqmAs3aPf_k",
   youtube = "",
-  reading = c("[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
+  reading = "",# c("[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
   instructor = "Eric"
 )
 ```
@@ -274,12 +275,12 @@ bayes <- list(
   title = "Bayesian estimation: univariate models",
   topics = c("Bayesian estimation of time-series and state-space models","Stan"),
   ppt = "",
-  pdf = "Lectures/Week 6/lec_11_bayes.pdf",
-  rmd = c("Lectures/Week 6/lec_11_bayes.Rmd", "Lectures/Week 6/lec_11_inclass.Rmd"),
-  html = c("Lectures/Week 6/lec_11_bayes.html", "Lectures/Week 6/lec_11_inclass.html"),
-  video = "https://youtu.be/PzMFjO1sjEo",
+  pdf = "",# "Lectures/Week 6/lec_11_bayes.pdf",
+  rmd = "",# c("Lectures/Week 6/lec_11_bayes.Rmd", "Lectures/Week 6/lec_11_inclass.Rmd"),
+  html = "",# c("Lectures/Week 6/lec_11_bayes.html", "Lectures/Week 6/lec_11_inclass.html"),
+  video = "",# "https://youtu.be/PzMFjO1sjEo",
   youtube = "",
-  reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)", "[mcmc intro](https://livefreeordichotomize.com/2017/10/14/mcmc-and-the-case-of-the-spilled-seeds/)"),
+  reading = "",# c("[Stan manual](https://mc-stan.org/users/documentation/)", "[Monnahan et al. 2017](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12681)", "[mcmc intro](https://livefreeordichotomize.com/2017/10/14/mcmc-and-the-case-of-the-spilled-seeds/)"),
   instructor = "Eric"
 )
 ```
@@ -288,13 +289,13 @@ bayes <- list(
 bayes2 <- list(
   title = "Bayesian estimation: multivariate models",
   topics = c("MAP estimation", "Multivariate models", "DFA", "Writing Bayesian models in Stan"),
-  pdf = "Lectures/Week 6/lec_12_bayes2.pdf",
+  pdf = "",# "Lectures/Week 6/lec_12_bayes2.pdf",
   ppt = "",
-  rmd = c("Lectures/Week 6/lec_12_bayes2.Rmd","Lectures/Week 6/lec_12_inclass.Rmd"),
-  html = c("Lectures/Week 6/lec_12_bayes2.html","Lectures/Week 6/lec_12_inclass.html"),
-  video = "https://youtu.be/ZO_S7uo_nVg",
+  rmd = "",# c("Lectures/Week 6/lec_12_bayes2.Rmd","Lectures/Week 6/lec_12_inclass.Rmd"),
+  html = "",# c("Lectures/Week 6/lec_12_bayes2.html","Lectures/Week 6/lec_12_inclass.html"),
+  video = "",# "https://youtu.be/ZO_S7uo_nVg",
   youtube = "",
-  reading = c("[Stan manual](https://mc-stan.org/users/documentation/)", "[bayesdfa example](https://fate-ewi.github.io/bayesdfa/articles/a1_bayesdfa.html)"),
+  reading = "",# c("[Stan manual](https://mc-stan.org/users/documentation/)", "[bayesdfa example](https://fate-ewi.github.io/bayesdfa/articles/a1_bayesdfa.html)"),
   instructor = "Eric"
 )
 ```
@@ -305,13 +306,13 @@ model_inf <- list(
   topics = c("Multi-model inference and selection",
              "Information criteria",
              "Cross-validation & LOOIC"),
-  pdf = "Lectures/Week 7/lec_13_modelselection.pdf",
+  pdf = "",# "Lectures/Week 7/lec_13_modelselection.pdf",
   ppt = "",
-  rmd = "Lectures/Week 7/lec_13_modelselection.Rmd",
-  html = "Lectures/Week 7/lec_13_modelselection.html",
-  video = "https://youtu.be/Z-kIEMqGD-c",
+  rmd = "",# "Lectures/Week 7/lec_13_modelselection.Rmd",
+  html = "",# "Lectures/Week 7/lec_13_modelselection.html",
+  video = "",# "https://youtu.be/Z-kIEMqGD-c",
   youtube = "",
-  reading = c("See list of references in the lecture", "[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)", "[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)","[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
+  reading = "",# c("See list of references in the lecture", "[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)", "[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)","[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
   instructor = "Eric"
 )
 ```
@@ -323,13 +324,13 @@ freqdomain <- list(
              "Fourier transforms",
              "Spectral analysis",
              "Wavelet analysis"),
-  pdf = "Lectures/Week 8/lec_16_freq_domain.pdf",
+  pdf = "",# "Lectures/Week 8/lec_16_freq_domain.pdf",
   ppt = "",
-  rmd = "Lectures/Week 8/lec_16_freq_domain.Rmd",
-  html = "Lectures/Week 8/lec_16_freq_domain.html",
-  video = "https://youtu.be/XCnHQve-Tmk",
+  rmd = "",# "Lectures/Week 8/lec_16_freq_domain.Rmd",
+  html = "",# "Lectures/Week 8/lec_16_freq_domain.html",
+  video = "",# "https://youtu.be/XCnHQve-Tmk",
   youtube = "",
-  reading = c("[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)", "[Percival & Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)"),
+  reading = "",# c("[Graps (1995)](https://www.eecis.udel.edu/~amer/CISC651/IEEEwavelet.pdf)", "[Percival & Walden (2000)](https://staff.washington.edu/dbp/wmtsa.html)"),
   instructor = "Mark"
 )
 ```
@@ -340,11 +341,11 @@ spatial <- list(
   topics = c("Spatial and spatio-temporal models"),
   pdf = c(""),
   ppt = "",
-  rmd = c("Lectures/Week 9/lec_17_spatiotemporal.Rmd"),
-  html = c("Lectures/Week 9/lec_17_spatiotemporal.html"),
-  video = "https://youtu.be/5ODu7D9DbNw",
+  rmd = "",# c("Lectures/Week 9/lec_17_spatiotemporal.Rmd"),
+  html = "",# c("Lectures/Week 9/lec_17_spatiotemporal.html"),
+  video = "",# "https://youtu.be/5ODu7D9DbNw",
   youtube = "",
-  reading = c("[River spatial models](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ele.12084)", "[River spatial 2](https://www.researchgate.net/profile/Jay-Ver-Hoef/publication/227369314_A_Moving_Average_Approach_for_Spatial_Statistical_Models_of_Stream_Networks/links/5f9820d6299bf1b53e49aa00/A-Moving-Average-Approach-for-Spatial-Statistical-Models-of-Stream-Networks.pdf)", "[River spatial 3](https://www.fs.fed.us/rm/pubs_other/rmrs_2014_issak_d001.pdf)"),
+  reading = "",# c("[River spatial models](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ele.12084)", "[River spatial 2](https://www.researchgate.net/profile/Jay-Ver-Hoef/publication/227369314_A_Moving_Average_Approach_for_Spatial_Statistical_Models_of_Stream_Networks/links/5f9820d6299bf1b53e49aa00/A-Moving-Average-Approach-for-Spatial-Statistical-Models-of-Stream-Networks.pdf)", "[River spatial 3](https://www.fs.fed.us/rm/pubs_other/rmrs_2014_issak_d001.pdf)"),
   #reading = c("[GitHub folder with code](https://github.com/atsa-es/atsa/tree/master/Lectures/Week%209)"),
   instructor = "Eric"
 )
@@ -356,11 +357,11 @@ spatial2 <- list(
   topics = c("Spatial and spatio-temporal models"),
   pdf = "",
   ppt = "",
-  rmd = c("Lectures/Week 9/lec_18_spatiotemporal.Rmd", "Lectures/Week 9/lec_19_sdmtmb.Rmd", "Lectures/Week 9/lec_19_exercise.Rmd"),
-  html = c("Lectures/Week 9/lec_18_spatiotemporal.html",
+  rmd = "",# c("Lectures/Week 9/lec_18_spatiotemporal.Rmd", "Lectures/Week 9/lec_19_sdmtmb.Rmd", "Lectures/Week 9/lec_19_exercise.Rmd"),
+  html = "",# c("Lectures/Week 9/lec_18_spatiotemporal.html",
            "Lectures/Week 9/lec_19_sdmtmb.html",
            "Lectures/Week 9/lec_19_exercise.html"),
-  video = "https://youtu.be/hnJnm-vCar8",
+  video = "",# "https://youtu.be/hnJnm-vCar8",
   youtube = "",
   reading = c(""),
   instructor = "Eric"
