@@ -101,7 +101,6 @@ forecast <- list(
 ```{r uni-ss}
 uni_ss <- list(
   title = "Univariate state-space models",
-<<<<<<< HEAD
   topics = c("Linear Gaussian state space models", "Kalman filter"),
   pdf = c(""),
   ppt = "",
@@ -121,13 +120,13 @@ uni_ss <- list(
 uni_ss <- list(
   title = "Univariate state-space models",
   topics = c("Univariate state-space models"),
-  pdf = "",# c("Lectures/Week 3/lec_05_univariate_state_space.pdf"),
+  pdf = c("Lectures/Week 3/lec_05_univariate_state_space.pdf"),
   ppt = "",
-  rmd = "",# c("Lectures/Week 3/lec_05_univariate_state_space.Rmd"),
-  html = "",# c("Lectures/Week 3/lec_05_univariate_state_space.html"),
-  video = "",# "https://youtu.be/-G_ejXMzEWw",
+  rmd = c("Lectures/Week 3/lec_05_univariate_state_space.Rmd"),
+  html = c("Lectures/Week 3/lec_05_univariate_state_space.html"),
+  video = "https://youtu.be/-G_ejXMzEWw",
   youtube = "",
-  reading = "",# c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", 
+  reading = c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", 
             "Additional background resources",
               "[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
               "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)", "Scripts are in the class repo"),
@@ -139,23 +138,13 @@ uni_ss <- list(
 marss <- list(
   title = "Multivariate state-space models",
   topics = c("Introduction to multivariate state-space models"),
-  pdf = "",# c("Lectures/Week 3/lec_06_marss.pdf"),
-  ppt = "",# "Lectures/Week 3/lec_06_marss.ppt",
+  pdf = "",
+  ppt = "",
   rmd = c(""),
   html = c(""),
-  video = "",# "https://youtu.be/4nrZZGMY1bc",
+  video = "",
   youtube = "",
-  reading = "",# c("[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
-              "[MARSS function](Lectures/Week 3/MARSS_function.html)",
-              "[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)",
-              "[uni_example_0.R](Lectures/Week 3/univariate_example_0.R)",
-              "[marss_example_0.R](Lectures/Week 3/marss_example_0.R)",
-              "[marss_example_0_with_comments.R](Lectures/Week 3/marss_example_0_with_comments.R)",
-              "[marss_example_1.R](Lectures/Week 3/marss_example_1.R)",
-              "[marss_example_2.R](Lectures/Week 3/marss_example_2.R)",
-              "[marss_example_3.R](Lectures/Week 3/marss_example_3.R)",
-              "[marss_example_4.R](Lectures/Week 3/marss_example_4.R)",
-              "[marss_example_5.R](Lectures/Week 3/marss_example_5.R)"),
+  reading = "",
   instructor = "Eli"
 )
 ```
@@ -199,8 +188,8 @@ marss_covariates <- list(
   html = "",# c("Lectures/Week 4/lec_07_covariates.html"),
   video = "",# "https://youtu.be/2Jb5pzgtuH0",
   youtube = "",
-  reading = "",# c(
-    "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
+  reading = c(
+  "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
     "[MARSS Models HWS18a: Chap 8](https://atsa-es.github.io/atsa-labs/chap-msscov.html)",
     "[Missing Covariates HWS18a: Chap 11](https://atsa-es.github.io/atsa-labs/chap-mssmiss.html)",
     "[HA18: Chap 5](https://otexts.com/fpp2/regression.html)",
@@ -358,9 +347,7 @@ spatial2 <- list(
   pdf = "",
   ppt = "",
   rmd = "",# c("Lectures/Week 9/lec_18_spatiotemporal.Rmd", "Lectures/Week 9/lec_19_sdmtmb.Rmd", "Lectures/Week 9/lec_19_exercise.Rmd"),
-  html = "",# c("Lectures/Week 9/lec_18_spatiotemporal.html",
-           "Lectures/Week 9/lec_19_sdmtmb.html",
-           "Lectures/Week 9/lec_19_exercise.html"),
+  html = "",# c("Lectures/Week 9/lec_18_spatiotemporal.html", "Lectures/Week 9/lec_19_sdmtmb.html", "Lectures/Week 9/lec_19_exercise.html"),
   video = "",# "https://youtu.be/hnJnm-vCar8",
   youtube = "",
   reading = c(""),
@@ -591,7 +578,7 @@ review_session <- list(
   video = "",
   youtube = "",
   reading = "",
-  instructor = "Mark & Eli"
+  instructor = "All"
 )
 ```
 
