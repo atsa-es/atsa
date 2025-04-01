@@ -53,15 +53,15 @@ lmlab <- fill.list(
 
 ```{r}
 arimalab <- fill.list(
-  title = "Box-Jenkins Methods",
-  topics = c("Fitting ARIMA models", "Forecasting with ARIMA models"),
-  html = c("Labs/Week 2/Lab1-ARIMA-2023.html"),
+  title = "Classic TS Forecasting",
+  topics = c("Fitting ARIMA models", "Forecasting with ARIMA models", "Fitting and Forecasting with ETS models"),
+  html = c("Labs/Week 2/Lab1-ARIMA-2025.html"),
   data = "See repo",
   repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-1",
   homework = "Lab write-up #1",
   key = "",
   instructor = "Eli",
-  hw_topics = c("ARIMA models"),
+  hw_topics = c("ARIMA and ETS models"),
   hw_duedate = "22 Apr"
 )
 ```
@@ -76,7 +76,7 @@ sslab2 <- fill.list(
   video = "",
   youtube = "",
   data = "See repo",
-  repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-1",
+  repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-2",
   homework = "Lab write-up #2",
   #homework = "HW #2 questions and data: [Rmd](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/HW2-NO2.Rmd), [html](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/HW2-NO2.html), [data](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/ECNNO2.RData), [Tips](https://atsa-es.github.io/atsa/Labs/Week 3/NO2Lab/HW2-Tips.html)",
   key = "",
@@ -95,7 +95,8 @@ dfalab <- fill.list(
   html = "Labs/Week 4/intro-to-dfa.html",
   video = "",
   youtube = "",
-  data = "",
+  data = "See repo",
+  repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-3",
   homework = "Lab write-up #3",
   key = "",
   instructor = "Mark",
@@ -114,6 +115,7 @@ hmmlab <- fill.list(
   video = "",
   youtube = "",
   data = "[stoplight](https://atsa-es.github.io/atsa/Labs/Week%205/stoplight.csv)",
+  repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-4",
   homework = "Lab write-up #4: Hidden Markov Models. [Rmd](https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.Rmd), [html](https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.html)",
   key = "",
   instructor = "Eric",
@@ -132,6 +134,7 @@ dlmlab <- fill.list(
   video = "https://youtu.be/KpBgTqcsqNg",
   youtube = "",
   data = "",
+  repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-5",
   homework = "",
   key = "",
   instructor = "Mark",

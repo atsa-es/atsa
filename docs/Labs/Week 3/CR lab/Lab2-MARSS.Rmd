@@ -1,7 +1,7 @@
 ---
 title: Lab 2 Analyzing multivariate salmon data
 author: E Holmes
-date: April 13, 2023
+date: April 2025
 output: 
   html_document:
     code-folding: true
@@ -18,10 +18,10 @@ For this lab you will use multivariate auto-regressive state-space (MARSS) to an
 
 ## Teams
 
-1. Lower Columbia River Chinook: Zoe Rand (QERM), Emma Timmins-Schiffman (Genome Sci), Maria Kuruvilla (QERM)
-2. Lower Columbia River Steelhead: Eric French (Civil), Liz Elmstrom (SAFS), Terrance Wang (SAFS)
-3. Lower Columbia River Coho: Nick Chambers (SAFS), Karl Veggerby (SAFS), Miranda Mudge (Molecular & Cellular)
-4. Middle Columbia River Steelhead: Madison Shipley (SAFS), Dylan Hubl (Env & Forest Sci)
+1. Lower Columbia River Chinook: 
+2. Lower Columbia River Steelhead: 
+3. Lower Columbia River Coho: 
+4. Middle Columbia River Steelhead: 
 
 ## Lower Columbia River salmon spawner data
 
