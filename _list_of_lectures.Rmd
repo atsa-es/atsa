@@ -66,8 +66,23 @@ arma_basics <- list(
 )
 ```
 
-
-```{r}
+```{r classic-forecasting}
+# 2024
+forecast <- list(
+  title = "Classic TS Forecasting",
+  topics = c("Box-Jenkins method", "Forecasting with ARIMA models", "Seasonal ARIMA models", "Exponential Smoothing Models"),
+  pdf = c(""),
+  ppt = "",
+  rmd = c(""),
+  html = c(""),
+  video = c(""),
+  youtube = "",
+  reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)", "[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)", "[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)", "[CM09: Chap 7.1-7.2](Files/Introductory_Time_Series_With_R.pdf)"),
+  instructor = "Eli"
+)
+```
+```{r eval=FALSE}
+# 2023
 forecast <- list(
   title = "Box-Jenkins Method",
   topics = c("Box-Jenkins method", "Forecasting with ARIMA models", "Seasonal ARIMA models"),
@@ -83,10 +98,28 @@ forecast <- list(
 ```
 
 
-```{r}
+```{r uni-ss}
 uni_ss <- list(
   title = "Univariate state-space models",
-  topics = c("Univariate state-space models"),
+  topics = c("Linear Gaussian state space models", "Kalman filter"),
+  pdf = c(""),
+  ppt = "",
+  rmd = c(""),
+  html = c(""),
+  video = "",
+  youtube = "",
+  reading = c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", 
+            "Additional background resources",
+              "[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
+              "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)", "Scripts are in the class repo"),
+  instructor = "Eli"
+)
+```
+```{r eval=FALSE}
+# 2023
+uni_ss <- list(
+  title = "Univariate state-space models",
+  topics = c("Linear Gaussian state space models", "Kalman filter"),
   pdf = c("Lectures/Week 3/lec_05_univariate_state_space.pdf"),
   ppt = "",
   rmd = c("Lectures/Week 3/lec_05_univariate_state_space.Rmd"),
@@ -102,6 +135,31 @@ uni_ss <- list(
 ```
 
 ```{r}
+marss <- list(
+  title = "Multivariate state-space models",
+  topics = c("Introduction to multivariate state-space models"),
+  pdf = c("Lectures/Week 3/lec_06_marss.pdf"),
+  ppt = "Lectures/Week 3/lec_06_marss.ppt",
+  rmd = c(""),
+  html = c(""),
+  video = "https://youtu.be/4nrZZGMY1bc",
+  youtube = "",
+  reading = c("[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
+              "[MARSS function](Lectures/Week 3/MARSS_function.html)",
+              "[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)",
+              "[uni_example_0.R](Lectures/Week 3/univariate_example_0.R)",
+              "[marss_example_0.R](Lectures/Week 3/marss_example_0.R)",
+              "[marss_example_0_with_comments.R](Lectures/Week 3/marss_example_0_with_comments.R)",
+              "[marss_example_1.R](Lectures/Week 3/marss_example_1.R)",
+              "[marss_example_2.R](Lectures/Week 3/marss_example_2.R)",
+              "[marss_example_3.R](Lectures/Week 3/marss_example_3.R)",
+              "[marss_example_4.R](Lectures/Week 3/marss_example_4.R)",
+              "[marss_example_5.R](Lectures/Week 3/marss_example_5.R)"),
+  instructor = "Eli"
+)
+```
+```{r eval=FALSE}
+# 2023
 marss <- list(
   title = "Multivariate state-space models",
   topics = c("Introduction to multivariate state-space models"),
