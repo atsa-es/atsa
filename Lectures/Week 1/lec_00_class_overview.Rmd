@@ -1,10 +1,11 @@
 ---
 title: "Course overview"
 author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
-date: "28 March 2023"
+date: "1 April 2025"
 output:
-  beamer_presentation: default
-  ioslides_presentation: default
+  #beamer_presentation: default
+  ioslides_presentation:
+    widescreen: true
 subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
