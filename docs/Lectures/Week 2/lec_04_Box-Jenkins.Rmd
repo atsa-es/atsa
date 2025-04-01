@@ -1,6 +1,6 @@
 ---
-title: "Intro to ARIMA models and Box-Jenkins Method"
-date: "6 Apr 2023"
+title: "Intro to class TS forecasting with ARIMA and ETS Models"
+date: "10 Apr 2025"
 ---
 
 ```{r setup, include=FALSE}
@@ -10,6 +10,14 @@ set.seed(123)
 
 # Lectures
 
+* [Intro to ARIMA Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.html#1) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.pdf) -- [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.Rmd))
+* [Fitting ARIMA models Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.html) ( [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.pdf) -- [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Fitting_and_Selecting_ARMA_models.Rmd))
+* [Forecasting Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf) --  [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd))
+* [Seasonal ARIMA models](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.pdf) -- [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.Rmd))
+
+<!-- 2023 Material
+# Lectures
+
 We'll be going over the first three lectures but skip the lecture on Seasonality. I kept that in in case you want to try these methods on seasonal data.
 
 * [Intro to ARIMA Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.html#1) ([Video](https://youtu.be/xnwkWkS6rJE) -- [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.pdf) -- [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Intro_ARIMA.Rmd))
@@ -17,6 +25,7 @@ We'll be going over the first three lectures but skip the lecture on Seasonality
 * [Forecasting Slides](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.html) ([Video](https://youtu.be/6yhVagr2hJc) -- [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf) --  [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd))
 * [Seasonal ARIMA models](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.html) ([pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.pdf) --  [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Seasonal_ARIMA.Rmd))
 * [Homework key chapter 5](https://atsa-es.github.io/atsa/Labs/Week%202/HW_2_box-jenkins_Key.html#Solutions_Chapter_5) that I went through in class
+-->
 
 # Lab
 

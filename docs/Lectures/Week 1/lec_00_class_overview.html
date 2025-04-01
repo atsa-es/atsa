@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2023-03-28" />
+  <meta name="date" content="2025-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3070,18 +3070,21 @@ var loadDeck = function(event) {
   });
 };
 
-if (document.readyState !== "loading" &&
-    document.querySelector('slides') === null) { 
-  // if the document is done loading but our element hasn't yet appeared, defer
-  // loading of the deck
-  window.setTimeout(function() {
-    loadDeck(null);
-  }, 0);
-} else {
-  // still loading the DOM, so wait until it's finished
-  document.addEventListener("DOMContentLoaded", loadDeck);
-}
+if (!window.Shiny) {
+  // If Shiny is loaded, the slide deck is initialized in ioslides template
 
+  if (document.readyState !== "loading" &&
+      document.querySelector('slides') === null) {
+    // if the document is done loading but our element hasn't yet appeared, defer
+    // loading of the deck
+    window.setTimeout(function() {
+      loadDeck(null);
+    }, 0);
+  } else {
+    // still loading the DOM, so wait until it's finished
+    document.addEventListener("DOMContentLoaded", loadDeck);
+  }
+}
 
 
 </script>
@@ -3130,7 +3133,7 @@ ul.task-list{list-style: none;}
 
 <body style="opacity: 0">
 
-<slides>
+<slides class="layout-widescreen">
 
   <slide class="title-slide segue nobackground">
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
@@ -3138,7 +3141,7 @@ ul.task-list{list-style: none;}
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">28 March 2023</p>
+            <p style="margin-top: 6px; margin-left: -2px;">1 April 2025</p>
           </hgroup>
   </slide>
 
@@ -3249,8 +3252,8 @@ ul.task-list{list-style: none;}
 </article></slide><slide class=""><hgroup><h2>Tech preliminaries</h2></hgroup><article  id="tech-preliminaries">
 
 <ul>
-<li>You will need a GitHub account and accept the invite to join <a href='https://github.com/orgs/atsa-es/teams/atsa-spring-2023' title=''>ATSA-Spring-2023</a></li>
-<li>Our class repo: <a href='https://github.com/atsa-es/fish550-2025' title=''>fish550-2023</a> with <a href='https://github.com/atsa-es/fish550-2025/issues' title=''>issues</a> and <a href='https://github.com/atsa-es/fish550-2025/discussions' title=''>discussions</a></li>
+<li>You will need a GitHub account and accept the invite to join <a href='https://github.com/orgs/atsa-es/teams/atsa-spring-2025' title=''>ATSA-Spring-2025</a></li>
+<li>Our class repo: <a href='https://github.com/atsa-es/fish550-2025' title=''>fish550-2025</a> with <a href='https://github.com/atsa-es/fish550-2025/issues' title=''>issues</a> and <a href='https://github.com/atsa-es/fish550-2025/discussions' title=''>discussions</a></li>
 <li>We will use RStudio as our IDE.</li>
 <li>Interacting with GitHub:
 
@@ -3291,6 +3294,11 @@ ul.task-list{list-style: none;}
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
     }
   })();
 </script>

@@ -1,0 +1,320 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Course overview},
+  pdfauthor={Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Course overview}
+\subtitle{FISH 550 -- Applied Time Series Analysis}
+\author{Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward}
+\date{1 April 2025}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{Introductions}
+\phantomsection\label{introductions}
+\begin{block}{Who are we?}
+\phantomsection\label{who-are-we}
+\end{block}
+\end{frame}
+
+\begin{frame}{Introductions}
+\phantomsection\label{introductions-1}
+\begin{block}{Who are you?}
+\phantomsection\label{who-are-you}
+\end{block}
+
+\begin{block}{What School/Dept/Program are you from?}
+\phantomsection\label{what-schooldeptprogram-are-you-from}
+\end{block}
+
+\begin{block}{What are you looking to get out this class?}
+\phantomsection\label{what-are-you-looking-to-get-out-this-class}
+\end{block}
+\end{frame}
+
+\begin{frame}{Course format}
+\phantomsection\label{course-format}
+\begin{block}{Flipped lecture format}
+\phantomsection\label{flipped-lecture-format}
+\begin{itemize}
+\tightlist
+\item
+  Videos posted of the material on the
+  \href{https://atsa-es.github.io/atsa/lectures.html}{Lecture tab}.
+  \textbf{Watch before class}
+\item
+  In class time will be devoted to working through hands-on exercises, R
+  coding examples and discussing the content.
+\end{itemize}
+\end{block}
+
+\begin{block}{Labs}
+\phantomsection\label{labs}
+\begin{itemize}
+\tightlist
+\item
+  Group projects with teams assigned semi-randomly each week
+\item
+  You will be given a dataset(s) and will come up with a group analysis
+  to do based on the week's material
+\item
+  Collaborative! Please use the discussion thread on GitHub to ask
+  questions and share solutions with your classmates.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Communications}
+\phantomsection\label{communications}
+\begin{block}{We encourage lots of questions during class}
+\phantomsection\label{we-encourage-lots-of-questions-during-class}
+\end{block}
+
+\begin{block}{Use the GitHub
+\href{https://github.com/atsa-es/fish550-2025/discussions}{Discussion
+board}}
+\phantomsection\label{use-the-github-discussion-board}
+\end{block}
+
+\begin{block}{Feel free to email any of the instructors outside of
+class}
+\phantomsection\label{feel-free-to-email-any-of-the-instructors-outside-of-class}
+\end{block}
+
+\begin{block}{We will respond within 24 hours}
+\phantomsection\label{we-will-respond-within-24-hours}
+\end{block}
+\end{frame}
+
+\begin{frame}{Grading}
+\phantomsection\label{grading}
+\textbf{Six group lab write-ups} (30\% of total)
+
+\begin{itemize}
+\item
+  Assigned Thurs at the end of computer lab
+\item
+  Due by 11:59 PM on the Tues 12 days later
+\item
+  Based on material from lectures \& computer labs
+\item
+  Group write-up in RMarkdown or Quarto. A template will be provided.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Grading}
+\phantomsection\label{grading-1}
+\textbf{Research project \& paper} (40\% of total) Must involve some
+form of time series model(s)
+
+\textbf{Two anonymous peer-reviews} (20\% of total) One review each for
+2 of your colleague's papers
+
+\begin{block}{Due Dates}
+\phantomsection\label{due-dates}
+\begin{itemize}
+\tightlist
+\item
+  Project proposal due Fri April 21 11:59pm PDT
+\item
+  Project methods due Fri May 12 11:59pm PDT
+\item
+  Final paper due Fri June 2nd 11:59pm PDT
+\item
+  Presentations May 30 and June 1 during class time and lab time
+\item
+  Peer review due Fri June 9th 11:59pm PDT
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Grading}
+\phantomsection\label{grading-2}
+\textbf{Participation} (10\%)
+
+\begin{itemize}
+\item
+  We expect you to show up and interact
+\item
+  Please contact one of the instructors if you have any conflicts
+\end{itemize}
+\end{frame}
+
+\begin{frame}{chatGPT and Copilot}
+\phantomsection\label{chatgpt-and-copilot}
+\begin{itemize}
+\tightlist
+\item
+  You are welcome to use these and they can be powerful coding
+  assistants
+\item
+  GitHub Copilot is free for students but you need to use VSCode not
+  RStudio
+\item
+  chatGPT is free if you use on the OpenAI platform
+\item
+  To use in RStudio, you need to use the API and that cost \$
+\item
+  See the
+  \href{https://atsa-es.github.io/atsa/syllabus.html\#chatGPT_and_co-pilot}{class
+  website page} for more info
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Expectations for final project}
+\phantomsection\label{expectations-for-final-project}
+\begin{itemize}
+\item
+  Research paper or thesis chapter that could result in a peer-reviewed
+  publication
+\item
+  Focus on applied time series analysis (univariate or multivariate)
+\item
+  Short format similar to ``Report'' in \emph{Ecology} or ``Rapid
+  Communication'' in \emph{CJFAS}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Max of 20 pages, inclusive of refs, tables, figs, etc
+  \item
+    12-pt font, double-spaced throughout
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Don't have time series data?}
+\phantomsection\label{dont-have-time-series-data}
+Lots of datasets on the class webpage:
+\href{https://atsa-es.github.io/atsa/data_sets.html}{DATASETS}
+
+Or talk with the instructors (or your advisor)
+\end{frame}
+
+\begin{frame}{Tech preliminaries}
+\phantomsection\label{tech-preliminaries}
+\begin{itemize}
+\tightlist
+\item
+  You will need a GitHub account and accept the invite to join
+  \href{https://github.com/orgs/atsa-es/teams/atsa-spring-2025}{ATSA-Spring-2025}
+\item
+  Our class repo:
+  \href{https://github.com/atsa-es/fish550-2025}{fish550-2025} with
+  \href{https://github.com/atsa-es/fish550-2025/issues}{issues} and
+  \href{https://github.com/atsa-es/fish550-2025/discussions}{discussions}
+\item
+  We will use RStudio as our IDE.
+\item
+  Interacting with GitHub:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Option 1: Download GitHub Desktop. Very easy to use platform.
+  \item
+    Option 2: Connect RStudio to GitHub.
+  \item
+    Option 3: Working directly on GitHub.
+  \item
+    We will help you with these steps on Thursday and will post videos.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{}
+\phantomsection\label{section}
+\href{https://atsa-es.github.io/atsa}{\textbf{Course topics}}
+\end{frame}
+
+\end{document}
