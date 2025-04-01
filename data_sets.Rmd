@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Other sources of public fisheries data sets are:
+### Other sources of public fisheries data sets are:
 
 * [RAM Legacy](https://www.ramlegacy.org/)
 * [Global Population Dynamics Database](http://www3.imperial.ac.uk/cpb/databases/gpdd)
@@ -25,13 +25,12 @@ Other sources of public fisheries data sets are:
 * [EFI RCN NEON Ecological Forecast Challenge](The https://ecoforecast.org/efi-rcn-forecast-challenges/) data sets. Not fisheries. All the data are provided and the challenge lays out the goals (what to forecast) for each challenge. The Aquatic Ecosystems, Tick Abundance, and Beetle Abundance challenges would be appropriate for the class.
 * Greg Ruggerone and Jim Irvine, entitled "Numbers and biomass of natural- and hatchery-origin Pink, Chum, and Sockeye Salmon in the North Pacific Ocean, 1925-2015" in Marine and Coastal Fisheries: Dynamics, Management, and Ecosystem Science 10. DOI: 10.1002/mcf2.10023. [Excel file of the data](https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx)
 
-
-Marine environmental data. Sound ideas
+### Marine environmental data. Sound ideas
 
 * https://ecowatch.noaa.gov/ This doesn't have the data but will point you to the data and is a vetted source of good marine indicators
 * https://coastwatch.pfeg.noaa.gov/EDC/index.html This is a tool that can help you get remote-sensing data
 
-Climate data hubs
+### Climate data hubs
 
 * https://www.climatehubs.usda.gov/hubs/northwest. 
 * https://drought.climate.umt.edu/ 
@@ -45,8 +44,15 @@ Climate data hubs
 * https://www.nwrfc.noaa.gov/ws/ Water supply forecasts
 * https://www.nwrfc.noaa.gov/natural/plot/nat_forecasts.php?id=HWRI1 Water supply forecast for a specific location
 * https://www.cpc.ncep.noaa.gov/products/Soilmst_Monitoring/US/Soilmst/Soilmst.shtml Soil moisture products
+* [Mean daily streamflow](https://noaa-nwfsc.github.io/Streamflow-Means-NWM/) for all west coast rivers 1979-2023.
+* Some tutorials for processing climate data
+  - [NASA Earthdata Cookbook](https://nasa-openscapes.github.io/earthdata-cloud-cookbook/)
+  - [PACE data tutorials](https://oceancolor.gsfc.nasa.gov/resources/docs/tutorials/)
+  - [CoastWatch tutorials](https://github.com/coastwatch-training/CoastWatch-Tutorials)
+  - [IOOS CodeLab](https://ioos.github.io/ioos_code_lab/content/intro.html)
+  - [NOAA HackHours 2025](https://nmfs-opensci.github.io/NMFSHackDays-2025/)
 
-Movement data
+### Movement data
 
 * [Polar bear argos and GPS data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.4qrfj6q96)
 * [High arctic argos and GPS data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.bt72k)
