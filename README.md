@@ -2,7 +2,7 @@
 
 Applied Time Series Analysis course website
 
-Note, this is not quarter specific. See the year specific websites for the course website for a specific year.
+See these repos for previous years.
 
 * atsa2023
 * atsa2021
