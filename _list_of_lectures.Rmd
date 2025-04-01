@@ -55,7 +55,7 @@ arma_basics <- list(
              "Stationary AR models",
              "Invertible MA models",
              "Using ACF & PACF for model ID"),
-  pdf = "", #"Lectures/Week 2/lec_03_ARMA_models.pdf",
+  pdf = "Lectures/Week 2/lec_03_ARMA_models.pdf",
   ppt = "",
   rmd = "Lectures/Week 2/lec_03_ARMA_models.Rmd",
   html = "Lectures/Week 2/lec_03_ARMA_models.html",
