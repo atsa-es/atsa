@@ -1,12 +1,13 @@
 ---
 title: "Course overview"
+subtitle: FISH 550 – Applied Time Series Analysis
 author: "Elizabeth (Eli) Holmes, Mark Scheuerell, Eric Ward"
 date: "1 April 2025"
 output:
-  #beamer_presentation: default
+  # beamer_presentation: default
   ioslides_presentation:
     widescreen: true
-subtitle: FISH 550 – Applied Time Series Analysis
+    css: "lecture_slides.css"
 ---
 
 ```{r setup, include=FALSE}
