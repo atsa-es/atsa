@@ -20,9 +20,9 @@ intro <- list(
   ppt = "",
   rmd = c("Lectures/Week 1/lec_00_class_overview.Rmd", "Lectures/Week 1/lec_01_intro_to_ts.Rmd"),
   html = c("Lectures/Week 1/lec_00_class_overview.html", "Lectures/Week 1/lec_01_intro_to_ts.html"),
-  video = "https://youtu.be/XeAN-zYhqGw",
+  video = "[2025 Video](https://youtu.be/fhGykGbTsj0)",
   youtube = "",
-  reading = c("[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)" ),
+  reading = c("[2021 Video](https://youtu.be/XeAN-zYhqGw)", "[CM09: Chap 1](Files/Introductory_Time_Series_With_R.pdf)", "[HA18: Chap 6](https://otexts.org/fpp2/decomposition.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)" ),
   instructor = "Mark"
 )
 ```
@@ -40,9 +40,9 @@ ts_basics <- list(
   ppt = "",
   rmd = "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
   html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
-  video = "https://youtu.be/vwHqxe9eVMk",
+  video = "",
   youtube = "",
-  reading = c("[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)", "[R script for class](lec_02_covariance_stationarity.R)"),
+  reading = c("[2021 Video](https://youtu.be/vwHqxe9eVMk)", "[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)", "[R script for class](lec_02_covariance_stationarity.R)"),
   instructor = "Mark"
 )
 ```
@@ -59,9 +59,9 @@ arma_basics <- list(
   ppt = "",
   rmd = "Lectures/Week 2/lec_03_ARMA_models.Rmd",
   html = "Lectures/Week 2/lec_03_ARMA_models.html",
-  video = "https://youtu.be/IgX9Bpu3ggc",
+  video = "",
   youtube = "",
-  reading = c("[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)", "[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)"),
+  reading = c("[2021 Video](https://youtu.be/IgX9Bpu3ggc)", "[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)", "[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)"),
   instructor = "Mark"
 )
 ```
@@ -108,10 +108,8 @@ uni_ss <- list(
   html = c(""),
   video = "",
   youtube = "",
-  reading = c("[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", 
-            "Additional background resources",
-              "[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
-              "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)", "Scripts are in the class repo"),
+  reading = c("[2021 Video](https://youtu.be/-G_ejXMzEWw)", "[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", "Additional background resources",
+"[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)", "Scripts are in the class repo"),
   instructor = "Eli"
 )
 ```
@@ -144,7 +142,7 @@ marss <- list(
   html = c(""),
   video = "",
   youtube = "",
-  reading = c("[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
+  reading = c("[2021 Video](https://youtu.be/4nrZZGMY1bc)", "[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
               "[MARSS function](Lectures/Week 3/MARSS_function.html)",
               "[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)",
               "[example scripts in repo](https://github.com/atsa-es/fish550-2025/tree/main/Lectures%20Week%203)"),
@@ -189,9 +187,9 @@ marss_covariates <- list(
   ppt = "",
   rmd = "",# c("Lectures/Week 4/lec_07_covariates.Rmd"),
   html = "",# c("Lectures/Week 4/lec_07_covariates.html"),
-  video = "",# "https://youtu.be/2Jb5pzgtuH0",
+  video = "",
   youtube = "",
-  reading = c(
+  reading = c("[2021 Video](https://youtu.be/2Jb5pzgtuH0)", 
   "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
     "[MARSS Models HWS18a: Chap 8](https://atsa-es.github.io/atsa-labs/chap-msscov.html)",
     "[Missing Covariates HWS18a: Chap 11](https://atsa-es.github.io/atsa-labs/chap-mssmiss.html)",
@@ -210,9 +208,9 @@ dfa <- list(
   ppt = "",
   rmd = "",# "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
   html = "",# "Lectures/Week 4/lec_08_intro_to_DFA.html",
-  video = "",# "https://youtu.be/LVlo8I0PdPA",
+  video = "",
   youtube = "",
-  reading = "",# c("[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
+  reading = c("[2021 Video](https://youtu.be/LVlo8I0PdPA)", "[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
   instructor = "Mark"
 )
 ```
@@ -225,9 +223,9 @@ dlm <- list(
   ppt = "",
   rmd = "",# "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
   html = "",# "Lectures/Week 5/lec_09_intro_to_DLMs.html",
-  video = "",# "https://youtu.be/Uxx2jK7heNE",
+  video = "",
   youtube = "",
-  reading = "",# c("[Petris et al. (2009)](Files/Petris_2009_DLMs_in_R.pdf)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[Scheuerell & Williams (2005)](Files/Scheuerell_2005_forecasting_SARs.pdf)"),
+  reading = c("[2021 Video](https://youtu.be/Uxx2jK7heNE)", "[Petris et al. (2009)](Files/Petris_2009_DLMs_in_R.pdf)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[Scheuerell & Williams (2005)](Files/Scheuerell_2005_forecasting_SARs.pdf)"),
   instructor = "Mark"
 )
 ```
@@ -255,9 +253,9 @@ HMMs <- list(
   ppt = "",
   rmd = "",# c("Lectures/Week 5/lec_10_hmm.Rmd", "Lectures/Week 5/lec_10_hmm_inclass.Rmd"),
   html = "",# "Lectures/Week 5/lec_10_hmm.html",
-  video = "",# "https://youtu.be/CqmAs3aPf_k",
+  video = "",
   youtube = "",
-  reading = "",# c("[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
+  reading = "",# c("[2021 Video](https://youtu.be/CqmAs3aPf_k)", "[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[depmixS4 vignette](https://cran.r-project.org/web/packages/depmixS4/vignettes/depmixS4.pdf)"),
   instructor = "Eric"
 )
 ```

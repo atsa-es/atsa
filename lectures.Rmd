@@ -95,6 +95,14 @@ tmp=paste(tmp,collapse="<br>"); tmp}), c)
 names(vid_links_html) <- NULL
 ```
 
+```{r video_links_2, include = FALSE}
+vid_links <- lapply(week_lecs, function(x){if(is.list(x)){x$video}else{""}})
+## topics formatted for html
+vid_links_html <- sapply(lapply(vid_links, paste, "<br>", collapse=""), c)
+names(vid_links_html) <- NULL
+```
+
+
 ```{r youtube_links, include = FALSE}
 youtube_links <- lapply(week_lecs, function(x){
   if(is.list(x)){x$youtube}else{""}})
