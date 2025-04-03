@@ -3195,6 +3195,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 font-size: 36pt;
 letter-spacing: 0;
 }
+* {
+box-sizing: border-box;
+}
+
+.column {
+float: left;
+padding: 10px;
+}
+.left {
+width: 35%;
+}
+.right {
+width: 65%;
+}
+
+.row:after {
+content: "";
+display: table;
+clear: both;
+}
+.citation {
+position: fixed;
+bottom: 3em;
+right: 5em;
+font-size: 90%;
+}
+.footnote {
+position: absolute;
+bottom: 2em;
+padding-right: 4em;
+font-size: 90%;
+}
+.futnote {
+position: fixed;
+bottom: 3em;
+left: 5em;
+font-size: 90%;
+}
+slides > slide {
+background: linear-gradient(#ffffff, #ffffff 85%, #ffffff);
+background-color: white;
+}
 </style>
 
 </head>
