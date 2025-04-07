@@ -1,0 +1,423 @@
+---
+title: "Generalized Additive Models & Time Series"
+author: ""
+date: ""
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+subtitle: FISH 550 – Applied Time Series Analysis
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+library(ggplot2)
+library(MARSS)
+library(dplyr)
+library(forecast)
+library(lubridate)
+#library(tsDyn)
+library(viridis)
+```
+
+## Overview of today's material
+
+-   **What are Generalized Additive Models (GAMs)?**
+-   **Smooth Functions, Splines, Basis Functions, and Knots**
+-   **Key Differences and Similarities with Dynamic Linear Models (DLMs)**
+-   **GAMs in Time Series Analysis**
+-   **Applications of GAMs**
+
+## What is a Generalized Additive Model (GAM)?
+
+-   **GAMs** are a class of statistical models used to model complex, non-linear relationships between the response and the predictors.
+-   **Key idea**: GAMs model the mean of the response variable as a sum of smooth functions of the predictors.
+
+## GAM Formula
+
+-   The expected value of the response variable is modeled as:
+
+    $$ E[Y] = \beta_0 + f_1(x_1) + f_2(x_2) + \dots + f_k(x_k) $$
+
+-   Where:
+
+    -   $E[Y]$ is the expected value (mean) of the response variable $Y$.
+    -   $\beta_0$ is the intercept.
+    -   $f_1(x_1), f_2(x_2), \dots$ are smooth functions of the predictors $x_1, x_2, \dots$.
+
+## Smooth Functions in GAMs
+
+-   A smooth function allows us to model **non-linear relationships** in the data without needing to specify a fixed functional form
+-   Smoothness is controlled by a penalty term, helping to avoid overfitting.
+-   Common types of smooth functions used in GAMs:
+    -   **Splines** (B-splines, cubic splines, thin-plate splines)
+    -   **Kernel smoothing**
+    -   **Local regression (LOESS)**
+    -   **Gaussian processes**
+
+## Smooth Functions vs. Linear Models
+
+-   **Linear Models**: Assume a linear relationship between predictors and the response $$ E[Y] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k $$
+
+-   **GAMs**: Allow for flexible, non-linear relationships by fitting smooth functions: $$ E[Y] = \beta_0 + f_1(x_1) + f_2(x_2) + \dots + f_k(x_k) $$
+
+-   **Key Advantage**: GAMs are more flexible in capturing complex trends in data that cannot be adequately modeled with a simple linear relationship (and have flexible families)
+
+## Smooth Functions in `mgcv`
+
+Very powerful R package for fitting GAMs
+
+Univariate smooth terms are expressed as 
+
+```{r echo = TRUE, eval = FALSE}
+gam(y ~ s(x1, k = 10, bs = "cr") + 
+      s(x2, k = 10, bs = "cr"), data = data)
+```
+
+We'll cover more complicated smooths later
+
+## Splines and Their Role in GAMs
+
+-   **Splines**: Mathematical functions that are piecewise polynomial and used to fit smooth curves to data
+-   **Why Splines?**:
+    -   Allow for flexible, smooth curves that can adapt to data patterns
+    -   Avoid overfitting by controlling the complexity of the curve
+-   **Some Types of Splines**:
+    -   **B-splines (Basis Splines)**: Commonly used due to computational efficiency and flexibility
+    -   **Cubic Splines**: Splines with cubic polynomials between each pair of adjacent knots
+    -   **Thin-plate Splines**: A generalization of B-splines, used for higher-dimensional data
+
+## What Are Knots in Splines?
+
+-   **Knots**: Points where the pieces of the spline curve join
+-   **Importance**: Knots define the structure of the spline -- more knots allows for more wiggliness
+-   **Placement**: Knots can be placed:
+    -   **Evenly**: Common approach, but not always optimal
+    -   **Data-driven placement**: Placed where data points are dense or where significant changes in the response occur
+
+## Visualizing B-Splines and Their Role in GAMs
+
+To better understand how B-splines work, let’s visualize basis functions and see how they combine to form a smooth function
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+library(ggplot2)
+library(splines)
+
+# Generate a sequence of x values
+x <- seq(0, 100, by=1)
+
+# Create B-splines with 6 degrees of freedom
+spl <- splines::bs(x, df = 6)
+
+# Visualizing B-spline basis functions
+df_splines <- data.frame(x = rep(x, ncol(spl)), 
+                         "b" = sort(rep(1:ncol(spl), nrow(spl))), 
+                         "y" = c(spl))
+
+# Plot individual basis functions
+p1 <- ggplot(df_splines, aes(x, y, group = b, col = b)) + 
+  geom_line(size = 1.2) + 
+  theme_bw() + 
+  xlab("X") + 
+  ylab("Basis Function Value") + 
+  scale_color_viridis(end = 0.8) + 
+  theme(legend.position = "none") + 
+  ggtitle("B-Spline Basis Functions")
+print(p1)
+```
+
+## Basis Functions and B-Splines
+
+-   **Basis Functions**: Functions that form the building blocks of splines (used to construct the overall smooth function)
+
+-   **B-splines** are defined using a set of basis functions, each associated with a knot. The smooth curve is formed by a weighted sum of these basis functions.
+
+-   **B-spline Basis**: The basis functions for B-splines have the following properties:
+
+    -   They are piecewise-defined polynomials
+    -   They are non-negative and have local support (i.e., each basis function is non-zero only in a limited range)
+
+## How Basis Functions Build Splines
+
+- **Weighted Sum of Basis Functions**: The final spline is created by summing these basis functions, each weighted by a coefficient. This allows the spline to adapt to the data and capture non-linear relationships.
+
+    $$ f(x) = \sum_{i=1}^{n} w_i \cdot B_i(x) $$
+
+    - \( f(x) \) is the smooth function (spline) estimated by the GAM.
+    - \( B_i(x) \) are the individual basis functions.
+    - \( w_i \) are the coefficients (weights) that scale each basis function to fit the data.
+
+## How Basis Functions Build Splines
+
+To understand how the weighted sum of basis functions creates a smooth function, let's visualize how different basis functions combine to form the final curve. 
+
+`weights <- c(0.4, -0.5, 0.3, 0.1, 0.6, -0.2)`
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+
+# Define weights for the basis functions
+weights <- c(0.4, -0.5, 0.3, 0.1, 0.6, -0.2)  # Example weights for each basis function
+
+# Calculate the weighted sum of basis functions
+weighted_spline <- rowSums(spl * weights)
+
+# data frame for plotting the basis functions and the weighted spline
+df_splines_weighted <- data.frame(x = rep(x, ncol(spl)), 
+                                  "b" = sort(rep(1:ncol(spl), nrow(spl))), 
+                                  "basis_function" = c(spl))
+
+# Data frame for the weighted spline
+df_weighted_spline <- data.frame(x = x, 
+                                  weighted_spline = weighted_spline)
+
+# Plot both individual basis functions and the weighted sum
+p3 <- ggplot() +
+  geom_line(data = df_splines_weighted, aes(x, basis_function, group = b, col = as.factor(b)), size = 1.2) +
+  geom_line(data = df_weighted_spline, aes(x, weighted_spline), col = "blue", size = 1.2) +
+  theme_bw() +
+  xlab("X") +
+  ylab("Function Value") +
+  scale_color_viridis_d(end = 0.8) +  
+  theme(legend.position = "none") +
+  ggtitle("Basis Functions and Weighted Spline")
+print(p3)
+```
+
+## Adjusting in `mgcv`
+
+Setting `k` controls the number of basis functions, and number of knots is generally closely related (e.g. k-2 for `cr`)
+```{r echo = TRUE, eval = FALSE}
+gam(y ~ s(x1, k = 10, bs = "cr") + 
+      s(x2, k = 10, bs = "cr"), data = data)
+```
+
+## Key Take Homes
+
+- **It doesn't take many basis functions to create a flexible spline**
+
+- **Flexibility is controlled by**:
+  - The number of knots and how they are placed 
+  - The number of basis functions used in the spline construction
+    - More basis functions (higher df) -> more flexibility
+  - We used 6 basis functions (df) in the last example
+
+- **Important Considerations**:
+  - Too few basis functions may lead to underfitting (not capturing the complexity of the data)
+  - Too many basis functions (too high df) -> overfitting, as spline becomes too wiggly
+
+- **Knots and Basis Functions**:
+  - Knots define where the individual pieces of the spline connect
+  - The placement of knots (evenly spaced vs. data-driven) can significantly impact the flexibility and accuracy of the model
+
+## What are Knots in Splines?
+
+- **Knots**: Points where the individual segments of the spline curve meet
+- **Function of Knots**: 
+  - The placement of knots determines flexibility
+- **More Knots**:
+  - Allow for more flexibility, creating more complex curves
+  - Increase the risk of overfitting
+- **Fewer Knots**:
+  - Lead to smoother curves, but may underfit the data
+  - Lack the ability to capture complex non-linear patterns
+
+- **Summary**: The number and position of knots affect how well the spline can match patterns in the data
+
+## Example: Effect of Knot Placement on Spline Fit
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+# Simulate some data
+set.seed(123)
+x <- exp(rnorm(100, sd = 0.7))
+y <- sin(x) + rnorm(100, sd = 0.2)
+
+ggplot(data = data.frame(x = x, y = y), 
+       aes(x, y)) + 
+      xlab("Temperature") + 
+      ylab("Log-odds survival") + 
+  geom_point(size = 2, alpha = 0.5, col = viridis(1)) + 
+  theme_bw()
+```
+
+## `mgcv` default is to distribute them based on data
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+gam_uneven <- mgcv::gam(y ~ s(x, k = 10, bs = "cr"), data = data.frame(x = x, y = y))
+knots_uneven <- gam_uneven$smooth[[1]]$xp
+
+# Plot the data
+ggplot(data = data.frame(x = x, y = y), aes(x, y)) + 
+  geom_point(size = 2, alpha = 0.5, col = viridis(1)) + 
+  xlab("Temperature") + 
+  ylab("Log-odds survival") + 
+  theme_bw() +
+  #geom_vline(xintercept = knots_even, col = "red", linetype = "dashed", size = 1.2) + 
+  geom_vline(xintercept = knots_uneven, col = "blue", linetype = "solid", size = 1.2) + 
+  ggtitle("Knots Placement for GAMs")
+```
+
+## `mgcv` default is to distribute them based on data
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+set.seed(123)
+x <- exp(rnorm(100, sd = 0.7))
+y <- sin(x) + rnorm(100, sd = 0.2)
+
+# Fit the two GAM models
+gam_uneven <- mgcv::gam(y ~ s(x, k = 10, bs = "cr"), data = data.frame(x = x, y = y))
+
+# Fit the GAM model with custom evenly spaced knots
+knots_even <- seq(min(x), max(x), length.out = 10)
+gam_even <- mgcv::gam(y ~ s(x, k = 10, bs = "cr"), 
+                      data = data.frame(x = x, y = y), 
+                      knots = list(x = knots_even))
+
+knots_uneven <- gam_uneven$smooth[[1]]$xp  
+knots_even <- seq(min(x), max(x), length.out = 10)
+
+new_data <- data.frame(x = seq(min(x), max(x), length.out = 100))
+
+pred_uneven <- predict(gam_uneven, newdata = new_data, se.fit = TRUE)
+pred_even <- predict(gam_even, newdata = new_data, se.fit = TRUE)
+
+ci_uneven <- data.frame(
+  x = new_data$x,
+  fit = pred_uneven$fit,
+  lower = pred_uneven$fit - 1.96 * pred_uneven$se.fit,
+  upper = pred_uneven$fit + 1.96 * pred_uneven$se.fit
+)
+
+ci_even <- data.frame(
+  x = new_data$x,
+  fit = pred_even$fit,
+  lower = pred_even$fit - 1.96 * pred_even$se.fit,
+  upper = pred_even$fit + 1.96 * pred_even$se.fit
+)
+
+ggplot() + 
+  geom_point(data = data.frame(x = x, y = y), aes(x, y), size = 2, alpha = 0.5, col = viridis(1)) +
+  geom_ribbon(data = ci_uneven, aes(x = x, ymin = lower, ymax = upper), fill = "blue", alpha = 0.2) +
+  geom_line(data = ci_uneven, aes(x = x, y = fit), color = "blue", size = 1.2) +
+  geom_ribbon(data = ci_even, aes(x = x, ymin = lower, ymax = upper), fill = "red", alpha = 0.2) +
+  geom_line(data = ci_even, aes(x = x, y = fit), color = "red", size = 1.2) +
+  geom_vline(xintercept = knots_uneven, col = "blue", linetype = "solid", size = 1.2) +
+  geom_vline(xintercept = knots_even, col = "red", linetype = "dashed", size = 1.2) +
+  xlab("Temperature") + 
+  ylab("Log-odds survival") + 
+  theme_bw() + 
+  ggtitle("Knots Placement and Predictions")
+```
+
+## Common Smooth Types in GAMs
+
+- **Thin Plate Splines (`tp`)**: Flexible, non-linear smooths for complex, irregular data
+- **Cubic Regression Splines (`cr`)**: Piecewise cubic polynomials, flexible with knots for general trends
+- **Circular Splines (`cc`)**: For periodic data (e.g., angles, time-of-day), handles cyclical patterns
+- **Gaussian Process (`gp`)**: Smooths with uncertainty estimates, used for spatial/time series models
+- **B-Splines (`bs`)**: Piecewise polynomials, flexible but computationally efficient
+- **P-Splines (`ps`)**: Combination of B-splines and a penalty for smoothness, good for large datasets
+
+
+## GAMs in Time Series Analysis
+
+- **Why Use GAMs for Time Series?**
+  - complex, non-linear trends and seasonality
+  - GAMs can capture these patterns by modeling trends as smooth functions of time
+  - Aren't structured, can handle very patchy data
+
+- **Handling Seasonality**
+  - Seasonal effects (e.g., monthly, yearly) can be smoothly incorporated into the model
+
+- **Incorporating Trend and Noise**
+  - Smooth functions can represent underlying trends, while residuals capture random noise or irregularities
+
+## GAMs and DLMs: 
+
+* What is this model doing? Where have we seen something similar??
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+data("SalmonSurvCUI")
+fit <- gam(logit.s ~ s(year, bs = "cr", k = 10),
+           data = SalmonSurvCUI)
+```
+
+## GAMs and DLMs: 
+
+* This is fitting a smooth to describe changes in the mean, similar to an intercept-only Dynamic Linear Model 
+
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+plot(fit)
+```
+
+## GAMs and DLMs: 
+
+* DLMs are flexible and allow a random walk in the intercept, covariates or both. Presumably we can do the same with a GAM. 
+
+* How about a smooth / random walk on the covariate. Is this correct and or why not? 
+
+```{r echo=TRUE, eval=FALSE}
+fit <- gam(logit.s ~ s(CUI.apr),
+           data = SalmonSurvCUI)
+```
+
+## GAMs and DLMs: 
+
+* If you thought we needed to be including time, you are correct
+
+* The prior model was fitting a non-linear smooth of the covariate
+ 
+* What about a smooth of the covariate and time?
+```{r echo=TRUE, eval=FALSE}
+fit <- gam(logit.s ~ s(CUI.apr, year),
+           data = SalmonSurvCUI)
+```
+
+## GAMs and DLMs
+
+* `s(CUI.apr, year)` is fitting a 2D smooth that includes the interaction between the covariate and time
+
+* This is a flexible model, but not the same as a time varying slope
+
+## GAMs and DLMs:
+
+* Another way to model the interaction is with the `by` covariate
+
+* This creates separate smooths for different levels of the `by` covariate
+
+```{r echo=TRUE, eval=FALSE}
+s(predictor, by = covariate)
+```
+
+## GAMs and DLMs: 
+
+* For time series data, it's a common mistake to use 
+```{r echo=TRUE, eval=FALSE}
+fit <- gam(logit.s ~ s(CUI.apr, by = year),
+           data = SalmonSurvCUI)
+```
+
+## GAMs and DLMs: 
+
+* Why? 
+
+* `s(CUI.apr, by = year)` is letting the shape / smooth effect of `CUI.apr` vary by year
+* But ordering of years isn't preserved
+* Neighboring years should be similar
+
+## GAMs and DLMs: 
+
+* Instead we can swap `year` and `CUI.apr` 
+* This allows the effect of time on the response to differ across different levels of the covariate 
+
+```{r echo=TRUE, eval=FALSE}
+fit <- gam(logit.s ~ s(CUI.apr, by = year),
+           data = SalmonSurvCUI)
+```
+
+* Creates a smooth that is very similar to a DLM
+
+## Lots of references on GAMs
+
+There's lots of great references out there, including:
+
+-   Gavin Simpson's work with GAMs and time series [here](https://www.biorxiv.org/content/10.1101/322248v1)
+-   Simon Wood's [book](https://www.amazon.com/Generalized-Additive-Models-Introduction-Statistical/dp/1498728332/ref=asc_df_1498728332/?tag=hyprod-20&linkCode=df0&hvadid=312065538926&hvpos=1o1&hvnetw=g&hvrand=11863417304955012193&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9033315&hvtargid=pla-305424873573&psc=1)
