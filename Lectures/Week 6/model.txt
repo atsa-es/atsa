@@ -1,0 +1,14 @@
+model{
+for(i in 1:2){initp[i] <- 0.5}
+x[1] ~ dcat(initp)
+p ~ dunif(0,1)
+q ~ dunif(0,1)
+Gamma[1,1] <- 1-p
+Gamma[1,2] <- p
+Gamma[2,1] <- q
+Gamma[2,2] <- 1-q
+for(i in 2:n){x[i] ~ dcat(Gamma[x[i-1],])}
+resid_tau~dgamma(0.001,0.001)
+for(i in 1:2) {u[i] ~ dnorm(0,1)}
+for(i in 1:n){y[i] ~ dnorm(u[x[i]],resid_tau)}
+}
