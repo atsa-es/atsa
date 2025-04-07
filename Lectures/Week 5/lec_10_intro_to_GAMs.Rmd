@@ -1,8 +1,9 @@
 ---
 title: "Generalized Additive Models & Time Series"
-author: ""
-date: ""
+author: ''
+date: ''
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
 subtitle: FISH 550 – Applied Time Series Analysis
@@ -16,6 +17,7 @@ library(ggplot2)
 library(MARSS)
 library(dplyr)
 library(forecast)
+library(mgcv)
 library(lubridate)
 #library(tsDyn)
 library(viridis)
