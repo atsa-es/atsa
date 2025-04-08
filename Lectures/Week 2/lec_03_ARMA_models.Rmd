@@ -267,7 +267,7 @@ $$
 \phi_p (\mathbf{B}^p) = 0
 $$
 
-To be stationary, __all roots__ of the characteristic equation __must exceed 1 in absolute value__
+To be stationary, __all roots__ of the characteristic equation __must be greater than 1__
 
 
 ## Stationary AR(_p_) models
