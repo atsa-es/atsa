@@ -40,7 +40,7 @@ ts_basics <- list(
   ppt = "",
   rmd = "Lectures/Week 1/lec_02_covariance_stationarity.Rmd",
   html = "Lectures/Week 1/lec_02_covariance_stationarity.html",
-  video = "",
+  video = "[2025 Video](https://youtu.be/1HVrtNh_1Ho)",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/vwHqxe9eVMk)", "[CM09: Chap 2](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 4](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1](https://otexts.org/fpp2/stationarity.html)","[HSW18: Intro to ts](https://atsa-es.github.io/atsa-labs/chap-ts.html)", "[R script for class](lec_02_covariance_stationarity.R)"),
   instructor = "Mark"
