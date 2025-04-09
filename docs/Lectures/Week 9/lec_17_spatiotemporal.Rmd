@@ -1,7 +1,7 @@
 ---
-title: "Fitting spatial and spatiotemporal models"
+title: "Fitting spatiotemporal models"
 author: "Eric Ward"
-date: "16 May 2023"
+date: 
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -24,7 +24,6 @@ library(mgcv)
 library(glmmfields)
 library(viridis)
 library(tidyr)
-devtools::install_github("pbs-assess/sdmTMB")
 library(sdmTMB)
 ```
 
@@ -63,8 +62,8 @@ ggplot(df, aes(Time,y,group=Series,col=Series)) +
 
 ## Lots of time series -> complicated covariance matrices
 
-* Last week, in talking about Gaussian process models, we showed the number of covariance matrix parameters = $m*(m+1)/2$
-    - problematic for > 5 or so time series
+* For unconstrained covariance matrices, the number of covariance matrix parameters = $m*(m+1)/2$
+    - problematic for m > 5 or so 
     
 * MARSS solutions: diagonal matrices or 'equalvarcov'
 
@@ -124,210 +123,11 @@ Areal data
 
 ![](DistrictsMap.jpeg)
 
-## Computationally convenient approaches
+## Most of our data is geostatistical
 
-CAR (conditionally autoregressive models)
-
-* Better suited for Bayesian methods
-* Goal of both is to write the distribution of a single prediction analytically in terms of the joint (y1, y2)
-
-SAR (simultaneous autregressive models)
-
-* Better suited for ML methods
-* Simultaneously model distribution of predicted values
-
-‘Autoregressive’ in the sense of spatial dependency / correlation between locations
-
-## CAR models (Besag 1991)
-
-$${ Y }_{ i }=\textbf{b}{ X }_{ i }+{ \phi  }_{ i }+{ \varepsilon  }_{ i }$$
-
-${ X }_{ i }$ are predictors (regression) 
-${ \phi  }_{ i }i$ spatial component, (aka markov random field)
-${ \varepsilon  }_{ i }$ residual error term
-
-* Create spatial adjacency matrix W, based on neighbors, e.g. 
-* W(i,j) = 1 if neighbors, 0 otherwise
-* W often row-normalized (rows sum to 1)
-* Diagonal elements W(i,i) are 0
-
-## Adjacency matrix example
-
-<img src="adjacency.png" width="500" height="500" />
-
-## CAR models
-
-In matrix form, 
-
-$${ \phi\sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
-* Implemented in 'spdep', 'CARBayes', etc 
-
-## CAR models
-
-* Each element has conditional distribution dependent on others,  
-
-$\phi_i \mid \phi_j, \sim \mathrm{N} \left( \sum_{j = 1}^n W_{ij} \phi_j, {\sigma}^2 \right)$ for $j \neq i$
-
-## SAR models
-
-* Simultaneous autoregressive model
-
-$${ \phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D } { \left( I-\rho W \right)  }^{ -1 } \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$
-
-* Remember that the CAR was
-
-$${ \phi \sim N\left( 0,{ \left( I-\rho W \right)  }^{ -1 }\widetilde { D }  \right) \\ { \widetilde { D }  }_{ ii }={ \sigma  }_{ i } }$$  
-  
-  
-## Example adjacency matrix
-
-* $I-\rho W$
-
-* Example $W$ matrix,  
-
-```{r echo=FALSE, results='markdown'}
-W = matrix(0,3,3)
-W[1,2] <- W[2,1] <- 1
-W[2,3] <- W[3,2] <- 1
-print(W)
-```  
-
-## Example adjacency matrix
-
-* $(I-0.3 W)$, $\rho=0.3$
-
-```{r echo=FALSE, results='markdown'}
-W = matrix(0,3,3)
-W[1,2] <- W[2,1] <- 1
-W[2,3] <- W[3,2] <- 1
-print(diag(3)-0.3*W)
-```
-
-## Example adjacency matrix
-
-* $(I-0.3 W)\widetilde { D }$
-* Let's assume same variance ~ 0.1
-* D = diag(0.1,3)
-```{r echo=FALSE, results='markdown'}
-W = matrix(0,3,3)
-W[1,2] <- W[2,1] <- 1
-W[2,3] <- W[3,2] <- 1
-print((diag(3)-0.3*W)%*%diag(0.1,3))
-```
-
-## Commonalities of both approaches
-
-* Adjacency matrix W can also instead be modified to include distance
-
-* Models spatial dependency as a function of single parameter $\rho$
-
-* Models don’t include time dimension in spatial field
-    - One field estimated for all time steps
-    - How could we do this? 
-
-## brms() includes both approaches
-
-```{r eval = FALSE, echo=TRUE}
-?brms::sar
-?brms::car
-```
-
-## Example: COVID tracking project
-
-Data from COVID tracking project [link](https://covidtracking.com/data/download)
-```{r}
-d = read.csv("all-states-history.csv",stringsAsFactors = FALSE)
-d = d %>% 
-  dplyr::filter(year(date)==2020 ,month(date)>4) %>% 
-  dplyr::mutate(yday = yday(date))
-ggplot(d, aes(yday,log(positive),group=state,color=state)) + 
-  geom_line() + ylab("Ln (positive)") + xlab("Date") + theme_bw()
-```
-
-```{r echo=FALSE}
-# code from https://www.counterpointstat.com/uploads/1/1/9/3/119383887/areal.r
-library(spdep)
-library(maps)
-library(maptools)
-library(classInt)
-library(RColorBrewer)
-
-##Create an adjacency matrix for the states in the US
-usa.state = map(database="state", fill=TRUE, plot=FALSE)
-state.ID <- sapply(strsplit(usa.state$names, ":"), function(x) x[1])
-usa.poly = map2SpatialPolygons(usa.state, IDs=state.ID)
-usa.nb = poly2nb(usa.poly)
-usa.adj.mat = nb2mat(usa.nb, style="B")
-
-##Write the 0-1 adjacency matrix (not really needed for Moran's I)
-W = usa.adj.mat
-# drop DC
-W = W[,-which(rownames(W)=="district of columbia")]
-W = W[-which(rownames(W)=="district of columbia"),]
-
-rownames(W) = state.abb[match(rownames(W), tolower(state.name))]
-
-```
-
-## Differenced change in positive %
-
-* Suppose we wanted to model log difference of positive % cases
-
-```{r echo = TRUE, eval=FALSE}
-d = dplyr::filter(d, state %in% rownames(W)) %>% 
-  dplyr::mutate( 
-    pct = positive/totalTestResults) %>% 
-  dplyr::filter(yday %in% c(122,366)) %>% 
-  dplyr::group_by(state) %>% 
-  dplyr::arrange(yday) %>% 
-  dplyr::summarize(diff = log(pct[2])-log(pct[1]))
-```
-
-## Differenced change in positive %
-
-```{r echo = TRUE, eval=FALSE}
-# fit a CAR model
-fit <- brm(diff ~ 1 + car(W), 
-           data = d, data2 = list(W = W), chains=1) 
-summary(fit)
-```
+Challenges
 
 
-## General challenge with CAR and SAR models
-
-Wall (2004) "A close look at the spatial structure implied by the CAR and SAR models". 
-
-* Note: not a 1-to-1 mapping of distance and correlation
-
-<div style="text-align: center"><img src="car_sar.png" width="400" height="400" />
-
-## Alternative to CAR & SAR
-
-* model elements of Q as functions
-* Create matrix D, as pairwise distances
-* This can be 1-D, or any dimension
-    - We’ll use Euclidian distances for 2-D
-
-<div style="text-align: center"><img src="euclidian.png" width="300" height="200" />
-
-## Squared exponential covariance
-
-```{r eval =FALSE}
-set.seed(123)
-theta = 1
-x = seq(0,99)
-mat = matrix(0, 100, 10)
-for(i in 1:10) {
-  mat[,i] = exp(-(i/10)*x)
-}
-matplot(mat,type="l",col=tim.colors(10),lwd=2,xlim=c(0,40),ylab="Cov(dist)",xlab="Distance",main="Squared exponential")
-```
-
-<div style="text-align: center"><img src="sq_exp_cov.png" width="600" height="400" />
-
-## Squared exponential covariance
-
-<div style="text-align: center"><img src="squared_exponential.png" width="550" height="550" />
 
 ## Which covariance kernel to choose? 
 
