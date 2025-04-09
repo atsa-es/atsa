@@ -59,7 +59,7 @@ arma_basics <- list(
   ppt = "",
   rmd = "Lectures/Week 2/lec_03_ARMA_models.Rmd",
   html = "Lectures/Week 2/lec_03_ARMA_models.html",
-  video = "",
+  video = "[2025 Video](https://youtu.be/-f3mepdywUQ)",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/IgX9Bpu3ggc)", "[CM09: Chap 6](Files/Introductory_Time_Series_With_R.pdf)","[CM09: Chap 7](Files/Introductory_Time_Series_With_R.pdf)","[HA18: Chap 8.1-8.5](https://otexts.org/fpp2/arima.html)", "[R script for class](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_03_ARMA_models.R)"),
   instructor = "Mark"
