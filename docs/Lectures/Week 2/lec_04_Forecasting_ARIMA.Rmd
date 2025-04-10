@@ -3,9 +3,9 @@ title: "Forecasting with ARIMA models"
 author: "Eli Holmes"
 date: "10 Apr 2025"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: lecture_slides.css
+  beamer_presentation: default
 subtitle: |
   FISH 550 – Applied Time Series Analysis \ 
   Download [Rmd](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.Rmd) [pdf](https://atsa-es.github.io/atsa/Lectures/Week%202/lec_04_Forecasting_ARIMA.pdf)
@@ -70,15 +70,6 @@ Thus
 
 $$x_{90} = x_{89}+0.106 -0.538  (x_{89}-x_{88}) - 0.447 (x_{88}-x_{87})$$
 
-##
-
-Here is R code to do that:
-
-```{r}
-anchovyts[26]+mu+coef(fit)[1]*(anchovyts[26]-anchovyts[25])+
-  coef(fit)[2]*(anchovyts[25]-anchovyts[24])
-```
-
 ## Forecasting with `forecast()`
 
 `forecast(fit, h=h)` automates the forecast calculations for us and computes the upper and lower prediction intervals.  Prediction intervals include uncertainty in parameter estimates plus the process error uncertainty.
@@ -124,9 +115,196 @@ anchovy.miss[20:21] <- NA
 fit <- forecast::auto.arima(anchovy.miss)
 fit
 ```
+
 ##
 
 ```{r}
 fr <- forecast::forecast(fit, h=5)
 plot(fr)
 ```
+
+
+## Seasonal ARIMA Models
+
+
+```{r setup2, include=FALSE}
+set.seed(123)
+```
+
+
+### Load the chinook salmon data set
+
+```{r}
+load("chinook.RData")
+head(chinook)
+```
+
+##
+
+The data are monthly and start in January 1990.  To make this into a ts object do
+
+```{r}
+chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
+                frequency=12)
+```
+`start` is the year and month and frequency is the number of months in the year.  
+
+Use `?ts` to see more examples of how to set up ts objects.
+
+## Plot seasonal data
+
+```{r}
+plot(chinookts)
+```
+
+## Seasonal ARIMA model: SARIMA
+
+Basic structure of a seasonal AR model
+
+differenced data = AR(non-seasonal) + AR(seasonal) + cross-terms + MA
+
+## Differenced chinook data
+
+* No differencing $x_t$. We are modeling the data.
+* $x_t - x_{t-1}$. We are modeling the monthly change.
+* $x_t - x_{t-12}$. We are modeling the seasonal change. Jan vs Jan last year, Feb vs Feb last year
+* $(x_t - x_{t-12}) - (x_{t-1} - x_{t-13})$. We are modeling the seasonal rate of monthly change.
+* $(x_t - x_{t-1}) - (x_{t-12} - x_{t-13})$. We are modeling the seasonal monthly change.
+
+
+
+## Notation
+
+ARIMA (p,d,q)(ps,ds,qs)S
+
+ARIMA (non-seasonal part)(seasonal part)Frequency
+
+ARIMA (non-seasonal) means $t$ correlated with $t-1$
+
+ARIMA (seasonal) means $t$ correlated with $t-s$
+
+
+## Seasonal autoregressive
+
+ARIMA (1,0,0)(1,0,0)[12]
+
+*This month depends on last month plus the same month last year*
+
+What data are we modeling? Zero differences, so
+
+$$z_t = x_t$$
+
+Write out the AR parts with $z_t$
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \text{cross-term} + w_t$$
+
+No MA in this model so $w_t = e_t$ is white noise.
+
+
+## Autocorrelated seasonal differences
+
+ARIMA (1,0,0)(1,1,0)[12]
+
+*The seasonal difference this month depends on the seasonal difference last month plus the seasonal difference last year*
+
+
+$z_t$ is just a seasonal difference.
+
+$$z_t = x_t - x_{t-12}$$
+
+Write out the AR parts with $z_t$
+
+$$z_t = \phi_1 z_{t-1} + \Phi_1 z_{t-12} - \text{cross-term} + w_t$$
+
+No MA in this model so $w_t = e_t$ is white noise.
+
+
+## Seasonal random walk model
+
+ARIMA(0,0,0)(0,1,0)[12]
+
+*This month’s value is the same as last year’s, plus some random noise*
+
+expected January 1990 = January 1989 + constant mean
+
+$$z_t = x_t - x_{t-12}$$
+
+No AR nor MA
+
+$$z_t = w_t = x_t - x_{t-12}$$
+$$x_t = x_{t-12} + w_t$$
+
+
+## Seasonal random walk model with random trend
+
+ARIMA(0,1,0)(0,1,0)[12]
+
+expected Feb 1990 = Feb 1989 + (Jan 1990 - Jan 1989)
+
+$$z_t = (x_t - x_{t-12}) - (x_{t-1} - x_{t-13})$$
+
+No AR or MA part.
+
+$$z_t = w_t = (x_t - x_{t-12}) - (x_{t-1} - x_{t-13})$$
+$$x_t = x_{t-12} + (x_{t-1} - x_{t-13}) + w_t$$
+
+## airline model
+
+ARIMA(0, 1, 1)(0, 1, 1)[12]
+
+Seasonal random walk model with random trend + autocorrelated noise
+
+$$z_t = (x_t - x_{t-12}) - (x_{t-1} - x_{t-13})$$
+
+No AR part. Write out the MA parts, the $w_t$.
+
+$$w_t = e_t - \theta_1 e_{t-1} - \Theta_1 e_{t-12} + \text{cross-term}$$
+
+## `auto.arima()` for seasonal ts
+
+`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data by default.  We will define the training data up to 1998 and use 1999 as the test data.
+
+```{r}
+traindat <- window(chinookts, c(1990,10), c(1998,12))
+testdat <- window(chinookts, c(1999,1), c(1999,12))
+fit <- forecast::auto.arima(traindat)
+fit
+```
+
+## Forecasting with a Seasonal model
+
+### Load the chinook salmon data
+
+```{r}
+library(atsalibrary)
+chinook <- chinook.month %>% subset(State == "WA")
+chinookts <- ts(chinook$log.metric.tons, start=c(1990,1), 
+                frequency=12)
+```
+
+## Plot seasonal data
+
+```{r}
+plot(chinookts)
+```
+
+## Fit
+
+Missing values are ok when fitting a seasonal ARIMA model
+
+```{r}
+traindat <- window(chinookts, c(1990,10), c(1998,12))
+testdat <- window(chinookts, c(1999,1), c(1999,12))
+fit <- forecast::auto.arima(traindat)
+fit
+```
+
+## Forecast using seasonal model
+
+```{r}
+fr <- forecast::forecast(fit, h=12)
+plot(fr)
+points(testdat)
+```
+
+

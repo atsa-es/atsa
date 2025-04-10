@@ -1,0 +1,217 @@
+---
+title: "Multivariate Generalized Additive Models (GAMs)"
+subtitle: FISH 550 – Applied Time Series Analysis
+author: ""
+date: ""
+output:
+  ioslides_presentation:
+    css: lecture_slides.css
+  beamer_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, 
+                      message=FALSE, results='hide',
+                      fig.align = 'center')
+library(ggplot2)
+library(datasets)
+library(MARSS)
+library(tidyr)
+library(dplyr)
+library(mgcv)
+library(lubridate)
+library(viridisLite)
+library(here)
+```
+
+## Overview of today's material
+
+-   Multivariate models in `mgcv` (Pederson et al. 2019)[https://doi.org/10.7717/peerj.6876]
+
+-   Flexible dynamic models with `mvgam` (Clark et al. 2022)[https://doi.org/10.1111/2041-210X.13974]
+
+## Multivariate models in `mgcv`
+
+- 
+
+## Introducing factor smooths
+
+- **What is a factor smooth?** 
+- A factor smooth is a smooth term in a model where a categorical variable interacts with a continuous predictor
+- This type of smooth allows modeling of varying relationships between continuous predictors across different levels of a factor
+
+## How do we implement these in `mgcv`?
+
+- Use the `s()` function to specify smooth terms.
+- To specify a factor smooth, we include the factor variable in the formula:
+
+```{r echo = TRUE, eval = FALSE}
+gam(response ~ s(predictor, by = factor_variable), 
+    data = dataset)
+```
+
+## Illustrating different models with the harbor seal dataset
+
+```{r echo = TRUE, eval = TRUE}
+data("harborSeal")
+long_seal <- as.data.frame(harborSeal) |>
+  pivot_longer(cols = starts_with("CoastalEstuaries"):
+                 starts_with("Georgia.Strait"), 
+               names_to = "location", 
+               values_to = "value")
+
+long_seal$location <- as.factor(long_seal$location)
+```
+
+## Model G
+
+* Global smooth (shared trend)
+* Time series specific intercepts
+```{r echo = TRUE}
+fit_G <- gam(value ~ s(Year, k=8, bs="cr") + 
+             s(location, k=12, bs="re"), 
+           data=long_seal, 
+           family="gaussian")
+```
+
+## Model G fits
+
+```{r}
+my_cols <- viridis(3, begin = 0.2, end = 0.8)
+long_seal$pred_G <- predict(fit_G, long_seal)
+
+ggplot(long_seal, aes(Year, pred_G)) + 
+  geom_line(col = my_cols[1]) + 
+  geom_point(aes(Year, value), col = "red") + 
+  facet_wrap(~ location, scale="free_y") + 
+  ylab("Predicted") + theme_bw() + ylim(c(5.5,11))
+```
+
+## Model GS
+
+* Global smooth (shared trend)
+* Time series specific smooths
+```{r echo = TRUE}
+fit_GS <- gam(value ~ s(Year, k=8, bs="cr") + 
+             s(Year, by = location, k = 8, bs="fs") + 
+               s(location, k=12, bs="re"), 
+           data=long_seal, 
+           family="gaussian")
+```
+
+## Model GS fits
+
+```{r}
+long_seal$pred_GS <- predict(fit_GS, long_seal)
+
+ggplot(long_seal, aes(Year, pred_GS)) + 
+  geom_line(aes(Year, pred_G), col = my_cols[1]) +
+  geom_point(aes(Year, value), col = "red") + 
+  facet_wrap(~ location, scale="free_y") + 
+  ylab("Predicted") + theme_bw() + 
+  geom_line(col = my_cols[2]) + ylim(c(5.5,11))
+```
+
+## Model S
+
+* Time series specific smooths
+* No global smooth
+```{r echo = TRUE}
+fit_S <- gam(value ~  
+             s(Year, by = location, k = 8, bs="fs") + 
+               s(location, k=12, bs="re"), 
+           data=long_seal, 
+           family="gaussian")
+```
+
+## Model S fits
+
+```{r}
+long_seal$pred_S <- predict(fit_S, long_seal)
+
+ggplot(long_seal, aes(Year, pred_S)) + 
+  geom_line(aes(Year, pred_G), col = my_cols[1]) +
+  geom_line(aes(Year, pred_GS), col = my_cols[2]) +
+  geom_point(aes(Year, value), col = "red") + 
+  facet_wrap(~ location, scale="free_y") + 
+  ylab("Predicted") + theme_bw() + 
+  geom_line(col = my_cols[3]) + 
+  ylim(c(5.5,11))
+```
+
+## Factor Smooths
+
+* Add flexibility for time - series specific smooths
+
+* Similar to MARSS model with either shared (single trend) or 
+MARSS model where each time series is a different trend
+
+* Wiggliness of both global and factor smooths can be specified
+
+## Summarizing these approaches in `mgcv`
+
+* Lots of flexibility 
+
+* We could have used `gamm` for additional flexibility in random effects
+
+* Implements mixed models 
+
+## Transitioning to DGAMs in `mvgam`
+
+- **DGAMs** are an extension of GAMs designed to handle time-varying and dynamic data
+- Particularly useful for modeling temporal dependencies / nonlinear relationships 
+- Can be used with multivariate time series data
+- DGAMs incorporate dynamic smooth terms that evolve over time
+
+## Why use DGAMs? 
+
+- GAMs are great, but uncertainty blows up as we get further from data (forecast)
+
+- Random walk / AR1 processes also have uncertainty balloon
+
+- DGAMs represent a hybrid approach that work particularly well for forecasting
+
+## Mathematically
+
+Remember that GAMs are typically represented as
+$$ E[Y_t] = \beta_0 + \sum_{i=1}^{I} s(x_{i,t})$$
+where $Y_t$ is the response variable at time $t$, $\beta_0$ is the intercept, and $s(x_{i,t})$ are smooth functions of the predictors
+
+## Mathematically
+
+Because the response can be non-Gaussian we use a link function $g^{=1}()$ to relate the mean of the response to the linear predictor
+
+$$ E[Y_t] = g^{=1} \left( \beta_0 + \sum_{i=1}^{I} s(x_{i,t}) \right)$$
+where $g$ is the link function (e.g., logit, log, identity)
+
+## Mathematically
+
+DGAMs add a dynamic component to this equation, allowing for time-varying smooths
+
+$$ E[Y_t] = g^{-1} \left( \beta_0 + \sum_{i=1}^{I} s(x_{i,t}) + z_{t} \right)$$
+where $z_{t} = \psi_{0} + \psi_{1}z_{t-1} + \epsilon_t$ and $\epsilon_t \sim N(0, \sigma_{\epsilon})$ and $g^{-1}$ is the inverse link function
+
+## Complex latent processes
+
+Random walks can be specified with any dynamic model that we've already discussed (AR, MA processes, etc)
+
+$z_{t} = \psi_{0} + \psi_{1}z_{t-1} + \epsilon_t$
+
+$z_{t} = \psi_{0} + \psi_{1}z_{t-1} + \psi_{2}z_{t-2} + \epsilon_t$
+
+## Dynamic factor processes
+
+For multiple time series, there can be > 1 latent trend, and we can estimate factor loadings (DFA). For time series $j$
+
+$$ E[Y_{j,t}] = g^{-1} \left( \beta_0 + \sum_{i=1}^{I} s(x_{i,j,t}) + \sum_{m=1}^{M} z_{m,t}\theta_{j} \right)$$
+
+## The mvgam Package
+
+- The **`mvgam`** package provides tools for fitting DGAMs in R
+- Bayesian estimation with Stan backend
+- Supports multivariate time series modeling with dynamic smooths
+- Provides an interface to easily define dynamic terms in the model
+
+## 
+
+
