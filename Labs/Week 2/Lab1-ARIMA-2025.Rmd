@@ -20,8 +20,8 @@ You will find this Rmd file in the [Fish550-2025 repository](https://github.com/
 
 ## Teams
 
-1. Team 1: Anna, Brian
-2. Team 2: Matheus, Lilac
+1. Team 1: Anna, Brian, Nicole
+2. Team 2: Matheus, Lilac, Mary
 3. Team 3: Ben, Emma, Tina
 
 ## References
