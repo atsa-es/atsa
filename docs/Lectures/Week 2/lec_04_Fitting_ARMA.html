@@ -3243,7 +3243,7 @@ background-color: white;
 
 <body style="opacity: 0">
 
-<slides>
+<slides class="layout-widescreen">
 
   <slide class="title-slide segue nobackground">
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
@@ -3417,9 +3417,9 @@ ndiffs(diff(log(AirPassengers), 12))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Differencing the data to make the mean stationary</h2></hgroup><article  id="differencing-the-data-to-make-the-mean-stationary">
 
-<p>Differencing means to create a new time series \(z_t = x_t - x_{t-1}\). First order differencing means you do this once (so \(z_t\)) and second order differencing means you do this twice (so \(z_t - z_{t-1}\)).</p>
+<p>Differencing means to create a new time series \(z_t = x_t - x_{t-1}\).</p>
 
-<p>The <code>diff()</code> function takes the first difference:</p>
+<p>The <code>diff()</code> function takes the first difference (so \(z_t - z_{t-1}\)):</p>
 
 <pre class = 'prettyprint lang-r'>x &lt;- diff(c(1,2,4,7,11))
 x</pre>
@@ -3428,7 +3428,7 @@ x</pre>
 
 <p>The second difference is the first difference of the first difference.</p>
 
-<pre class = 'prettyprint lang-r'>diff(x)</pre>
+<pre class = 'prettyprint lang-r'>diff(diff(c(1,2,4,7,11)))</pre>
 
 <pre >## [1] 1 1 1</pre>
 

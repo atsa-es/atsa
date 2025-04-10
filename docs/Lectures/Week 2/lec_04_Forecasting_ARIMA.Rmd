@@ -4,6 +4,7 @@ author: "Eli Holmes"
 date: "10 Apr 2025"
 output:
   ioslides_presentation:
+    widescreen: true
     css: lecture_slides.css
   beamer_presentation: default
 subtitle: |
