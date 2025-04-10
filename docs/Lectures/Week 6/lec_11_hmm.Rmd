@@ -1,7 +1,7 @@
 ---
 title: "An introduction to hidden markov models for time series"
 subtitle: FISH 550 – Applied Time Series Analysis
-author: "Eric Ward"
+author: ""
 date: ""
 output:
   ioslides_presentation:
