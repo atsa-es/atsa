@@ -26,9 +26,14 @@ You will find this Rmd file in the [Fish550-2025 repository](https://github.com/
 
 ## References
 
+Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied Time Series Analysis for Fisheries and Environmental data. [Box-Jenkins Method chapter](https://atsa-es.github.io/atsa-labs/chap-boxjenkins-.html) and [time series chapter](https://atsa-es.github.io/atsa-labs/chap-tslab.html
+).
+
 Holmes, E. E. (2020) Fisheries Catch Forecasting <https://fish-forecast.github.io/Fish-Forecast-Bookdown>
 
 Hyndman, R.J., & Athanasopoulos, G. (2018) Forecasting: principles and practice, 2nd edition, OTexts: Melbourne, Australia. <https://otexts.com/fpp2/>.
+
+Last year's team write-ups [Fish550-2023](https://atsa-es.github.io/fish550-2023/Lab-1/Lab1-ARIMA.html)
 
 Plus the lecture material on the ATSA website.
 
