@@ -4,6 +4,7 @@ author: "Eli Holmes"
 date: "10 Apr 2025"
 output:
   ioslides_presentation:
+    widescreen: true
     css: lecture_slides.css
   beamer_presentation: default
 subtitle: |
@@ -263,9 +264,9 @@ In this lecture we will use differencing, the I in ARIMA model refers to differe
 
 ## Differencing the data to make the mean stationary
 
-Differencing means to create a new time series  $z_t = x_t - x_{t-1}$.  First order differencing means you do this once (so $z_t$) and second order differencing means you do this twice (so $z_t - z_{t-1}$).
+Differencing means to create a new time series  $z_t = x_t - x_{t-1}$.  
 
-The `diff()` function takes the first difference:
+The `diff()` function takes the first difference (so $z_t - z_{t-1}$):
 
 ```{r diff1}
 x <- diff(c(1,2,4,7,11))
@@ -275,7 +276,7 @@ x
 The second difference is the first difference of the first difference.
 
 ```{r diff2}
-diff(x)
+diff(diff(c(1,2,4,7,11)))
 ```
 
 ## Anchovy catch first differenced
