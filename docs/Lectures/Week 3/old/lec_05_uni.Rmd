@@ -1,13 +1,12 @@
 ---
 title: "Intro to Univariate State-Space Models"
-subtitle: FISH 550 – Applied Time Series Analysis
 author: "Eli Holmes"
-date: "15 April 2025"
+date: "11 April 2023"
 output:
   ioslides_presentation:
-    mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
-    widescreen: true
     css: lecture_slides.css
+  beamer_presentation: default
+subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
@@ -29,18 +28,6 @@ Lectures 3-5: Specific applications: covariates, dynamic factor analysis, dynami
 * Properties of time series data
 * AR and MA models:   $x_t = b_1 x_{t-1} + b_2 x_{t-2} + e_t$
 * Today: **State-space models (observation error and hidden random walks)**
-
-## Lecture 1-5
-
-How models treat the changing level in a model.
-
-$$y_t = x_t + e_t$$
-
-* Classic ARMA -- "Get rid of it!" Difference the data until the mean ($m_t$) is eliminated, then model what is left.
-* ETS (Holt + Holt/Winters) -- "Compute by using additive sums of the past observations"
-* State-Space Auto-regressive -- "Model it with a random walk"
-
-Approaches 1 & 2 don't really care about $x_t$. But when we are trying to understand a system, we care a lot about $x_t$
 
 ## Univariate linear state-space model
 
@@ -132,6 +119,16 @@ for(i in 1:3) lines(exp(gompertz(n, u2, b2, q)), col="grey")
 par(op)
 ```
 
+<!--
+## Gompertz model is hard to fit
+
+
+$$x_t = bx_{t-1}+u+e_t$$
+
+The mean level of a long time series of this model is $u/(1-b)$ however $b$ and $u$ are confounded.  There is a ridge in the likelihood surface indicative of many $b$/$u$ combinations that will fit the data.
+
+If you have observation error, you need either long times or replication to estimate this model or constrain the $u$ or $b$ somehow.
+-->
 
 ## Simple model, great flexibility
 
@@ -144,6 +141,17 @@ for(i in 1:6)
 par(op)
 ```
 
+<!--
+
+## Simple model, great flexibility
+
+An random walk can show a wide-range of trajectories, even for the same parameter values.
+
+<center>
+Accurately estimating and conveying the uncertainty in the parameter estimates, state estimates, and predictions is critical.
+</center>
+
+-->
 
 ## Definition: state-space
 
@@ -159,6 +167,29 @@ state: $x_t = x_{t-1} + u + w_t$
 
 observation: $y_t = x_t + v_t$
 
+## Example: population count data
+
+Yearly, usually, population or subpopulation counts, possibly with missing values.
+
+```{r echo=FALSE}
+library(MARSS)
+dat <- wilddogs
+plot(dat,ylim=c(0,70), bty="l")
+title("African wild dogs population counts")
+text(dat[,1][which(is.na(dat[,2]))],0,"X",col="red")
+```
+
+<!--
+## Another example of population counts
+
+```{r echo=FALSE}
+library(MARSS)
+dat <- harborSeal[,c("Year","Georgia.Strait")]
+plot(dat,ylim=c(8,11), bty="l",ylab="density index")
+title("Density of Georgia Strait Harbor Seals")
+text(dat[,1][which(is.na(dat[,2]))],8,"X",col="red")
+```
+-->
 
 ## Example: population count data
 
@@ -229,6 +260,10 @@ plot(y,pch="X",type="b",ylab="log(N)",xlab="",bty="L")
 lines(y,col="blue")
 ```
 
+<!--
+Note if your use `arima()` or `Arima()` to fit to the data, `fitted()` does not return the state process (= the data). It returns the predicted values based on $t-1$.  This is different than `fitted()` with `lm()`.
+-->
+
 
 ## Fit a state-space model
 
@@ -262,6 +297,20 @@ points(fit$states[1,],col="blue",pch="o")
 lines(c(7,8),c(fit$states[1,7],fit$states[1,7]+coef(fit)$U[,1]),col="black",lwd=2)
 points(c(8),c(fit$states[1,7]+coef(fit)$U[,1]),col="black",pch="x")
 lines(c(8,8),c(fit$states[1,8], fit$states[1,7]+coef(fit)$U[,1]),col="red",pch="x")
+```
+
+## PVA example
+
+One use of univariate state-space models is “count-based” population viability analysis (chap 7 HWS2014)
+
+```{r wilddogs, echo=FALSE,out.width = '70%',fig.align="center"}
+knitr::include_graphics("images/wild_dogs.jpg")
+```
+
+##
+
+```{r, results="hide",fig.align="center",fig.height=6, fig.width=5}
+CSEGriskfigure(wilddogs)
 ```
 
 ## How you model your data has a large impact on your forecasts
@@ -326,6 +375,11 @@ for(i in 1:3){
 }
 ```
 
+## Nile River example
+
+```{r nile, echo=FALSE,out.width = '60%',fig.align="center"}
+knitr::include_graphics("images/Nile.png")
+```
 
 ## Kalman filter and smoother
 
@@ -398,6 +452,14 @@ mod.list <- list(
 )
 ```
 
+## Diagnostics and plotting
+
+Use
+```
+autoplot(fit)
+```
+where `fit` is returned by `MARSS()` to see the standard diagnostics.
+
 ## Output
 
 ```
@@ -409,7 +471,7 @@ fit <- MARSS()
 * `tsSmooth()` to get the estimates states or use `fit$states`
 * `fitted()` to get the model estimates of mean y
 * `fr <- forecast(fit, h=5, interval="prediction")` predictions
-* `autoplot(fr)` plot the forecast, show diagnostics
+* `autoplot(fr)` plot the forecast
 
 
 ## Let's see some examples

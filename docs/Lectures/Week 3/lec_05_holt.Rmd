@@ -5,6 +5,7 @@ author: "Eli Holmes"
 date: "15 April 2025"
 output:
   ioslides_presentation:
+    mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
     widescreen: true
     css: lecture_slides.css
 ---
