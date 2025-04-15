@@ -1,11 +1,13 @@
 ---
 title: "Dynamic Factor Analysis"
+subtitle: FISH 550 – Applied Time Series Analysis
 author: "Mark Scheuerell"
-date: "20 April 2023"
+date: "24 April 2025"
 output:
   ioslides_presentation:
+    mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    widescreen: true
     css: lecture_slides.css
-subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
@@ -46,7 +48,7 @@ $$
 
 ## A very simple model
 
-The right-hand side of the equation is composed of _deterministic_ and _stochastic_ pieces
+The right-hand side of the equation comprises _deterministic_ & _stochastic_ pieces
 
 $$
 y_i = \underbrace{\mu}_{\text{deterministic}} + \underbrace{e_i}_{\text{stochastic}}
@@ -177,8 +179,10 @@ There is significant autocorrelation at lag = 1
 We can expand the stochastic part of the model to have autocorrelated errors
 
 $$
+\begin{gather}
 y_t = \alpha + \beta x_t + e_t \\
 e_t = \phi e_{t-1} + w_t
+\end{gather}
 $$
 
 with $w_t \sim \text{N}(0,\sigma^2)$
@@ -189,11 +193,15 @@ with $w_t \sim \text{N}(0,\sigma^2)$
 We can expand the stochastic part of the model to have autocorrelated errors
 
 $$
+\begin{gather}
 y_t = \alpha + \beta x_t + e_t \\
 e_t = \phi e_{t-1} + w_t
+\end{gather}
 $$
 
 with $w_t \sim \text{N}(0,\sigma^2)$
+
+<br>
 
 We can write this model as our standard state-space model
 
@@ -233,20 +241,24 @@ $x_t = e_t$ and $B = \phi$
 ## State-space model | Full form
 
 $$
+\begin{gather}
 y_t = \alpha + \beta x_t + e_t \\
 e_t = \phi e_{t-1} + w_t \\
 \Downarrow \\
 y_t = a + D d_t + x_t\\
 x_t = B x_t + w_t
+\end{gather}
 $$
 
 
 ## State-space model | Observation model in `MARSS()`
 
 $$
+\begin{gather}
 y_t = a + D d_t + x_t \\
 \Downarrow \\
 y_t = Z x_t + a + D d_t + v_t
+\end{gather}
 $$
 
 ```{r MARSS_DFA_setup, echo = TRUE, eval = FALSE}
@@ -262,9 +274,11 @@ R = matrix(0)    ## v_t ~ N(0,R); want v_t = 0 for all t
 ## State-space model | State model in `MARSS()`
 
 $$
+\begin{gather}
 x_t = B x_t + w_t \\
 \Downarrow \\
 x_t = B x_t + u + C c_t + w_t
+\end{gather}
 $$
 
 ```{r MARSS_AR1_setup, echo = TRUE, eval = FALSE}
@@ -295,12 +309,16 @@ $$
 We can expand the random portion
 
 $$
+\begin{gather}
 y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
+\end{gather}
 $$
 
 $$
+\begin{gather}
 e_t \sim \text{N}(0, \sigma) \\
 f_t \sim \text{N}(f_{t-1}, \gamma)
+\end{gather}
 $$
 
 
@@ -309,12 +327,16 @@ $$
 We can expand the random portion
 
 $$
+\begin{gather}
 y_t = \underbrace{\mu}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
+\end{gather}
 $$
 
 $$
+\begin{gather}
 e_t \sim \text{N}(0, \sigma) \\
 f_t \sim \text{N}(f_{t-1}, \gamma)
+\end{gather}
 $$
 
 This is simply a random walk observed with error
@@ -323,11 +345,13 @@ This is simply a random walk observed with error
 ## Random walk observed with error
 
 $$
+\begin{gather}
 y_t = \mu + f_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0, \sigma) \\
 f_t = f_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, \gamma) \\
 \Downarrow \\
 y_t = a + x_t + v_t ~ \text{with} ~ v_t \sim \text{N}(0, R) \\
 x_t = x_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, Q)
+\end{gather}
 $$
 
 
@@ -336,23 +360,29 @@ $$
 We can expand the fixed portion
 
 $$
+\begin{gather}
 y_t = \underbrace{\alpha + \beta x_t}_{\text{fixed}} + ~ \underbrace{f_t + e_t}_{\text{random}}
+\end{gather}
 $$
 
 $$
+\begin{gather}
 e_t \sim \text{N}(0, \sigma) \\
 f_t \sim \text{N}(f_{t-1}, \gamma)
+\end{gather}
 $$
 
 
 ## Fixed & random effects | In familiar state-space form
 
 $$
+\begin{gather}
 y_t = \alpha + \beta x_t + f_t + e_t ~ \text{with} ~ e_t \sim \text{N}(0, \sigma) \\
 f_t = f_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, \gamma) \\
 \Downarrow \\
 y_t = a + D d_t + x_t + v_t ~ \text{with} ~ v_t \sim \text{N}(0, R) \\
 x_t = x_{t-1} + w_t ~ \text{with} ~ w_t \sim \text{N}(0, Q)
+\end{gather}
 $$
 
 ## {.flexbox .vcenter}
@@ -363,8 +393,10 @@ $$
 ## Simple model for 2+ time series | Random walk observed with error
 
 $$
+\begin{gather}
 y_{i,t} = x_{i,t} + a_i + v_{i,t} \\
 x_{i,t} = x_{i,t-1} + w_{i,t}
+\end{gather}
 $$
 
 with
@@ -377,25 +409,31 @@ $w_{i,t} \sim \text{N}(0, Q)$
 ## Random walk observed with error
 
 $$
+\begin{gather}
 y_{1,t} = x_{1,t} + a_1 + v_{1,t} \\
 y_{2,t} = x_{2,t} + a_2 + v_{2,t} \\
 \vdots \\
 y_{n,t} = x_{n,t} + a_2 + v_{n,t} \\
+\end{gather}
 $$
 
 $$
+\begin{gather}
 x_{1,t} = x_{1,t-1} + w_{1,t} \\
 x_{2,t} = x_{2,t-1} + w_{2,t} \\
 \vdots \\
 x_{n,t} = x_{n,t-1} + w_{n,t}
+\end{gather}
 $$
 
 
 ## Random walk observed with error | In matrix form
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 with 
@@ -482,8 +520,10 @@ for(i in 1:3) {
 ## State-space model | Ex: population structure
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 We can make (test) assumptions by specifying different forms for $\mathbf{Z}$
@@ -492,6 +532,7 @@ We can make (test) assumptions by specifying different forms for $\mathbf{Z}$
 ## State-space model | Ex: Harbor seal population structure
 
 $$
+\begin{gather}
 \begin{bmatrix}
  y_1 \\
  y_2 \\
@@ -525,9 +566,11 @@ $$
  v_4 \\
  v_5 
 \end{bmatrix}_t
+\end{gather}
 $$
 
 $$
+\begin{gather}
 \begin{bmatrix}
  x_{JF} \\
  x_N \\
@@ -543,6 +586,7 @@ $$
  w_N \\
  w_S
 \end{bmatrix}_t
+\end{gather}
 $$
 
 
@@ -556,6 +600,7 @@ For example, we sampled haul-outs located between several breeding sites
 ## Mixtures of states
 
 $$
+\begin{gather}
 \begin{bmatrix}
  y_1 \\
  y_2 \\
@@ -589,9 +634,11 @@ $$
  v_4 \\
  v_5 
 \end{bmatrix}_t
+\end{gather}
 $$
 
 $$
+\begin{gather}
 \begin{bmatrix}
  x_{JF} \\
  x_N \\
@@ -607,6 +654,7 @@ $$
  w_N \\
  w_S
 \end{bmatrix}_t
+\end{gather}
 $$
 
 
@@ -615,8 +663,10 @@ $$
 What if our observations were a mixture of states, but we didn't know how many or the weightings?
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 What are the dimensions of $\mathbf{Z}$?
@@ -632,8 +682,10 @@ DFA is a _dimension reduction_ technique, which models $n$ observed time series 
 ## Dynamic Factor Analysis (DFA) | State-space form
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 data: $\mathbf{y}_t$ is $n \times 1$
@@ -729,12 +781,14 @@ so
 $$
 \text{cov}(\mathbf{y}_t) = \mathbf{Z} \text{cov}(\mathbf{x}_t) \mathbf{Z}^\top + \mathbf{R}
 $$
+
 In PCA, we require $\mathbf{R}$ to be diagonal, but not so in DFA
 
 
 ## Principal Components Analysis (PCA) | Forms for $\mathbf{R}$ with $n = 4$
 
 $$
+\begin{gather}
 \mathbf{R} \stackrel{?}{=}
 \begin{bmatrix}
  \sigma & 0 & 0 & 0 \\
@@ -750,12 +804,14 @@ $$
  0 & 0 & \sigma_3 & 0 \\
  0 & 0 & 0 & \sigma_4
 \end{bmatrix}
+\end{gather}
 $$
 
 
 ## Dynamic Factor Analysis (DFA) | Forms for $\mathbf{R}$ with $n = 4$
 
 $$
+\begin{gather}
 \mathbf{R} \stackrel{?}{=}
 \begin{bmatrix}
  \sigma & 0 & 0 & 0 \\
@@ -771,9 +827,11 @@ $$
  0 & 0 & \sigma_3 & 0 \\
  0 & 0 & 0 & \sigma_4
 \end{bmatrix}
+\end{gather}
 $$
 
 $$
+\begin{gather}
 \mathbf{R} \stackrel{?}{=}
 \begin{bmatrix}
  \sigma & \gamma & \gamma & \gamma \\
@@ -789,19 +847,23 @@ $$
  0 & 0 & \sigma_3 & 0 \\
  0 & \gamma_{2,4} & 0 & \sigma_4
 \end{bmatrix}
+\end{gather}
 $$
 
 
 ## Dynamic Factor Analysis (DFA)
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 What form should we use for $\mathbf{Z}$?
 
 $$
+\begin{gather}
 \mathbf{Z} \stackrel{?}{=}
 \begin{bmatrix}
  z_1 \\
@@ -828,14 +890,17 @@ $$
  \vdots & \vdots & \vdots \\
  z_{1,n} & z_{2,n} & z_{3,n}
 \end{bmatrix}
+\end{gather}
 $$
 
 
 ## Dynamic Factor Analysis (DFA)
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 What form should we use for $\mathbf{Z}$?
@@ -882,8 +947,10 @@ Therefore we need to impose some constraints on the model
 ## Constraints on DFA models | 1) The offset $\mathbf{a}$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $$
@@ -901,11 +968,14 @@ $$
 ## Constraints on DFA models | 1) The offset $\mathbf{a}$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $$
+\begin{gather}
 \mathbf{a} =
 \begin{bmatrix}
  a_1 \\
@@ -914,6 +984,7 @@ $$
  \vdots \\
  a_n
 \end{bmatrix}
+\end{gather}
 $$
 
 We will set the first $m$ elements of $\mathbf{a}$ to 0
@@ -924,6 +995,7 @@ We will set the first $m$ elements of $\mathbf{a}$ to 0
 For example, if $n = 5$ and $m = 2$
 
 $$
+\begin{gather}
 \mathbf{a} =
 \begin{bmatrix}
  a_1 \\
@@ -941,6 +1013,7 @@ $$
  a_4 \\
  a_5
 \end{bmatrix}
+\end{gather}
 $$
 
 
@@ -983,8 +1056,10 @@ Note, however, that this causes problems for the EM algorithm so we will often d
 ## Constraints on DFA models | 2) The loadings $\mathbf{Z}$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $$
@@ -1002,8 +1077,10 @@ $$
 ## Constraints on DFA models | 2) The loadings $\mathbf{Z}$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $$
@@ -1059,8 +1136,10 @@ Diagonal of $\mathbf{Z}$ is positive: $z_{i,j} > 0$ if $i = j$
 ## Constraints on DFA models | 3) The state variance $\mathbf{Q}$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $$
@@ -1071,8 +1150,10 @@ $$
 ## Constraints on DFA models | 3) The state variance $\mathbf{Q}$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $$
@@ -1102,8 +1183,10 @@ This allows our random walks to have a _lot_ of flexibility
 ## Dynamic Factor Analysis (DFA) | Including $p$ covariates
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \underline{\mathbf{D} \mathbf{d}_t} + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $\mathbf{d}_t$ is a $p \times 1$ vector of covariates at time $t$
@@ -1114,8 +1197,10 @@ $\mathbf{D}$ is an $n \times p$ matrix of covariate effects
 ## Dynamic Factor Analysis (DFA) | Form for $\mathbf{D}$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \underline{\mathbf{D}} \mathbf{d}_t + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 Careful thought must be given _a priori_ as to the form for $\mathbf{D}$
@@ -1162,7 +1247,7 @@ However, caution must be given when comparing models with and without covariates
 Think about the DFA model form
 
 $$
-\mathbf{y}_t = \mathbf{Z} \underline{\mathbf{x}_t} + \mathbf{a} + \mathbf{D} \underline{\mathbf{d}_t} + \mathbf{v}_t \\
+\mathbf{y}_t = \mathbf{Z} \underline{\mathbf{x}_t} + \mathbf{a} + \mathbf{D} \underline{\mathbf{d}_t} + \mathbf{v}_t
 $$
 
 $\mathbf{x}_t$ are _undetermined_ random walks
@@ -1325,13 +1410,17 @@ To help with this, we can use a _basis rotation_ to maximize the loadings on a f
 If $\mathbf{H}$ is an $m \times m$ non-singular matrix, these 2 DFA models are equivalent
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{x}_t + \mathbf{a} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t \\
 \mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 $$
+\begin{gather}
 \mathbf{y}_t = \mathbf{Z} \mathbf{H}^{-1} \mathbf{x}_t + \mathbf{a} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t \\
 \mathbf{H} \mathbf{x}_t = \mathbf{H} \mathbf{x}_{t-1} + \mathbf{H} \mathbf{w}_t
+\end{gather}
 $$
 
 How should we choose $\mathbf{H}$?
