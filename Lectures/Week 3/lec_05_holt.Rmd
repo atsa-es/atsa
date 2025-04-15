@@ -301,7 +301,7 @@ gridExtra::grid.arrange(
 )
 ```
 
-## Time-series cross-validation with the forecast package
+## Cross-validation with the forecast package
 
 ```{r}
 far2 <- function(x, h, order){
