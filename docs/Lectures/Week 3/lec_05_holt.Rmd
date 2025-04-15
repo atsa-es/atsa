@@ -1,0 +1,538 @@
+---
+title: "Holt and Holt-Winters Models -- Model Evaluation"
+subtitle: FISH 550 – Applied Time Series Analysis
+author: "Eli Holmes"
+date: "15 April 2025"
+output:
+  ioslides_presentation:
+    widescreen: true
+    css: lecture_slides.css
+---
+
+```{r setup, include=FALSE, message=FALSE}
+options(htmltools.dir.version = FALSE, servr.daemon = TRUE)
+knitr::opts_chunk$set(fig.height=5, fig.align="center")
+library(huxtable)
+data(greeklandings, package="atsalibrary")
+```
+
+## Exponential Smoothing Models
+
+[ETS Models in Forecasting: Principles and Practice](https://otexts.com/fpp2/expsmooth.html)
+
+**Exponential smoothing models** are a family of forecasting tools that help us make smarter predictions by giving **more weight to recent observations** while not completely ignoring the past.
+
+**Why "exponential"?**
+The weights assigned to past observations decrease exponentially — meaning the most recent data gets the most attention, and older data fades out gradually.
+
+
+## Simple Level Model
+
+My prediction for today is an exponentially weighted average of past values.
+
+$$
+\hat{y}_{t+1} = \ell_t
+$$
+
+$$
+\ell_t = \alpha y_t + \alpha(1 - \alpha) y_{t-1} + \alpha(1 - \alpha)^2 y_{t-2} + \dots
+$$
+
+## Simple Trend + Level Model (Holt)
+
+My prediction includes both an exponentially weighted average of past values **and** a trend. 
+
+"trend" = tendency to increase or decrease.
+
+$$
+\hat{y}_{t+1} = \ell_t + b_t
+$$
+
+Where:
+
+* $\ell_t$: exponentially weighted average of past values  
+* $b_t$: exponentially weighted average of past trends ($\ell_{t} - \ell_{t-1}$)
+
+
+## Expanded Form
+
+**Level:**
+$$
+\ell_t = \alpha y_t + \alpha(1 - \alpha)(y_{t-1} + b_{t-1}) + \alpha(1 - \alpha)^2(y_{t-2} + b_{t-2}) + \dots
+$$
+
+**Trend:**
+$$
+b_t = \beta (\ell_t - \ell_{t-1}) + \beta (1 - \beta) (\ell_{t-1} - \ell_{t-2}) + (1-\beta)^2 b_{t-2}
+$$
+
+## Holt-Winters Model
+
+My forecast includes a weighted average of past values, a trend, **and** a seasonal component:
+
+
+$$
+\hat{y}_{t+1} = \ell_t + b_t + s_{t - m}
+$$
+
+Where:
+- $\ell_t$: smoothed level (local average)
+- $b_t$: smoothed trend (local slope)
+- $s_{t - m}$: seasonal adjustment from one full cycle ago
+
+## Expanded form of seasonality:
+
+$$
+\begin{aligned}
+s_t &= \gamma (y_t - \ell_t) + (1 - \gamma) s_{t - m} \\
+    &= \gamma (y_t - \ell_t) + \gamma(1 - \gamma)(y_{t - m} - \ell_{t - m}) \\
+    &\quad + \gamma(1 - \gamma)^2(y_{t - 2m} - \ell_{t - 2m}) + \gamma(1 - \gamma)^3(y_{t - 3m} - \ell_{t - 3m}) + \dots
+\end{aligned}
+$$
+
+This lets  the **seasonal pattern** evolve gradually over time.
+
+## Fitting Holt and Holt-Winters
+
+The forecast package provides:
+
+* `holt(dat)`, `ets(dat, model="AAN")` Holt
+* `hw(dat)`, `ets(dat, model="AAA")`  Holt-Winters
+* `ets(dat, model="ZZZ")` others
+
+## Fit Holt model
+
+Evolving level and trend.
+
+Load the data and **forecast** package.
+
+```{r load_data_exp_smoothing}
+data(greeklandings, package="atsalibrary")
+anchovy <- subset(greeklandings, 
+                  Species=="Anchovy" & Year<=1987)$log.metric.tons
+anchovy <- ts(anchovy, start=1964)
+library(forecast)
+```
+
+```{r fit.ann}
+fit <- forecast::holt(anchovy)
+fr <- forecast(fit, h=5)
+```
+
+##
+
+```{r}
+plot(fr)
+```
+
+
+## Validation
+
+```{r load_packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(gridExtra)
+library(reshape2)
+library(tseries)
+library(forecast)
+```
+
+Once we have a model(s), we will want to evaluate the performance of the model. We'll see examples using the anchovy landings.
+
+```{r load_data2, message=FALSE, warning=FALSE}
+spp <- "Anchovy"
+training = subset(greeklandings, Year <= 1987)
+test = subset(greeklandings, Year >= 1988 & Year <= 1989)
+traindat <- subset(training, Species==spp)$log.metric.tons
+testdat <- subset(test, Species==spp)$log.metric.tons
+```
+
+## Measures of forecast fit
+
+To measure the forecast fit, we fit a model to training data and test a forecast against data in a test set.  We 'held out' the test data and did not use it for fitting.
+
+```{r echo=FALSE, out.width="70%"}
+plot(1964:1987, traindat, xlim=c(1964,1989))
+points(1988:1989, testdat, pch=2, col="red")
+legend("topleft", c("Training data","Test data"), pch=c(1,2), col=c("black", "red"))
+```
+
+##
+
+We will fit to the training data and make a forecast.
+
+```{r}
+fit_arima <- auto.arima(traindat)
+fit_arima
+```
+## Forecast
+
+```{r}
+fr <- forecast(fit_arima, h=2)
+plot(fr)
+```
+
+## Compare to test
+
+```{r echo=FALSE, out.width="70%"}
+plot(fr)
+points(25:26, testdat, pch=2, col="red")
+legend("topleft", c("forecast","actual"), pch=c(20,2), col=c("blue","red"))
+```
+
+##
+
+How do we quantify the difference between the forecast and the actual values?
+
+```{r}
+fr.err <- testdat - fr$mean
+fr.err
+```
+
+There are many metrics.  The `accuracy()` function in forecast provides many different metrics: mean error, root mean square error, mean absolute error, mean percentage error, mean absolute percentage error.
+
+##
+
+### ME Mean error
+
+```{r}
+me <- mean(fr.err); me
+```
+
+### RMSE Root mean squared error
+
+```{r}
+rmse <- sqrt(mean(fr.err^2)); rmse
+```
+
+### MAE Mean absolute error
+
+```{r}
+mae <- mean(abs(fr.err)); mae
+```
+
+##
+
+### MPE Mean percentage error
+
+```{r}
+fr.pe <- 100*fr.err/testdat
+mpe <- mean(fr.pe); mpe
+```
+
+### MAPE Mean absolute percentage error
+
+```{r}
+mape <- mean(abs(fr.pe)); mape
+```
+
+##
+
+```{r}
+accuracy(fr, testdat)[,1:5]
+```
+
+```{r}
+c(me, rmse, mae, mpe, mape)
+```
+
+## Test all the models in your candidate set
+
+Compute metrics for all the models in your candidate set.
+
+```{r}
+# The model picked by auto.arima
+fit1 <- Arima(traindat, order=c(0,1,1))
+fr1 <- forecast(fit1, h=2)
+test1 <- accuracy(fr1, testdat)[2,1:5]
+
+# AR-1
+fit2 <- Arima(traindat, order=c(1,1,0))
+fr2 <- forecast(fit2, h=2)
+test2 <- accuracy(fr2, testdat)[2,1:5]
+
+# Holt
+fit3 <- holt(traindat)
+fr3 <- forecast(fit3, h=2)
+test3 <- accuracy(fr3, testdat)[2,1:5]
+```
+
+## Show a summary
+
+```{r results='asis', echo=FALSE}
+sum.tests <- rbind(test1, test2, test3)
+row.names(sum.tests) <- c("(0,1,1)","(1,1,0)","Holt")
+sum.tests <- format(sum.tests, digits=3)
+knitr::kable(sum.tests, format="html")
+```
+
+## Cross-validation
+
+An alternate approach to testing a model's forecast accuracy is to use windows.  
+
+```{r cv.sliding, echo=FALSE, out.width="70%"}
+library(ggplot2)
+p <- list()
+for(i in 1:9){
+  p[[i]]<-ggplot(subset(greeklandings, Species=="Anchovy"&Year<1974+i), aes(x=Year, y=log.metric.tons))+geom_point()+ylab("landings")+xlab("")+xlim(1964,1990)+ylim(8,12)+
+    geom_point(data=subset(greeklandings, Species=="Anchovy"&Year==1974+i),aes(x=Year,y=log.metric.tons),color="red") +
+    ggtitle(paste0("forecast ",i))
+}
+gridExtra::grid.arrange(
+  p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]],p[[8]],p[[9]],nrow=3,
+  top = grid::textGrob("Cross-validation: sliding window", gp=grid::gpar(fontsize=20,font=3))
+)
+```
+
+##
+
+Another approach uses a fixed window.  For example, a 10-year window.
+
+```{r cv.fixed, echo=FALSE, out.width="70%"}
+p <- list()
+for(i in 1:9){
+  p[[i]]<-ggplot(subset(greeklandings, Species=="Anchovy"&Year>=1964+i-1&Year<1974+i), aes(x=Year, y=log.metric.tons))+geom_point()+ylab("landings")+xlab("")+xlim(1964,1990)+ylim(8,12)+
+    geom_point(data=subset(greeklandings, Species=="Anchovy"&Year==1974+i),aes(x=Year,y=log.metric.tons),color="red") +
+    ggtitle(paste0("forecast ",i))
+}
+gridExtra::grid.arrange(
+  p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]],p[[8]],p[[9]],nrow=3,
+  top = grid::textGrob("Cross-validation: fixed window", gp=grid::gpar(fontsize=20,font=3))
+)
+```
+
+## Time-series cross-validation with the forecast package
+
+```{r}
+far2 <- function(x, h, order){
+  forecast(Arima(x, order=order), h=h)
+  }
+e <- tsCV(traindat, far2, h=1, order=c(0,1,1))
+tscv1 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), 
+           MAE=mean(abs(e), na.rm=TRUE))
+tscv1
+```
+
+Compare to RMSE from just the 2 test data points.
+```{r}
+test1[c("ME","RMSE","MAE")]
+```
+
+## Cross-validation farther in future
+
+```{r cv.sliding.4plot, echo=FALSE, out.width="70%"}
+p <- list()
+for(i in 1:9){
+  p[[i]]<-ggplot(subset(greeklandings, Species=="Anchovy"&Year<1974+i), aes(x=Year, y=log.metric.tons))+geom_point()+ylab("landings")+xlab("")+xlim(1964,1990)+ylim(8,12)+
+    geom_point(data=subset(greeklandings, Species=="Anchovy"&Year==1974+i+3),aes(x=Year,y=log.metric.tons),color="red") +
+    ggtitle(paste0("forecast ",i))
+}
+gridExtra::grid.arrange(
+  p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]],p[[8]],p[[9]],nrow=3,
+  top = grid::textGrob("Cross-validation: 4 step ahead forecast", gp=grid::gpar(fontsize=20,font=3))
+)
+```
+
+##
+
+Compare accuracy of forecasts 1 year out versus 4 years out.  If `h` is greater than 1, then the errors are returned as a matrix with each `h` in a column.  Column 4 is the forecast, 4 years out.
+
+```{r cv.sliding.4}
+e <- tsCV(traindat, far2, h=4, order=c(0,1,1))[,4]
+#RMSE
+tscv4 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), 
+           MAE=mean(abs(e), na.rm=TRUE))
+rbind(tscv1, tscv4)
+```
+
+##
+
+Compare accuracy of forecasts with a fixed 10-year window and 1-year out forecasts.
+
+```{r fixed.cv.1}
+e <- tsCV(traindat, far2, h=1, order=c(0,1,1), window=10)
+#RMSE
+tscvf1 <- c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), 
+            MAE=mean(abs(e), na.rm=TRUE))
+tscvf1
+```
+
+##
+
+```{r results='asis'}
+comp.tab <- rbind(test1=test1[c("ME","RMSE","MAE")],
+      slide1=tscv1,
+      slide4=tscv4,
+      fixed1=tscvf1)
+knitr::kable(comp.tab, format="html")
+```
+
+## Summary forecast performance
+
+We can evaluate the forecast performance with forecasts of our test data or we can use all the data and use time-series cross-validation.
+
+Let's start with the former.
+
+```{r echo=FALSE}
+spp <- "Anchovy"
+training = subset(greeklandings, Year <= 1987)
+test = subset(greeklandings, Year >= 1988 & Year <= 1989)
+
+traindat <- ts(subset(training, Species==spp)$log.metric.tons, start=1964)
+testdat <- ts(subset(test, Species==spp)$log.metric.tons, start=1988)
+```
+
+## Test forecast performance against a test data set
+
+We will fit Holt model to the training data and make a forecast for the years that we 'held out'. 
+
+```{r fig.height=4, echo=FALSE}
+fit1 <- holt(traindat)
+h=length(testdat)
+fr <- forecast(fit1, h=h)
+plot(fr)
+points(end(traindat)[1]+1:h, testdat, pch=2, col="red")
+legend("topleft", c("forecast","actual"), pch=c(20,2), col=c("blue","red"))
+```
+
+##
+
+We can calculate a variety of forecast error metrics with
+
+```{r}
+accuracy(fr, testdat)
+```
+
+We would now repeat this for all the models in our candidate set and choose the model with the best forecast performance.
+
+## Forecast performance with time-series cross-validation
+
+We can use `tsCV()` as we did for ARIMA models.  We will redefine `traindat` as all our Anchovy data.
+
+```{r subset.anch, echo=FALSE}
+spp <- "Anchovy"
+training = subset(greeklandings, Year <= 1989)
+traindat <- subset(training, Species==spp)$log.metric.tons
+```
+
+## tsCV() function
+
+We will use the `tsCV()` function.  We need to define a function that returns a forecast.
+
+```{r def.far2}
+far2 <- function(x, h){
+  fit <- holt(x)
+  forecast(fit, h=h)
+  }
+```
+
+##
+
+Now we can use `tsCV()` to run our `far2()` function to a series of training data sets.  We will specify that a NEW ets model be estimated for each training set.  We are not using the weighting estimated for the whole data set but estimating the weighting new for each set.
+
+The `e` are our forecast errors for all the forecasts that we did with the data.
+
+```{r}
+e <- tsCV(traindat, far2, h=1)
+c(ME=mean(e, na.rm=TRUE), RMSE=sqrt(mean(e^2, na.rm=TRUE)), 
+           MAE=mean(abs(e), na.rm=TRUE))
+```
+
+
+## Seasonal Holt-Winters
+
+```{r}
+data("chinook", package="atsalibrary")
+head(chinook.month)
+```
+
+##
+
+The data are monthly and start in January 1990.  To make this into a ts object do
+
+```{r}
+
+df <- chinook.month %>% subset(State == "WA")
+chinookts <- ts(df$log.metric.tons, start=c(1990,1), frequency=12)
+```
+`start` is the year and month and frequency is the number of months in the year.  
+
+## Plot seasonal data
+
+
+```{r out.width="70%"}
+plot(chinookts)
+```
+
+## Holt-Winters
+
+
+```{r}
+library(forecast)
+traindat <- window(chinookts, c(1990,1), c(1999,12))
+fit <- forecast::hw(traindat)
+```
+
+##
+
+```{r}
+fr <- forecast(fit, h=24)
+plot(fr)
+points(window(chinookts, c(1996,1), c(1996,12)))
+```
+
+## Compare to a seasonal ARIMA model
+
+`auto.arima()` will recognize that our data has season and fit a seasonal ARIMA model to our data.  Let's use the data that `ets()` used.  This is shorter than our training data.  The data used by `hw()` is returned in `fit$x`.
+
+##
+
+```{r out.width="70%"}
+no_miss_dat <- fit$x
+fit <- auto.arima(no_miss_dat)
+fr <- forecast(fit, h=12)
+plot(fr)
+points(window(chinookts, c(1996,1), c(1996,12)))
+```
+
+## Missing values
+
+Missing values are ok when fitting a seasonal ARIMA model, unlike an ETS model.
+
+```{r out.width="70%"}
+fit <- auto.arima(traindat)
+fr <- forecast(fit, h=12)
+plot(fr)
+```
+
+## Forecast evaluation
+
+We can compute the forecast performance metrics as usual. 
+
+```{r}
+fit <- hw(traindat)
+fr <- forecast(fit, h=12)
+```
+Look at the forecast so you know what years and months to include in your test data.  Pull those 12 months out of your data using the `window()` function.
+
+```{r}
+testdat <- window(traindat, c(1996,1), c(1996,12))
+```
+
+##
+
+Use `accuracy()` to get the forecast error metrics.
+```{r}
+accuracy(fr, testdat)
+```
+
+##
+
+We can do the same for the ARIMA model.
+
+```{r}
+no_miss_dat <- fit$x
+fit <- auto.arima(no_miss_dat)
+fr <- forecast(fit, h=12)
+accuracy(fr, testdat)
+```
+

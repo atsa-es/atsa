@@ -67,10 +67,10 @@ arma_basics <- list(
 ```
 
 ```{r classic-forecasting}
-# 2024
+# 2025
 forecast <- list(
   title = "Classic TS Forecasting",
-  topics = c("Box-Jenkins method", "Forecasting with ARIMA models", "Seasonal ARIMA models", "Exponential Smoothing Models"),
+  topics = c("Box-Jenkins method", "Forecasting with ARIMA models", "Seasonal ARIMA models"),
   pdf = c("Lectures/Week 2/lec_04_Fitting_ARMA.pdf", "Lectures/Week 2/lec_04_Forecasting_ARIMA.pdf"),
   ppt = "",
   rmd = c("Lectures/Week 2/lec_04_Fitting_ARMA.Rmd", "Lectures/Week 2/lec_04_Forecasting_ARIMA.Rmd"),
@@ -100,12 +100,12 @@ forecast <- list(
 
 ```{r uni-ss}
 uni_ss <- list(
-  title = "Univariate state-space models",
-  topics = c("Linear Gaussian state space models", "Kalman filter", "Random walks"),
-  pdf = c(""),
+  title = "More classic TS forecasting + Univariate state-space models",
+  topics = c("Holt and Holt-Winters", "Model performance", "Linear Gaussian state space models", "Random walks"),
+  pdf = c("Lectures/Week 3/lec_05_holt.pdf", "Lectures/Week 3/lec_05_uni.pdf"),
   ppt = "",
-  rmd = c(""),
-  html = c(""),
+  rmd = c("Lectures/Week 3/lec_05_holt.Rmd", "Lectures/Week 3/lec_05_uni.Rmd"),
+  html = c("Lectures/Week 3/lec_05_holt.html", "Lectures/Week 3/lec_05_uni.html"),
   video = "",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/-G_ejXMzEWw)", "[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", "Additional background resources",
