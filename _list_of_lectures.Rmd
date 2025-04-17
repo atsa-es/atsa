@@ -136,7 +136,7 @@ uni_ss <- list(
 marss <- list(
   title = "Multivariate state-space models",
   topics = c("Introduction to multivariate state-space models", "Multivariate random walks"),
-  pdf = "",
+  pdf = c("Lectures/Week 3/lec_06_marss.pdf"),
   ppt = "",
   rmd = c(""),
   html = c(""),

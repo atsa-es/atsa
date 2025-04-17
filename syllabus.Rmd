@@ -21,11 +21,16 @@ This course is intended to give students an overview of the theory and practical
 
 # Resources
 
-* Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2021. _Applied Time Series Analysis for Fisheries and Environmental Data_. eBook available [here](https://atsa-es.github.io/atsa-labs/). 
+* Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2023. _Applied Time Series Analysis for Fisheries and Environmental Data_. eBook available [here](https://atsa-es.github.io/atsa-labs/). 
+
+* Holmes, E. J. Ward., and M. D. Scheuerell. Analysis of multivariate time
+series using the MARSS package. available [here](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)
 
 * Previously recorded lectures on our [YouTube Channel](https://www.youtube.com/@SAFSTimeSeries) 
 
 * FISH 550 [GitHub repo](https://github.com/atsa-es/fish550-2025)  & [Discusssion board](https://github.com/atsa-es/fish550-2025/discussions) & [Team Lab Write-ups](https://atsa-es.github.io/fish550-2025/)
+
+* R package [{MARSS}](https://cran.r-project.org/web/packages/MARSS/index.html) MARSS: Multivariate Autoregressive State-Space Modeling
 
 * R package [{atsalibrary}](https://atsa-es.github.io/atsalibrary/) containing course data. The [atsa-es package repository](https://atsa-es.r-universe.dev/packages)
 
