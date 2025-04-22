@@ -106,7 +106,7 @@ uni_ss <- list(
   ppt = "",
   rmd = c("Lectures/Week 3/lec_05_holt.Rmd", "Lectures/Week 3/lec_05_uni.Rmd"),
   html = c("Lectures/Week 3/lec_05_holt.html", "Lectures/Week 3/lec_05_uni.html"),
-  video = "",
+  video = "[2025 Video](https://youtu.be/HONpDq4McX8)",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/-G_ejXMzEWw)", "[HWSb: Chap 6](https://atsa-es.github.io/atsa-labs/chap-univariate-state-space.html)", "Additional background resources",
 "[HWS18a: Chap 7](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[MARSS function](Lectures/Week 3/MARSS_function.html)","[MARSS Ref Sheet](Lectures/Week 3/MARSS_Reference_Sheet.pdf)", "[Auger-Méthé et al 2021](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecm.1470)", "Scripts are in the class repo"),
