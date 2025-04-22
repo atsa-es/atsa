@@ -140,7 +140,7 @@ marss <- list(
   ppt = "",
   rmd = c(""),
   html = c(""),
-  video = "",
+  video = "[2025 Video](https://youtu.be/uoLm66v5P3c)", 
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/4nrZZGMY1bc)", "[HWS18a: Chap 8](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)",
               "[MARSS function](Lectures/Week 3/MARSS_function.html)",
@@ -183,10 +183,10 @@ marss_covariates <- list(
   topics = c("MARSSX and ARMAX models",
              "Seasonal effects",
              "Missing covariates"),
-  pdf = "",# c("Lectures/Week 4/lec_07_covariates.pdf"),
+  pdf = c("Lectures/Week 4/lec_07_covariates.pdf"),
   ppt = "",
-  rmd = "",# c("Lectures/Week 4/lec_07_covariates.Rmd"),
-  html = "",# c("Lectures/Week 4/lec_07_covariates.html"),
+  rmd = c("Lectures/Week 4/lec_07_covariates.Rmd"),
+  html = c("Lectures/Week 4/lec_07_covariates.html"),
   video = "",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/2Jb5pzgtuH0)", 
@@ -195,7 +195,7 @@ marss_covariates <- list(
     "[Missing Covariates HWS18a: Chap 11](https://atsa-es.github.io/atsa-labs/chap-mssmiss.html)",
     "[HA18: Chap 5](https://otexts.com/fpp2/regression.html)",
     "[HA18: Chap 9](https://otexts.com/fpp2/dynamic.html)", 
-    "[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
+    "[H18: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)", "[example scripts in repo](https://github.com/atsa-es/fish550-2025/tree/main/Lectures%20Week%204)"),
   instructor = "Eli"
 )
 ```
