@@ -1,11 +1,12 @@
 ---
 title: "Covariates in Time Series Models"
 author: "Eli Holmes"
-date: "18 Apr 2023"
+date: "22 Apr 2025"
 output:
   ioslides_presentation:
+    mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    widescreen: true
     css: lecture_slides.css
-    smaller: true
   beamer_presentation: default
 subtitle: FISH 550 – Applied Time Series Analysis
 ---
@@ -23,7 +24,10 @@ knitr::opts_chunk$set(fig.height=5, fig.align="center")
 
 * Why include covariates?
 
-* Multivariate linear regression on time series data
+* Multivariate regression on time series data
+
+   - Regular regression
+   - Regression with auto-correlated errors
 
 * Covariates in MARSS models
 
@@ -31,15 +35,27 @@ knitr::opts_chunk$set(fig.height=5, fig.align="center")
     
 * Missing covariates
 
+## Reading
+
+[ATSA Lab Book, MARSS + Covariates](https://atsa-es.github.io/atsa-labs/chap-msscov.html), [Seasonal effects](https://atsa-es.github.io/atsa-labs/sec-msscov-season.html#sec-msscov-season-fourier), [Modeling changing seasonality](https://atsa-es.github.io/atsa-labs/chap-seasonal-dlm.html)
+
+[Fishery Catch Forecasting](https://fish-forecast.github.io/Fish-Forecast-Bookdown/index.html): Replicates and discusses the work in Stergiou and Christou (1996) Modelling and forecasting annual fisheries catches: comparison of regression, univariate and multivariate time series methods. Fisheries Research 25: 105-136.
+
+<center>
+![](images/fish-forecast.png){width=25%}
+</center>
+
+
+
 
 ## Why include covariates in a model?
 
-* You want to forecast something using covariates
-* We are often interested in knowing the cause of variation
-* Covariates can explain the process that generated the patterns
-* Covariates can help deal with problematic observation errors
-* You are using covariates to model a changing system
-* You want to get rid of trends or cycles
+* You want to forecast something using covariates...but you don't actually care about the covariates.
+* You want to forecast something using covariates...and you do care about the covariates.
+* You are trying to understand the **cause of variation**. You are interested in the covariates effects because they can explain the process that generated the patterns.
+* You are using covariates to model a changing system.
+* You are using covariates to help deal with problematic observation errors.
+* You want to get rid of trends or cycles.
 
 ## Lake WA plankton and covariates
 
@@ -50,8 +66,33 @@ knitr::include_graphics(here::here("Lectures", "Week 4", "images", "msscov-plank
 
 ## Covariates in time series models
 
-* Multivariate linear regression for time series data
-* Linear regression with ARMA errors
+### Multivariate regression for time series data
+
+$$y_t = f(z_{1,t}, z_{2,t}, z_{3}, \dots) + \epsilon_t$$
+
+* Classic models: linear, GAMs, GLMs, etc, etc. $\epsilon$ is uncorrelated.
+* Regression with auto-correlated errors
+$$y_t = f(z_{1,t}, z_{2,t}, z_{3}, \dots) + \epsilon_t$$
+where $\epsilon$ is auto-correlated.
+  - Linear regression with ARMA errors
+
+## Covariates in time series models
+
+### Observation errors driven by covariates
+
+$$
+\begin{gathered}
+y_t = x_t + (d_t + v_t) \\
+v_t \sim N(0,\sigma_r)
+\end{gathered}
+$$
+  
+## Covariates in time series models
+
+### Process errors driven by covariates
+
+$$x_{t} = x_{t-1} + (c_t + e_t)$$
+
 * ARMAX - process errors driven by covariates
 * MARSS models with covariates = process and observation errors affected by covariates
   * aka Vector Autoregressive Models with covariates and observation error
@@ -133,8 +174,7 @@ autoplot(uschange[,1:2], facets=TRUE) +
 
 ```{r out.width="70%"}
 y <- uschange[,"Consumption"]; d <- uschange[,"Income"]
-fit <- lm(y~d)
-checkresiduals(fit)
+fit <- lm(y~d); checkresiduals(fit)
 ```
 
 ## Let `auto.arima()` find best model
@@ -146,7 +186,9 @@ checkresiduals(fit)
 
 ## Collinearity
 
-This a big issue.  If you are thinking about stepwise variable selection, do a literature search on the issue.  Read the chapter in [Holmes 2018: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html) on catch forecasting models using multivariate regression for a discussion of
+This a big issue.  Always do a simple `pairs()` plot (or similar) on your explanatory variables.
+
+Read the chapter in [Holmes 2018: Chap 6](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-covariates.html) on catch forecasting models for a discussion of
 
 * Stepwise variable regression in R
 * Cross-validation for regression models
@@ -155,6 +197,39 @@ This a big issue.  If you are thinking about stepwise variable selection, do a l
     * Ridge
     * Elastic Net
 * Diagnostics
+
+## Simple diagnostics `pairs()`
+
+```
+X = matrix (or data frame) with vars in columns
+pairs(X)
+```
+<center>
+![](images/pairs-fishery.png){width=50%}
+</center>
+
+
+## Simple diagnostics `pairs()`
+
+```
+X = matrix (or data frame) with vars in columns
+pairs(X)
+```
+<center>
+![](images/pairs-env.png){width=50%}
+</center>
+
+
+## Simple diagnostics `corrplot()`
+
+```
+library(corrplot)
+corrplot::corrplot(cor(X))
+```
+<center>
+![](images/corrplot.png){width=50%}
+</center>
+
 
 ## ARMAX
 
@@ -173,7 +248,7 @@ $$x_t = b x_{t-1}+ \underbrace{\boxed{\mathbf{C} \mathbf{c}_t}}_{\text{drift "u"
 
 ## Covariates in MARSS models
 
-This is a state-space model that allows you to have the covariate affects process error and affect observation errors.
+This is a state-space model that allows you to have the covariate affect process error and affect observation error.
 
 $$\mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{u} +\mathbf{C} \mathbf{c}_t + \mathbf{w}_t$$
 $$\mathbf{y}_t = \mathbf{Z} \mathbf{x}_{t} + \mathbf{a} + \mathbf{D} \mathbf{d}_t + \mathbf{v}_t$$
@@ -189,12 +264,14 @@ Now we can model how covariates affect the hidden process.
 
 ## Example - univariate state-space models
 
-$$x_t = x_{t-1} + u + \boxed{\mathbf{C} \mathbf{c}_t} + w_t$$
+$$x_t = x_{t-1} + \boxed{u + \mathbf{C} \mathbf{c}_t} + w_t$$
 $$y_t = x_t + v_t$$
 
-Random walk with drift. How does covariate affect the drift term?
+Random walk with drift. How do the covariates affect the drift term?
 
-Example. You have tag data on movement of animals in the ocean. How does water temperature affect the speed (jump length) of the movement.
+Example. You have tag data on movement of animals in the ocean. How does water temperature and current affect the speed of the movement.
+
+$$x_t = x_{t-1} + u + \begin{bmatrix}C_a & C_b\end{bmatrix}\begin{bmatrix}temp \\ curr\end{bmatrix}_t + w_t$$
 
 ## Example - univariate state-space models
 
@@ -204,7 +281,9 @@ $$y_t = x_t + \boxed{\mathbf{D} \mathbf{d}_t + v_t}$$
 
 How does covariate affect observation error relative to our stochastic trend. 
 
-Example. You are tracking population size using stream surveys. Turbidity affects your observation error.
+Example. You are tracking population size using stream surveys. Turbidity and temperature affects your observation error.
+
+$$y_t = x_t + \begin{bmatrix}D_a & D_b\end{bmatrix}\begin{bmatrix}temp \\ turb\end{bmatrix}_t + v_t$$
 
 
 ## Multivariate Example - Covariates in state process
@@ -236,8 +315,6 @@ The structure of $\mathbf{C}$ can model different effect structures
 
 $$\begin{bmatrix}C & C \\ C & C\end{bmatrix}\begin{bmatrix}temp \\ TP\end{bmatrix}_t$$
 
-##
-
 **Effect of temperature and TP is different but the same across sites, species, whatever the row in $\mathbf{x}$ is**
 
 $$\begin{bmatrix}C_a & C_b \\ C_a & C_b\end{bmatrix}\begin{bmatrix}temp \\ TP\end{bmatrix}_t$$
@@ -247,8 +324,6 @@ $$\begin{bmatrix}C_a & C_b \\ C_a & C_b\end{bmatrix}\begin{bmatrix}temp \\ TP\en
 **Effect of temperature and TP is different across sites or whatever the row in $\mathbf{x}$ is**
 
 $$\begin{bmatrix}C_{a1} & C_{b1} \\ C_{a2} & C_{b2}\end{bmatrix}\begin{bmatrix}temp \\ TP\end{bmatrix}_t$$
-
-##
 
 **Effect of temperature is the same across sites but TP is not**
 
@@ -295,25 +370,7 @@ $$\begin{bmatrix}D_a & D_b \\ D_a & D_b \\ D_c & 0\end{bmatrix}\begin{bmatrix}te
 * We want to remove seasonality or cycles
 
 
-## Why include covariates in a observation?
-
-**Auto-correlated observation errors**
-
-* Model your $v_t$ as a AR-1 process. hard numerically with a large multivariate state-space model
-
-* If know what is causing the auto-correlation, include that as a covariate. Easier.
-
-**Correlated observation errors across sites or species (y rows)**
-
-* Use a $\mathbf{R}$ matrix with off-diagonal terms. really hard numerically
-
-* If you know or suspect what is causing the correlation, include that as a covariate. Easier.
-
-**We want to remove seasonality or cycles**
-
-"hard numerically" = you need a lot of data
-
-## Let's work through an example
+## A worked through an example
 
 `lec_07_covariates.R` in the Fish550 repo
 
@@ -322,7 +379,7 @@ Follows [Chapter 8](https://atsa-es.github.io/atsa-labs/chap-msscov.html) in the
 
 ## Seasonality
 
-```{r chinookplot, echo=FALSE}
+```{r chinookplot, echo=FALSE, message=FALSE, warning=FALSE}
 library(atsalibrary)
 data(chinook, package="atsalibrary")
 par(mfrow=c(1,2))
@@ -406,7 +463,7 @@ $$
 ##
 
 ```{r}
-TT <- nrow(chinook.month)/2
+TT <- 50 # whatever the time points in your data
 covariate <- matrix(0, 12, TT)
 monrow <- match(chinook.month$Month, month.abb)[1:TT]
 covariate[cbind(monrow,1:TT)] <- 1
@@ -489,8 +546,9 @@ $$
 ##
 
 ```{r}
-TT <- nrow(chinook.month)/2
-monrow <- match(chinook.month$Month, month.abb)[1:TT]
+TT <- 50 # whatever the number of time points in your dat
+# a number 1 to 12 to match the month of time t
+monrow <- rep(1:12, TT)[1:TT]
 covariate <- rbind(monrow, monrow^2, monrow^3)
 rownames(covariate) <- c("m", "m2", "m3")
 covariate[,1:14]
@@ -513,6 +571,20 @@ C <- matrix(c("m", "m2", "m3"), 2, 3, byrow = TRUE)
 C
 ```
 
+## Orthonal polynomials
+
+
+In practice use `poly(x, 3)` to generate orthogonal polynomials.
+
+```{r echo=FALSE}
+library(corrplot)
+```
+
+```{r}
+x <- rep(1:12); par(mfrow = c(1, 2))
+corrplot(cor(data.frame(x, x^2, x^3))); corrplot(cor(poly(x, 3)))
+```
+
 ## Season as a Fourier series
 
 * Fourier series are paired sets of sine and cosine waves
@@ -531,7 +603,7 @@ where $p$ is 12 (for monthly).
 ##
 
 ```{r echo=FALSE}
-TT <- nrow(chinook.month)/2
+TT <- 50 # whatever the length of your data
 covariate <- rbind(sin(2*pi*(1:TT)/12), cos(2*pi*(1:TT)/12))
 plot(covariate[1,1:50], type="l", ylab="covariate", xlab="t", ylim = c(-2, 2))
 lines(covariate[2,1:50], col="red")
@@ -636,13 +708,19 @@ C
 
 **[Seasonality of Lake WA plankton](https://atsa-es.github.io/atsa-labs/sec-msscov-season.html)**
 
-![](images/msscov-mon-effects-1.png){width=75%}
+<center>
+![](images/msscov-mon-effects-1.png){width=60%}
+</center>
+
 
 ## Cyclic salmon
 
 **[Chapter 16](https://atsa-es.github.io/atsa-labs/chap-cyclic-sockeye.html)**
 
-![](https://atsa-es.github.io/atsa-labs/Applied_Time_Series_Analysis_files/figure-html/unnamed-chunk-59-1.png)
+<center>
+![](https://atsa-es.github.io/atsa-labs/Applied_Time_Series_Analysis_files/figure-html/unnamed-chunk-59-1.png){width=60%}
+</center>
+
 
 
 ## Missing covariates
@@ -651,16 +729,30 @@ C
 
 https://atsa-es.github.io/atsa-labs/example-snotel-data.html
 
-![](images/snotelsites.png){width=70%}
+<center>
+![](images/snotelsites.png){width=60%}
+</center>
+
 
 ## Snow Water Equivalent (snowpack)
 
 February snowpack estimates
 
-![](images/snoteldata.png){width=75%}
+<center>
+![](images/snoteldata.png){width=60%}
+</center>
+
 
 ## Use MARSS models Chapter 11
 
 * Accounts for correlation across sites and local variability
 
-![](images/snotelfits.png){width=75%}
+<center>
+![](images/snotelfits.png){width=60%}
+</center>
+
+
+
+
+
+
