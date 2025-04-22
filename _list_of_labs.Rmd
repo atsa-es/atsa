@@ -72,7 +72,7 @@ sslab2 <- fill.list(
   topics = c("Fitting mulitvariate state-space models"),
   pdf = "",
   rmd = "",
-  html = c("https://atsa-es.github.io/atsa/Labs/Week%203/ESA lab/Lab2-MARSS.html"),
+  html = c("https://atsa-es.github.io/fish550-2025/Lab-2/Lab2-MARSS.html", "https://atsa-es.github.io/fish550-2025/Lab-2/Lab2-Climate-Variables.html"),
   video = "",
   youtube = "",
   data = "See repo",
