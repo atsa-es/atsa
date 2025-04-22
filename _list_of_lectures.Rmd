@@ -75,7 +75,7 @@ forecast <- list(
   ppt = "",
   rmd = c("Lectures/Week 2/lec_04_Fitting_ARMA.Rmd", "Lectures/Week 2/lec_04_Forecasting_ARIMA.Rmd"),
   html = c("Lectures/Week 2/lec_04_Fitting_ARMA.html", "Lectures/Week 2/lec_04_Forecasting_ARIMA.html"),
-  video = c(""),
+  video = "[2025 Video](https://youtu.be/aUX9o3vfZxc)",
   youtube = "",
   reading = c("[HA18: Chap 8.6-8.9](https://otexts.org/fpp2/arima.html)", "[HA18: Chap 7](https://otexts.com/fpp2/expsmooth.html)", "[H18: ARIMA Models](https://fish-forecast.github.io/Fish-Forecast-Bookdown/3-arima-models.html)", "[CM09: Chap 7.1-7.2](Files/Introductory_Time_Series_With_R.pdf)", "[Video 1 2021](https://youtu.be/ML1l4Zk_5Vo)", "[Video 2 2021](https://youtu.be/HOVDmx_juMk)"),
   instructor = "Eli"
