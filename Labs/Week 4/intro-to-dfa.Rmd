@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Dynamic Factor Analysis"
 author: "Mark Scheuerell"
-date: "20 April 2023"
+date: "24 April 2025"
 output:
   html_document:
     theme: cosmo
