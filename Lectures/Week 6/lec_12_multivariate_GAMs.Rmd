@@ -22,6 +22,7 @@ library(mgcv)
 library(lubridate)
 library(viridisLite)
 library(here)
+library(mvgam)
 ```
 
 ## Overview of today's material
@@ -66,10 +67,32 @@ long_seal$location <- as.factor(long_seal$location)
 ## Model G
 
 * Global smooth (shared trend)
-* Time series specific intercepts
+```{r echo = TRUE}
+fit_G <- gam(value ~ s(Year, k=8, bs="cr"), #<<
+           data=long_seal, 
+           family="gaussian")
+```
+
+## Model G fits
+
+```{r}
+my_cols <- viridis(3, begin = 0.2, end = 0.8)
+long_seal$pred_G <- predict(fit_G, long_seal)
+
+ggplot(long_seal, aes(Year, pred_G)) + 
+  geom_line(col = my_cols[1]) + 
+  geom_point(aes(Year, value), col = "red") + 
+  facet_wrap(~ location, scale="free_y") + 
+  ylab("Predicted") + theme_bw() + ylim(c(5.5,11))
+```
+
+## Model G
+
+* Global smooth (shared trend)
+* Time series specific intercepts (n = 12)
 ```{r echo = TRUE}
 fit_G <- gam(value ~ s(Year, k=8, bs="cr") + 
-             s(location, k=12, bs="re"), 
+             s(location, k=12, bs="re"), #<<
            data=long_seal, 
            family="gaussian")
 ```
@@ -93,7 +116,7 @@ ggplot(long_seal, aes(Year, pred_G)) +
 * Time series specific smooths
 ```{r echo = TRUE}
 fit_GS <- gam(value ~ s(Year, k=8, bs="cr") + 
-             s(Year, by = location, k = 8, bs="fs") + 
+             s(Year, by = location, k = 8, bs="fs") + #<<
                s(location, k=12, bs="re"), 
            data=long_seal, 
            family="gaussian")
@@ -212,6 +235,23 @@ $$ E[Y_{j,t}] = g^{-1} \left( \beta_0 + \sum_{i=1}^{I} s(x_{i,j,t}) + \sum_{m=1}
 - Supports multivariate time series modeling with dynamic smooths
 - Provides an interface to easily define dynamic terms in the model
 
+## Harbor seal example with `mvgam`
+
+* Before, we were using factor smooths to model harbor seal trends
+* We can fit these exact same models (without trend) in `mvgam`
+```{r eval = FALSE, echo=TRUE, message=FALSE, warning=FALSE}
+fit_GS <- mvgam(value ~ s(Year, k=8, bs="cr") +#<< 
+             s(Year, by = location, k = 8, bs="fs") + 
+               s(location, k=12, bs="re"), 
+           data=long_seal, 
+           family="gaussian")
+```
+
 ## 
+
+
+## More examples: factor analysis
+
+## Forecasting comparison vs GAMs
 
 
