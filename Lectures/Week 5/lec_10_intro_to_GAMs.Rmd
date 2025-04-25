@@ -334,13 +334,48 @@ ggplot() +
 - **Incorporating Trend and Noise**
   - Smooth functions can represent underlying trends, while residuals capture random noise or irregularities
 
+
+## GAMs and DLMs: 
+
+`economics` dataset
+
+- `psavert`: Personal savings rate
+
+- `unemploy`: Unemployment rate
+
+- `date`: Date of observation
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+data("economics")
+economics$time_num <- as.numeric(economics$date)
+economics$ln_unemploy <- log(economics$unemploy)
+```
+
+## GAMs and DLMs: 
+
+```{r echo = FALSE, eval = TRUE, fig.height=3, fig.width=6}
+p1 <- ggplot(economics, aes(time_num, psavert)) +
+  geom_point() + 
+  geom_smooth(method = "gam", formula = y ~ s(x, k = 10), col = "blue") +
+  theme_bw() + 
+  xlab("Time") + 
+  ylab("Personal Savings Rate") + theme_bw()
+
+p2 <- ggplot(economics, aes(time_num, unemploy)) +
+  geom_point() + 
+  geom_smooth(method = "gam", formula = y ~ s(x, k = 10), col = "blue") +
+  theme_bw() + 
+  xlab("Time") + 
+  ylab("Unemployment") + theme_bw()
+gridExtra::grid.arrange(p1, p2, ncol = 1)
+```
+
+
 ## GAMs and DLMs: 
 
 * What is this model doing? Where have we seen something similar??
 ```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
-data("SalmonSurvCUI")
-fit <- gam(logit.s ~ s(year, bs = "cr", k = 10),
-           data = SalmonSurvCUI)
+fit <- gam(psavert ~ s(time_num, bs = "cr"),
+           data = economics)
 ```
 
 ## GAMs and DLMs: 
@@ -357,9 +392,17 @@ plot(fit)
 
 * How about a smooth / random walk on the covariate. Is this correct and or why not? 
 
-```{r echo=TRUE, eval=FALSE}
-fit <- gam(logit.s ~ s(CUI.apr),
-           data = SalmonSurvCUI)
+```{r echo=TRUE, eval=TRUE}
+fit <- gam(psavert ~ s(ln_unemploy, bs = "cr"),
+           data = economics)
+```
+
+## GAMs and DLMs: 
+
+* This is fitting a non-linear smooth of CUI (totally ignoring time) 
+
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+plot(fit)
 ```
 
 ## GAMs and DLMs: 
@@ -369,14 +412,22 @@ fit <- gam(logit.s ~ s(CUI.apr),
 * The prior model was fitting a non-linear smooth of the covariate
  
 * What about a smooth of the covariate and time?
-```{r echo=TRUE, eval=FALSE}
-fit <- gam(logit.s ~ s(CUI.apr, year),
-           data = SalmonSurvCUI)
+```{r echo=TRUE, eval=TRUE}
+fit <- gam(psavert ~ s(ln_unemploy, time_num),
+           data = economics)
+```
+
+## GAMs and DLMs: 
+
+* This is fitting 2D smooth of ln_unemploy and time
+
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+plot(fit)
 ```
 
 ## GAMs and DLMs
 
-* `s(CUI.apr, year)` is fitting a 2D smooth that includes the interaction between the covariate and time
+* `s(ln_unemploy, time_num)` is fitting a 2D smooth that includes the interaction between the covariate and time
 
 * This is a flexible model, but not the same as a time varying slope
 
@@ -393,30 +444,179 @@ s(predictor, by = covariate)
 ## GAMs and DLMs: 
 
 * For time series data, it's a common mistake to use 
-```{r echo=TRUE, eval=FALSE}
-fit <- gam(logit.s ~ s(CUI.apr, by = year),
-           data = SalmonSurvCUI)
+```{r echo=TRUE, eval=TRUE}
+fit <- gam(psavert ~ s(ln_unemploy, by = time_num),
+           data = economics)
 ```
 
 ## GAMs and DLMs: 
 
 * Why? 
 
-* `s(CUI.apr, by = year)` is letting the shape / smooth effect of `CUI.apr` vary by year
+* `s(ln_unemploy, by = time_num)` is letting the shape / smooth effect of `ln_unemploy` vary by time step
 * But ordering of years isn't preserved
 * Neighboring years should be similar
 
 ## GAMs and DLMs: 
 
-* Instead we can swap `year` and `CUI.apr` 
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+plot(fit)
+```
+
+## GAMs and DLMs: 
+
+* Instead we can swap order of `time_num` and `psavert` 
 * This allows the effect of time on the response to differ across different levels of the covariate 
 
-```{r echo=TRUE, eval=FALSE}
-fit <- gam(logit.s ~ s(CUI.apr, by = year),
-           data = SalmonSurvCUI)
+```{r echo=TRUE, eval=TRUE}
+fit <- gam(psavert ~ s(time_num, by = ln_unemploy),
+           data = economics)
 ```
 
 * Creates a smooth that is very similar to a DLM
+
+## GAMs and DLMs: 
+
+* Now we have a time-varying slope
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+plot(fit)
+```
+
+## Forecasts
+
+* Let's think through how each of these models would do predictions 
+
+## Non-linearity vs non-stationarity
+
+* These models have very different assumptions
+```{r}
+fit_nonlinear <- gam(psavert ~ s(time_num) + s(ln_unemploy),
+           data = economics)
+fit_dlm <- gam(psavert ~ s(time_num, by = ln_unemploy),
+           data = economics)
+```
+
+## Non-linearity vs non-stationarity
+
+* But they give nearly the exact same predictions (rho > 0.99)
+
+```{r echo = FALSE, fig.height=3, fig.width=6}
+dat1 <- economics
+dat1$Model <- "Non-linear"
+dat1$pred <- predict(fit_nonlinear, newdata = dat1)
+
+dat2 <- economics
+dat2$Model <- "Time-varying"
+dat2$pred <- predict(fit_dlm, newdata = dat2)
+
+rbind(dat1, dat2) |>
+  ggplot(aes(time_num, pred, col = Model)) +
+  geom_line() + theme_bw()
+```
+
+## Non-linearity vs non-stationarity
+
+* What about forecasts?
+* Let's hold out the last 20 observations and try to forecast those
+
+```{r echo = FALSE, fig.height=3, fig.width=6}
+fit_nonlinear <- gam(psavert ~ s(time_num) + s(ln_unemploy),
+           data = economics[1:(dim(economics)[1]-20),])
+fit_dlm <- gam(psavert ~ s(time_num, by = ln_unemploy),
+           data = economics[1:(dim(economics)[1]-20),])
+
+dat1$pred <- predict(fit_nonlinear, newdata = dat1)
+dat2$pred <- predict(fit_dlm, newdata = dat2)
+
+dat1$pred_se <- predict(fit_nonlinear, newdata = dat1)
+dat2$pred_se <- predict(fit_dlm, newdata = dat2)
+
+rbind(dat1[554:574,], dat2[554:574,]) |>
+  ggplot(aes(time_num, pred, col = Model)) +
+  geom_line() +
+  geom_point(aes(y = psavert), col = "black") +
+  ggtitle("Forecasts from GAMs") + theme_bw()
+```
+
+## Non-linearity vs non-stationarity
+
+* What about forecast uncertainty?
+* What's similar / different?
+```{r echo = FALSE, fig.height=3, fig.width=6}
+fit_nonlinear <- gam(psavert ~ s(time_num) + s(ln_unemploy),
+           data = economics[1:(dim(economics)[1]-20),])
+fit_dlm <- gam(psavert ~ s(time_num, by = ln_unemploy),
+           data = economics[1:(dim(economics)[1]-20),])
+
+dat1$pred <- predict(fit_nonlinear, newdata = economics)
+dat2$pred <- predict(fit_dlm, newdata = economics)
+
+dat1$pred_se <- predict(fit_nonlinear, newdata = dat1, se.fit = TRUE)$se.fit
+dat2$pred_se <- predict(fit_dlm, newdata = dat2, se.fit = TRUE)$se.fit
+
+rbind(dat1[554:574,], dat2[554:574,]) |>
+  ggplot(aes(time_num, pred, col = Model, fill = Model)) +
+  geom_ribbon(aes(time_num, ymin = pred - 1.96 * pred_se, ymax = pred + 1.96 * pred_se), alpha = 0.2) +
+  geom_line() +
+  geom_point(aes(y = psavert), col = "black") +
+  ggtitle("Forecasts from GAMs")
+```
+
+## Non-linearity vs non-stationarity
+
+* How to decide between these 2 approaches?
+
+* Diagnostics: R2, RMSE, AIC, etc
+
+* `compare_gams` Available in slide Rmd
+
+```{r echo=FALSE}
+compare_gams <- function(gam1, gam2, data, response, model_names = c("Non-linear GAM", "Time-varying GAM")) {
+    models <- list(gam1, gam2)
+    results <- list()
+    
+    for (i in 1:2) {
+        model <- models[[i]]
+        name <- model_names[i]
+        
+        fitted_vals <- fitted(model)
+        residuals <- resid(model)
+        observed <- data[[response]]
+        
+        # Metrics
+        aic_val <- AIC(model)
+        gcv_val <- model$gcv.ubre
+        r2 <- summary(model)$r.sq
+        rmse <- sqrt(mean((observed - fitted_vals)^2))
+        
+        # Normality test
+        shapiro_p <- shapiro.test(residuals)$p.value
+        
+        # Store results
+        results[[i]] <- data.frame(
+            Model = name,
+            AIC = round(aic_val, 2),
+            GCV = round(gcv_val, 4),
+            R2 = round(r2, 4),
+            RMSE = round(rmse, 4),
+            Shapiro_p = round(shapiro_p, 4),
+            stringsAsFactors = FALSE
+        )
+    }
+    
+    # Combine into a single table
+    result_table <- do.call(rbind, results)
+    return(result_table)
+}
+```
+
+## Non-linearity vs non-stationarity
+
+```{r echo=TRUE, message=TRUE, warning=TRUE, results='asis'}
+k <- compare_gams(fit_nonlinear, fit_dlm, response="psavert", data = economics)
+print(knitr::kable(k, digits = 3, caption = "Comparison of GAMs"))
+```
+
 
 ## Lots of references on GAMs
 
