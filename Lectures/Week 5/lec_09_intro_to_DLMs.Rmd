@@ -1,15 +1,17 @@
 ---
 title: "Dynamic Linear Models"
+subtitle: FISH 550 – Applied Time Series Analysis
 author: "Mark Scheuerell"
-date: "25 April 2023"
+date: "29 April 2025"
 output:
   ioslides_presentation:
+    mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    widescreen: true
     css: lecture_slides.css
-subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = "center")
 library(MARSS)
 set.seed(123)
 data("Nile")
@@ -50,6 +52,15 @@ $$
 y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
 $$
 
+
+## Simple linear regression
+
+Let's begin with a linear regression model
+
+$$
+y_i = \alpha + \beta x_i + e_i ~ \text{with} ~ e_i \sim \text{N}(0,\sigma^2)
+$$
+
 The index $i$ has no explicit meaning in that shuffling ($y_i,x_i$) pairs has no effect on parameter estimation
 
 
@@ -57,29 +68,8 @@ The index $i$ has no explicit meaning in that shuffling ($y_i,x_i$) pairs has no
 
 We can write the model in matrix form
 
-\begin{equation*}
-\begin{gathered}
-y_i = \alpha + \beta x_i + e_i \\
-\Downarrow \\
-y_i = 
-\begin{bmatrix}
-  1 & x_i
-\end{bmatrix}
-\begin{bmatrix}
-  \alpha \\
-  \beta
-\end{bmatrix} +
-e_i
-\end{gathered}
-\end{equation*}
-
-
-## Simple linear regression
-
-We can write the model in matrix form
-
-\begin{equation*}
-\begin{gathered}
+$$
+\begin{gather}
 y_i = \alpha + \beta x_i + e_i \\
 \Downarrow \\
 y_i = 
@@ -93,8 +83,8 @@ y_i =
 e_i \\
 \Downarrow \\
 y_i = \mathbf{X}^{\top}_i \boldsymbol{\theta} + e_i
-\end{gathered}
-\end{equation*}
+\end{gather}
+$$
 
 with
 
@@ -218,15 +208,15 @@ $$
 
 ## DLM in MARSS notation | Full state-space form
 
-\begin{equation*}
-\begin{gathered}
+$$
+\begin{gather}
 y_t = \mathbf{X}^{\top}_t \boldsymbol{\theta}_t + e_t \\
 \boldsymbol{\theta}_t = \mathbf{G} \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
 \Downarrow \\
 y_t = \mathbf{Z}_t \mathbf{x}_t + v_t \\
 \mathbf{x}_t = \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t
-\end{gathered}
-\end{equation*}
+\end{gather}
+$$
 
 where
 
@@ -265,19 +255,23 @@ Others include:
 ## The most simple DLM | Stochastic level
 
 $$
+\begin{gather}
 y_t = \alpha_t + e_t \\
 \alpha_t = \alpha_{t-1} + w_t
+\end{gather}
 $$
 
 
 ## The most simple DLM | Stochastic level = random walk with obs error
 
 $$
+\begin{gather}
 y_t = \alpha_t + e_t \\
 \alpha_t = \alpha_{t-1} + w_t \\
 \Downarrow \\
 y_t = x_t + v_t \\
 x_t = x_{t-1} + w_t
+\end{gather}
 $$
 
 
@@ -288,7 +282,7 @@ data("Nile")
 
 par(mai = c(0.9, 0.9, 0.1, 0.1), omi = c(0, 0, 0, 0))
 
-plot.ts(Nile, las = 1,
+plot.ts(Nile, las = 1, lwd = 2,
         xlab = "Year", ylab = "Flow of the River Nile")
 ```
 
@@ -315,8 +309,10 @@ lines(seq(start(Nile)[1], end(Nile)[1]), t(fit$states - 2*fit$states.se),
 Stochastic "level" $\alpha_t$ with deterministic "growth" $\eta$
 
 $$
+\begin{gather}
 y_t = \alpha_t + e_t \\
 \alpha_t = \alpha_{t-1} + \eta + w_t \\
+\end{gather}
 $$
 
 
@@ -325,11 +321,13 @@ $$
 Stochastic "level" $\alpha_t$ with deterministic "growth" $\eta$
 
 $$
+\begin{gather}
 y_t = \alpha_t + e_t \\
 \alpha_t = \alpha_{t-1} + \eta + w_t \\
 \Downarrow \\
 y_t = x_t + v_t \\
 x_t = x_{t-1} + u + w_t
+\end{gather}
 $$
 
 This is just a random walk with bias $u$
@@ -607,7 +605,9 @@ $$
 ## Univariate DLM with seasonal effect | Dynamic linear regression with fixed seasonal effect
 
 $$
+\begin{gather}
 y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
+~ \\
 \gamma_{qtr} = 
 \begin{cases}
   \gamma_{1} & \text{if } qtr = 1 \\
@@ -615,12 +615,14 @@ y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
   \gamma_{3} & \text{if } qtr = 3 \\
   \gamma_{4} & \text{if } qtr = 4
 \end{cases}
+\end{gather}
 $$
 
 
 ## Univariate DLM with seasonal effect | Dynamic linear regression with fixed seasonal effect
 
 $$
+\begin{gather}
 y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
 \Downarrow \\
 y_t = 
@@ -631,6 +633,7 @@ y_t =
   \alpha_t \\ \beta_t \\ \gamma_{qtr}
 \end{bmatrix}
 + e_t
+\end{gather}
 $$
 
 <br>
@@ -641,6 +644,7 @@ Rewrite the equation with explicit coefficients on parameters
 ## Univariate DLM with seasonal effect | Evolution of parameters
 
 $$
+\begin{gather}
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_{qtr}
 \end{bmatrix} =
@@ -650,6 +654,7 @@ $$
 \begin{bmatrix}
   w_{\alpha,t} \\ w_{\beta,t} \\ ?
 \end{bmatrix}
+\end{gather}
 $$
 
 <br>
@@ -660,6 +665,7 @@ How should we model the fixed effect of $\gamma_{qtr}$?
 ## Univariate DLM with seasonal effect | Evolution of parameters
 
 $$
+\begin{gather}
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_{qtr}
 \end{bmatrix} =
@@ -669,6 +675,7 @@ $$
 \begin{bmatrix}
   w_{\alpha,t} \\ w_{\beta,t} \\ 0
 \end{bmatrix}
+\end{gather}
 $$
 
 <br>
@@ -679,6 +686,7 @@ We don't want $\gamma_{qtr}$ to evolve as a function of the previous $t$
 ## Univariate DLM with seasonal effect | Evolution of parameters
 
 $$
+\begin{gather}
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_{qtr}
 \end{bmatrix} =
@@ -688,6 +696,7 @@ $$
 \begin{bmatrix}
   w_{\alpha,t} \\ w_{\beta,t} \\ 0
 \end{bmatrix}
+\end{gather}
 $$
 
 <br>
@@ -700,9 +709,11 @@ OK, so how do we select the right quarterly effect?
 Separate out the quarterly effects
 
 $$
+\begin{gather}
 y_t = \alpha_t + \beta_t x_t + \gamma_{qtr} + e_t \\
 \Downarrow \\
 y_t = \alpha_t + \beta_t x_t + \gamma_1 + \gamma_2 + \gamma_3 + \gamma_4 + e_t
+\end{gather}
 $$
 
 
@@ -711,6 +722,7 @@ $$
 Rewrite quarterly effects in matrix notation
 
 $$
+\begin{gather}
 y_t = \alpha_t + \beta_t x_t + \gamma_1 + \gamma_2 + \gamma_3 + \gamma_4 + e_t \\
 \Downarrow \\
 y_t = 
@@ -720,6 +732,7 @@ y_t =
 \begin{bmatrix}
   \alpha_t \\ \beta_t \\ \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4
 \end{bmatrix}
+\end{gather}
 $$
 
 But how do we select only the current quarter?
@@ -730,6 +743,7 @@ But how do we select only the current quarter?
 We could set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 1)
 
 $$
+\begin{gather}
 y_t = 
 \begin{bmatrix}
   1 & x_t & 1 & 0 & 0 & 0
@@ -739,6 +753,7 @@ y_t =
 \end{bmatrix} \\
 \Downarrow \\
 y_t = \alpha_t + \beta_t x_t + \gamma_1 + e_t \\
+\end{gather}
 $$
 
 
@@ -747,6 +762,7 @@ $$
 We could set some values in $\mathbf{x}_t$ to 0 ($qtr$ = 2)
 
 $$
+\begin{gather}
 y_t = 
 \begin{bmatrix}
   1 & x_t & 0 & 1 & 0 & 0
@@ -756,6 +772,7 @@ y_t =
 \end{bmatrix} \\
 \Downarrow \\
 y_t = \alpha_t + \beta_t x_t + \gamma_2 + e_t \\
+\end{gather}
 $$
 
 
@@ -776,6 +793,7 @@ $$
 We could instead reorder the $\gamma_i$ within $\boldsymbol{\theta}_t$ ($qtr$ = 1)
 
 $$
+\begin{gather}
 y_t = 
 \begin{bmatrix}
   1 & x_t & 1 & 0 & 0 & 0
@@ -785,6 +803,7 @@ y_t =
 \end{bmatrix} \\
 \Downarrow \\
 y_t = \alpha_t + \beta_t x_t + \gamma_1 + e_t \\
+\end{gather}
 $$
 
 
@@ -793,6 +812,7 @@ $$
 We could instead reorder the $\gamma_i$ within $\boldsymbol{\theta}_t$ ($qtr$ = 2)
 
 $$
+\begin{gather}
 y_t = 
 \begin{bmatrix}
   1 & x_t & 1 & 0 & 0 & 0
@@ -802,6 +822,7 @@ y_t =
 \end{bmatrix} \\
 \Downarrow \\
 y_t = \alpha_t + \beta_t x_t + \gamma_2 + e_t \\
+\end{gather}
 $$
 
 
@@ -938,9 +959,11 @@ $$
 Step 1: Define the parameters at time $t = 0$
 
 $$
+\begin{gather}
 \boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 \Downarrow \\
 \text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi}
+\end{gather}
 $$
 
 
@@ -949,6 +972,7 @@ $$
 Step 1: Define the parameters at time $t = 0$
 
 $$
+\begin{gather}
 \boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 \Downarrow \\
 \text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi} \\
@@ -956,6 +980,7 @@ $$
 \text{Var}(\boldsymbol{\theta}_0) = \text{Var}(\boldsymbol{\pi}) + \text{Var}(\mathbf{w}_1) \\
 \text{Var}(\boldsymbol{\theta}_0) = \mathbf{0} + \mathbf{\Lambda} \\
 \text{Var}(\boldsymbol{\theta}_0) = \mathbf{\Lambda}
+\end{gather}
 $$
 
 
@@ -964,6 +989,7 @@ $$
 Step 1: Define the parameters at time $t = 0$
 
 $$
+\begin{gather}
 \boldsymbol{\theta}_0 | y_0 = \boldsymbol{\pi} + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{\Lambda}) \\
 \Downarrow \\
 \text{E}(\boldsymbol{\theta}_0) = \boldsymbol{\pi} \\
@@ -971,6 +997,7 @@ $$
 \text{Var}(\boldsymbol{\theta}_0) = \mathbf{\Lambda} \\
 \Downarrow \\
 \boldsymbol{\theta}_0 | y_0 \sim \text{MVN}(\boldsymbol{\pi}, \mathbf{\Lambda})
+\end{gather}
 $$
 
 
@@ -988,10 +1015,12 @@ $$
 Step 2: Define the parameters at time $t = 1$
 
 $$
+\begin{gather}
 \boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
 \Downarrow \\
   \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \text{E}(\boldsymbol{\theta}_0) \\
   \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi}
+\end{gather}
 $$
 
 
@@ -1000,12 +1029,15 @@ $$
 Step 2: Define the parameters at time $t = 1$
 
 $$
+\begin{gather}
 \boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
 \Downarrow \\
   \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi} \\
 \text{and} \\
   \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \text{Var}(\boldsymbol{\theta}_0) \mathbf{G}^{\top} + \text{Var}(\mathbf{w}_1) \\
-  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} $$
+  \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}
+\end{gather}
+$$
 
 
 ## Forecasting with a DLM
@@ -1013,6 +1045,7 @@ $$
 Step 2: Define the parameters at time $t = 1$
 
 $$
+\begin{gather}
 \boldsymbol{\theta}_1 | y_0 = \mathbf{G} \boldsymbol{\theta}_0 + \mathbf{w}_1 ~ \text{with} ~ \mathbf{w}_1 \sim \text{MVN}(\mathbf{0}, \mathbf{Q}) \\
 \Downarrow \\
   \text{E}(\boldsymbol{\theta}_1) = \mathbf{G} \boldsymbol{\pi} \\
@@ -1020,6 +1053,7 @@ $$
   \text{Var}(\boldsymbol{\theta}_1) = \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q} \\
 \Downarrow \\
 \boldsymbol{\theta}_1 | y_0 \sim \text{MVN}(\mathbf{G} \boldsymbol{\pi}, ~ \mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q})
+\end{gather}
 $$
 
 
@@ -1028,10 +1062,12 @@ $$
 Step 3: Make a forecast of $y_t$ at time $t = 1$
 
 $$
+\begin{gather}
 y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
 \Downarrow \\
 \text{E}(y_1) = \mathbf{X}^{\top}_1 \text{E}(\boldsymbol{\theta}_1) \\
 \text{E}(y_1) = \mathbf{X}^{\top}_1 \mathbf{G} \boldsymbol{\pi}
+\end{gather}
 $$
 
 
@@ -1040,12 +1076,14 @@ $$
 Step 3: Make a forecast of $y_t$ at time $t = 1$
 
 $$
+\begin{gather}
 y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
 \Downarrow \\
 \text{E}(y_1) = \mathbf{X}^{\top}_1 \mathbf{G} \boldsymbol{\pi} \\
 \text{and} \\
 \text{Var}(y_1) = \mathbf{X}^{\top}_1 \text{Var}(\boldsymbol{\theta}_1) \mathbf{X}_1 + \text{Var}(e_1) \\
 \text{Var}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R
+\end{gather}
 $$
 
 
@@ -1054,6 +1092,7 @@ $$
 Step 3: Make a forecast of $y_t$ at time $t = 1$
 
 $$
+\begin{gather}
 y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 \sim \text{N}(0, R)  \\
 \Downarrow \\
 \text{E}(y_1) = \mathbf{X}^{\top}_1 \mathbf{G} \boldsymbol{\pi} \\
@@ -1061,6 +1100,7 @@ y_1 | y_0 = \mathbf{X}^{\top}_1 \boldsymbol{\theta}_1 + e_1 ~ \text{with} ~ e_1 
 \text{Var}(y_1) = \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R \\
 \Downarrow \\
 y_1 | y_0 \sim \text{N}(\mathbf{X}^{\top}_1 [\mathbf{G} \boldsymbol{\pi}], ~ \mathbf{X}^{\top}_1 [\mathbf{G} \mathbf{\Lambda} \mathbf{G}^{\top} + \mathbf{Q}] \mathbf{X}_1 + R)
+\end{gather}
 $$
 
 
@@ -1332,6 +1372,7 @@ $$
 ## Multivariate DLMs
 
 $$
+\begin{gather}
 \begin{bmatrix}
  y_{1,t} \\
  y_{2,t}
@@ -1375,6 +1416,7 @@ $$
  e_{1,t} \\
  e_{2,t}
 \end{bmatrix}
+\end{gather}
 $$
 
 
@@ -1454,11 +1496,13 @@ $$
 ## Multivariate DLMs | Parameter evolution
 
 $$
+\begin{gather}
 \boldsymbol{\theta}_t  =
 \left( \mathbf{G} \otimes \mathbf{I}_n \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t \\
 \Downarrow \\
 \boldsymbol{\theta}_t  =
 \left( \mathbf{I}_2 \otimes \mathbf{I}_2 \right) \boldsymbol{\theta}_{t-1} + \mathbf{w}_t
+\end{gather}
 $$
 
 
