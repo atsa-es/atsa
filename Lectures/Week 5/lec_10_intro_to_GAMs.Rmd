@@ -49,6 +49,14 @@ library(viridis)
     -   $\beta_0$ is the intercept.
     -   $f_1(x_1), f_2(x_2), \dots$ are smooth functions of the predictors $x_1, x_2, \dots$.
 
+## Why GAMs (mgcv) are very powerful
+
+-   **Accessible**: Formula interface similar to lm(), gam(), etc
+-   **Smooths**: Non-linear smooths, etc
+-   **Families**: GAMs can use non-normal families for responses
+-   **Complexity**: Automates model fit and smoothness via penalization
+-   **GAMM**: random effects, autocorrelation, etc
+
 ## Smooth Functions in GAMs
 
 -   A smooth function allows us to model **non-linear relationships** in the data without needing to specify a fixed functional form
@@ -193,6 +201,28 @@ Setting `k` controls the number of basis functions, and number of knots is gener
 gam(y ~ s(x1, k = 10, bs = "cr") + 
       s(x2, k = 10, bs = "cr"), data = data)
 ```
+
+## Extracting from mgcv
+
+-   Basis function matrices can be extracted 
+```{r eval=FALSE, echo=TRUE}
+x <- seq(0, 1, length.out = 100)
+sc <- smoothCon(s(x, bs = "cr", k = 10), 
+      data = data.frame(x = x), 
+      knots = NULL)
+X_spline <- sc[[1]]$X
+```
+
+## Extracting from mgcv
+
+- Spline matrix can be passed to lm (spline regression)
+- Not exactly the same as mgcv because mgcv also uses penalty matrix
+
+```{r eval=FALSE, echo=TRUE}
+y <- sin(2 * pi * x) + rnorm(100, sd = 0.2)
+fit <- lm(y ~ X_spline)
+```
+
 
 ## Key Take Homes
 
@@ -616,7 +646,68 @@ compare_gams <- function(gam1, gam2, data, response, model_names = c("Non-linear
 k <- compare_gams(fit_nonlinear, fit_dlm, response="psavert", data = economics)
 print(knitr::kable(k, digits = 3, caption = "Comparison of GAMs"))
 ```
+## Time-varying slope vs intercept
 
+* Like with DLM, it might be hard to fit a model with a time-varying slope and intercept
+* This is because the model is trying to fit a smooth function of time and a smooth function of the covariate
+
+## Example: Time-varying slope vs intercept
+
+```{r echo = TRUE}
+data("SalmonSurvCUI")
+g1 <- gam(logit.s ~ s(year, k = 10), 
+          data = SalmonSurvCUI)
+g2 <- gam(logit.s ~ s(year, by = CUI.apr, k = 10), 
+          data = SalmonSurvCUI)
+```
+
+## Example: Time-varying slope vs intercept
+
+* Very different interpretations
+* Similar flexibility (though here, intercept model does better)
+```{r echo=FALSE, eval = TRUE, fig.height=3, fig.width=6}
+p1 <- SalmonSurvCUI
+p1$pred <- predict(g1)
+p1$Model <- "Time varying intercept"
+
+p2 <- SalmonSurvCUI
+p2$pred <- predict(g2)
+p2$Model <- "Time varying slope"
+
+ggplot(rbind(p1, p2), aes(year, pred, col = Model)) +
+  geom_line(size = 1.2) + 
+  geom_point(aes(y = logit.s), col = "black") +
+  theme_bw() + 
+  xlab("Year") + 
+  ylab("Log-odds survival")
+```
+
+## Example: Time-varying slope vs intercept
+
+* Residuals from time-varying intercept look ok
+
+```{r echo=FALSE, eval = TRUE, fig.height=3, fig.width=6}
+plot(resid(g1))
+abline(0,0,col="red")
+```
+
+## Example: Time-varying slope vs intercept
+
+* Residuals from time-varying slope look like they're still pretty autocorrelated
+
+```{r echo=FALSE, eval = TRUE, fig.height=3, fig.width=6}
+plot(resid(g2))
+abline(0,0,col="red")
+```
+
+## Summary: Time-varying slope vs intercept
+
+* Time varying intercepts more often supported vs time varying slopes. Why?
+- They capture the overall trend (level) in the data
+- Covariate may not be variable enough 
+- Intercepts may not be identifiable without priors, etc
+
+* This will vary case by case, and in general you want to be careful in comparing / constructing models 
 
 ## Lots of references on GAMs
 
