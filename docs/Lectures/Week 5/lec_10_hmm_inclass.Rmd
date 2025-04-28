@@ -1,0 +1,189 @@
+---
+title: "HMM Exercises"
+output:
+  html_document: default
+  pdf_document: default
+date: "2023-04-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Simulating data
+
+One of the best ways to understand HMMs are to start with simulating data. We will begin with a 2-state model with the following transition probabilities:
+
+Pr(1 to 1) = 0.9
+
+Pr(1 to 2) = 0.1
+
+Pr(2 to 1) = 0.3
+
+Pr(2 to 2) = 0.7
+
+Question: what can we say about this system? Which state(s) are we more likely to be in over long time series?
+
+1.  We'll create our 2x2 transition matrix `m`. Please fill in the elements
+
+```{r}
+m = matrix(0, 2, 2)
+
+# Initialize elements
+```
+
+2.  Let's initialize our HMM in state 1. Now simulate 200 time steps, using the matrix `m`. As a check, if elements 191:200 are c(1, 1, 1, 1, 2, 2, 2, 2, 2, 2), you've probably got this right!
+
+```{r}
+set.seed(5)
+x = 1
+
+# Generate state vector here
+```
+
+Hint: there are a number of ways that you can think about simualating the states, which are discrete (they can be 0 - 1 or 1 - 2). I like to use the `sample()` function, but you can also look at others, including `purrr::rbernoulli()`, `stats::rbinom()`. If you use `rbinom()` or `sample()`, what should you use for the `prob` argument?
+
+3.  Plot the state vector as a time series. Does this match your expectations?
+
+```{r}
+# Plot code
+```
+
+## Adding means and observation error
+
+The `x` vector above represents our latent state of nature. We want to now add on an environmental / biological response. Let's model ocean temperature, and say that state 1 has a mean of 3.4 and state 2 has a mean of 5.1. Both will have the same amount of observation error -- which we'll assume to be 0.2.
+
+4.  Using your vector `x` above, generate a vector of temperature observations, assuming temperatures to be normally distributed.
+
+Hint: it might help to have these as 2-element vectors
+
+```{r}
+temp_mean = c(3.4, 5.1)
+tem_sd = c(0.2, 0.2)
+
+# Generate temperature time series here
+```
+
+5.  Plot the simulated temperature time series. Does this match your expectations?
+
+```{r}
+# Plot code
+```
+
+## Adding a covariate on the observations
+
+The mean temperature vector you just used can be thought about as an intercept, but we can also include covariates. Here, we'll include some linear covariates. We will generate a vector of upwelling anomalies, and assume there a negative relationship between upwelling and temperature (more upwelling = cooler water).
+
+6.  Modify how you generated the temperature time series above to also include the effect of upwelling, as a linear covariate.
+
+```{r}
+# upwelling deviations
+set.seed(123)
+upwelling = rnorm(length(x), 0, 1)
+upwelling_coef = -0.05
+
+```
+
+7.  How would you change your code to vary the effect by state?
+
+## Adding a covariate on the transition probability
+
+Generating a covariate on the transition probability is a little trickier, because the probabilities need to be constrained (0, 1) -- think logistic regression.
+
+First, we can logit-transform our initial estimates:
+
+```{r}
+logit_m = log(m / (1 - m))
+```
+
+We'll use the same upwelling time series above, and assume that upwelling makes it more likely to switch to the cool regime (state 1) and less likely to transition to the warm regime (state 2).
+
+These transition probabilities could be calculated in a loop or similar -- and not saved -- but for the purposes of plotting, we can store them in an array.
+
+```{r}
+probs = array(0, dim = c(2, 2, length(x)))
+```
+
+Because the elements in each state (rows of `m`) are constrained to sum to 1, sometimes it's easier to model one element of each, and use 1-p for the other. Illustrating this for the first state,
+
+```{r}
+t = 1
+probs[1,2,t] = plogis(logit_m[1,2] + -0.1*upwelling[1])
+probs[1,1,t] = 1 - probs[1,2,t]
+probs[2,1,t] = plogis(logit_m[2,1] + 0.1*upwelling[1])
+probs[2,2,t] = 1 - probs[2,1,t]
+```
+
+8.  Now let's fill in the rest of the array -- you can probably do this with a loop
+
+```{r}
+# Fill in remaining array elements here
+```
+
+9.  Make a plot of the transition probabilities as a function of upwelling -- is this what you expect?
+
+```{r}
+# Plot code
+```
+
+\break
+
+## Fitting single univariate time series
+
+We will now practice fitting a model two ways; first using `depmixS4` and then using `hmmTMB`.
+
+The lecture notes for HMMs present an overview using `depmixS4` [here](https://atsa-es.github.io/atsa/Lectures/Week%205/lec_10_hmm.html#1). Review these notes, and usage of how models can be fit. 
+
+We are going to start with the salmon survival data from the Columbia River in the MARSS R package. This has been logit transformed, so it's not constrained to be between 0 and 1.  
+
+```{r}
+library(depmixS4)
+surv_dat = MARSS::SalmonSurvCUI
+```
+
+1. Fit a HMM to this model using the depmixS4 package. Fit a 2-state model initially
+
+2. Extract the transition probabilities -- what do these mean?  
+3. How would you change the code to include either `year` or `CUI.apr` as a covariate in the state model?  
+
+Next, we'll work on applying the same example with hmmTMB.
+
+```{r}
+library(hmmTMB)
+```
+
+Data structures being passed to `hmmTMB` need an ID column representing the time series. It can be omitted for 1 time series -- but we're including it so that we don't forget later when we move to the multivariate case.  
+
+```{r}
+surv_dat$ID <- 1
+```
+
+Next we specify (1) the model for the hidden states, (2) the initial values of the parameters, and (3) the 
+```{r}
+# Model of hidden states
+hid <- MarkovChain$new(data = surv_dat, n_states = 2)
+
+# Starting values
+par <- list(logit.s = list(mean = c(-1, -4), sd = c(1,1)))
+
+# Observation model
+obs <- Observation$new(data = surv_dat, dists = list(logit.s = "norm"),
+n_states = 2, par = par)
+
+# Create HMM object
+hmm1 <- HMM$new(obs = obs, hid = hid)
+
+# Fit the model
+hmm1$fit(silent = TRUE)
+```
+
+Output from the model may be looked at using 
+
+```{r}
+hmm1
+```
+
+Why do you think this model might be having a hard time converging?  
+
+There's lots of great vignettes for the hmmTMB package, and a lot of features that we're not covering in class today. [hmmTMB vignettes](https://github.com/TheoMichelot/hmmTMB/tree/master/vignettes)
+
