@@ -252,6 +252,7 @@ $\Gamma(k) = \Gamma^{k}$
 
 -   From this, we can also calculate the stationary distribution of the
     chain
+    -   These are the long term probabilities of being in each state
     -   See Zucchini et al. (2006) Chapter 2
 
 ## HMM theory
@@ -526,19 +527,19 @@ is linked here,
 There's three main steps in fitting a HMM with `hmmTMB`. We'll step
 through each of these in the following slides
 
-1.  Hidden state model
+**Hidden state model**
 
 ```{r echo=TRUE, eval=FALSE}
 MarkovChain$...
 ```
 
-2.  Observation model
+**Observation model**
 
 ```{r echo=TRUE, eval=FALSE}
 Observation$...
 ```
 
-3.  Construct HMM
+**Construct HMM**
 
 ```{r echo=TRUE, eval=FALSE}
 HMM$...
