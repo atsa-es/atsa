@@ -124,6 +124,12 @@ between multiple states (2+)
 -   momentuHMM: R package for analysis of telemetry data using
     generalized multivariate hidden Markov models of animal movement
 
+## HMM Examples (this class):
+
+-   Rand et al. 2024 [https://doi.org/10.1016/j.ecolmodel.2024.110800](https://doi.org/10.1016/j.ecolmodel.2024.110800)
+
+-   Hodgson et al. 2020 [https://doi.org/10.1016/j.biocon.2020.108685](https://doi.org/10.1016/j.biocon.2020.108685)
+
 ## Regimes
 
 Lots of non-HMM approaches for detecting regimes
@@ -135,6 +141,31 @@ Lots of non-HMM approaches for detecting regimes
     -   iterate through change points, evaluating data support for each
     -   how do we do change points with regression?
         ${ Y }_{ t }=B{ X }_{ t }+{ \varepsilon  }_{ t }$
+
+## Regimes: Nile River 
+
+```{r}
+data("Nile")
+plot(Nile)
+```
+
+## Regimes: Nile River
+
+Breakpoint / segmented regression
+
+* time of breaks passed in as data (as can other covariates)
+* all variance = observation error
+
+State space model
+
+* time of breaks + other covariates can be passed in or not
+* change is smooth
+* variance separated into observation, process error
+
+Hidden Markov Model
+
+* covariates can be passed in as data, time of breaks not
+* variance separated into observation, process
 
 ## Regimes: simulating data
 
