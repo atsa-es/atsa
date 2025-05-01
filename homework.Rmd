@@ -21,13 +21,13 @@ hw_txt <- data.frame(
                  "Multivariate state-space models",
                  "Dynamic Factor Analysis",
                  "Turn in a draft of your [Project Methods](final_proj.html#Project_Methods)",
-                 "Hidden Markov Models",
-                 "Dynamic Linear Models"),
+                 "Dynamic Linear Models",
+                 "Hidden Markov Models"),
   due_dates = c("April 22",
                 "April 29",
                 "May 6",
                 "May 9",
-                "May 13",
+                "May 20",
                 "May 27")
 )
 colnames(hw_txt) <- c("Lab", "Topic", "Due date")
