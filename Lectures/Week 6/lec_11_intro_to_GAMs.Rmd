@@ -34,8 +34,8 @@ library(viridis)
 
 ## What is a Generalized Additive Model (GAM)?
 
--   **GAMs** are a class of statistical models used to model complex, non-linear relationships between the response and the predictors.
--   **Key idea**: GAMs model the mean of the response variable as a sum of smooth functions of the predictors.
+-   **GAMs** are a class of statistical models used to model complex, non-linear relationships between the response and the predictors
+-   **Key idea**: GAMs model the mean of the response variable as a sum of smooth functions of the predictors
 
 ## GAM Formula
 
@@ -79,7 +79,7 @@ library(viridis)
 
 Very powerful R package for fitting GAMs
 
-Univariate smooth terms are expressed as 
+Univariate smooth terms are expressed with `s()`
 
 ```{r echo = TRUE, eval = FALSE}
 gam(y ~ s(x1, k = 10, bs = "cr") + 
@@ -97,7 +97,7 @@ We'll cover more complicated smooths later
 -   **Some Types of Splines**:
     -   **B-splines (Basis Splines)**: Commonly used due to computational efficiency and flexibility
     -   **Cubic Splines**: Splines with cubic polynomials between each pair of adjacent knots
-    -   **Thin-plate Splines**: A generalization of B-splines, used for higher-dimensional data
+    -   **Thin-plate Splines**: A generalization of B-splines, often used for higher-dimensional data
 
 ## What Are Knots in Splines?
 
@@ -170,7 +170,110 @@ To understand how the weighted sum of basis functions creates a smooth function,
 weights <- c(0.4, -0.5, 0.3, 0.1, 0.6, -0.2)  # Example weights for each basis function
 
 # Calculate the weighted sum of basis functions
-weighted_spline <- rowSums(spl * weights)
+weighted_spline <- spl %*% matrix(weights, ncol=1)
+
+# data frame for plotting the basis functions and the weighted spline
+df_splines_weighted <- data.frame(x = rep(x, ncol(spl)), 
+                                  "b" = sort(rep(1:ncol(spl), nrow(spl))), 
+                                  "basis_function" = c(spl))
+
+# Data frame for the weighted spline
+df_weighted_spline <- data.frame(x = x, 
+                                  weighted_spline = weighted_spline)
+
+# Plot both individual basis functions and the weighted sum
+p3 <- ggplot() +
+  geom_line(data = df_splines_weighted, aes(x, basis_function, group = b, col = as.factor(b)), size = 1.2) +
+  geom_line(data = df_weighted_spline, aes(x, weighted_spline), col = "blue", size = 1.2) +
+  theme_bw() +
+  xlab("X") +
+  ylab("Function Value") +
+  scale_color_viridis_d(end = 0.8) +  
+  theme(legend.position = "none") +
+  ggtitle("Basis Functions and Weighted Spline")
+print(p3)
+```
+
+## What if we make the basis dimension smaller?
+
+`weights <- c(0.2, -0.1, 0.3)`
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+
+# Define weights for the basis functions
+weights <- c(0.2, -0.1, 0.3)  # Example weights for each basis function
+spl <- splines::bs(x, df = 3)
+
+# Calculate the weighted sum of basis functions
+weighted_spline <- spl %*% matrix(weights, ncol=1)
+
+# data frame for plotting the basis functions and the weighted spline
+df_splines_weighted <- data.frame(x = rep(x, ncol(spl)), 
+                                  "b" = sort(rep(1:ncol(spl), nrow(spl))), 
+                                  "basis_function" = c(spl))
+
+# Data frame for the weighted spline
+df_weighted_spline <- data.frame(x = x, 
+                                  weighted_spline = weighted_spline)
+
+# Plot both individual basis functions and the weighted sum
+p3 <- ggplot() +
+  geom_line(data = df_splines_weighted, aes(x, basis_function, group = b, col = as.factor(b)), size = 1.2) +
+  geom_line(data = df_weighted_spline, aes(x, weighted_spline), col = "blue", size = 1.2) +
+  theme_bw() +
+  xlab("X") +
+  ylab("Function Value") +
+  scale_color_viridis_d(end = 0.8) +  
+  theme(legend.position = "none") +
+  ggtitle("Basis Functions and Weighted Spline")
+print(p3)
+```
+
+## What if we make the basis dimension smaller?
+
+`weights <- c(0.6, -0.1, 0.01)`
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+
+# Define weights for the basis functions
+weights <- c(0.6, -0.1, 0.01)  # Example weights for each basis function
+spl <- splines::bs(x, df = 3)
+
+# Calculate the weighted sum of basis functions
+weighted_spline <- spl %*% matrix(weights, ncol=1)
+
+# data frame for plotting the basis functions and the weighted spline
+df_splines_weighted <- data.frame(x = rep(x, ncol(spl)), 
+                                  "b" = sort(rep(1:ncol(spl), nrow(spl))), 
+                                  "basis_function" = c(spl))
+
+# Data frame for the weighted spline
+df_weighted_spline <- data.frame(x = x, 
+                                  weighted_spline = weighted_spline)
+
+# Plot both individual basis functions and the weighted sum
+p3 <- ggplot() +
+  geom_line(data = df_splines_weighted, aes(x, basis_function, group = b, col = as.factor(b)), size = 1.2) +
+  geom_line(data = df_weighted_spline, aes(x, weighted_spline), col = "blue", size = 1.2) +
+  theme_bw() +
+  xlab("X") +
+  ylab("Function Value") +
+  scale_color_viridis_d(end = 0.8) +  
+  theme(legend.position = "none") +
+  ggtitle("Basis Functions and Weighted Spline")
+print(p3)
+```
+
+## What if we make the basis dimension larger?
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+
+# Define weights for the basis functions
+weights <- c(0.4, -0.5, 0.3, 0.1, 0.6, -0.2, 0.4, -0.1, 0.3, -0.3, 0.2, 0.1)  # Example weights for each basis function
+spl <- splines::bs(x, df = 12)
+
+# Calculate the weighted sum of basis functions
+weighted_spline <- spl %*% matrix(weights, ncol=1)
 
 # data frame for plotting the basis functions and the weighted spline
 df_splines_weighted <- data.frame(x = rep(x, ncol(spl)), 
@@ -219,10 +322,11 @@ X_spline <- sc[[1]]$X
 - Not exactly the same as mgcv because mgcv also uses penalty matrix
 
 ```{r eval=FALSE, echo=TRUE}
+# simulate sinusoidal data + obs error
 y <- sin(2 * pi * x) + rnorm(100, sd = 0.2)
+# spline regression
 fit <- lm(y ~ X_spline)
 ```
-
 
 ## Key Take Homes
 
@@ -341,6 +445,12 @@ ggplot() +
   ggtitle("Knots Placement and Predictions")
 ```
 
+## When does knot placement matter?
+
+-   **When the data is unevenly distributed**: If the data is concentrated in certain regions, more knots can be placed in high density regions
+-   **When the relationship is non-linear**: If the relationship between the predictor and response variable is highly non-linear, adding knots can help the spline fit better
+-  **When the response data has abrupt changes**: If the data is affected by regimes / change points / big changes or discontinuities
+
 ## Common Smooth Types in GAMs
 
 - **Thin Plate Splines (`tp`)**: Flexible, non-linear smooths for complex, irregular data
@@ -364,6 +474,29 @@ ggplot() +
 - **Incorporating Trend and Noise**
   - Smooth functions can represent underlying trends, while residuals capture random noise or irregularities
 
+## GAMs and DLMs: 
+
+* Example: daily shad counts on the Columbia River (Bonneville)
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+shad <- read.csv("shad.csv")
+shad$year <- lubridate::year(shad$date)
+
+shad22_24 <- dplyr::filter(shad, year > 2021)
+shad22_24$jday <- seq(1, nrow(shad22_24))
+shad22_24 |>
+ggplot(aes(date, log(shad))) + geom_point() + 
+  ggtitle("Shad counts 2022 - 2024") + theme_bw() + ylab("ln (Shad)")
+```
+
+## GAMs and DLMs: 
+
+* Use smooth to fill in the gaps
+* `cor(obs, pred)` ~ 0.86
+```{r}
+fit <- gam(log(shad) ~ as.factor(year) + s(jday, bs = "cr"),
+           data = shad22_24)
+```
 
 ## GAMs and DLMs: 
 
@@ -404,6 +537,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 1)
 
 * What is this model doing? Where have we seen something similar??
 ```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+# personal savings = s(time)
 fit <- gam(psavert ~ s(time_num, bs = "cr"),
            data = economics)
 ```
@@ -423,13 +557,16 @@ plot(fit)
 * How about a smooth / random walk on the covariate. Is this correct and or why not? 
 
 ```{r echo=TRUE, eval=TRUE}
+# savings rate ~ s(unemployment)
 fit <- gam(psavert ~ s(ln_unemploy, bs = "cr"),
            data = economics)
 ```
 
 ## GAMs and DLMs: 
 
-* This is fitting a non-linear smooth of CUI (totally ignoring time) 
+* This is fitting a flexible non-linear model
+
+* However, non-linear smooth of unemployment totally ignores time aspect
 
 ```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
 plot(fit)
@@ -442,6 +579,8 @@ plot(fit)
 * The prior model was fitting a non-linear smooth of the covariate
  
 * What about a smooth of the covariate and time?
+
+* Here we add a 2D smooth, `s(ln_unemploy, time_num)`
 ```{r echo=TRUE, eval=TRUE}
 fit <- gam(psavert ~ s(ln_unemploy, time_num),
            data = economics)
@@ -449,10 +588,35 @@ fit <- gam(psavert ~ s(ln_unemploy, time_num),
 
 ## GAMs and DLMs: 
 
-* This is fitting 2D smooth of ln_unemploy and time
+* What is the 2D smooth of ln_unemploy and time doing?
+
+* There's maybe some slight non-linearity here 
 
 ```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
-plot(fit)
+vis.gam(fit, view = c("time_num", "ln_unemploy"), plot.type = "contour", color = "heat")
+```
+
+## GAMs and DLMs
+
+* In some cases, the 2D smooth is more complciated 
+
+```{r echo = TRUE, eval = TRUE, fig.height=3, fig.width=6}
+
+# Simulate predictors
+set.seed(123)
+n <- 400
+x1 <- runif(n, 0, 10)
+x2 <- runif(n, 0, 10)
+
+# Create a response with interaction
+# The response surface is non-additive: x1's effect depends on x2
+y <- sin(x1) * cos(x2) + rnorm(n, sd = 0.3)
+
+dat <- data.frame(x1 = x1, x2 = x2, y = y)
+
+model <- gam(y ~ s(x1, x2), data = dat)
+
+vis.gam(model, view = c("x1", "x2"), plot.type = "contour", color = "topo")
 ```
 
 ## GAMs and DLMs
@@ -465,7 +629,7 @@ plot(fit)
 
 * Another way to model the interaction is with the `by` covariate
 
-* This creates separate smooths for different levels of the `by` covariate
+* This lets the smooth vary / creates separate smooths for different values of the `by` covariate
 
 ```{r echo=TRUE, eval=FALSE}
 s(predictor, by = covariate)
@@ -473,7 +637,8 @@ s(predictor, by = covariate)
 
 ## GAMs and DLMs: 
 
-* For time series data, it's a common mistake to use 
+* For time series data, a common mistake is to use 
+
 ```{r echo=TRUE, eval=TRUE}
 fit <- gam(psavert ~ s(ln_unemploy, by = time_num),
            data = economics)
@@ -504,6 +669,13 @@ fit <- gam(psavert ~ s(time_num, by = ln_unemploy),
 ```
 
 * Creates a smooth that is very similar to a DLM
+
+## GAMs and DLMs: 
+
+```{r echo = FALSE, eval = TRUE, fig.height=3, fig.width=6}
+df <- data.frame("Goal" = c("Effect of x changes over time", "Effect of time changes with x"), "Formula" = c("s(time, by = x)", "s(x, by = time)"))
+knitr::kable(df)
+```
 
 ## GAMs and DLMs: 
 
@@ -600,7 +772,7 @@ rbind(dat1[554:574,], dat2[554:574,]) |>
 
 * `compare_gams` Available in slide Rmd
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 compare_gams <- function(gam1, gam2, data, response, model_names = c("Non-linear GAM", "Time-varying GAM")) {
     models <- list(gam1, gam2)
     results <- list()
@@ -642,7 +814,7 @@ compare_gams <- function(gam1, gam2, data, response, model_names = c("Non-linear
 
 ## Non-linearity vs non-stationarity
 
-```{r echo=TRUE, message=TRUE, warning=TRUE, results='asis'}
+```{r echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
 k <- compare_gams(fit_nonlinear, fit_dlm, response="psavert", data = economics)
 print(knitr::kable(k, digits = 3, caption = "Comparison of GAMs"))
 ```
@@ -655,8 +827,10 @@ print(knitr::kable(k, digits = 3, caption = "Comparison of GAMs"))
 
 ```{r echo = TRUE}
 data("SalmonSurvCUI")
+# time varying intercept model
 g1 <- gam(logit.s ~ s(year, k = 10), 
           data = SalmonSurvCUI)
+# time varying slope model
 g2 <- gam(logit.s ~ s(year, by = CUI.apr, k = 10), 
           data = SalmonSurvCUI)
 ```
