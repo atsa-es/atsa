@@ -493,7 +493,7 @@ ggplot(aes(date, log(shad))) + geom_point() +
 
 * Use smooth to fill in the gaps
 * `cor(obs, pred)` ~ 0.86
-```{r}
+```{r echo=TRUE, eval=TRUE, fig.height=3, fig.width=6}
 fit <- gam(log(shad) ~ as.factor(year) + s(jday, bs = "cr"),
            data = shad22_24)
 ```
