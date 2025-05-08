@@ -119,7 +119,7 @@ hmmlab <- fill.list(
   key = "",
   instructor = "Eric",
   hw_topics = c(""),
-  hw_duedate = "27 May"
+  hw_duedate = "20 May"
 )
 ```
 
@@ -134,11 +134,11 @@ dlmlab <- fill.list(
   youtube = "",
   data = "",
   repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-5",
-  homework = "Lab write-up #4",
+  homework = "Lab write-up #5",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
-  hw_duedate = "20 May"
+  hw_duedate = "27 May"
 )
 ```
 
@@ -160,6 +160,24 @@ bayeslab <- fill.list(
   instructor = "Eric",
   hw_topics = c(""),
   hw_duedate = "9 May"
+)
+```
+
+```{r QAlab}
+QAlab <- fill.list(
+  title = "Q and A",
+  topics = c("Question and Answer"),
+  pdf = "",
+  rmd = "",
+  html = "",
+  video = "",
+  youtube = "",
+  data = "",
+  homework = "Project Methods",
+  key = "",
+  instructor = "Mark and Eric",
+  hw_topics = c(""),
+  hw_duedate = "13 May"
 )
 ```
 
