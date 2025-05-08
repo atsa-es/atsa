@@ -33,7 +33,21 @@ library(mvgam)
 
 ## Multivariate models in `mgcv`
 
-- 
+- Often we have multiple related response variables
+
+- Examples: different locations, species, or strata
+
+- Goal: model shared and individual trends across responses while accounting for correlation and partial pooling
+
+## Multivariate models in `mgcv`
+
+- Lots of ways we can think to model variation by time series
+
+- Different intercepts / trends (harbor seal example in MARSS)
+
+- Site:year random effects (GLMMs)
+
+- Factor smooths (specific to GAMs)
 
 ## Introducing factor smooths
 
@@ -51,6 +65,8 @@ gam(response ~ s(predictor, by = factor_variable),
     data = dataset)
 ```
 
+- When `by = factor`, a separate smooth is estimated for each level
+
 ## Illustrating different models with the harbor seal dataset
 
 ```{r echo = TRUE, eval = TRUE}
@@ -64,6 +80,14 @@ long_seal <- as.data.frame(harborSeal) |>
 long_seal$location <- as.factor(long_seal$location)
 ```
 
+## Three models for comparison
+
+- Model G: global smooth
+
+- Model GS: global smooth, time series - specific smooths
+
+- Model S: time series - specific smooths
+
 ## Model G
 
 * Global smooth (shared trend)
@@ -75,7 +99,7 @@ fit_G <- gam(value ~ s(Year, k=8, bs="cr"), #<<
 
 ## Model G fits
 
-```{r}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
 my_cols <- viridis(3, begin = 0.2, end = 0.8)
 long_seal$pred_G <- predict(fit_G, long_seal)
 
@@ -149,7 +173,7 @@ fit_S <- gam(value ~
 
 ## Model S fits
 
-```{r}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
 long_seal$pred_S <- predict(fit_S, long_seal)
 
 ggplot(long_seal, aes(Year, pred_S)) + 
@@ -160,6 +184,12 @@ ggplot(long_seal, aes(Year, pred_S)) +
   ylab("Predicted") + theme_bw() + 
   geom_line(col = my_cols[3]) + 
   ylim(c(5.5,11))
+```
+
+## Comparing fits
+
+```{r echo=TRUE}
+AIC(fit_G, fit_GS, fit_S)
 ```
 
 ## Factor Smooths
@@ -177,22 +207,106 @@ MARSS model where each time series is a different trend
 
 * We could have used `gamm` for additional flexibility in random effects
 
-* Implements mixed models 
+* Implements mixed models (year:site random effects, etc)
 
 ## Transitioning to DGAMs in `mvgam`
 
-- **DGAMs** are an extension of GAMs designed to handle time-varying and dynamic data
-- Particularly useful for modeling temporal dependencies / nonlinear relationships 
-- Can be used with multivariate time series data
-- DGAMs incorporate dynamic smooth terms that evolve over time
+* **DGAMs** are an extension of GAMs designed to handle time-varying and dynamic data
+
+* Particularly useful for modeling temporal dependencies / nonlinear relationships 
+
+* Can be used with multivariate time series data
+
+* DGAMs incorporate dynamic smooth terms that evolve over time
 
 ## Why use DGAMs? 
 
-- GAMs are great, but uncertainty blows up as we get further from data (forecast)
+* GAMs are great, but uncertainty blows up as we get further from data (forecast)
 
-- Random walk / AR1 processes also have uncertainty balloon
+* Random walk / AR1 processes also have uncertainty balloon
 
-- DGAMs represent a hybrid approach that work particularly well for forecasting
+* DGAMs represent a hybrid approach that can work particularly well for forecasting
+
+## GAM forecast uncertainty
+
+* `y ~ s(t, k = 12)`
+* low uncertainty, poor fit
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+library(mgcv)
+set.seed(42)
+
+# Simulate a seasonal time series
+n <- 100
+x <- 1:n
+y <- sin(2 * pi * x / 12) + rnorm(n, 0, 0.3)
+df <- data.frame(x = x, y = y)
+
+# Fit GAM
+fit <- gam(y ~ s(x, k = 12), data = df)
+
+# Create a prediction dataset
+x_future <- data.frame(x = 1:130)  # extend 30 steps ahead
+pred <- predict(fit, newdata = x_future, se.fit = TRUE)
+
+# Plot
+df_pred <- data.frame(
+  x = x_future$x,
+  fit = pred$fit,
+  lwr = pred$fit - 2 * pred$se.fit,
+  upr = pred$fit + 2 * pred$se.fit
+)
+
+library(ggplot2)
+ggplot(df_pred, aes(x, fit)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), fill = "grey80") +
+  geom_line() +
+  geom_point(data = df, aes(x, y), col = "blue", size = 1) +
+  labs(y = "Response", title = "Forecasting with a non-linear GAM") +
+  geom_vline(xintercept = 100, linetype = "dashed", col = "red") +
+  annotate("text", x = 115, y = 2, label = "Forecast horizon", angle = 90, vjust = -0.5) +
+  theme_minimal()
+```
+
+## GAM forecast uncertainty
+
+* `y ~ s(t, k = 50)`
+* good fit, high uncertainty
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+set.seed(42)
+
+# Simulate a seasonal time series
+n <- 100
+x <- 1:n
+y <- sin(2 * pi * x / 12) + rnorm(n, 0, 0.3)
+df <- data.frame(x = x, y = y)
+
+# Fit GAM
+fit <- gam(y ~ s(x, k = 50), data = df)
+
+# Create a prediction dataset
+x_future <- data.frame(x = 1:130)  # extend 30 steps ahead
+pred <- predict(fit, newdata = x_future, se.fit = TRUE)
+
+# Plot
+df_pred <- data.frame(
+  x = x_future$x,
+  fit = pred$fit,
+  lwr = pred$fit - 2 * pred$se.fit,
+  upr = pred$fit + 2 * pred$se.fit
+)
+
+library(ggplot2)
+ggplot(df_pred, aes(x, fit)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), fill = "grey80") +
+  geom_line() +
+  geom_point(data = df, aes(x, y), col = "blue", size = 1) +
+  labs(y = "Response", title = "Forecasting with a non-linear GAM") +
+  geom_vline(xintercept = 100, linetype = "dashed", col = "red") +
+  annotate("text", x = 115, y = 2, label = "Forecast horizon", angle = 90, vjust = -0.5) +
+  theme_minimal()
+```
 
 ## Mathematically
 
@@ -230,28 +344,309 @@ $$ E[Y_{j,t}] = g^{-1} \left( \beta_0 + \sum_{i=1}^{I} s(x_{i,j,t}) + \sum_{m=1}
 
 ## The mvgam Package
 
-- The **`mvgam`** package provides tools for fitting DGAMs in R
-- Bayesian estimation with Stan backend
-- Supports multivariate time series modeling with dynamic smooths
-- Provides an interface to easily define dynamic terms in the model
+* The **`mvgam`** package provides tools for fitting DGAMs in R
+
+* Bayesian estimation with Stan backend
+
+* Supports multivariate time series modeling with dynamic smooths
+
+* Provides an interface to easily define dynamic terms in the model
+
+## Simulated data example with `mvgam`
+
+* As expected, this is giving the same result as `mgcv`
+
+* `fit <- mvgam(y ~ s(time, k = 50), 
+             data = df, family = "gaussian")`
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+set.seed(42)
+
+# Simulate a seasonal time series
+n <- 100
+x <- 1:n
+y <- sin(2 * pi * x / 12) + rnorm(n, 0, 0.3)
+df <- data.frame(time = x, y = y)
+
+# Fit GAM
+fit <- mvgam(y ~ s(time, k = 50), 
+             data = df, family = "gaussian",
+             chains = 1)
+
+# Create a prediction dataset
+x_future <- data.frame(time = 1:130)  # extend 30 steps ahead
+pred <- predict(fit, newdata = x_future, se.fit = TRUE)
+colnames(pred)[3:4] <- c("Q25","Q75")
+pred <- as.data.frame(pred)
+# Plot
+df_pred <- data.frame(
+  x = x_future$time,
+  fit = pred$Estimate,
+  lwr = pred$Q25,
+  upr = pred$Q75
+)
+
+library(ggplot2)
+ggplot(df_pred, aes(x, fit)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), fill = "grey80") +
+  geom_line() +
+  geom_point(data = df, aes(x, y), col = "blue", size = 1) +
+  labs(y = "Response", title = "Forecasting with a non-linear GAM") +
+  geom_vline(xintercept = 100, linetype = "dashed", col = "red") +
+  #annotate("text", x = 115, y = 2, label = "Forecast horizon", angle = 90, vjust = -0.5) +
+  theme_minimal()
+```
 
 ## Harbor seal example with `mvgam`
 
 * Before, we were using factor smooths to model harbor seal trends
+
 * We can fit these exact same models (without trend) in `mvgam`
-```{r eval = FALSE, echo=TRUE, message=FALSE, warning=FALSE}
+
+```{r eval = TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 fit_GS <- mvgam(value ~ s(Year, k=8, bs="cr") +#<< 
              s(Year, by = location, k = 8, bs="fs") + 
                s(location, k=12, bs="re"), 
            data=long_seal, 
-           family="gaussian")
+           family="gaussian", chains = 1)
 ```
 
-## 
+## Plotting the main trend
+
+```{r echo = TRUE}
+plot_mvgam_smooth(fit_GS)
+```
+
+## Including dynamic components: coastal upwelling
+
+*Jacox MG, CA Edwards, EL Hazen, SJ Bograd (2018) Coastal upwelling revisited: Ekman, Bakun, and improved upwelling indices for the U.S. west coast, J. Geophysical Research, 123(10), 7332-7350.*
+
+- CUTI estimates of vertical transport near the coast
+
+- BEUTI estimates of vertical nitrate flux
+
+## Including dynamic components: coastal upwelling
+
+- CUTI collected at monthly time steps
+
+- 1 deg latitude resolution (31 - 47) -- we'll use every other
+
+## Including dynamic components: coastal upwelling
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+cuti <- read.csv("CUTI_monthly.csv")
+
+library(dplyr)
+library(tidyr)
+library(stringr)
+
+# Subset every other column (X31N, X33N, etc.)
+cuti_subset <- cuti %>%
+  select(year, month, matches("^X\\d+N")) %>%
+  select(year, month, which(!duplicated(colnames(.)))[c(TRUE, FALSE)])  # keep every other variable column
+
+# Pivot to long format and clean up variable names
+cuti_long <- cuti_subset %>%
+  pivot_longer(
+    cols = starts_with("X"),
+    names_to = "latitude",
+    values_to = "cuti"
+  ) %>%
+  mutate(latitude = as.integer(str_extract(latitude, "\\d+")))  # Extract latitude number
+cuti_long$latitude <- as.factor(cuti_long$latitude)
+cuti_long$time <- sort(rep(1:447, 9))
+cuti_long$series <- cuti_long$latitude
+head(cuti_long)
+```
+
+## Including dynamic components: coastal upwelling
+
+* for speed, we'll filter the data to be 2023--2024 (train) and use 2025 for testing
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+cuti2324 <- dplyr::filter(cuti_long, year %in% 2023:2024)
+ggplot(cuti2324, aes(year+month/12, cuti)) + 
+  geom_line()+
+  facet_wrap(~ latitude) + theme_bw() + xlab("") + ylab("CUTI")
+```
+
+## Including dynamic components: coastal upwelling
+
+* initially no latent trend -- what are all the pieces doing??
+* estimation is slooooow -- so we use data 2023--2025
+
+```{r eval = TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+fit_trend <- mvgam(cuti ~ s(time, bs="cr") + 
+             s(time, by = latitude, bs="fs") + 
+               s(latitude, k=9, bs="re") + 
+                s(month, k = 12, bs="cc"),#<<,
+           data=cuti2324, 
+           share_obs_params = TRUE,#<<,
+           family="gaussian", chains = 1)
+```
+
+## Including dynamic components: coastal upwelling
+
+* Smooths
+
+```{r eval = TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+plot_mvgam_smooth(fit_trend, smooth = "month")
+```
+
+## Including dynamic components: coastal upwelling
+
+* Time
+
+```{r eval = TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+plot_mvgam_smooth(fit_trend, smooth = "time")
+```
+
+## Including dynamic components: coastal upwelling
+
+* Predictions (last 3 points are forecasts)
+
+```{r echo=FALSE, fig.height=4, fig.width=7}
+newdata <- dplyr::filter(cuti_long, year > 2022)
+newdata$pred <- predict(fit_trend, newdata = newdata)[,"Estimate"]
+
+ggplot(newdata, aes(time, pred)) + 
+  geom_line() + 
+  geom_point(aes(time, cuti), col="red", alpha = 0.5) + 
+  facet_wrap(~ latitude) + theme_bw()
+```
+
+## Including dynamic components: coastal upwelling
+
+* Possibly some problematic residuals (autocorrelated)
+```{r echo=TRUE, fig.height=4, fig.width=7}
+plot(fit_trend)
+```
+
+## Including dynamic components: coastal upwelling
+
+* Next we'll add a trend as a random walk
+
+* By default this is creating a separate trend for each time series
+
+* May have too many competing smooths etc
+
+```{r eval = TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+fit_trend_rw <- mvgam(cuti ~ s(time, bs="cr") + 
+             s(time, by = latitude, bs="fs") + 
+               s(latitude, k=9, bs="re") + 
+                s(month, k = 12, bs="cc"),
+             trend_model = RW(),
+           data=cuti_long[cuti_long$year>2022,], 
+           share_obs_params = TRUE,#<<,
+           family="gaussian", chains = 1)
+```
+
+## Including dynamic components: coastal upwelling
+
+* ACF now looks a little better (and QQ plot too)
+```{r echo=TRUE, fig.height=4, fig.width=7}
+plot(fit_trend_rw)
+```
+
+## Including dynamic components: coastal upwelling
+
+```{r echo=TRUE, fig.height=4, fig.width=7}
+plot_mvgam_smooth(fit_trend_rw)
+```
+
+## Including dynamic components: coastal upwelling
+
+* Each of the trends (here for Latitude 31) is ~ flat 
+
+```{r echo=TRUE, fig.height=4, fig.width=7}
+plot_mvgam_trend(fit_trend_rw)
+```
+
+## Including dynamic components: coastal upwelling
+
+* Some fits to forecasts are better -- but training data actually seems worse
+
+```{r echo=FALSE, fig.height=4, fig.width=7}
+newdata <- dplyr::filter(cuti_long, year > 2022)
+newdata$pred <- predict(fit_trend_rw, newdata = newdata)[,"Estimate"]
+
+ggplot(newdata, aes(time, pred)) + 
+  geom_line() + 
+  geom_point(aes(time, cuti), col="red", alpha = 0.5) + 
+  facet_wrap(~ latitude) + theme_bw()
+```
+
+## Including dynamic components: coastal upwelling
+
+* Our smooths and the trend are competing to explain the process
+
+* Let's drop out the main smooth now and let that be explained by the trend
+
+```{r echo=TRUE, fig.height=4, fig.width=7}
+fit_trend_ar1 <- mvgam(cuti ~ s(time, bs="cr") + 
+               s(latitude, k=9, bs="re") + 
+                s(month, k = 12, bs="cc"),
+             trend_model = 'AR1',
+           data=cuti_long[cuti_long$year>2022,], 
+           share_obs_params = TRUE,
+           family="gaussian", chains = 1)
+```
+
+## Including dynamic components: coastal upwelling
+
+* Trends more flexible than the random walk appear to fit data a little better
+```{r echo=FALSE, fig.height=4, fig.width=7}
+newdata <- dplyr::filter(cuti_long, year > 2022)
+newdata$pred <- predict(fit_trend_ar1, newdata = newdata)[,"Estimate"]
+
+ggplot(newdata, aes(time, pred)) + 
+  geom_line() + 
+  geom_point(aes(time, cuti), col="red", alpha = 0.5) + 
+  facet_wrap(~ latitude) + theme_bw()
+```
+
+## Including dynamic components: coastal upwelling
+
+* But maybe we're trying to estimate too many trends
+
+* Instead, model trends as dynamic factors (n = 2)
+
+```{r echo=TRUE, fig.height=4, fig.width=7}
+fit_trend_fac <- mvgam(cuti ~ s(time, bs="cr") + 
+               s(latitude, k=9, bs="re") + 
+                s(month, k = 12, bs="cc"),
+             trend_model = 'AR1',
+             use_lv = TRUE,#<<,
+             n_lv = 2,#<<,
+           data=cuti_long[cuti_long$year>2022,], 
+           share_obs_params = TRUE,
+           family="gaussian", chains = 1)
+```
 
 
-## More examples: factor analysis
+## Including dynamic components: coastal upwelling
 
-## Forecasting comparison vs GAMs
+* What do factors look like? 
 
+* By default mvdlm models these as AR1
 
+* DFA model with AR1 trend + seasonal smooth
+```{r echo=TRUE, fig.height=4, fig.width=7}
+plot(fit_trend_fac, type = 'factors')
+```
+
+## Including dynamic components: coastal upwelling
+
+* Factor model seems to be struggling (maybe more so in middle latitudes)
+
+* Factors for this application probably not flexible enough
+
+```{r echo=FALSE, fig.height=4, fig.width=7}
+newdata <- dplyr::filter(cuti_long, year > 2022)
+newdata$pred <- predict(fit_trend_fac, newdata = newdata)[,"Estimate"]
+
+ggplot(newdata, aes(time, pred)) + 
+  geom_line() + 
+  geom_point(aes(time, cuti), col="red", alpha = 0.5) + 
+  facet_wrap(~ latitude) + theme_bw()
+```
