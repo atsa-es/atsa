@@ -109,7 +109,7 @@ hmmlab <- fill.list(
   title = "Hidden Markov Models",
   topics = c("HMMs"),
   pdf = "",
-  rmd = "",
+  rmd = "https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.Rmd",
   html = "https://atsa-es.github.io/atsa/Labs/Week%205/Lab4_hmm.html",
   video = "",
   youtube = "",

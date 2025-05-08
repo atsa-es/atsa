@@ -1,7 +1,7 @@
 ---
 title: "Hidden Markov Models"
 author: "Eric Ward"
-date: "Due Tues May 9 11:59 PM PDT"
+date: "Due Tues May 27 11:59 PM PDT"
 output:
   pdf_document:
     toc: yes
@@ -21,6 +21,20 @@ editor_options:
 knitr::opts_knit$set(unnamed.chunk.label = "hw6-",
                      message=FALSE,
                      warning=FALSE)
+```
+
+## Teams
+
+```{r, results = "asis", echo=FALSE}
+# Set up names and shuffle
+set.seed(123)
+names_str <- "Anna, Brian, Nicole, Matheus, Lilac, Mary, Ben, Emma, Tina"
+names <- strsplit(names_str, ",\\s*")[[1]]
+shuffled <- sample(names)
+teams <- split(shuffled, ceiling(seq_along(shuffled) / 3))
+for (i in seq_along(teams)) {
+  cat(sprintf("- **Team %d**: %s  \n", i, paste(teams[[i]], collapse = ", ")))
+}
 ```
 
 <br>
