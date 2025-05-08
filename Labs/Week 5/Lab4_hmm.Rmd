@@ -1,7 +1,7 @@
 ---
 title: "Hidden Markov Models"
 author: "Eric Ward"
-date: "Due Tues May 9 11:59 PM PDT"
+date: "Due Tues May 27 11:59 PM PDT"
 output:
   pdf_document:
     toc: yes
