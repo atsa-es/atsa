@@ -67,6 +67,41 @@ gam(response ~ s(predictor, by = factor_variable),
 
 - When `by = factor`, a separate smooth is estimated for each level
 
+## Comparison with continuous case 
+
+- What are the differences in these models? 
+
+- s(time, by = x, bs = "cr")
+
+- s(time, by = location)
+
+- s(time, by = location, bs = "fs") 
+
+## Comparison with continuous case 
+
+- s(time, by = x, bs = "cr")
+
+$$x \cdot f(time)$$
+- te(time, x) or ti(time, x) become non-linear
+
+## Comparison with continuous case 
+
+- What about when `by` is a factor? [Hint: don't do this!]
+
+- s(time, by = location)
+
+- Unique smooths and penalties per location, location parsed to numeric?
+
+## Comparison with continuous case 
+
+- We need to explicitly tell `mgcv` that we want to use a factor smooth
+
+- s(time, by = location, bs = "fs")
+
+- Unique smooths per location
+
+- penalty is shared across all levels of the factor (same wiggliness)
+
 ## Illustrating different models with the harbor seal dataset
 
 ```{r echo = TRUE, eval = TRUE}
@@ -189,7 +224,7 @@ ggplot(long_seal, aes(Year, pred_S)) +
 ## Comparing fits
 
 ```{r echo=TRUE}
-AIC(fit_G, fit_GS, fit_S)
+print(AIC(fit_G, fit_GS, fit_S))
 ```
 
 ## Factor Smooths
@@ -458,8 +493,8 @@ cuti_long$time <- sort(rep(1:447, 9))
 cuti_long$series <- cuti_long$latitude
 ```
 
-```{r echo=TRUE, message = TRUE, results = 'asis'}
-head(cuti_long)
+```{r echo=TRUE}
+print(head(cuti_long))
 ```
 
 
@@ -627,7 +662,6 @@ fit_trend_fac <- mvgam(cuti ~ s(time, bs="cr") +
            family="gaussian", chains = 1)
 ```
 
-
 ## Including dynamic components: coastal upwelling
 
 * What do factors look like? 
@@ -637,6 +671,15 @@ fit_trend_fac <- mvgam(cuti ~ s(time, bs="cr") +
 * DFA model with AR1 trend + seasonal smooth
 ```{r echo=TRUE, fig.height=3, fig.width=6.5}
 plot(fit_trend_fac, type = 'factors')
+```
+
+## Including dynamic components: coastal upwelling
+
+* What do loadings look like?
+
+```{r echo=TRUE, fig.height=3, fig.width=6.5}
+pars <- rstan::extract(fit_trend_fac$model_output)
+print(apply(pars$lv_coefs, c(2,3), mean))
 ```
 
 ## Including dynamic components: coastal upwelling
@@ -654,3 +697,21 @@ ggplot(newdata, aes(time, pred)) +
   geom_point(aes(time, cuti), col="red", alpha = 0.5) + 
   facet_wrap(~ latitude) + theme_bw()
 ```
+
+## Summary
+
+- Multivariate models in `mgcv` allow for flexible modeling of multiple time series
+
+- Factor smooths provide a way to relationships that differ across different levels of a factor
+
+- `mvgam` extends this approach to include dynamic components, allowing for time-varying smooths and latent trends
+
+- For time series DGAMs can be used to model temporal dependencies and nonlinear relationships in multivariate time series data
+
+## Comparison with other approaches we've learned about
+
+- All approaches have tradeoffs between fit to the training data and forecast error
+
+- GAM fit and forecast error depends on the number of basis functions used (wiggliness)
+
+- MARSS / DFA fit and forecast error depends on the number of factors and how they are modeled 
