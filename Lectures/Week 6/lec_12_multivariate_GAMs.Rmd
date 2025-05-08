@@ -173,7 +173,7 @@ fit_S <- gam(value ~
 
 ## Model S fits
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 long_seal$pred_S <- predict(fit_S, long_seal)
 
 ggplot(long_seal, aes(Year, pred_S)) + 
@@ -232,7 +232,7 @@ MARSS model where each time series is a different trend
 * `y ~ s(t, k = 12)`
 * low uncertainty, poor fit
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 library(mgcv)
 set.seed(42)
 
@@ -273,7 +273,7 @@ ggplot(df_pred, aes(x, fit)) +
 * `y ~ s(t, k = 50)`
 * good fit, high uncertainty
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 set.seed(42)
 
 # Simulate a seasonal time series
@@ -359,7 +359,7 @@ $$ E[Y_{j,t}] = g^{-1} \left( \beta_0 + \sum_{i=1}^{I} s(x_{i,j,t}) + \sum_{m=1}
 * `fit <- mvgam(y ~ s(time, k = 50), 
              data = df, family = "gaussian")`
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 set.seed(42)
 
 # Simulate a seasonal time series
@@ -433,7 +433,7 @@ plot_mvgam_smooth(fit_GS)
 
 ## Including dynamic components: coastal upwelling
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 cuti <- read.csv("CUTI_monthly.csv")
 
 library(dplyr)
@@ -456,14 +456,18 @@ cuti_long <- cuti_subset %>%
 cuti_long$latitude <- as.factor(cuti_long$latitude)
 cuti_long$time <- sort(rep(1:447, 9))
 cuti_long$series <- cuti_long$latitude
+```
+
+```{r echo=TRUE, message = TRUE, results = 'asis'}
 head(cuti_long)
 ```
+
 
 ## Including dynamic components: coastal upwelling
 
 * for speed, we'll filter the data to be 2023--2024 (train) and use 2025 for testing
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=7}
 cuti2324 <- dplyr::filter(cuti_long, year %in% 2023:2024)
 ggplot(cuti2324, aes(year+month/12, cuti)) + 
   geom_line()+
@@ -505,7 +509,7 @@ plot_mvgam_smooth(fit_trend, smooth = "time")
 
 * Predictions (last 3 points are forecasts)
 
-```{r echo=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, fig.height=3, fig.width=7}
 newdata <- dplyr::filter(cuti_long, year > 2022)
 newdata$pred <- predict(fit_trend, newdata = newdata)[,"Estimate"]
 
@@ -518,7 +522,7 @@ ggplot(newdata, aes(time, pred)) +
 ## Including dynamic components: coastal upwelling
 
 * Possibly some problematic residuals (autocorrelated)
-```{r echo=TRUE, fig.height=4, fig.width=7}
+```{r echo=TRUE, fig.height=3, fig.width=7}
 plot(fit_trend)
 ```
 
@@ -544,13 +548,13 @@ fit_trend_rw <- mvgam(cuti ~ s(time, bs="cr") +
 ## Including dynamic components: coastal upwelling
 
 * ACF now looks a little better (and QQ plot too)
-```{r echo=TRUE, fig.height=4, fig.width=7}
+```{r echo=TRUE, fig.height=3, fig.width=7}
 plot(fit_trend_rw)
 ```
 
 ## Including dynamic components: coastal upwelling
 
-```{r echo=TRUE, fig.height=4, fig.width=7}
+```{r echo=TRUE, fig.height=3, fig.width=7}
 plot_mvgam_smooth(fit_trend_rw)
 ```
 
@@ -558,7 +562,7 @@ plot_mvgam_smooth(fit_trend_rw)
 
 * Each of the trends (here for Latitude 31) is ~ flat 
 
-```{r echo=TRUE, fig.height=4, fig.width=7}
+```{r echo=TRUE, fig.height=3, fig.width=7}
 plot_mvgam_trend(fit_trend_rw)
 ```
 
@@ -566,7 +570,7 @@ plot_mvgam_trend(fit_trend_rw)
 
 * Some fits to forecasts are better -- but training data actually seems worse
 
-```{r echo=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, fig.height=3, fig.width=7}
 newdata <- dplyr::filter(cuti_long, year > 2022)
 newdata$pred <- predict(fit_trend_rw, newdata = newdata)[,"Estimate"]
 
@@ -582,7 +586,7 @@ ggplot(newdata, aes(time, pred)) +
 
 * Let's drop out the main smooth now and let that be explained by the trend
 
-```{r echo=TRUE, fig.height=4, fig.width=7}
+```{r echo=TRUE, fig.height=3, fig.width=7}
 fit_trend_ar1 <- mvgam(cuti ~ s(time, bs="cr") + 
                s(latitude, k=9, bs="re") + 
                 s(month, k = 12, bs="cc"),
@@ -595,7 +599,7 @@ fit_trend_ar1 <- mvgam(cuti ~ s(time, bs="cr") +
 ## Including dynamic components: coastal upwelling
 
 * Trends more flexible than the random walk appear to fit data a little better
-```{r echo=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, fig.height=3, fig.width=7}
 newdata <- dplyr::filter(cuti_long, year > 2022)
 newdata$pred <- predict(fit_trend_ar1, newdata = newdata)[,"Estimate"]
 
@@ -611,7 +615,7 @@ ggplot(newdata, aes(time, pred)) +
 
 * Instead, model trends as dynamic factors (n = 2)
 
-```{r echo=TRUE, fig.height=4, fig.width=7}
+```{r echo=TRUE, fig.height=3, fig.width=6.5}
 fit_trend_fac <- mvgam(cuti ~ s(time, bs="cr") + 
                s(latitude, k=9, bs="re") + 
                 s(month, k = 12, bs="cc"),
@@ -631,7 +635,7 @@ fit_trend_fac <- mvgam(cuti ~ s(time, bs="cr") +
 * By default mvdlm models these as AR1
 
 * DFA model with AR1 trend + seasonal smooth
-```{r echo=TRUE, fig.height=4, fig.width=7}
+```{r echo=TRUE, fig.height=3, fig.width=6.5}
 plot(fit_trend_fac, type = 'factors')
 ```
 
@@ -641,7 +645,7 @@ plot(fit_trend_fac, type = 'factors')
 
 * Factors for this application probably not flexible enough
 
-```{r echo=FALSE, fig.height=4, fig.width=7}
+```{r echo=FALSE, fig.height=3, fig.width=6.5}
 newdata <- dplyr::filter(cuti_long, year > 2022)
 newdata$pred <- predict(fit_trend_fac, newdata = newdata)[,"Estimate"]
 
