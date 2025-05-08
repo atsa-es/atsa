@@ -3,15 +3,15 @@ title: "Hidden Markov Models"
 author: "Eric Ward"
 date: "Due Tues May 27 11:59 PM PDT"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
   html_document:
     theme: cosmo
     highlight: textmate
     toc: yes
     toc_float: yes
     toc_depth: 3
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
 editor_options: 
   markdown: 
     wrap: 72
@@ -27,7 +27,7 @@ knitr::opts_knit$set(unnamed.chunk.label = "hw6-",
 
 ```{r, results = "asis", echo=FALSE}
 # Set up names and shuffle
-set.seed(123)
+set.seed(1235)
 names_str <- "Anna, Brian, Nicole, Matheus, Lilac, Mary, Ben, Emma, Tina"
 names <- strsplit(names_str, ",\\s*")[[1]]
 shuffled <- sample(names)
