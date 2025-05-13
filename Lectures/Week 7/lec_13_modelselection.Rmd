@@ -93,7 +93,7 @@ fit <- MARSS(gtemp_ocean)
 ## What Types of Residuals Can We Get?
 
 - **Residuals**:
-```{r eval=FALSE}
+```{r echo = TRUE, eval=FALSE}
 resid <- MARSSresiduals(fit, type = c("tT", "tt1", "tt"), 
                         normalize = FALSE) 
 ```
@@ -109,12 +109,11 @@ Extract residuals of interest
 ## Plotting model residuals
 
 - Is there a trend? Are they stationary? 
-```{r echo=TRUE, fig.height=4, fig.width=6}
+```{r echo=TRUE, fig.height=3.5, fig.width=6}
 resid_mod <- residuals(fit, type = "tT")
 ggplot(resid_mod, aes(t, .resids, color = type)) + 
   geom_point() + xlab("Time") + ylab("Residuals") + 
   geom_hline(aes(yintercept = 0), col="black")
-
 ```
 
 ## ACFs and PCFs of residuals
@@ -150,6 +149,14 @@ qqline(resid1$.resid)
 hist(resid1$.resid, 40,
      main = "Histogram of Model Residuals", xlab = "Residual")
 ```
+
+## Extensions for multivariate models
+
+- All of the previous diagnostics are appropriate for multivariate models
+
+- Are residuals correlated across multiple time series?
+
+- Why might this occur and how to fix it? 
 
 ## How good are our models? 
 
@@ -263,14 +270,6 @@ $$AIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + 
 
 ## Model selection: AIC
 
-Small sample AIC
-
-$$AICc=AIC+\frac { 2k(k+1) }{ n-k-1 }$$
-
-* What happens to this term as n increases? 
-
-## Model selection: AIC
-
 AIC aims to find the best model to predict data generated from the same process that generated your observations
 
 Downside: AIC has a tendency to overpenalize, especially for more complex models
@@ -290,17 +289,6 @@ BIC is measure of explanatory power (rather than balancing explanation / predict
 $$BIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + k\cdot ln(n)$$
 
 * Tendency of BIC to underpenalize
-
-## Model selection: AIC
-
-Philosophical differences between AIC / BIC
-
-* AIC / AICc tries to choose a model that approximates reality
-    + does not assume that reality exists in your set of candidate models
-    + One 
-
-* BIC assumes that one of your models is truth
-    + This model will tend to be favored more as sample size increases
 
 ## AIC and BIC for time series forecasting
 
@@ -331,7 +319,6 @@ Again, lots of options that have evolved quickly over the last several decades
 * Deviance Information Criterion (DIC)
     + Spiegelhalter et al. (2002) 
     + DIC is easy to get out of some programs (JAGS)
-    + DIC is also attempting to balance bias and variance
 
 * Widely applicable information criterion (WAIC)
     + [Watanabe (2010)](https://www.jmlr.org/papers/volume11/watanabe10a/watanabe10a.pdf)
@@ -537,36 +524,6 @@ for(k in 1:K) {
 }
 ```
 
-## Resampling techniques: LTOCV
-
-```{r}
-ggplot(beaver, aes(time, pred)) + 
-  geom_ribbon(aes(ymin=pred-2*pred_se,ymax=pred+2*pred_se), fill="red",col=NA,alpha=0.4) + 
-  geom_line(col="red",alpha=0.4,size=1) + 
-  geom_point(col="grey30",size=2) + 
-  theme_bw() + ylab("Beaver body temperature") + 
-  xlab("Time") + ggtitle("LTOCV")
-```
-
-## Resampling techniques: LTOCV
-
-* Compare fit to full dataset 
-
-```{r}
-y = beaver$temp
-mod = MARSS(y, model=list("B"="unequal"))
-beaver$pred_full = mod$states[1,]
-beaver$pred_full_se = mod$states.se[1,]
-
-ggplot(beaver, aes(time, pred)) + 
-  geom_ribbon(aes(ymin=pred-2*pred_se,ymax=pred+2*pred_se), fill="red",col=NA,alpha=0.4) + 
-  geom_line(col="red",alpha=0.4,size=1) + 
-  geom_ribbon(aes(ymin=pred_full-2*pred_full_se,ymax=pred_full+2*pred_full_se), fill="blue",col=NA,alpha=0.4) + 
-  geom_point(aes(time,temp),col="grey30",size=2) + 
-  theme_bw() + ylab("Beaver body temperature") + 
-  xlab("Time")
-```
-
 ## Resampling techniques: future (aka forward chain) CV
 
 Leave Future Out Cross Validation: only evaluate models on future data
@@ -622,29 +579,6 @@ WAIC (widely applicable information criterion)
 Additional reading:
 https://cran.r-project.org/web/packages/loo/vignettes/loo2-example.html
 
-##  Bayesian cross validation
-
-* Why do we need to use anything BUT `loo::loo()`?
-
-* LOOIC is an approximation (based on importance sampling) that can be unstable for flexible (read: state space) models
-
-* Diagnostic: Pareto-k diagnostic, 1 value per point. 
-+ "measure of each observation's influence on the posterior of the model"
-+ [?diagnostics](https://mc-stan.org/loo/reference/pareto-k-diagnostic.html)
-+ [Stan forums](https://discourse.mc-stan.org/t/a-quick-note-what-i-infer-from-p-loo-and-pareto-k-values/3446) or [or here](https://discourse.mc-stan.org/t/recommendations-for-what-to-do-when-k-exceeds-0-5-in-the-loo-package/3417)
-
-* Often need to write code ourselves 
-
-## Bayesian cross validation 
-
-* ELPD (Expected log posterior density)
-
-$$log[p(y^*)]=log[\int p(y^*|\theta)p(\theta)d\theta]$$
-
-* Useful for calculating predictive accuracy for out of sample point (LTOCV, LFOCV)
-
-* Should act similar to AIC when posterior ~ MVN [(more here)](http://mc-stan.org/rstanarm/reference/loo.stanreg.html)
-
 ## Prediction and forecast evaluations
 
 * Let’s fit an ARMA(1,1) model to the global temperature data, after 1st differencing to remove trend
@@ -656,13 +590,13 @@ ar.global.1 = Arima(gtemp_ocean, order = c(1,1,1),
 f1 = forecast(ar.global.1, h = 10)
 ```
 
+## Prediction and forecast evaluations
+
+- All models will have forecast uncertainty increase with time
+- Rate of increase depends on the model
 ```{r echo=TRUE}
 plot(f1)
 ```
-
-## Forecast Horizon Sensitivity
-
-
 
 ## Quantifying forecast performance
 
