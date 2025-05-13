@@ -1,7 +1,7 @@
 ---
-title: "Model selection, cross validation, and performance of time series models"
-author: "Eric Ward, warde@uw.edu"
-date: "9 May 2023"
+title: "Model diagnostics and model selection"
+author: ""
+date: ""
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -16,24 +16,148 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE, cache = TRUE,
                       fig.align = 'center')
 library(ggplot2)
 library(rstan)
-library(atsar)
 library(broom)
 library(datasets)
 library(MARSS)
 library(dplyr)
 library(caret)
 library(forecast)
-library(atsar)
+library(fable)
 library(jpeg)
 library(astsa)
 ```
 
 ## Overview of today's material
 
+* Diagnostics
 * Approaches for model selection 
 * Cross validation
 * Quantifying forecast performance
   
+## Residual Diagnostics in State-Space Models
+
+State-space models in `MARSS` assume:
+
+- Observation equation: $y_t = Zx_t + a + v_t$
+- State equation: $x_t = bx_{t-1} + u + w_t$
+
+Where:
+- $v_t \sim N(0, R)$: observation error
+- $w_t \sim N(0, Q)$: process error
+  
+## What Types of Residuals Can We Get?
+
+`MARSS()` provides:
+
+- **Model residuals**: $$y_t - \hat{y}_t$$ 
+  - How well the model predicts observations
+  
+- **State residuals**: $$x_t - E[x_t | y]$$ 
+  - Deviations from estimated latent state 
+
+## Residuals workflow
+
+- For each of model and state residuals
+
+- Plot residuals vs time
+
+- Check ACF/PACF for autocorrelation
+
+- QQ plot + histogram for normality
+
+- Formal tests (optional): Shapiro-Wilk, Ljung-Box
+
+## Residuals workflow
+
+- `DHARMa` package has great built in diagnostics
+
+- Not compatible with simulation steps in MARSS 
+
+- But residual checks are straightforward and we can implement our own equivalents
+
+## Example data: global ocean temperature anomalies
+
+```{r echo=FALSE, eval=TRUE, fig.height=4, fig.width=6}
+data("gtemp_ocean")
+plot(gtemp_ocean)
+```
+
+## Example data: global ocean temperature anomalies
+
+- simple univariate state space model
+```{r echo = TRUE}
+data("gtemp_ocean")
+fit <- MARSS(gtemp_ocean)
+```
+
+## What Types of Residuals Can We Get?
+
+- **Residuals**:
+```{r echo = TRUE, eval=FALSE}
+resid <- MARSSresiduals(fit, type = c("tT", "tt1", "tt"), 
+                        normalize = FALSE) 
+```
+
+Extract residuals of interest
+
+- "tT" smoothed residuals conditioned on all data y
+
+- "tt1" one-step ahead residuals, conditioned on data up to t-1 (innovation residuals)
+
+- "tt" contemporaneous residuals conditioned on data up to time t
+
+## Plotting model residuals
+
+- Is there a trend? Are they stationary? 
+```{r echo=TRUE, fig.height=3.5, fig.width=6}
+resid_mod <- residuals(fit, type = "tT")
+ggplot(resid_mod, aes(t, .resids, color = type)) + 
+  geom_point() + xlab("Time") + ylab("Residuals") + 
+  geom_hline(aes(yintercept = 0), col="black")
+```
+
+## ACFs and PCFs of residuals
+
+- Spikes = autocorrelation
+
+```{r echo=TRUE, fig.height=4, fig.width=6}
+resid1 <- resid_mod[(resid_mod$type=="ytT"),]
+acf(resid1$.resids, main = "ACF: Model Residuals")
+```
+
+## ACFs and PCFs of residuals
+
+- PACF at lag 2: maybe we'd be better off with AR(2) model?
+
+```{r echo=TRUE, fig.height=4, fig.width=6}
+resid1 <- resid_mod[(resid_mod$type=="ytT"),]
+pacf(resid1$.resids, main = "PACF: Model Residuals")
+```
+
+
+## Normality checks
+
+```{r echo=TRUE, fig.height=4, fig.width=6}
+qqnorm(resid1$.resid)
+qqline(resid1$.resid)
+```
+
+## Normality checks
+
+- Skewness or multimodality?
+```{r echo=TRUE, fig.height=4, fig.width=6}
+hist(resid1$.resid, 40,
+     main = "Histogram of Model Residuals", xlab = "Residual")
+```
+
+## Extensions for multivariate models
+
+- All of the previous diagnostics are appropriate for multivariate models
+
+- Are residuals correlated across multiple time series?
+
+- Why might this occur and how to fix it? 
+
 ## How good are our models? 
 
 Several candidate models might be built based on
@@ -146,14 +270,6 @@ $$AIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + 
 
 ## Model selection: AIC
 
-Small sample AIC
-
-$$AICc=AIC+\frac { 2k(k+1) }{ n-k-1 }$$
-
-* What happens to this term as n increases? 
-
-## Model selection: AIC
-
 AIC aims to find the best model to predict data generated from the same process that generated your observations
 
 Downside: AIC has a tendency to overpenalize, especially for more complex models
@@ -173,17 +289,6 @@ BIC is measure of explanatory power (rather than balancing explanation / predict
 $$BIC = -2\cdot ln\left( L(\underline { \theta } |\underline { y  } ) \right) + k\cdot ln(n)$$
 
 * Tendency of BIC to underpenalize
-
-## Model selection: AIC
-
-Philosophical differences between AIC / BIC
-
-* AIC / AICc tries to choose a model that approximates reality
-    + does not assume that reality exists in your set of candidate models
-    + One 
-
-* BIC assumes that one of your models is truth
-    + This model will tend to be favored more as sample size increases
 
 ## AIC and BIC for time series forecasting
 
@@ -214,13 +319,20 @@ Again, lots of options that have evolved quickly over the last several decades
 * Deviance Information Criterion (DIC)
     + Spiegelhalter et al. (2002) 
     + DIC is easy to get out of some programs (JAGS)
-    + DIC is also attempting to balance bias and variance
 
 * Widely applicable information criterion (WAIC)
     + [Watanabe (2010)](https://www.jmlr.org/papers/volume11/watanabe10a/watanabe10a.pdf)
 
 * Leave One Out Information Criterion (LOOIC)
     + [Vehtari et al. 2017](https://link.springer.com/article/10.1007/s11222-016-9696-4), [Vehtari et al. 2019](https://arxiv.org/abs/1507.02646)
+
+## Bridging ML / Bayesian model selection
+
+J.T. Thorson 2024: Measuring complexity for hierarchical models using effective degrees of freedom
+
+- similar to `mgcv` in that we can approximate the effective degrees of freedom
+- but applied to models with random effects / hierarchical structure
+- has generally not been available in maximum likelihood
 
 ## Cross validation
 
@@ -420,36 +532,6 @@ for(k in 1:K) {
 }
 ```
 
-## Resampling techniques: LTOCV
-
-```{r}
-ggplot(beaver, aes(time, pred)) + 
-  geom_ribbon(aes(ymin=pred-2*pred_se,ymax=pred+2*pred_se), fill="red",col=NA,alpha=0.4) + 
-  geom_line(col="red",alpha=0.4,size=1) + 
-  geom_point(col="grey30",size=2) + 
-  theme_bw() + ylab("Beaver body temperature") + 
-  xlab("Time") + ggtitle("LTOCV")
-```
-
-## Resampling techniques: LTOCV
-
-* Compare fit to full dataset 
-
-```{r}
-y = beaver$temp
-mod = MARSS(y, model=list("B"="unequal"))
-beaver$pred_full = mod$states[1,]
-beaver$pred_full_se = mod$states.se[1,]
-
-ggplot(beaver, aes(time, pred)) + 
-  geom_ribbon(aes(ymin=pred-2*pred_se,ymax=pred+2*pred_se), fill="red",col=NA,alpha=0.4) + 
-  geom_line(col="red",alpha=0.4,size=1) + 
-  geom_ribbon(aes(ymin=pred_full-2*pred_full_se,ymax=pred_full+2*pred_full_se), fill="blue",col=NA,alpha=0.4) + 
-  geom_point(aes(time,temp),col="grey30",size=2) + 
-  theme_bw() + ylab("Beaver body temperature") + 
-  xlab("Time")
-```
-
 ## Resampling techniques: future (aka forward chain) CV
 
 Leave Future Out Cross Validation: only evaluate models on future data
@@ -505,39 +587,21 @@ WAIC (widely applicable information criterion)
 Additional reading:
 https://cran.r-project.org/web/packages/loo/vignettes/loo2-example.html
 
-##  Bayesian cross validation
-
-* Why do we need to use anything BUT `loo::loo()`?
-
-* LOOIC is an approximation (based on importance sampling) that can be unstable for flexible (read: state space) models
-
-* Diagnostic: Pareto-k diagnostic, 1 value per point. 
-+ "measure of each observation's influence on the posterior of the model"
-+ [?diagnostics](https://mc-stan.org/loo/reference/pareto-k-diagnostic.html)
-+ [Stan forums](https://discourse.mc-stan.org/t/a-quick-note-what-i-infer-from-p-loo-and-pareto-k-values/3446) or [or here](https://discourse.mc-stan.org/t/recommendations-for-what-to-do-when-k-exceeds-0-5-in-the-loo-package/3417)
-
-* Often need to write code ourselves 
-
-## Bayesian cross validation 
-
-* ELPD (Expected log posterior density)
-
-$$log[p(y^*)]=log[\int p(y^*|\theta)p(\theta)d\theta]$$
-
-* Useful for calculating predictive accuracy for out of sample point (LTOCV, LFOCV)
-
-* Should act similar to AIC when posterior ~ MVN [(more here)](http://mc-stan.org/rstanarm/reference/loo.stanreg.html)
-
 ## Prediction and forecast evaluations
 
 * Let’s fit an ARMA(1,1) model to the global temperature data, after 1st differencing to remove trend
 ```{r echo=FALSE}
-ar.global.1 = Arima(globtemp, order = c(1,1,1),
+data("gtemp_ocean")
+ar.global.1 = Arima(gtemp_ocean, order = c(1,1,1),
               seasonal=list(order=c(0,0,0),
-              period=12))
+              period=1))
 f1 = forecast(ar.global.1, h = 10)
 ```
 
+## Prediction and forecast evaluations
+
+- All models will have forecast uncertainty increase with time
+- Rate of increase depends on the model
 ```{r echo=TRUE}
 plot(f1)
 ```
@@ -671,7 +735,7 @@ air.model = auto.arima(log(airmiles[1:(n-3)]))
 * Forecast the fitted model 3 steps ahead
 * Use holdout data to evaluate accuracy 
 
-```{r echo=TRUE, results='markdown'}
+```{r echo=TRUE, results='markdown', fig.height=3.5}
 air.forecast = forecast(air.model, h = 3)
 plot(air.forecast)
 ```
