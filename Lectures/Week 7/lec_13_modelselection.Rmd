@@ -326,6 +326,14 @@ Again, lots of options that have evolved quickly over the last several decades
 * Leave One Out Information Criterion (LOOIC)
     + [Vehtari et al. 2017](https://link.springer.com/article/10.1007/s11222-016-9696-4), [Vehtari et al. 2019](https://arxiv.org/abs/1507.02646)
 
+## Bridging ML / Bayesian model selection
+
+J.T. Thorson 2024: Measuring complexity for hierarchical models using effective degrees of freedom
+
+- similar to `mgcv` in that we can approximate the effective degrees of freedom
+- but applied to models with random effects / hierarchical structure
+- has generally not been available in maximum likelihood
+
 ## Cross validation
 
 Recent focus in ecology & fisheries on prediction
@@ -727,7 +735,7 @@ air.model = auto.arima(log(airmiles[1:(n-3)]))
 * Forecast the fitted model 3 steps ahead
 * Use holdout data to evaluate accuracy 
 
-```{r echo=TRUE, results='markdown'}
+```{r echo=TRUE, results='markdown', fig.height=3.5}
 air.forecast = forecast(air.model, h = 3)
 plot(air.forecast)
 ```
