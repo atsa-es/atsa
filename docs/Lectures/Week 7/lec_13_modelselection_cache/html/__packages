@@ -1,12 +1,13 @@
 ggplot2
 StanHeaders
 rstan
-atsar
 broom
 MARSS
 dplyr
 lattice
 caret
 forecast
+fabletools
+fable
 jpeg
 astsa
