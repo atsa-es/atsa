@@ -16,7 +16,7 @@ As part of the class, each student will have to write a complete, publishable (<
 ### Due dates
 
 * Project proposal: April 18
-* Project methods: May 9
+* Project methods: May 13
 * Project presentations: June 3 & 5 (during class and lab time)
 * Final paper: June 6
 * Peer review: June 13
