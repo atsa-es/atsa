@@ -3137,7 +3137,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -3741,18 +3741,6 @@ y ~ 0 + as.factor(year)</pre>
 <li><p>for convenience, many delta- families implemented: <code>delta_gamma</code>, <code>delta_lognormal</code>, <code>delta_truncated_nbinom2</code> etc</p></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>An aside on mixture models</h2></hgroup><article  id="an-aside-on-mixture-models">
-
-<p>Positive components may be modeled as a mixture of 2 distributions</p>
-
-<ul>
-<li><p>Finite mixture model (2 components)</p></li>
-<li><p>Also referred to as &ldquo;ECE&rdquo; (extreme catch event) model, Thorson et al. (2012)</p></li>
-<li><p>Mechanisms: shoaling, etc.</p></li>
-<li><p>See <code>gamma_mix()</code> and <code>lognormal_mix()</code></p></li>
-<li><p>But requires data</p></li>
-</ul>
-
 </article></slide><slide class=""><hgroup><h2>Spatial vs. spatiotemporal fields - notion</h2></hgroup><article  id="spatial-vs.-spatiotemporal-fields---notion">
 
 <ul>
@@ -3782,6 +3770,27 @@ y ~ 0 + as.factor(year)</pre>
   spatial = &quot;on&quot;, #&lt;&lt;
   ...
 )</pre>
+
+</article></slide><slide class=""><hgroup><h2>Extracting spatial variance and range</h2></hgroup><article  id="extracting-spatial-variance-and-range">
+
+<pre class = 'prettyprint lang-r'>mesh &lt;- make_mesh(pcod_2011, c(&quot;X&quot;, &quot;Y&quot;), cutoff = 20)
+fit &lt;- sdmTMB(
+  density ~ s(depth),
+  data = pcod_2011, mesh = mesh,
+  family = tweedie(link = &quot;log&quot;)
+)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Extracting spatial variance and range</h2></hgroup><article  id="extracting-spatial-variance-and-range-1">
+
+<pre class = 'prettyprint lang-r'>print(tidy(fit, &quot;ran_pars&quot;))</pre>
+
+<pre >## # A tibble: 4 × 5
+##   term      estimate std.error conf.low conf.high
+##   &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 range        16.8    13.7       3.40      83.3 
+## 2 phi          13.7     0.663    12.4       15.0 
+## 3 sigma_O       2.20    1.23      0.735      6.59
+## 4 tweedie_p     1.58    0.0153    1.55       1.61</pre>
 
 </article></slide><slide class=""><hgroup><h2>Why <em>not</em> estimate a spatial field?</h2></hgroup><article  id="why-not-estimate-a-spatial-field">
 
@@ -3996,6 +4005,13 @@ fit &lt;- sdmTMB(
 ## $all_ok
 ## [1] TRUE</pre>
 
+</article></slide><slide class=""><hgroup><h2>Diagnostics / residuals</h2></hgroup><article  id="diagnostics-residuals">
+
+<ul>
+<li><p>Similar to what we discussed for time series models</p></li>
+<li><p>Vignette for residual checking <a href='https://pbs-assess.github.io/sdmTMB/articles/residual-checking.html' title=''>https://pbs-assess.github.io/sdmTMB/articles/residual-checking.html</a></p></li>
+</ul>
+
 </article></slide><slide class=""><hgroup><h2>Generating an index of abundance</h2></hgroup><article  id="generating-an-index-of-abundance">
 
 <ul>
@@ -4013,16 +4029,16 @@ predictions &lt;- predict(fit,
 <pre class = 'prettyprint lang-r'>indx &lt;- get_index(predictions)
 print(indx)</pre>
 
-<pre >##   year       est       lwr      upr  log_est        se
-## 1 2003 209277.01 151513.00 289063.4 12.25141 0.1647925
-## 2 2004 316826.48 244648.36 410299.2 12.66611 0.1319067
-## 3 2005 355482.15 274277.01 460729.7 12.78123 0.1323170
-## 4 2007  91540.99  66923.25 125214.4 11.42454 0.1598195
-## 5 2009 150187.87 109089.00 206770.6 11.91964 0.1631269
-## 6 2011 274230.96 212808.46 353381.7 12.52173 0.1293790
-## 7 2013 274541.65 204421.77 368713.8 12.52286 0.1504709
-## 8 2015 326960.45 241466.23 442725.0 12.69759 0.1546506
-## 9 2017 151502.44 110227.70 208232.5 11.92836 0.1622752</pre></article></slide>
+<pre >##   year       est       lwr      upr  log_est        se  type
+## 1 2003 209277.01 151513.00 289063.4 12.25141 0.1647925 index
+## 2 2004 316826.48 244648.36 410299.2 12.66611 0.1319067 index
+## 3 2005 355482.15 274277.01 460729.7 12.78123 0.1323170 index
+## 4 2007  91540.99  66923.25 125214.4 11.42454 0.1598195 index
+## 5 2009 150187.87 109089.00 206770.6 11.91964 0.1631269 index
+## 6 2011 274230.96 212808.46 353381.7 12.52173 0.1293790 index
+## 7 2013 274541.65 204421.77 368713.8 12.52286 0.1504709 index
+## 8 2015 326960.45 241466.23 442725.0 12.69759 0.1546506 index
+## 9 2017 151502.44 110227.70 208232.5 11.92836 0.1622752 index</pre></article></slide>
 
 
   <slide class="backdrop"></slide>

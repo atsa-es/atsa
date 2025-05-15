@@ -777,20 +777,6 @@ P.S: beware when df << 3. All noise is assimilated in the "observation error"
 * `family` argument to sdmTMB can be a list()  
 - for convenience, many delta- families implemented: `delta_gamma`, `delta_lognormal`, `delta_truncated_nbinom2` etc  
 
-## An aside on mixture models
-
-Positive components may be modeled as a mixture of 2 distributions
-
-* Finite mixture model (2 components)  
-
-* Also referred to as "ECE" (extreme catch event) model, Thorson et al. (2012)  
-
-* Mechanisms: shoaling, etc.  
-
-* See `gamma_mix()` and `lognormal_mix()`
-
-* But requires data 
-
 ## Spatial vs. spatiotemporal fields -  notion
 
 * A spatial field can be thought of as a spatial intercept
@@ -817,6 +803,23 @@ fit <- sdmTMB(
   spatial = "on", #<<
   ...
 )
+```
+
+## Extracting spatial variance and range
+
+```{r echo=TRUE, eval=TRUE}
+mesh <- make_mesh(pcod_2011, c("X", "Y"), cutoff = 20)
+fit <- sdmTMB(
+  density ~ s(depth),
+  data = pcod_2011, mesh = mesh,
+  family = tweedie(link = "log")
+)
+```
+
+## Extracting spatial variance and range
+
+```{r echo=TRUE, eval=TRUE, results='markup'}
+print(tidy(fit, "ran_pars"))
 ```
 
 ## Why *not* estimate a spatial field?
@@ -1057,6 +1060,13 @@ fit <- sdmTMB(
 ```{r echo = TRUE, results='markup'}
 print(sanity(fit))
 ```
+
+## Diagnostics / residuals
+
+* Similar to what we discussed for time series models
+
+* Vignette for residual checking
+https://pbs-assess.github.io/sdmTMB/articles/residual-checking.html
 
 ## Generating an index of abundance
 
