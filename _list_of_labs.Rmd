@@ -134,7 +134,7 @@ dlmlab <- fill.list(
   youtube = "",
   data = "",
   repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-5",
-  homework = "Lab write-up #5",
+  homework = "Lab write-up #5: DLMs [Rmd](https://github.com/atsa-es/fish550-2025/blob/main/Lab-5/Lab-5-DLM.Rmd) [html](https://atsa-es.github.io/fish550-2025/Lab-5/Lab-5-DLM.html)",
   key = "",
   instructor = "Mark",
   hw_topics = c("Dynamic Linear Models"),
