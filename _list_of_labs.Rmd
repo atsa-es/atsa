@@ -130,7 +130,7 @@ dlmlab <- fill.list(
   pdf = "",
   rmd = "Labs/Week 5/intro-to-dlms.Rmd",
   html = "Labs/Week 5/intro-to-dlms.html",
-  video = "https://youtu.be/KpBgTqcsqNg",
+  video = "",
   youtube = "",
   data = "",
   repo = "https://github.com/atsa-es/fish550-2025/tree/main/Lab-5",
