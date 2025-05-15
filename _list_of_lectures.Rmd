@@ -181,13 +181,12 @@ marss <- list(
 marss_covariates <- list(
   title = "Covariates in MARSS models",
   topics = c("MARSSX and ARMAX models",
-             "Seasonal effects",
-             "Missing covariates"),
+             "Seasonal effects"),
   pdf = c("Lectures/Week 4/lec_07_covariates.pdf"),
   ppt = "",
   rmd = c("Lectures/Week 4/lec_07_covariates.Rmd"),
   html = c("Lectures/Week 4/lec_07_covariates.html"),
-  video = "",
+  video = "[2025 Video](https://youtu.be/lalHo5xRETw)",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/2Jb5pzgtuH0)", 
   "[lec_07_covariates.R](Lectures/Week 4/lec_07_covariates.R)",
@@ -208,7 +207,7 @@ dfa <- list(
   ppt = "",
   rmd = "Lectures/Week 4/lec_08_intro_to_DFA.Rmd",
   html = "Lectures/Week 4/lec_08_intro_to_DFA.html",
-  video = "",
+  video = "[2025 Video](https://youtu.be/0S13ySyr4Mc)",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/LVlo8I0PdPA)", "[Zuur et al. 2003a](http://www.nrcresearchpress.com/doi/abs/10.1139/f03-030#.XFyd_xJ7l9M)", "[Zuur et al. 2003b](https://onlinelibrary.wiley.com/doi/abs/10.1002/env.611)", "[Ohlberger et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.1333)", "[HWS18a: Chap 10](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)"),
   instructor = "Mark"
@@ -223,7 +222,7 @@ dlm <- list(
   ppt = "",
   rmd = "Lectures/Week 5/lec_09_intro_to_DLMs.Rmd",
   html = "Lectures/Week 5/lec_09_intro_to_DLMs.html",
-  video = "",
+  video = "NA",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/Uxx2jK7heNE)", "[Petris et al. (2009)](Files/Petris_2009_DLMs_in_R.pdf)", "[HWS18a: Chap 16](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf)", "[Scheuerell & Williams (2005)](Files/Scheuerell_2005_forecasting_SARs.pdf)"),
   instructor = "Mark"
@@ -253,7 +252,7 @@ HMMs <- list(
   ppt = "",
   rmd = c("Lectures/Week 5/lec_10_hmm.Rmd", "Lectures/Week 6/lec_10_hmm_inclass.Rmd"),
   html = "Lectures/Week 5/lec_10_hmm.html",
-  video = "",
+  video = "NA",
   youtube = "",
   reading = c("[2021 Video](https://youtu.be/CqmAs3aPf_k)", "[Zucchini et al. 2006](https://www.researchgate.net/profile/Jan_Bulla/publication/256503512_Hidden_Markov_Models/links/0c9605232dce693fa3000000/Hidden-Markov-Models.pdf)", "[hmmTMB vignette](https://github.com/TheoMichelot/hmmTMB)"),
   instructor = "Eric"
@@ -268,7 +267,7 @@ GAMs <- list(
   ppt = "",
   rmd = "Lectures/Week 6/lec_11_intro_to_GAMs.Rmd",
   html = "Lectures/Week 6/lec_11_intro_to_GAMs.html",
-  video = "",
+  video = "[2025 Video](https://youtu.be/DajMTeoGchU)",
   youtube = "",
   reading = "",
   instructor = "Eric"
@@ -283,7 +282,7 @@ GAMs2 <- list(
   ppt = "",
   rmd = "Lectures/Week 6/lec_12_multivariate_GAMs.Rmd",
   html = "Lectures/Week 6/lec_12_multivariate_GAMs.html",
-  video = "",
+  video = "[2025 Video(https://youtu.be/RRminZlov9A)",
   youtube = "",
   reading = c("[Clark and Wells 2022](https://doi.org/10.1111/2041-210X.13974)", "[mvgam](https://nicholasjclark.github.io/mvgam/)"),
   instructor = "Eric"
@@ -330,7 +329,7 @@ model_inf <- list(
   ppt = "",
   rmd = "Lectures/Week 7/lec_13_modelselection.Rmd",
   html = "Lectures/Week 7/lec_13_modelselection.html",
-  video = "",# "https://youtu.be/Z-kIEMqGD-c",
+  video = "[2025 Video](https://youtu.be/rrkPSO0C4Fc)",
   youtube = "",
   reading = c("See list of references in the lecture", "[HA18: Section 3.4](https://otexts.com/fpp2/accuracy.html)", "[H18: Forecast accuracy](https://fish-forecast.github.io/Fish-Forecast-Bookdown/5-perf-testing.html)","[H18: Variable selection](https://fish-forecast.github.io/Fish-Forecast-Bookdown/6-1-multivariate-linear-regression.html)"),
   instructor = "Eric"
