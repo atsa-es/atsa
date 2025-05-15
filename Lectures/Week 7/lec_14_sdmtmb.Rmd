@@ -1,7 +1,7 @@
 ---
 title: "Fitting spatial and spatiotemporal models"
-author: "Eric Ward"
-date: "16 May 2023"
+author: ""
+date: ""
 output:
   ioslides_presentation:
     css: lecture_slides.css
@@ -18,11 +18,60 @@ library(ggplot2)
 library(dplyr)
 library(viridis)
 library(tidyr)
-devtools::install_github("pbs-assess/sdmTMB")
 library(sdmTMB)
 ```
 
-## Motivating questions
+
+## What we’ve learned so far
+
+-   Time series can be useful for identifying structure, improving precision, and accuracy of forecasts
+
+-   Modeling multivariate time series
+
+    -   e.g. MARSS() function, with each observed time series mapped to a single discrete state
+
+-   Using DFA
+
+    -   Structure determined by factor loadings
+
+## Response generally the same variable (not separate species)
+
+-   Making inference about population as a whole involves jointly modeling both time series
+
+```{r echo=FALSE, fig.height=3.5}
+set.seed(123)
+y = cumsum(rnorm(100))
+df = data.frame("Time"=1:100,
+    "y" = cumsum(rnorm(100)),
+    "Series"=1)
+df2 = data.frame("Time"=1:100,
+    "y" = df$y + 5 + rnorm(1:100,0,1),
+    "Series"=2)
+df = rbind(df,df2)
+df$Series = as.factor(df$Series)
+ggplot(df, aes(Time,y,group=Series,col=Series)) +
+  geom_line(size=2) + theme_bw() + 
+  scale_color_viridis(discrete=TRUE,end=0.8) + 
+  theme(legend.position = "none")
+```
+
+## Lots of time series -\> complicated covariance matrices
+
+-   For unconstrained covariance matrices, the number of covariance matrix parameters = $m*(m+1)/2$
+
+    -   problematic for m \> 5 or so
+
+-   MARSS solutions: diagonal matrices or 'equalvarcov'
+
+-   DFA runs into same issues with estimating unconstrained $R$ matrix
+
+## Potential problems with both the MARSS and DFA approach
+
+-   Sites separated by large distances may be grouped together
+
+-   Sites close to one another may be found to have very different dynamics
+
+## Switching gears: spatial models
 
 * Data often have spatial attributes
 
@@ -101,6 +150,7 @@ ggplot(sim_dat, aes(X, Y, col = observed)) +
 * Several approaches exist
   * 2D smooths in mgcv
   * Random fields and the Stochastic Partial Differential Equation (SPDE)
+  * Nearest neighbor methods
 
 ## Spatial smoothing with GAMs (mgcv)
 
@@ -428,18 +478,6 @@ ggplot(sim_dat, aes(X, Y, col = observed)) +
   * INLA books:  
     <https://www.r-inla.org/learnmore/books>
 
-## INLA and the SPDE approach
-
-* SPDE: stochastic partial differential equation
-
-* The solution to a specific SPDE is a Gaussian random field (GRF) with Matérn covariance
-
-* This, and sparse precision matrices, let us efficiently fit approximations to GRFs to large spatial datasets
-
-* INLA is software that performs data wrangling for SPDE estimation
-  * INLA also performs approximate Bayesian estimation
-  * sdmTMB uses INLA to wrangle matrices, but uses TMB for maximum likelihood estimation
-
 ## Introducing meshes
 
 Implementing the SPDE with INLA requires constructing a 'mesh'
@@ -522,27 +560,6 @@ sdmTMB is a user-friendly R package for modeling spatial processes
   
 * Widely applicable to species distribution modelling, stock assessment inputs, bycatch models, etc. that include spatially referenced data
 
-## Installing sdmTMB
-
-From CRAN:
-
-```{r, eval=FALSE, echo=TRUE}
-install.packages("sdmTMB", dependencies = TRUE)
-```
-
-From source on GitHub:
-
-* Install a C++ compiler
-  * e.g., [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools40.html) on Windows
-  * e.g., Xcode command line tools on a Mac:  
-  `xcode-select --install`
-
-## Installing sdmTMB
-
-Warning: The INLA package is large, not on CRAN, and can be slow to install. If you run into problems, try installing it separately first:
-
-<https://www.r-inla.org/download-install>
-
 ## General sdmTMB workflow
 
 1. Prepare data (convert to UTMs, scale covariates, ...)
@@ -569,7 +586,7 @@ Warning: The INLA package is large, not on CRAN, and can be slow to install. If 
 
 5. Predict from the model: `predict()`
 
-6. Get derived quantities: `get_index()`
+6. Get derived quantities: `get_index()`, `get_cog()`, `get_eao()`
 
 ## Preparing the data
 
@@ -704,40 +721,6 @@ y ~ -1 + as.factor(year)
 y ~ 0 + as.factor(year)
 ```
 
-## Breakpoint functions for threshold analyses
-
-```{r breakpt, echo=TRUE, eval=FALSE}
-cpue ~ breakpt(temperature)
-```
-
-```{r make-breakpt, out.width='400px', fig.width=5}
-df <- data.frame(x = seq(1, 100))
-slope <- 0.1
-df$y <- ifelse(df$x < 50, slope * df$x, slope * 50)
-ggplot(df, aes(x, y)) +
-  geom_line(col = "blue") +
-  xlab("Temperature") +
-  ylab("CPUE") +
-  ggtitle("Breakpoint function")
-```
-
-## Logistic functions for threshold analyses
-
-```{r logistic, echo=TRUE, eval=FALSE}
-cpue ~ logistic(temperature)
-```
-
-```{r make-logistic, out.width='500px', fig.width=5}
-df <- data.frame(x = seq(1, 100))
-slope <- 0.1
-df$y <- 3.0 / (1 + exp(-0.1 * (df$x - 50)))
-ggplot(df, aes(x, y)) +
-  geom_line(col = "blue") +
-  xlab("Temperature") +
-  ylab("CPUE") +
-  ggtitle("Logistic function")
-```
-
 ## Syntax: families and links
 
 Many of the same families used in `glm()`, `glmmTMB()`, `mgcv::gam()` can be used here
@@ -762,7 +745,7 @@ Dispersion ( $\phi$ ) and power ( $p$ ) parameters allow for a wide variety of s
 
 Also known as compound Poisson-Gamma distribution
 
-```{r sim-tweedie, fig.width=4, out.width='400px'}
+```{r sim-tweedie, fig.width=4, fig.height = 3.2, out.width='400px'}
 set.seed(123)
 r1 <- fishMod::rTweedie(20000, mu = 3, phi = 0.1, p = 1.3)
 r2 <- fishMod::rTweedie(20000, mu = 3, phi = 1.5, p = 1.3)
@@ -870,8 +853,17 @@ fit <- sdmTMB(
 
 * Autoregressive (`spatiotemporal = "ar1"`)
 
-## Independent (IID) spatiotemporal fields
+## How spatiotemporal fields relate to MARSS models
 
+* Random effects estimated at knot locations
+
+* IID = independent by year (no time series)
+
+* RW = $$x_{t} = x{t-1} + \epsilon_{t}$$
+
+* AR = $$x_{t} = b \cdot x{t-1} + \epsilon_{t}$$
+
+## Independent (IID) spatiotemporal fields
 
 * Useful if pattern changes much between years
 
@@ -943,6 +935,90 @@ ggplot(sim_dat, aes(x, y, fill = mu)) +
   * Why would a field be IID vs RW/AR1?
   * Do we expect hotspots to be independent with each time slice or adapt slowly over time?
 
+## Time - varying coefficients
+
+* Specify these with the `time_varying` formula
+
+* `time_varying_type` controls structure ("rw", "ar1", etc)
+
+* Covariates shouldn't be in both `time_varying` and main formulas
+
+* Intercept included implicitly, but can be turned off with `-1` or `0`
+
+## Time - varying coefficients
+
+Example: time varying intercept
+```{r echo=TRUE, eval=FALSE}
+fit <- sdmTMB(
+  y ~ 0, # global intercept off
+  time_varying = ~ 1,
+  time_varying_type = "rw",
+  family = gaussian(),
+  time = "year", # column in `data` #<<
+  spatiotemporal = "iid", #<<
+  ...
+)
+```
+
+## Time - varying coefficients
+
+Example: time varying intercept and slope
+```{r echo=TRUE, eval=FALSE}
+fit <- sdmTMB(
+  y ~ 0, # global intercept off
+  time_varying = ~ x,
+  time_varying_type = "rw",
+  family = gaussian(),
+  time = "year", # column in `data` #<<
+  spatiotemporal = "iid", #<<
+  ...
+)
+```
+
+## Time - varying coefficients
+
+Example: time varying slope
+```{r echo=TRUE, eval=FALSE}
+fit <- sdmTMB(
+  y ~ 1, # global intercept on
+  time_varying = ~ 0 + x,
+  time_varying_type = "rw",
+  family = gaussian(),
+  time = "year", # column in `data` #<<
+  spatiotemporal = "iid", #<<
+  ...
+)
+```
+
+## Spatially - varying coefficients
+
+* Environmental processes may have different impacts across a large region
+
+* `spatial_varying` allows separate fields to be estimated for each coefficient
+
+* Unlike time-varying we do want the effect in both the main and `spatial_varying` formulas
+
+## Spatially - varying coefficients
+
+```{r echo=TRUE, eval=FALSE}
+fit <- sdmTMB(
+  y ~ x,
+  spatial_varying = ~ 0 + x,
+  family = gaussian(),
+  time = "year", # column in `data` #<<
+  spatiotemporal = "iid", #<<
+  ...
+)
+```
+
+## Spatially - varying coefficients
+
+* Example via Philina English (DFO) for sdmTMB paper
+
+```{r, fig.height=4, fig.width=5, results='markup'}
+knitr::include_graphics("owl-nao-effect.png")
+```
+
 
 ## After model fitting
 
@@ -978,8 +1054,8 @@ fit <- sdmTMB(
 
 ## Did the model converge?
 
-```{r echo = TRUE}
-sanity(fit)
+```{r echo = TRUE, results='markup'}
+print(sanity(fit))
 ```
 
 ## Generating an index of abundance
@@ -997,9 +1073,8 @@ predictions <- predict(fit,
 
 ## Call `get_index` to derive annual estimates
 
-```{r index-demo, echo=TRUE}
+```{r index-demo, echo=TRUE, results = 'markup'}
 indx <- get_index(predictions)
-
-head(indx)
+print(indx)
 ```
 
