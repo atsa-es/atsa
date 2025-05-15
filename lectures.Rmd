@@ -47,11 +47,11 @@ week_lecs <- list(d1 = intro,
                   d13 = GAMs,
                   d16 = GAMs2, # project methods
                   d9 = model_inf,
-                  d6 = review_session, # lab
-                  d14 = spatial,
-                  d18 = spatial2, # lab no hw
-                  d15 = freqdomain,
-                  d17 = interactions1,
+                  d6 = spatial, # lab
+                  d14 = review_session,
+                  d18 = freqdomain, # lab no hw
+                  d15 = interactions1,
+                  d17 = review_session,
                   d19 = present1,
                   d20 = present2
 )
