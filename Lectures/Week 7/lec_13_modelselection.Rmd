@@ -11,7 +11,7 @@ subtitle: FISH 550 – Applied Time Series Analysis
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning=FALSE, cache = TRUE,
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, cache = FALSE,
                       message=FALSE, results='hide',
                       fig.align = 'center')
 library(ggplot2)
@@ -411,7 +411,7 @@ ggplot(beaver, aes(time, temp)) +
 
 ## Resampling techniques: K-fold cross validation
 
-```{r echo=TRUE, cache=TRUE}
+```{r echo=TRUE, cache=FALSE}
 set.seed(123)
 K = 5 
 beaver$part = sample(1:K, size=nrow(beaver), replace=T)
@@ -451,7 +451,7 @@ ggplot(beaver, aes(time,pred)) +
 
 ## Resampling techniques: K-fold cross validation
 
-```{r echo=FALSE, cache=TRUE}
+```{r echo=FALSE, cache=FALSE}
 set.seed(123)
 K = 20 
 beaver$part20 = sample(1:K, size=nrow(beaver), replace=T)
@@ -518,7 +518,7 @@ What about for time series data?
 
 * Re-analyze the beaver data using LTOCV
 
-```{r echo=FALSE, cache=TRUE}
+```{r echo=FALSE, cache=FALSE}
 K = nrow(beaver) 
 beaver$part = seq(1,nrow(beaver))
 beaver$pred = 0
@@ -555,7 +555,7 @@ beaver$part = ceiling(5*seq(1,nrow(beaver)) / (nrow(beaver)))
 
 ## Resampling techniques: LFOCV
 
-```{r echo=FALSE, cache=TRUE}
+```{r echo=FALSE, cache=FALSE}
 beaver$pred = NA
 beaver$pred_se = NA
 for(k in 2:K) {
