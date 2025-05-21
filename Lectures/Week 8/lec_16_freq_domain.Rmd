@@ -2,15 +2,17 @@
 title: "Time series analysis in the frequency domain"
 subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
-date: "23 May 2023"
+date: "22 May 2025"
 output:
   ioslides_presentation:
     css: lecture_slides.css
+    widescreen: true
+    mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = "center")
 library(MARSS)
 set.seed(123)
 ```
@@ -45,8 +47,22 @@ We can think of this as comparing changes in amplitude (displacement) with time
 
 ## Frequency domain
 
-Today we'll consider how amplitude changes with frequency
+Analyzing time series in the frequency domain involves examining the signal's frequency components, rather than its time-based behavior
 
+
+## Some advantages | Simplified mathematics
+
+For systems governed by _linear differential equations_ (many real-world examples)
+
+converting from the time domain to the frequency domain converts the system to _algebraic equations_
+
+
+## Some advantages | More intuitive
+
+Terms like bandwidth, gain, phase shift are common
+
+For example, musical notes are just component frequencies
+ 
 
 ## Jean-Baptiste Fourier (1768 - 1830)
 
@@ -127,8 +143,21 @@ par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
 plot.ts(xt, type = "n", las = 1,
         ylab = expression(italic(x[t])))
 matlines(t(fs), lty = "solid",
-        col = viridis::plasma(nn, 0.7, 0.1, 0.5))
-lines(xt, lwd = 2)
+        col = viridis::plasma(nn, 0.7, 0.1, 0.7), lwd = 2)
+# lines(xt, lwd = 2)
+```
+
+
+## Fourier series
+
+```{r fourier_ex_2}
+par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
+
+plot.ts(xt, type = "n", las = 1,
+        ylab = expression(italic(x[t])))
+matlines(t(fs), lty = "solid",
+        col = viridis::plasma(nn, 0.7, 0.1, 0.7), lwd = 2)
+lines(xt, lwd = 3)
 ```
 
 
@@ -514,9 +543,11 @@ where the $c_k$ are filter coefficients*
 Simple, but commonly used, where $\small K = 1; ~ c_0 = 1; ~ c_1 = 1$
 
 $$
+\begin{gather}
 \psi(t) = \sum_{k=0}^K c_k \psi(2t - k) \\
 \big \Downarrow \\
 \psi(t) = \psi(2t) + \psi(2t - 1)
+\end{gather}
 $$
 
 The only function that satisfies this is:
@@ -632,7 +663,7 @@ $$
 \psi_{j,k}(t) = 2^{j/2} \psi(2^j t - k)
 $$
 
-The basic Haar wavelet has $j = 0$
+The mother Haar wavelet has $j = 0$
 
 Setting $j = 1$ yields a daughter
 
@@ -670,13 +701,13 @@ plot(ti, haar4(ti), type = "l", lwd = 2,
 
 ## Other wavelets
 
-There are many forms of wavelets, many of which were developed in the past 50 years
+There are many forms of wavelets, many of which were developed<br>in the past 50 years
 
 
-## Morlet {data-background=morlet.png data-background-size=cover}
+## Morlet {data-background=morlet.png data-background-size=75% data-background-position='50% 65%'}
 
 
-## Mexican Hat {data-background=hat.png data-background-size=cover}
+## Mexican Hat {data-background=hat.png data-background-size=75% data-background-position='50% 65%'}
 
 
 ## Who does this?
@@ -689,7 +720,7 @@ Wavelet analysis is used widely in audio & video compression
 
 ## Estimating wavelet transforms in R
 
-We'll use the __WaveletComp__ package, which uses the Morlet wavelet
+We'll use the __{WaveletComp__} package, which uses the Morlet wavelet
 
 We'll also use the L Washington temperature data from the __MARSS__ package
 
@@ -706,11 +737,11 @@ dat <- data.frame(tmp = tmp)
 
 Use `analyze.wavelet()` to estimate the wavelet transform
 
-```{r, echo = TRUE, progress = FALSE}
-w_est <- analyze.wavelet(dat, "tmp",        ## need both df & colname
-                         loess.span = 0,    ## no de-trending
-                         dt = 1/12,         ## monthly sampling
-                         lowerPeriod = 1/6, ## default = 2*dt
+```{r, echo = TRUE, progress = FALSE, message = FALSE}
+w_est <- analyze.wavelet(dat, "tmp",         ## need both df & colname
+                         loess.span = 0,     ## no de-trending
+                         dt = 1/12,          ## monthly sampling
+                         lowerPeriod = 1/6,  ## default = 2*dt
                          n.sim = 100,
                          verbose = FALSE)
 ```
