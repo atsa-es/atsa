@@ -1,5 +1,5 @@
 ---
-title: "Time series analysis in the frequency domain"
+title: "Time series analysis<br>in the frequency domain"
 subtitle: "FISH 550 – Applied Time Series Analysis"
 author: "Mark Scheuerell"
 date: "22 May 2025"
@@ -166,7 +166,7 @@ lines(xt, lwd = 3)
 ```{r}
 par(mai = c(0.9,0.9,0.3,0.1), omi = c(0,0,0,0))
 
-plot(seq(nn), apply(fs, 1, max), type = "h", las = 1,
+plot(seq(nn), apply(fs, 1, max), type = "h", las = 1, lwd = 3,
         ylab = "Amplitude", xlab = "Frequency")
 ```
 
