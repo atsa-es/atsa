@@ -402,7 +402,7 @@ tbd <- list(
 ```{r}
 present1 <- list(
   title = "Student presentations",
-  topics = c("Student presentations"),
+  topics = c("Student presentations", "Order: Anna, Ben, Brian, Matheus"),
   pdf = "",
   ppt = "",
   rmd = "",
@@ -417,7 +417,7 @@ present1 <- list(
 ```{r}
 present2 <- list(
   title = "Student presentations",
-  topics = c("Student presentations"),
+  topics = c("Student presentations", "Order: Nicole, Tina, Emma, Mary, Lilac"),
   pdf = "",
   ppt = "",
   rmd = "",
