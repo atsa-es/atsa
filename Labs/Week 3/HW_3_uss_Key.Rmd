@@ -400,16 +400,34 @@ c. **Simulate 1000 sample trajectories using the estimated $u$ and $q$ starting 
     ```{r hw4-sim}
     #1997 is the 39th (last) data point
     x0 <- fit.marss$states[1,39]
-    q <- coef(fit.marss)$Q
-    u <- coef(fit.marss)$U
-    #next question asks for pop size in 2007 so nforeward=10
-    nsim <- 1000
-    nforeward <- 10
+    q <- coef(fit.marss)$Q[1]
+    u <- coef(fit.marss)$U[1]
+    #question asks for pop size in 2007 so nforeward=11 (incl 1997)
+    nsim <- 100
+    nforeward <- 11
     #each row holds a simulation
     x <- matrix(NA, nsim, nforeward)
-    x[,1] <- x0+u+rnorm(nsim,0,sqrt(q))
-    for(t in 2:nforeward) x[,t] <- x[,t-1]+u+rnorm(nsim,0,sqrt(q))
+    x[,1] <- x0
+    x[,2] <- x0+u+rnorm(nsim,0,sqrt(q))
+    for(t in 3:nforeward) x[,t] <- x[,t-1]+u+rnorm(nsim,0,sqrt(q))
     ```
+    ```{r}
+
+    matplot(x =1997:(1997+nforeward-1), y = t(x), type = "l", lty = 1, col = "grey", xlab = "Time", ylab = "Population Size",
+        main = "100 Simulations: Population Size Trajectory After 1997")
+
+    # Add lines for each simulation
+    for (i in 1:nsim) {
+      lines( x= 1997:(1997+nforeward-1), y= x[i, ], col = "grey")
+    }
+
+    # Add a red line for the mean of the simulations
+    lines(x = 1997:(1997+nforeward-1), y = colMeans(x), col = "red", lwd = 2)
+
+    # Add a legend
+    legend("topright", legend = c("Simulations", "Mean"), col = c("grey", "red"), lty = c(1, 1),
+       lwd = c(1, 2))
+```
     
 d. **Using this what is your estimated probability of reaching 50,000 graywhales in 2007.**
 
@@ -509,8 +527,9 @@ We need to specify `na.action` since the state residuals have an NA at the last 
 
 ```{r}
 best.fit <- fit.whales4
-sres <- residuals(best.fit)$state.residuals[1,]
-mres <- residuals(best.fit)$model.residuals[1,]
+residuals <- MARSSresiduals(best.fit)
+sres <- residuals$state.residuals[1,]
+mres <- residuals$model.residuals[1,]
 par(mfrow=c(1,2), mar=c(1,2,2,1))
 acf(sres, na.action=na.omit)
 acf(mres, na.action=na.omit)
@@ -660,10 +679,10 @@ g. **Plot your state residuals (true location residuals).  What are the problems
 
     ```{r hw8-resids-plot-code}
     par(mfrow=c(2,2),mar=c(3,5,3,5))
-    resids.lon <- residuals(fit3)$state.residuals[1,]
+    resids.lon <- MARSS::MARSSresiduals(fit3)$state.residuals[1,]
     plot(resids.lon, xlab=""); abline(h=0)
     acf(resids.lon, na.action=na.pass)
-    resids.lat <- residuals(fit3)$state.residuals[2,]
+    resids.lat <- MARSS::MARSSresiduals(fit3)$state.residuals[2,]
     plot(resids.lat, xlab=""); abline(h=0)
     acf(resids.lat, na.action=na.pass)
     ```
